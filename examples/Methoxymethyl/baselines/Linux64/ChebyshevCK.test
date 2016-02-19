@@ -361,1335 +361,19 @@
 
 Eq fraction matrix:
 {
- -2.46570e+27  1.00000e+00  0.00000e+00
-  0.00000e+00 -3.03064e-11  1.00000e+00
+ -4.18939e-03  1.00000e+00  0.00000e+00
+  0.00000e+00 -4.88643e-02  1.00000e+00
   1.00000e+00  1.00000e+00  1.00000e+00
 }
 inverse of Eq fraction matrix:
 {
- -4.05565e-28 -4.05565e-28  4.05565e-28
-  4.05565e-28 -1.00000e+00  1.00000e+00
-  1.22912e-38  1.00000e+00  3.03064e-11
-}
-Equilibrium Fraction for CH3OCH2 = 4.05565e-28
-Equilibrium Fraction for IM1 = 1
-Equilibrium Fraction for IM2 = 3.03064e-11
-
-Bartis Widom eigenvalue/eigenvector analysis
-
-Number of sinks in this system: 3
-
-There should be 3 chemically significant eigenvalues (CSEs)
-
-Y_matrix:
-{
-  -2.707005e-13,   2.318534e-11,   1.299344e-16,
-  -2.066117e-19,   2.486943e-22,   3.060394e-27,
-  -3.555099e-20,   2.257217e-23,   3.329963e-28,
-}
-
-Z_matrix: {
--2.013864e-14	4.351854e-25	4.055351e-28	
-2.001717e-14	-5.552953e-06	1.000000e+00	
-1.189629e-16	5.505128e-06	3.056972e-11	
-}
-
-Z_matrix^(-1):
-{
--4.965578e+13	2.001717e-14	3.925336e-06	
-1.073035e+03	-5.552953e-06	1.816488e+05	
-9.999266e-01	1.000000e+00	1.008687e+00	
-}
-
-Z_matrix * Z_matrix^(-1) [Identity matrix]:
-{
-1.000000e+00	-1.227273e-91	1.120225e-83	
--3.537099e-64	1.000000e+00	-4.735914e-64	
-6.877759e-67	-1.457785e-74	1.000000e+00	
-}
-
-Kr matrix:
-{
--1.445259e+05	5.837628e-23	7.655420e-15	
-1.439382e+05	-5.058115e-05	4.809850e+04	
-5.720626e+02	1.457694e-06	-4.768424e+04	
-}
-
-Kp matrix:
-{
-   1.344185e+01,   1.187338e-18,   4.211589e-06,
-   1.025946e-05,   1.679402e-27,   4.517503e-17,
-   1.765312e-06,   2.076534e-28,   4.100207e-18,
-}
-
-First order & pseudo first order rate coefficients for loss rxns:
-{
-CH3OCH2 loss = -1.445259e+05
-IM1 loss = -5.058115e-05
-IM2 loss = -4.768424e+04
-}
-
-First order & pseudo first order rate coefficients for isomerization rxns:
-{
-CH3OCH2 -> IM1 = 1.439382e+05
-CH3OCH2 -> IM2 = 5.720626e+02
-IM1 -> CH3OCH2 = 5.837628e-23
-IM1 -> IM2 = 1.457694e-06
-IM2 -> CH3OCH2 = 7.655420e-15
-IM2 -> IM1 = 4.809850e+04
-}
-
-First order & pseudo first order rate coefficients for irreversible rxns:
-{
-CH3OCH2 -> OH-1 = 1.344185e+01
-IM1 -> OH-1 = 1.187338e-18
-IM2 -> OH-1 = 4.211589e-06
-CH3OCH2 -> OH-2 = 1.025946e-05
-IM1 -> OH-2 = 1.679402e-27
-IM2 -> OH-2 = 4.517503e-17
-CH3OCH2 -> OH-3 = 1.765312e-06
-IM1 -> OH-3 = 2.076534e-28
-IM2 -> OH-3 = 4.100207e-18
-}
-
-
-Eq fraction matrix:
-{
- -2.46570e+27  1.00000e+00  0.00000e+00
-  0.00000e+00 -3.03064e-11  1.00000e+00
-  1.00000e+00  1.00000e+00  1.00000e+00
-}
-inverse of Eq fraction matrix:
-{
- -4.05565e-28 -4.05565e-28  4.05565e-28
-  4.05565e-28 -1.00000e+00  1.00000e+00
-  1.22912e-38  1.00000e+00  3.03064e-11
-}
-Equilibrium Fraction for CH3OCH2 = 4.05565e-28
-Equilibrium Fraction for IM1 = 1
-Equilibrium Fraction for IM2 = 3.03064e-11
-
-Bartis Widom eigenvalue/eigenvector analysis
-
-Number of sinks in this system: 3
-
-There should be 3 chemically significant eigenvalues (CSEs)
-
-Y_matrix:
-{
-  -6.275918e-12,   2.227441e-11,  -1.297420e-16,
-  -4.013498e-18,   1.605290e-22,  -1.479259e-27,
-  -6.637607e-19,   1.310217e-23,  -1.242775e-28,
-}
-
-Z_matrix: {
--2.013864e-14	1.936181e-24	-4.047304e-28	
-1.956333e-14	-5.552951e-06	-1.000000e+00	
-5.292771e-16	5.505128e-06	-3.056970e-11	
-}
-
-Z_matrix^(-1):
-{
--4.965578e+13	1.956333e-14	1.746418e-05	
-4.774034e+03	-5.552951e-06	1.816488e+05	
--9.979425e-01	-1.000000e+00	-1.008687e+00	
-}
-
-Z_matrix * Z_matrix^(-1) [Identity matrix]:
-{
-1.000000e+00	-1.917615e-91	-6.304868e-83	
--4.937695e-64	1.000000e+00	-3.722559e-64	
--3.485755e-66	-1.033318e-74	1.000000e+00	
-}
-
-Kr matrix:
-{
--1.444647e+05	5.742861e-23	3.404154e-14	
-1.416015e+05	9.086801e-05	4.808876e+04	
-2.543805e+03	1.457399e-06	-4.767461e+04	
-}
-
-Kp matrix:
-{
-   3.116356e+02,   6.053319e-18,   4.046120e-06,
-   1.992934e-04,   5.877704e-28,   2.915984e-17,
-   3.295956e-05,   5.150877e-29,   2.379983e-18,
-}
-
-First order & pseudo first order rate coefficients for loss rxns:
-{
-CH3OCH2 loss = -1.444647e+05
-IM1 loss = 9.086801e-05
-IM2 loss = -4.767461e+04
-}
-
-First order & pseudo first order rate coefficients for isomerization rxns:
-{
-CH3OCH2 -> IM1 = 1.416015e+05
-CH3OCH2 -> IM2 = 2.543805e+03
-IM1 -> CH3OCH2 = 5.742861e-23
-IM1 -> IM2 = 1.457399e-06
-IM2 -> CH3OCH2 = 3.404154e-14
-IM2 -> IM1 = 4.808876e+04
-}
-
-First order & pseudo first order rate coefficients for irreversible rxns:
-{
-CH3OCH2 -> OH-1 = 3.116356e+02
-IM1 -> OH-1 = 6.053319e-18
-IM2 -> OH-1 = 4.046120e-06
-CH3OCH2 -> OH-2 = 1.992934e-04
-IM1 -> OH-2 = 5.877704e-28
-IM2 -> OH-2 = 2.915984e-17
-CH3OCH2 -> OH-3 = 3.295956e-05
-IM1 -> OH-3 = 5.150877e-29
-IM2 -> OH-3 = 2.379983e-18
-}
-
-
-Eq fraction matrix:
-{
- -2.46570e+27  1.00000e+00  0.00000e+00
-  0.00000e+00 -3.03064e-11  1.00000e+00
-  1.00000e+00  1.00000e+00  1.00000e+00
-}
-inverse of Eq fraction matrix:
-{
- -4.05565e-28 -4.05565e-28  4.05565e-28
-  4.05565e-28 -1.00000e+00  1.00000e+00
-  1.22912e-38  1.00000e+00  3.03064e-11
-}
-Equilibrium Fraction for CH3OCH2 = 4.05565e-28
-Equilibrium Fraction for IM1 = 1
-Equilibrium Fraction for IM2 = 3.03064e-11
-
-Bartis Widom eigenvalue/eigenvector analysis
-
-Number of sinks in this system: 3
-
-There should be 3 chemically significant eigenvalues (CSEs)
-
-Y_matrix:
-{
-  -3.448825e-10,  -1.199212e-11,   1.281896e-16,
-  -1.313441e-16,  -4.722552e-24,   1.043050e-27,
-  -1.926451e-17,  -2.585753e-25,   1.884663e-28,
-}
-
-Z_matrix: {
--2.013864e-14	-5.513477e-24	3.572343e-28	
-1.621847e-14	5.552986e-06	1.000000e+00	
-1.507172e-15	-5.505128e-06	3.056990e-11	
-}
-
-Z_matrix^(-1):
-{
--4.965578e+13	1.621847e-14	4.973109e-05	
--1.359456e+04	5.552986e-06	-1.816488e+05	
-8.808315e-01	1.000000e+00	1.008693e+00	
-}
-
-Z_matrix * Z_matrix^(-1) [Identity matrix]:
-{
-1.000000e+00	-8.437504e-92	1.056066e-82	
--2.183981e-64	1.000000e+00	-1.329379e-64	
-8.368635e-66	-6.632577e-75	1.000000e+00	
-}
-
-Kr matrix:
-{
--1.435905e+05	4.835387e-23	9.622506e-14	
-1.192260e+05	3.990052e-07	4.792421e+04	
-7.190560e+03	1.452412e-06	-4.751118e+04	
-}
-
-Kp matrix:
-{
-   1.712541e+04,   6.159746e-17,   2.178355e-06,
-   6.521993e-03,   1.014695e-27,   8.513141e-19,
-   9.565945e-04,   1.867180e-28,   4.601186e-20,
-}
-
-First order & pseudo first order rate coefficients for loss rxns:
-{
-CH3OCH2 loss = -1.435905e+05
-IM1 loss = 3.990052e-07
-IM2 loss = -4.751118e+04
-}
-
-First order & pseudo first order rate coefficients for isomerization rxns:
-{
-CH3OCH2 -> IM1 = 1.192260e+05
-CH3OCH2 -> IM2 = 7.190560e+03
-IM1 -> CH3OCH2 = 4.835387e-23
-IM1 -> IM2 = 1.452412e-06
-IM2 -> CH3OCH2 = 9.622506e-14
-IM2 -> IM1 = 4.792421e+04
-}
-
-First order & pseudo first order rate coefficients for irreversible rxns:
-{
-CH3OCH2 -> OH-1 = 1.712541e+04
-IM1 -> OH-1 = 6.159746e-17
-IM2 -> OH-1 = 2.178355e-06
-CH3OCH2 -> OH-2 = 6.521993e-03
-IM1 -> OH-2 = 1.014695e-27
-IM2 -> OH-2 = 8.513141e-19
-CH3OCH2 -> OH-3 = 9.565945e-04
-IM1 -> OH-3 = 1.867180e-28
-IM2 -> OH-3 = 4.601186e-20
-}
-
-
-Eq fraction matrix:
-{
- -2.46570e+27  1.00000e+00  0.00000e+00
-  0.00000e+00 -3.03064e-11  1.00000e+00
-  1.00000e+00  1.00000e+00  1.00000e+00
-}
-inverse of Eq fraction matrix:
-{
- -4.05565e-28 -4.05565e-28  4.05565e-28
-  4.05565e-28 -1.00000e+00  1.00000e+00
-  1.22912e-38  1.00000e+00  3.03064e-11
-}
-Equilibrium Fraction for CH3OCH2 = 4.05565e-28
-Equilibrium Fraction for IM1 = 1
-Equilibrium Fraction for IM2 = 3.03064e-11
-
-Bartis Widom eigenvalue/eigenvector analysis
-
-Number of sinks in this system: 3
-
-There should be 3 chemically significant eigenvalues (CSEs)
-
-Y_matrix:
-{
-  -2.320245e-09,   3.905022e-13,   1.237524e-16,
-  -6.826504e-16,   6.253364e-26,   8.552221e-30,
-  -8.788670e-17,   3.579695e-27,   2.761953e-31,
-}
-
-Z_matrix: {
--2.013864e-14	2.949811e-25	7.235813e-29	
-3.511656e-15	-5.553424e-06	1.000000e+00	
-8.063646e-17	5.505128e-06	3.057231e-11	
-}
-
-Z_matrix^(-1):
-{
--4.965578e+13	3.511656e-15	2.660704e-06	
-7.273340e+02	-5.553424e-06	1.816488e+05	
-1.784132e-01	1.000000e+00	1.008773e+00	
-}
-
-Z_matrix * Z_matrix^(-1) [Identity matrix]:
-{
-1.000000e+00	8.149862e-93	5.126659e-84	
-2.848670e-65	1.000000e+00	1.424335e-65	
-4.519029e-67	-1.589055e-75	1.000000e+00	
-}
-
-Kr matrix:
-{
--1.398398e+05	9.963900e-24	5.058323e-15	
-2.456796e+04	-1.338169e-06	4.583671e+04	
-3.779907e+02	1.389147e-06	-4.543809e+04	
-}
-
-Kp matrix:
-{
-   1.152136e+05,   1.215838e-16,   7.093427e-08,
-   3.389754e-02,   5.807713e-30,   9.542831e-21,
-   4.364083e-03,  -5.231208e-32,   4.164068e-22,
-}
-
-First order & pseudo first order rate coefficients for loss rxns:
-{
-CH3OCH2 loss = -1.398398e+05
-IM1 loss = -1.338169e-06
-IM2 loss = -4.543809e+04
-}
-
-First order & pseudo first order rate coefficients for isomerization rxns:
-{
-CH3OCH2 -> IM1 = 2.456796e+04
-CH3OCH2 -> IM2 = 3.779907e+02
-IM1 -> CH3OCH2 = 9.963900e-24
-IM1 -> IM2 = 1.389147e-06
-IM2 -> CH3OCH2 = 5.058323e-15
-IM2 -> IM1 = 4.583671e+04
-}
-
-First order & pseudo first order rate coefficients for irreversible rxns:
-{
-CH3OCH2 -> OH-1 = 1.152136e+05
-IM1 -> OH-1 = 1.215838e-16
-IM2 -> OH-1 = 7.093427e-08
-CH3OCH2 -> OH-2 = 3.389754e-02
-IM1 -> OH-2 = 5.807713e-30
-IM2 -> OH-2 = 9.542831e-21
-CH3OCH2 -> OH-3 = 4.364083e-03
-IM1 -> OH-3 = -5.231208e-32
-IM2 -> OH-3 = 4.164068e-22
-}
-
-
-Eq fraction matrix:
-{
- -2.46570e+27  1.00000e+00  0.00000e+00
-  0.00000e+00 -3.03064e-11  1.00000e+00
-  1.00000e+00  1.00000e+00  1.00000e+00
-}
-inverse of Eq fraction matrix:
-{
- -4.05565e-28 -4.05565e-28  4.05565e-28
-  4.05565e-28 -1.00000e+00  1.00000e+00
-  1.22912e-38  1.00000e+00  3.03064e-11
-}
-Equilibrium Fraction for CH3OCH2 = 4.05565e-28
-Equilibrium Fraction for IM1 = 1
-Equilibrium Fraction for IM2 = 3.03064e-11
-
-Bartis Widom eigenvalue/eigenvector analysis
-
-Number of sinks in this system: 3
-
-There should be 3 chemically significant eigenvalues (CSEs)
-
-Y_matrix:
-{
-  -2.775746e-09,  -1.114258e-13,  -1.178161e-16,
-  -8.924227e-16,  -4.948633e-28,  -8.162568e-30,
-  -1.096373e-16,  -6.733826e-30,  -4.434137e-31,
-}
-
-Z_matrix: {
--2.013864e-14	-3.665059e-27	-2.658835e-30	
-1.310156e-16	5.554629e-06	-1.000000e+00	
-1.001886e-18	-5.505128e-06	-3.057894e-11	
-}
-
-Z_matrix^(-1):
-{
--4.965578e+13	1.310156e-16	3.305852e-08	
--9.036924e+00	5.554629e-06	-1.816488e+05	
--6.555880e-03	-1.000000e+00	-1.008992e+00	
-}
-
-Z_matrix * Z_matrix^(-1) [Identity matrix]:
-{
-1.000000e+00	3.895155e-94	-3.294336e-85	
-8.160254e-67	1.000000e+00	-3.560838e-64	
--2.366952e-68	-6.079863e-75	1.000000e+00	
-}
-
-Kr matrix:
-{
--1.382070e+05	3.654615e-25	6.566260e-17	
-9.011174e+02	-1.187867e-06	3.993385e+04	
-4.906735e+00	1.210253e-06	-3.957797e+04	
-}
-
-Kp matrix:
-{
-   1.378318e+05,   1.171972e-16,   2.024037e-08,
-   4.431395e-02,   8.042898e-30,   6.038918e-23,
-   5.444128e-03,   4.290121e-31,  -2.401256e-24,
-}
-
-First order & pseudo first order rate coefficients for loss rxns:
-{
-CH3OCH2 loss = -1.382070e+05
-IM1 loss = -1.187867e-06
-IM2 loss = -3.957797e+04
-}
-
-First order & pseudo first order rate coefficients for isomerization rxns:
-{
-CH3OCH2 -> IM1 = 9.011174e+02
-CH3OCH2 -> IM2 = 4.906735e+00
-IM1 -> CH3OCH2 = 3.654615e-25
-IM1 -> IM2 = 1.210253e-06
-IM2 -> CH3OCH2 = 6.566260e-17
-IM2 -> IM1 = 3.993385e+04
-}
-
-First order & pseudo first order rate coefficients for irreversible rxns:
-{
-CH3OCH2 -> OH-1 = 1.378318e+05
-IM1 -> OH-1 = 1.171972e-16
-IM2 -> OH-1 = 2.024037e-08
-CH3OCH2 -> OH-2 = 4.431395e-02
-IM1 -> OH-2 = 8.042898e-30
-IM2 -> OH-2 = 6.038918e-23
-CH3OCH2 -> OH-3 = 5.444128e-03
-IM1 -> OH-3 = 4.290121e-31
-IM2 -> OH-3 = -2.401256e-24
-}
-
-
-Eq fraction matrix:
-{
- -2.69060e+24  1.00000e+00  0.00000e+00
-  0.00000e+00 -2.11513e-10  1.00000e+00
-  1.00000e+00  1.00000e+00  1.00000e+00
-}
-inverse of Eq fraction matrix:
-{
- -3.71665e-25 -3.71665e-25  3.71665e-25
-  3.71665e-25 -1.00000e+00  1.00000e+00
-  7.86120e-35  1.00000e+00  2.11513e-10
-}
-Equilibrium Fraction for CH3OCH2 = 3.71665e-25
-Equilibrium Fraction for IM1 = 1
-Equilibrium Fraction for IM2 = 2.11513e-10
-
-Bartis Widom eigenvalue/eigenvector analysis
-
-Number of sinks in this system: 3
-
-There should be 3 chemically significant eigenvalues (CSEs)
-
-Y_matrix:
-{
-   1.215362e-11,  -1.640006e-09,  -2.429848e-14,
-   1.450201e-17,  -1.006345e-19,  -1.526246e-24,
-   2.684744e-18,  -1.042620e-20,  -1.580713e-25,
-}
-
-Z_matrix: {
-6.096431e-13	-2.853109e-22	-3.716176e-25	
--6.027079e-13	1.465387e-05	-1.000000e+00	
--6.806308e-15	-1.454350e-05	-2.131185e-10	
-}
-
-Z_matrix^(-1):
-{
-1.640304e+12	-6.027079e-13	-3.217910e-05	
--7.676568e+02	1.465387e-05	-6.875926e+04	
--9.998734e-01	-1.000000e+00	-1.007589e+00	
-}
-
-Z_matrix * Z_matrix^(-1) [Identity matrix]:
-{
-1.000000e+00	-4.987639e-88	6.068392e-82	
--1.020774e-63	1.000000e+00	-1.182198e-63	
-3.421535e-67	-2.758047e-73	1.000000e+00	
-}
-
-Kr matrix:
-{
--1.351283e+05	4.998190e-20	1.098625e-12	
-1.344812e+05	2.951140e-04	7.972723e+04	
-6.252245e+02	1.686337e-05	-7.912671e+04	
-}
-
-Kp matrix:
-{
-   1.993564e+01,   2.660486e-16,   1.127656e-04,
-   2.378771e-05,   5.155133e-26,   6.919556e-15,
-   4.403796e-06,   5.285523e-27,   7.168976e-16,
-}
-
-First order & pseudo first order rate coefficients for loss rxns:
-{
-CH3OCH2 loss = -1.351283e+05
-IM1 loss = 2.951140e-04
-IM2 loss = -7.912671e+04
-}
-
-First order & pseudo first order rate coefficients for isomerization rxns:
-{
-CH3OCH2 -> IM1 = 1.344812e+05
-CH3OCH2 -> IM2 = 6.252245e+02
-IM1 -> CH3OCH2 = 4.998190e-20
-IM1 -> IM2 = 1.686337e-05
-IM2 -> CH3OCH2 = 1.098625e-12
-IM2 -> IM1 = 7.972723e+04
-}
-
-First order & pseudo first order rate coefficients for irreversible rxns:
-{
-CH3OCH2 -> OH-1 = 1.993564e+01
-IM1 -> OH-1 = 2.660486e-16
-IM2 -> OH-1 = 1.127656e-04
-CH3OCH2 -> OH-2 = 2.378771e-05
-IM1 -> OH-2 = 5.155133e-26
-IM2 -> OH-2 = 6.919556e-15
-CH3OCH2 -> OH-3 = 4.403796e-06
-IM1 -> OH-3 = 5.285523e-27
-IM2 -> OH-3 = 7.168976e-16
-}
-
-
-Eq fraction matrix:
-{
- -2.69060e+24  1.00000e+00  0.00000e+00
-  0.00000e+00 -2.11513e-10  1.00000e+00
-  1.00000e+00  1.00000e+00  1.00000e+00
-}
-inverse of Eq fraction matrix:
-{
- -3.71665e-25 -3.71665e-25  3.71665e-25
-  3.71665e-25 -1.00000e+00  1.00000e+00
-  7.86120e-35  1.00000e+00  2.11513e-10
-}
-Equilibrium Fraction for CH3OCH2 = 3.71665e-25
-Equilibrium Fraction for IM1 = 1
-Equilibrium Fraction for IM2 = 2.11513e-10
-
-Bartis Widom eigenvalue/eigenvector analysis
-
-Number of sinks in this system: 3
-
-There should be 3 chemically significant eigenvalues (CSEs)
-
-Y_matrix:
-{
-  -2.655510e-10,  -1.561255e-09,  -2.425370e-14,
-  -2.551426e-16,  -5.958727e-20,  -1.046510e-24,
-  -4.528536e-17,  -5.477651e-21,  -9.699673e-26,
-}
-
-Z_matrix: {
--6.096431e-13	-1.223052e-21	-3.704964e-25	
-5.783285e-13	1.465389e-05	-1.000000e+00	
-2.917683e-14	-1.454350e-05	-2.131189e-10	
-}
-
-Z_matrix^(-1):
-{
--1.640304e+12	5.783285e-13	1.379432e-04	
--3.290740e+03	1.465389e-05	-6.875926e+04	
--9.968567e-01	-1.000000e+00	-1.007591e+00	
-}
-
-Z_matrix * Z_matrix^(-1) [Identity matrix]:
-{
-1.000000e+00	-1.767274e-89	-7.719211e-82	
--3.323449e-65	1.000000e+00	0.000000e+00	
--1.705384e-67	-5.084976e-74	1.000000e+00	
-}
-
-Kr matrix:
-{
--1.350313e+05	4.902616e-20	4.703705e-12	
-1.319097e+05	2.366861e-05	7.969924e+04	
-2.676865e+03	1.685745e-05	-7.909881e+04	
-}
-
-Kp matrix:
-{
-   4.355843e+02,   1.375235e-15,   1.073507e-04,
-   4.185115e-04,   1.731771e-25,   4.097141e-15,
-   7.428176e-05,   1.670163e-26,   3.766330e-16,
-}
-
-First order & pseudo first order rate coefficients for loss rxns:
-{
-CH3OCH2 loss = -1.350313e+05
-IM1 loss = 2.366861e-05
-IM2 loss = -7.909881e+04
-}
-
-First order & pseudo first order rate coefficients for isomerization rxns:
-{
-CH3OCH2 -> IM1 = 1.319097e+05
-CH3OCH2 -> IM2 = 2.676865e+03
-IM1 -> CH3OCH2 = 4.902616e-20
-IM1 -> IM2 = 1.685745e-05
-IM2 -> CH3OCH2 = 4.703705e-12
-IM2 -> IM1 = 7.969924e+04
-}
-
-First order & pseudo first order rate coefficients for irreversible rxns:
-{
-CH3OCH2 -> OH-1 = 4.355843e+02
-IM1 -> OH-1 = 1.375235e-15
-IM2 -> OH-1 = 1.073507e-04
-CH3OCH2 -> OH-2 = 4.185115e-04
-IM1 -> OH-2 = 1.731771e-25
-IM2 -> OH-2 = 4.097141e-15
-CH3OCH2 -> OH-3 = 7.428176e-05
-IM1 -> OH-3 = 1.670163e-26
-IM2 -> OH-3 = 3.766330e-16
-}
-
-
-Eq fraction matrix:
-{
- -2.69060e+24  1.00000e+00  0.00000e+00
-  0.00000e+00 -2.11513e-10  1.00000e+00
-  1.00000e+00  1.00000e+00  1.00000e+00
-}
-inverse of Eq fraction matrix:
-{
- -3.71665e-25 -3.71665e-25  3.71665e-25
-  3.71665e-25 -1.00000e+00  1.00000e+00
-  7.86120e-35  1.00000e+00  2.11513e-10
-}
-Equilibrium Fraction for CH3OCH2 = 3.71665e-25
-Equilibrium Fraction for IM1 = 1
-Equilibrium Fraction for IM2 = 2.11513e-10
-
-Bartis Widom eigenvalue/eigenvector analysis
-
-Number of sinks in this system: 3
-
-There should be 3 chemically significant eigenvalues (CSEs)
-
-Y_matrix:
-{
-   1.211898e-08,   7.493008e-10,  -2.376566e-14,
-   6.718905e-15,   1.421673e-21,  -2.007408e-25,
-   1.064972e-15,   9.353039e-23,  -1.286466e-26,
-}
-
-Z_matrix: {
-6.096431e-13	2.950765e-21	-3.164009e-25	
--4.480660e-13	-1.465404e-05	-1.000000e+00	
--7.039272e-14	1.454350e-05	-2.131210e-10	
-}
-
-Z_matrix^(-1):
-{
-1.640304e+12	-4.480660e-13	-3.328052e-04	
-7.939319e+03	-1.465404e-05	6.875926e+04	
--8.513076e-01	-1.000000e+00	-1.007601e+00	
-}
-
-Z_matrix * Z_matrix^(-1) [Identity matrix]:
-{
-1.000000e+00	-2.356365e-89	6.272227e-81	
--8.308622e-65	1.000000e+00	0.000000e+00	
--1.073838e-65	-2.680667e-74	1.000000e+00	
-}
-
-Kr matrix:
-{
--1.337261e+05	3.992869e-20	1.117855e-11	
-1.074320e+05	-1.465314e-05	7.922787e+04	
-6.361678e+03	1.675775e-05	-7.863020e+04	
-}
-
-Kp matrix:
-{
-   1.987881e+04,   1.278537e-14,   5.152137e-05,
-   1.102105e-02,   1.768971e-25,   9.551710e-17,
-   1.746878e-03,   1.101688e-26,   6.076652e-18,
-}
-
-First order & pseudo first order rate coefficients for loss rxns:
-{
-CH3OCH2 loss = -1.337261e+05
-IM1 loss = -1.465314e-05
-IM2 loss = -7.863020e+04
-}
-
-First order & pseudo first order rate coefficients for isomerization rxns:
-{
-CH3OCH2 -> IM1 = 1.074320e+05
-CH3OCH2 -> IM2 = 6.361678e+03
-IM1 -> CH3OCH2 = 3.992869e-20
-IM1 -> IM2 = 1.675775e-05
-IM2 -> CH3OCH2 = 1.117855e-11
-IM2 -> IM1 = 7.922787e+04
-}
-
-First order & pseudo first order rate coefficients for irreversible rxns:
-{
-CH3OCH2 -> OH-1 = 1.987881e+04
-IM1 -> OH-1 = 1.278537e-14
-IM2 -> OH-1 = 5.152137e-05
-CH3OCH2 -> OH-2 = 1.102105e-02
-IM1 -> OH-2 = 1.768971e-25
-IM2 -> OH-2 = 9.551710e-17
-CH3OCH2 -> OH-3 = 1.746878e-03
-IM1 -> OH-3 = 1.101688e-26
-IM2 -> OH-3 = 6.076652e-18
-}
-
-
-Eq fraction matrix:
-{
- -2.69060e+24  1.00000e+00  0.00000e+00
-  0.00000e+00 -2.11513e-10  1.00000e+00
-  1.00000e+00  1.00000e+00  1.00000e+00
-}
-inverse of Eq fraction matrix:
-{
- -3.71665e-25 -3.71665e-25  3.71665e-25
-  3.71665e-25 -1.00000e+00  1.00000e+00
-  7.86120e-35  1.00000e+00  2.11513e-10
-}
-Equilibrium Fraction for CH3OCH2 = 3.71665e-25
-Equilibrium Fraction for IM1 = 1
-Equilibrium Fraction for IM2 = 2.11513e-10
-
-Bartis Widom eigenvalue/eigenvector analysis
-
-Number of sinks in this system: 3
-
-There should be 3 chemically significant eigenvalues (CSEs)
-
-Y_matrix:
-{
-   6.782001e-08,   2.361155e-11,   2.254302e-14,
-   2.898651e-14,   1.983952e-23,   1.736096e-26,
-   4.076588e-15,   1.473840e-24,   1.118844e-27,
-}
-
-Z_matrix: {
-6.096431e-13	1.173946e-22	5.226762e-26	
--8.291265e-14	-1.465569e-05	1.000000e+00	
--2.800536e-15	1.454350e-05	2.131450e-10	
-}
-
-Z_matrix^(-1):
-{
-1.640304e+12	-8.291265e-14	-1.324047e-05	
-3.158615e+02	-1.465569e-05	6.875926e+04	
-1.406311e-01	1.000000e+00	1.007715e+00	
-}
-
-Z_matrix * Z_matrix^(-1) [Identity matrix]:
-{
-1.000000e+00	-7.363640e-91	-5.402668e-82	
--1.424335e-65	1.000000e+00	-1.186946e-66	
--3.062082e-68	-2.542488e-74	1.000000e+00	
-}
-
-Kr matrix:
-{
--1.291236e+05	6.652802e-21	4.512451e-13	
-1.790001e+04	-1.547417e-05	7.378567e+04	
-2.568023e+02	1.560665e-05	-7.322081e+04	
-}
-
-Kp matrix:
-{
-   1.112454e+05,   2.219697e-14,   1.623512e-06,
-   4.754669e-02,   1.466685e-26,   9.803555e-19,
-   6.686844e-03,   7.592432e-28,   4.736420e-20,
-}
-
-First order & pseudo first order rate coefficients for loss rxns:
-{
-CH3OCH2 loss = -1.291236e+05
-IM1 loss = -1.547417e-05
-IM2 loss = -7.322081e+04
-}
-
-First order & pseudo first order rate coefficients for isomerization rxns:
-{
-CH3OCH2 -> IM1 = 1.790001e+04
-CH3OCH2 -> IM2 = 2.568023e+02
-IM1 -> CH3OCH2 = 6.652802e-21
-IM1 -> IM2 = 1.560665e-05
-IM2 -> CH3OCH2 = 4.512451e-13
-IM2 -> IM1 = 7.378567e+04
-}
-
-First order & pseudo first order rate coefficients for irreversible rxns:
-{
-CH3OCH2 -> OH-1 = 1.112454e+05
-IM1 -> OH-1 = 2.219697e-14
-IM2 -> OH-1 = 1.623512e-06
-CH3OCH2 -> OH-2 = 4.754669e-02
-IM1 -> OH-2 = 1.466685e-26
-IM2 -> OH-2 = 9.803555e-19
-CH3OCH2 -> OH-3 = 6.686844e-03
-IM1 -> OH-3 = 7.592432e-28
-IM2 -> OH-3 = 4.736420e-20
-}
-
-
-Eq fraction matrix:
-{
- -2.69060e+24  1.00000e+00  0.00000e+00
-  0.00000e+00 -2.11513e-10  1.00000e+00
-  1.00000e+00  1.00000e+00  1.00000e+00
-}
-inverse of Eq fraction matrix:
-{
- -3.71665e-25 -3.71665e-25  3.71665e-25
-  3.71665e-25 -1.00000e+00  1.00000e+00
-  7.86120e-35  1.00000e+00  2.11513e-10
-}
-Equilibrium Fraction for CH3OCH2 = 3.71665e-25
-Equilibrium Fraction for IM1 = 1
-Equilibrium Fraction for IM2 = 2.11513e-10
-
-Bartis Widom eigenvalue/eigenvector analysis
-
-Number of sinks in this system: 3
-
-There should be 3 chemically significant eigenvalues (CSEs)
-
-Y_matrix:
-{
-   7.762158e-08,   7.437718e-12,   2.088243e-14,
-   3.604190e-14,   1.432666e-25,  -1.834463e-29,
-   4.878809e-15,   1.166019e-26,  -5.866350e-30,
-}
-
-Z_matrix: {
-6.096431e-13	1.148242e-24	1.630201e-27	
--2.646414e-15	-1.465958e-05	1.000000e+00	
--2.739218e-17	1.454350e-05	2.132015e-10	
-}
-
-Z_matrix^(-1):
-{
-1.640304e+12	-2.646414e-15	-1.295057e-07	
-3.089457e+00	-1.465958e-05	6.875926e+04	
-4.386214e-03	1.000000e+00	1.007982e+00	
-}
-
-Z_matrix * Z_matrix^(-1) [Identity matrix]:
-{
-1.000000e+00	6.136367e-92	6.551503e-83	
-4.172857e-68	1.000000e+00	1.412466e-64	
-4.161674e-68	4.090089e-74	1.000000e+00	
-}
-
-Kr matrix:
-{
--1.274651e+05	2.066655e-22	5.291353e-15	
-5.560536e+02	-1.294523e-05	6.092788e+04	
-3.011293e+00	1.288705e-05	-6.044543e+04	
-}
-
-Kp matrix:
-{
-   1.273230e+05,   2.077339e-14,   5.114120e-07,
-   5.911967e-02,  -1.158266e-28,   5.183269e-21,
-   8.002730e-03,  -1.894863e-29,   1.699123e-22,
-}
-
-First order & pseudo first order rate coefficients for loss rxns:
-{
-CH3OCH2 loss = -1.274651e+05
-IM1 loss = -1.294523e-05
-IM2 loss = -6.044543e+04
-}
-
-First order & pseudo first order rate coefficients for isomerization rxns:
-{
-CH3OCH2 -> IM1 = 5.560536e+02
-CH3OCH2 -> IM2 = 3.011293e+00
-IM1 -> CH3OCH2 = 2.066655e-22
-IM1 -> IM2 = 1.288705e-05
-IM2 -> CH3OCH2 = 5.291353e-15
-IM2 -> IM1 = 6.092788e+04
-}
-
-First order & pseudo first order rate coefficients for irreversible rxns:
-{
-CH3OCH2 -> OH-1 = 1.273230e+05
-IM1 -> OH-1 = 2.077339e-14
-IM2 -> OH-1 = 5.114120e-07
-CH3OCH2 -> OH-2 = 5.911967e-02
-IM1 -> OH-2 = -1.158266e-28
-IM2 -> OH-2 = 5.183269e-21
-CH3OCH2 -> OH-3 = 8.002730e-03
-IM1 -> OH-3 = -1.894863e-29
-IM2 -> OH-3 = 1.699123e-22
-}
-
-
-Eq fraction matrix:
-{
- -1.22825e+19  1.00000e+00  0.00000e+00
-  0.00000e+00 -7.30270e-09  1.00000e+00
-  1.00000e+00  1.00000e+00  1.00000e+00
-}
-inverse of Eq fraction matrix:
-{
- -8.14169e-20 -8.14169e-20  8.14169e-20
-  8.14169e-20 -1.00000e+00  1.00000e+00
-  5.94563e-28  1.00000e+00  7.30270e-09
-}
-Equilibrium Fraction for CH3OCH2 = 8.14169e-20
-Equilibrium Fraction for IM1 = 1
-Equilibrium Fraction for IM2 = 7.3027e-09
-
-Bartis Widom eigenvalue/eigenvector analysis
-
-Number of sinks in this system: 3
-
-There should be 3 chemically significant eigenvalues (CSEs)
-
-Y_matrix:
-{
-   3.695276e-06,  -1.362062e-08,  -3.230163e-10,
-   4.838780e-15,  -3.757617e-14,  -4.385814e-19,
-   6.289257e-16,  -7.820606e-15,  -5.724114e-20,
-}
-
-Z_matrix: {
--7.650213e-18	-2.853364e-10	-8.138558e-20	
--8.594334e-05	2.875310e-10	-1.000000e+00	
-8.545585e-05	-2.291172e-12	-7.344362e-09	
-}
-
-Z_matrix^(-1):
-{
--9.396347e+01	-8.594334e-05	1.170195e+04	
--3.504635e+09	2.875310e-10	-3.137430e-04	
--9.996155e-01	-1.000000e+00	-1.005705e+00	
-}
-
-Z_matrix * Z_matrix^(-1) [Identity matrix]:
-{
-1.000000e+00	-9.265604e-84	2.010869e-77	
--2.658759e-64	1.000000e+00	-8.071233e-65	
-2.612699e-66	6.190406e-74	1.000000e+00	
-}
-
-Kr matrix:
-{
--1.181348e+05	9.552092e-15	8.492987e-09	
-1.173232e+05	-1.727610e-03	2.142197e+05	
-7.617800e+02	1.564383e-03	-2.130046e+05	
-}
-
-Kp matrix:
-{
-   4.773495e+01,   5.431892e-12,   4.324193e-02,
-   1.316907e-04,   2.270962e-20,   5.662317e-11,
-   2.740837e-05,   3.186917e-21,   7.359658e-12,
-}
-
-First order & pseudo first order rate coefficients for loss rxns:
-{
-CH3OCH2 loss = -1.181348e+05
-IM1 loss = -1.727610e-03
-IM2 loss = -2.130046e+05
-}
-
-First order & pseudo first order rate coefficients for isomerization rxns:
-{
-CH3OCH2 -> IM1 = 1.173232e+05
-CH3OCH2 -> IM2 = 7.617800e+02
-IM1 -> CH3OCH2 = 9.552092e-15
-IM1 -> IM2 = 1.564383e-03
-IM2 -> CH3OCH2 = 8.492987e-09
-IM2 -> IM1 = 2.142197e+05
-}
-
-First order & pseudo first order rate coefficients for irreversible rxns:
-{
-CH3OCH2 -> OH-1 = 4.773495e+01
-IM1 -> OH-1 = 5.431892e-12
-IM2 -> OH-1 = 4.324193e-02
-CH3OCH2 -> OH-2 = 1.316907e-04
-IM1 -> OH-2 = 2.270962e-20
-IM2 -> OH-2 = 5.662317e-11
-CH3OCH2 -> OH-3 = 2.740837e-05
-IM1 -> OH-3 = 3.186917e-21
-IM2 -> OH-3 = 7.359658e-12
-}
-
-
-Eq fraction matrix:
-{
- -1.22825e+19  1.00000e+00  0.00000e+00
-  0.00000e+00 -7.30270e-09  1.00000e+00
-  1.00000e+00  1.00000e+00  1.00000e+00
-}
-inverse of Eq fraction matrix:
-{
- -8.14169e-20 -8.14169e-20  8.14169e-20
-  8.14169e-20 -1.00000e+00  1.00000e+00
-  5.94563e-28  1.00000e+00  7.30270e-09
-}
-Equilibrium Fraction for CH3OCH2 = 8.14169e-20
-Equilibrium Fraction for IM1 = 1
-Equilibrium Fraction for IM2 = 7.3027e-09
-
-Bartis Widom eigenvalue/eigenvector analysis
-
-Number of sinks in this system: 3
-
-There should be 3 chemically significant eigenvalues (CSEs)
-
-Y_matrix:
-{
-   3.413940e-06,   2.503769e-07,  -3.206282e-10,
-   2.272198e-15,   5.113618e-13,  -2.590388e-19,
-   2.548700e-16,   1.017997e-13,  -2.987818e-20,
-}
-
-Z_matrix: {
--2.944159e-17	2.853364e-10	-8.081592e-20	
--8.594346e-05	-2.920981e-10	-1.000000e+00	
-8.545585e-05	8.817505e-12	-7.344372e-09	
-}
-
-Z_matrix^(-1):
-{
--3.616153e+02	-8.594346e-05	1.170195e+04	
-3.504635e+09	-2.920981e-10	1.207430e-03	
--9.926187e-01	-1.000000e+00	-1.005706e+00	
-}
-
-Z_matrix * Z_matrix^(-1) [Identity matrix]:
-{
-1.000000e+00	-1.183938e-83	-3.993233e-78	
--9.970346e-65	1.000000e+00	-1.899114e-65	
-1.015241e-66	-3.891112e-73	1.000000e+00	
-}
-
-Kr matrix:
-{
--1.178800e+05	9.286502e-15	3.268888e-08	
-1.140611e+05	-1.574209e-03	2.139753e+05	
-2.932035e+03	1.562598e-03	-2.127613e+05	
-}
-
-Kp matrix:
-{
-   8.774783e+02,   2.722224e-11,   3.994975e-02,
-   1.792136e-03,   6.360879e-20,   2.658977e-11,
-   3.567707e-04,   7.944035e-21,   2.982598e-12,
-}
-
-First order & pseudo first order rate coefficients for loss rxns:
-{
-CH3OCH2 loss = -1.178800e+05
-IM1 loss = -1.574209e-03
-IM2 loss = -2.127613e+05
-}
-
-First order & pseudo first order rate coefficients for isomerization rxns:
-{
-CH3OCH2 -> IM1 = 1.140611e+05
-CH3OCH2 -> IM2 = 2.932035e+03
-IM1 -> CH3OCH2 = 9.286502e-15
-IM1 -> IM2 = 1.562598e-03
-IM2 -> CH3OCH2 = 3.268888e-08
-IM2 -> IM1 = 2.139753e+05
-}
-
-First order & pseudo first order rate coefficients for irreversible rxns:
-{
-CH3OCH2 -> OH-1 = 8.774783e+02
-IM1 -> OH-1 = 2.722224e-11
-IM2 -> OH-1 = 3.994975e-02
-CH3OCH2 -> OH-2 = 1.792136e-03
-IM1 -> OH-2 = 6.360879e-20
-IM2 -> OH-2 = 2.658977e-11
-CH3OCH2 -> OH-3 = 3.567707e-04
-IM1 -> OH-3 = 7.944035e-21
-IM2 -> OH-3 = 2.982598e-12
-}
-
-
-Eq fraction matrix:
-{
- -1.22825e+19  1.00000e+00  0.00000e+00
-  0.00000e+00 -7.30270e-09  1.00000e+00
-  1.00000e+00  1.00000e+00  1.00000e+00
-}
-inverse of Eq fraction matrix:
-{
- -8.14169e-20 -8.14169e-20  8.14169e-20
-  8.14169e-20 -1.00000e+00  1.00000e+00
-  5.94563e-28  1.00000e+00  7.30270e-09
-}
-Equilibrium Fraction for CH3OCH2 = 8.14169e-20
-Equilibrium Fraction for IM1 = 1
-Equilibrium Fraction for IM2 = 7.3027e-09
-
-Bartis Widom eigenvalue/eigenvector analysis
-
-Number of sinks in this system: 3
-
-There should be 3 chemically significant eigenvalues (CSEs)
-
-Y_matrix:
-{
-   1.197785e-06,   7.494629e-06,  -3.031305e-10,
-   3.501401e-17,   8.413499e-12,  -4.675080e-20,
-   2.888269e-18,   1.516747e-12,  -4.636050e-21,
-}
-
-Z_matrix: {
--4.765332e-17	2.853364e-10	-6.281446e-20	
--8.594554e-05	-2.344953e-10	-1.000000e+00	
-8.545585e-05	1.427176e-11	-7.344550e-09	
-}
-
-Z_matrix^(-1):
-{
--5.853002e+02	-8.594554e-05	1.170195e+04	
-3.504635e+09	-2.344953e-10	1.954313e-03	
--7.715164e-01	-1.000000e+00	-1.005730e+00	
-}
-
-Z_matrix * Z_matrix^(-1) [Identity matrix]:
-{
-1.000000e+00	-1.261152e-83	4.688504e-77	
--1.899114e-65	1.000000e+00	-5.222562e-65	
--5.175516e-66	-5.659799e-73	1.000000e+00	
-}
-
-Kr matrix:
-{
--1.150358e+05	6.841650e-15	5.231951e-08	
-8.403232e+04	-1.541390e-03	2.100563e+05	
-4.692809e+03	1.533979e-03	-2.088595e+05	
-}
-
-Kp matrix:
-{
-   2.626594e+04,   2.001844e-10,   1.401643e-02,
-   2.948624e-02,   4.176857e-20,   4.261748e-13,
-   5.315644e-03,   4.032146e-21,   3.676258e-14,
-}
-
-First order & pseudo first order rate coefficients for loss rxns:
-{
-CH3OCH2 loss = -1.150358e+05
-IM1 loss = -1.541390e-03
-IM2 loss = -2.088595e+05
-}
-
-First order & pseudo first order rate coefficients for isomerization rxns:
-{
-CH3OCH2 -> IM1 = 8.403232e+04
-CH3OCH2 -> IM2 = 4.692809e+03
-IM1 -> CH3OCH2 = 6.841650e-15
-IM1 -> IM2 = 1.533979e-03
-IM2 -> CH3OCH2 = 5.231951e-08
-IM2 -> IM1 = 2.100563e+05
-}
-
-First order & pseudo first order rate coefficients for irreversible rxns:
-{
-CH3OCH2 -> OH-1 = 2.626594e+04
-IM1 -> OH-1 = 2.001844e-10
-IM2 -> OH-1 = 1.401643e-02
-CH3OCH2 -> OH-2 = 2.948624e-02
-IM1 -> OH-2 = 4.176857e-20
-IM2 -> OH-2 = 4.261748e-13
-CH3OCH2 -> OH-3 = 5.315644e-03
-IM1 -> OH-3 = 4.032146e-21
-IM2 -> OH-3 = 3.676258e-14
-}
-
-
-Eq fraction matrix:
-{
- -1.22825e+19  1.00000e+00  0.00000e+00
-  0.00000e+00 -7.30270e-09  1.00000e+00
-  1.00000e+00  1.00000e+00  1.00000e+00
-}
-inverse of Eq fraction matrix:
-{
- -8.14169e-20 -8.14169e-20  8.14169e-20
-  8.14169e-20 -1.00000e+00  1.00000e+00
-  5.94563e-28  1.00000e+00  7.30270e-09
-}
-Equilibrium Fraction for CH3OCH2 = 8.14169e-20
-Equilibrium Fraction for IM1 = 1
-Equilibrium Fraction for IM2 = 7.3027e-09
-
-Bartis Widom eigenvalue/eigenvector analysis
-
-Number of sinks in this system: 3
-
-There should be 3 chemically significant eigenvalues (CSEs)
-
-Y_matrix:
-{
-   4.062679e-08,  -2.858504e-05,  -2.697570e-10,
-   1.554469e-19,  -2.502265e-11,  -2.513382e-21,
-  -5.813338e-21,  -4.098538e-12,  -2.058499e-22,
-}
-
-Z_matrix: {
--2.097038e-18	-2.853364e-10	-6.499096e-21	
--8.596303e-05	2.340873e-11	-1.000000e+00	
-8.545585e-05	-6.280451e-13	-7.346044e-09	
-}
-
-Z_matrix^(-1):
-{
--2.575680e+01	-8.596303e-05	1.170195e+04	
--3.504635e+09	2.340873e-11	-8.600173e-05	
--7.982491e-02	-1.000000e+00	-1.005935e+00	
-}
-
-Z_matrix * Z_matrix^(-1) [Identity matrix]:
-{
-1.000000e+00	5.469280e-85	1.061128e-78	
--8.902095e-67	1.000000e+00	3.798227e-65	
-1.460787e-68	7.074749e-73	1.000000e+00	
-}
-
-Kr matrix:
-{
--1.086515e+05	6.940248e-16	1.648725e-09	
-8.524335e+03	-1.299281e-03	1.768818e+05	
-1.478827e+02	1.291715e-03	-1.758382e+05	
-}
-
-Kp matrix:
-{
-   1.001801e+05,   2.662640e-10,   4.754154e-04,
-   8.769525e-02,   1.914270e-21,   3.971026e-15,
-   1.436388e-02,   1.104080e-22,   2.844541e-16,
-}
-
-First order & pseudo first order rate coefficients for loss rxns:
-{
-CH3OCH2 loss = -1.086515e+05
-IM1 loss = -1.299281e-03
-IM2 loss = -1.758382e+05
-}
-
-First order & pseudo first order rate coefficients for isomerization rxns:
-{
-CH3OCH2 -> IM1 = 8.524335e+03
-CH3OCH2 -> IM2 = 1.478827e+02
-IM1 -> CH3OCH2 = 6.940248e-16
-IM1 -> IM2 = 1.291715e-03
-IM2 -> CH3OCH2 = 1.648725e-09
-IM2 -> IM1 = 1.768818e+05
-}
-
-First order & pseudo first order rate coefficients for irreversible rxns:
-{
-CH3OCH2 -> OH-1 = 1.001801e+05
-IM1 -> OH-1 = 2.662640e-10
-IM2 -> OH-1 = 4.754154e-04
-CH3OCH2 -> OH-2 = 8.769525e-02
-IM1 -> OH-2 = 1.914270e-21
-IM2 -> OH-2 = 3.971026e-15
-CH3OCH2 -> OH-3 = 1.436388e-02
-IM1 -> OH-3 = 1.104080e-22
-IM2 -> OH-3 = 2.844541e-16
-}
-
-
-Eq fraction matrix:
-{
- -1.22825e+19  1.00000e+00  0.00000e+00
-  0.00000e+00 -7.30270e-09  1.00000e+00
-  1.00000e+00  1.00000e+00  1.00000e+00
-}
-inverse of Eq fraction matrix:
-{
- -8.14169e-20 -8.14169e-20  8.14169e-20
-  8.14169e-20 -1.00000e+00  1.00000e+00
-  5.94563e-28  1.00000e+00  7.30270e-09
-}
-Equilibrium Fraction for CH3OCH2 = 8.14169e-20
-Equilibrium Fraction for IM1 = 1
-Equilibrium Fraction for IM2 = 7.3027e-09
+ -1.04428e+00 -9.95625e-01  9.95625e-01
+  9.95625e-01 -4.17106e-03  4.17106e-03
+  4.86505e-02  9.99796e-01  2.03816e-04
+}
+Equilibrium Fraction for CH3OCH2 = 0.995625
+Equilibrium Fraction for IM1 = 0.00417106
+Equilibrium Fraction for IM2 = 0.000203816
 
 Bartis Widom eigenvalue/eigenvector analysis
 
@@ -1699,98 +383,98 @@ There should be 3 chemically significant eigenvalues (CSEs)
 
 WARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs).
 
-The last CSE = -126088 and the first IERE = -1.01761e+06
-(last CSE)/(first IERE) ratio = 0.123907, which is less than an order of magnitude
+The last CSE = -1.33718e+08 and the first IERE = -2.2581e+08
+(last CSE)/(first IERE) ratio = 0.592169, which is less than an order of magnitude
 
 Results obtained from Bartis Widom eigenvalue-vector analysis may be unreliable
 
 Y_matrix:
 {
-   1.654117e-08,   3.056464e-05,  -2.283802e-10,
-  -4.803870e-21,   2.867401e-11,  -3.423569e-23,
-  -9.645424e-22,   4.586220e-12,  -2.981752e-24,
+   1.032028e+06,   1.440428e+05,  -8.144467e+03,
+   5.842159e+00,   1.880225e+00,  -5.313403e-01,
+   1.343136e+00,   4.674161e-01,  -1.486055e-01,
 }
 
 Z_matrix: {
--3.032245e-19	2.853364e-10	-1.436869e-22	
--8.599195e-05	-5.949529e-13	-1.000000e+00	
-8.545585e-05	9.081317e-14	-7.348515e-09	
+-1.306194e-04	-2.663893e-02	-9.974545e-01	
+-3.476652e-03	6.446713e-02	-1.721263e-03	
+1.425571e-02	7.681994e-04	-2.238306e-05	
 }
 
 Z_matrix^(-1):
 {
--3.724344e+00	-8.599195e-05	1.170195e+04	
-3.504635e+09	-5.949529e-13	1.243556e-05	
--1.764829e-03	-1.000000e+00	-1.006273e+00	
+-1.311933e-04	-8.335173e-01	6.994405e+01	
+-2.675599e-02	1.545581e+01	3.769084e+00	
+-1.001837e+00	-4.126679e-01	-1.098200e-01	
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	-1.367320e-85	-8.658966e-80	
--1.557867e-66	1.000000e+00	4.118703e-64	
--4.350492e-68	3.095203e-72	1.000000e+00	
+1.000000e+00	3.857574e-65	3.086060e-65	
+2.179159e-67	1.000000e+00	-3.495927e-66	
+2.318254e-69	-1.377043e-66	1.000000e+00	
 }
 
 Kr matrix:
 {
--1.070803e+05	1.489040e-17	6.744584e-11	
-1.828908e+02	-9.323642e-04	1.268791e+05	
-6.049567e+00	9.265603e-04	-1.260881e+05	
+-1.081893e+04	1.521910e+06	1.596265e+06	
+6.375873e+03	-4.113931e+06	3.160762e+07	
+3.267739e+02	1.544484e+06	-1.333413e+08	
 }
 
 Kp matrix:
 {
-   1.071179e+05,   2.269578e-10,   1.935645e-04,
-   1.004919e-01,   1.758910e-23,   3.003627e-16,
-   1.607303e-02,   3.361102e-25,   4.574517e-17,
+   4.170028e+03,   1.369446e+06,   7.272804e+07,
+   4.812429e-01,   2.441012e+01,   4.157693e+02,
+   1.361962e-01,   6.166093e+00,   9.572241e+01,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-CH3OCH2 loss = -1.070803e+05
-IM1 loss = -9.323642e-04
-IM2 loss = -1.260881e+05
+CH3OCH2 loss = -1.081893e+04
+IM1 loss = -4.113931e+06
+IM2 loss = -1.333413e+08
 }
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-CH3OCH2 -> IM1 = 1.828908e+02
-CH3OCH2 -> IM2 = 6.049567e+00
-IM1 -> CH3OCH2 = 1.489040e-17
-IM1 -> IM2 = 9.265603e-04
-IM2 -> CH3OCH2 = 6.744584e-11
-IM2 -> IM1 = 1.268791e+05
+CH3OCH2 -> IM1 = 6.375873e+03
+CH3OCH2 -> IM2 = 3.267739e+02
+IM1 -> CH3OCH2 = 1.521910e+06
+IM1 -> IM2 = 1.544484e+06
+IM2 -> CH3OCH2 = 1.596265e+06
+IM2 -> IM1 = 3.160762e+07
 }
 
 First order & pseudo first order rate coefficients for irreversible rxns:
 {
-CH3OCH2 -> OH-1 = 1.071179e+05
-IM1 -> OH-1 = 2.269578e-10
-IM2 -> OH-1 = 1.935645e-04
-CH3OCH2 -> OH-2 = 1.004919e-01
-IM1 -> OH-2 = 1.758910e-23
-IM2 -> OH-2 = 3.003627e-16
-CH3OCH2 -> OH-3 = 1.607303e-02
-IM1 -> OH-3 = 3.361102e-25
-IM2 -> OH-3 = 4.574517e-17
+CH3OCH2 -> OH-1 = 4.170028e+03
+IM1 -> OH-1 = 1.369446e+06
+IM2 -> OH-1 = 7.272804e+07
+CH3OCH2 -> OH-2 = 4.812429e-01
+IM1 -> OH-2 = 2.441012e+01
+IM2 -> OH-2 = 4.157693e+02
+CH3OCH2 -> OH-3 = 1.361962e-01
+IM1 -> OH-3 = 6.166093e+00
+IM2 -> OH-3 = 9.572241e+01
 }
 
 
 Eq fraction matrix:
 {
- -2.66175e+12  1.00000e+00  0.00000e+00
-  0.00000e+00 -6.75693e-07  1.00000e+00
+ -4.18939e-03  1.00000e+00  0.00000e+00
+  0.00000e+00 -4.88643e-02  1.00000e+00
   1.00000e+00  1.00000e+00  1.00000e+00
 }
 inverse of Eq fraction matrix:
 {
- -3.75692e-13 -3.75692e-13  3.75692e-13
-  3.75692e-13 -9.99999e-01  9.99999e-01
-  2.53852e-19  9.99999e-01  6.75692e-07
+ -1.04428e+00 -9.95625e-01  9.95625e-01
+  9.95625e-01 -4.17106e-03  4.17106e-03
+  4.86505e-02  9.99796e-01  2.03816e-04
 }
-Equilibrium Fraction for CH3OCH2 = 3.75692e-13
-Equilibrium Fraction for IM1 = 0.999999
-Equilibrium Fraction for IM2 = 6.75692e-07
+Equilibrium Fraction for CH3OCH2 = 0.995625
+Equilibrium Fraction for IM1 = 0.00417106
+Equilibrium Fraction for IM2 = 0.000203816
 
 Bartis Widom eigenvalue/eigenvector analysis
 
@@ -1800,91 +484,91 @@ There should be 3 chemically significant eigenvalues (CSEs)
 
 Y_matrix:
 {
-   6.273730e-02,  -1.260799e-04,  -5.361790e-05,
-   2.806737e-09,  -1.017156e-09,  -2.539279e-12,
-   4.670165e-10,  -2.382067e-10,  -4.252300e-13,
+  -2.811183e+05,   8.028591e+04,   6.840019e+03,
+  -1.232918e+00,   3.818863e-01,   5.347348e-01,
+  -2.847466e-01,   8.775455e-02,   1.500807e-01,
 }
 
 Z_matrix: {
--5.818307e-13	-6.129371e-07	-3.748959e-13	
--8.249162e-04	6.124211e-07	-9.999993e-01	
-8.220047e-04	-7.798735e-10	-6.780855e-07	
+2.005953e-04	-1.611607e-02	9.976800e-01	
+5.103178e-03	6.437344e-02	1.038833e-03	
+-1.423177e-02	1.127878e-03	2.108069e-05	
 }
 
 Z_matrix^(-1):
 {
--1.548691e+00	-8.249168e-04	1.216537e+03	
--1.631489e+06	6.124215e-07	-1.154184e-03	
--9.978814e-01	-1.000000e+00	-1.003542e+00	
+2.014767e-04	1.223472e+00	-6.982660e+01	
+-1.618688e-02	1.543335e+01	5.533806e+00	
+1.002064e+00	2.490573e-01	1.034300e-01	
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	0.000000e+00	1.799778e-74	
-1.847185e-65	1.000000e+00	9.495568e-66	
--3.292645e-68	-1.528146e-71	1.000000e+00	
+1.000000e+00	1.424335e-65	-5.934730e-67	
+1.112762e-67	1.000000e+00	2.096629e-65	
+2.608036e-69	1.406601e-66	1.000000e+00	
 }
 
 Kr matrix:
 {
--9.641653e+04	3.575077e-08	5.831362e-04	
-9.515976e+04	-6.261272e-01	9.234738e+05	
-1.048787e+03	6.239845e-01	-9.202144e+05	
+-7.280865e+03	3.944034e+05	7.881826e+05	
+1.652309e+03	-1.913724e+06	1.577007e+07	
+1.613500e+02	7.705931e+05	-4.561700e+07	
 }
 
 Kp matrix:
 {
-   2.056009e+02,   1.864771e-06,   7.632232e+01,
-   1.659475e-03,   2.233316e-13,   3.414503e-06,
-   3.886309e-04,   3.983430e-14,   5.681437e-07,
+   5.497919e+03,   8.968436e+05,   2.007453e+07,
+   5.294085e-01,   4.518523e+00,   8.825906e+01,
+   1.489126e-01,   1.043346e+00,   2.038402e+01,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-CH3OCH2 loss = -9.641653e+04
-IM1 loss = -6.261272e-01
-IM2 loss = -9.202144e+05
+CH3OCH2 loss = -7.280865e+03
+IM1 loss = -1.913724e+06
+IM2 loss = -4.561700e+07
 }
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-CH3OCH2 -> IM1 = 9.515976e+04
-CH3OCH2 -> IM2 = 1.048787e+03
-IM1 -> CH3OCH2 = 3.575077e-08
-IM1 -> IM2 = 6.239845e-01
-IM2 -> CH3OCH2 = 5.831362e-04
-IM2 -> IM1 = 9.234738e+05
+CH3OCH2 -> IM1 = 1.652309e+03
+CH3OCH2 -> IM2 = 1.613500e+02
+IM1 -> CH3OCH2 = 3.944034e+05
+IM1 -> IM2 = 7.705931e+05
+IM2 -> CH3OCH2 = 7.881826e+05
+IM2 -> IM1 = 1.577007e+07
 }
 
 First order & pseudo first order rate coefficients for irreversible rxns:
 {
-CH3OCH2 -> OH-1 = 2.056009e+02
-IM1 -> OH-1 = 1.864771e-06
-IM2 -> OH-1 = 7.632232e+01
-CH3OCH2 -> OH-2 = 1.659475e-03
-IM1 -> OH-2 = 2.233316e-13
-IM2 -> OH-2 = 3.414503e-06
-CH3OCH2 -> OH-3 = 3.886309e-04
-IM1 -> OH-3 = 3.983430e-14
-IM2 -> OH-3 = 5.681437e-07
+CH3OCH2 -> OH-1 = 5.497919e+03
+IM1 -> OH-1 = 8.968436e+05
+IM2 -> OH-1 = 2.007453e+07
+CH3OCH2 -> OH-2 = 5.294085e-01
+IM1 -> OH-2 = 4.518523e+00
+IM2 -> OH-2 = 8.825906e+01
+CH3OCH2 -> OH-3 = 1.489126e-01
+IM1 -> OH-3 = 1.043346e+00
+IM2 -> OH-3 = 2.038402e+01
 }
 
 
 Eq fraction matrix:
 {
- -2.66175e+12  1.00000e+00  0.00000e+00
-  0.00000e+00 -6.75693e-07  1.00000e+00
+ -4.18939e-03  1.00000e+00  0.00000e+00
+  0.00000e+00 -4.88643e-02  1.00000e+00
   1.00000e+00  1.00000e+00  1.00000e+00
 }
 inverse of Eq fraction matrix:
 {
- -3.75692e-13 -3.75692e-13  3.75692e-13
-  3.75692e-13 -9.99999e-01  9.99999e-01
-  2.53852e-19  9.99999e-01  6.75692e-07
+ -1.04428e+00 -9.95625e-01  9.95625e-01
+  9.95625e-01 -4.17106e-03  4.17106e-03
+  4.86505e-02  9.99796e-01  2.03816e-04
 }
-Equilibrium Fraction for CH3OCH2 = 3.75692e-13
-Equilibrium Fraction for IM1 = 0.999999
-Equilibrium Fraction for IM2 = 6.75692e-07
+Equilibrium Fraction for CH3OCH2 = 0.995625
+Equilibrium Fraction for IM1 = 0.00417106
+Equilibrium Fraction for IM2 = 0.000203816
 
 Bartis Widom eigenvalue/eigenvector analysis
 
@@ -1894,91 +578,91 @@ There should be 3 chemically significant eigenvalues (CSEs)
 
 Y_matrix:
 {
-  -5.172479e-02,   1.534567e-03,  -5.095394e-05,
-  -7.862648e-10,   8.323436e-09,  -1.054886e-12,
-  -1.090803e-10,   1.870501e-09,  -1.540363e-13,
+   4.548405e+04,   1.693193e+04,  -6.018200e+03,
+   2.310537e-02,   6.218910e-03,  -5.445212e-01,
+   4.181646e-03,   9.859233e-04,  -1.527309e-01,
 }
 
 Z_matrix: {
-1.740824e-12	6.129371e-07	-3.658231e-13	
-8.249321e-04	-5.991789e-07	-9.999993e-01	
--8.220047e-04	2.334199e-09	-6.780985e-07	
+-8.810743e-05	-3.475884e-03	-9.978041e-01	
+-5.559569e-03	6.434363e-02	-2.236522e-04	
+1.422342e-02	1.228946e-03	-5.537020e-06	
 }
 
 Z_matrix^(-1):
 {
-4.633648e+00	8.249327e-04	-1.216537e+03	
-1.631489e+06	-5.991793e-07	3.454530e-03	
--9.737319e-01	-1.000000e+00	-1.003561e+00	
+-8.849458e-05	-1.332891e+00	6.978560e+01	
+-3.491157e-03	1.542620e+01	6.029685e+00	
+-1.002189e+00	-5.361999e-02	-2.716677e-02	
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	-6.045318e-77	3.913221e-73	
--1.709202e-64	1.000000e+00	1.899114e-65	
-2.097295e-68	-1.131960e-70	1.000000e+00	
+1.000000e+00	-3.560838e-66	-1.038578e-65	
+-3.245555e-68	1.000000e+00	-5.920560e-65	
+-2.608036e-69	-1.367715e-66	1.000000e+00	
 }
 
 Kr matrix:
 {
--9.526876e+04	3.367568e-08	1.734051e-03	
-8.963638e+04	-6.220451e-01	9.173140e+05	
-3.118738e+03	6.198223e-01	-9.140588e+05	
+-6.037791e+03	1.424681e+04	3.348328e+04	
+5.968543e+01	-3.129531e+05	1.641441e+06	
+6.854414e+00	8.020786e+04	-4.481010e+06	
 }
 
 Kp matrix:
 {
-   2.503389e+03,   8.283554e-06,   6.292519e+01,
-   1.357959e-02,   4.012833e-13,   9.565501e-07,
-   3.051701e-03,   6.293160e-14,   1.327068e-07,
+   5.968235e+03,   2.008928e+05,   3.276389e+06,
+   5.456892e-01,   9.433444e-02,   1.664713e+00,
+   1.530613e-01,   1.782480e-02,   3.019127e-01,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-CH3OCH2 loss = -9.526876e+04
-IM1 loss = -6.220451e-01
-IM2 loss = -9.140588e+05
+CH3OCH2 loss = -6.037791e+03
+IM1 loss = -3.129531e+05
+IM2 loss = -4.481010e+06
 }
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-CH3OCH2 -> IM1 = 8.963638e+04
-CH3OCH2 -> IM2 = 3.118738e+03
-IM1 -> CH3OCH2 = 3.367568e-08
-IM1 -> IM2 = 6.198223e-01
-IM2 -> CH3OCH2 = 1.734051e-03
-IM2 -> IM1 = 9.173140e+05
+CH3OCH2 -> IM1 = 5.968543e+01
+CH3OCH2 -> IM2 = 6.854414e+00
+IM1 -> CH3OCH2 = 1.424681e+04
+IM1 -> IM2 = 8.020786e+04
+IM2 -> CH3OCH2 = 3.348328e+04
+IM2 -> IM1 = 1.641441e+06
 }
 
 First order & pseudo first order rate coefficients for irreversible rxns:
 {
-CH3OCH2 -> OH-1 = 2.503389e+03
-IM1 -> OH-1 = 8.283554e-06
-IM2 -> OH-1 = 6.292519e+01
-CH3OCH2 -> OH-2 = 1.357959e-02
-IM1 -> OH-2 = 4.012833e-13
-IM2 -> OH-2 = 9.565501e-07
-CH3OCH2 -> OH-3 = 3.051701e-03
-IM1 -> OH-3 = 6.293160e-14
-IM2 -> OH-3 = 1.327068e-07
+CH3OCH2 -> OH-1 = 5.968235e+03
+IM1 -> OH-1 = 2.008928e+05
+IM2 -> OH-1 = 3.276389e+06
+CH3OCH2 -> OH-2 = 5.456892e-01
+IM1 -> OH-2 = 9.433444e-02
+IM2 -> OH-2 = 1.664713e+00
+CH3OCH2 -> OH-3 = 1.530613e-01
+IM1 -> OH-3 = 1.782480e-02
+IM2 -> OH-3 = 3.019127e-01
 }
 
 
 Eq fraction matrix:
 {
- -2.66175e+12  1.00000e+00  0.00000e+00
-  0.00000e+00 -6.75693e-07  1.00000e+00
+ -4.18939e-03  1.00000e+00  0.00000e+00
+  0.00000e+00 -4.88643e-02  1.00000e+00
   1.00000e+00  1.00000e+00  1.00000e+00
 }
 inverse of Eq fraction matrix:
 {
- -3.75692e-13 -3.75692e-13  3.75692e-13
-  3.75692e-13 -9.99999e-01  9.99999e-01
-  2.53852e-19  9.99999e-01  6.75692e-07
+ -1.04428e+00 -9.95625e-01  9.95625e-01
+  9.95625e-01 -4.17106e-03  4.17106e-03
+  4.86505e-02  9.99796e-01  2.03816e-04
 }
-Equilibrium Fraction for CH3OCH2 = 3.75692e-13
-Equilibrium Fraction for IM1 = 0.999999
-Equilibrium Fraction for IM2 = 6.75692e-07
+Equilibrium Fraction for CH3OCH2 = 0.995625
+Equilibrium Fraction for IM1 = 0.00417106
+Equilibrium Fraction for IM2 = 0.000203816
 
 Bartis Widom eigenvalue/eigenvector analysis
 
@@ -1988,91 +672,91 @@ There should be 3 chemically significant eigenvalues (CSEs)
 
 Y_matrix:
 {
-   8.990583e-03,   2.185639e-02,  -4.166259e-05,
-   9.314178e-12,   6.277468e-08,  -1.753118e-13,
-   1.121714e-12,   1.301802e-08,  -2.390460e-14,
+   4.663857e+03,  -1.933676e+03,  -5.902729e+03,
+   1.244823e-05,   1.895874e-05,  -5.460423e-01,
+   4.286462e-07,   6.516375e-06,  -1.531069e-01,
 }
 
 Z_matrix: {
--1.556134e-12	6.129371e-07	-2.226216e-13	
--8.250337e-04	-3.652991e-07	-9.999993e-01	
-8.220047e-04	2.086672e-09	-6.781820e-07	
+-1.802530e-05	9.551309e-04	-9.978097e-01	
+-4.448787e-03	-6.443032e-02	-6.159410e-05	
+1.424250e-02	-9.834155e-04	-1.198641e-06	
 }
 
 Z_matrix^(-1):
 {
--4.142049e+00	-8.250342e-04	1.216537e+03	
-1.631489e+06	-3.652993e-07	3.088199e-03	
--5.925644e-01	-1.000000e+00	-1.003685e+00	
+-1.810451e-05	-1.066584e+00	6.987923e+01	
+9.593278e-04	-1.544698e+01	-4.825018e+00	
+-1.002194e+00	-1.476701e-02	-5.880999e-03	
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	-1.295425e-77	3.384687e-73	
--1.899114e-65	1.000000e+00	1.899114e-64	
-7.510418e-67	2.037528e-70	1.000000e+00	
+1.000000e+00	3.894666e-67	-7.418412e-67	
+3.260044e-69	1.000000e+00	-5.918819e-65	
+-1.086681e-70	-2.968013e-66	1.000000e+00	
 }
 
 Kr matrix:
 {
--8.757160e+04	1.853715e-08	1.412884e-03	
-4.934134e+04	-5.676601e-01	8.369692e+05	
-2.541112e+03	5.655340e-01	-8.338964e+05	
+-5.919623e+03	3.799565e+02	5.963638e+02	
+1.591786e+00	-3.383077e+04	1.091770e+05	
+1.220825e-01	5.334857e+03	-3.816875e+05	
 }
 
 Kp matrix:
 {
-   3.565841e+04,   3.423706e-05,   1.093749e+01,
-   1.024162e-01,   1.446957e-13,   1.152508e-08,
-   2.123876e-02,   1.822367e-14,   1.404833e-09,
+   5.913741e+03,   2.498223e+04,   3.352715e+05,
+   5.472404e-01,   7.757280e-03,   3.989671e-03,
+   1.534429e-01,   2.159816e-03,   8.989335e-04,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-CH3OCH2 loss = -8.757160e+04
-IM1 loss = -5.676601e-01
-IM2 loss = -8.338964e+05
+CH3OCH2 loss = -5.919623e+03
+IM1 loss = -3.383077e+04
+IM2 loss = -3.816875e+05
 }
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-CH3OCH2 -> IM1 = 4.934134e+04
-CH3OCH2 -> IM2 = 2.541112e+03
-IM1 -> CH3OCH2 = 1.853715e-08
-IM1 -> IM2 = 5.655340e-01
-IM2 -> CH3OCH2 = 1.412884e-03
-IM2 -> IM1 = 8.369692e+05
+CH3OCH2 -> IM1 = 1.591786e+00
+CH3OCH2 -> IM2 = 1.220825e-01
+IM1 -> CH3OCH2 = 3.799565e+02
+IM1 -> IM2 = 5.334857e+03
+IM2 -> CH3OCH2 = 5.963638e+02
+IM2 -> IM1 = 1.091770e+05
 }
 
 First order & pseudo first order rate coefficients for irreversible rxns:
 {
-CH3OCH2 -> OH-1 = 3.565841e+04
-IM1 -> OH-1 = 3.423706e-05
-IM2 -> OH-1 = 1.093749e+01
-CH3OCH2 -> OH-2 = 1.024162e-01
-IM1 -> OH-2 = 1.446957e-13
-IM2 -> OH-2 = 1.152508e-08
-CH3OCH2 -> OH-3 = 2.123876e-02
-IM1 -> OH-3 = 1.822367e-14
-IM2 -> OH-3 = 1.404833e-09
+CH3OCH2 -> OH-1 = 5.913741e+03
+IM1 -> OH-1 = 2.498223e+04
+IM2 -> OH-1 = 3.352715e+05
+CH3OCH2 -> OH-2 = 5.472404e-01
+IM1 -> OH-2 = 7.757280e-03
+IM2 -> OH-2 = 3.989671e-03
+CH3OCH2 -> OH-3 = 1.534429e-01
+IM1 -> OH-3 = 2.159816e-03
+IM2 -> OH-3 = 8.989335e-04
 }
 
 
 Eq fraction matrix:
 {
- -2.66175e+12  1.00000e+00  0.00000e+00
-  0.00000e+00 -6.75693e-07  1.00000e+00
+ -4.18939e-03  1.00000e+00  0.00000e+00
+  0.00000e+00 -4.88643e-02  1.00000e+00
   1.00000e+00  1.00000e+00  1.00000e+00
 }
 inverse of Eq fraction matrix:
 {
- -3.75692e-13 -3.75692e-13  3.75692e-13
-  3.75692e-13 -9.99999e-01  9.99999e-01
-  2.53852e-19  9.99999e-01  6.75692e-07
+ -1.04428e+00 -9.95625e-01  9.95625e-01
+  9.95625e-01 -4.17106e-03  4.17106e-03
+  4.86505e-02  9.99796e-01  2.03816e-04
 }
-Equilibrium Fraction for CH3OCH2 = 3.75692e-13
-Equilibrium Fraction for IM1 = 0.999999
-Equilibrium Fraction for IM2 = 6.75692e-07
+Equilibrium Fraction for CH3OCH2 = 0.995625
+Equilibrium Fraction for IM1 = 0.00417106
+Equilibrium Fraction for IM2 = 0.000203816
 
 Bartis Widom eigenvalue/eigenvector analysis
 
@@ -2082,91 +766,91 @@ There should be 3 chemically significant eigenvalues (CSEs)
 
 Y_matrix:
 {
-   5.691474e-04,   4.759859e-02,   3.016447e-05,
-   5.269753e-14,   1.138154e-07,   4.714427e-15,
-   2.869132e-15,   2.226444e-08,   5.662774e-16,
+  -1.021374e+03,   4.417637e+02,  -5.894938e+03,
+   6.183361e-08,  -2.198793e-06,  -5.461451e-01,
+   2.825159e-08,  -6.211255e-07,  -1.531316e-01,
 }
 
 Z_matrix: {
--1.436728e-13	6.129371e-07	1.001492e-14	
--8.253015e-04	-1.653267e-08	9.999993e-01	
-8.220047e-04	1.926673e-10	6.784022e-07	
+2.303481e-05	-9.023124e-04	-9.978098e-01	
+3.801332e-03	6.447176e-02	-5.821360e-05	
+-1.425166e-02	8.402940e-04	-1.088877e-06	
 }
 
 Z_matrix^(-1):
 {
--3.824220e-01	-8.253021e-04	1.216537e+03	
-1.631489e+06	-1.653268e-08	2.851407e-04	
-2.665727e-02	1.000000e+00	1.004011e+00	
+2.313603e-05	9.113585e-01	-6.992418e+01	
+-9.062772e-04	1.545692e+01	4.122809e+00	
+-1.002194e+00	-1.395655e-02	-5.342452e-03	
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	4.048204e-79	-3.157653e-74	
--5.934730e-67	1.000000e+00	-1.424335e-64	
--1.337637e-68	-1.358352e-70	1.000000e+00	
+1.000000e+00	-2.151340e-66	1.357569e-65	
+-1.332996e-68	1.000000e+00	-2.302325e-63	
+2.716704e-69	-1.109548e-64	1.000000e+00	
 }
 
 Kr matrix:
 {
--7.970477e+04	7.465757e-10	7.615190e-05	
-1.987201e+03	-3.510767e-01	5.174601e+05	
-1.369613e+02	3.496440e-01	-5.153930e+05	
+-5.911808e+03	2.079906e+01	1.251251e+02	
+8.713538e-02	-7.765212e+03	1.923896e+04	
+2.561454e-02	9.400982e+02	-7.964369e+04	
 }
 
 Kp matrix:
 {
-   7.765657e+04,   2.969397e-05,   6.924328e-01,
-   1.856886e-01,   2.789261e-15,   9.656664e-11,
-   3.632419e-02,   1.958186e-16,   9.839473e-12,
+   5.907449e+03,   5.979741e+03,   7.327154e+04,
+   5.473435e-01,   7.588369e-03,   2.904366e-03,
+   1.534676e-01,   2.127613e-03,   8.135622e-04,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-CH3OCH2 loss = -7.970477e+04
-IM1 loss = -3.510767e-01
-IM2 loss = -5.153930e+05
+CH3OCH2 loss = -5.911808e+03
+IM1 loss = -7.765212e+03
+IM2 loss = -7.964369e+04
 }
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-CH3OCH2 -> IM1 = 1.987201e+03
-CH3OCH2 -> IM2 = 1.369613e+02
-IM1 -> CH3OCH2 = 7.465757e-10
-IM1 -> IM2 = 3.496440e-01
-IM2 -> CH3OCH2 = 7.615190e-05
-IM2 -> IM1 = 5.174601e+05
+CH3OCH2 -> IM1 = 8.713538e-02
+CH3OCH2 -> IM2 = 2.561454e-02
+IM1 -> CH3OCH2 = 2.079906e+01
+IM1 -> IM2 = 9.400982e+02
+IM2 -> CH3OCH2 = 1.251251e+02
+IM2 -> IM1 = 1.923896e+04
 }
 
 First order & pseudo first order rate coefficients for irreversible rxns:
 {
-CH3OCH2 -> OH-1 = 7.765657e+04
-IM1 -> OH-1 = 2.969397e-05
-IM2 -> OH-1 = 6.924328e-01
-CH3OCH2 -> OH-2 = 1.856886e-01
-IM1 -> OH-2 = 2.789261e-15
-IM2 -> OH-2 = 9.656664e-11
-CH3OCH2 -> OH-3 = 3.632419e-02
-IM1 -> OH-3 = 1.958186e-16
-IM2 -> OH-3 = 9.839473e-12
+CH3OCH2 -> OH-1 = 5.907449e+03
+IM1 -> OH-1 = 5.979741e+03
+IM2 -> OH-1 = 7.327154e+04
+CH3OCH2 -> OH-2 = 5.473435e-01
+IM1 -> OH-2 = 7.588369e-03
+IM2 -> OH-2 = 2.904366e-03
+CH3OCH2 -> OH-3 = 1.534676e-01
+IM1 -> OH-3 = 2.127613e-03
+IM2 -> OH-3 = 8.135622e-04
 }
 
 
 Eq fraction matrix:
 {
- -2.66175e+12  1.00000e+00  0.00000e+00
-  0.00000e+00 -6.75693e-07  1.00000e+00
+ -3.08247e+00  1.00000e+00  0.00000e+00
+  0.00000e+00 -4.43421e-03  1.00000e+00
   1.00000e+00  1.00000e+00  1.00000e+00
 }
 inverse of Eq fraction matrix:
 {
- -3.75692e-13 -3.75692e-13  3.75692e-13
-  3.75692e-13 -9.99999e-01  9.99999e-01
-  2.53852e-19  9.99999e-01  6.75692e-07
+ -2.45215e-01 -2.44132e-01  2.44132e-01
+  2.44132e-01 -7.52531e-01  7.52531e-01
+  1.08254e-03  9.96663e-01  3.33688e-03
 }
-Equilibrium Fraction for CH3OCH2 = 3.75692e-13
-Equilibrium Fraction for IM1 = 0.999999
-Equilibrium Fraction for IM2 = 6.75692e-07
+Equilibrium Fraction for CH3OCH2 = 0.244132
+Equilibrium Fraction for IM1 = 0.752531
+Equilibrium Fraction for IM2 = 0.00333688
 
 Bartis Widom eigenvalue/eigenvector analysis
 
@@ -2176,89 +860,465 @@ There should be 3 chemically significant eigenvalues (CSEs)
 
 Y_matrix:
 {
-   6.444578e-04,   4.817490e-02,   2.025566e-05,
-   3.371314e-16,   1.206354e-07,   4.666028e-17,
-  -4.331446e-17,   2.336766e-08,   6.110331e-18,
+   9.134533e+05,   4.808955e+04,  -2.278940e+04,
+   2.873382e+00,   1.914900e-01,  -2.186505e-01,
+   6.299255e-01,   4.230791e-02,  -5.535836e-02,
 }
 
 Z_matrix: {
--5.595895e-14	6.129371e-07	1.392667e-16	
--8.255583e-04	-3.025824e-10	9.999993e-01	
-8.220047e-04	7.504592e-11	6.786133e-07	
+-9.848811e-05	-1.907188e-01	-4.558057e-01	
+-3.487336e-02	7.996120e-01	-3.345671e-01	
+5.771906e-02	2.137804e-03	-9.069742e-04	
 }
 
 Z_matrix^(-1):
 {
--1.489491e-01	-8.255589e-04	1.216537e+03	
-1.631489e+06	-3.025826e-10	1.110652e-04	
-3.706940e-04	1.000000e+00	1.004323e+00	
+-4.034208e-04	-4.634145e-02	1.729730e+01	
+-7.812101e-01	1.062564e+00	6.406591e-01	
+-1.867042e+00	-4.445893e-01	-2.718029e-01	
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	4.216879e-80	1.682670e-75	
-1.808238e-67	1.000000e+00	4.273005e-65	
--1.156012e-68	-2.906893e-71	1.000000e+00	
+1.000000e+00	8.308622e-66	-3.560838e-66	
+-1.364988e-65	1.000000e+00	-9.495568e-66	
+-2.040063e-67	-9.736666e-68	1.000000e+00	
 }
 
 Kr matrix:
 {
--7.856399e+04	1.186642e-12	1.437447e-05	
-3.158550e+00	-1.974759e-01	2.909690e+05	
-2.585289e+01	1.966056e-01	-2.897165e+05	
+-3.627501e+04	9.931213e+03	7.791734e+04	
+3.061265e+04	-1.393999e+05	2.540262e+07	
+1.065000e+03	1.126407e+05	-4.211524e+07	
 }
 
 Kp matrix:
 {
-   7.859682e+04,   1.972361e-05,   7.840326e-01,
-   1.968154e-01,   9.879767e-18,   1.380858e-11,
-   3.812407e-02,  -9.245574e-19,   2.542647e-12,
+   4.612221e+03,   1.889940e+04,   1.583728e+07,
+   2.574767e-01,   1.675234e-01,   4.988385e+01,
+   7.005092e-02,   4.037494e-02,   1.093816e+01,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-CH3OCH2 loss = -7.856399e+04
-IM1 loss = -1.974759e-01
-IM2 loss = -2.897165e+05
+CH3OCH2 loss = -3.627501e+04
+IM1 loss = -1.393999e+05
+IM2 loss = -4.211524e+07
 }
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-CH3OCH2 -> IM1 = 3.158550e+00
-CH3OCH2 -> IM2 = 2.585289e+01
-IM1 -> CH3OCH2 = 1.186642e-12
-IM1 -> IM2 = 1.966056e-01
-IM2 -> CH3OCH2 = 1.437447e-05
-IM2 -> IM1 = 2.909690e+05
+CH3OCH2 -> IM1 = 3.061265e+04
+CH3OCH2 -> IM2 = 1.065000e+03
+IM1 -> CH3OCH2 = 9.931213e+03
+IM1 -> IM2 = 1.126407e+05
+IM2 -> CH3OCH2 = 7.791734e+04
+IM2 -> IM1 = 2.540262e+07
 }
 
 First order & pseudo first order rate coefficients for irreversible rxns:
 {
-CH3OCH2 -> OH-1 = 7.859682e+04
-IM1 -> OH-1 = 1.972361e-05
-IM2 -> OH-1 = 7.840326e-01
-CH3OCH2 -> OH-2 = 1.968154e-01
-IM1 -> OH-2 = 9.879767e-18
-IM2 -> OH-2 = 1.380858e-11
-CH3OCH2 -> OH-3 = 3.812407e-02
-IM1 -> OH-3 = -9.245574e-19
-IM2 -> OH-3 = 2.542647e-12
+CH3OCH2 -> OH-1 = 4.612221e+03
+IM1 -> OH-1 = 1.889940e+04
+IM2 -> OH-1 = 1.583728e+07
+CH3OCH2 -> OH-2 = 2.574767e-01
+IM1 -> OH-2 = 1.675234e-01
+IM2 -> OH-2 = 4.988385e+01
+CH3OCH2 -> OH-3 = 7.005092e-02
+IM1 -> OH-3 = 4.037494e-02
+IM2 -> OH-3 = 1.093816e+01
 }
 
 
 Eq fraction matrix:
 {
- -5.90227e+05  1.00000e+00  0.00000e+00
+ -3.08247e+00  1.00000e+00  0.00000e+00
+  0.00000e+00 -4.43421e-03  1.00000e+00
+  1.00000e+00  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -2.45215e-01 -2.44132e-01  2.44132e-01
+  2.44132e-01 -7.52531e-01  7.52531e-01
+  1.08254e-03  9.96663e-01  3.33688e-03
+}
+Equilibrium Fraction for CH3OCH2 = 0.244132
+Equilibrium Fraction for IM1 = 0.752531
+Equilibrium Fraction for IM2 = 0.00333688
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 3
+
+There should be 3 chemically significant eigenvalues (CSEs)
+
+Y_matrix:
+{
+   2.697090e+05,  -2.996019e+04,   1.719033e+04,
+   2.083000e-01,   8.180660e-03,   2.133662e-01,
+   4.087960e-02,   5.384920e-03,   5.569765e-02,
+}
+
+Z_matrix: {
+-1.762606e-04	1.769955e-01	4.613080e-01	
+-4.441146e-02	-8.088602e-01	3.103280e-01	
+5.769000e-02	-2.753725e-03	1.078597e-03	
+}
+
+Z_matrix^(-1):
+{
+-7.219875e-04	-5.901615e-02	1.728859e+01	
+7.249977e-01	-1.074853e+00	-8.252388e-01	
+1.889581e+00	4.123792e-01	3.232349e-01	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-3.382796e-65	-2.166176e-65	
+-7.596454e-65	1.000000e+00	2.089025e-64	
+-1.831421e-67	7.232952e-67	1.000000e+00	
+}
+
+Kr matrix:
+{
+-2.547901e+04	4.488467e+03	8.170374e+04	
+1.383556e+04	-1.111320e+05	1.964994e+07	
+1.116753e+03	8.713206e+04	-2.556905e+07	
+}
+
+Kp matrix:
+{
+   1.056672e+04,   2.337457e+04,   4.693169e+06,
+   4.089532e-01,   6.690172e-02,   3.663430e+00,
+   1.091197e-01,   1.476799e-02,   7.203103e-01,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+CH3OCH2 loss = -2.547901e+04
+IM1 loss = -1.111320e+05
+IM2 loss = -2.556905e+07
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+CH3OCH2 -> IM1 = 1.383556e+04
+CH3OCH2 -> IM2 = 1.116753e+03
+IM1 -> CH3OCH2 = 4.488467e+03
+IM1 -> IM2 = 8.713206e+04
+IM2 -> CH3OCH2 = 8.170374e+04
+IM2 -> IM1 = 1.964994e+07
+}
+
+First order & pseudo first order rate coefficients for irreversible rxns:
+{
+CH3OCH2 -> OH-1 = 1.056672e+04
+IM1 -> OH-1 = 2.337457e+04
+IM2 -> OH-1 = 4.693169e+06
+CH3OCH2 -> OH-2 = 4.089532e-01
+IM1 -> OH-2 = 6.690172e-02
+IM2 -> OH-2 = 3.663430e+00
+CH3OCH2 -> OH-3 = 1.091197e-01
+IM1 -> OH-3 = 1.476799e-02
+IM2 -> OH-3 = 7.203103e-01
+}
+
+
+Eq fraction matrix:
+{
+ -3.08247e+00  1.00000e+00  0.00000e+00
+  0.00000e+00 -4.43421e-03  1.00000e+00
+  1.00000e+00  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -2.45215e-01 -2.44132e-01  2.44132e-01
+  2.44132e-01 -7.52531e-01  7.52531e-01
+  1.08254e-03  9.96663e-01  3.33688e-03
+}
+Equilibrium Fraction for CH3OCH2 = 0.244132
+Equilibrium Fraction for IM1 = 0.752531
+Equilibrium Fraction for IM2 = 0.00333688
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 3
+
+There should be 3 chemically significant eigenvalues (CSEs)
+
+Y_matrix:
+{
+   7.425766e+04,   6.530867e+03,   1.302048e+04,
+   2.211893e-02,   2.486344e-01,   3.968008e-02,
+   3.861829e-03,   6.528685e-02,   1.014834e-02,
+}
+
+Z_matrix: {
+-1.240408e-04	4.888158e-01	7.205285e-02	
+-4.874639e-02	-1.263151e-01	8.568541e-01	
+5.767448e-02	-4.590333e-04	3.213429e-03	
+}
+
+Z_matrix^(-1):
+{
+-5.080881e-04	-6.477661e-02	1.728394e+01	
+2.002256e+00	-1.678538e-01	-1.375635e-01	
+2.951383e-01	1.138630e+00	9.630033e-01	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-3.560838e-66	-4.747784e-66	
+-2.418402e-65	1.000000e+00	-1.519291e-64	
+4.636508e-69	-6.676571e-67	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.795545e+04	2.887188e+02	1.193807e+04	
+8.899665e+02	-3.125700e+04	4.584365e+06	
+1.631735e+02	2.032806e+04	-5.438083e+06	
+}
+
+Kp matrix:
+{
+   1.688158e+04,   8.919118e+03,   1.295105e+06,
+   5.095296e-01,   2.013923e-03,   3.863114e-01,
+   1.337142e-01,   3.464038e-04,   6.753942e-02,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+CH3OCH2 loss = -1.795545e+04
+IM1 loss = -3.125700e+04
+IM2 loss = -5.438083e+06
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+CH3OCH2 -> IM1 = 8.899665e+02
+CH3OCH2 -> IM2 = 1.631735e+02
+IM1 -> CH3OCH2 = 2.887188e+02
+IM1 -> IM2 = 2.032806e+04
+IM2 -> CH3OCH2 = 1.193807e+04
+IM2 -> IM1 = 4.584365e+06
+}
+
+First order & pseudo first order rate coefficients for irreversible rxns:
+{
+CH3OCH2 -> OH-1 = 1.688158e+04
+IM1 -> OH-1 = 8.919118e+03
+IM2 -> OH-1 = 1.295105e+06
+CH3OCH2 -> OH-2 = 5.095296e-01
+IM1 -> OH-2 = 2.013923e-03
+IM2 -> OH-2 = 3.863114e-01
+CH3OCH2 -> OH-3 = 1.337142e-01
+IM1 -> OH-3 = 3.464038e-04
+IM2 -> OH-3 = 6.753942e-02
+}
+
+
+Eq fraction matrix:
+{
+ -3.08247e+00  1.00000e+00  0.00000e+00
+  0.00000e+00 -4.43421e-03  1.00000e+00
+  1.00000e+00  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -2.45215e-01 -2.44132e-01  2.44132e-01
+  2.44132e-01 -7.52531e-01  7.52531e-01
+  1.08254e-03  9.96663e-01  3.33688e-03
+}
+Equilibrium Fraction for CH3OCH2 = 0.244132
+Equilibrium Fraction for IM1 = 0.752531
+Equilibrium Fraction for IM2 = 0.00333688
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 3
+
+There should be 3 chemically significant eigenvalues (CSEs)
+
+Y_matrix:
+{
+  -1.091166e+04,   8.372890e+03,   2.258621e+03,
+  -1.940815e-05,   2.581214e-01,   4.070692e-05,
+  -7.498847e-07,   6.753402e-02,   9.815839e-06,
+}
+
+Z_matrix: {
+3.063703e-05	4.940976e-01	6.847515e-05	
+4.465019e-02	-1.228308e-04	8.663354e-01	
+-5.768919e-02	3.165026e-06	2.973252e-03	
+}
+
+Z_matrix^(-1):
+{
+1.254935e-04	5.933339e-02	-1.728835e+01	
+2.023891e+00	-1.632236e-04	9.484978e-04	
+2.804836e-04	1.151229e+00	8.910270e-01	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	1.564821e-68	1.437317e-67	
+2.941285e-68	1.000000e+00	4.842740e-64	
+1.340241e-69	1.780419e-66	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.696081e+04	3.997116e-01	2.141307e+02	
+1.232098e+00	-3.710663e+03	3.218771e+05	
+2.926809e+00	1.427272e+03	-4.184794e+05	
+}
+
+Kp matrix:
+{
+   1.694508e+04,   1.951398e+03,   1.906651e+05,
+   5.224097e-01,   3.579947e-06,   6.166334e-04,
+   1.366815e-01,   2.326412e-07,   8.576631e-05,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+CH3OCH2 loss = -1.696081e+04
+IM1 loss = -3.710663e+03
+IM2 loss = -4.184794e+05
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+CH3OCH2 -> IM1 = 1.232098e+00
+CH3OCH2 -> IM2 = 2.926809e+00
+IM1 -> CH3OCH2 = 3.997116e-01
+IM1 -> IM2 = 1.427272e+03
+IM2 -> CH3OCH2 = 2.141307e+02
+IM2 -> IM1 = 3.218771e+05
+}
+
+First order & pseudo first order rate coefficients for irreversible rxns:
+{
+CH3OCH2 -> OH-1 = 1.694508e+04
+IM1 -> OH-1 = 1.951398e+03
+IM2 -> OH-1 = 1.906651e+05
+CH3OCH2 -> OH-2 = 5.224097e-01
+IM1 -> OH-2 = 3.579947e-06
+IM2 -> OH-2 = 6.166334e-04
+CH3OCH2 -> OH-3 = 1.366815e-01
+IM1 -> OH-3 = 2.326412e-07
+IM2 -> OH-3 = 8.576631e-05
+}
+
+
+Eq fraction matrix:
+{
+ -3.08247e+00  1.00000e+00  0.00000e+00
+  0.00000e+00 -4.43421e-03  1.00000e+00
+  1.00000e+00  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -2.45215e-01 -2.44132e-01  2.44132e-01
+  2.44132e-01 -7.52531e-01  7.52531e-01
+  1.08254e-03  9.96663e-01  3.33688e-03
+}
+Equilibrium Fraction for CH3OCH2 = 0.244132
+Equilibrium Fraction for IM1 = 0.752531
+Equilibrium Fraction for IM2 = 0.00333688
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 3
+
+There should be 3 chemically significant eigenvalues (CSEs)
+
+Y_matrix:
+{
+  -2.799423e+03,  -8.340511e+03,   6.448281e+02,
+   1.255036e-07,  -2.585608e-01,   2.065366e-07,
+   4.825644e-08,  -6.763188e-02,   5.057479e-08,
+}
+
+Z_matrix: {
+2.514878e-05	-4.940976e-01	3.626027e-07	
+4.139209e-02	2.742686e-06	8.664972e-01	
+-5.769996e-02	-2.934813e-06	2.756295e-03	
+}
+
+Z_matrix^(-1):
+{
+1.030128e-04	5.500386e-02	-1.729158e+01	
+-2.023891e+00	3.644617e-06	-8.795074e-04	
+1.485270e-06	1.151444e+00	8.260091e-01	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-1.927954e-68	1.660812e-68	
+-5.987615e-68	1.000000e+00	-6.978037e-64	
+1.057675e-70	-2.967365e-66	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.689134e+04	-8.611807e-02	2.919706e+01	
+-2.654562e-01	-9.347340e+02	5.960355e+04	
+3.990750e-01	2.642950e+02	-8.383160e+04	
+}
+
+Kp matrix:
+{
+   1.688000e+04,   5.884742e+02,   4.894640e+04,
+   5.232989e-01,  -6.976364e-07,   2.254066e-04,
+   1.368796e-01,  -1.856040e-07,   5.869009e-05,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+CH3OCH2 loss = -1.689134e+04
+IM1 loss = -9.347340e+02
+IM2 loss = -8.383160e+04
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+CH3OCH2 -> IM1 = -2.654562e-01
+CH3OCH2 -> IM2 = 3.990750e-01
+IM1 -> CH3OCH2 = -8.611807e-02
+IM1 -> IM2 = 2.642950e+02
+IM2 -> CH3OCH2 = 2.919706e+01
+IM2 -> IM1 = 5.960355e+04
+}
+
+First order & pseudo first order rate coefficients for irreversible rxns:
+{
+CH3OCH2 -> OH-1 = 1.688000e+04
+IM1 -> OH-1 = 5.884742e+02
+IM2 -> OH-1 = 4.894640e+04
+CH3OCH2 -> OH-2 = 5.232989e-01
+IM1 -> OH-2 = -6.976364e-07
+IM2 -> OH-2 = 2.254066e-04
+CH3OCH2 -> OH-3 = 1.368796e-01
+IM1 -> OH-3 = -1.856040e-07
+IM2 -> OH-3 = 5.869009e-05
+}
+
+
+Eq fraction matrix:
+{
+ -5.89858e+05  1.00000e+00  0.00000e+00
   0.00000e+00 -7.69973e-05  1.00000e+00
   1.00000e+00  1.00000e+00  1.00000e+00
 }
 inverse of Eq fraction matrix:
 {
- -1.69426e-06 -1.69413e-06  1.69413e-06
-  1.69413e-06 -9.99921e-01  9.99921e-01
-  1.30443e-10  9.99923e-01  7.69912e-05
+ -1.69532e-06 -1.69519e-06  1.69519e-06
+  1.69519e-06 -9.99921e-01  9.99921e-01
+  1.30525e-10  9.99923e-01  7.69912e-05
 }
-Equilibrium Fraction for CH3OCH2 = 1.69413e-06
+Equilibrium Fraction for CH3OCH2 = 1.69519e-06
 Equilibrium Fraction for IM1 = 0.999921
 Equilibrium Fraction for IM2 = 7.69912e-05
 
@@ -2270,89 +1330,89 @@ There should be 3 chemically significant eigenvalues (CSEs)
 
 Y_matrix:
 {
-   1.073920e+03,  -1.725817e+00,  -1.020311e+01,
-   8.074811e-04,  -3.956946e-05,  -8.661466e-06,
-   1.613567e-04,  -1.014210e-05,  -1.758109e-06,
+   1.070703e+03,  -1.755609e+00,  -1.018538e+01,
+   7.978093e-04,  -4.011649e-05,  -8.583699e-06,
+   1.592463e-04,  -1.027981e-05,  -1.740875e-06,
 }
 
 Z_matrix: {
--4.718149e-08	-1.301586e-03	-1.662703e-06	
--8.605403e-03	1.277657e-03	-9.999228e-01	
-8.774139e-03	-2.215946e-07	-7.551111e-05	
+-4.759961e-08	-1.301994e-03	-1.663216e-06	
+-8.605898e-03	1.277654e-03	-9.999228e-01	
+8.774139e-03	-2.243076e-07	-7.551547e-05	
 }
 
 Z_matrix^(-1):
 {
--2.785000e-02	-8.606080e-03	1.139629e+02	
--7.682922e+02	1.277757e-03	-2.878181e-03	
--9.814499e-01	-1.000001e+00	-9.807757e-01	
+-2.807921e-02	-8.606576e-03	1.139629e+02	
+-7.680516e+02	1.277755e-03	-2.913418e-03	
+-9.811383e-01	-1.000001e+00	-9.808322e-01	
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	-1.131960e-70	-3.622272e-70	
--1.353118e-64	1.000000e+00	-2.017808e-64	
--1.159127e-68	-1.159127e-68	1.000000e+00	
+1.000000e+00	3.622272e-71	3.984499e-70	
+-1.899114e-65	1.000000e+00	-2.848670e-65	
+1.854603e-68	-1.588366e-68	1.000000e+00	
 }
 
 Kr matrix:
 {
--7.149831e+04	1.165457e-01	3.081311e+01	
-6.878846e+04	-4.384302e+02	5.668830e+06	
-1.400330e+03	4.364844e+02	-5.779995e+06	
+-7.150905e+04	1.165804e-01	3.107524e+01	
+6.876584e+04	-4.383265e+02	5.667366e+06	
+1.411358e+03	4.363717e+02	-5.778169e+06	
 }
 
 Kp matrix:
 {
-   1.306037e+03,   9.586839e-01,   1.223970e+05,
-   3.038692e-02,   1.661672e-06,   9.203146e-02,
-   7.789326e-03,   3.565036e-07,   1.839043e-02,
+   1.328327e+03,   9.680705e-01,   1.220303e+05,
+   3.079756e-02,   1.666046e-06,   9.092917e-02,
+   7.892662e-03,   3.571769e-07,   1.814990e-02,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-CH3OCH2 loss = -7.149831e+04
-IM1 loss = -4.384302e+02
-IM2 loss = -5.779995e+06
+CH3OCH2 loss = -7.150905e+04
+IM1 loss = -4.383265e+02
+IM2 loss = -5.778169e+06
 }
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-CH3OCH2 -> IM1 = 6.878846e+04
-CH3OCH2 -> IM2 = 1.400330e+03
-IM1 -> CH3OCH2 = 1.165457e-01
-IM1 -> IM2 = 4.364844e+02
-IM2 -> CH3OCH2 = 3.081311e+01
-IM2 -> IM1 = 5.668830e+06
+CH3OCH2 -> IM1 = 6.876584e+04
+CH3OCH2 -> IM2 = 1.411358e+03
+IM1 -> CH3OCH2 = 1.165804e-01
+IM1 -> IM2 = 4.363717e+02
+IM2 -> CH3OCH2 = 3.107524e+01
+IM2 -> IM1 = 5.667366e+06
 }
 
 First order & pseudo first order rate coefficients for irreversible rxns:
 {
-CH3OCH2 -> OH-1 = 1.306037e+03
-IM1 -> OH-1 = 9.586839e-01
-IM2 -> OH-1 = 1.223970e+05
-CH3OCH2 -> OH-2 = 3.038692e-02
-IM1 -> OH-2 = 1.661672e-06
-IM2 -> OH-2 = 9.203146e-02
-CH3OCH2 -> OH-3 = 7.789326e-03
-IM1 -> OH-3 = 3.565036e-07
-IM2 -> OH-3 = 1.839043e-02
+CH3OCH2 -> OH-1 = 1.328327e+03
+IM1 -> OH-1 = 9.680705e-01
+IM2 -> OH-1 = 1.220303e+05
+CH3OCH2 -> OH-2 = 3.079756e-02
+IM1 -> OH-2 = 1.666046e-06
+IM2 -> OH-2 = 9.092917e-02
+CH3OCH2 -> OH-3 = 7.892662e-03
+IM1 -> OH-3 = 3.571769e-07
+IM2 -> OH-3 = 1.814990e-02
 }
 
 
 Eq fraction matrix:
 {
- -5.90227e+05  1.00000e+00  0.00000e+00
+ -5.89858e+05  1.00000e+00  0.00000e+00
   0.00000e+00 -7.69973e-05  1.00000e+00
   1.00000e+00  1.00000e+00  1.00000e+00
 }
 inverse of Eq fraction matrix:
 {
- -1.69426e-06 -1.69413e-06  1.69413e-06
-  1.69413e-06 -9.99921e-01  9.99921e-01
-  1.30443e-10  9.99923e-01  7.69912e-05
+ -1.69532e-06 -1.69519e-06  1.69519e-06
+  1.69519e-06 -9.99921e-01  9.99921e-01
+  1.30525e-10  9.99923e-01  7.69912e-05
 }
-Equilibrium Fraction for CH3OCH2 = 1.69413e-06
+Equilibrium Fraction for CH3OCH2 = 1.69519e-06
 Equilibrium Fraction for IM1 = 0.999921
 Equilibrium Fraction for IM2 = 7.69912e-05
 
@@ -2364,89 +1424,89 @@ There should be 3 chemically significant eigenvalues (CSEs)
 
 Y_matrix:
 {
-  -5.779273e+02,   9.859394e+00,   7.680147e+00,
-  -9.380737e-05,   1.471074e-04,   2.437694e-06,
-  -1.545269e-05,   3.648161e-05,   4.554471e-07,
+  -5.737255e+02,  -9.982710e+00,   7.660273e+00,
+  -9.173986e-05,  -1.483753e-04,   2.415299e-06,
+  -1.508511e-05,  -3.678475e-05,   4.512083e-07,
 }
 
 Z_matrix: {
-9.088502e-08	1.301586e-03	1.497374e-06	
-8.683973e-03	-1.150940e-03	9.999223e-01	
--8.774133e-03	5.250025e-07	7.620086e-05	
+9.125400e-08	-1.301994e-03	1.495819e-06	
+8.684633e-03	1.149387e-03	9.999223e-01	
+-8.774133e-03	-5.274090e-07	7.620665e-05	
 }
 
 Z_matrix^(-1):
 {
-5.364705e-02	8.684656e-03	-1.139628e+02	
-7.682923e+02	-1.151030e-03	6.818992e-03	
-8.838610e-01	1.000001e+00	9.897344e-01	
+5.383112e-02	8.685316e-03	-1.139628e+02	
+-7.680517e+02	1.149478e-03	-6.850249e-03	
+8.823901e-01	1.000001e+00	9.898097e-01	
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	3.622272e-70	-7.063430e-70	
-5.459951e-65	1.000000e+00	4.747784e-66	
--1.622778e-68	5.795635e-69	1.000000e+00	
+1.000000e+00	-7.244543e-71	-1.593800e-69	
+-3.323449e-65	1.000000e+00	-1.982200e-64	
+0.000000e+00	-6.411421e-69	1.000000e+00	
 }
 
 Kr matrix:
 {
--6.527872e+04	9.348759e-02	5.583717e+01	
-5.517894e+04	-4.185725e+02	5.390539e+06	
-2.537571e+03	4.150568e+02	-5.446513e+06	
+-6.524820e+04	9.332666e-02	5.601382e+01	
+5.504946e+04	-4.182534e+02	5.386207e+06	
+2.544004e+03	4.147232e+02	-5.441722e+06	
 }
 
 Kp matrix:
 {
-   7.550681e+03,   2.649706e+00,   6.586987e+04,
-   1.130186e-01,   1.453687e-06,   1.069396e-02,
-   2.802811e-02,   2.792548e-07,   1.761732e-03,
+   7.643113e+03,   2.665818e+00,   6.539100e+04,
+   1.139571e-01,   1.447957e-06,   1.045834e-02,
+   2.825217e-02,   2.779065e-07,   1.719840e-03,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-CH3OCH2 loss = -6.527872e+04
-IM1 loss = -4.185725e+02
-IM2 loss = -5.446513e+06
+CH3OCH2 loss = -6.524820e+04
+IM1 loss = -4.182534e+02
+IM2 loss = -5.441722e+06
 }
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-CH3OCH2 -> IM1 = 5.517894e+04
-CH3OCH2 -> IM2 = 2.537571e+03
-IM1 -> CH3OCH2 = 9.348759e-02
-IM1 -> IM2 = 4.150568e+02
-IM2 -> CH3OCH2 = 5.583717e+01
-IM2 -> IM1 = 5.390539e+06
+CH3OCH2 -> IM1 = 5.504946e+04
+CH3OCH2 -> IM2 = 2.544004e+03
+IM1 -> CH3OCH2 = 9.332666e-02
+IM1 -> IM2 = 4.147232e+02
+IM2 -> CH3OCH2 = 5.601382e+01
+IM2 -> IM1 = 5.386207e+06
 }
 
 First order & pseudo first order rate coefficients for irreversible rxns:
 {
-CH3OCH2 -> OH-1 = 7.550681e+03
-IM1 -> OH-1 = 2.649706e+00
-IM2 -> OH-1 = 6.586987e+04
-CH3OCH2 -> OH-2 = 1.130186e-01
-IM1 -> OH-2 = 1.453687e-06
-IM2 -> OH-2 = 1.069396e-02
-CH3OCH2 -> OH-3 = 2.802811e-02
-IM1 -> OH-3 = 2.792548e-07
-IM2 -> OH-3 = 1.761732e-03
+CH3OCH2 -> OH-1 = 7.643113e+03
+IM1 -> OH-1 = 2.665818e+00
+IM2 -> OH-1 = 6.539100e+04
+CH3OCH2 -> OH-2 = 1.139571e-01
+IM1 -> OH-2 = 1.447957e-06
+IM2 -> OH-2 = 1.045834e-02
+CH3OCH2 -> OH-3 = 2.825217e-02
+IM1 -> OH-3 = 2.779065e-07
+IM2 -> OH-3 = 1.719840e-03
 }
 
 
 Eq fraction matrix:
 {
- -5.90227e+05  1.00000e+00  0.00000e+00
+ -5.89858e+05  1.00000e+00  0.00000e+00
   0.00000e+00 -7.69973e-05  1.00000e+00
   1.00000e+00  1.00000e+00  1.00000e+00
 }
 inverse of Eq fraction matrix:
 {
- -1.69426e-06 -1.69413e-06  1.69413e-06
-  1.69413e-06 -9.99921e-01  9.99921e-01
-  1.30443e-10  9.99923e-01  7.69912e-05
+ -1.69532e-06 -1.69519e-06  1.69519e-06
+  1.69519e-06 -9.99921e-01  9.99921e-01
+  1.30525e-10  9.99923e-01  7.69912e-05
 }
-Equilibrium Fraction for CH3OCH2 = 1.69413e-06
+Equilibrium Fraction for CH3OCH2 = 1.69519e-06
 Equilibrium Fraction for IM1 = 0.999921
 Equilibrium Fraction for IM2 = 7.69912e-05
 
@@ -2458,89 +1518,89 @@ There should be 3 chemically significant eigenvalues (CSEs)
 
 Y_matrix:
 {
-  -4.500552e+01,  -4.635352e+01,   4.410162e+00,
-  -1.670874e-06,  -3.953876e-04,   3.882992e-07,
-  -2.592411e-07,  -9.306167e-05,   7.241894e-08,
+   4.440305e+01,   4.656986e+01,   4.397210e+00,
+   1.645844e-06,   3.963897e-04,   3.836193e-07,
+   2.549811e-07,   9.327366e-05,   7.152417e-08,
 }
 
 Z_matrix: {
-5.957495e-08	-1.301587e-03	4.977871e-07	
-8.772029e-03	3.828180e-04	9.999221e-01	
--8.774126e-03	-3.721626e-07	7.697303e-05	
+-5.930946e-08	1.301995e-03	4.925605e-07	
+-8.772138e-03	-3.786823e-04	9.999221e-01	
+8.774126e-03	3.705655e-07	7.697398e-05	
 }
 
 Z_matrix^(-1):
 {
-3.516554e-02	8.772720e-03	-1.139627e+02	
--7.682928e+02	3.828481e-04	-4.833832e-03	
-2.938307e-01	1.000001e+00	9.997638e-01	
+-3.498690e-02	-8.772828e-03	1.139627e+02	
+7.680522e+02	-3.787121e-04	4.813088e-03	
+2.905635e-01	1.000001e+00	9.997762e-01	
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	8.602895e-71	-3.622272e-70	
--1.157272e-65	1.000000e+00	1.186946e-65	
--2.086428e-68	6.954762e-69	1.000000e+00	
+1.000000e+00	-1.811136e-71	-3.622272e-70	
+1.008904e-65	1.000000e+00	-4.747784e-65	
+1.159127e-69	-5.216071e-69	1.000000e+00	
 }
 
 Kr matrix:
 {
--5.045486e+04	2.324598e-02	2.428666e+01	
-1.372041e+04	-2.833028e+02	3.622792e+06	
-1.103729e+03	2.789452e+02	-3.623663e+06	
+-5.044089e+04	2.299034e-02	2.409226e+01	
+1.356103e+04	-2.823163e+02	3.610102e+06	
+1.094209e+03	2.779680e+02	-3.610925e+06	
 }
 
 Kp matrix:
 {
-   3.561279e+04,   3.997598e+00,   5.133583e+03,
-   3.037735e-01,   2.222680e-07,   1.927167e-04,
-   7.149862e-02,   3.451626e-08,   3.006606e-05,
+   3.576781e+04,   3.990036e+00,   5.064912e+03,
+   3.044481e-01,   2.190633e-07,   1.898562e-04,
+   7.163905e-02,   3.396345e-08,   2.957877e-05,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-CH3OCH2 loss = -5.045486e+04
-IM1 loss = -2.833028e+02
-IM2 loss = -3.623663e+06
+CH3OCH2 loss = -5.044089e+04
+IM1 loss = -2.823163e+02
+IM2 loss = -3.610925e+06
 }
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-CH3OCH2 -> IM1 = 1.372041e+04
-CH3OCH2 -> IM2 = 1.103729e+03
-IM1 -> CH3OCH2 = 2.324598e-02
-IM1 -> IM2 = 2.789452e+02
-IM2 -> CH3OCH2 = 2.428666e+01
-IM2 -> IM1 = 3.622792e+06
+CH3OCH2 -> IM1 = 1.356103e+04
+CH3OCH2 -> IM2 = 1.094209e+03
+IM1 -> CH3OCH2 = 2.299034e-02
+IM1 -> IM2 = 2.779680e+02
+IM2 -> CH3OCH2 = 2.409226e+01
+IM2 -> IM1 = 3.610102e+06
 }
 
 First order & pseudo first order rate coefficients for irreversible rxns:
 {
-CH3OCH2 -> OH-1 = 3.561279e+04
-IM1 -> OH-1 = 3.997598e+00
-IM2 -> OH-1 = 5.133583e+03
-CH3OCH2 -> OH-2 = 3.037735e-01
-IM1 -> OH-2 = 2.222680e-07
-IM2 -> OH-2 = 1.927167e-04
-CH3OCH2 -> OH-3 = 7.149862e-02
-IM1 -> OH-3 = 3.451626e-08
-IM2 -> OH-3 = 3.006606e-05
+CH3OCH2 -> OH-1 = 3.576781e+04
+IM1 -> OH-1 = 3.990036e+00
+IM2 -> OH-1 = 5.064912e+03
+CH3OCH2 -> OH-2 = 3.044481e-01
+IM1 -> OH-2 = 2.190633e-07
+IM2 -> OH-2 = 1.898562e-04
+CH3OCH2 -> OH-3 = 7.163905e-02
+IM1 -> OH-3 = 3.396345e-08
+IM2 -> OH-3 = 2.957877e-05
 }
 
 
 Eq fraction matrix:
 {
- -5.90227e+05  1.00000e+00  0.00000e+00
+ -5.89858e+05  1.00000e+00  0.00000e+00
   0.00000e+00 -7.69973e-05  1.00000e+00
   1.00000e+00  1.00000e+00  1.00000e+00
 }
 inverse of Eq fraction matrix:
 {
- -1.69426e-06 -1.69413e-06  1.69413e-06
-  1.69413e-06 -9.99921e-01  9.99921e-01
-  1.30443e-10  9.99923e-01  7.69912e-05
+ -1.69532e-06 -1.69519e-06  1.69519e-06
+  1.69519e-06 -9.99921e-01  9.99921e-01
+  1.30525e-10  9.99923e-01  7.69912e-05
 }
-Equilibrium Fraction for CH3OCH2 = 1.69413e-06
+Equilibrium Fraction for CH3OCH2 = 1.69519e-06
 Equilibrium Fraction for IM1 = 0.999921
 Equilibrium Fraction for IM2 = 7.69912e-05
 
@@ -2552,89 +1612,89 @@ There should be 3 chemically significant eigenvalues (CSEs)
 
 Y_matrix:
 {
-   8.938174e+01,  -5.873939e+01,  -1.883681e+00,
-   7.086883e-08,  -4.754095e-04,  -3.764340e-09,
-   5.104619e-09,  -1.096313e-04,  -6.724396e-10,
+   8.879593e+01,  -5.880862e+01,   1.873260e+00,
+   6.800819e-08,  -4.756741e-04,   3.641629e-09,
+   4.852055e-09,  -1.096804e-04,   6.507842e-10,
 }
 
 Z_matrix: {
--1.251042e-08	-1.301587e-03	-6.633871e-09	
--8.765842e-03	5.180614e-06	-9.999222e-01	
-8.774127e-03	-8.394191e-08	-7.691859e-05	
+-1.244015e-08	-1.301995e-03	6.430463e-09	
+-8.765722e-03	5.022301e-06	9.999222e-01	
+8.774127e-03	-8.345413e-08	7.691754e-05	
 }
 
 Z_matrix^(-1):
 {
--7.384572e-03	-8.766532e-03	1.139627e+02	
--7.682928e+02	5.181021e-06	-1.090279e-03	
--3.915801e-03	-1.000001e+00	-9.990567e-01	
+-7.338497e-03	-8.766412e-03	1.139627e+02	
+-7.680522e+02	5.022696e-06	-1.083943e-03	
+3.793357e-03	1.000001e+00	9.990430e-01	
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	-1.070056e-72	-1.338543e-70	
--6.525885e-67	1.000000e+00	-3.086060e-65	
--9.743911e-69	-1.622778e-68	1.000000e+00	
+1.000000e+00	-7.074749e-73	2.190342e-70	
+-1.483682e-67	1.000000e+00	9.020789e-65	
+1.351107e-68	0.000000e+00	1.000000e+00	
 }
 
 Kr matrix:
 {
--4.531359e+04	1.938465e-04	1.387969e+00	
-1.144135e+02	-8.016360e+01	1.017582e+06	
-6.307751e+01	7.835104e+01	-1.018546e+06	
+-4.534724e+04	1.868638e-04	1.361749e+00	
+1.102231e+02	-7.915534e+01	1.004624e+06	
+6.184715e+01	7.735334e+01	-1.005589e+06	
 }
 
 Kp matrix:
 {
-   4.512840e+04,   1.099810e+00,   1.018813e+04,
-   3.652537e-01,   6.799624e-10,   8.598492e-06,
-   8.422892e-02,   5.968848e-11,   7.019366e-07,
+   4.516745e+04,   1.094545e+00,   1.012136e+04,
+   3.653425e-01,   6.562785e-10,   8.269639e-06,
+   8.424024e-02,   5.735862e-11,   6.724908e-07,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-CH3OCH2 loss = -4.531359e+04
-IM1 loss = -8.016360e+01
-IM2 loss = -1.018546e+06
+CH3OCH2 loss = -4.534724e+04
+IM1 loss = -7.915534e+01
+IM2 loss = -1.005589e+06
 }
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-CH3OCH2 -> IM1 = 1.144135e+02
-CH3OCH2 -> IM2 = 6.307751e+01
-IM1 -> CH3OCH2 = 1.938465e-04
-IM1 -> IM2 = 7.835104e+01
-IM2 -> CH3OCH2 = 1.387969e+00
-IM2 -> IM1 = 1.017582e+06
+CH3OCH2 -> IM1 = 1.102231e+02
+CH3OCH2 -> IM2 = 6.184715e+01
+IM1 -> CH3OCH2 = 1.868638e-04
+IM1 -> IM2 = 7.735334e+01
+IM2 -> CH3OCH2 = 1.361749e+00
+IM2 -> IM1 = 1.004624e+06
 }
 
 First order & pseudo first order rate coefficients for irreversible rxns:
 {
-CH3OCH2 -> OH-1 = 4.512840e+04
-IM1 -> OH-1 = 1.099810e+00
-IM2 -> OH-1 = 1.018813e+04
-CH3OCH2 -> OH-2 = 3.652537e-01
-IM1 -> OH-2 = 6.799624e-10
-IM2 -> OH-2 = 8.598492e-06
-CH3OCH2 -> OH-3 = 8.422892e-02
-IM1 -> OH-3 = 5.968848e-11
-IM2 -> OH-3 = 7.019366e-07
+CH3OCH2 -> OH-1 = 4.516745e+04
+IM1 -> OH-1 = 1.094545e+00
+IM2 -> OH-1 = 1.012136e+04
+CH3OCH2 -> OH-2 = 3.653425e-01
+IM1 -> OH-2 = 6.562785e-10
+IM2 -> OH-2 = 8.269639e-06
+CH3OCH2 -> OH-3 = 8.424024e-02
+IM1 -> OH-3 = 5.735862e-11
+IM2 -> OH-3 = 6.724908e-07
 }
 
 
 Eq fraction matrix:
 {
- -5.90227e+05  1.00000e+00  0.00000e+00
+ -5.89858e+05  1.00000e+00  0.00000e+00
   0.00000e+00 -7.69973e-05  1.00000e+00
   1.00000e+00  1.00000e+00  1.00000e+00
 }
 inverse of Eq fraction matrix:
 {
- -1.69426e-06 -1.69413e-06  1.69413e-06
-  1.69413e-06 -9.99921e-01  9.99921e-01
-  1.30443e-10  9.99923e-01  7.69912e-05
+ -1.69532e-06 -1.69519e-06  1.69519e-06
+  1.69519e-06 -9.99921e-01  9.99921e-01
+  1.30525e-10  9.99923e-01  7.69912e-05
 }
-Equilibrium Fraction for CH3OCH2 = 1.69413e-06
+Equilibrium Fraction for CH3OCH2 = 1.69519e-06
 Equilibrium Fraction for IM1 = 0.999921
 Equilibrium Fraction for IM2 = 7.69912e-05
 
@@ -2646,91 +1706,91 @@ There should be 3 chemically significant eigenvalues (CSEs)
 
 Y_matrix:
 {
-   3.197573e+01,   5.837028e+01,  -8.397561e-01,
-  -1.103592e-11,   4.822147e-04,  -2.726831e-11,
-  -4.732600e-11,   1.109511e-04,  -5.193318e-12,
+   3.169564e+01,  -5.843991e+01,  -8.338031e-01,
+  -1.627697e-11,  -4.823918e-04,  -2.613666e-11,
+  -4.646177e-11,  -1.109823e-04,  -4.979999e-12,
 }
 
 Z_matrix: {
--7.463482e-09	1.301587e-03	-5.712645e-11	
--8.744503e-03	-9.402864e-08	-9.999224e-01	
-8.774129e-03	5.030871e-08	-7.673135e-05	
+-7.467915e-09	-1.301995e-03	-5.480606e-11	
+-8.744287e-03	9.224568e-08	-9.999224e-01	
+8.774129e-03	-5.032296e-08	-7.672945e-05	
 }
 
 Z_matrix^(-1):
 {
--4.405498e-03	-8.745192e-03	1.139627e+02	
-7.682928e+02	-9.403604e-08	6.534344e-04	
--3.372025e-05	-1.000001e+00	-9.966247e-01	
+-4.405354e-03	-8.744975e-03	1.139627e+02	
+-7.680522e+02	9.225294e-08	-6.536195e-04	
+-3.233032e-05	-1.000001e+00	-9.966001e-01	
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	1.580764e-73	9.236085e-71	
-9.765644e-68	1.000000e+00	-1.899114e-65	
-5.170510e-69	-1.159127e-68	1.000000e+00	
+1.000000e+00	-2.874117e-74	-4.338590e-71	
+-1.159127e-68	1.000000e+00	1.661724e-64	
+-5.550848e-69	1.448909e-68	1.000000e+00	
 }
 
 Kr matrix:
 {
--4.485849e+04	-7.164254e-06	1.267573e-01	
--4.228539e+00	-1.566773e+01	1.932135e+05	
-5.760599e+00	1.487691e+01	-1.938689e+05	
+-4.489787e+04	-7.104210e-06	1.246495e-01	
+-4.190473e+00	-1.546791e+01	1.906919e+05	
+5.661262e+00	1.468276e+01	-1.913435e+05	
 }
 
 Kp matrix:
 {
-   4.484533e+04,   5.601176e-01,   3.644917e+03,
-   3.704821e-01,  -1.798071e-11,   3.138652e-07,
-   8.524292e-02,  -4.826201e-12,   6.711103e-08,
+   4.488476e+04,   5.566211e-01,   3.612990e+03,
+   3.705021e-01,  -1.822304e-11,   3.134718e-07,
+   8.524023e-02,  -4.852135e-12,   6.725028e-08,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-CH3OCH2 loss = -4.485849e+04
-IM1 loss = -1.566773e+01
-IM2 loss = -1.938689e+05
+CH3OCH2 loss = -4.489787e+04
+IM1 loss = -1.546791e+01
+IM2 loss = -1.913435e+05
 }
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-CH3OCH2 -> IM1 = -4.228539e+00
-CH3OCH2 -> IM2 = 5.760599e+00
-IM1 -> CH3OCH2 = -7.164254e-06
-IM1 -> IM2 = 1.487691e+01
-IM2 -> CH3OCH2 = 1.267573e-01
-IM2 -> IM1 = 1.932135e+05
+CH3OCH2 -> IM1 = -4.190473e+00
+CH3OCH2 -> IM2 = 5.661262e+00
+IM1 -> CH3OCH2 = -7.104210e-06
+IM1 -> IM2 = 1.468276e+01
+IM2 -> CH3OCH2 = 1.246495e-01
+IM2 -> IM1 = 1.906919e+05
 }
 
 First order & pseudo first order rate coefficients for irreversible rxns:
 {
-CH3OCH2 -> OH-1 = 4.484533e+04
-IM1 -> OH-1 = 5.601176e-01
-IM2 -> OH-1 = 3.644917e+03
-CH3OCH2 -> OH-2 = 3.704821e-01
-IM1 -> OH-2 = -1.798071e-11
-IM2 -> OH-2 = 3.138652e-07
-CH3OCH2 -> OH-3 = 8.524292e-02
-IM1 -> OH-3 = -4.826201e-12
-IM2 -> OH-3 = 6.711103e-08
+CH3OCH2 -> OH-1 = 4.488476e+04
+IM1 -> OH-1 = 5.566211e-01
+IM2 -> OH-1 = 3.612990e+03
+CH3OCH2 -> OH-2 = 3.705021e-01
+IM1 -> OH-2 = -1.822304e-11
+IM2 -> OH-2 = 3.134718e-07
+CH3OCH2 -> OH-3 = 8.524023e-02
+IM1 -> OH-3 = -4.852135e-12
+IM2 -> OH-3 = 6.725028e-08
 }
 
 
 Eq fraction matrix:
 {
- -3.08391e+00  1.00000e+00  0.00000e+00
-  0.00000e+00 -4.43421e-03  1.00000e+00
+ -2.65921e+12  1.00000e+00  0.00000e+00
+  0.00000e+00 -6.75693e-07  1.00000e+00
   1.00000e+00  1.00000e+00  1.00000e+00
 }
 inverse of Eq fraction matrix:
 {
- -2.45128e-01 -2.44046e-01  2.44046e-01
-  2.44046e-01 -7.52617e-01  7.52617e-01
-  1.08215e-03  9.96663e-01  3.33726e-03
+ -3.76051e-13 -3.76051e-13  3.76051e-13
+  3.76051e-13 -9.99999e-01  9.99999e-01
+  2.54095e-19  9.99999e-01  6.75692e-07
 }
-Equilibrium Fraction for CH3OCH2 = 0.244046
-Equilibrium Fraction for IM1 = 0.752617
-Equilibrium Fraction for IM2 = 0.00333726
+Equilibrium Fraction for CH3OCH2 = 3.76051e-13
+Equilibrium Fraction for IM1 = 0.999999
+Equilibrium Fraction for IM2 = 6.75692e-07
 
 Bartis Widom eigenvalue/eigenvector analysis
 
@@ -2740,91 +1800,91 @@ There should be 3 chemically significant eigenvalues (CSEs)
 
 Y_matrix:
 {
-   9.209704e+05,   4.823888e+04,  -2.283125e+04,
-   2.929541e+00,   1.941753e-01,  -2.189989e-01,
-   6.429524e-01,   4.296889e-02,  -5.543024e-02,
+  -6.269519e-02,   1.290592e-04,   5.360653e-05,
+  -2.790706e-09,   1.037775e-09,   2.527914e-12,
+  -4.639357e-10,   2.429559e-10,   4.229943e-13,
 }
 
 Z_matrix: {
--9.775162e-05	-1.907000e-01	-4.557188e-01	
--3.479258e-02	7.996497e-01	-3.346138e-01	
-5.772258e-02	2.132844e-03	-9.048911e-04	
+5.893166e-13	6.132299e-07	3.752364e-13	
+8.249163e-04	-6.126941e-07	9.999993e-01	
+-8.220047e-04	7.895352e-10	6.780856e-07	
 }
 
 Z_matrix^(-1):
 {
--4.005457e-04	-4.622882e-02	1.729638e+01	
--7.814097e-01	1.062493e+00	6.390997e-01	
--1.867347e+00	-4.446006e-01	-2.711476e-01	
+1.567119e+00	8.249169e-04	-1.216537e+03	
+1.630710e+06	-6.126945e-07	1.168483e-03	
+9.978341e-01	1.000000e+00	1.003542e+00	
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	-2.967365e-65	-2.077155e-65	
--1.038578e-64	1.000000e+00	1.258163e-64	
--2.735540e-67	2.225524e-67	1.000000e+00	
+1.000000e+00	-7.772552e-77	-7.458195e-74	
+-5.816035e-65	1.000000e+00	-2.278936e-64	
+1.133047e-67	-1.494187e-70	1.000000e+00	
 }
 
 Kr matrix:
 {
--3.635799e+04	9.967886e+03	7.765737e+04	
-3.074007e+04	-1.395470e+05	2.543983e+07	
-1.061943e+03	1.128057e+05	-4.227738e+07	
+-9.650614e+04	3.581220e-08	5.905528e-04	
+9.523225e+04	-6.265398e-01	9.234437e+05	
+1.061111e+03	6.239642e-01	-9.201844e+05	
 }
 
 Kp matrix:
 {
-   4.570640e+03,   1.882887e+04,   1.596647e+07,
-   2.560430e-01,   1.682477e-01,   5.085394e+01,
-   6.967366e-02,   4.057552e-02,   1.116324e+01,
+   2.103600e+02,   1.888131e-06,   7.627108e+01,
+   1.692305e-03,   2.251783e-13,   3.395001e-06,
+   3.961898e-04,   4.013709e-14,   5.643957e-07,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-CH3OCH2 loss = -3.635799e+04
-IM1 loss = -1.395470e+05
-IM2 loss = -4.227738e+07
+CH3OCH2 loss = -9.650614e+04
+IM1 loss = -6.265398e-01
+IM2 loss = -9.201844e+05
 }
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-CH3OCH2 -> IM1 = 3.074007e+04
-CH3OCH2 -> IM2 = 1.061943e+03
-IM1 -> CH3OCH2 = 9.967886e+03
-IM1 -> IM2 = 1.128057e+05
-IM2 -> CH3OCH2 = 7.765737e+04
-IM2 -> IM1 = 2.543983e+07
+CH3OCH2 -> IM1 = 9.523225e+04
+CH3OCH2 -> IM2 = 1.061111e+03
+IM1 -> CH3OCH2 = 3.581220e-08
+IM1 -> IM2 = 6.239642e-01
+IM2 -> CH3OCH2 = 5.905528e-04
+IM2 -> IM1 = 9.234437e+05
 }
 
 First order & pseudo first order rate coefficients for irreversible rxns:
 {
-CH3OCH2 -> OH-1 = 4.570640e+03
-IM1 -> OH-1 = 1.882887e+04
-IM2 -> OH-1 = 1.596647e+07
-CH3OCH2 -> OH-2 = 2.560430e-01
-IM1 -> OH-2 = 1.682477e-01
-IM2 -> OH-2 = 5.085394e+01
-CH3OCH2 -> OH-3 = 6.967366e-02
-IM1 -> OH-3 = 4.057552e-02
-IM2 -> OH-3 = 1.116324e+01
+CH3OCH2 -> OH-1 = 2.103600e+02
+IM1 -> OH-1 = 1.888131e-06
+IM2 -> OH-1 = 7.627108e+01
+CH3OCH2 -> OH-2 = 1.692305e-03
+IM1 -> OH-2 = 2.251783e-13
+IM2 -> OH-2 = 3.395001e-06
+CH3OCH2 -> OH-3 = 3.961898e-04
+IM1 -> OH-3 = 4.013709e-14
+IM2 -> OH-3 = 5.643957e-07
 }
 
 
 Eq fraction matrix:
 {
- -3.08391e+00  1.00000e+00  0.00000e+00
-  0.00000e+00 -4.43421e-03  1.00000e+00
+ -2.65921e+12  1.00000e+00  0.00000e+00
+  0.00000e+00 -6.75693e-07  1.00000e+00
   1.00000e+00  1.00000e+00  1.00000e+00
 }
 inverse of Eq fraction matrix:
 {
- -2.45128e-01 -2.44046e-01  2.44046e-01
-  2.44046e-01 -7.52617e-01  7.52617e-01
-  1.08215e-03  9.96663e-01  3.33726e-03
+ -3.76051e-13 -3.76051e-13  3.76051e-13
+  3.76051e-13 -9.99999e-01  9.99999e-01
+  2.54095e-19  9.99999e-01  6.75692e-07
 }
-Equilibrium Fraction for CH3OCH2 = 0.244046
-Equilibrium Fraction for IM1 = 0.752617
-Equilibrium Fraction for IM2 = 0.00333726
+Equilibrium Fraction for CH3OCH2 = 3.76051e-13
+Equilibrium Fraction for IM1 = 0.999999
+Equilibrium Fraction for IM2 = 6.75692e-07
 
 Bartis Widom eigenvalue/eigenvector analysis
 
@@ -2834,91 +1894,91 @@ There should be 3 chemically significant eigenvalues (CSEs)
 
 Y_matrix:
 {
-  -2.726510e+05,  -3.009203e+04,   1.722229e+04,
-  -2.120669e-01,   7.342013e-03,   2.131594e-01,
-  -4.161115e-02,   5.190765e-03,   5.563868e-02,
+   5.157833e-02,  -1.563766e-03,   5.092144e-05,
+   7.741165e-10,  -8.447376e-09,   1.045367e-12,
+   1.071732e-10,  -1.897490e-09,   1.524716e-13,
 }
 
 Z_matrix: {
-1.757361e-04	1.770876e-01	4.611790e-01	
-4.435546e-02	-8.088261e-01	3.105632e-01	
--5.769349e-02	-2.749975e-03	1.077944e-03	
+-1.755301e-12	-6.132299e-07	3.659974e-13	
+-8.249323e-04	5.991965e-07	9.999993e-01	
+8.220047e-04	-2.352491e-09	6.780987e-07	
 }
 
 Z_matrix^(-1):
 {
-7.200937e-04	5.893501e-02	-1.728766e+01	
-7.256315e-01	-1.074685e+00	-8.240210e-01	
-1.889721e+00	4.126447e-01	3.230024e-01	
+-4.667722e+00	-8.249329e-04	1.216537e+03	
+-1.630710e+06	5.991969e-07	-3.481601e-03	
+9.732657e-01	1.000000e+00	1.003562e+00	
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	3.204754e-65	8.308622e-65	
-7.359065e-65	1.000000e+00	-1.424335e-64	
-3.894666e-67	-2.040063e-67	1.000000e+00	
+1.000000e+00	-4.318084e-77	9.461095e-73	
+-7.418412e-65	1.000000e+00	2.445109e-64	
+6.318691e-67	1.630022e-70	1.000000e+00	
 }
 
 Kr matrix:
 {
--2.554487e+04	4.524366e+03	8.181660e+04	
-1.395274e+04	-1.114261e+05	1.970644e+07	
-1.118819e+03	8.738257e+04	-2.567650e+07	
+-9.534501e+04	3.371068e-08	1.748078e-03	
+8.964387e+04	-6.219675e-01	9.172056e+05	
+3.140964e+03	6.197491e-01	-9.139505e+05	
 }
 
 Kp matrix:
 {
-   1.051326e+04,   2.337747e+04,   4.743859e+06,
-   4.079865e-01,   6.757056e-02,   3.728942e+00,
-   1.088782e-01,   1.492821e-02,   7.330537e-01,
+   2.549807e+03,   8.371849e-06,   6.274701e+01,
+   1.377522e-02,   4.017109e-13,   9.417720e-07,
+   3.094254e-03,   6.292398e-14,   1.303869e-07,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-CH3OCH2 loss = -2.554487e+04
-IM1 loss = -1.114261e+05
-IM2 loss = -2.567650e+07
+CH3OCH2 loss = -9.534501e+04
+IM1 loss = -6.219675e-01
+IM2 loss = -9.139505e+05
 }
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-CH3OCH2 -> IM1 = 1.395274e+04
-CH3OCH2 -> IM2 = 1.118819e+03
-IM1 -> CH3OCH2 = 4.524366e+03
-IM1 -> IM2 = 8.738257e+04
-IM2 -> CH3OCH2 = 8.181660e+04
-IM2 -> IM1 = 1.970644e+07
+CH3OCH2 -> IM1 = 8.964387e+04
+CH3OCH2 -> IM2 = 3.140964e+03
+IM1 -> CH3OCH2 = 3.371068e-08
+IM1 -> IM2 = 6.197491e-01
+IM2 -> CH3OCH2 = 1.748078e-03
+IM2 -> IM1 = 9.172056e+05
 }
 
 First order & pseudo first order rate coefficients for irreversible rxns:
 {
-CH3OCH2 -> OH-1 = 1.051326e+04
-IM1 -> OH-1 = 2.337747e+04
-IM2 -> OH-1 = 4.743859e+06
-CH3OCH2 -> OH-2 = 4.079865e-01
-IM1 -> OH-2 = 6.757056e-02
-IM2 -> OH-2 = 3.728942e+00
-CH3OCH2 -> OH-3 = 1.088782e-01
-IM1 -> OH-3 = 1.492821e-02
-IM2 -> OH-3 = 7.330537e-01
+CH3OCH2 -> OH-1 = 2.549807e+03
+IM1 -> OH-1 = 8.371849e-06
+IM2 -> OH-1 = 6.274701e+01
+CH3OCH2 -> OH-2 = 1.377522e-02
+IM1 -> OH-2 = 4.017109e-13
+IM2 -> OH-2 = 9.417720e-07
+CH3OCH2 -> OH-3 = 3.094254e-03
+IM1 -> OH-3 = 6.292398e-14
+IM2 -> OH-3 = 1.303869e-07
 }
 
 
 Eq fraction matrix:
 {
- -3.08391e+00  1.00000e+00  0.00000e+00
-  0.00000e+00 -4.43421e-03  1.00000e+00
+ -2.65921e+12  1.00000e+00  0.00000e+00
+  0.00000e+00 -6.75693e-07  1.00000e+00
   1.00000e+00  1.00000e+00  1.00000e+00
 }
 inverse of Eq fraction matrix:
 {
- -2.45128e-01 -2.44046e-01  2.44046e-01
-  2.44046e-01 -7.52617e-01  7.52617e-01
-  1.08215e-03  9.96663e-01  3.33726e-03
+ -3.76051e-13 -3.76051e-13  3.76051e-13
+  3.76051e-13 -9.99999e-01  9.99999e-01
+  2.54095e-19  9.99999e-01  6.75692e-07
 }
-Equilibrium Fraction for CH3OCH2 = 0.244046
-Equilibrium Fraction for IM1 = 0.752617
-Equilibrium Fraction for IM2 = 0.00333726
+Equilibrium Fraction for CH3OCH2 = 3.76051e-13
+Equilibrium Fraction for IM1 = 0.999999
+Equilibrium Fraction for IM2 = 6.75692e-07
 
 Bartis Widom eigenvalue/eigenvector analysis
 
@@ -2928,91 +1988,91 @@ There should be 3 chemically significant eigenvalues (CSEs)
 
 Y_matrix:
 {
-   7.484445e+04,  -6.435168e+03,  -1.313564e+04,
-   2.263625e-02,  -2.482827e-01,  -4.118406e-02,
-   3.960082e-03,  -6.520023e-02,  -1.053906e-02,
+  -8.842767e-03,   2.207256e-02,  -4.161419e-05,
+  -9.157686e-12,   6.320090e-08,  -1.738722e-13,
+  -1.102969e-12,   1.309928e-08,  -2.370386e-14,
 }
 
 Z_matrix: {
--1.246540e-04	-4.882988e-01	-7.490279e-02	
--4.875855e-02	1.313415e-01	-8.561475e-01	
-5.767774e-02	4.779046e-04	-3.211496e-03	
+1.545826e-12	6.132299e-07	-2.214552e-13	
+8.250345e-04	-3.632087e-07	-9.999993e-01	
+-8.220047e-04	2.071859e-09	-6.781827e-07	
 }
 
 Z_matrix^(-1):
 {
--5.107803e-04	-6.478537e-02	1.728294e+01	
--2.000846e+00	1.745132e-01	1.432025e-01	
--3.069206e-01	-1.137561e+00	-9.623140e-01	
+4.110681e+00	8.250350e-04	-1.216537e+03	
+1.630710e+06	-3.632090e-07	3.066276e-03	
+-5.888970e-01	-1.000000e+00	-1.003686e+00	
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	2.611281e-65	7.121676e-66	
-5.919893e-65	1.000000e+00	1.115729e-64	
-1.761873e-67	7.325682e-67	1.000000e+00	
+1.000000e+00	1.619282e-77	3.131475e-74	
+1.899114e-65	1.000000e+00	7.596454e-65	
+-7.196956e-67	9.621659e-71	1.000000e+00	
 }
 
 Kr matrix:
 {
--1.796287e+04	2.940772e+02	1.214363e+04	
-9.069081e+02	-3.157002e+04	4.641253e+06	
-1.660608e+02	2.058031e+04	-5.504427e+06	
+-8.760628e+04	1.845024e-08	1.401758e-03	
+4.906310e+04	-5.670417e-01	8.360618e+05	
+2.518693e+03	5.649209e-01	-8.329916e+05	
 }
 
 Kp matrix:
 {
-   1.686915e+04,   8.970747e+03,   1.305252e+06,
-   5.094042e-01,   2.054288e-03,   3.952983e-01,
-   1.336883e-01,   3.539725e-04,   6.924693e-02,
+   3.599391e+04,   3.431058e-05,   1.075766e+01,
+   1.030623e-01,   1.433616e-13,   1.133463e-08,
+   2.136112e-02,   1.803610e-14,   1.381993e-09,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-CH3OCH2 loss = -1.796287e+04
-IM1 loss = -3.157002e+04
-IM2 loss = -5.504427e+06
+CH3OCH2 loss = -8.760628e+04
+IM1 loss = -5.670417e-01
+IM2 loss = -8.329916e+05
 }
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-CH3OCH2 -> IM1 = 9.069081e+02
-CH3OCH2 -> IM2 = 1.660608e+02
-IM1 -> CH3OCH2 = 2.940772e+02
-IM1 -> IM2 = 2.058031e+04
-IM2 -> CH3OCH2 = 1.214363e+04
-IM2 -> IM1 = 4.641253e+06
+CH3OCH2 -> IM1 = 4.906310e+04
+CH3OCH2 -> IM2 = 2.518693e+03
+IM1 -> CH3OCH2 = 1.845024e-08
+IM1 -> IM2 = 5.649209e-01
+IM2 -> CH3OCH2 = 1.401758e-03
+IM2 -> IM1 = 8.360618e+05
 }
 
 First order & pseudo first order rate coefficients for irreversible rxns:
 {
-CH3OCH2 -> OH-1 = 1.686915e+04
-IM1 -> OH-1 = 8.970747e+03
-IM2 -> OH-1 = 1.305252e+06
-CH3OCH2 -> OH-2 = 5.094042e-01
-IM1 -> OH-2 = 2.054288e-03
-IM2 -> OH-2 = 3.952983e-01
-CH3OCH2 -> OH-3 = 1.336883e-01
-IM1 -> OH-3 = 3.539725e-04
-IM2 -> OH-3 = 6.924693e-02
+CH3OCH2 -> OH-1 = 3.599391e+04
+IM1 -> OH-1 = 3.431058e-05
+IM2 -> OH-1 = 1.075766e+01
+CH3OCH2 -> OH-2 = 1.030623e-01
+IM1 -> OH-2 = 1.433616e-13
+IM2 -> OH-2 = 1.133463e-08
+CH3OCH2 -> OH-3 = 2.136112e-02
+IM1 -> OH-3 = 1.803610e-14
+IM2 -> OH-3 = 1.381993e-09
 }
 
 
 Eq fraction matrix:
 {
- -3.08391e+00  1.00000e+00  0.00000e+00
-  0.00000e+00 -4.43421e-03  1.00000e+00
+ -2.65921e+12  1.00000e+00  0.00000e+00
+  0.00000e+00 -6.75693e-07  1.00000e+00
   1.00000e+00  1.00000e+00  1.00000e+00
 }
 inverse of Eq fraction matrix:
 {
- -2.45128e-01 -2.44046e-01  2.44046e-01
-  2.44046e-01 -7.52617e-01  7.52617e-01
-  1.08215e-03  9.96663e-01  3.33726e-03
+ -3.76051e-13 -3.76051e-13  3.76051e-13
+  3.76051e-13 -9.99999e-01  9.99999e-01
+  2.54095e-19  9.99999e-01  6.75692e-07
 }
-Equilibrium Fraction for CH3OCH2 = 0.244046
-Equilibrium Fraction for IM1 = 0.752617
-Equilibrium Fraction for IM2 = 0.00333726
+Equilibrium Fraction for CH3OCH2 = 3.76051e-13
+Equilibrium Fraction for IM1 = 0.999999
+Equilibrium Fraction for IM2 = 6.75692e-07
 
 Bartis Widom eigenvalue/eigenvector analysis
 
@@ -3022,91 +2082,91 @@ There should be 3 chemically significant eigenvalues (CSEs)
 
 Y_matrix:
 {
-   1.102570e+04,  -8.368892e+03,   2.279999e+03,
-   2.039001e-05,  -2.580916e-01,   4.226228e-05,
-   8.273418e-07,  -6.752763e-02,   1.018959e-05,
+  -5.665204e-04,   4.769579e-02,   3.009286e-05,
+  -5.086078e-14,   1.140025e-07,   4.578163e-15,
+  -2.739733e-15,   2.229368e-08,   5.499355e-16,
 }
 
 Z_matrix: {
--3.070595e-05	-4.940103e-01	7.104791e-05	
--4.467796e-02	1.273792e-04	8.663836e-01	
-5.769239e-02	-3.158082e-06	2.975101e-03	
+1.423779e-13	6.132299e-07	9.756363e-15	
+8.253034e-04	-1.610140e-08	9.999993e-01	
+-8.220047e-04	1.908399e-10	6.784037e-07	
 }
 
 Z_matrix^(-1):
 {
--1.258203e-04	-5.936351e-02	1.728734e+01	
--2.024249e+00	1.692484e-04	-9.463088e-04	
-2.911249e-04	1.151162e+00	8.914793e-01	
+3.786135e-01	8.253039e-04	-1.216537e+03	
+1.630710e+06	-1.610141e-08	2.824361e-04	
+2.594426e-02	1.000000e+00	1.004013e+00	
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	3.622272e-70	7.882063e-68	
--9.273015e-69	1.000000e+00	-7.002981e-65	
-1.340241e-69	3.709206e-68	1.000000e+00	
+1.000000e+00	-2.159042e-78	6.086772e-74	
+-4.080127e-66	1.000000e+00	0.000000e+00	
+5.332210e-68	-1.358352e-71	1.000000e+00	
 }
 
 Kr matrix:
 {
--1.695587e+04	4.280176e-01	2.174589e+02	
-1.319968e+00	-3.750451e+03	3.261527e+05	
-2.973691e+00	1.446231e+03	-4.237895e+05	
+-7.977070e+04	7.273095e-10	7.512180e-05	
+1.934071e+03	-3.497714e-01	5.155348e+05	
+1.349796e+02	3.483431e-01	-5.134743e+05	
 }
 
 Kp matrix:
 {
-   1.694000e+04,   1.968707e+03,   1.926454e+05,
-   5.224418e-01,   3.758712e-06,   6.343992e-04,
-   1.366928e-01,   2.518116e-07,   8.728833e-05,
+   7.777798e+04,   2.962454e-05,   6.892369e-01,
+   1.859050e-01,   2.700587e-15,   9.407705e-11,
+   3.635453e-02,   1.887146e-16,   9.630080e-12,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-CH3OCH2 loss = -1.695587e+04
-IM1 loss = -3.750451e+03
-IM2 loss = -4.237895e+05
+CH3OCH2 loss = -7.977070e+04
+IM1 loss = -3.497714e-01
+IM2 loss = -5.134743e+05
 }
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-CH3OCH2 -> IM1 = 1.319968e+00
-CH3OCH2 -> IM2 = 2.973691e+00
-IM1 -> CH3OCH2 = 4.280176e-01
-IM1 -> IM2 = 1.446231e+03
-IM2 -> CH3OCH2 = 2.174589e+02
-IM2 -> IM1 = 3.261527e+05
+CH3OCH2 -> IM1 = 1.934071e+03
+CH3OCH2 -> IM2 = 1.349796e+02
+IM1 -> CH3OCH2 = 7.273095e-10
+IM1 -> IM2 = 3.483431e-01
+IM2 -> CH3OCH2 = 7.512180e-05
+IM2 -> IM1 = 5.155348e+05
 }
 
 First order & pseudo first order rate coefficients for irreversible rxns:
 {
-CH3OCH2 -> OH-1 = 1.694000e+04
-IM1 -> OH-1 = 1.968707e+03
-IM2 -> OH-1 = 1.926454e+05
-CH3OCH2 -> OH-2 = 5.224418e-01
-IM1 -> OH-2 = 3.758712e-06
-IM2 -> OH-2 = 6.343992e-04
-CH3OCH2 -> OH-3 = 1.366928e-01
-IM1 -> OH-3 = 2.518116e-07
-IM2 -> OH-3 = 8.728833e-05
+CH3OCH2 -> OH-1 = 7.777798e+04
+IM1 -> OH-1 = 2.962454e-05
+IM2 -> OH-1 = 6.892369e-01
+CH3OCH2 -> OH-2 = 1.859050e-01
+IM1 -> OH-2 = 2.700587e-15
+IM2 -> OH-2 = 9.407705e-11
+CH3OCH2 -> OH-3 = 3.635453e-02
+IM1 -> OH-3 = 1.887146e-16
+IM2 -> OH-3 = 9.630080e-12
 }
 
 
 Eq fraction matrix:
 {
- -3.08391e+00  1.00000e+00  0.00000e+00
-  0.00000e+00 -4.43421e-03  1.00000e+00
+ -2.65921e+12  1.00000e+00  0.00000e+00
+  0.00000e+00 -6.75693e-07  1.00000e+00
   1.00000e+00  1.00000e+00  1.00000e+00
 }
 inverse of Eq fraction matrix:
 {
- -2.45128e-01 -2.44046e-01  2.44046e-01
-  2.44046e-01 -7.52617e-01  7.52617e-01
-  1.08215e-03  9.96663e-01  3.33726e-03
+ -3.76051e-13 -3.76051e-13  3.76051e-13
+  3.76051e-13 -9.99999e-01  9.99999e-01
+  2.54095e-19  9.99999e-01  6.75692e-07
 }
-Equilibrium Fraction for CH3OCH2 = 0.244046
-Equilibrium Fraction for IM1 = 0.752617
-Equilibrium Fraction for IM2 = 0.00333726
+Equilibrium Fraction for CH3OCH2 = 3.76051e-13
+Equilibrium Fraction for IM1 = 0.999999
+Equilibrium Fraction for IM2 = 6.75692e-07
 
 Bartis Widom eigenvalue/eigenvector analysis
 
@@ -3116,91 +2176,91 @@ There should be 3 chemically significant eigenvalues (CSEs)
 
 Y_matrix:
 {
-  -2.830583e+03,  -8.336112e+03,   6.515362e+02,
-   1.272163e-07,  -2.585370e-01,   2.155226e-07,
-   4.943344e-08,  -6.762685e-02,   5.276684e-08,
+   6.508729e-04,  -4.824606e-02,  -2.017623e-05,
+   3.217369e-16,  -1.207449e-07,  -4.477979e-17,
+  -4.309139e-17,  -2.338302e-08,  -5.870919e-18,
 }
 
 Z_matrix: {
-2.511743e-05	-4.940103e-01	3.782277e-07	
-4.141994e-02	2.769404e-06	8.665454e-01	
--5.770317e-02	-2.931745e-06	2.758149e-03	
+-5.587065e-14	-6.132299e-07	-1.338107e-16	
+-8.255604e-04	2.934221e-10	-9.999993e-01	
+8.220047e-04	-7.489172e-11	-6.786150e-07	
 }
 
 Z_matrix^(-1):
 {
-1.029208e-04	5.503458e-02	-1.729056e+01	
--2.024249e+00	3.679700e-06	-8.784877e-04	
-1.549821e-06	1.151377e+00	8.264703e-01	
+-1.485720e-01	-8.255610e-04	1.216537e+03	
+-1.630710e+06	2.934223e-10	-1.108370e-04	
+-3.558314e-04	-1.000000e+00	-1.004326e+00	
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	5.641688e-69	-1.767669e-68	
-1.681640e-68	1.000000e+00	-1.715137e-64	
--4.725933e-70	-7.047492e-67	1.000000e+00	
+1.000000e+00	-1.138557e-79	2.527496e-75	
+-3.245555e-67	1.000000e+00	1.614247e-64	
+3.994754e-69	9.395267e-71	1.000000e+00	
 }
 
 Kr matrix:
 {
--1.688542e+04	-8.726138e-02	2.962774e+01	
--2.691063e-01	-9.450951e+02	6.040310e+04	
-4.051512e-01	2.678403e+02	-8.490194e+04	
+-7.864131e+04	8.581125e-13	1.424215e-05	
+2.281903e+00	-1.964302e-01	2.894273e+05	
+2.559045e+01	1.955639e-01	-2.881808e+05	
 }
 
 Kp matrix:
 {
-   1.687408e+04,   5.943532e+02,   4.948818e+04,
-   5.233433e-01,  -6.961895e-07,   2.251000e-04,
-   1.368936e-01,  -1.853715e-07,   5.859824e-05,
+   7.867532e+04,   1.963888e-05,   7.918367e-01,
+   1.968998e-01,   9.084939e-18,   1.377445e-11,
+   3.813091e-02,  -9.546060e-19,   2.539288e-12,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-CH3OCH2 loss = -1.688542e+04
-IM1 loss = -9.450951e+02
-IM2 loss = -8.490194e+04
+CH3OCH2 loss = -7.864131e+04
+IM1 loss = -1.964302e-01
+IM2 loss = -2.881808e+05
 }
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-CH3OCH2 -> IM1 = -2.691063e-01
-CH3OCH2 -> IM2 = 4.051512e-01
-IM1 -> CH3OCH2 = -8.726138e-02
-IM1 -> IM2 = 2.678403e+02
-IM2 -> CH3OCH2 = 2.962774e+01
-IM2 -> IM1 = 6.040310e+04
+CH3OCH2 -> IM1 = 2.281903e+00
+CH3OCH2 -> IM2 = 2.559045e+01
+IM1 -> CH3OCH2 = 8.581125e-13
+IM1 -> IM2 = 1.955639e-01
+IM2 -> CH3OCH2 = 1.424215e-05
+IM2 -> IM1 = 2.894273e+05
 }
 
 First order & pseudo first order rate coefficients for irreversible rxns:
 {
-CH3OCH2 -> OH-1 = 1.687408e+04
-IM1 -> OH-1 = 5.943532e+02
-IM2 -> OH-1 = 4.948818e+04
-CH3OCH2 -> OH-2 = 5.233433e-01
-IM1 -> OH-2 = -6.961895e-07
-IM2 -> OH-2 = 2.251000e-04
-CH3OCH2 -> OH-3 = 1.368936e-01
-IM1 -> OH-3 = -1.853715e-07
-IM2 -> OH-3 = 5.859824e-05
+CH3OCH2 -> OH-1 = 7.867532e+04
+IM1 -> OH-1 = 1.963888e-05
+IM2 -> OH-1 = 7.918367e-01
+CH3OCH2 -> OH-2 = 1.968998e-01
+IM1 -> OH-2 = 9.084939e-18
+IM2 -> OH-2 = 1.377445e-11
+CH3OCH2 -> OH-3 = 3.813091e-02
+IM1 -> OH-3 = -9.546060e-19
+IM2 -> OH-3 = 2.539288e-12
 }
 
 
 Eq fraction matrix:
 {
- -4.19157e-03  1.00000e+00  0.00000e+00
-  0.00000e+00 -4.88643e-02  1.00000e+00
+ -1.22716e+19  1.00000e+00  0.00000e+00
+  0.00000e+00 -7.30270e-09  1.00000e+00
   1.00000e+00  1.00000e+00  1.00000e+00
 }
 inverse of Eq fraction matrix:
 {
- -1.04427e+00 -9.95623e-01  9.95623e-01
-  9.95623e-01 -4.17323e-03  4.17323e-03
-  4.86504e-02  9.99796e-01  2.03922e-04
+ -8.14892e-20 -8.14892e-20  8.14892e-20
+  8.14892e-20 -1.00000e+00  1.00000e+00
+  5.95091e-28  1.00000e+00  7.30270e-09
 }
-Equilibrium Fraction for CH3OCH2 = 0.995623
-Equilibrium Fraction for IM1 = 0.00417323
-Equilibrium Fraction for IM2 = 0.000203922
+Equilibrium Fraction for CH3OCH2 = 8.14892e-20
+Equilibrium Fraction for IM1 = 1
+Equilibrium Fraction for IM2 = 7.3027e-09
 
 Bartis Widom eigenvalue/eigenvector analysis
 
@@ -3210,91 +2270,91 @@ There should be 3 chemically significant eigenvalues (CSEs)
 
 Y_matrix:
 {
-  -1.043360e+06,  -1.445738e+05,   8.157142e+03,
-  -5.960482e+00,  -1.901732e+00,   5.315631e-01,
-  -1.371243e+00,  -4.730331e-01,   1.486614e-01,
+  -3.694360e-06,  -1.398725e-08,  -3.230091e-10,
+  -4.824854e-15,  -3.850100e-14,  -4.376436e-19,
+  -6.267251e-16,  -8.010044e-15,  -5.708296e-20,
 }
 
 Z_matrix: {
-1.298100e-04	2.672158e-02	9.974511e-01	
-3.463816e-03	-6.448446e-02	1.727079e-03	
--1.425957e-02	-7.653615e-04	2.235970e-05	
+7.769915e-18	-2.854631e-10	-8.145704e-20	
+8.594333e-05	2.876898e-10	-1.000000e+00	
+-8.545585e-05	-2.325989e-12	-7.344361e-09	
 }
 
 Z_matrix^(-1):
 {
-1.303807e-04	8.300092e-01	-6.992671e+01	
-2.683906e-02	-1.545195e+01	-3.753213e+00	
-1.001836e+00	4.138475e-01	1.096484e-01	
+9.534903e+01	8.594333e-05	-1.170195e+04	
+-3.503080e+09	2.876898e-10	-3.185107e-04	
+-9.996055e-01	-1.000000e+00	-1.005704e+00	
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	4.154311e-65	2.255197e-65	
-1.692325e-67	1.000000e+00	-3.635486e-65	
-4.056944e-69	-9.081759e-67	1.000000e+00	
+1.000000e+00	8.236092e-84	-6.905337e-78	
+-4.273005e-65	1.000000e+00	9.495568e-65	
+-1.283526e-67	7.074749e-73	1.000000e+00	
 }
 
 Kr matrix:
 {
--1.086272e+04	1.534730e+06	1.599204e+06	
-6.432933e+03	-4.134131e+06	3.172341e+07	
-3.275461e+02	1.550142e+06	-1.343538e+08	
+-1.182621e+05	9.570013e-15	8.614225e-09	
+1.174390e+05	-1.881877e-03	2.142189e+05	
+7.719690e+02	1.564377e-03	-2.130038e+05	
 }
 
 Kp matrix:
 {
-   4.155863e+03,   1.371324e+06,   7.350221e+07,
-   4.807214e-01,   2.465819e+01,   4.239928e+02,
-   1.360599e-01,   6.232661e+00,   9.767819e+01,
+   4.899808e+01,   5.503537e-12,   4.323121e-02,
+   1.348720e-04,   2.296851e-20,   5.646020e-11,
+   2.805982e-05,   3.217812e-21,   7.333907e-12,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-CH3OCH2 loss = -1.086272e+04
-IM1 loss = -4.134131e+06
-IM2 loss = -1.343538e+08
+CH3OCH2 loss = -1.182621e+05
+IM1 loss = -1.881877e-03
+IM2 loss = -2.130038e+05
 }
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-CH3OCH2 -> IM1 = 6.432933e+03
-CH3OCH2 -> IM2 = 3.275461e+02
-IM1 -> CH3OCH2 = 1.534730e+06
-IM1 -> IM2 = 1.550142e+06
-IM2 -> CH3OCH2 = 1.599204e+06
-IM2 -> IM1 = 3.172341e+07
+CH3OCH2 -> IM1 = 1.174390e+05
+CH3OCH2 -> IM2 = 7.719690e+02
+IM1 -> CH3OCH2 = 9.570013e-15
+IM1 -> IM2 = 1.564377e-03
+IM2 -> CH3OCH2 = 8.614225e-09
+IM2 -> IM1 = 2.142189e+05
 }
 
 First order & pseudo first order rate coefficients for irreversible rxns:
 {
-CH3OCH2 -> OH-1 = 4.155863e+03
-IM1 -> OH-1 = 1.371324e+06
-IM2 -> OH-1 = 7.350221e+07
-CH3OCH2 -> OH-2 = 4.807214e-01
-IM1 -> OH-2 = 2.465819e+01
-IM2 -> OH-2 = 4.239928e+02
-CH3OCH2 -> OH-3 = 1.360599e-01
-IM1 -> OH-3 = 6.232661e+00
-IM2 -> OH-3 = 9.767819e+01
+CH3OCH2 -> OH-1 = 4.899808e+01
+IM1 -> OH-1 = 5.503537e-12
+IM2 -> OH-1 = 4.323121e-02
+CH3OCH2 -> OH-2 = 1.348720e-04
+IM1 -> OH-2 = 2.296851e-20
+IM2 -> OH-2 = 5.646020e-11
+CH3OCH2 -> OH-3 = 2.805982e-05
+IM1 -> OH-3 = 3.217812e-21
+IM2 -> OH-3 = 7.333907e-12
 }
 
 
 Eq fraction matrix:
 {
- -4.19157e-03  1.00000e+00  0.00000e+00
-  0.00000e+00 -4.88643e-02  1.00000e+00
+ -1.22716e+19  1.00000e+00  0.00000e+00
+  0.00000e+00 -7.30270e-09  1.00000e+00
   1.00000e+00  1.00000e+00  1.00000e+00
 }
 inverse of Eq fraction matrix:
 {
- -1.04427e+00 -9.95623e-01  9.95623e-01
-  9.95623e-01 -4.17323e-03  4.17323e-03
-  4.86504e-02  9.99796e-01  2.03922e-04
+ -8.14892e-20 -8.14892e-20  8.14892e-20
+  8.14892e-20 -1.00000e+00  1.00000e+00
+  5.95091e-28  1.00000e+00  7.30270e-09
 }
-Equilibrium Fraction for CH3OCH2 = 0.995623
-Equilibrium Fraction for IM1 = 0.00417323
-Equilibrium Fraction for IM2 = 0.000203922
+Equilibrium Fraction for CH3OCH2 = 8.14892e-20
+Equilibrium Fraction for IM1 = 1
+Equilibrium Fraction for IM2 = 7.3027e-09
 
 Bartis Widom eigenvalue/eigenvector analysis
 
@@ -3304,91 +2364,91 @@ There should be 3 chemically significant eigenvalues (CSEs)
 
 Y_matrix:
 {
-   2.838954e+05,   8.075357e+04,  -6.848284e+03,
-   1.247756e+00,   3.875969e-01,  -5.348247e-01,
-   2.883037e-01,   8.914302e-02,  -1.501069e-01,
+   3.409656e-06,  -2.561987e-07,   3.205935e-10,
+   2.248781e-15,  -5.214868e-13,   2.574190e-19,
+   2.517733e-16,  -1.037547e-13,   2.965739e-20,
 }
 
 Z_matrix: {
--2.003665e-04	-1.620162e-02	-9.976775e-01	
--5.094452e-03	6.439085e-02	-1.044642e-03	
-1.423564e-02	1.125947e-03	-2.114363e-05	
+-2.980148e-17	-2.854631e-10	8.087454e-20	
+-8.594346e-05	2.922822e-10	1.000000e+00	
+8.545585e-05	-8.921330e-12	7.344372e-09	
 }
 
 Z_matrix^(-1):
 {
--2.012474e-04	-1.220747e+00	6.980935e+01	
--1.627285e-02	1.542951e+01	5.521470e+00	
--1.002064e+00	-2.503199e-01	-1.036850e-01	
+-3.657109e+02	-8.594347e-05	1.170195e+04	
+-3.503080e+09	2.922822e-10	-1.221648e-03	
+9.924573e-01	1.000000e+00	1.005706e+00	
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	-4.747784e-66	2.255197e-65	
-1.854603e-68	1.000000e+00	-5.130759e-65	
-2.318254e-69	-3.066470e-66	1.000000e+00	
+1.000000e+00	9.265604e-84	-4.796424e-77	
+-7.833843e-65	1.000000e+00	-2.848670e-65	
+-3.132832e-67	-1.101008e-72	1.000000e+00	
 }
 
 Kr matrix:
 {
--7.296769e+03	3.993170e+05	7.954624e+05	
-1.673766e+03	-1.927293e+06	1.590471e+07	
-1.629252e+02	7.771721e+05	-4.609229e+07	
+-1.180036e+05	9.300800e-15	3.304396e-08	
+1.141354e+05	-1.523877e-03	2.139712e+05	
+2.961255e+03	1.562568e-03	-2.127572e+05	
 }
 
 Kp matrix:
 {
-   5.491192e+03,   9.011382e+05,   2.026515e+07,
-   5.293700e-01,   4.591115e+00,   8.930058e+01,
-   1.489081e-01,   1.061062e+00,   2.063406e+01,
+   8.974833e+02,   2.755576e-11,   3.989962e-02,
+   1.826810e-03,   6.399852e-20,   2.631576e-11,
+   3.634610e-04,   7.988792e-21,   2.946365e-12,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-CH3OCH2 loss = -7.296769e+03
-IM1 loss = -1.927293e+06
-IM2 loss = -4.609229e+07
+CH3OCH2 loss = -1.180036e+05
+IM1 loss = -1.523877e-03
+IM2 loss = -2.127572e+05
 }
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-CH3OCH2 -> IM1 = 1.673766e+03
-CH3OCH2 -> IM2 = 1.629252e+02
-IM1 -> CH3OCH2 = 3.993170e+05
-IM1 -> IM2 = 7.771721e+05
-IM2 -> CH3OCH2 = 7.954624e+05
-IM2 -> IM1 = 1.590471e+07
+CH3OCH2 -> IM1 = 1.141354e+05
+CH3OCH2 -> IM2 = 2.961255e+03
+IM1 -> CH3OCH2 = 9.300800e-15
+IM1 -> IM2 = 1.562568e-03
+IM2 -> CH3OCH2 = 3.304396e-08
+IM2 -> IM1 = 2.139712e+05
 }
 
 First order & pseudo first order rate coefficients for irreversible rxns:
 {
-CH3OCH2 -> OH-1 = 5.491192e+03
-IM1 -> OH-1 = 9.011382e+05
-IM2 -> OH-1 = 2.026515e+07
-CH3OCH2 -> OH-2 = 5.293700e-01
-IM1 -> OH-2 = 4.591115e+00
-IM2 -> OH-2 = 8.930058e+01
-CH3OCH2 -> OH-3 = 1.489081e-01
-IM1 -> OH-3 = 1.061062e+00
-IM2 -> OH-3 = 2.063406e+01
+CH3OCH2 -> OH-1 = 8.974833e+02
+IM1 -> OH-1 = 2.755576e-11
+IM2 -> OH-1 = 3.989962e-02
+CH3OCH2 -> OH-2 = 1.826810e-03
+IM1 -> OH-2 = 6.399852e-20
+IM2 -> OH-2 = 2.631576e-11
+CH3OCH2 -> OH-3 = 3.634610e-04
+IM1 -> OH-3 = 7.988792e-21
+IM2 -> OH-3 = 2.946365e-12
 }
 
 
 Eq fraction matrix:
 {
- -4.19157e-03  1.00000e+00  0.00000e+00
-  0.00000e+00 -4.88643e-02  1.00000e+00
+ -1.22716e+19  1.00000e+00  0.00000e+00
+  0.00000e+00 -7.30270e-09  1.00000e+00
   1.00000e+00  1.00000e+00  1.00000e+00
 }
 inverse of Eq fraction matrix:
 {
- -1.04427e+00 -9.95623e-01  9.95623e-01
-  9.95623e-01 -4.17323e-03  4.17323e-03
-  4.86504e-02  9.99796e-01  2.03922e-04
+ -8.14892e-20 -8.14892e-20  8.14892e-20
+  8.14892e-20 -1.00000e+00  1.00000e+00
+  5.95091e-28  1.00000e+00  7.30270e-09
 }
-Equilibrium Fraction for CH3OCH2 = 0.995623
-Equilibrium Fraction for IM1 = 0.00417323
-Equilibrium Fraction for IM2 = 0.000203922
+Equilibrium Fraction for CH3OCH2 = 8.14892e-20
+Equilibrium Fraction for IM1 = 1
+Equilibrium Fraction for IM2 = 7.3027e-09
 
 Bartis Widom eigenvalue/eigenvector analysis
 
@@ -3398,91 +2458,91 @@ There should be 3 chemically significant eigenvalues (CSEs)
 
 Y_matrix:
 {
-  -4.595255e+04,   1.709586e+04,  -6.020147e+03,
-  -2.373324e-02,   6.398016e-03,  -5.446810e-01,
-  -4.304277e-03,   1.019199e-03,  -1.527777e-01,
+   1.183353e-06,   7.597285e-06,   3.029982e-10,
+   3.428368e-17,   8.506866e-12,   4.640351e-20,
+   2.831578e-18,   1.532518e-12,   4.600572e-21,
 }
 
 Z_matrix: {
-8.881572e-05	-3.508814e-03	-9.978029e-01	
-5.565042e-03	6.435996e-02	-2.258291e-04	
--1.422703e-02	1.230155e-03	-5.592258e-06	
+-4.750478e-17	2.854631e-10	6.263893e-20	
+-8.594557e-05	-2.337316e-10	1.000000e+00	
+8.545585e-05	1.422097e-11	7.344552e-09	
 }
 
 Z_matrix^(-1):
 {
-8.920619e-05	1.333511e+00	-6.976712e+01	
--3.524241e-03	1.542211e+01	6.032489e+00	
--1.002190e+00	-5.411380e-02	-2.742356e-02	
+-5.829581e+02	-8.594557e-05	1.170195e+04	
+3.503080e+09	-2.337316e-10	1.947357e-03	
+7.686778e-01	1.000000e+00	1.005731e+00	
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	0.000000e+00	2.284871e-65	
--1.970516e-68	1.000000e+00	2.717718e-66	
-4.962512e-69	-9.885587e-67	1.000000e+00	
+1.000000e+00	1.029512e-84	-6.010872e-77	
+-2.848670e-65	1.000000e+00	-1.186946e-64	
+3.789831e-66	5.869831e-73	1.000000e+00	
 }
 
 Kr matrix:
 {
--6.039835e+03	1.452069e+04	3.414258e+04	
-6.086453e+01	-3.161198e+05	1.662132e+06	
-6.993022e+00	8.121890e+04	-4.533590e+06	
+-1.151293e+05	6.829104e-15	5.207557e-08	
+8.380380e+04	-1.541280e-03	2.100041e+05	
+4.666784e+03	1.533597e-03	-2.088075e+05	
 }
 
 Kp matrix:
 {
-   5.968979e+03,   2.027018e+05,   3.309273e+06,
-   5.458490e-01,   9.649716e-02,   1.709333e+00,
-   1.531083e-01,   1.824578e-02,   3.106350e-01,
+   2.661389e+04,   2.012925e-10,   1.384755e-02,
+   2.980023e-02,   4.146866e-20,   4.177518e-13,
+   5.368532e-03,   3.999012e-21,   3.611935e-14,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-CH3OCH2 loss = -6.039835e+03
-IM1 loss = -3.161198e+05
-IM2 loss = -4.533590e+06
+CH3OCH2 loss = -1.151293e+05
+IM1 loss = -1.541280e-03
+IM2 loss = -2.088075e+05
 }
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-CH3OCH2 -> IM1 = 6.086453e+01
-CH3OCH2 -> IM2 = 6.993022e+00
-IM1 -> CH3OCH2 = 1.452069e+04
-IM1 -> IM2 = 8.121890e+04
-IM2 -> CH3OCH2 = 3.414258e+04
-IM2 -> IM1 = 1.662132e+06
+CH3OCH2 -> IM1 = 8.380380e+04
+CH3OCH2 -> IM2 = 4.666784e+03
+IM1 -> CH3OCH2 = 6.829104e-15
+IM1 -> IM2 = 1.533597e-03
+IM2 -> CH3OCH2 = 5.207557e-08
+IM2 -> IM1 = 2.100041e+05
 }
 
 First order & pseudo first order rate coefficients for irreversible rxns:
 {
-CH3OCH2 -> OH-1 = 5.968979e+03
-IM1 -> OH-1 = 2.027018e+05
-IM2 -> OH-1 = 3.309273e+06
-CH3OCH2 -> OH-2 = 5.458490e-01
-IM1 -> OH-2 = 9.649716e-02
-IM2 -> OH-2 = 1.709333e+00
-CH3OCH2 -> OH-3 = 1.531083e-01
-IM1 -> OH-3 = 1.824578e-02
-IM2 -> OH-3 = 3.106350e-01
+CH3OCH2 -> OH-1 = 2.661389e+04
+IM1 -> OH-1 = 2.012925e-10
+IM2 -> OH-1 = 1.384755e-02
+CH3OCH2 -> OH-2 = 2.980023e-02
+IM1 -> OH-2 = 4.146866e-20
+IM2 -> OH-2 = 4.177518e-13
+CH3OCH2 -> OH-3 = 5.368532e-03
+IM1 -> OH-3 = 3.999012e-21
+IM2 -> OH-3 = 3.611935e-14
 }
 
 
 Eq fraction matrix:
 {
- -4.19157e-03  1.00000e+00  0.00000e+00
-  0.00000e+00 -4.88643e-02  1.00000e+00
+ -1.22716e+19  1.00000e+00  0.00000e+00
+  0.00000e+00 -7.30270e-09  1.00000e+00
   1.00000e+00  1.00000e+00  1.00000e+00
 }
 inverse of Eq fraction matrix:
 {
- -1.04427e+00 -9.95623e-01  9.95623e-01
-  9.95623e-01 -4.17323e-03  4.17323e-03
-  4.86504e-02  9.99796e-01  2.03922e-04
+ -8.14892e-20 -8.14892e-20  8.14892e-20
+  8.14892e-20 -1.00000e+00  1.00000e+00
+  5.95091e-28  1.00000e+00  7.30270e-09
 }
-Equilibrium Fraction for CH3OCH2 = 0.995623
-Equilibrium Fraction for IM1 = 0.00417323
-Equilibrium Fraction for IM2 = 0.000203922
+Equilibrium Fraction for CH3OCH2 = 8.14892e-20
+Equilibrium Fraction for IM1 = 1
+Equilibrium Fraction for IM2 = 7.3027e-09
 
 Bartis Widom eigenvalue/eigenvector analysis
 
@@ -3492,91 +2552,91 @@ There should be 3 chemically significant eigenvalues (CSEs)
 
 Y_matrix:
 {
-  -4.720245e+03,   1.956272e+03,  -5.903231e+03,
-  -1.309516e-05,  -1.927960e-05,  -5.462212e-01,
-  -4.783175e-07,  -6.657149e-06,  -1.531586e-01,
+  -4.023601e-08,   2.867632e-05,   2.695248e-10,
+  -1.480154e-19,   2.510926e-11,   2.447736e-21,
+   6.018264e-21,   4.110363e-12,   2.001111e-22,
 }
 
 Z_matrix: {
-1.795839e-05	-9.564718e-04	-9.978086e-01	
-4.455482e-03	6.444665e-02	-6.169659e-05	
--1.424611e-02	9.848955e-04	-1.200493e-06	
+2.060645e-18	2.854631e-10	6.359092e-21	
+8.596320e-05	-2.289694e-11	1.000000e+00	
+-8.545585e-05	6.168719e-13	7.346058e-09	
 }
 
 Z_matrix^(-1):
 {
-1.803734e-05	1.067635e+00	-6.986069e+01	
--9.606768e-04	1.544289e+01	4.829773e+00	
--1.002195e+00	-1.478391e-02	-5.887029e-03	
+2.528735e+01	8.596320e-05	-1.170195e+04	
+3.503080e+09	-2.289694e-11	8.447172e-05	
+7.803602e-02	1.000000e+00	1.005937e+00	
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	4.821968e-67	2.596444e-66	
-1.883581e-69	1.000000e+00	-3.981856e-64	
-6.157862e-70	-1.996692e-65	1.000000e+00	
+1.000000e+00	-6.434447e-86	-4.332269e-78	
+0.000000e+00	1.000000e+00	-1.448074e-64	
+-4.118986e-67	-1.344202e-72	1.000000e+00	
 }
 
 Kr matrix:
 {
--5.920132e+03	3.856634e+02	6.023525e+02	
-1.616536e+00	-3.421747e+04	1.106688e+05	
-1.233728e-01	5.407754e+03	-3.863825e+05	
+-1.087372e+05	6.796388e-16	1.610564e-09	
+8.340233e+03	-1.297080e-03	1.765701e+05	
+1.443317e+02	1.289439e-03	-1.755280e+05	
 }
 
 Kp matrix:
 {
-   5.914226e+03,   2.525825e+04,   3.392427e+05,
-   5.474203e-01,   7.763571e-03,   4.037340e-03,
-   1.534948e-01,   2.160966e-03,   9.029120e-04,
+   1.004554e+05,   2.660653e-10,   4.708424e-04,
+   8.795975e-02,   1.860087e-21,   3.853093e-15,
+   1.439893e-02,   1.065138e-22,   2.767842e-16,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-CH3OCH2 loss = -5.920132e+03
-IM1 loss = -3.421747e+04
-IM2 loss = -3.863825e+05
+CH3OCH2 loss = -1.087372e+05
+IM1 loss = -1.297080e-03
+IM2 loss = -1.755280e+05
 }
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-CH3OCH2 -> IM1 = 1.616536e+00
-CH3OCH2 -> IM2 = 1.233728e-01
-IM1 -> CH3OCH2 = 3.856634e+02
-IM1 -> IM2 = 5.407754e+03
-IM2 -> CH3OCH2 = 6.023525e+02
-IM2 -> IM1 = 1.106688e+05
+CH3OCH2 -> IM1 = 8.340233e+03
+CH3OCH2 -> IM2 = 1.443317e+02
+IM1 -> CH3OCH2 = 6.796388e-16
+IM1 -> IM2 = 1.289439e-03
+IM2 -> CH3OCH2 = 1.610564e-09
+IM2 -> IM1 = 1.765701e+05
 }
 
 First order & pseudo first order rate coefficients for irreversible rxns:
 {
-CH3OCH2 -> OH-1 = 5.914226e+03
-IM1 -> OH-1 = 2.525825e+04
-IM2 -> OH-1 = 3.392427e+05
-CH3OCH2 -> OH-2 = 5.474203e-01
-IM1 -> OH-2 = 7.763571e-03
-IM2 -> OH-2 = 4.037340e-03
-CH3OCH2 -> OH-3 = 1.534948e-01
-IM1 -> OH-3 = 2.160966e-03
-IM2 -> OH-3 = 9.029120e-04
+CH3OCH2 -> OH-1 = 1.004554e+05
+IM1 -> OH-1 = 2.660653e-10
+IM2 -> OH-1 = 4.708424e-04
+CH3OCH2 -> OH-2 = 8.795975e-02
+IM1 -> OH-2 = 1.860087e-21
+IM2 -> OH-2 = 3.853093e-15
+CH3OCH2 -> OH-3 = 1.439893e-02
+IM1 -> OH-3 = 1.065138e-22
+IM2 -> OH-3 = 2.767842e-16
 }
 
 
 Eq fraction matrix:
 {
- -4.19157e-03  1.00000e+00  0.00000e+00
-  0.00000e+00 -4.88643e-02  1.00000e+00
+ -1.22716e+19  1.00000e+00  0.00000e+00
+  0.00000e+00 -7.30270e-09  1.00000e+00
   1.00000e+00  1.00000e+00  1.00000e+00
 }
 inverse of Eq fraction matrix:
 {
- -1.04427e+00 -9.95623e-01  9.95623e-01
-  9.95623e-01 -4.17323e-03  4.17323e-03
-  4.86504e-02  9.99796e-01  2.03922e-04
+ -8.14892e-20 -8.14892e-20  8.14892e-20
+  8.14892e-20 -1.00000e+00  1.00000e+00
+  5.95091e-28  1.00000e+00  7.30270e-09
 }
-Equilibrium Fraction for CH3OCH2 = 0.995623
-Equilibrium Fraction for IM1 = 0.00417323
-Equilibrium Fraction for IM2 = 0.000203922
+Equilibrium Fraction for CH3OCH2 = 8.14892e-20
+Equilibrium Fraction for IM1 = 1
+Equilibrium Fraction for IM2 = 7.3027e-09
 
 Bartis Widom eigenvalue/eigenvector analysis
 
@@ -3586,73 +2646,1013 @@ There should be 3 chemically significant eigenvalues (CSEs)
 
 Y_matrix:
 {
-  -1.034083e+03,  -4.471369e+02,   5.895328e+03,
-   6.269955e-08,   2.171866e-06,   5.463254e-01,
-   2.899849e-08,   6.137920e-07,   1.531836e-01,
+   1.646377e-08,  -3.060776e-05,  -2.279556e-10,
+  -4.814200e-21,  -2.872719e-11,  -3.308382e-23,
+  -9.575792e-22,  -4.592806e-12,  -2.880184e-24,
 }
 
 Z_matrix: {
-2.291392e-05	9.023922e-04	9.978086e-01	
-3.806929e-03	-6.448821e-02	5.823404e-05	
--1.425530e-02	-8.415313e-04	1.088421e-06	
+-3.017127e-19	-2.854631e-10	-1.383515e-22	
+-8.599223e-05	5.755435e-13	-1.000000e+00	
+8.545585e-05	-9.032030e-14	-7.348540e-09	
 }
 
 Z_matrix^(-1):
 {
-2.301466e-05	9.122270e-01	-6.990575e+01	
-9.063594e-04	-1.545285e+01	-4.126737e+00	
-1.002195e+00	1.395420e-02	5.337447e-03	
+-3.702487e+00	-8.599223e-05	1.170195e+04	
+-3.503080e+09	5.755435e-13	-1.236806e-05	
+-1.697790e-03	-1.000000e+00	-1.006277e+00	
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	-1.636687e-66	7.047492e-66	
--4.862900e-69	1.000000e+00	-1.734774e-63	
-1.340241e-69	-8.615015e-65	1.000000e+00	
+1.000000e+00	1.206459e-86	-4.869940e-79	
+-1.112762e-67	1.000000e+00	-1.519291e-64	
+-4.915165e-68	-6.190406e-73	1.000000e+00	
 }
 
 Kr matrix:
 {
--5.912205e+03	2.200398e+01	1.264009e+02	
-9.223127e-02	-7.857087e+03	1.950464e+04	
-2.588921e-02	9.530803e+02	-8.063898e+04	
+-1.071767e+05	1.434897e-17	6.519476e-11	
+1.760844e+02	-9.290318e-04	1.264308e+05	
+5.842467e+00	9.232868e-04	-1.256422e+05	
 }
 
 Kp matrix:
 {
-   5.907841e+03,   6.048484e+03,   7.416500e+04,
-   5.475248e-01,   7.590032e-03,   2.902637e-03,
-   1.535199e-01,   2.128097e-03,   8.130494e-04,
+   1.072214e+05,   2.265398e-10,   1.926588e-04,
+   1.006336e-01,   1.696406e-23,   2.989643e-16,
+   1.608896e-02,   3.191683e-25,   4.559858e-17,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-CH3OCH2 loss = -5.912205e+03
-IM1 loss = -7.857087e+03
-IM2 loss = -8.063898e+04
+CH3OCH2 loss = -1.071767e+05
+IM1 loss = -9.290318e-04
+IM2 loss = -1.256422e+05
 }
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-CH3OCH2 -> IM1 = 9.223127e-02
-CH3OCH2 -> IM2 = 2.588921e-02
-IM1 -> CH3OCH2 = 2.200398e+01
-IM1 -> IM2 = 9.530803e+02
-IM2 -> CH3OCH2 = 1.264009e+02
-IM2 -> IM1 = 1.950464e+04
+CH3OCH2 -> IM1 = 1.760844e+02
+CH3OCH2 -> IM2 = 5.842467e+00
+IM1 -> CH3OCH2 = 1.434897e-17
+IM1 -> IM2 = 9.232868e-04
+IM2 -> CH3OCH2 = 6.519476e-11
+IM2 -> IM1 = 1.264308e+05
 }
 
 First order & pseudo first order rate coefficients for irreversible rxns:
 {
-CH3OCH2 -> OH-1 = 5.907841e+03
-IM1 -> OH-1 = 6.048484e+03
-IM2 -> OH-1 = 7.416500e+04
-CH3OCH2 -> OH-2 = 5.475248e-01
-IM1 -> OH-2 = 7.590032e-03
-IM2 -> OH-2 = 2.902637e-03
-CH3OCH2 -> OH-3 = 1.535199e-01
-IM1 -> OH-3 = 2.128097e-03
-IM2 -> OH-3 = 8.130494e-04
+CH3OCH2 -> OH-1 = 1.072214e+05
+IM1 -> OH-1 = 2.265398e-10
+IM2 -> OH-1 = 1.926588e-04
+CH3OCH2 -> OH-2 = 1.006336e-01
+IM1 -> OH-2 = 1.696406e-23
+IM2 -> OH-2 = 2.989643e-16
+CH3OCH2 -> OH-3 = 1.608896e-02
+IM1 -> OH-3 = 3.191683e-25
+IM2 -> OH-3 = 4.559858e-17
+}
+
+
+Eq fraction matrix:
+{
+ -2.68873e+24  1.00000e+00  0.00000e+00
+  0.00000e+00 -2.11513e-10  1.00000e+00
+  1.00000e+00  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -3.71922e-25 -3.71922e-25  3.71922e-25
+  3.71922e-25 -1.00000e+00  1.00000e+00
+  7.86665e-35  1.00000e+00  2.11513e-10
+}
+Equilibrium Fraction for CH3OCH2 = 3.71922e-25
+Equilibrium Fraction for IM1 = 1
+Equilibrium Fraction for IM2 = 2.11513e-10
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 3
+
+There should be 3 chemically significant eigenvalues (CSEs)
+
+Y_matrix:
+{
+   1.249320e-11,  -1.639757e-09,  -2.429896e-14,
+   1.489152e-17,  -1.004498e-19,  -1.565706e-24,
+   2.755898e-18,  -1.040227e-20,  -1.658330e-25,
+}
+
+Z_matrix: {
+6.098543e-13	-2.887739e-22	-3.718738e-25	
+-6.028360e-13	1.465388e-05	-1.000000e+00	
+-6.886534e-15	-1.454350e-05	-2.131186e-10	
+}
+
+Z_matrix^(-1):
+{
+1.639736e+12	-6.028360e-13	-3.255840e-05	
+-7.764361e+02	1.465388e-05	-6.875926e+04	
+-9.998696e-01	-1.000000e+00	-1.007590e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	8.247277e-89	6.914737e-81	
+1.270032e-64	1.000000e+00	3.738880e-65	
+3.087774e-66	3.371560e-74	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.352568e+05	5.006092e-20	1.114513e-12	
+1.346005e+05	5.064284e-04	7.972717e+04	
+6.338269e+02	1.686335e-05	-7.912662e+04	
+}
+
+Kp matrix:
+{
+   2.048555e+01,   2.701628e-16,   1.127485e-04,
+   2.441815e-05,   9.371749e-26,   6.906855e-15,
+   4.518945e-06,   1.339773e-26,   7.152523e-16,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+CH3OCH2 loss = -1.352568e+05
+IM1 loss = 5.064284e-04
+IM2 loss = -7.912662e+04
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+CH3OCH2 -> IM1 = 1.346005e+05
+CH3OCH2 -> IM2 = 6.338269e+02
+IM1 -> CH3OCH2 = 5.006092e-20
+IM1 -> IM2 = 1.686335e-05
+IM2 -> CH3OCH2 = 1.114513e-12
+IM2 -> IM1 = 7.972717e+04
+}
+
+First order & pseudo first order rate coefficients for irreversible rxns:
+{
+CH3OCH2 -> OH-1 = 2.048555e+01
+IM1 -> OH-1 = 2.701628e-16
+IM2 -> OH-1 = 1.127485e-04
+CH3OCH2 -> OH-2 = 2.441815e-05
+IM1 -> OH-2 = 9.371749e-26
+IM2 -> OH-2 = 6.906855e-15
+CH3OCH2 -> OH-3 = 4.518945e-06
+IM1 -> OH-3 = 1.339773e-26
+IM2 -> OH-3 = 7.152523e-16
+}
+
+
+Eq fraction matrix:
+{
+ -2.68873e+24  1.00000e+00  0.00000e+00
+  0.00000e+00 -2.11513e-10  1.00000e+00
+  1.00000e+00  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -3.71922e-25 -3.71922e-25  3.71922e-25
+  3.71922e-25 -1.00000e+00  1.00000e+00
+  7.86665e-35  1.00000e+00  2.11513e-10
+}
+Equilibrium Fraction for CH3OCH2 = 3.71922e-25
+Equilibrium Fraction for IM1 = 1
+Equilibrium Fraction for IM2 = 2.11513e-10
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 3
+
+There should be 3 chemically significant eigenvalues (CSEs)
+
+Y_matrix:
+{
+   2.722421e-10,   1.560021e-09,  -2.425292e-14,
+   2.609772e-16,   5.913468e-20,  -1.032790e-24,
+   4.629308e-17,   5.427251e-21,  -9.578181e-26,
+}
+
+Z_matrix: {
+6.098543e-13	1.234768e-21	-3.707245e-25	
+-5.782206e-13	-1.465389e-05	-1.000000e+00	
+-2.944611e-14	1.454350e-05	-2.131189e-10	
+}
+
+Z_matrix^(-1):
+{
+1.639736e+12	-5.782206e-13	-1.392164e-04	
+3.319962e+03	-1.465389e-05	6.875926e+04	
+-9.967794e-01	-1.000000e+00	-1.007591e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-2.356365e-89	-9.468909e-81	
+-5.697341e-65	1.000000e+00	7.596454e-65	
+-2.943451e-66	1.326515e-74	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.351582e+05	4.909210e-20	4.759579e-12	
+1.319956e+05	-9.123820e-05	7.969878e+04	
+2.706786e+03	1.685735e-05	-7.909835e+04	
+}
+
+Kp matrix:
+{
+   4.464051e+02,   1.392533e-15,   1.072659e-04,
+   4.279337e-04,   1.660857e-25,   4.066021e-15,
+   7.590843e-05,   1.622467e-26,   3.731673e-16,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+CH3OCH2 loss = -1.351582e+05
+IM1 loss = -9.123820e-05
+IM2 loss = -7.909835e+04
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+CH3OCH2 -> IM1 = 1.319956e+05
+CH3OCH2 -> IM2 = 2.706786e+03
+IM1 -> CH3OCH2 = 4.909210e-20
+IM1 -> IM2 = 1.685735e-05
+IM2 -> CH3OCH2 = 4.759579e-12
+IM2 -> IM1 = 7.969878e+04
+}
+
+First order & pseudo first order rate coefficients for irreversible rxns:
+{
+CH3OCH2 -> OH-1 = 4.464051e+02
+IM1 -> OH-1 = 1.392533e-15
+IM2 -> OH-1 = 1.072659e-04
+CH3OCH2 -> OH-2 = 4.279337e-04
+IM1 -> OH-2 = 1.660857e-25
+IM2 -> OH-2 = 4.066021e-15
+CH3OCH2 -> OH-3 = 7.590843e-05
+IM1 -> OH-3 = 1.622467e-26
+IM2 -> OH-3 = 3.731673e-16
+}
+
+
+Eq fraction matrix:
+{
+ -2.68873e+24  1.00000e+00  0.00000e+00
+  0.00000e+00 -2.11513e-10  1.00000e+00
+  1.00000e+00  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -3.71922e-25 -3.71922e-25  3.71922e-25
+  3.71922e-25 -1.00000e+00  1.00000e+00
+  7.86665e-35  1.00000e+00  2.11513e-10
+}
+Equilibrium Fraction for CH3OCH2 = 3.71922e-25
+Equilibrium Fraction for IM1 = 1
+Equilibrium Fraction for IM2 = 2.11513e-10
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 3
+
+There should be 3 chemically significant eigenvalues (CSEs)
+
+Y_matrix:
+{
+  -1.230908e-08,   7.424562e-10,   2.376084e-14,
+  -6.812151e-15,   1.389769e-21,   2.100192e-25,
+  -1.078976e-15,   9.173724e-23,   1.554155e-26,
+}
+
+Z_matrix: {
+-6.098543e-13	2.937259e-21	3.158150e-25	
+4.472744e-13	-1.465404e-05	1.000000e+00	
+7.004625e-14	1.454350e-05	2.131210e-10	
+}
+
+Z_matrix^(-1):
+{
+-1.639736e+12	4.472744e-13	3.311672e-04	
+7.897506e+03	-1.465404e-05	6.875926e+04	
+8.491423e-01	1.000000e+00	1.007601e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	6.283640e-89	-1.946143e-80	
+1.566769e-64	1.000000e+00	9.050463e-65	
+-2.245316e-65	3.316289e-75	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.338353e+05	3.989074e-20	1.115075e-11	
+1.072556e+05	-1.315384e-05	7.922133e+04	
+6.341461e+03	1.675636e-05	-7.862369e+04	
+}
+
+Kp matrix:
+{
+   2.018364e+04,   1.288085e-14,   5.105073e-05,
+   1.117013e-02,   1.866065e-25,   9.330355e-17,
+   1.769235e-03,   1.371463e-26,   5.950463e-18,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+CH3OCH2 loss = -1.338353e+05
+IM1 loss = -1.315384e-05
+IM2 loss = -7.862369e+04
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+CH3OCH2 -> IM1 = 1.072556e+05
+CH3OCH2 -> IM2 = 6.341461e+03
+IM1 -> CH3OCH2 = 3.989074e-20
+IM1 -> IM2 = 1.675636e-05
+IM2 -> CH3OCH2 = 1.115075e-11
+IM2 -> IM1 = 7.922133e+04
+}
+
+First order & pseudo first order rate coefficients for irreversible rxns:
+{
+CH3OCH2 -> OH-1 = 2.018364e+04
+IM1 -> OH-1 = 1.288085e-14
+IM2 -> OH-1 = 5.105073e-05
+CH3OCH2 -> OH-2 = 1.117013e-02
+IM1 -> OH-2 = 1.866065e-25
+IM2 -> OH-2 = 9.330355e-17
+CH3OCH2 -> OH-3 = 1.769235e-03
+IM1 -> OH-3 = 1.371463e-26
+IM2 -> OH-3 = 5.950463e-18
+}
+
+
+Eq fraction matrix:
+{
+ -2.68873e+24  1.00000e+00  0.00000e+00
+  0.00000e+00 -2.11513e-10  1.00000e+00
+  1.00000e+00  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -3.71922e-25 -3.71922e-25  3.71922e-25
+  3.71922e-25 -1.00000e+00  1.00000e+00
+  7.86665e-35  1.00000e+00  2.11513e-10
+}
+Equilibrium Fraction for CH3OCH2 = 3.71922e-25
+Equilibrium Fraction for IM1 = 1
+Equilibrium Fraction for IM2 = 2.11513e-10
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 3
+
+There should be 3 chemically significant eigenvalues (CSEs)
+
+Y_matrix:
+{
+   6.810545e-08,   2.331580e-11,  -2.253436e-14,
+   2.913446e-14,   1.923941e-23,  -1.720474e-26,
+   4.094435e-15,   1.428960e-24,  -1.153602e-27,
+}
+
+Z_matrix: {
+6.098543e-13	1.140031e-22	-5.129744e-26	
+-8.137459e-14	-1.465571e-05	-1.000000e+00	
+-2.718688e-15	1.454350e-05	-2.131453e-10	
+}
+
+Z_matrix^(-1):
+{
+1.639736e+12	-8.137459e-14	-1.285351e-05	
+3.065239e+02	-1.465571e-05	6.875926e+04	
+-1.379252e-01	-1.000000e+00	-1.007716e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	9.818187e-91	-3.401274e-82	
+2.789323e-65	1.000000e+00	4.502629e-65	
+-2.570839e-67	2.763574e-74	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.292114e+05	6.534562e-21	4.393875e-13	
+1.756970e+04	-1.574536e-05	7.372278e+04	
+2.498809e+02	1.559335e-05	-7.315830e+04	
+}
+
+Kp matrix:
+{
+   1.116750e+05,   2.219265e-14,   1.603176e-06,
+   4.777282e-02,   1.455197e-26,   9.484072e-19,
+   6.713793e-03,   7.994764e-28,   4.562640e-20,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+CH3OCH2 loss = -1.292114e+05
+IM1 loss = -1.574536e-05
+IM2 loss = -7.315830e+04
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+CH3OCH2 -> IM1 = 1.756970e+04
+CH3OCH2 -> IM2 = 2.498809e+02
+IM1 -> CH3OCH2 = 6.534562e-21
+IM1 -> IM2 = 1.559335e-05
+IM2 -> CH3OCH2 = 4.393875e-13
+IM2 -> IM1 = 7.372278e+04
+}
+
+First order & pseudo first order rate coefficients for irreversible rxns:
+{
+CH3OCH2 -> OH-1 = 1.116750e+05
+IM1 -> OH-1 = 2.219265e-14
+IM2 -> OH-1 = 1.603176e-06
+CH3OCH2 -> OH-2 = 4.777282e-02
+IM1 -> OH-2 = 1.455197e-26
+IM2 -> OH-2 = 9.484072e-19
+CH3OCH2 -> OH-3 = 6.713793e-03
+IM1 -> OH-3 = 7.994764e-28
+IM2 -> OH-3 = 4.562640e-20
+}
+
+
+Eq fraction matrix:
+{
+ -2.68873e+24  1.00000e+00  0.00000e+00
+  0.00000e+00 -2.11513e-10  1.00000e+00
+  1.00000e+00  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -3.71922e-25 -3.71922e-25  3.71922e-25
+  3.71922e-25 -1.00000e+00  1.00000e+00
+  7.86665e-35  1.00000e+00  2.11513e-10
+}
+Equilibrium Fraction for CH3OCH2 = 3.71922e-25
+Equilibrium Fraction for IM1 = 1
+Equilibrium Fraction for IM2 = 2.11513e-10
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 3
+
+There should be 3 chemically significant eigenvalues (CSEs)
+
+Y_matrix:
+{
+   7.771865e-08,  -7.382670e-12,  -2.086327e-14,
+   3.613904e-14,  -1.442575e-25,  -1.450999e-28,
+   4.889493e-15,  -1.017762e-26,   2.461926e-30,
+}
+
+Z_matrix: {
+6.098543e-13	-1.099243e-24	-1.571215e-27	
+-2.549954e-15	1.465962e-05	-1.000000e+00	
+-2.621418e-17	-1.454350e-05	-2.132021e-10	
+}
+
+Z_matrix^(-1):
+{
+1.639736e+12	-2.549954e-15	-1.239363e-07	
+-2.955570e+00	1.465962e-05	-6.875926e+04	
+-4.224579e-03	-1.000000e+00	-1.007985e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	2.224433e-91	8.704651e-83	
+3.291920e-67	1.000000e+00	2.278936e-64	
+5.307457e-68	3.095203e-74	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.275604e+05	1.993410e-22	5.083326e-15	
+5.359749e+02	-1.297017e-05	6.078709e+04	
+2.890902e+00	1.285728e-05	-6.030557e+04	
+}
+
+Kp matrix:
+{
+   1.274381e+05,   2.075504e-14,   5.076270e-07,
+   5.925848e-02,   5.083219e-29,   5.440101e-21,
+   8.017478e-03,  -1.507911e-29,   9.381980e-23,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+CH3OCH2 loss = -1.275604e+05
+IM1 loss = -1.297017e-05
+IM2 loss = -6.030557e+04
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+CH3OCH2 -> IM1 = 5.359749e+02
+CH3OCH2 -> IM2 = 2.890902e+00
+IM1 -> CH3OCH2 = 1.993410e-22
+IM1 -> IM2 = 1.285728e-05
+IM2 -> CH3OCH2 = 5.083326e-15
+IM2 -> IM1 = 6.078709e+04
+}
+
+First order & pseudo first order rate coefficients for irreversible rxns:
+{
+CH3OCH2 -> OH-1 = 1.274381e+05
+IM1 -> OH-1 = 2.075504e-14
+IM2 -> OH-1 = 5.076270e-07
+CH3OCH2 -> OH-2 = 5.925848e-02
+IM1 -> OH-2 = 5.083219e-29
+IM2 -> OH-2 = 5.440101e-21
+CH3OCH2 -> OH-3 = 8.017478e-03
+IM1 -> OH-3 = -1.507911e-29
+IM2 -> OH-3 = 9.381980e-23
+}
+
+
+Eq fraction matrix:
+{
+ -2.46428e+27  1.00000e+00  0.00000e+00
+  0.00000e+00 -3.03064e-11  1.00000e+00
+  1.00000e+00  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -4.05799e-28 -4.05799e-28  4.05799e-28
+  4.05799e-28 -1.00000e+00  1.00000e+00
+  1.22983e-38  1.00000e+00  3.03064e-11
+}
+Equilibrium Fraction for CH3OCH2 = 4.05799e-28
+Equilibrium Fraction for IM1 = 1
+Equilibrium Fraction for IM2 = 3.03064e-11
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 3
+
+There should be 3 chemically significant eigenvalues (CSEs)
+
+Y_matrix:
+{
+   2.783146e-13,  -2.318249e-11,   1.299414e-16,
+   2.123370e-19,  -2.483228e-22,   3.519870e-27,
+   3.652519e-20,  -2.252950e-23,   3.877745e-28,
+}
+
+Z_matrix: {
+2.014445e-14	-4.408907e-25	4.057693e-28	
+-2.002145e-14	5.552953e-06	1.000000e+00	
+-1.204878e-16	-5.505128e-06	3.056971e-11	
+}
+
+Z_matrix^(-1):
+{
+4.964147e+13	-2.002145e-14	-3.975650e-06	
+-1.086476e+03	5.552953e-06	-1.816488e+05	
+9.999275e-01	1.000000e+00	1.008687e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	3.068183e-92	1.486724e-83	
+-1.899114e-65	1.000000e+00	7.596454e-65	
+3.179263e-67	2.763574e-76	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.446470e+05	5.845593e-23	7.765486e-15	
+1.440515e+05	-1.364183e-04	4.809846e+04	
+5.799529e+02	1.457693e-06	-4.768421e+04	
+}
+
+Kp matrix:
+{
+   1.381594e+01,   1.210165e-18,   4.211072e-06,
+   1.054072e-05,   2.140941e-27,   4.510754e-17,
+   1.813164e-06,   2.626686e-28,   4.092456e-18,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+CH3OCH2 loss = -1.446470e+05
+IM1 loss = -1.364183e-04
+IM2 loss = -4.768421e+04
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+CH3OCH2 -> IM1 = 1.440515e+05
+CH3OCH2 -> IM2 = 5.799529e+02
+IM1 -> CH3OCH2 = 5.845593e-23
+IM1 -> IM2 = 1.457693e-06
+IM2 -> CH3OCH2 = 7.765486e-15
+IM2 -> IM1 = 4.809846e+04
+}
+
+First order & pseudo first order rate coefficients for irreversible rxns:
+{
+CH3OCH2 -> OH-1 = 1.381594e+01
+IM1 -> OH-1 = 1.210165e-18
+IM2 -> OH-1 = 4.211072e-06
+CH3OCH2 -> OH-2 = 1.054072e-05
+IM1 -> OH-2 = 2.140941e-27
+IM2 -> OH-2 = 4.510754e-17
+CH3OCH2 -> OH-3 = 1.813164e-06
+IM1 -> OH-3 = 2.626686e-28
+IM2 -> OH-3 = 4.092456e-18
+}
+
+
+Eq fraction matrix:
+{
+ -2.46428e+27  1.00000e+00  0.00000e+00
+  0.00000e+00 -3.03064e-11  1.00000e+00
+  1.00000e+00  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -4.05799e-28 -4.05799e-28  4.05799e-28
+  4.05799e-28 -1.00000e+00  1.00000e+00
+  1.22983e-38  1.00000e+00  3.03064e-11
+}
+Equilibrium Fraction for CH3OCH2 = 4.05799e-28
+Equilibrium Fraction for IM1 = 1
+Equilibrium Fraction for IM2 = 3.03064e-11
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 3
+
+There should be 3 chemically significant eigenvalues (CSEs)
+
+Y_matrix:
+{
+  -6.438020e-12,   2.226003e-11,   1.297236e-16,
+  -4.110654e-18,   1.594844e-22,   1.384720e-27,
+  -6.794404e-19,   1.299751e-23,   1.503731e-28,
+}
+
+Z_matrix: {
+-2.014445e-14	1.957287e-24	4.049394e-28	
+1.956225e-14	-5.552951e-06	1.000000e+00	
+5.348926e-16	5.505128e-06	3.056971e-11	
+}
+
+Z_matrix^(-1):
+{
+-4.964147e+13	1.956225e-14	1.764947e-05	
+4.823295e+03	-5.552951e-06	1.816488e+05	
+9.978822e-01	1.000000e+00	1.008687e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	4.985798e-92	-2.459332e-83	
+7.833843e-65	1.000000e+00	0.000000e+00	
+1.042847e-66	3.039931e-75	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.445848e+05	5.749478e-23	3.445539e-14	
+1.416830e+05	-1.135314e-05	4.808861e+04	
+2.573246e+03	1.457394e-06	-4.767446e+04	
+}
+
+Kp matrix:
+{
+   3.195928e+02,   6.114722e-18,   4.043508e-06,
+   2.040589e-04,   4.990301e-28,   2.897009e-17,
+   3.372842e-05,   7.818525e-29,   2.360970e-18,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+CH3OCH2 loss = -1.445848e+05
+IM1 loss = -1.135314e-05
+IM2 loss = -4.767446e+04
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+CH3OCH2 -> IM1 = 1.416830e+05
+CH3OCH2 -> IM2 = 2.573246e+03
+IM1 -> CH3OCH2 = 5.749478e-23
+IM1 -> IM2 = 1.457394e-06
+IM2 -> CH3OCH2 = 3.445539e-14
+IM2 -> IM1 = 4.808861e+04
+}
+
+First order & pseudo first order rate coefficients for irreversible rxns:
+{
+CH3OCH2 -> OH-1 = 3.195928e+02
+IM1 -> OH-1 = 6.114722e-18
+IM2 -> OH-1 = 4.043508e-06
+CH3OCH2 -> OH-2 = 2.040589e-04
+IM1 -> OH-2 = 4.990301e-28
+IM2 -> OH-2 = 2.897009e-17
+CH3OCH2 -> OH-3 = 3.372842e-05
+IM1 -> OH-3 = 7.818525e-29
+IM2 -> OH-3 = 2.360970e-18
+}
+
+
+Eq fraction matrix:
+{
+ -2.46428e+27  1.00000e+00  0.00000e+00
+  0.00000e+00 -3.03064e-11  1.00000e+00
+  1.00000e+00  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -4.05799e-28 -4.05799e-28  4.05799e-28
+  4.05799e-28 -1.00000e+00  1.00000e+00
+  1.22983e-38  1.00000e+00  3.03064e-11
+}
+Equilibrium Fraction for CH3OCH2 = 4.05799e-28
+Equilibrium Fraction for IM1 = 1
+Equilibrium Fraction for IM2 = 3.03064e-11
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 3
+
+There should be 3 chemically significant eigenvalues (CSEs)
+
+Y_matrix:
+{
+  -3.505739e-10,  -1.189726e-11,   1.281792e-16,
+  -1.333329e-16,  -4.610496e-24,   3.294879e-28,
+  -1.954226e-17,  -2.533518e-25,   9.984794e-30,
+}
+
+Z_matrix: {
+-2.014445e-14	-5.498626e-24	3.566764e-28	
+1.619020e-14	5.552987e-06	1.000000e+00	
+1.502679e-15	-5.505128e-06	3.056990e-11	
+}
+
+Z_matrix^(-1):
+{
+-4.964147e+13	1.619020e-14	4.958284e-05	
+-1.355013e+04	5.552987e-06	-1.816488e+05	
+8.789490e-01	1.000000e+00	1.008694e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-3.451706e-92	-1.096836e-82	
+-3.798227e-65	1.000000e+00	-9.732957e-65	
+-1.090405e-65	-1.521720e-75	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.436977e+05	4.831656e-23	9.607520e-14	
+1.190653e+05	-1.415024e-06	4.792191e+04	
+7.175223e+03	1.452342e-06	-4.750889e+04	
+}
+
+Kp matrix:
+{
+   1.740300e+04,   6.211384e-17,   2.161123e-06,
+   6.618840e-03,   3.017272e-28,   8.308802e-19,
+   9.701065e-04,   8.261542e-30,   4.505209e-20,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+CH3OCH2 loss = -1.436977e+05
+IM1 loss = -1.415024e-06
+IM2 loss = -4.750889e+04
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+CH3OCH2 -> IM1 = 1.190653e+05
+CH3OCH2 -> IM2 = 7.175223e+03
+IM1 -> CH3OCH2 = 4.831656e-23
+IM1 -> IM2 = 1.452342e-06
+IM2 -> CH3OCH2 = 9.607520e-14
+IM2 -> IM1 = 4.792191e+04
+}
+
+First order & pseudo first order rate coefficients for irreversible rxns:
+{
+CH3OCH2 -> OH-1 = 1.740300e+04
+IM1 -> OH-1 = 6.211384e-17
+IM2 -> OH-1 = 2.161123e-06
+CH3OCH2 -> OH-2 = 6.618840e-03
+IM1 -> OH-2 = 3.017272e-28
+IM2 -> OH-2 = 8.308802e-19
+CH3OCH2 -> OH-3 = 9.701065e-04
+IM1 -> OH-3 = 8.261542e-30
+IM2 -> OH-3 = 4.505209e-20
+}
+
+
+Eq fraction matrix:
+{
+ -2.46428e+27  1.00000e+00  0.00000e+00
+  0.00000e+00 -3.03064e-11  1.00000e+00
+  1.00000e+00  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -4.05799e-28 -4.05799e-28  4.05799e-28
+  4.05799e-28 -1.00000e+00  1.00000e+00
+  1.22983e-38  1.00000e+00  3.03064e-11
+}
+Equilibrium Fraction for CH3OCH2 = 4.05799e-28
+Equilibrium Fraction for IM1 = 1
+Equilibrium Fraction for IM2 = 3.03064e-11
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 3
+
+There should be 3 chemically significant eigenvalues (CSEs)
+
+Y_matrix:
+{
+  -2.331307e-09,  -3.848968e-13,  -1.237285e-16,
+  -6.867441e-16,  -6.069409e-26,  -1.809137e-29,
+  -8.834539e-17,  -3.479005e-27,  -9.392014e-31,
+}
+
+Z_matrix: {
+-2.014445e-14	-2.872151e-25	-7.111802e-29	
+3.451224e-15	5.553429e-06	-1.000000e+00	
+7.849090e-17	-5.505128e-06	-3.057234e-11	
+}
+
+Z_matrix^(-1):
+{
+-4.964147e+13	3.451224e-15	2.589909e-06	
+-7.077771e+02	5.553429e-06	-1.816488e+05	
+-1.752544e-01	-1.000000e+00	-1.008774e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	5.752844e-93	4.620546e-84	
+2.136503e-65	1.000000e+00	3.798227e-65	
+1.115495e-67	1.105430e-75	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.399238e+05	9.800355e-24	4.930874e-15	
+2.415078e+04	-1.196895e-06	4.581088e+04	
+3.682544e+02	1.388364e-06	-4.541243e+04	
+}
+
+Kp matrix:
+{
+   1.157295e+05,   1.215910e-16,   6.991605e-08,
+   3.409099e-02,   1.538420e-29,   9.246405e-21,
+   4.385595e-03,   6.149813e-31,   4.031507e-22,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+CH3OCH2 loss = -1.399238e+05
+IM1 loss = -1.196895e-06
+IM2 loss = -4.541243e+04
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+CH3OCH2 -> IM1 = 2.415078e+04
+CH3OCH2 -> IM2 = 3.682544e+02
+IM1 -> CH3OCH2 = 9.800355e-24
+IM1 -> IM2 = 1.388364e-06
+IM2 -> CH3OCH2 = 4.930874e-15
+IM2 -> IM1 = 4.581088e+04
+}
+
+First order & pseudo first order rate coefficients for irreversible rxns:
+{
+CH3OCH2 -> OH-1 = 1.157295e+05
+IM1 -> OH-1 = 1.215910e-16
+IM2 -> OH-1 = 6.991605e-08
+CH3OCH2 -> OH-2 = 3.409099e-02
+IM1 -> OH-2 = 1.538420e-29
+IM2 -> OH-2 = 9.246405e-21
+CH3OCH2 -> OH-3 = 4.385595e-03
+IM1 -> OH-3 = 6.149813e-31
+IM2 -> OH-3 = 4.031507e-22
+}
+
+
+Eq fraction matrix:
+{
+ -2.46428e+27  1.00000e+00  0.00000e+00
+  0.00000e+00 -3.03064e-11  1.00000e+00
+  1.00000e+00  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -4.05799e-28 -4.05799e-28  4.05799e-28
+  4.05799e-28 -1.00000e+00  1.00000e+00
+  1.22983e-38  1.00000e+00  3.03064e-11
+}
+Equilibrium Fraction for CH3OCH2 = 4.05799e-28
+Equilibrium Fraction for IM1 = 1
+Equilibrium Fraction for IM2 = 3.03064e-11
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 3
+
+There should be 3 chemically significant eigenvalues (CSEs)
+
+Y_matrix:
+{
+  -2.778984e-09,   1.105265e-13,  -1.177535e-16,
+  -8.952265e-16,   4.479432e-28,  -5.154730e-30,
+  -1.099245e-16,   3.381237e-29,  -2.860785e-31,
+}
+
+Z_matrix: {
+-2.014445e-14	3.498064e-27	-2.544336e-30	
+1.253400e-16	-5.554643e-06	-1.000000e+00	
+9.559600e-19	5.505128e-06	-3.057902e-11	
+}
+
+Z_matrix^(-1):
+{
+-4.964147e+13	1.253400e-16	3.154314e-08	
+8.620193e+00	-5.554643e-06	1.816488e+05	
+-6.269946e-03	-1.000000e+00	-1.008994e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	8.988819e-95	1.821524e-84	
+3.709206e-68	1.000000e+00	-3.442143e-65	
+1.332248e-67	5.527148e-76	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.382965e+05	3.499533e-25	6.277226e-17	
+8.623815e+02	-1.223030e-06	3.986313e+04	
+4.688046e+00	1.208109e-06	-3.950778e+04	
+}
+
+Kp matrix:
+{
+   1.379529e+05,   1.171396e-16,   2.007701e-08,
+   4.444036e-02,   5.040034e-30,   5.313011e-23,
+   5.456814e-03,   2.721128e-31,   2.674613e-24,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+CH3OCH2 loss = -1.382965e+05
+IM1 loss = -1.223030e-06
+IM2 loss = -3.950778e+04
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+CH3OCH2 -> IM1 = 8.623815e+02
+CH3OCH2 -> IM2 = 4.688046e+00
+IM1 -> CH3OCH2 = 3.499533e-25
+IM1 -> IM2 = 1.208109e-06
+IM2 -> CH3OCH2 = 6.277226e-17
+IM2 -> IM1 = 3.986313e+04
+}
+
+First order & pseudo first order rate coefficients for irreversible rxns:
+{
+CH3OCH2 -> OH-1 = 1.379529e+05
+IM1 -> OH-1 = 1.171396e-16
+IM2 -> OH-1 = 2.007701e-08
+CH3OCH2 -> OH-2 = 4.444036e-02
+IM1 -> OH-2 = 5.040034e-30
+IM2 -> OH-2 = 5.313011e-23
+CH3OCH2 -> OH-3 = 5.456814e-03
+IM1 -> OH-3 = 2.721128e-31
+IM2 -> OH-3 = 2.674613e-24
 }
 
 
@@ -3660,165 +3660,165 @@ Bath gas is He
 Comparison of fitted rate coefficients for reaction CH3OCH2 + O2 => IM1
            |                7.98202                1.4982                   0.1            0.00667467            0.00125282
 ---------------------------------------------------------------------------------------------------------------------------
-   202.026 |    9.09218e+12/8.66816e+12    7.7216e+12/8.52744e+12   8.15151e+12/7.17995e+12   1.25772e+12/1.47952e+12   4.75624e+10/5.42665e+10
-   219.122 |    8.16578e+12/8.09864e+12   7.23242e+12/7.94378e+12      7.18e+12/6.4697e+12    1.1714e+12/1.07796e+12    5.5851e+10/3.34863e+10
-   258.547 |    7.50254e+12/7.06536e+12   6.51533e+12/6.86892e+12     5.495e+12/5.06054e+12   3.77065e+11/5.13347e+11   5.65147e+09/1.10139e+10
-   333.333 |    5.97218e+12/5.73065e+12   4.31525e+12/5.39803e+12   3.84528e+12/2.9714e+12   1.27061e+11/1.19672e+11   4.44364e+08/1.90212e+08
-   468.992 |     3.9194e+12/4.14254e+12   4.26372e+12/3.32295e+12   6.17585e+11/8.26262e+11   6.84619e+09/6.89014e+09   1.16423e+08/-2.54648e+08
-   696.215 |    1.47119e+12/1.85121e+12   1.42658e+12/8.40253e+11   2.80566e+10/5.46152e+10   1.61082e+08/7.94903e+07   2.13043e+07/-1.6206e+07
-    952.25 |     4.0631e+11/3.874e+11   9.12955e+10/1.00796e+11   4.15996e+09/3.66535e+09   8.27779e+07/9.735e+07   4.86762e+06/5.55429e+06
+    952.25 |    4.03782e+11/3.83964e+11   8.94937e+10/9.95043e+10   4.11461e+09/3.59434e+09   8.08333e+07/9.58595e+07   4.52623e+06/5.24741e+06
+   696.215 |    1.45585e+12/1.84354e+12    1.4384e+12/8.33196e+11   2.69773e+10/5.3595e+10   1.53451e+08/7.41986e+07   2.19967e+07/-1.59861e+07
+   468.992 |    3.91874e+12/4.14117e+12   4.25123e+12/3.31515e+12    6.1063e+11/8.16664e+11   6.55667e+09/6.63778e+09   1.07045e+08/-2.52356e+08
+   333.333 |    6.02358e+12/5.73502e+12   4.22908e+12/5.39848e+12   3.92212e+12/2.95465e+12   1.21901e+11/1.16472e+11   3.51674e+08/1.37419e+08
+   258.547 |    7.52462e+12/7.07234e+12   6.48525e+12/6.87339e+12   5.51393e+12/5.04678e+12   3.65034e+11/5.0226e+11   5.05734e+09/1.0604e+10
+   219.122 |    8.15808e+12/8.10583e+12   7.27275e+12/7.94895e+12   7.12663e+12/6.45908e+12    1.1597e+12/1.05807e+12   5.66024e+10/3.22771e+10
+   202.026 |    9.10602e+12/8.67498e+12    7.7109e+12/8.53234e+12   8.15955e+12/7.17028e+12   1.23232e+12/1.45439e+12   4.47141e+10/5.19338e+10
 
 Comparison of fitted rate coefficients for reaction CH3OCH2 + O2 => IM2
            |                7.98202                1.4982                   0.1            0.00667467            0.00125282
 ---------------------------------------------------------------------------------------------------------------------------
-   202.026 |    3.38218e+10/3.44504e+10    1.6583e+11/1.53191e+11   4.02948e+11/4.33025e+11    2.4266e+10/2.27631e+10    3.0003e+08/2.9549e+08
-   219.122 |    3.61645e+10/3.76519e+10   1.64212e+11/1.61204e+11   3.48149e+11/3.83109e+11   1.64453e+10/1.5465e+10   1.58503e+08/1.81344e+08
-   258.547 |    4.36717e+10/4.58754e+10   2.27779e+11/1.76571e+11    2.2919e+11/2.82607e+11   1.07967e+10/8.9057e+09   3.97455e+08/3.64313e+08
-   333.333 |    5.80317e+10/6.31594e+10   2.03881e+11/1.87815e+11    1.2302e+11/1.53029e+11   9.59248e+09/8.248e+09   1.22967e+09/1.5569e+09
-   468.992 |    8.50609e+10/8.43298e+10   1.69424e+11/1.52816e+11   6.50046e+10/6.64681e+10   3.95785e+09/3.79861e+09   4.01014e+08/3.46911e+08
-   696.215 |    5.98446e+10/6.39517e+10   7.34822e+10/6.73768e+10   8.35253e+09/1.00004e+10   2.03884e+08/1.7908e+08   2.07768e+07/2.43988e+07
-    952.25 |    1.93917e+10/1.97253e+10   1.05834e+10/9.81158e+09   3.93603e+08/4.21129e+08   7.89211e+06/7.42968e+06   1.58519e+06/1.55908e+06
+    952.25 |    1.93657e+10/1.96788e+10   1.04547e+10/9.71672e+09   3.86944e+08/4.12782e+08   7.79241e+06/7.35198e+06   1.57138e+06/1.54254e+06
+   696.215 |    6.00566e+10/6.41357e+10   7.31881e+10/6.72524e+10    8.2329e+09/9.82653e+09   2.00057e+08/1.76256e+08   2.04275e+07/2.40328e+07
+   468.992 |    8.57313e+10/8.49939e+10   1.69956e+11/1.53203e+11    6.4355e+10/6.58948e+10     3.888e+09/3.72452e+09   3.95532e+08/3.40929e+08
+   333.333 |    5.87121e+10/6.39016e+10   2.05208e+11/1.89153e+11   1.22113e+11/1.51679e+11   9.43437e+09/8.12866e+09   1.21227e+09/1.54109e+09
+   258.547 |    4.42717e+10/4.6489e+10   2.29975e+11/1.78331e+11   2.27864e+11/2.8104e+11   1.05476e+10/8.69185e+09    3.8538e+08/3.51841e+08
+   219.122 |    3.66478e+10/3.81699e+10   1.66146e+11/1.63006e+11   3.46941e+11/3.81891e+11   1.59973e+10/1.50482e+10   1.51726e+08/1.74094e+08
+   202.026 |    3.42915e+10/3.49256e+10   1.67733e+11/1.54964e+11   4.02072e+11/4.32102e+11   2.36463e+10/2.21768e+10   2.86942e+08/2.82321e+08
 
 Comparison of fitted rate coefficients for reaction CH3OCH2 + O2 => OH-1
            |                7.98202                1.4982                   0.1            0.00667467            0.00125282
 ---------------------------------------------------------------------------------------------------------------------------
-   202.026 |    7.99674e+08/8.09486e+08   1.96464e+10/1.87671e+10   9.78284e+11/1.03132e+12    7.2525e+12/6.93832e+12   8.17494e+12/8.30042e+12
-   219.122 |    1.16584e+09/1.20055e+09   2.72471e+10/2.62315e+10   1.13011e+12/1.19713e+12     6.988e+12/6.69935e+12   7.50951e+12/7.66756e+12
-   258.547 |    2.87198e+09/2.87466e+09   5.60289e+10/5.28429e+10   1.49418e+12/1.58177e+12   6.35803e+12/6.03298e+12     6.366e+12/6.45079e+12
-   333.333 |    1.18871e+10/1.23816e+10   1.57609e+11/1.50758e+11   1.99817e+12/2.1474e+12   4.92215e+12/4.67658e+12   4.60661e+12/4.73321e+12
-   468.992 |    7.89497e+10/7.86513e+10   4.76206e+11/4.54712e+11   2.05708e+12/2.14465e+12   2.82894e+12/2.71769e+12   2.67776e+12/2.70065e+12
-   696.215 |    2.72707e+11/2.7525e+11   6.23996e+11/6.33123e+11   1.02332e+12/1.01588e+12   1.00967e+12/1.02015e+12   1.01539e+12/1.01618e+12
-    952.25 |    2.52621e+11/2.50272e+11   3.27199e+11/3.30687e+11    3.6559e+11/3.5946e+11   3.51879e+11/3.56163e+11   3.58029e+11/3.55778e+11
+    952.25 |    2.53479e+11/2.51125e+11   3.27593e+11/3.31092e+11   3.65544e+11/3.59415e+11   3.51848e+11/3.56134e+11   3.58004e+11/3.55755e+11
+   696.215 |    2.75221e+11/2.77754e+11   6.27054e+11/6.36342e+11   1.02438e+12/1.01663e+12   1.00975e+12/1.02046e+12   1.01586e+12/1.01654e+12
+   468.992 |    8.03003e+10/7.99937e+10   4.81896e+11/4.60279e+11   2.06655e+12/2.15399e+12   2.83075e+12/2.72005e+12   2.68029e+12/2.70302e+12
+   333.333 |    1.21619e+10/1.26682e+10   1.60574e+11/1.53553e+11   2.01654e+12/2.1676e+12   4.93082e+12/4.6839e+12   4.61098e+12/4.73794e+12
+   258.547 |    2.94745e+09/2.95073e+09   5.73226e+10/5.40477e+10   1.51328e+12/1.60272e+12   6.37773e+12/6.04956e+12   6.37116e+12/6.45702e+12
+   219.122 |     1.1979e+09/1.23367e+09   2.79336e+10/2.68831e+10   1.14704e+12/1.21549e+12    7.0171e+12/6.72522e+12   7.51555e+12/7.67449e+12
+   202.026 |    8.21836e+08/8.32015e+08    2.0153e+10/1.92463e+10   9.93808e+11/1.04803e+12   7.28692e+12/6.96939e+12   8.18124e+12/8.30771e+12
 
 Comparison of fitted rate coefficients for reaction CH3OCH2 + O2 => OH-2
            |                7.98202                1.4982                   0.1            0.00667467            0.00125282
 ---------------------------------------------------------------------------------------------------------------------------
-   202.026 |        612.369/617.839       12336.4/12001.7        379219/392763   2.09936e+06/2.04136e+06   2.64018e+06/2.66865e+06
-   219.122 |        1410.52/1432.53       25937.2/25203.3        642534/663702   2.94248e+06/2.86333e+06   3.52361e+06/3.56027e+06
-   258.547 |        7897.91/7930.6        110980/107925   1.70789e+06/1.7757e+06    5.4419e+06/5.28113e+06   5.98227e+06/6.05176e+06
-   333.333 |        98165.1/99935.9        840854/817781   5.98851e+06/6.16764e+06   1.14715e+07/1.11824e+07   1.17387e+07/1.18525e+07
-   468.992 |    1.84277e+06/1.82994e+06   6.79806e+06/6.80613e+06   1.82395e+07/1.82937e+07   2.20156e+07/2.19961e+07   2.23013e+07/2.23109e+07
-   696.215 |    1.54297e+07/1.54193e+07   2.42375e+07/2.45695e+07   3.12931e+07/3.0677e+07   3.09925e+07/3.14622e+07   3.17001e+07/3.15165e+07
-    952.25 |    2.90571e+07/2.89497e+07   3.17053e+07/3.18794e+07   3.30588e+07/3.28718e+07   3.28032e+07/3.29664e+07   3.30345e+07/3.29727e+07
+    952.25 |    2.90872e+07/2.89811e+07   3.17086e+07/3.18817e+07   3.30471e+07/3.28621e+07    3.2794e+07/3.29556e+07   3.30228e+07/3.29618e+07
+   696.215 |    1.55173e+07/1.55056e+07   2.42967e+07/2.46277e+07   3.12999e+07/3.06846e+07   3.09912e+07/3.14602e+07   3.16975e+07/3.15138e+07
+   468.992 |    1.86755e+06/1.85467e+06   6.85293e+06/6.86265e+06   1.82836e+07/1.83343e+07   2.20175e+07/2.20014e+07   2.23035e+07/2.23121e+07
+   333.333 |         100122/101913        853021/829562   6.02642e+06/6.20655e+06   1.14846e+07/1.11955e+07   1.17441e+07/1.18576e+07
+   258.547 |        8087.19/8122.18        113137/110013   1.72575e+06/1.79461e+06   5.45917e+06/5.29706e+06   5.99026e+06/6.0603e+06
+   219.122 |        1447.96/1470.49       26525.8/25770.8        651125/672680   2.95684e+06/2.87694e+06   3.53175e+06/3.56863e+06
+   202.026 |        629.116/634.777       12632.3/12288.7        384810/398596   2.11152e+06/2.05301e+06   2.64761e+06/2.67626e+06
 
 Comparison of fitted rate coefficients for reaction CH3OCH2 + O2 => OH-3
            |                7.98202                1.4982                   0.1            0.00667467            0.00125282
 ---------------------------------------------------------------------------------------------------------------------------
-   202.026 |        105.318/106.31       2042.07/1984.87       55557.6/57607.4        270549/262811        324241/327853
-   219.122 |        261.071/265.203       4610.84/4473.35        101653/105199        414358/402691        476698/481935
-   258.547 |        1642.02/1650.57         22123/21485.2        307355/320115        892897/865012        956304/967940
-   333.333 |        23005.1/23403.9        188924/183778   1.24231e+06/1.27903e+06   2.24259e+06/2.18749e+06   2.27411e+06/2.29588e+06
-   468.992 |         472518/469084   1.68209e+06/1.68789e+06   4.30461e+06/4.30574e+06   5.06748e+06/5.07238e+06   5.13547e+06/5.13345e+06
-   696.215 |    4.20054e+06/4.19584e+06   6.46716e+06/6.55679e+06   8.21468e+06/8.05089e+06    8.1054e+06/8.23183e+06   8.29266e+06/8.24392e+06
-    952.25 |    8.22248e+06/8.19371e+06   8.91995e+06/8.96745e+06   9.27076e+06/9.22039e+06   9.20033e+06/9.24367e+06   9.26185e+06/9.24518e+06
+    952.25 |    8.23031e+06/8.20192e+06    8.9205e+06/8.96772e+06   9.26736e+06/9.21756e+06   9.19766e+06/9.24054e+06   9.25848e+06/9.24203e+06
+   696.215 |    4.22362e+06/4.21856e+06   6.48202e+06/6.57134e+06   8.21596e+06/8.05245e+06   8.10499e+06/8.23115e+06    8.2918e+06/8.24308e+06
+   468.992 |         478755/475307   1.69514e+06/1.70138e+06   4.31395e+06/4.3142e+06   5.06731e+06/5.07306e+06   5.13555e+06/5.13328e+06
+   333.333 |        23456.3/23859.1        191565/186340   1.24954e+06/1.2864e+06   2.24436e+06/2.18932e+06    2.2746e+06/2.2963e+06
+   258.547 |        1680.73/1689.8       22539.8/21888.1        310354/323300        895214/867123        957181/968899
+   219.122 |        267.906/272.137       4712.77/4571.31        102934/106546        416092/404314        477554/482823
+   202.026 |        108.164/109.191       2089.92/2031.17       56333.8/58421.1        271917/264107        324980/328617
 
 Comparison of fitted rate coefficients for reaction IM1 => CH3OCH2 + O2
            |                7.98202                1.4982                   0.1            0.00667467            0.00125282
 ---------------------------------------------------------------------------------------------------------------------------
-   202.026 |     6.1256e-23/5.83763e-23   5.20221e-23/5.74286e-23   5.49185e-23/4.83539e-23   8.47352e-24/9.9639e-24   3.20438e-25/3.65462e-25
-   219.122 |    5.03407e-20/4.99819e-20   4.45867e-20/4.90262e-20   4.42635e-20/3.99287e-20   7.22148e-21/6.6528e-21   3.44312e-22/2.06665e-22
-   258.547 |    1.01593e-14/9.55209e-15   8.82253e-15/9.2865e-15   7.44088e-15/6.84165e-15    5.1059e-16/6.94025e-16   7.65276e-18/1.48904e-17
-   333.333 |    3.71917e-08/3.57508e-08   2.68731e-08/3.36757e-08   2.39465e-08/1.85372e-08   7.91271e-10/7.46576e-10   2.76727e-12/1.18664e-12
-   468.992 |       0.110444/0.116546      0.120147/0.0934876     0.0174028/0.023246   0.000192917/0.000193846   3.28067e-06/-7.16425e-06
-   696.215 |        7912.94/9967.89       7673.01/4524.37       150.905/294.077      0.866392/0.428018      0.114587/-0.0872614
-    952.25 |    1.61028e+06/1.53473e+06        361820/399317       16486.6/14520.7       328.064/385.663       19.2912/22.004
+    952.25 |     1.6011e+06/1.52191e+06        354866/394403       16315.5/14246.8       320.525/379.957       17.9477/20.7991
+   696.215 |        7833.99/9931.21       7740.11/4488.47       145.166/288.719      0.825727/0.399712      0.118365/-0.0861181
+   468.992 |       0.110497/0.11658      0.119872/0.0933267     0.0172179/0.0229903   0.000184878/0.000186864   3.01834e-06/-7.10421e-06
+   333.333 |    3.75468e-08/3.58122e-08   2.63612e-08/3.37107e-08   2.44478e-08/1.84502e-08   7.59847e-10/7.2731e-10    2.1921e-12/8.58112e-13
+   258.547 |    1.01985e-14/9.57001e-15   8.78975e-15/9.3008e-15   7.47328e-15/6.8291e-15   4.94748e-16/6.79639e-16   6.85445e-18/1.4349e-17
+   219.122 |    5.03274e-20/5.00609e-20   4.48658e-20/4.90921e-20   4.39644e-20/3.98907e-20   7.15421e-21/6.53456e-21   3.49182e-22/1.99341e-22
+   202.026 |    6.13849e-23/5.84559e-23   5.19802e-23/5.74948e-23   5.50047e-23/4.83166e-23   8.30723e-24/9.80036e-24   3.01424e-25/3.49953e-25
 
 Comparison of fitted rate coefficients for reaction IM1 => IM2
            |                7.98202                1.4982                   0.1            0.00667467            0.00125282
 ---------------------------------------------------------------------------------------------------------------------------
-   202.026 |    1.46779e-06/1.45769e-06   1.46495e-06/1.4574e-06    1.4581e-06/1.45241e-06   1.36232e-06/1.38915e-06   1.22739e-06/1.21025e-06
-   219.122 |    1.67213e-05/1.68634e-05   1.61485e-05/1.68574e-05   1.71694e-05/1.67577e-05   1.60201e-05/1.56066e-05   1.25247e-05/1.28871e-05
-   258.547 |     0.00159616/0.00156438     0.0016287/0.0015626    0.00151942/0.00153398    0.00121839/0.00129172   0.000973188/0.00092656
-   333.333 |        0.61094/0.623984      0.590115/0.619822      0.573765/0.565534      0.371909/0.349644      0.186401/0.196606
-   468.992 |        447.339/436.484       427.601/415.057       280.308/278.945       73.0469/78.351       15.6953/14.8769
-   696.215 |         109273/112806       88986.1/87382.6       19550.8/20580.3       1578.16/1446.23       254.301/267.84
-    952.25 |    1.57555e+06/1.55014e+06        762298/777172       84042.9/81218.9       5175.02/5407.75       975.661/953.08
+    952.25 |    1.56988e+06/1.54448e+06        755790/770593         82995/80207.9       5105.88/5334.86       962.624/940.098
+   696.215 |         109152/112641       88634.2/87132.1       19343.3/20328.1       1554.92/1427.27       250.874/264.295
+   468.992 |        447.123/436.372       427.617/414.723        278.91/277.968       72.2347/77.3533       15.5002/14.6828
+   333.333 |       0.610762/0.623964       0.59028/0.619749      0.573149/0.564921      0.370347/0.348343       0.18519/0.195564
+   258.547 |     0.00159644/0.00156438    0.00162832/0.00156257    0.00151877/0.0015336    0.00121694/0.00128944    0.00097075/0.000923287
+   219.122 |    1.67193e-05/1.68634e-05   1.61506e-05/1.68574e-05   1.71703e-05/1.67564e-05   1.59999e-05/1.55933e-05   1.24869e-05/1.28573e-05
+   202.026 |    1.46788e-06/1.45769e-06   1.46479e-06/1.45739e-06   1.45806e-06/1.45234e-06   1.36167e-06/1.38836e-06   1.22555e-06/1.20811e-06
 
 Comparison of fitted rate coefficients for reaction IM1 => OH-1
            |                7.98202                1.4982                   0.1            0.00667467            0.00125282
 ---------------------------------------------------------------------------------------------------------------------------
-   202.026 |    1.14888e-18/1.18734e-18   6.65357e-18/6.05332e-18   5.46709e-17/6.15975e-17   1.36504e-16/1.21584e-16   1.15053e-16/1.17197e-16
-   219.122 |    2.52592e-16/2.66049e-16   1.53902e-15/1.37523e-15    1.1201e-14/1.27854e-14   2.34078e-14/2.2197e-14   1.89394e-14/2.07734e-14
-   258.547 |    5.33207e-12/5.43189e-12   2.95579e-11/2.72222e-11   1.79054e-10/2.00184e-10   3.15025e-10/2.66264e-10   2.36224e-10/2.26958e-10
-   333.333 |    1.78178e-06/1.86477e-06   8.98891e-06/8.28355e-06   3.12863e-05/3.42371e-05   2.92939e-05/2.9694e-05   1.76598e-05/1.97236e-05
-   468.992 |       0.938665/0.958684       2.89636/2.64971       3.54619/3.9976       1.30995/1.09981      0.581498/0.560118
-   696.215 |        18942.3/18828.9       22481.5/23377.5        9478.8/8970.75       1784.06/1968.71       574.184/594.353
-    952.25 |    1.38077e+06/1.37132e+06        892504/901138        204632/202702       25552.3/25258.3       6178.86/6048.48
+    952.25 |    1.37889e+06/1.36945e+06        888234/896844        202823/200893       25270.6/24982.2       6108.36/5979.74
+   696.215 |        19014.6/18899.4       22473.3/23374.6       9425.51/8919.12       1768.33/1951.4       568.641/588.474
+   468.992 |       0.948044/0.968071       2.91265/2.66582        3.5423/3.99004       1.30267/1.09454      0.577845/0.556621
+   333.333 |    1.80461e-06/1.88813e-06   9.07735e-06/8.37185e-06   3.13767e-05/3.43106e-05    2.9212e-05/2.96245e-05   1.75935e-05/1.96389e-05
+   258.547 |    5.40241e-12/5.50354e-12   2.99219e-11/2.75558e-11   1.80074e-10/2.01292e-10   3.14709e-10/2.66065e-10   2.35733e-10/2.2654e-10
+   219.122 |    2.56441e-16/2.70163e-16   1.55921e-15/1.39253e-15   1.12753e-14/1.28808e-14   2.34209e-14/2.21926e-14   1.89216e-14/2.0755e-14
+   202.026 |    1.17011e-18/1.21016e-18   6.73408e-18/6.11472e-18   5.50008e-17/6.21138e-17   1.36766e-16/1.21591e-16   1.14905e-16/1.1714e-16
 
 Comparison of fitted rate coefficients for reaction IM1 => OH-2
            |                7.98202                1.4982                   0.1            0.00667467            0.00125282
 ---------------------------------------------------------------------------------------------------------------------------
-   202.026 |    1.07444e-27/1.6794e-27   1.63357e-27/5.8777e-28   2.71228e-28/1.0147e-27   1.60348e-29/5.80771e-30   4.58544e-30/8.0429e-30
-   219.122 |    6.24377e-26/5.15513e-26   1.58374e-25/1.73177e-25   2.31047e-25/1.76897e-25   1.36639e-26/1.46668e-26   1.93767e-28/-1.15827e-28
-   258.547 |    2.02813e-20/2.27096e-20   4.71403e-20/6.36088e-20   4.82408e-20/4.17686e-20   1.38118e-21/1.91427e-21   9.85015e-24/1.75891e-23
-   333.333 |    2.84567e-13/2.23332e-13   4.12182e-13/4.01283e-13    1.7995e-13/1.44696e-13   2.95143e-15/2.78926e-15   2.11323e-17/9.87977e-18
-   468.992 |    1.26199e-06/1.66167e-06   1.64661e-06/1.45369e-06   1.51951e-07/2.22268e-07   7.49855e-10/6.79962e-10    8.5631e-12/-1.79807e-11
-   696.215 |       0.163514/0.168248       0.10996/0.0675706    0.00131604/0.00205429   6.23109e-06/3.75871e-06   9.34538e-07/-6.9619e-07
-    952.25 |        24.1303/24.6582       4.19399/4.59111      0.102049/0.0964972    0.00704529/0.00776357     0.0066189/0.00759003
+    952.25 |        24.3228/24.4101       4.15003/4.51852        0.1011/0.0943344    0.00697355/0.00775728    0.00640986/0.00758837
+   696.215 |       0.154923/0.167523      0.106975/0.0669017    0.00124666/0.00201392   6.07865e-06/3.57995e-06   1.02492e-06/-6.97636e-07
+   468.992 |    1.34919e-06/1.66605e-06   1.71598e-06/1.44796e-06   1.53566e-07/2.19063e-07   7.13097e-10/6.56279e-10   7.56008e-12/-1.8223e-11
+   333.333 |    2.66616e-13/2.25178e-13    3.9464e-13/4.01711e-13   1.72191e-13/1.43362e-13   2.92136e-15/2.70059e-15   2.25991e-17/9.08494e-18
+   258.547 |    2.19235e-20/2.29685e-20   4.93203e-20/6.39985e-20   4.94842e-20/4.14687e-20    1.3143e-21/1.86009e-21   8.29516e-24/1.69641e-23
+   219.122 |    1.08051e-25/9.37175e-26   1.49092e-25/1.66086e-25     2.358e-25/1.86607e-25   1.38717e-26/1.4552e-26   9.31036e-29/5.08322e-29
+   202.026 |    1.76947e-27/2.14094e-27   7.47786e-28/4.9903e-28   1.76568e-28/3.01727e-28    2.2564e-29/1.53842e-29   3.53126e-30/5.04003e-30
 
 Comparison of fitted rate coefficients for reaction IM1 => OH-3
            |                7.98202                1.4982                   0.1            0.00667467            0.00125282
 ---------------------------------------------------------------------------------------------------------------------------
-   202.026 |    9.63842e-29/2.07653e-28   3.25477e-28/5.15088e-29   1.76322e-29/1.86718e-28   3.26935e-31/-5.23121e-32   1.94793e-31/4.29012e-31
-   219.122 |    6.33999e-27/5.28552e-27   1.65113e-26/1.67016e-26   1.40263e-26/1.10169e-26   7.74093e-28/7.59243e-28   2.41754e-29/-1.89486e-29
-   258.547 |    2.82198e-21/3.18692e-21   5.58002e-21/7.94403e-21   4.49247e-21/4.03215e-21   7.41731e-23/1.10408e-22   2.72236e-25/3.3611e-25
-   333.333 |    5.05146e-14/3.98343e-14   7.12088e-14/6.29316e-14   2.25245e-14/1.82237e-14   2.32806e-16/1.95819e-16    1.2944e-18/-9.24557e-19
-   468.992 |    2.45143e-07/3.56504e-07   3.80303e-07/2.79255e-07   1.69653e-08/3.45163e-08   7.77446e-11/5.96885e-11   3.03558e-12/-4.8262e-12
-   696.215 |      0.0364722/0.0405755     0.0314107/0.0149282    0.00017716/0.000353973   5.46431e-07/2.51812e-07   1.77229e-07/-1.85371e-07
-    952.25 |        6.25433/6.23266       0.89075/1.06106     0.0208857/0.0182458    0.00179425/0.00216097    0.00208899/0.0021281
+    952.25 |        6.33059/6.16609      0.893661/1.04335     0.0207982/0.0178248    0.00178157/0.00215982    0.00207117/0.00212761
+   696.215 |      0.0339795/0.0403749       0.02951/0.014768   0.000163366/0.000346404   5.16622e-07/2.32641e-07    1.8132e-07/-1.85604e-07
+   468.992 |    2.66982e-07/3.57177e-07   4.20448e-07/2.77906e-07   1.75159e-08/3.39635e-08   7.45029e-11/5.73586e-11   2.92389e-12/-4.85214e-12
+   333.333 |    4.60727e-14/4.01371e-14   6.45239e-14/6.2924e-14   2.06614e-14/1.80361e-14   2.29208e-16/1.88715e-16    1.3918e-18/-9.54606e-19
+   258.547 |     3.1046e-21/3.21781e-21   6.19577e-21/7.98879e-21   4.71065e-21/3.99901e-21   7.09219e-23/1.06514e-22   2.48253e-25/3.19168e-25
+   219.122 |    1.43784e-26/1.33977e-26   1.71564e-26/1.62247e-26    1.4204e-26/1.37146e-26   9.39493e-28/7.99476e-28   1.87849e-29/-1.50791e-29
+   202.026 |    2.46322e-28/2.62669e-28   8.48904e-29/7.81853e-29   7.19052e-30/8.26154e-30   6.43037e-31/6.14981e-31   2.41955e-31/2.72113e-31
 
 Comparison of fitted rate coefficients for reaction IM2 => CH3OCH2 + O2
            |                7.98202                1.4982                   0.1            0.00667467            0.00125282
 ---------------------------------------------------------------------------------------------------------------------------
-   202.026 |      7.519e-15/7.65542e-15    3.6866e-14/3.40415e-14   8.95802e-14/9.62251e-14   5.39463e-15/5.05832e-15   6.67004e-17/6.56626e-17
-   219.122 |    1.05394e-12/1.09863e-12   4.78563e-12/4.70371e-12   1.01461e-11/1.11785e-11   4.79265e-13/4.51245e-13   4.61925e-15/5.29135e-15
-   258.547 |    8.09925e-09/8.49299e-09   4.22433e-08/3.26889e-08    4.2505e-08/5.23195e-08   2.00233e-09/1.64873e-09    7.3711e-11/6.74458e-11
-   333.333 |    0.000534748/0.000583136    0.00187871/0.00173405     0.0011336/0.00141288   8.83924e-05/7.61519e-05   1.13311e-05/1.43745e-05
-   468.992 |         31.135/30.8131       62.0145/55.8372       23.7938/24.2867        1.4487/1.38797      0.146784/0.126757
-   696.215 |        72581.6/77657.4       89121.9/81816.6       10130.2/12143.6       247.277/217.459       25.1988/29.6277
-    952.25 |    1.57284e+06/1.5992e+06        858406/795462       31924.8/34142.6       640.122/602.353       128.573/126.401
+    952.25 |    1.57156e+06/1.59627e+06        848414/788183       31401.2/33483.3       632.367/596.364        127.52/125.125
+   696.215 |          72872/77917.3       88805.5/81703.7        9989.7/11938.1       242.747/214.131       24.7864/29.1971
+   468.992 |        31.4006/31.0752       62.2493/56.0138       23.5712/24.0923       1.42405/1.36175      0.144871/0.124649
+   333.333 |    0.000541524/0.000590553    0.00189271/0.00174808     0.0011263/0.00140176   8.70167e-05/7.51218e-05   1.11812e-05/1.42422e-05
+   258.547 |    8.21797e-09/8.61423e-09   4.26893e-08/3.3044e-08   4.22975e-08/5.20756e-08   1.95791e-09/1.61056e-09   7.15364e-11/6.51948e-11
+   219.122 |    1.06875e-12/1.11451e-12   4.84528e-12/4.75958e-12   1.01178e-11/1.11507e-11   4.66525e-13/4.39387e-13   4.42475e-15/5.08333e-15
+   202.026 |    7.62786e-15/7.76549e-15   3.73108e-14/3.44554e-14   8.94375e-14/9.60752e-14   5.25991e-15/4.93087e-15   6.38278e-17/6.27723e-17
 
 Comparison of fitted rate coefficients for reaction IM2 => IM1
            |                7.98202                1.4982                   0.1            0.00667467            0.00125282
 ---------------------------------------------------------------------------------------------------------------------------
-   202.026 |        48433.6/48098.5       48339.8/48088.8       48113.9/47924.2       44953.3/45836.7         40501/39933.8
-   219.122 |        79046.7/79727.2       76338.8/79699.2       81164.6/79227.9       75731.8/73785.7       59208.2/60927.9
-   258.547 |         218608/214220        223064/213975        208097/210056        166869/176882        133286/126879
-   333.333 |         904003/923474        873189/917314        848995/836969        550311/517460        275816/290969
-   468.992 |    5.81076e+06/5.66883e+06   5.55437e+06/5.39054e+06    3.6411e+06/3.62279e+06        948852/1.01758e+06        203876/193213
-   696.215 |    2.46404e+07/2.54398e+07   2.00658e+07/1.97064e+07   4.40857e+06/4.64125e+06        355864/326153       57343.1/60403.1
-    952.25 |    3.22447e+07/3.17234e+07   1.56009e+07/1.59047e+07      1.72e+06/1.66213e+06        105910/110669       19967.6/19504.6
+    952.25 |    3.21286e+07/3.16076e+07   1.54677e+07/1.57701e+07   1.69855e+06/1.64144e+06        104495/109177       19700.7/19239
+   696.215 |    2.46129e+07/2.54026e+07   1.99864e+07/1.96499e+07   4.36178e+06/4.58437e+06        350624/321877       56570.5/59603.6
+   468.992 |    5.80796e+06/5.66737e+06   5.55459e+06/5.38621e+06   3.62293e+06/3.6101e+06        938301/1.00462e+06        201341/190692
+   333.333 |         903739/923444        873432/917206        848083/836062        548000/515535        274024/289427
+   258.547 |         218646/214219        223011/213971        208008/210004        166670/176570        132952/126431
+   219.122 |        79037.1/79727.2       76348.9/79698.8       81169.3/79221.3       75636.3/73722.8       59029.5/60787.1
+   202.026 |        48436.7/48098.5       48334.5/48088.6       48112.5/47921.9         44932/45810.9       40440.4/39863.1
 
 Comparison of fitted rate coefficients for reaction IM2 => OH-1
            |                7.98202                1.4982                   0.1            0.00667467            0.00125282
 ---------------------------------------------------------------------------------------------------------------------------
-   202.026 |    3.65632e-06/4.21159e-06   5.84792e-06/4.04612e-06   1.44132e-06/2.17836e-06   9.23919e-08/7.09343e-08   1.67196e-08/2.02404e-08
-   219.122 |    0.000103494/0.000112766   0.000135073/0.000107351   3.44538e-05/5.15214e-05   2.73417e-06/1.62351e-06    5.3952e-07/5.11412e-07
-   258.547 |      0.0364347/0.0432419      0.062097/0.0399498     0.0096424/0.0140164   0.000484931/0.000475415   0.000133356/0.000193565
-   333.333 |        75.5663/76.3223       65.1167/62.9252       8.67054/10.9375       1.14368/0.692433      0.970605/0.784033
-   468.992 |         143273/122397       43294.3/65869.9       10233.5/5133.58       4394.29/10188.1       3488.66/3644.92
-   696.215 |    1.60839e+07/1.59665e+07   4.67746e+06/4.74386e+06   1.17985e+06/1.30525e+06        254239/192645       57303.8/49488.2
-    952.25 |    7.10249e+07/7.35022e+07    2.2128e+07/2.02651e+07   3.09657e+06/3.30927e+06        333824/339243       68189.6/74165
+    952.25 |    7.02713e+07/7.2728e+07   2.19224e+07/2.00745e+07   3.06533e+06/3.27639e+06        329988/335272       67429.5/73271.5
+   696.215 |    1.59498e+07/1.58373e+07   4.63169e+06/4.69317e+06   1.16941e+06/1.29511e+06        251782/190665       56505.2/48946.4
+   468.992 |         142914/122030       42908.3/65391       10116.8/5064.91       4360.07/10121.4       3473.72/3612.99
+   333.333 |        75.6072/76.2711       64.7533/62.747       8.55766/10.7577       1.13474/0.689237      0.977094/0.791837
+   258.547 |      0.0364388/0.0432312     0.0619378/0.0398996    0.00954115/0.0138476   0.000479837/0.000470842   0.000133314/0.000192659
+   219.122 |    0.000103504/0.000112748   0.000134914/0.000107266   3.41569e-05/5.10507e-05   2.69809e-06/1.60318e-06   5.34175e-07/5.07627e-07
+   202.026 |    3.65487e-06/4.21107e-06   5.84778e-06/4.04351e-06    1.4288e-06/2.16112e-06   9.11317e-08/6.99161e-08   1.65965e-08/2.0077e-08
 
 Comparison of fitted rate coefficients for reaction IM2 => OH-2
            |                7.98202                1.4982                   0.1            0.00667467            0.00125282
 ---------------------------------------------------------------------------------------------------------------------------
-   202.026 |    4.99895e-17/4.5175e-17   2.19829e-17/2.91598e-17   1.23927e-18/8.51314e-19   6.56396e-21/9.54283e-21   6.28816e-23/6.03892e-23
-   219.122 |     8.2429e-15/6.91956e-15   2.72073e-15/4.09714e-15   1.47192e-16/9.55171e-17   8.41657e-19/9.80355e-19   7.32184e-21/5.18327e-21
-   258.547 |    5.49775e-11/5.66232e-11   2.67698e-11/2.65898e-11   4.70062e-13/4.26175e-13   2.75831e-15/3.97103e-15   2.27972e-16/3.00363e-16
-   333.333 |    3.68477e-06/3.4145e-06   8.47351e-07/9.5655e-07   1.18973e-08/1.15251e-08   1.29149e-10/9.65666e-11   1.95859e-11/1.38086e-11
-   468.992 |       0.095266/0.0920315    0.00910457/0.010694   0.000261508/0.000192717    5.0507e-06/8.59849e-06   2.53974e-07/3.13865e-07
-   696.215 |        38.6762/50.8539       8.01676/3.72894      0.142585/0.395298    0.00176329/0.000634399   0.000203006/0.0002251
-    952.25 |         349.77/423.993       145.245/89.3006      0.961876/1.70933    0.00599144/0.00403734    0.00225321/0.00290264
+    952.25 |        343.508/415.769       142.982/88.2591      0.941362/1.66471    0.00589925/0.00398967    0.00226704/0.00290437
+   696.215 |        37.9092/49.8839       7.89159/3.66343      0.139009/0.386311    0.00171568/0.000616633   0.000200861/0.000225407
+   468.992 |      0.0937279/0.0909292    0.00900344/0.0104583   0.000254094/0.000189856   4.91862e-06/8.26964e-06   2.56713e-07/3.13472e-07
+   333.333 |    3.65901e-06/3.395e-06   8.37041e-07/9.41772e-07   1.16536e-08/1.13346e-08   1.26045e-10/9.4077e-11   1.91644e-11/1.37745e-11
+   258.547 |    5.47233e-11/5.64602e-11   2.66169e-11/2.63158e-11   4.58111e-13/4.17752e-13   2.69253e-15/3.85309e-15   2.30215e-16/2.98964e-16
+   219.122 |    8.20609e-15/6.90685e-15   2.71869e-15/4.06602e-15   1.42571e-16/9.33036e-17   8.19063e-19/9.48407e-19   7.57891e-21/5.4401e-21
+   202.026 |    5.01164e-17/4.51075e-17   2.16108e-17/2.89701e-17   1.22536e-18/8.3088e-19   6.29552e-21/9.24641e-21   5.57692e-23/5.31301e-23
 
 Comparison of fitted rate coefficients for reaction IM2 => OH-3
            |                7.98202                1.4982                   0.1            0.00667467            0.00125282
 ---------------------------------------------------------------------------------------------------------------------------
-   202.026 |    4.60385e-18/4.10021e-18   1.72644e-18/2.37998e-18   7.02638e-20/4.60119e-20   2.80039e-22/4.16407e-22   2.44627e-24/-2.40126e-24
-   219.122 |    8.60875e-16/7.16898e-16   2.45125e-16/3.76633e-16   9.59243e-18/6.07665e-18   3.81103e-20/4.73642e-20   2.67972e-22/1.69912e-22
-   258.547 |    7.01706e-12/7.35966e-12   3.14515e-12/2.9826e-12   3.83349e-14/3.67626e-14   2.20769e-16/2.84454e-16   2.94155e-17/4.57452e-17
-   333.333 |    5.85896e-07/5.68144e-07   1.32583e-07/1.32707e-07    1.2483e-09/1.40483e-09    1.3814e-11/9.83947e-12   4.05993e-12/2.54265e-12
-   468.992 |      0.0177622/0.0183904      0.001796/0.00176173   3.26898e-05/3.00661e-05   5.26674e-07/7.01937e-07   4.37152e-08/6.7111e-08
-   696.215 |        8.12181/11.1632       1.77151/0.733054     0.0215988/0.0692469   0.000260787/8.72883e-05   5.59924e-05/5.85982e-05
-    952.25 |        82.3736/97.6782       31.6701/20.6341       0.18784/0.310635    0.00128479/0.000902912   0.000622096/0.000813049
+    952.25 |        81.0202/95.7224       30.9896/20.384      0.184732/0.301913    0.00126802/0.000898934   0.000609356/0.000813562
+   696.215 |        7.93697/10.9382       1.75261/0.72031      0.020889/0.0675394   0.000257405/8.57663e-05    5.9987e-05/5.86901e-05
+   468.992 |        0.01753/0.0181499    0.00175359/0.00171984   3.21543e-05/2.95788e-05    5.0633e-07/6.72491e-07   3.95919e-08/6.72503e-08
+   333.333 |    5.78371e-07/5.64396e-07   1.32406e-07/1.30387e-07   1.20346e-09/1.38199e-09   1.36922e-11/9.63008e-12   4.50777e-12/2.53929e-12
+   258.547 |    7.01168e-12/7.33391e-12   3.08534e-12/2.94637e-12   3.79918e-14/3.61193e-14   2.14025e-16/2.76784e-16   2.65731e-17/4.55986e-17
+   219.122 |     8.7429e-16/7.15252e-16   2.31805e-16/3.73167e-16   9.95026e-18/5.95046e-18   3.49599e-20/4.56264e-20   1.61537e-22/9.38198e-23
+   202.026 |    4.57485e-18/4.09246e-18    1.7327e-18/2.36097e-18   6.78164e-20/4.50521e-20    2.7452e-22/4.03151e-22   2.64578e-24/2.67461e-24
 

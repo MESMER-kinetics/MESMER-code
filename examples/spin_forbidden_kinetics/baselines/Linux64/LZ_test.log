@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.1 compiled: -- Feb  8 2016 -- 18:05:50
+     Mesmer v4.1 compiled: -- Feb 19 2016 -- 09:53:08
 
      Copyright (C) 2009-2016 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -50,21 +50,21 @@ The default value of the attribute precision was used.
 200.72Torr, 800K at d precision with He
 The default value of the attribute precision was used.
 250Torr, 1000K at d precision with He
-Write metadata 20160209_102635
+Write metadata 20160219_105711
 
 File: "LZ_test.xml" successfully parsed.
 Main Calculation begins
 
 --Execute calcMethod simpleCalc
 PT Grid 0
-Number of cells = 24000, Number of grains = 120
-In FastLaplaceConvolution: 20 values in the FFT convolution routine were replaced by standard convolution
+Number of cells = 50000, Number of grains = 120
+In FastLaplaceConvolution: 500 values in the FFT convolution routine were replaced by standard convolution
 Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 1
-Number of cells = 26800, Number of grains = 134
+Number of cells = 50000, Number of grains = 134
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
@@ -73,7 +73,7 @@ Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 
 Finish Calculation of P-T case
 2 temperature/concentration-pressure points calculated.
- -- Total time elapsed: 1 seconds.
+ -- Total time elapsed: 0 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 1 seconds.
+Total time elapsed: 0 seconds.

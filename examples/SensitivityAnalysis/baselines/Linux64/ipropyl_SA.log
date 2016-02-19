@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.1 compiled: -- Feb  8 2016 -- 18:05:50
+     Mesmer v4.1 compiled: -- Feb 19 2016 -- 09:53:08
 
      Copyright (C) 2009-2016 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -46,7 +46,7 @@ In propene: propene:ZPE was given a range with 401 steps
 In R1: No tunneling method used for R1
 3e+17PPCC, 720K at d precision with He
 3e+16PPCC, 880K at d precision with He
-Write metadata 20160209_110423
+Write metadata 20160219_113904
 
 File: "ipropyl_SA.xml" successfully parsed.
 Main Calculation begins
@@ -55,29 +55,22 @@ Main Calculation begins
 Number of grains produced is not equal to that requested
 Number of grains requested: 239
 Number of grains produced : 1
-In FastLaplaceConvolution: 340 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 5920 values in the FFT convolution routine were replaced by standard convolution
 Number of grains requested: 240
-In FastLaplaceConvolution: 460 values in the FFT convolution routine were replaced by standard convolution
 Number of grains requested: 238
 In i-propyl: Delta E down is smaller than grain size: the solution may not converge.
 Number of grains requested: 237
 Number of grains requested: 241
-In FastLaplaceConvolution: 420 values in the FFT convolution routine were replaced by standard convolution
 Number of grains requested: 236
 Number of grains requested: 242
-In FastLaplaceConvolution: 360 values in the FFT convolution routine were replaced by standard convolution
 Number of grains requested: 261
-In FastLaplaceConvolution: 640 values in the FFT convolution routine were replaced by standard convolution
 Number of grains requested: 260
 Number of grains requested: 259
 Number of grains requested: 262
-In FastLaplaceConvolution: 700 values in the FFT convolution routine were replaced by standard convolution
 Number of grains requested: 258
 Number of grains requested: 263
-In FastLaplaceConvolution: 600 values in the FFT convolution routine were replaced by standard convolution
 Number of grains requested: 264
-In FastLaplaceConvolution: 620 values in the FFT convolution routine were replaced by standard convolution
- -- Total time elapsed: 90 seconds.
+ -- Total time elapsed: 125 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 90 seconds.
+Total time elapsed: 125 seconds.

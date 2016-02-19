@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.1 compiled: -- Feb  8 2016 -- 18:05:50
+     Mesmer v4.1 compiled: -- Feb 19 2016 -- 09:53:08
 
      Copyright (C) 2009-2016 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -88,7 +88,7 @@ In R1: No value of me:excessReactantConc was supplied and the default value NEED
 614.5Torr, 601K at dd precision with He
 711Torr, 601K at dd precision with He
 TS1:ZPE is derived from Methyl:ZPE
-Write metadata 20160209_100036
+Write metadata 20160219_103043
 
 File: "Methyl_H_to_Methane_FTST.xml" successfully parsed.
 Main Calculation begins
@@ -182,7 +182,7 @@ Chi^2 = 4.46167e-20 Lambda = 1000
 Methyl:ZPE=103.35  Methane:deltaEDown=160.031  
 Iteration: 15 of Marquardt. ChiSquare = 4.46167e-20, Lambda = 1000
 PT Grid 0
-Number of cells = 40500, Number of grains = 270
+Number of cells = 50000, Number of grains = 270
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
 PT Grid 1
@@ -214,9 +214,9 @@ Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
 PT Grid 10
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
 PT Grid 11
-Build Collison Operator -- Time elapsed: 1 seconds.
+Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 12
 Build Collison Operator
@@ -250,7 +250,7 @@ Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
 PT Grid 22
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
 PT Grid 23
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
@@ -274,7 +274,7 @@ Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
 PT Grid 30
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 31
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
@@ -353,7 +353,7 @@ Goodness of Fit:
 Number of degrees of Freedom = 35
 Chi^2 probability = 1
 
- -- Total time elapsed: 1558 seconds.
+ -- Total time elapsed: 1586 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 1558 seconds.
+Total time elapsed: 1586 seconds.

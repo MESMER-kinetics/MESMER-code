@@ -232,7 +232,7 @@ namespace mesmer
 		pp->XmlWriteAttribute("temperature", Temperature, 2, true);
 		pp->XmlWriteAttribute("concentration", Concentration, 2, false);
 
-		for (size_t i(0), idx(0); i < m_nOut; i++) {
+		for (size_t i(0); i < m_nOut; i++) {
 
 			PersistPtr ppSensInd = pp->XmlWriteElement("me:propagatedErrors");
 			ppSensInd->XmlWriteAttribute("reaction", rxnId[i]);
@@ -260,7 +260,7 @@ namespace mesmer
 		WriteInputVariableKey(Key);
 		ctest << Key.str() << endl;
 
-		for (size_t i(0), idx(0); i < m_nOut; i++) {
+		for (size_t i(0); i < m_nOut; i++) {
 			ctest << " Reaction           : " << rxnId[i] << endl ;
 			ctest << " Rate Coeffcient    : " << f0[i] << endl;
 			ctest << " Standard Deviation : " << sqrt(varf[i]) << endl << endl;

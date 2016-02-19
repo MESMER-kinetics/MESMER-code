@@ -283,7 +283,6 @@ namespace mesmer
       if (numberOfProducts != 2) 
         return false ;
 
-      Molecule* p_rct1 = pReact->get_reactant();
       Molecule* p_pdt1 = products[0];
       Molecule* p_pdt2 = products[1];
 
@@ -323,13 +322,11 @@ namespace mesmer
     vector<Molecule *> unimolecularspecies;
     pAssocReaction->get_unimolecularspecies(unimolecularspecies);
 
-    Molecule*  p_pdt1 = unimolecularspecies[0];
     Molecule*  p_rct1 = pAssocReaction->get_pseudoIsomer();
     Molecule*  p_rct2 = pAssocReaction->get_excessReactant();
 
     const double ma = p_rct1->getStruc().getMass();
     const double mb = p_rct2->getStruc().getMass();
-    const double mc = ma + mb ;
 
     // Allocate some work space for density of states and extract densities of states from molecules.
     vector<double> rctsCellDOS; // Convoluted cell density of states of reactants.

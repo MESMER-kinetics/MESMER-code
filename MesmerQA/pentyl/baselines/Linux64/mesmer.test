@@ -8,7 +8,7 @@ Test rovibronic density of states for: 1-pentyl=TS=2-pentyl
     300         673894         673057         659016
     400    3.84891e+06    3.84363e+06    3.79777e+06
     500    2.26495e+07    2.26159e+07    2.24421e+07
-    600    1.35852e+08    1.35637e+08    1.34911e+08
+    600    1.35852e+08    1.35639e+08    1.34911e+08
 }
 
 Grain rovibronic density of states of 1-pentyl=TS=2-pentyl
@@ -129,7 +129,7 @@ Test rovibronic density of states for: 1-pentyl
     300    2.20948e+06    2.22296e+06    2.17638e+06
     400    1.89525e+07    1.90766e+07    1.88487e+07
     500    1.50389e+08    1.51414e+08     1.5025e+08
-    600    1.13246e+09    1.14035e+09    1.13424e+09
+    600    1.13246e+09    1.14037e+09    1.13424e+09
 }
 
 Grain rovibronic density of states of 1-pentyl
@@ -250,7 +250,7 @@ Test rovibronic density of states for: 2-pentyl
     300     2.0013e+06    2.01988e+06    1.97758e+06
     400    1.66415e+07    1.68069e+07    1.66062e+07
     500    1.28156e+08    1.29486e+08     1.2849e+08
-    600    9.39605e+08    9.49638e+08    9.44553e+08
+    600    9.39605e+08    9.49654e+08    9.44553e+08
 }
 
 Grain rovibronic density of states of 2-pentyl

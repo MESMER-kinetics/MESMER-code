@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.1 compiled: -- Feb  8 2016 -- 18:05:50
+     Mesmer v4.1 compiled: -- Feb 19 2016 -- 09:53:08
 
      Copyright (C) 2009-2016 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -48,15 +48,16 @@ In R2: No imaginary vibrational frequency. Check if there is tunneling.
 In R2: No tunneling method used for R2
 The default value of the attribute precision was used.
 1000torr, 298K at d precision with N2
-Write metadata 20160208_181106
+Write metadata 20160219_095551
 
 File: "OH_acetylene_association_test.xml" successfully parsed.
 Main Calculation begins
 
 --Execute calcMethod simpleCalc
 PT Grid 0
-Number of cells = 16000, Number of grains = 320
+Number of cells = 50000, Number of grains = 320
 In FastLaplaceConvolution: 20 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 240 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
 In OCHCH2: The default value of me:DOSCMethod was used.
 Build Collison Operator
@@ -69,7 +70,7 @@ In timeEvolution: No population was assigned. Initialize the first source term t
 
 Finish Calculation of P-T case
 1 temperature/concentration-pressure points calculated.
- -- Total time elapsed: 0 seconds.
+ -- Total time elapsed: 1 seconds.
 
 System saved to out.xml
-Total time elapsed: 0 seconds.
+Total time elapsed: 1 seconds.

@@ -109,7 +109,7 @@ namespace mesmer
           // use molType="forThermo" to activate DOS properties.
           const char* tstxt = ppmol->XmlReadValue("role", optional);
           string role = (tstxt && string(tstxt) == "transitionState") ? string(tstxt) : string("forThermo") ;
-          Molecule* pMol = pMoleculeManager->addmol(string(reftxt), role , pSys->getEnv(), pSys->m_Flags);
+          pMoleculeManager->addmol(string(reftxt), role , pSys->getEnv(), pSys->m_Flags);
         }
       }
 
@@ -302,7 +302,6 @@ namespace mesmer
           coeffs[6] = coeffs[13];
         else
         {
-          double Smid(0.0) ;
           pmol->getDOS().thermodynamicsFunctions(m_Tmid, m_unitFctr, thermos);
           coeffs[6] = 0.0;
           coeffs[6] = thermos.entropy*1000/R - SdivR(coeffs.begin(), m_Tmid);

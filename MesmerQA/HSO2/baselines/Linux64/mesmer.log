@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.1 compiled: -- Feb  8 2016 -- 18:05:50
+     Mesmer v4.1 compiled: -- Feb 19 2016 -- 09:53:08
 
      Copyright (C) 2009-2016 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -47,21 +47,21 @@ In R1: Not a unimolecular reaction: look for excess reactant concentration.
 1e+08Torr, 200K at double precision with Ar
 1e+08Torr, 200K at dd precision with Ar
 1e+08Torr, 200K at qd precision with Ar
-Write metadata 20160208_181047
+Write metadata 20160219_095530
 
 File: "HSO2_test.xml" successfully parsed.
 Main Calculation begins
 
 --Execute calcMethod simpleCalc
 PT Grid 0
-Number of cells = 10000, Number of grains = 92
+Number of cells = 50000, Number of grains = 92
 Number of grains produced is not equal to that requested
 Number of grains requested: 92
 Number of grains produced : 1
 Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 1
-Build Collison Operator -- Time elapsed: 1 seconds.
+Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 2
 Build Collison Operator
@@ -75,7 +75,7 @@ Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 
 Finish Calculation of P-T case
 3 temperature/concentration-pressure points calculated.
- -- Total time elapsed: 2 seconds.
+ -- Total time elapsed: 4 seconds.
 
 System saved to out.xml
-Total time elapsed: 2 seconds.
+Total time elapsed: 4 seconds.

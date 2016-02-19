@@ -23,7 +23,7 @@ namespace mesmer
 
     // Constructor which registers with the list of DensityOfStatesCalculators in TopPlugin
     // This class calculates a complete DOS: it is not an extra class. 
-    ClassicalRotor(const char* id) : m_id(id), m_SpinMultiplicity(1), m_Sym(1.0) { Register(); }
+		ClassicalRotor(const char* id) : m_id(id), m_Sym(1.0), m_SpinMultiplicity(1) { Register(); }
 
     virtual ~ClassicalRotor() {}
     virtual const char* getID() { return m_id; }

@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.1 compiled: -- Feb  8 2016 -- 18:05:50
+     Mesmer v4.1 compiled: -- Feb 19 2016 -- 09:53:08
 
      Copyright (C) 2009-2016 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -68,21 +68,21 @@ In SO: The default value of me:DOSCMethod was used.
 In R6: No tunneling method used for R6
 3.37e+18PPCC, 295K at dd precision with He
 --Parse data for ThermodynamicTable
-Write metadata 20160208_181049
+Write metadata 20160219_095534
 
 File: "HSO2.xml" successfully parsed.
 Main Calculation begins
 
 --Execute calcMethod simpleCalc
 PT Grid 0
-Number of cells = 25200, Number of grains = 252
+Number of cells = 50000, Number of grains = 252
 Number of grains produced is not equal to that requested
 Number of grains requested: 252
 Number of grains produced : 1
 In FastLaplaceConvolution: 20 values in the FFT convolution routine were replaced by standard convolution
 In FastLaplaceConvolution: 40 values in the FFT convolution routine were replaced by standard convolution
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 9 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 8 seconds.
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
@@ -95,7 +95,7 @@ Finish Calculation of P-T case
 In He: The default value of me:DOSCMethod was used.
 In He: The default value of the attribute spinMultiplicity was used.
 gDensityOfStates initialization failed.
- -- Total time elapsed: 11 seconds.
+ -- Total time elapsed: 13 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 11 seconds.
+Total time elapsed: 13 seconds.

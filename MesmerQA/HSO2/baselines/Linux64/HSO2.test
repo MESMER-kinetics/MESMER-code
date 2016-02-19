@@ -64,7 +64,7 @@ Canonical (high pressure) rate coefficients for R4, calculated from microcanonic
 Canonical (high pressure) rate coefficients for R6, calculated from microcanonical rates
 {
     T/K              kf/s-1 kb/cm3molecule-1s-1  Keq/moleculecm-3
-    100        5.35745e-137          4.2246e-10      1.26816e-127
+    100        5.35746e-137         4.22461e-10      1.26816e-127
     200         5.06546e-61          4.5227e-10       1.12001e-51
     300         1.01244e-35         4.08741e-10       2.47696e-26
 }
@@ -92,7 +92,7 @@ Eigenvalues
   -1.388425e+08
   -1.203707e+00
   -2.993611e-05
-   9.117129e-22
+   1.018111e-21
 }
 
 Bartis Widom eigenvalue/eigenvector analysis
@@ -103,45 +103,45 @@ There should be 3 chemically significant eigenvalues (CSEs)
 
 Y_matrix:
 {
-   1.960561e-26,   2.140042e-27,   1.328459e-36,
+  -1.960561e-26,  -2.140043e-27,   1.328459e-36,
 }
 
 Z_matrix: {
-6.696120e-11	7.309124e-12	4.537231e-21	
--6.682006e-11	6.121598e-10	3.792050e-19	
--1.411408e-13	-6.194697e-10	1.000000e+00	
+-6.696120e-11	-7.309124e-12	4.537231e-21	
+6.682006e-11	-6.121598e-10	3.792050e-19	
+1.411408e-13	6.194697e-10	1.000000e+00	
 }
 
 Z_matrix^(-1):
 {
-1.475818e+10	-1.762111e+08	-1.411408e-13	
-1.610924e+09	1.614326e+09	-6.194697e-10	
+-1.475818e+10	1.762111e+08	1.411408e-13	
+-1.610924e+09	-1.614326e+09	6.194697e-10	
 1.000001e+00	1.000001e+00	1.000000e+00	
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	-1.200625e-66	5.630141e-86	
--1.762858e-64	1.000000e+00	-2.882632e-83	
-5.222562e-65	-6.646897e-65	1.000000e+00	
+1.000000e+00	-1.242429e-66	6.434447e-86	
+-1.054969e-64	1.000000e+00	3.088535e-84	
+1.899114e-65	8.902095e-66	1.000000e+00	
 }
 
 Kr matrix:
 {
 -1.189534e+00	1.420256e-02	1.151173e-23	
 1.186997e+00	-1.420256e-02	4.402457e-32	
-2.537173e-03	1.160972e-13	9.002012e-22	
+2.537173e-03	1.160972e-13	1.006600e-21	
 }
 
 Kp matrix:
 {
-   2.927906e-16,   6.569162e-27,   1.821939e-46,
+   2.927906e-16,   6.569162e-27,   2.121420e-46,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
 H loss = -1.189534e+00
-HOSO loss = 9.002012e-22
+HOSO loss = 1.006600e-21
 HSO2 loss = -1.420256e-02
 }
 
@@ -158,7 +158,7 @@ HSO2 -> HOSO = 1.160972e-13
 First order & pseudo first order rate coefficients for irreversible rxns:
 {
 H -> OH+SO = 2.927906e-16
-HOSO -> OH+SO = 1.821939e-46
+HOSO -> OH+SO = 2.121420e-46
 HSO2 -> OH+SO = 6.569162e-27
 }
 
