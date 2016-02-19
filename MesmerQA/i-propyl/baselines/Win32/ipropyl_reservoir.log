@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.1 compiled: -- Feb  9 2016 -- 13:46:36
+     Mesmer v4.1 compiled: -- Feb 19 2016 -- 00:01:36
 
      Copyright (C) 2009-2016 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -48,37 +48,37 @@ In H: The default value of me:DOSCMethod was used.
 In H: The default value of the attribute spinMultiplicity was used.
 In R1: No tunneling method used for R1
 The default value of the attribute precision was used.
-3e+017PPCC, 720K at d precision with He
+3e+17PPCC, 720K at d precision with He
 The default value of the attribute precision was used.
-3.01e+017PPCC, 730K at d precision with He
-Write metadata 20160209_134903
+3.01e+17PPCC, 730K at d precision with He
+Write metadata 20160219_000327
 
 File: "ipropyl_reservoir.xml" successfully parsed.
 Main Calculation begins
 
 --Execute calcMethod simpleCalc
 PT Grid 0
-Number of cells = 18600, Number of grains = 186
+Number of cells = 50000, Number of grains = 186
 Number of grains produced is not equal to that requested
 Number of grains requested: 186
 Number of grains produced : 1
-In FastLaplaceConvolution: 80 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 5900 values in the FFT convolution routine were replaced by standard convolution
 Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 1
-Number of cells = 18700, Number of grains = 187
+Number of cells = 50000, Number of grains = 187
 Number of grains requested: 187
 Build Collison Operator
 Diagonalize the Reaction Operator
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
-            720         3e+017           41.5        45.0265
-            730      3.01e+017           51.1        61.3841
+            720          3e+17           41.5        45.0269
+            730       3.01e+17           51.1        61.3846
 
 Finish Calculation of P-T case
 2 temperature/concentration-pressure points calculated.
- -- Total time elapsed: 0 seconds.
+ -- Total time elapsed: 1 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 0 seconds.
+Total time elapsed: 1 seconds.

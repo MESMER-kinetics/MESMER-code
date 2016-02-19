@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.1 compiled: -- Feb  9 2016 -- 13:46:36
+     Mesmer v4.1 compiled: -- Feb 19 2016 -- 00:01:36
 
      Copyright (C) 2009-2016 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -56,30 +56,30 @@ In R4: --Parse data for SimpleRRKM
 In R4: No tunneling method used for R4
 The default value of the attribute precision was used.
 200.72Torr, 298K at d precision with He
-Write metadata 20160209_134902
+Write metadata 20160219_000325
 
 File: "Acetyl_O2_association.xml" successfully parsed.
 Main Calculation begins
 
 --Execute calcMethod simpleCalc
 PT Grid 0
-Number of cells = 17900, Number of grains = 179
-In FastLaplaceConvolution: 20 values in the FFT convolution routine were replaced by standard convolution
-In FastLaplaceConvolution: 60 values in the FFT convolution routine were replaced by standard convolution
+Number of cells = 50000, Number of grains = 179
+In FastLaplaceConvolution: 1240 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 1680 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
-In FastLaplaceConvolution: 7460 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 13180 values in the FFT convolution routine were replaced by standard convolution
 Build Collison Operator
-Diagonalize the Reaction Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 In mesmer::CollisionOperator::timeEvolution: No population was assigned. Initialize the first source term to 1.0.
 No population was assigned. Initialize the first source term to 1.0.
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
-            298    6.5042e+018
+            298     6.5042e+18
 
 Finish Calculation of P-T case
 1 temperature/concentration-pressure points calculated.
- -- Total time elapsed: 0 seconds.
+ -- Total time elapsed: 1 seconds.
 
 System saved to out.xml
-Total time elapsed: 0 seconds.
+Total time elapsed: 1 seconds.

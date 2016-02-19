@@ -28,14 +28,14 @@ namespace Constants {
   //
   // Basic constants
   //
-  static const double boltzmann_C                    = 1.3806503e-23;  // Boltzmann constant (J*K-1).
-  static const double SpeedOfLight_in_cm             = 2.99792458e+10 ;// speed of light in centimeter/s
-  static const double PlancksConstant_in_JouleSecond = 6.6260689633e-34;   // Planck's constant in Joule times second
+  static const double boltzmann_C                    = 1.3806503e-23;    // Boltzmann constant (J*K-1).
+  static const double SpeedOfLight_in_cm             = 2.99792458e+10 ;  // speed of light in centimeter/s
+  static const double PlancksConstant_in_JouleSecond = 6.6260689633e-34; // Planck's constant in Joule times second
   static const double AvogadroC                      = 6.0221367e+23;
   static const double Calorie_in_Joule               = 4.184;
-  static const double Atm_in_Torr                    = 760.0;
+  static const double Atm_in_Torr                    = 760.0/1.01325 ;   // The divison by 1.01325 is to account for the change in definition of 1 atom to be 1 bar.
   static const double mbar_in_pascal                 = 100.;
-	static const double atm_in_pascal                  = 1.e+05;    //Pascal: N*m^-2
+	static const double atm_in_pascal                  = 1.e+05;           //Pascal: N*m^-2
   static const double Hartree_In_kJperMol            = 2625.478;
   static const double psi_in_pascal                  = 6894.76;
   static const double bohr_in_angstrom               = 0.529177;
