@@ -551,7 +551,7 @@ Section "Dummy Section" SecDummy
   WriteRegStr HKCU "Software\Mesmer ${MESMERVERSION}" "" $INSTDIR
   
   ;Install Visual C++ Redistributable for Visual Studio 2015
-  ExecWait '"$INSTDIR/vcredist_x86.exe" /q'
+  ExecWait '"$INSTDIR/vc_redist.x86.exe" /q'
 
   ;Create uninstaller
   WriteUninstaller "$INSTDIR\Uninstall.exe"
@@ -613,7 +613,7 @@ Section "Uninstall"
   ;ADD YOUR OWN FILES HERE...
   Delete "$INSTDIR\License.txt"
   Delete "$INSTDIR\Mesmer.exe"
-  Delete "$INSTDIR\vcredist_x86.exe"
+  Delete "$INSTDIR\vc_redist.x86.exe"
   Delete $INSTDIR\mesmer1.xsl
   Delete $INSTDIR\mesmerDiag.xsl
   Delete $INSTDIR\popDiag.xsl

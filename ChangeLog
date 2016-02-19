@@ -1,3 +1,10 @@
+2016-February-19 Chris Morley
+
+	* Windows VC14/distribution/NSISScriptToCreateInstaller.nsi:
+	  Update. Runtime library is now called vc_redist.x86.exe
+	
+	* Windows VC14/distribution/ReadMe.txt: add Robin.
+
 2016-February-18 Struan Robertson
 
 		* Constants.h: Altered standard pressure to one bar.
