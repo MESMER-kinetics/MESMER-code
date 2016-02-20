@@ -8,19 +8,19 @@ Input variable key:
   propene:ZPE                   : (3)
 
 
- Standard deviation for i-propyl => propene+H: 38.55
+ Standard deviation for i-propyl => propene+H: 38.56
 
  First order indices for i-propyl => propene+H: 
                 (1)            (2)            (3)
-            0.71185      0.0024154     0.00053676
+            0.71352      0.0029219     0.00036282
 
  Second order indices for i-propyl => propene+H: 
                 (1)            (2)            (3)
 (1)              --             --             --
-(2)       0.0046485             --             --
-(3)       0.0021171      0.0025119             --
+(2)       0.0039046             --             --
+(3)        0.010326      0.0024827             --
 
- R-Squared statistic: 0.742
+ R-Squared statistic: 0.7351
 
 
 Sensitivity Analysis: Temperature =   880, Concentration = 3e+16
@@ -36,13 +36,13 @@ Input variable key:
 
  First order indices for i-propyl => propene+H: 
                 (1)            (2)            (3)
-            0.78486     5.9015e-06     0.00018644
+            0.78486      5.901e-06     0.00018645
 
  Second order indices for i-propyl => propene+H: 
                 (1)            (2)            (3)
 (1)              --             --             --
-(2)       0.0018279             --             --
-(3)      0.00058508      0.0034938             --
+(2)        0.001828             --             --
+(3)       0.0005851      0.0034939             --
 
  R-Squared statistic: 0.8209
 

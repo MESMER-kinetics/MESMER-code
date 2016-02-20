@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.1 compiled: -- Jan 30 2016 -- 17:06:13
+     Mesmer v4.1 compiled: -- Feb 20 2016 -- 13:49:03
 
-     Copyright (C) 2009-2015 by
+     Copyright (C) 2009-2016 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
      Chris Morley, Michael J. Pilling and contributors
 
@@ -43,22 +43,20 @@ In acetyl: --Parse data for ExponentialDown
 In TSdecomp: The default value of the attribute spinMultiplicity was used.
 In R1: --Parse data for SimpleRRKM
 In R1: No tunneling method used for R1
-In R1: No crossing method used for R1
 In R2: Parsing reaction...Bimolecular sink reaction
 In R2: --Parse data for SimpleBimolecularSink
 In R2: Reading parameters for Reaction R2 which uses the SimpleBimolecularSink method
 In R2: No tunneling method used for R2
-In R2: No crossing method used for R2
 In R2: Not a unimolecular reaction: look for excess reactant concentration.
 80Torr, 298K at d precision with He
-Write metadata 20160130_201712
+Write metadata 20160220_135543
 
 File: "AcetylPrior.xml" successfully parsed.
 Main Calculation begins
 
 --Execute calcMethod simpleCalc
 PT Grid 0
-Number of cells = 26800, Number of grains = 268
+Number of cells = 50000, Number of grains = 268
 calculating cell flux for reaction R2 which is a SimpleBimolecularSink method
 adding reaction terms to the collision matrix 
 Build Collison Operator

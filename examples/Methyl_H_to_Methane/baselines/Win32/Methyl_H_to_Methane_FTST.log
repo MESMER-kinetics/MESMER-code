@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.1 compiled: -- Jan 30 2016 -- 17:06:13
+     Mesmer v4.1 compiled: -- Feb 20 2016 -- 13:49:03
 
-     Copyright (C) 2009-2015 by
+     Copyright (C) 2009-2016 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
      Chris Morley, Michael J. Pilling and contributors
 
@@ -48,7 +48,6 @@ In TS1: The default value of me:DOSCMethod was used.
 In TS1: TS1:ZPE will be derived from Methyl:ZPE. Check below that this has been found.
 In R1: --Parse data for DefinedSumOfStates
 In R1: No tunneling method used for R1
-In R1: No crossing method used for R1
 In R1: Not a unimolecular reaction: look for excess reactant concentration.
 In R1: No value of me:excessReactantConc was supplied and the default value NEEDS TO BE CHECKED**
 25.1Torr, 301K at dd precision with He
@@ -89,7 +88,7 @@ In R1: No value of me:excessReactantConc was supplied and the default value NEED
 614.5Torr, 601K at dd precision with He
 711Torr, 601K at dd precision with He
 TS1:ZPE is derived from Methyl:ZPE
-Write metadata 20160130_204505
+Write metadata 20160220_142526
 
 File: "Methyl_H_to_Methane_FTST.xml" successfully parsed.
 Main Calculation begins
@@ -183,7 +182,7 @@ Chi^2 = 4.46167e-20 Lambda = 1000
 Methyl:ZPE=103.35  Methane:deltaEDown=160.031  
 Iteration: 15 of Marquardt. ChiSquare = 4.46167e-20, Lambda = 1000
 PT Grid 0
-Number of cells = 40500, Number of grains = 270
+Number of cells = 50000, Number of grains = 270
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
 PT Grid 1
@@ -191,7 +190,7 @@ Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
 PT Grid 2
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 3
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
@@ -200,7 +199,7 @@ Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
 PT Grid 5
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
 PT Grid 6
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
@@ -227,10 +226,10 @@ Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
 PT Grid 14
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 15
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
 PT Grid 16
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
@@ -257,10 +256,10 @@ Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
 PT Grid 24
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
 PT Grid 25
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 26
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
@@ -287,10 +286,10 @@ Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
 PT Grid 34
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
 PT Grid 35
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 36
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
@@ -354,7 +353,7 @@ Goodness of Fit:
 Number of degrees of Freedom = 35
 Chi^2 probability = 1
 
- -- Total time elapsed: 2197 seconds.
+ -- Total time elapsed: 2455 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 2197 seconds.
+Total time elapsed: 2455 seconds.
