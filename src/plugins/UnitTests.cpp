@@ -17,6 +17,9 @@
 #include "../Sobol.h"
 #include "../qd_test.h"
 #include "../gDensityOfStates.h"
+#include <Eigen/Dense>
+
+using namespace Eigen;
 
 namespace mesmer
 {
@@ -61,14 +64,17 @@ namespace mesmer
 
     bool Test_GammaFunction() const;
 
-	bool Test_Spline() const ;
+	  bool Test_Spline() const ;
 
     bool Test_Sobol() const ;
 
     template<class T> 
     bool Test_LinearAlgebra(string precision) const ;
 
-    bool Test_cellSize(Molecule* pMol) const;
+		template<class T>
+		bool Test_Eigen3Algebra(string precision) const;
+			 
+		bool Test_cellSize(Molecule* pMol) const;
 
     // MEIC tests:
 
@@ -80,7 +86,9 @@ namespace mesmer
 
     bool Test_MEIC_HinderedRotor(Molecule *pMol) const ;
 
-    // Support methods:
+	private:
+
+		// Support methods:
 
     bool Test_MEIC_formGrainSOS(vector<double> &cellDOS, const MesmerEnv &env) const ;
 
@@ -88,7 +96,8 @@ namespace mesmer
 
     void underlineText(const string& text) const ;
 
-  private:
+		template<class T>
+		void printMatrix(string &title, Matrix<T, Dynamic, Dynamic> &Mtx) const;
 
     const char* m_id;
 
@@ -128,7 +137,13 @@ namespace mesmer
     status = ( status && Test_LinearAlgebra<dd_real>(string("double-double"))) ;
     status = ( status && Test_LinearAlgebra<qd_real>(string("quad-double"))) ;
 
-    MesmerEnv& Env = pSys->getEnv() ;
+		// Test Eigen3 Algebra ;
+		status = (status && Test_Eigen3Algebra<double>(string("double")));
+		status = (status && Test_Eigen3Algebra<long double>(string("long-double")));
+		status = (status && Test_Eigen3Algebra<dd_real>(string("double-double")));
+		status = (status && Test_Eigen3Algebra<qd_real>(string("quad-double")));
+
+		MesmerEnv& Env = pSys->getEnv() ;
     Env.GrainSize  = 100 ; 
     Env.MaxGrn     = 500 ;
     Env.MaxCell    = Env.GrainSize * Env.MaxGrn ;
@@ -487,7 +502,14 @@ namespace mesmer
     rhs[2] = T(1.0) ;
     rhs *= Mtx1 ;
 
-    // Rate coefficient matrix.
+		ctest << endl << "Calculate Equilibrum population." << endl;
+
+		for (size_t i(0); i < 3; i++) {
+			ctest << rhs[i] << endl;
+		}
+		ctest << endl;
+
+		// Rate coefficient matrix.
 
     TMatrix<T> Mtx2(msize,0.0) ;
 
@@ -557,9 +579,151 @@ namespace mesmer
     Heading = "Check: Left * Right = Identity" ;
     Mtx8.print(Heading, ctest) ;
 
-    return status ;
+		return status;
 
-  }
+	}
+
+	template<class T>
+	bool UnitTests::Test_Eigen3Algebra(string precision) const {
+
+		bool status(true);
+
+		ctest << endl;
+		const string Title = string("Test: Eigen3 Algebra: ") + precision;
+		underlineText(Title);
+
+		size_t msize = 3;
+		Matrix<T, Dynamic, Dynamic>  Mtx0(msize, msize);
+		for (size_t i(0); i < msize; i++) {
+			for (size_t j(0); j < msize; j++) {
+				Mtx0(i, j) = T(0.0);
+			}
+		}
+
+		// Equilibrium matrix.
+
+		Matrix<T, Dynamic, Dynamic> Mtx1(Mtx0);
+		Mtx1(0, 0) = T(-3.0) / T(2.0);
+		Mtx1(0, 1) = T(1.0);
+		Mtx1(1, 1) = T(-10.0) / T(6.0);
+		Mtx1(1, 2) = T(1.0);
+		Mtx1(2, 0) = T(1.0);
+		Mtx1(2, 1) = T(1.0);
+		Mtx1(2, 2) = T(1.0);
+
+		string Heading("Test matrix 1");
+
+		printMatrix(Heading, Mtx1);
+
+		ctest << endl << "Determinant of Test matrix 1 = " << Mtx1.determinant() << endl;
+
+		Heading.clear();
+		Heading = "Inverse of Test matrix 1";
+		
+		Matrix<T, Dynamic, Dynamic> InvMtx1 = Mtx1.inverse() ;
+
+		printMatrix(Heading, InvMtx1);
+
+		// Calculate Equilibrum population.
+
+		Matrix<T, Dynamic, 1> rhs(msize);
+
+		rhs[0] = T(0.0);
+		rhs[1] = T(0.0);
+		rhs[2] = T(1.0);
+
+		Matrix<T, Dynamic, 1> x = Mtx1.colPivHouseholderQr().solve(rhs);
+
+		ctest << endl << "Calculate Equilibrum population." << endl;
+
+		for (size_t i(0); i < msize; i++) {
+			ctest << x[i] << endl;
+		}
+		ctest << endl;
+
+		// Rate coefficient matrix.
+
+		Matrix<T, Dynamic, Dynamic> Mtx2(Mtx0);
+
+		Mtx2(0,0) = T(-13.0);
+		Mtx2(0,1) = T(2.0);
+		Mtx2(0,2) = T(4.0);
+		Mtx2(1,0) = T(3.0);
+		Mtx2(1,1) = T(-12.0);
+		Mtx2(1,2) = T(6.0);
+		Mtx2(2,0) = T(10.0);
+		Mtx2(2,1) = T(10.0);
+		Mtx2(2,2) = T(-10.0);
+
+		Heading.clear();
+		Heading = "Test matrix 2";
+		printMatrix(Heading, Mtx2);
+
+		// Symmetrize rate coefficient matrix.
+
+		Matrix<T, Dynamic, Dynamic> Mtx3(Mtx0);
+		Matrix<T, Dynamic, Dynamic> Mtx4(Mtx0);
+		for (size_t i(0); i < msize; i++) {
+			Mtx3(i ,i) = sqrt(x[i]);
+			Mtx4(i, i) = T(1.0) / Mtx3(i, i);
+			rhs[i]     = T(0.0);
+		}
+
+		Matrix<T, Dynamic, Dynamic> Mtx5 = Mtx4*Mtx2*Mtx3;
+
+		Heading.clear();
+		Heading = "Symmetrized test matrix 2";
+		printMatrix(Heading, Mtx5);
+
+		// Diagonalize symmetrize rate coefficient matrix.
+
+		SelfAdjointEigenSolver<Matrix<T, Dynamic, Dynamic> > eigensolver(Mtx5);
+		rhs = eigensolver.eigenvalues();
+
+		Heading.clear();
+		Heading = "Eigenvectors of symmetrized test matrix 2";
+		Mtx5 = eigensolver.eigenvectors();
+		printMatrix(Heading, Mtx5);
+
+		ctest << endl;
+		underlineText("Eigenvalues:");
+		for (size_t i(0); i < msize; i++) {
+			ctest << formatFloat(rhs[i], 5, 15) << endl;
+		}
+
+		Matrix<T, Dynamic, Dynamic> Mtx6 = Mtx3*Mtx5;
+		Heading.clear();
+		Heading = "Right eigenvectors of test matrix 2";
+		printMatrix(Heading, Mtx6);
+
+		Matrix<T, Dynamic, Dynamic> Mtx7 = Mtx5.transpose()*Mtx4;
+		Heading.clear();
+		Heading = "Left eigenvectors of test matrix 2";
+		printMatrix(Heading, Mtx7);
+
+		Matrix<T, Dynamic, Dynamic> Mtx8 = Mtx6*Mtx7;
+		Heading.clear();
+		Heading = "Check: Left * Right = Identity";
+		printMatrix(Heading, Mtx8);
+
+		return status;
+
+	}
+
+	template<class T>
+	void UnitTests::printMatrix(string &title, Matrix<T, Dynamic, Dynamic> &Mtx) const {
+
+		size_t nsize = Mtx.rows();
+
+		ctest << endl << title << endl << "{" << endl;
+		for (size_t i(0); i < nsize; i++) {
+			for (size_t j(0); j < nsize; j++) {
+				formatFloat(ctest, Mtx(i, j), 6, 15) ;
+			}
+			ctest << endl;
+		}
+		ctest << "}" << endl;
+	}
 
   bool UnitTests::Test_MEIC_1(Molecule *pMol) const {
 

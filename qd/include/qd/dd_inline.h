@@ -15,6 +15,7 @@
 
 #include <cmath>
 #include <qd/inline.h>
+#include "dd_real.h"
 
 #ifndef QD_INLINE
 #define inline
@@ -22,6 +23,11 @@
 
 
 /*********** Additions ************/
+//CM Unary '+'
+inline dd_real operator+(const dd_real &a) {  
+  return a;
+}
+
 /* double-double = double + double */
 inline dd_real dd_real::add(double a, double b) {
   double s, e;
@@ -416,6 +422,12 @@ inline dd_real &dd_real::operator=(double a) {
   lo = 0.0;
   return *this;
 }
+/* double-double = int */ 
+inline dd_real &dd_real::operator=(int i) {
+  hi = i;
+  lo = 0.0;
+  return *this;
+}
 
 /*********** Equality Comparisons ************/
 /* double-double == double */
@@ -610,6 +622,12 @@ inline int to_int(const dd_real &a) {
 /* Random number generator */
 inline dd_real dd_real::rand() {
   return ddrand();
+}
+
+/* Cast. CM needed in <complex> but dangerous*/
+inline dd_real::operator double() const
+{
+  return to_double(*this);
 }
 
 #endif /* _QD_DD_INLINE_H */

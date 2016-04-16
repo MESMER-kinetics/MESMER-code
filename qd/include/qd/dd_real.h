@@ -112,6 +112,7 @@ public:
   bool isinf() const { return QD_ISINF(hi)!=0; }
 
   /* Addition */
+  friend QD_API dd_real operator+(const dd_real &a);//CM Unary '+'
   friend QD_API dd_real operator+(const dd_real &a, double b);
   friend QD_API dd_real operator+(double a, const dd_real &b);
   friend QD_API dd_real operator+(const dd_real &a, const dd_real &b);
@@ -166,6 +167,7 @@ public:
 
   /* Assignment */
   dd_real &operator=(double a);
+  dd_real &operator=(int i); //CM to avoid an ambiguous call in Eigen3
   dd_real &operator=(const char *s);
 
   /* N-th power.  NOTE: must be careful about order of precedence. */
@@ -226,6 +228,7 @@ public:
   /* Cast */
   friend double to_double(const dd_real &a);
   friend int    to_int(const dd_real &a);
+  explicit operator double() const; //CM needed in <complex> but dangerous
 
   /* Exponential and Logarithms */
   friend QD_API dd_real exp(const dd_real &a);

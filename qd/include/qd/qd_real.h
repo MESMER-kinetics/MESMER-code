@@ -95,6 +95,7 @@ public:
   bool isinf() const { return QD_ISINF(x[0]); }
 
   /* Addition */
+  friend QD_API qd_real operator+(const qd_real &a); //CM
   friend QD_API qd_real operator+(const qd_real &a, const qd_real &b);
   friend QD_API qd_real operator+(const dd_real &a, const qd_real &b);
   friend QD_API qd_real operator+(const qd_real &a, const dd_real &b);
@@ -169,6 +170,7 @@ public:
 
   /* Assignment */
   qd_real &operator=(double a);
+  qd_real &operator=(int i);
   qd_real &operator=(const dd_real &a);
   qd_real &operator=(const char *s);
 
@@ -176,6 +178,7 @@ public:
   friend dd_real to_dd_real(const qd_real &a);
   friend double  to_double(const qd_real &a);
   friend int     to_int(const qd_real &a);
+  explicit operator double() const; //CM needed in <complex> but dangerous
 
   /* Equality Comparison */
   friend QD_API bool operator==(const qd_real &a, const qd_real &b);

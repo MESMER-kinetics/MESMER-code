@@ -29,15 +29,15 @@
 namespace mesmer
 {
   template<class T>
-  class TMatrix : public Matrix<T> {
+  class TMatrix : public MeMatrix<T> {
 
   public:
 
     // Constructors
-    TMatrix( size_t n, const T& init = T(0.0)) : Matrix<T>(n, init) { } ;
+    TMatrix( size_t n, const T& init = T(0.0)) : MeMatrix<T>(n, init) { } ;
 
     // Copy constructor
-    TMatrix(const Matrix<T>& rhs ) : Matrix<T>(rhs) { } ;
+    TMatrix(const MeMatrix<T>& rhs ) : MeMatrix<T>(rhs) { } ;
 
     //
     // Wrapped calls to EISPACK routines to diagonalise matrix.
@@ -781,7 +781,7 @@ namespace mesmer
     vector<size_t> indx(size, 0) ;
 
     // Construct an identity matrix as a primer for the inverse.
-    Matrix<T> invM(size, T(0.0)) ; 
+    MeMatrix<T> invM(size, T(0.0)) ; 
     for (size_t i(0); i < size; ++i){
       invM[i][i] = 1.0;
     }

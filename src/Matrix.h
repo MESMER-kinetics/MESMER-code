@@ -1,14 +1,14 @@
-#ifndef GUARD_Matrix_h
-#define GUARD_Matrix_h
+#ifndef GUARD_MeMatrix_h
+#define GUARD_MeMatrix_h
 
 //-------------------------------------------------------------------------------------------
 //
-// Matrix.h
+// MeMatrix.h
 //
 // Author: Struan Robertson
 // Date:   23/Jan/2003
 //
-// This header file contains the declaration of the Matrix class.  Taken from a combination
+// This header file contains the declaration of the MeMatrix class.  Taken from a combination
 // of sources including Numerical Recipies, TNT and Accelerated C++, BUT restricted to square
 // matrices only.
 //
@@ -23,7 +23,7 @@ using namespace std;
 namespace mesmer
 {
   template<class T>
-  class Matrix {
+  class MeMatrix {
 
   public:
 
@@ -35,19 +35,19 @@ namespace mesmer
 
     // Constructor
 
-    explicit Matrix(size_t n, const T& a = T() ) ;
+    explicit MeMatrix(size_t n, const T& a = T() ) ;
 
     //Copy constructor
 
-    Matrix(const Matrix&) ; 
+    MeMatrix(const MeMatrix&) ; 
 
     // Destructor
 
-    virtual ~Matrix() { destroy() ; }
+    virtual ~MeMatrix() { destroy() ; }
 
     // Operators
 
-    Matrix& operator=(const Matrix& rhs) ;
+    MeMatrix& operator=(const MeMatrix& rhs) ;
     inline T* operator[](const size_t i) { return m_matrix[i] ; }
     inline const T* operator[](const size_t i) const { return m_matrix[i] ; }
 
@@ -108,14 +108,14 @@ namespace mesmer
 
     // Hide default constructor - force the size of the matrix to be passed.
 
-    Matrix() : m_msize(0), m_matrix(0) { } ;
+    MeMatrix() : m_msize(0), m_matrix(0) { } ;
 
   } ;
 
   // Construct a matrix of size n and initialized to a.
 
   template<class T>
-  Matrix<T>::Matrix(size_t n, const T& a) : m_msize(0), m_matrix(0) {
+  MeMatrix<T>::MeMatrix(size_t n, const T& a) : m_msize(0), m_matrix(0) {
 
     create(n) ;
 
@@ -127,7 +127,7 @@ namespace mesmer
   // Copy constructor.
 
   template<class T>
-  Matrix<T>::Matrix(const Matrix& rhs) : m_msize(0), m_matrix(0) {
+  MeMatrix<T>::MeMatrix(const MeMatrix& rhs) : m_msize(0), m_matrix(0) {
 
     create(rhs.m_msize) ;
 
@@ -139,7 +139,7 @@ namespace mesmer
   // Operators
 
   template<class T>
-  Matrix<T>& Matrix<T>::operator=(const Matrix<T> &rhs) {
+  MeMatrix<T>& MeMatrix<T>::operator=(const MeMatrix<T> &rhs) {
 
     if (this != &rhs) {
 
@@ -163,11 +163,11 @@ namespace mesmer
   // Modifiers.
 
   template<class T>
-  void Matrix<T>::resize(const size_t n){
+  void MeMatrix<T>::resize(const size_t n){
 
     if (n < 1){
       stringstream errorMsg;
-      cerr << "Matrix must be of size one or greater";
+      cerr << "MeMatrix must be of size one or greater";
     }
 
     T **matrix = allocatematrix(n)  ;
@@ -186,11 +186,11 @@ namespace mesmer
   }
 
   template<class T>
-  void Matrix<T>::reset(const size_t n){
+  void MeMatrix<T>::reset(const size_t n){
 
     if (n < 1){
       stringstream errorMsg;
-      cerr << "Matrix must be of size one or greater";
+      cerr << "MeMatrix must be of size one or greater";
     }
 
     T **matrix = allocatematrix(n)  ;
@@ -209,4 +209,4 @@ namespace mesmer
 
 }//namespacer mesmer
 
-#endif // GUARD_Matrix_h
+#endif // GUARD_MeMatrix_h

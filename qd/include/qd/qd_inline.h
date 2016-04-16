@@ -197,6 +197,11 @@ inline void three_sum2(double &a, double &b, double &c) {
 
 }
 
+/* unary + CM*/
+inline qd_real operator+(const qd_real &a) {
+  return a;
+}
+
 /* quad-double + double */
 inline qd_real operator+(const qd_real &a, double b) {
   double c0, c1, c2, c3;
@@ -424,6 +429,11 @@ inline qd_real &qd_real::operator+=(const dd_real &a) {
 inline qd_real &qd_real::operator+=(const qd_real &a) {
   *this = *this + a;
   return *this;
+}
+
+/********** Unary Plus **********CM/
+inline qd_real qd_real::operator-() const {
+  return qd_real(x[0], x[1], x[2], x[3]);
 }
 
 /********** Unary Minus **********/
@@ -798,6 +808,13 @@ inline qd_real quick_nint(const qd_real &a) {
 /* quad-double = double */
 inline qd_real &qd_real::operator=(double a) {
   x[0] = a;
+  x[1] = x[2] = x[3] = 0.0;
+  return *this;
+}
+
+/* quad-double = int //CM because dd_real version was necessary*/
+inline qd_real &qd_real::operator=(int i) {
+  x[0] = i;
   x[1] = x[2] = x[3] = 0.0;
   return *this;
 }
