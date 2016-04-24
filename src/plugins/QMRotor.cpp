@@ -255,7 +255,7 @@ namespace mesmer
       R[i] = Ed[i * 2 - 1];
     }
 
-    TMatrix<double>::tqlev(&R[0], &E[0], N);
+		tqlev<double>(&R[0], &E[0], N);
 
     double ene = (A + C)*jsqd / 2.0;
     double en2 = (A - C) / 2.0;
@@ -272,7 +272,7 @@ namespace mesmer
       R[i] = Ed[i * 2 + 1];
     }
 
-    TMatrix<double>::tqlev(&R[0], &E[0], N);
+    tqlev<double>(&R[0], &E[0], N);
 
     for (i = 0; i < N; i++) {
       Er.push_back(ene + en2*R[i]);
@@ -289,7 +289,7 @@ namespace mesmer
       R[i] = Ed[i * 2];
     }
 
-    TMatrix<double>::tqlev(&R[0], &E[0], N);
+		tqlev<double>(&R[0], &E[0], N);
 
     for (i = 0; i < N; i++) {
       Er.push_back(ene + en2*R[i]);
@@ -306,7 +306,7 @@ namespace mesmer
       R[i] = Ed[i * 2];
     }
 
-    TMatrix<double>::tqlev(&R[0], &E[0], N);
+		tqlev<double>(&R[0], &E[0], N);
 
     for (i = 0; i < N; i++) {
       Er.push_back(ene + en2*R[i]);
