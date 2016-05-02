@@ -1,3 +1,9 @@
+2016-May-02 Struan Robertson
+
+		* System.h: Version update.
+		
+		* Reaction.h, DiffusiveLossReaction.h/.cpp: Initial revision of diffusive loss term.
+
 2016-February-19 Chris Morley
 
 	* Windows VC14/distribution/NSISScriptToCreateInstaller.nsi:
