@@ -32,12 +32,13 @@ struct conditionSet
 
 struct RawDataSet
 {
-  std::vector<std::pair<double, double> > data;
-  const char* m_Name;
-  double m_excessConc;
+  std::vector<std::pair<double, double> > data; // Time series data.
+	std::string m_ref1;                           // Monitored species.
+	const char* m_Name;                           // Name of trace.
+  double m_excessConc;                          // Concentration of excess reactant. 
 };
 
-//Functor to compare times in RawDataSet
+// Functor to compare times in RawDataSet.
 class Before
 {
 private:
@@ -48,7 +49,7 @@ public:
 };
 
 // To make sure if there is a concentration or pressure definition, there is a temperature definition.
-struct CandTpair{
+struct CandTpair {
 
   double      m_concentration; // particles per cubic centimeter
   double      m_temperature; // Kelvin
@@ -59,10 +60,10 @@ struct CandTpair{
   std::vector<conditionSet> m_rates;
   std::vector<conditionSet> m_yields;
   std::vector<conditionSet> m_eigenvalues;
-  std::vector<PersistPtr> m_expDataPtrs;
-  std::vector<RawDataSet> m_rawDataSets;
+	std::vector<RawDataSet>   m_rawDataSets;
+	std::vector<PersistPtr>   m_expDataPtrs;
 
-  CandTpair(double cp_, double t_, Precision _pre, const char* _bathGas,
+	CandTpair(double cp_, double t_, Precision _pre, const char* _bathGas,
             const map<Reaction*,double>& _excessConcs)
             : m_concentration(cp_), m_temperature(t_), m_precision(_pre),
               m_pBathGasName(_bathGas), m_excessConcs(_excessConcs) {}
@@ -82,6 +83,7 @@ struct CandTpair{
     m_eigenvalues.push_back(conditionSet(std::string(""), std::string(""), eigenvalueID, value, error)) ;
     m_expDataPtrs.push_back(ppData);
   }
+
 };
 
 
@@ -97,11 +99,11 @@ public:
   // Reads the rest of  <me:conditions>
   bool ParseConditions();
 
-  size_t      getNumPTPoints() const            { return PandTs.size(); }
-  double      PTPointTemp(int index)  { return PandTs[index].m_temperature; }
-  double      PTPointConc(int index){ return PandTs[index].m_concentration;}
-  const char* PTPointBathGas(int index)      {return PandTs[index].m_pBathGasName.c_str();}
-  Precision   PTPointPrecision(int index)    {return PandTs[index].m_precision;}
+  size_t      getNumPTPoints() const      { return PandTs.size(); }
+  double      PTPointTemp(int index)      { return PandTs[index].m_temperature; }
+  double      PTPointConc(int index)      { return PandTs[index].m_concentration;}
+  const char* PTPointBathGas(int index)   { return PandTs[index].m_pBathGasName.c_str();}
+  Precision   PTPointPrecision(int index) { return PandTs[index].m_precision;}
   map<Reaction*,double> PTPointExcessConcs(int index)  {return PandTs[index].m_excessConcs; }
 
   // An accessor method to get conditions and related properties for
@@ -119,16 +121,18 @@ public:
   void get_experimentalEigenvalues(unsigned index, std::vector<conditionSet>& eigenvalues) const
   { eigenvalues =  PandTs[index].m_eigenvalues ; }
 
+	const std::vector<RawDataSet>& get_experimentalrawDataSets(unsigned index) const
+	{ return PandTs[index].m_rawDataSets ; }
+
   PersistPtr get_experimentalDataPtr(unsigned index, size_t i) const
   { return PandTs[index].m_expDataPtrs[i]; }
 
-  //Collect bath gas names from PandTs
+  // Collect bath gas names from PandTs.
   void getAllBathGases(std::set<std::string>& bathGases);
 
-  RawDataSet get_rawDataSet(const unsigned index) const { return RawDataSets[index]; }
-
 private:
-  bool readPTs();
+
+	bool readPTs();
 
   bool ReadRange(const std::string&    name,
     std::vector<double>&  vals,
@@ -145,9 +149,6 @@ private:
 
   // Paired concentration and pressure points.
   std::vector<CandTpair> PandTs;
-
-  // All the raw data sets in this conditions block
-  std::vector < RawDataSet > RawDataSets;
 
 };
 

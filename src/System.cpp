@@ -864,6 +864,56 @@ namespace mesmer
   double System::calcChiSqRawData(const unsigned calPoint, stringstream &rateCoeffTable, vector<double> &residuals) {
 
     double chiSquare(0.0) ;
+		const vector<RawDataSet> &rawDataSets = m_pConditionsManager->get_experimentalrawDataSets(calPoint) ;
+		if (rawDataSets.size() == 0)
+			return chiSquare;
+
+		//
+		// Calculate profile for each experimental set.
+		//
+		for (size_t i(0); i < rawDataSets.size(); ++i) {
+
+			const RawDataSet& dataSet = rawDataSets[i] ;
+
+			// Extract the times for which the trace should be calculated. 
+			vector<double> times, expSignal ;
+			const size_t ntimes = dataSet.data.size() ;
+			for (size_t j(0); j < ntimes ; ++j) {
+				double time = dataSet.data[j].first ;
+				if (time > 0.0) {
+					times.push_back(time);
+					expSignal.push_back(dataSet.data[j].second);
+				}
+			}
+
+			vector<double> signal(times.size(), 0.0) ;
+			m_collisionOperator.calculateTrace(dataSet.m_ref1, times, signal) ;
+
+			// Alter the amplitude and base of the calculated signal by a linear least squares shift.
+
+			double sumef(0.0), sume(0.0), sumf2(0.0), sumf(0.0) ;
+			for (size_t j(0); j < signal.size() ; ++j) {
+				sumef += (expSignal[j]*signal[j]);
+				sume  += (expSignal[j]);
+				sumf2 += (signal[j]*signal[j]);
+				sumf  += (signal[j]);
+			}
+
+			double det   =  sumf2*ntimes - sumf*sumf;
+			double alpha = (sumef*ntimes - sume*sumf) / det;
+			double beta  = (sume*sumf2   - sumef*sumf) / det;
+
+			double diff = 0.0 ;
+			for (size_t j(0); j < signal.size() ; ++j) {
+				signal[j] *= alpha ;
+				signal[j] += beta;
+				diff      += (signal[j] - expSignal[j]) ;
+			}
+			residuals.push_back(diff);
+			chiSquare += (diff * diff);
+
+			AddCalcValToXml(calPoint, i, diff);
+		}
 
     return chiSquare;
   }

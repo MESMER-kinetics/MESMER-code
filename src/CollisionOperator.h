@@ -66,7 +66,10 @@ namespace mesmer
     // Calculate Yields
     void calculateYields (YieldMap &yieldMap, double &time) const ;
 
-    bool parseDataForGrainProfileAtTime(PersistPtr pp);
+		// Calculate Trace
+		void calculateTrace(const std::string &ref, std::vector<double> &times, std::vector<double> &signal) const;
+
+		bool parseDataForGrainProfileAtTime(PersistPtr pp);
 
     bool printGrainProfileAtTime(PersistPtr ppGrainList);
 

@@ -222,6 +222,7 @@ namespace mesmer
         cinfo << endl; 
 
         // Extract experimental rate coefficient values for chiSquare calculation.
+
         PersistPtr ppExpRate = ppPTpair->XmlMoveTo("me:experimentalRate");
         while (ppExpRate){
           double rateValue(0.0), errorValue(0.0); 
@@ -258,10 +259,11 @@ namespace mesmer
           }
           stringstream s4(ppExpRate->XmlReadValue("error")); s4 >> errorValue;
           thisPair.set_experimentalRates(ppExpRate, ref1, ref2, refReaction, rateValue, errorValue);
-          ppExpRate = ppExpRate->XmlMoveTo("me:experimentalRate"); //***do we need to loop here?
+          ppExpRate = ppExpRate->XmlMoveTo("me:experimentalRate"); 
         }
 
         // Extract experimental yield values for chiSquare calculation.
+
         ppExpRate = ppPTpair->XmlMoveTo("me:experimentalYield");
         while (ppExpRate){
           double yield(0.0), errorValue(0.0); 
@@ -278,10 +280,11 @@ namespace mesmer
           }
           stringstream s4(ppExpRate->XmlReadValue("error")); s4 >> errorValue;
           thisPair.set_experimentalYields(ppExpRate, ref, yieldTime, yield, errorValue);
-          ppExpRate = ppExpRate->XmlMoveTo("me:experimentalYield"); //***do we need to loop here?
+          ppExpRate = ppExpRate->XmlMoveTo("me:experimentalYield"); 
         }
 
         // Extract experimental eigenvalues for chiSquare calculation.
+
         ppExpRate = ppPTpair->XmlMoveTo("me:experimentalEigenvalue");
         while (ppExpRate){
           double eigenValue(0.0), errorValue(0.0); 
@@ -290,28 +293,37 @@ namespace mesmer
           string EigenvalueID(ppExpRate->XmlReadValue("EigenvalueID")) ;
           stringstream s4(ppExpRate->XmlReadValue("error")); s4 >> errorValue;
           thisPair.set_experimentalEigenvalues(ppExpRate, EigenvalueID, eigenValue, errorValue);
-          ppExpRate = ppExpRate->XmlMoveTo("me:experimentalEigenvalue"); //***do we need to loop here?
+          ppExpRate = ppExpRate->XmlMoveTo("me:experimentalEigenvalue"); 
         }
 
-        //Read in all experimental time-series data for analysis
+        // Read in all experimental time-series data for analysis.
+
         bool rawDataOK = true;
         PersistPtr ppRawData = ppPTpair;
-        while (ppRawData = ppRawData->XmlMoveTo("me:rawData"))
-        {
-          // These vars read more than once: startTime may have been overwritten;
-          // avoids irrelevant default log message when timeUnits is outside loop.
-          double startTime = ppPTpair->XmlReadDouble("startTime", optional); //attribute on PTPair
-          string timeUnits = ppPTpair->XmlReadValue("timeUnits");
+				while (ppRawData = ppRawData->XmlMoveTo("me:rawData"))
+				{
+					// These vars read more than once: startTime may have been overwritten;
+					// avoids irrelevant default log message when timeUnits is outside loop.
+					double startTime = ppPTpair->XmlReadDouble("startTime", optional); // attribute on PTPair
+					string timeUnits = ppPTpair->XmlReadValue("timeUnits");
 
-          RawDataSet ds;
-          ds.m_Name = ppRawData->XmlReadValue("name", optional);
-          double startTime2 = ppRawData->XmlReadDouble("startTime", optional);//attribute on rawData
+					RawDataSet ds;
+					ds.m_Name = ppRawData->XmlReadValue("name", optional);
+					try {
+					  ds.m_ref1 = ppRawData->XmlReadValue("ref");
+					}
+					catch (...) {
+						cerr << "Raw data set is missing identity of monitored species." << endl;
+						continue;
+					};
+
+					double startTime2 = ppRawData->XmlReadDouble("startTime", optional);// attribute on rawData
           if (!IsNan(startTime2))
             startTime = startTime2;
 
           ds.m_excessConc = ppRawData->XmlReadDouble("excessReactantConc", optional);
           if (IsNan(ds.m_excessConc))
-            ds.m_excessConc = excessConc; //from PTPair
+            ds.m_excessConc = excessConc; // from PTPair
           if (IsNan(ds.m_excessConc))
           {
             cerr << "Missing excessReactantConc on rawData (and not on PTPair)" << endl;
@@ -343,9 +355,6 @@ namespace mesmer
           //If startTime has been specified, remove data before startTime 
           if (!IsNan(startTime))
             ds.data.erase(remove_if(ds.data.begin(), ds.data.end(), Before(startTime)), ds.data.end());
-
-          //ds.data.erase(remove_if(ds.data.begin(), ds.data.end(),
-          //  [startTime](pair<double,double> pr){return pr.first < startTime;}), ds.data.end()); //C++11
 
           thisPair.m_rawDataSets.push_back(ds);
         }

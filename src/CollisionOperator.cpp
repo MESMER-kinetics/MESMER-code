@@ -1946,7 +1946,86 @@ namespace mesmer
 
   }
 
-  bool CollisionOperator::parseDataForGrainProfileAtTime(PersistPtr ppData)
+	// Calculate an experimental trace.
+	void CollisionOperator::calculateTrace(const string &ref, vector<double> &times, vector<double> &signal) const {
+
+		// Signal is assumed to be proportional to the total population of the monitored species.
+		// The grain population is calculated in the usual way for the whole system and then the 
+		// monitored species populations is calculated throught integration. 
+
+		// First we have to determine the location of the monitored species in the population vector.
+		// As the species might be a source or isomer this requires iterating through the two maps.
+
+		bool speciesFound(false) ;
+		size_t lower(0), upper(0);
+
+		// Iterate through the source map. 
+		Reaction::molMapType::const_iterator spos;
+		for (spos = m_sources.begin(); spos != m_sources.end(); ++spos) {
+			Molecule* source = spos->first;
+			if (source->getName() == ref) {
+				speciesFound = true ;
+				lower = spos->second;
+				upper = lower + 1;
+			}
+		}
+
+		// Iterate through the isomer map.
+		Reaction::molMapType::const_iterator ipos;
+		for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos) {
+			Molecule* isomer = ipos->first;
+			if (isomer->getName() == ref) {
+				speciesFound = true;
+				lower = spos->second;
+				upper = lower + isomer->getColl().get_colloptrsize();
+			}
+		}
+
+		if (!speciesFound) {
+			throw std::runtime_error("__FUNCTION__: No monitored species found amoung sources or isomers.");
+		}
+
+		// Get initial distribution.
+
+		size_t smsize = m_eigenvalues.size();
+		vector<double> p_0(smsize, 0.0);
+		if (!produceInitialPopulationVector(p_0)) {
+			throw std::runtime_error("__FUNCTION__: Calculation of initial conditions vector failed.");
+		}
+
+		// Save projected initial distribution
+
+		vector<qd_real> c_0(smsize, 0.0);
+		for (size_t j(0); j < smsize; ++j) {
+			c_0[j] = p_0[j] / m_eqVector[j];
+		}
+
+		(*m_eigenvectors).Transpose();
+		c_0 *= (*m_eigenvectors);
+		(*m_eigenvectors).Transpose();
+
+		// Calculate population at specific times.
+
+		vector<qd_real> wrk(smsize, 0.0);
+		for (size_t i(0); i < times.size(); ++i) {
+
+			wrk = c_0;
+			double time(times[i]);
+			for (size_t j(0); j < smsize; ++j) {
+				wrk[j] *= (exp(m_meanOmega*m_eigenvalues[j] * time));
+			}
+			wrk *= (*m_eigenvectors);
+
+			signal[i] = 0.0; 
+			for (size_t j(lower); j < upper; ++j) {
+				signal[i] += to_double(wrk[j]* m_eqVector[j]);
+			}
+
+		}
+
+	}
+	
+	bool CollisionOperator::parseDataForGrainProfileAtTime(PersistPtr ppData)
   {
     //This is called from System::parse()
     //Grain Populations are now calculated at the same times for each species.
