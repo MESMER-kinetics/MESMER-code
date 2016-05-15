@@ -893,26 +893,30 @@ namespace mesmer
 
 			double sumef(0.0), sume(0.0), sumf2(0.0), sumf(0.0) ;
 			for (size_t j(0); j < signal.size() ; ++j) {
-				sumef += (expSignal[j]*signal[j]);
-				sume  += (expSignal[j]);
-				sumf2 += (signal[j]*signal[j]);
-				sumf  += (signal[j]);
+				sumef += expSignal[j]*signal[j] ;
+				sume  += expSignal[j] ;
+				sumf2 += signal[j]*signal[j] ;
+				sumf  += signal[j] ;
 			}
 
 			double det   =  sumf2*ntimes - sumf*sumf;
 			double alpha = (sumef*ntimes - sume*sumf) / det;
 			double beta  = (sume*sumf2   - sumef*sumf) / det;
 
+			// cinfo << endl;
 			double diff = 0.0 ;
 			for (size_t j(0); j < signal.size() ; ++j) {
 				signal[j] *= alpha ;
 				signal[j] += beta;
 				diff      += (signal[j] - expSignal[j]) ;
+				// cinfo << formatFloat(times[j], 6, 15) << "," << formatFloat(expSignal[j], 6, 15) << "," << formatFloat(signal[j], 6, 15) << endl ;
 			}
+			// cinfo << endl;
+
 			residuals.push_back(diff);
 			chiSquare += (diff * diff);
 
-			AddCalcValToXml(calPoint, i, diff);
+			// AddCalcValToXml(calPoint, i, diff);
 		}
 
     return chiSquare;
