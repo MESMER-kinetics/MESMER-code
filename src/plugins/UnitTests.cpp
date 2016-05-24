@@ -487,7 +487,7 @@ namespace mesmer
     string Heading("Test matrix 1") ;
     Mtx1.print(Heading, ctest) ;
 
-	ctest << endl << "Determinant of Test matrix 1 = " << Mtx1.Determinant() << endl ;
+	  ctest << endl << "Determinant of Test matrix 1 = " << Mtx1.Determinant() << endl ;
 
     Mtx1.invertLUdecomposition() ;
 
@@ -501,13 +501,6 @@ namespace mesmer
     vector<T> rhs(msize,0.0) ;
     rhs[2] = T(1.0) ;
     rhs *= Mtx1 ;
-
-		ctest << endl << "Calculate Equilibrum population." << endl;
-
-		for (size_t i(0); i < 3; i++) {
-			ctest << rhs[i] << endl;
-		}
-		ctest << endl;
 
 		// Rate coefficient matrix.
 

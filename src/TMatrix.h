@@ -30,7 +30,7 @@
 
 namespace mesmer
 {
-	template<class T>
+	template<typename T>
 	class TMatrix : public Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> {
 
 	public:
@@ -38,9 +38,9 @@ namespace mesmer
 		//
 		// Constructors
 		//
-		explicit TMatrix(size_t n, const T& init = T(0.0)) : m_msize(n), Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>(n, n) {
-			for (size_t i = 0; i < m_msize; i++)
-				for (size_t j = 0; j < m_msize; j++)
+		explicit TMatrix(size_t n, const T& init = T(0.0)) : Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>(n, n) {
+			for (size_t i = 0; i < n ; i++)
+				for (size_t j = 0; j < n ; j++)
 					(*this)(i, j) = init;
 		};
 
@@ -61,23 +61,22 @@ namespace mesmer
 
 				// If necessary resize underlying array.
 
-				if (m_msize != rhs.size()) {
-					m_msize = rhs.size() ;
-					this->resize(m_msize, m_msize);
+				if (size() != rhs.size()) {
+					size_t n = rhs.size() ;
+					this->resize(n, n);
 				}
-				(*this) = rhs;
+				(*static_cast<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>* >(this)) = rhs;
 			}
 			return *this;
 
 		};
 
-		inline T* operator[](const size_t i) { return &(*this)(i); }
-
-		inline const T* operator[](const size_t i) const { return &(*this)(i); }
+		auto operator[](const size_t i) { return this->row(i); }
+		auto operator[](const size_t i)const { return this->row(i); }
 
 		// Accessors
 
-		size_t size() const { return m_msize; }
+		size_t size() const { return (rows() == cols()) ? rows() : 0 ; }
 
 		// Modifiers
 		void reset(const size_t n) {
@@ -103,11 +102,11 @@ namespace mesmer
 
 			Eigen::Matrix<T, Eigen::Dynamic, 1> egv = eigensolver.eigenvalues();
 
-			for (size_t i = 0; i < m_msize; i++)
+			for (size_t i = 0; i < size() ; i++)
 				rr[i] = egv[i];
 
-			(*this) = eigensolver.eigenvectors();
-
+			TMatrix<T> tmp = eigensolver.eigenvectors();
+			(*this) = tmp;
 		}
 
 		//
@@ -115,13 +114,13 @@ namespace mesmer
 		//
 		void solveLinearEquationSet(T *rr) {
 
-			Eigen::Matrix<T, Eigen::Dynamic, 1> rhs(m_msize);
-			for (size_t i = 0; i < m_msize; i++)
+			Eigen::Matrix<T, Eigen::Dynamic, 1> rhs(size());
+			for (size_t i = 0; i < size() ; i++)
 				rhs[i] = rr[i];
 
 			Eigen::Matrix<T, Eigen::Dynamic, 1> x = this->colPivHouseholderQr().solve(rhs);
 
-			for (size_t i = 0; i < m_msize; i++)
+			for (size_t i = 0; i < size() ; i++)
 				rr[i] = x[i];
 
 		};
@@ -137,7 +136,8 @@ namespace mesmer
 		// Matrix inversion method by LU decomposition
 		bool invertLUdecomposition() {
 			try {
-				this->inverse();
+				TMatrix<T> tmp = this->inverse();
+				(*this) = tmp;
 			}
 			catch (...) 
 			   { return true; }
@@ -153,9 +153,9 @@ namespace mesmer
 		void GramSchimdt(size_t root_vector);
 
 		// Transpose matrix.
-		Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>&  Transpose() {
-			this->transpose();
-			return (*this);
+		void Transpose() {
+			TMatrix<T> tmp = this->transpose();
+			(*this) = tmp;
 		};
 
 		// Write matrix to an XML stream.
@@ -176,8 +176,6 @@ namespace mesmer
 		//void permuteMatrix(T **a, vector<size_t>& index);
 
 		//void unPermuteEigenEigenvectors(T **a, vector<size_t>& index);
-
-		size_t m_msize;
 
 	};
 
@@ -337,7 +335,8 @@ namespace mesmer
 		output_stream << endl << title << endl << "{" << endl;
 		for (size_t i(frow); i < nrows; ++i) {
 			for (size_t j(fclm); j < nclms; ++j) {
-				formatFloat(output_stream, (*this)(i, j), 6, 15);
+				T tmp = (*this)(i, j) ;
+				formatFloat(output_stream, tmp, 6, 15);
 				output_stream << ",";
 			}
 			output_stream << endl;
