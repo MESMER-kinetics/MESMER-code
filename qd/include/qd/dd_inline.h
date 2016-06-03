@@ -15,7 +15,7 @@
 
 #include <cmath>
 #include <qd/inline.h>
-#include "dd_real.h"
+#include "qd/dd_real.h"
 
 #ifndef QD_INLINE
 #define inline
@@ -619,15 +619,17 @@ inline int to_int(const dd_real &a) {
   return static_cast<int>(a.hi);
 }
 
+//Cast
+inline dd_real::operator const double() const
+{
+  return to_double(*this);
+}
+
 /* Random number generator */
 inline dd_real dd_real::rand() {
   return ddrand();
 }
 
-/* Cast. CM needed in <complex> but dangerous*/
-inline dd_real::operator double() const
-{
-  return to_double(*this);
-}
+
 
 #endif /* _QD_DD_INLINE_H */

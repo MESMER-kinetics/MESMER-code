@@ -28,6 +28,7 @@
 #include <limits>
 #include <qd/qd_config.h>
 #include <qd/dd_real.h>
+#include <Eigen/Dense>
 
 class QD_API qd_real {
 protected:
@@ -178,7 +179,7 @@ public:
   friend dd_real to_dd_real(const qd_real &a);
   friend double  to_double(const qd_real &a);
   friend int     to_int(const qd_real &a);
-  explicit operator double() const; //CM needed in <complex> but dangerous
+  explicit operator const double() const; //CM from Eigen forum
 
   /* Equality Comparison */
   friend QD_API bool operator==(const qd_real &a, const qd_real &b);
@@ -328,9 +329,37 @@ QD_API inline bool isnan(const qd_real &a) { return a.isnan(); }
 QD_API inline bool isfinite(const qd_real &a) { return a.isfinite(); }
 QD_API inline bool isinf(const qd_real &a) { return a.isinf(); }
 
+
 #ifdef QD_INLINE
 #include <qd/qd_inline.h>
 #endif
 
+namespace Eigen {
+  //http://eigen.tuxfamily.org/dox/NumTraits_8h_source.html
+  template<> struct NumTraits<qd_real> : GenericNumTraits<qd_real>
+  {
+    enum {
+      IsInteger = 0,
+      IsSigned = 1,
+      IsComplex = 0,
+      RequireInitialization = 1,
+      ReadCost = 10,
+      AddCost = 10,
+      MulCost = 40
+    };
+
+    /*
+    inline static Real epsilon(long Precision = mpfr::mpreal::get_default_prec()) { return mpfr::machine_epsilon(Precision); }
+    inline static Real epsilon(const Real& x) { return mpfr::machine_epsilon(x); }
+    */
+
+    static inline qd_real dummy_precision()
+    {
+      // make sure to override this for floating-point types
+      return dd_real(1.21543267145725e-63);
+    }
+
+  };
+}
 #endif /* _QD_QD_REAL_H */
 

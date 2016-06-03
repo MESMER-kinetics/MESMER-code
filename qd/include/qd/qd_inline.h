@@ -1035,6 +1035,12 @@ inline qd_real min(const qd_real &a, const qd_real &b,
   return (a < b) ? ((a < c) ? a : c) : ((b < c) ? b : c);
 }
 
+//Cast
+inline qd_real::operator const double() const
+{
+  return to_double(*this);
+}
+
 /* Random number generator */
 inline qd_real qd_real::rand() {
   return qdrand();

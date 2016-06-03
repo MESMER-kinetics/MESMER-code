@@ -1354,4 +1354,3 @@ qd_real qd_real::debug_rand() {
   }
   return a;
 }
-

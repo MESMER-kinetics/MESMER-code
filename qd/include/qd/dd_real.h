@@ -35,6 +35,7 @@
 #include <limits>
 #include <qd/qd_config.h>
 #include <qd/fpu.h>
+#include <Eigen/Dense>
 
 // Some compilers define isnan, isfinite, and isinf as macros, even for
 // C++ codes, which cause havoc when overloading these functions.  We undef
@@ -228,7 +229,7 @@ public:
   /* Cast */
   friend double to_double(const dd_real &a);
   friend int    to_int(const dd_real &a);
-  explicit operator double() const; //CM needed in <complex> but dangerous
+  explicit operator const double() const; //CM
 
   /* Exponential and Logarithms */
   friend QD_API dd_real exp(const dd_real &a);
@@ -313,6 +314,32 @@ QD_API inline bool isnan(const dd_real &a) { return a.isnan(); }
 QD_API inline bool isfinite(const dd_real &a) { return a.isfinite(); }
 QD_API inline bool isinf(const dd_real &a) { return a.isinf(); }
 
+namespace Eigen {
+  //http://eigen.tuxfamily.org/dox/NumTraits_8h_source.html
+  template<> struct NumTraits<dd_real> : GenericNumTraits<dd_real>
+  {
+    enum {
+      IsInteger = 0,
+      IsSigned = 1,
+      IsComplex = 0,
+      RequireInitialization = 1,
+      ReadCost = 10,
+      AddCost = 10,
+      MulCost = 40
+    };
+
+    /*
+      inline static Real epsilon(long Precision = mpfr::mpreal::get_default_prec()) { return mpfr::machine_epsilon(Precision); }
+      inline static Real epsilon(const Real& x) { return mpfr::machine_epsilon(x); }
+    */
+
+    static inline dd_real dummy_precision()
+    {
+      // make sure to override this for floating-point types
+      return dd_real(4.93038065763132e-32);
+    }
+  };
+}
 #ifdef QD_INLINE
 #include <qd/dd_inline.h>
 #endif
