@@ -323,7 +323,7 @@ QD_API qd_real polyroot(const qd_real *c, int n,
     const qd_real &x0, int max_iter = 64, double thresh = 0.0);
 
 QD_API qd_real qdrand(void);
-QD_API qd_real sqrt(const qd_real &a);
+//QD_API qd_real sqrt(const qd_real &a); CM duplicate?
 
 QD_API inline bool isnan(const qd_real &a) { return a.isnan(); }
 QD_API inline bool isfinite(const qd_real &a) { return a.isfinite(); }

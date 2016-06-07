@@ -73,6 +73,7 @@ namespace mesmer
 
 		auto operator[](const size_t i) { return this->row(i); }
 		auto operator[](const size_t i)const { return this->row(i); }
+//    auto operator[](const size_t i) { return this->row(i); }
 
 		// Accessors
 
@@ -379,7 +380,7 @@ namespace mesmer
 			for (l = 0; l < size; l++) {
 				sum += (*this)[l][i] * (*this)[l][i];
 			}
-			// sum = sqrt(sum);
+			sum = ::sqrt(sum);
 			for (l = 0; l < size; l++) {
 				(*this)[l][i] /= sum;
 			}
