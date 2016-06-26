@@ -32,7 +32,7 @@ namespace mesmer
     }
 
     virtual ~ThermodynamicTable() {}
-    virtual const char* getID()  { return m_id; }
+    virtual const char* getID() { return m_id; }
     virtual ThermodynamicTable* Clone() { return new ThermodynamicTable(*this); }
 
     //Does not do own parsing (returns false with default call),
@@ -60,7 +60,7 @@ namespace mesmer
     // TODO This would be better (with T, U random-access iterators) as
     // U FitPoly(unsigned order, T xstart, T xend, U ystart);
     // so that it is more like STL algorithms and can be used with arrays, vectors, etc.
-    vector<double> FitPoly(unsigned order,
+    vector<double> FitPoly(size_t order,
       vector<double>::const_iterator xstart,
       vector<double>::const_iterator xend,
       vector<double>::const_iterator ystart)const;
@@ -71,7 +71,7 @@ namespace mesmer
     double m_unitFctr;
     bool m_makeNasaPoly;
     bool m_outputCellVersion;
-  } ;
+  };
 
   ////////////////////////////////////////////////
   //Global instance
@@ -108,8 +108,8 @@ namespace mesmer
           // Check to see if species is a transition state. If not
           // use molType="forThermo" to activate DOS properties.
           const char* tstxt = ppmol->XmlReadValue("role", optional);
-          string role = (tstxt && string(tstxt) == "transitionState") ? string(tstxt) : string("forThermo") ;
-          pMoleculeManager->addmol(string(reftxt), role , pSys->getEnv(), pSys->m_Flags);
+          string role = (tstxt && string(tstxt) == "transitionState") ? string(tstxt) : string("forThermo");
+          pMoleculeManager->addmol(string(reftxt), role, pSys->getEnv(), pSys->m_Flags);
         }
       }
 
@@ -157,9 +157,9 @@ namespace mesmer
       pp->XmlWriteAttribute("default", "true");
 
       //Get the grain parameters from defaults.xml (The reads will always fail.)
-      Env.GrainSize  = ppParams->XmlReadInteger("me:grainSize");
+      Env.GrainSize = ppParams->XmlReadInteger("me:grainSize");
       //Env.EAboveHill = ppModelParams->XmlReadDouble("me:energyAboveTheTopHill");
- 
+
       return true;
     }
     return q != ALL;
@@ -178,10 +178,10 @@ namespace mesmer
     // have been requested in both the upper and lower polynomials 
     // or, if Tmid=0, the single polynomial.
 
-    int nTemps = static_cast<int>(std::floor((m_Tmax - m_Tmin) / m_TempInterval))+1;
-    int nTempsLower = static_cast<int>(std::floor((m_Tmid - m_Tmin) / m_TempInterval)+1);
-    bool enoughPoints =  !m_Tmid && nTemps > 6 
-      || m_Tmid && nTempsLower> 6 && (nTemps-nTempsLower)>=6;
+    int nTemps = static_cast<int>(std::floor((m_Tmax - m_Tmin) / m_TempInterval)) + 1;
+    int nTempsLower = static_cast<int>(std::floor((m_Tmid - m_Tmin) / m_TempInterval) + 1);
+    bool enoughPoints = !m_Tmid && nTemps > 6
+      || m_Tmid && nTempsLower > 6 && (nTemps - nTempsLower) >= 6;
     if (!enoughPoints)
     {
       cinfo << "Too few data points to fit NASA polynomials." << endl;
@@ -219,11 +219,11 @@ namespace mesmer
         pp->XmlWriteAttribute("unitsHf", m_Unit);
 
       double S298; // Always calculated. NOTE kJ/mol/K.
-      double enthalpy298 ;
+      double enthalpy298;
       thermoDynFns thermos;
       pmol->getDOS().thermodynamicsFunctions(298.15, m_unitFctr, thermos);
-      enthalpy298 = thermos.enthalpy ;
-      S298        = thermos.entropy ;
+      enthalpy298 = thermos.enthalpy;
+      S298 = thermos.entropy;
       tempLessThan298 = true;
       for (double temp = m_Tmin; temp <= m_Tmax; temp += m_TempInterval)
       {
@@ -240,17 +240,17 @@ namespace mesmer
         pmol->getDOS().thermodynamicsFunctions(T, m_unitFctr, thermos);
 
         PersistPtr ppVal = pp->XmlWriteElement("me:thermoValue");
-        ppVal->XmlWriteAttribute("T",  T, 2, true);
-        ppVal->XmlWriteAttribute("H",  thermos.enthalpy, 4, true);
-        ppVal->XmlWriteAttribute("S",  thermos.entropy*1000, 4, true);
-        ppVal->XmlWriteAttribute("G",  thermos.gibbsFreeEnergy, 4, true);
-        ppVal->XmlWriteAttribute("Cp", thermos.heatCapacity*1000, 4, true);
+        ppVal->XmlWriteAttribute("T", T, 2, true);
+        ppVal->XmlWriteAttribute("H", thermos.enthalpy, 4, true);
+        ppVal->XmlWriteAttribute("S", thermos.entropy * 1000, 4, true);
+        ppVal->XmlWriteAttribute("G", thermos.gibbsFreeEnergy, 4, true);
+        ppVal->XmlWriteAttribute("Cp", thermos.heatCapacity * 1000, 4, true);
         if (m_outputCellVersion)
         {
-          ppVal->XmlWriteAttribute("cellS",  thermos.cellEntropy*1000, 4, true);
-          ppVal->XmlWriteAttribute("cellH",  thermos.cellEnthalpy, 4, true);
-          ppVal->XmlWriteAttribute("cellG",  thermos.cellGibbsFreeEnergy, 4, true);
-          ppVal->XmlWriteAttribute("cellCp", thermos.cellHeatCapacity*1000, 4, true);
+          ppVal->XmlWriteAttribute("cellS", thermos.cellEntropy * 1000, 4, true);
+          ppVal->XmlWriteAttribute("cellH", thermos.cellEnthalpy, 4, true);
+          ppVal->XmlWriteAttribute("cellG", thermos.cellGibbsFreeEnergy, 4, true);
+          ppVal->XmlWriteAttribute("cellCp", thermos.cellHeatCapacity * 1000, 4, true);
         }
         if (!IsNan(Hf298local))
         {
@@ -281,7 +281,7 @@ namespace mesmer
           }
           int nlowerrange = itermid - temperature.begin();
           fits1 = FitPoly(6, itermid, temperature.end(), Hf.begin() + nlowerrange); //upper range
-          fits2 = FitPoly(6, temperature.begin(), itermid+1, Hf.begin()); //lower range
+          fits2 = FitPoly(6, temperature.begin(), itermid + 1, Hf.begin()); //lower range
           fits1[2] *= 2; fits1[3] *= 3; fits1[4] *= 4; fits1[5] *= 5;
           fits2[2] *= 2; fits2[3] *= 3; fits2[4] *= 4; fits2[5] *= 5;
         }
@@ -291,20 +291,20 @@ namespace mesmer
 
         coeffs[5] = fits1[0];
         coeffs[12] = fits2[0];
-        coeffs[14] = Hf298local/R;
+        coeffs[14] = Hf298local / R;
 
         //Set a14 to match S at 298.15K
         coeffs[13] = 0.0;
-        coeffs[13] = S298*1000/R - SdivR(coeffs.begin()+7, 298.15);
+        coeffs[13] = S298 * 1000 / R - SdivR(coeffs.begin() + 7, 298.15);
 
         //Set a7 to match a) S at 298K for one range; b) S at Tmid for two range;
-        if(m_Tmid==0)
+        if (m_Tmid == 0)
           coeffs[6] = coeffs[13];
         else
         {
           pmol->getDOS().thermodynamicsFunctions(m_Tmid, m_unitFctr, thermos);
           coeffs[6] = 0.0;
-          coeffs[6] = thermos.entropy*1000/R - SdivR(coeffs.begin(), m_Tmid);
+          coeffs[6] = thermos.entropy * 1000 / R - SdivR(coeffs.begin(), m_Tmid);
         }
 
         // Output to XML using a CML property for Nasa Polynomials
@@ -365,43 +365,50 @@ namespace mesmer
     return true;
   }
 
-  //Return coefficients of x in a polynomial x^0 to x^order calculated
+  //Return coefficients of x in a polynomial x^0 to x^(order-1) calculated
   //using a least squares fit data points (xdata,ydata).
   //Matrix elements from http://www.codecogs.com/library/maths/approximation/regression/discrete.php
-  vector<double> ThermodynamicTable::FitPoly(unsigned order,
+  vector<double> ThermodynamicTable::FitPoly(size_t order,
     vector<double>::const_iterator xstart,
     vector<double>::const_iterator xend,
     vector<double>::const_iterator ystart)const
   {
-    TMatrix<double> matrix(order);
-    unsigned n = xend - xstart;
-    vector<double> rhs(order);
-    if (!(order!=0 && n!=0)) //size of ystart not checked
+    ddMatrix matrix(order);
+    size_t n = xend - xstart;
+    vector<double> rhs(order, 0.0);
+		vector<dd_real> tmp(order, 0.0);
+		if (order == 0 ||n == 0) //size of ystart not checked
       return rhs; //empty on error
     double sum;
-    for (unsigned ir = 0; ir != order; ++ir) //each row
+    for (size_t ir = 0; ir < order; ++ir) //each row
     {
-      for (unsigned ic = 0; ic != order; ++ic) //each column
+      for (size_t ic = 0; ic < order; ++ic) //each column
       {
         sum = 0.0;
-        for (unsigned j = 0; j != n; ++j)
-          sum += pow(*(xstart+j), int(ir+ic));
+        for (size_t j = 0; j != n; ++j)
+          sum += pow(*(xstart + j), int(ir + ic));
         matrix[ir][ic] = sum;
       }
-      sum=0.0;
-      for (unsigned j = 0; j != n; ++j)
-        sum += pow(*(xstart+j), int(ir)) * *(ystart+j);
-      rhs[ir] = sum;
+      sum = 0.0;
+      for (size_t j = 0; j != n; ++j)
+        sum += pow(*(xstart + j), int(ir)) * *(ystart + j);
+      tmp[ir] = sum;
     }
-    matrix.solveLinearEquationSet(&rhs[0]);
-    return rhs;
+
+    matrix.solveLinearEquationSet(&tmp[0]);
+
+		for (size_t i(0); i < rhs.size() ; i++) {
+			rhs[i] = to_double(tmp[i]) ;
+		}
+
+		return rhs;
   }
 
   double ThermodynamicTable::SdivR(vector<double>::iterator i, double T) const
   {
     //S/R  = a1 lnT + a2 T + a3 T^2 /2 + a4 T^3 /3 + a5 T^4 /4 + a7
     //return *i*log(T) + *(i+1)*T + *(i+2)*T*T / 2 + *(i+3)*T*T*T / 3 + *(i+4)*T*T*T*T / 4 + *(i+6);
-    return *i*log(T) +T*(*(i+1) + T*(*(i+2)/2 + T*(*(i+3)/3 + T*(*(i+4)/4)))) + *(i+6);
+    return *i*log(T) + T*(*(i + 1) + T*(*(i + 2) / 2 + T*(*(i + 3) / 3 + T*(*(i + 4) / 4)))) + *(i + 6);
   }
 
   string ThermodynamicTable::WriteNASAPoly(Molecule* pmol, vector<double> coeffs,
@@ -417,22 +424,22 @@ namespace mesmer
     ss << left << setw(24) << pmol->getName().substr(0, 24);
     map<string, int> Comp = pmol->getStruc().GetElementalComposition();
     int npad = 4 - Comp.size();
-    map<string, int>::const_iterator itr = Comp.begin() ;
-    for (;  itr != Comp.end() ; itr++ )
-      ss << left << setw(2) << itr->first << right << setw(3) << itr->second ;
+    map<string, int>::const_iterator itr = Comp.begin();
+    for (; itr != Comp.end(); itr++)
+      ss << left << setw(2) << itr->first << right << setw(3) << itr->second;
     for (; npad; --npad)
       ss << "     ";
     ss << right << 'G' << fixed << setprecision(3) << setw(10) << TLo;
     ss << setw(10) << THi << setw(9) << TMid << "    01" << '\n';
 
     ss << scientific << setprecision(7);
-    for (i = 0; i<5; ++i)
+    for (i = 0; i < 5; ++i)
       ss << setw(15) << coeffs[i];
     ss << "    2\n";
-    for (i = 5; i<10; ++i)
+    for (i = 5; i < 10; ++i)
       ss << setw(15) << coeffs[i];
     ss << "    3\n";
-    for (i = 10; i<15; ++i)
+    for (i = 10; i < 15; ++i)
       ss << setw(15) << coeffs[i];
     ss << "    4" << endl;
 

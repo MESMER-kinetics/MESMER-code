@@ -73,7 +73,6 @@ namespace mesmer
 
 		auto operator[](const size_t i) { return this->row(i); }
 		auto operator[](const size_t i)const { return this->row(i); }
-//    auto operator[](const size_t i) { return this->row(i); }
 
 		// Accessors
 
@@ -119,7 +118,7 @@ namespace mesmer
 			for (size_t i = 0; i < size() ; i++)
 				rhs[i] = rr[i];
 
-			Eigen::Matrix<T, Eigen::Dynamic, 1> x = this->colPivHouseholderQr().solve(rhs);
+			Eigen::Matrix<T, Eigen::Dynamic, 1> x = this->fullPivLu().solve(rhs);
 
 			for (size_t i = 0; i < size() ; i++)
 				rr[i] = x[i];
@@ -129,9 +128,19 @@ namespace mesmer
 		// Determinant of Matrix.
 		T Determinant() { return this->determinant(); };
 
-		// Code adapted from C acording to the algorithm given at rosettacode.org/wiki/Cholesky_decomposition.
-		void cholesky() {
+		// Cholesky decomposition.
+		bool cholesky() {
+			try {
+				Eigen::LLT<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> > llt((*this));
 
+				TMatrix<T> tmp = llt.matrixL();
+				(*this) = tmp;
+			}
+			catch (...)
+			{
+				return false;
+			}
+			return true;
 		};
 
 		// Matrix inversion method by LU decomposition
@@ -141,8 +150,8 @@ namespace mesmer
 				(*this) = tmp;
 			}
 			catch (...) 
-			   { return true; }
-			return false;
+			   { return false; }
+			return true;
 		} ;
 
 		void normalizeProbabilityMatrix();
