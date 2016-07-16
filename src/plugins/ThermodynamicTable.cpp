@@ -365,35 +365,42 @@ namespace mesmer
     return true;
   }
 
-  //Return coefficients of x in a polynomial x^0 to x^order calculated
+  //Return coefficients of x in a polynomial x^0 to x^(order-1) calculated
   //using a least squares fit data points (xdata,ydata).
   //Matrix elements from http://www.codecogs.com/library/maths/approximation/regression/discrete.php
-  vector<double> ThermodynamicTable::FitPoly(unsigned order,
+  vector<double> ThermodynamicTable::FitPoly(size_t order,
     vector<double>::const_iterator xstart,
     vector<double>::const_iterator xend,
     vector<double>::const_iterator ystart)const
   {
-    TMatrix<double> matrix(order);
-    unsigned n = xend - xstart;
-    vector<double> rhs(order);
-    if (!(order!=0 && n!=0)) //size of ystart not checked
+    ddMatrix matrix(order);
+    size_t n = xend - xstart;
+    vector<double> rhs(order, 0.0);
+		vector<dd_real> tmp(order, 0.0);
+		if (order == 0 ||n == 0) //size of ystart not checked
       return rhs; //empty on error
     double sum;
-    for (unsigned ir = 0; ir != order; ++ir) //each row
+    for (size_t ir = 0; ir < order; ++ir) //each row
     {
-      for (unsigned ic = 0; ic != order; ++ic) //each column
+      for (size_t ic = 0; ic < order; ++ic) //each column
       {
         sum = 0.0;
-        for (unsigned j = 0; j != n; ++j)
+        for (size_t j = 0; j != n; ++j)
           sum += pow(*(xstart+j), int(ir+ic));
         matrix[ir][ic] = sum;
       }
       sum=0.0;
-      for (unsigned j = 0; j != n; ++j)
+      for (size_t j = 0; j != n; ++j)
         sum += pow(*(xstart+j), int(ir)) * *(ystart+j);
-      rhs[ir] = sum;
+      tmp[ir] = sum;
     }
-    matrix.solveLinearEquationSet(&rhs[0]);
+
+    matrix.solveLinearEquationSet(&tmp[0]);
+
+    for (size_t i(0); i < rhs.size() ; i++) {
+      rhs[i] = to_double(tmp[i]) ;
+    }
+
     return rhs;
   }
 

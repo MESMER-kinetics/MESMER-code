@@ -17,7 +17,7 @@ namespace mesmer
   // Template specialization for complex numbers.
   //
   template<>
-  void TMatrix<complex<double> >::diagonalize(complex<double> *rr)  {
+  void TMatrix<std::complex<double> >::diagonalize(std::complex<double> *rr)  {
     throw std::runtime_error("The direct diagonalization of complex matrices is not yet implemented.");
   }
 

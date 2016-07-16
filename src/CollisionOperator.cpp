@@ -1459,8 +1459,8 @@ namespace mesmer
           Reaction::molMapType::iterator spcitr = m_SpeciesSequence.begin();
           for (; spcitr != m_SpeciesSequence.end(); ++spcitr) {
             size_t i = spcitr->second;
-            Fr[i][i] = sqrt((spcitr->first)->getPop().getEqFraction());
-            Fr_inv[i][i] = 1.0 / Fr[i][i];
+            Fr[i][i] = sqrt(qd_real((spcitr->first)->getPop().getEqFraction())) ;
+            Fr_inv[i][i] = qd_real(1.0) / Fr[i][i];
           }
         }
         else {
@@ -1469,7 +1469,7 @@ namespace mesmer
 
           for (size_t i(0); i < nchem; ++i) {
             Fr[i][i] = sqrt(Z_matrix[i][nchem - 1]);
-            Fr_inv[i][i] = 1.0 / Fr[i][i];
+            Fr_inv[i][i] = qd_real(1.0) / Fr[i][i];
           }
         }
 

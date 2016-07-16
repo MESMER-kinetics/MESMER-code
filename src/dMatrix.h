@@ -30,7 +30,7 @@ namespace mesmer
   typedef TMatrix<qd_real> qdMatrix;
 
   // complex version of Matrix
-  typedef TMatrix<complex<double> > cMatrix;
+  typedef TMatrix<std::complex<double> > cMatrix;
 
 }//namespacer mesmer
 

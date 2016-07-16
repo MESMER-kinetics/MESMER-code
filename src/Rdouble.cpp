@@ -127,6 +127,7 @@ namespace mesmer
           cinfo << it->first << " is derived from " << depvar->linkedname;
           if (depvar->link && IsNan(depvar->link->lower)) //i.e. NOT a range variable
           {
+            // The units and conversion factor must be the same for both variables; checked below.
             depvar->m_unitConversion = depvar->link->m_unitConversion;
             depvar->update_value();
             cinfo << ", and has a fixed value = " << depvar->value/ depvar->m_unitConversion
@@ -134,9 +135,6 @@ namespace mesmer
           }
           cinfo << endl;
          
-          //The units and conversion factor must be the same for both variables; checked below.
-          depvar->m_unitConversion = depvar->link->m_unitConversion;
-
           string depunits = depvar->m_units;
           if (depunits.empty())
             depvar->m_units = depvar->link->m_units;
