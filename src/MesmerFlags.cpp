@@ -21,14 +21,14 @@ namespace mesmer{
     useTheSameCellNumber(false),
     grainedProfileEnabled(false),
     speciesProfileEnabled(false),
-	printPhenomenologicalEvolution(false),
+	  printPhenomenologicalEvolution(false),
     viewEvents(false),
     shortestTimeOfInterest(1.0e100),
     maxEvolutionTime(0.),
     printEigenValuesNum(0),
-	printEigenVectors(false),
+	  printEigenVectors(false),
     printReactionOperatorNum(0),
-	printSinkFluxes(false),
+	  printSinkFluxes(false),
     allowSmallerDEDown(false),
     print_TabbedMatrices(true),
     showCollisionOperator(0),
@@ -36,12 +36,13 @@ namespace mesmer{
     punchSymbols(),
     punchNumbers(),
     punchFileName(),
-	overwriteXmlAnalysis(false),
-	autoSetMaxEne(false),
-	//default poulation threshold for automatic calculation of energy above the top barrier
-	popThreshold(1.0e-5),
+	  overwriteXmlAnalysis(false),
+	  autoSetMaxEne(false),
+	  //default poulation threshold for automatic calculation of energy above the top barrier
+	  popThreshold(1.0e-5),
     bForceMacroDetailedBalance(false),
-	bIsSystemSecondOrder(false)
-  {}
+	  bIsSystemSecondOrder(false),
+		bIndependentErrors(true)
+	{}
 }//namespace
 

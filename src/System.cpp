@@ -863,6 +863,16 @@ namespace mesmer
 
   double System::calcChiSqRawData(const unsigned calPoint, stringstream &rateCoeffTable, vector<double> &residuals) {
 
+		//
+		// With trace data, an indpendent assessment of the precision of the measurements is not possible. 
+		// This stems from the fact the signal is based on a number of counts (which are approximately
+		// poisson distributed) and is a relactive measure. Because of this an indpendent set of error
+		// estimates cannot be obtained, and so the Chi^2 statisitc is not applicable and so the relevant
+		// flag needs to be set.
+		//
+
+		m_Flags.bIndependentErrors = false ;
+
     double chiSquare(0.0) ;
 		const vector<RawDataSet> &rawDataSets = m_pConditionsManager->get_experimentalrawDataSets(calPoint) ;
 		if (rawDataSets.size() == 0)
@@ -908,13 +918,13 @@ namespace mesmer
 			for (size_t j(0); j < signal.size() ; ++j) {
 				signal[j] *= alpha ;
 				signal[j] += beta;
-				diff      += (signal[j] - expSignal[j]) ;
+				diff       = (signal[j] - expSignal[j]) ;
+				residuals.push_back(diff);
+				chiSquare += (diff * diff);
+
 				// cinfo << formatFloat(times[j], 6, 15) << "," << formatFloat(expSignal[j], 6, 15) << "," << formatFloat(signal[j], 6, 15) << endl ;
 			}
 			// cinfo << endl;
-
-			residuals.push_back(diff);
-			chiSquare += (diff * diff);
 
 			// AddCalcValToXml(calPoint, i, diff);
 		}

@@ -1,3 +1,8 @@
+2016-July-17 Struan Robertson
+
+		* System.cpp, MesmerFlags.h/.cpp, FittingUtils.cpp, OH_acetylene_rawdata.xml: Trace data
+		analysis altered to account for lack of independent experimental error estimates.
+		
 2016-May-15 Struan Robertson
 
 		* System.cpp, OH_acetylene_rawdata.xml: Minor changes to experimental trace fitting.
