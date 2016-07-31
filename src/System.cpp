@@ -576,7 +576,7 @@ namespace mesmer
 
           chiSquare += calcChiSqEigenvalues(calPoint, rateCoeffTable, residuals);
 
-          chiSquare += calcChiSqRawData(calPoint, rateCoeffTable, residuals);
+          chiSquare += calcChiSqRawData(calPoint, rateCoeffTable, residuals, writeReport);
 
 		  rateCoeffTable << endl;
 
@@ -861,7 +861,7 @@ namespace mesmer
     return chiSquare;
   }
 
-  double System::calcChiSqRawData(const unsigned calPoint, stringstream &rateCoeffTable, vector<double> &residuals) {
+  double System::calcChiSqRawData(const unsigned calPoint, stringstream &rateCoeffTable, vector<double> &residuals, bool writeReport) {
 
 		//
 		// With trace data, an indpendent assessment of the precision of the measurements is not possible. 
@@ -913,7 +913,9 @@ namespace mesmer
 			double alpha = (sumef*ntimes - sume*sumf) / det;
 			double beta  = (sume*sumf2   - sumef*sumf) / det;
 
-			// cinfo << endl;
+			if (writeReport) 
+				rateCoeffTable << endl;
+
 			double diff = 0.0 ;
 			for (size_t j(0); j < signal.size() ; ++j) {
 				signal[j] *= alpha ;
@@ -922,9 +924,12 @@ namespace mesmer
 				residuals.push_back(diff);
 				chiSquare += (diff * diff);
 
-				// cinfo << formatFloat(times[j], 6, 15) << "," << formatFloat(expSignal[j], 6, 15) << "," << formatFloat(signal[j], 6, 15) << endl ;
+				if (writeReport)
+					rateCoeffTable << formatFloat(times[j], 6, 15) << "," << formatFloat(expSignal[j], 6, 15) << "," << formatFloat(signal[j], 6, 15) << endl ;
 			}
-			// cinfo << endl;
+			if (writeReport)
+				rateCoeffTable << endl;
+
 
 			// AddCalcValToXml(calPoint, i, diff);
 		}

@@ -301,15 +301,15 @@ namespace mesmer
       d[i] = h;
     }
     // Next statement can be omitted if eigenvectors not wanted.
-    d[0]=0.0;
-    e[0]=0.0;
+    d[0]= T(0.0);
+    e[0]= T(0.0);
     // Contents of this loop can be omitted if eigenvectors not
     // wanted except for statement "d[i]=a[i][i];".
     for (i=0; i<n; i++) {
       l=i;
-      if (d[i] != 0.0) {
+      if (d[i] != T(0.0)) {
         for (j=0; j<=l; j++) {
-          g=0.0;
+          g= T(0.0);
 
           for (k=0; k<l; k++)
             g += a[i][k]*a[k][j];
@@ -319,10 +319,10 @@ namespace mesmer
         }
       }
       d[i] = a[i][i];
-      a[i][i] = 1.0;
+      a[i][i] = T(1.0);
 
       for (j=0; j<l; j++) 
-        a[j][i] = a[i][j] = 0.0;
+        a[j][i] = a[i][j] = T(0.0) ;
     }
   }
 
@@ -355,7 +355,7 @@ namespace mesmer
     T s,r,p,g,f,dd,c,b;
 
     for (i=2;i<=n;++i) e[i-2]=e[i-1];
-    e[n-1]=0.0;
+    e[n-1]=T(0.0);
     for (l=1;l<=n;++l) {
       iter=0;
       do {
@@ -380,8 +380,8 @@ namespace mesmer
           SVD method used in book is an intrinsic iterative procedure, 30 iterations is a good number to
           convergency up to numerical accuracy. Evgeny
           */
-          g=(d[l]-d[l-1])/(2.0*e[l-1]);
-          r=sqrt((g*g)+1.0);
+          g=(d[l]-d[l-1])/(T(2.0)*e[l-1]);
+          r=sqrt((g*g)+T(1.0));
           //r = pythag(g, 1.0) ;
           g=d[m-1]-d[l-1]+e[l-1]/(g + (g < 0.0 ? -fabs(r) : fabs(r)));
           s=c=T(1.0) ;
@@ -391,33 +391,35 @@ namespace mesmer
             b=c*e[i-1];
             if (fabs(f) >= fabs(g)) {
               c=g/f;
-              r=sqrt((c*c)+1.0);
+              r=sqrt((c*c)+T(1.0));
               //r = pythag(c, 1.0) ;
               e[i]=f*r;
-              c *= (s=1.0/r);
+              c *= (s=T(1.0)/r);
             } else {
               s=f/g;
-              r=sqrt((s*s)+1.0);
+              r=sqrt((s*s)+T(1.0));
               //r = pythag(s, 1.0) ;
               e[i]=g*r;
-              s *= (c=1.0/r);
+              s *= (c=T(1.0)/r);
             }
             g=d[i]-p;
-            r=(d[i-1]-g)*s+2.0*c*b;
+            r=(d[i-1]-g)*s + T(2.0)*c*b;
             p=s*r;
             d[i]=g+p;
             g=c*r-b;
             /* Next loop can be omitted if eigenvectors not wanted */
 
+						size_t km1(0);
             for (k=1;k<=n;++k) {
-              f=z[k-1][i];
-              z[k-1][i]=s*z[k-1][i-1]+c*f;
-              z[k-1][i-1]=c*z[k-1][i-1]-s*f;
+							km1 = k - 1;
+              f=z[km1][i];
+              z[km1][i]=s*z[km1][i-1]+c*f;
+              z[km1][i-1]=c*z[km1][i-1]-s*f;
             }
           }
           d[l-1]=d[l-1]-p;
           e[l-1]=g;
-          e[m-1]=0.0;
+          e[m-1]= T(0.0) ;
         }
       } while (m != l);
     }
