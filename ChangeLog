@@ -1,5 +1,11 @@
 2016-July-17 Struan Robertson
 
+		* System.h/.cpp: Altered to print out the results of fitting the trace data.
+
+		* TMattix.h: Minor optimization.
+		
+2016-July-17 Struan Robertson
+
 		* System.cpp, MesmerFlags.h/.cpp, FittingUtils.cpp, OH_acetylene_rawdata.xml: Trace data
 		analysis altered to account for lack of independent experimental error estimates.
 		
