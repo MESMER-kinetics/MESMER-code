@@ -20,6 +20,7 @@
 #include "calcmethod.h"
 #include "CollisionOperator.h"
 #include "ConditionsManager.h"
+#include "ParallelManager.h"
 
 #define MESMER_VERSION "5.0"
 
@@ -37,7 +38,7 @@ namespace mesmer
   {
   public:
 
-    System(const std::string& libraryfilename) ;
+    System(const std::string& libraryfilename, ParallelManager *pParallelManager) ;
     ~System() ;
 
     // Initialize the System object.
@@ -128,7 +129,12 @@ namespace mesmer
 
     // Location of the reaction mananger.
     ReactionManager *m_pReactionManager ;
-    ConditionsManager* m_pConditionsManager;
+
+		// Location of the conditions manager.
+    ConditionsManager *m_pConditionsManager;
+
+		// Location of the parallel mananger.
+		ParallelManager *m_pParallelManager;
 
     // Physical variables. Reference to this are passed to all Molecule and Reaction constructors.
     MesmerEnv m_Env;

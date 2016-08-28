@@ -100,9 +100,11 @@ namespace mesmer
   }
 
 
-  System::System(const std::string& libraryfilename) : m_pMoleculeManager(0), 
+  System::System(const std::string& libraryfilename, ParallelManager *pParallelManager) :
+		m_pMoleculeManager(0), 
     m_pReactionManager(0), 
-    m_pTitle(NULL),
+		m_pParallelManager(pParallelManager),
+		m_pTitle(NULL),
     m_pDescription(NULL)
   {
     libfile = libraryfilename;

@@ -23,6 +23,7 @@ along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 #include <sstream>
 #include <stdexcept>
 #include "System.h"
+#include "ParallelManager.h"
 
 using namespace std ;
 using namespace Constants ;
@@ -34,9 +35,16 @@ void banner();
 bool QACompare(string infilename, bool NOptionUsed);
 string duplicateFileName(const string& inName, const string& suffix, const string& newTimeStamp = "");
 string replaceFilename(const string& inName, const string& newFilename);
-int main(int argc,char *argv[])
+
+int main(int argc, char **argv)
 {
-  //
+	//
+	// MPI initiation.
+	//
+
+	ParallelManager parallelManager(argc, argv);
+
+	//
   // The following invocation is required by the QD  library to fix a problem 
   // with the extended precision methods on x86 platforms.
   //
@@ -200,7 +208,7 @@ int main(int argc,char *argv[])
   // Instantiate the System collection. This holds all information
   // about reaction systems and all molecular data.
   //
-  System _sys(MesmerDir + "/librarymols.xml");
+  System _sys(MesmerDir + "/librarymols.xml", &parallelManager);
   if(!_sys.initialize())
     cerr << "Failed to create System object" << endl; 
 
