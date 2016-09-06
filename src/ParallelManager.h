@@ -63,8 +63,17 @@ namespace mesmer
 
 			// Sum vectors across all across processes and redistribute.
 
-			void sumDouble(double *sum, double *rSum, int size) {
-				MPI_Allreduce(sum, rSum, size, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
+			void sumDouble(double *sum, int size) {
+				
+				vector<double> tmp(size, 0.0);
+
+				MPI_Allreduce(sum, &tmp[0], size, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
+
+				for (size_t i(0) ; i < size_t(size) ; i++) {
+					sum[i] = tmp[i];
+				}
+
+
 			}
 
 #else
@@ -86,10 +95,8 @@ namespace mesmer
 
 			// Sum vectors across all across processes and redistribute.
 
-			void sumDouble(double *sum, double * rSum, int size) {
-				for (int i(0); i < size, i++) {
-					rSum[i] = sum[i];
-				}
+			void sumDouble(double *sum, int size) {
+				// No Op.
 			}
 
 #endif 

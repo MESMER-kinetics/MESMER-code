@@ -463,6 +463,7 @@ namespace mesmer
 
     chiSquare = 0.0;
     residuals.clear();
+		residuals.resize(m_pConditionsManager->getNumPTPoints(), 0.0) ;
 
     // Main loop over temperatures and concentrations.
 
@@ -603,9 +604,8 @@ namespace mesmer
 
     // Reduce Chi^2 values and redistribute
 
-    double rChiSquare(0.0);
-    m_pParallelManager->sumDouble(&chiSquare, &rChiSquare, 1);
-    chiSquare = rChiSquare;
+    m_pParallelManager->sumDouble(&chiSquare, 1);
+		m_pParallelManager->sumDouble(&residuals[0], residuals.size());
 
     rateCoeffTable << endl;
 
@@ -775,7 +775,7 @@ namespace mesmer
       }
 
       double diff = (expRate - rateCoeff) / expErr;
-      residuals.push_back(diff);
+      residuals[calPoint] += diff ;
       chiSquare += diff * diff;
 
       rateCoeffTable << formatFloat(expRate, 6, 15) << formatFloat(rateCoeff, 6, 15);
@@ -834,8 +834,8 @@ namespace mesmer
       }
 
       double diff = (expYield - yield) / expErr;
-      residuals.push_back(diff);
-      chiSquare += (diff * diff);
+			residuals[calPoint] += diff;
+			chiSquare += (diff * diff);
 
       rateCoeffTable << formatFloat(expYield, 6, 15) << formatFloat(yield, 6, 15);
       AddCalcValToXml(calPoint, i, yield);
@@ -869,8 +869,8 @@ namespace mesmer
       }
 
       double diff = (expEigenvalue - eigenvalue) / expErr;
-      residuals.push_back(diff);
-      chiSquare += (diff * diff);
+			residuals[calPoint] += diff;
+			chiSquare += (diff * diff);
 
       rateCoeffTable << formatFloat(expEigenvalue, 6, 15) << formatFloat(eigenvalue, 6, 15);
       AddCalcValToXml(calPoint, i, eigenvalue);
@@ -939,15 +939,14 @@ namespace mesmer
         signal[j] *= alpha;
         signal[j] += beta;
         diff = (signal[j] - expSignal[j]);
-        residuals.push_back(diff);
-        chiSquare += (diff * diff);
+				residuals[calPoint] += diff;
+				chiSquare += (diff * diff);
 
         if (writeReport)
           rateCoeffTable << formatFloat(times[j], 6, 15) << "," << formatFloat(expSignal[j], 6, 15) << "," << formatFloat(signal[j], 6, 15) << endl;
       }
       if (writeReport)
         rateCoeffTable << endl;
-
 
       // AddCalcValToXml(calPoint, i, diff);
     }
