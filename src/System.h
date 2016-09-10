@@ -116,13 +116,16 @@ namespace mesmer
 
   private:
 
-    double calcChiSqRateCoefficients(const qdMatrix& mesmerRates, const unsigned calPoint, stringstream &rateCoeffTable, vector<double> &residuals) ;
-    double calcChiSqYields(const unsigned calPoint, stringstream &rateCoeffTable, vector<double> &residuals);
-    double calcChiSqEigenvalues(const unsigned calPoint, stringstream &rateCoeffTable, vector<double> &residuals);
-    double calcChiSqRawData(const unsigned calPoint, stringstream &rateCoeffTable, vector<double> &residuals, bool writeReport);
+    double calcChiSqRateCoefficients(const qdMatrix& mesmerRates, const unsigned calPoint, vector<double> &residuals) ;
+    double calcChiSqYields(const unsigned calPoint, vector<double> &residuals);
+    double calcChiSqEigenvalues(const unsigned calPoint, vector<double> &residuals);
+    double calcChiSqRawData(const unsigned calPoint, vector<double> &residuals, bool writeReport);
 
     //Add extra attributes) containing calculated value and timestamp to <me:experimentalRate> (or similar element)
     void AddCalcValToXml(const unsigned calPoint, size_t i, double val) const;
+
+		// Write results table if required.
+		void WriteResultTable() const;
 
     // Location of the molecule manager.
     MoleculeManager *m_pMoleculeManager;
@@ -151,7 +154,16 @@ namespace mesmer
     const char* m_pTitle;
     const char* m_pDescription;
 
+		// Collision operator instance.
+
     CollisionOperator m_collisionOperator ;
+
+		// Space to collect results 
+
+		vector<double> m_Temp;
+		vector<double> m_Conc;
+		vector<double> m_Expt;
+		vector<double> m_Clct;
 
   } ;
 

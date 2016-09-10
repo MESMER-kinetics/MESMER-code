@@ -11,7 +11,7 @@ struct conditionSet
 {
   public:
   conditionSet(std::string ref1, std::string ref2, std::string refReaction, double value, double error):
-    m_ref1(ref1), m_ref2(ref2), m_refReaction(refReaction), m_value(value), m_error(error)
+    m_ref1(ref1), m_ref2(ref2), m_refReaction(refReaction), m_value(value), m_error(error), m_calcValue(0.0)
     {}
 
     void get_conditionSet(std::string& ref1, std::string& ref2, std::string& refReaction, double& value, double& error) {
@@ -22,12 +22,13 @@ struct conditionSet
       error       = m_error ;
     }
 
-  private:
+  // private:
   std::string m_ref1;
   std::string m_ref2;
   std::string m_refReaction;
   double m_value;
   double m_error;
+	double m_calcValue;
 };
 
 struct RawDataSet
@@ -83,6 +84,8 @@ struct CandTpair {
     m_eigenvalues.push_back(conditionSet(std::string(""), std::string(""), eigenvalueID, value, error)) ;
     m_expDataPtrs.push_back(ppData);
   }
+
+	void set_calcRate(double calcRate, size_t i) { m_rates[i].m_calcValue = calcRate; };
 
 };
 

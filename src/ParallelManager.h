@@ -42,25 +42,6 @@ namespace mesmer
 
 			~ParallelManager() { MPI_Finalize(); } ;
 
-			// Calculate loop indicies to distribute work across processes.
-
-			void loopDistribution(size_t loopSize, size_t &lidx, size_t &uidx) {
-				size_t loopSegment   = loopSize / m_size ;
-				size_t loopRemainder = loopSize % m_size ;
-
-				if (m_rank < int(loopRemainder)) {
-					lidx =  m_rank*(loopSegment + 1) ;
-					uidx = (m_rank+1)*(loopSegment + 1) ;
-				}
-				else {
-					lidx = loopRemainder + m_rank*loopSegment ;
-					uidx = loopRemainder + (m_rank + 1)*loopSegment;
-				}
-
-				printf("I am %d of %d : Loopsize = %d ll = %d ul = %d \n", m_rank, m_size, loopSize, lidx, uidx);
-
-			} ;
-
 			// Sum vectors across all across processes and redistribute.
 
 			void sumDouble(double *sum, int size) {
@@ -85,13 +66,6 @@ namespace mesmer
 			// Destructor
 
 			~ParallelManager() 
-
-			// Calculate loop indicies to distribute work across processes.
-
-			void loopDistribution(size_t loopSize, size_t &lidx, size_t &uidx) {
-				lidx = 0 ;
-				uidx = loopSize ;
-			};
 
 			// Sum vectors across all across processes and redistribute.
 

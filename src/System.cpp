@@ -454,16 +454,19 @@ namespace mesmer
       }
     }
 
-    stringstream rateCoeffTableTitle ;
-		stringstream rateCoeffTable;
-
-		rateCoeffTableTitle << endl;
-		rateCoeffTableTitle << "    Temperature  Concentration    Exp. Coeff.    Cal. Coeff." << endl;
-		rateCoeffTableTitle << endl;
-
     chiSquare = 0.0;
     residuals.clear();
 		residuals.resize(m_pConditionsManager->getNumPTPoints(), 0.0) ;
+
+		m_Temp.clear();
+		m_Conc.clear();
+		m_Expt.clear();
+		m_Clct.clear();
+
+		m_Temp.resize(m_pConditionsManager->getNumPTPoints(), 0.0) ;
+		m_Conc.resize(m_pConditionsManager->getNumPTPoints(), 0.0) ;
+		m_Expt.resize(m_pConditionsManager->getNumPTPoints(), 0.0) ;
+		m_Clct.resize(m_pConditionsManager->getNumPTPoints(), 0.0) ;
 
     // Main loop over temperatures and concentrations.
 
@@ -472,6 +475,9 @@ namespace mesmer
 		int nRanks = m_pParallelManager->size();
 
     for (size_t calPoint(rank); calPoint < m_pConditionsManager->getNumPTPoints() ; calPoint += nRanks) {
+
+			m_Temp[calPoint] = m_pConditionsManager->PTPointTemp(calPoint);
+			m_Conc[calPoint] = m_pConditionsManager->PTPointConc(calPoint);
 
       m_Env.beta = 1.0 / (boltzmann_RCpK * m_pConditionsManager->PTPointTemp(calPoint));
       m_Env.conc = m_pConditionsManager->PTPointConc(calPoint); // unit of conc: particles per cubic centimeter
@@ -573,21 +579,16 @@ namespace mesmer
           qdMatrix lossRates(1);
           m_collisionOperator.BartisWidomPhenomenologicalRates(mesmerRates, lossRates, m_Flags, ppList);
 
-          rateCoeffTable << formatFloat(m_pConditionsManager->PTPointTemp(calPoint), 6, 15);
-          rateCoeffTable << formatFloat(m_pConditionsManager->PTPointConc(calPoint), 6, 15);
-
           // For these conditions calculate the contribution to the chi^2 merit function
           // for any of the experimentally observable data types. 
 
-          chiSquare += calcChiSqRateCoefficients(mesmerRates, calPoint, rateCoeffTable, residuals);
+          chiSquare += calcChiSqRateCoefficients(mesmerRates, calPoint, residuals);
 
-          chiSquare += calcChiSqYields(calPoint, rateCoeffTable, residuals);
+          chiSquare += calcChiSqYields(calPoint, residuals);
 
-          chiSquare += calcChiSqEigenvalues(calPoint, rateCoeffTable, residuals);
+          chiSquare += calcChiSqEigenvalues(calPoint, residuals);
 
-          chiSquare += calcChiSqRawData(calPoint, rateCoeffTable, residuals, writeReport);
-
-          rateCoeffTable << endl;
+          chiSquare += calcChiSqRawData(calPoint, residuals, writeReport);
 
           ctest << "}\n";
 
@@ -606,10 +607,14 @@ namespace mesmer
 
     m_pParallelManager->sumDouble(&chiSquare, 1);
 		m_pParallelManager->sumDouble(&residuals[0], residuals.size());
+		m_pParallelManager->sumDouble(&m_Temp[0], m_Temp.size());
+		m_pParallelManager->sumDouble(&m_Conc[0], m_Conc.size());
+		m_pParallelManager->sumDouble(&m_Expt[0], m_Expt.size());
+		m_pParallelManager->sumDouble(&m_Clct[0], m_Clct.size());
 
-    rateCoeffTable << endl;
-
-    if (writeReport) cinfo << rateCoeffTableTitle.str() << rateCoeffTable.str();
+		if (writeReport && rank == 0) {
+			WriteResultTable();
+		}
 
     string thisEvent = "Finish Calculation of P-T case";
     events.setTimeStamp(thisEvent, timeElapsed);
@@ -670,11 +675,11 @@ namespace mesmer
 
     stringstream rateCoeffTable;
     vector<double> residuals;
-    calcChiSqRateCoefficients(mesmerRates, nConds, rateCoeffTable, residuals);
+    calcChiSqRateCoefficients(mesmerRates, nConds, residuals);
 
-    calcChiSqYields(nConds, rateCoeffTable, residuals);
+    calcChiSqYields(nConds, residuals);
 
-    calcChiSqEigenvalues(nConds, rateCoeffTable, residuals);
+    calcChiSqEigenvalues(nConds, residuals);
 
     double data(0.0);
     while (rateCoeffTable >> data) {
@@ -720,7 +725,7 @@ namespace mesmer
     return true;
   }
 
-  double System::calcChiSqRateCoefficients(const qdMatrix& mesmerRates, const unsigned calPoint, stringstream &rateCoeffTable, vector<double> &residuals) {
+  double System::calcChiSqRateCoefficients(const qdMatrix& mesmerRates, const unsigned calPoint, vector<double> &residuals) {
 
     double chiSquare(0.0);
 
@@ -778,14 +783,16 @@ namespace mesmer
       residuals[calPoint] += diff ;
       chiSquare += diff * diff;
 
-      rateCoeffTable << formatFloat(expRate, 6, 15) << formatFloat(rateCoeff, 6, 15);
-      AddCalcValToXml(calPoint, i, rateCoeff);
+			m_Expt[calPoint] = expRate;
+			m_Clct[calPoint] = rateCoeff;
+
+			AddCalcValToXml(calPoint, i, rateCoeff);
 
     }
     return chiSquare;
   }
 
-  double System::calcChiSqYields(const unsigned calPoint, stringstream &rateCoeffTable, vector<double> &residuals) {
+  double System::calcChiSqYields(const unsigned calPoint, vector<double> &residuals) {
 
     double chiSquare(0.0);
     vector<conditionSet> expYields;
@@ -837,14 +844,15 @@ namespace mesmer
 			residuals[calPoint] += diff;
 			chiSquare += (diff * diff);
 
-      rateCoeffTable << formatFloat(expYield, 6, 15) << formatFloat(yield, 6, 15);
+			m_Expt[calPoint] = expYield ;
+			m_Clct[calPoint] = yield ;
       AddCalcValToXml(calPoint, i, yield);
     }
 
     return chiSquare;
   }
 
-  double System::calcChiSqEigenvalues(const unsigned calPoint, stringstream &rateCoeffTable, vector<double> &residuals) {
+  double System::calcChiSqEigenvalues(const unsigned calPoint, vector<double> &residuals) {
 
     double chiSquare(0.0);
 
@@ -872,14 +880,16 @@ namespace mesmer
 			residuals[calPoint] += diff;
 			chiSquare += (diff * diff);
 
-      rateCoeffTable << formatFloat(expEigenvalue, 6, 15) << formatFloat(eigenvalue, 6, 15);
-      AddCalcValToXml(calPoint, i, eigenvalue);
+			m_Expt[calPoint] = expEigenvalue;
+			m_Clct[calPoint] = eigenvalue;
+
+			AddCalcValToXml(calPoint, i, eigenvalue);
     }
 
     return chiSquare;
   }
 
-  double System::calcChiSqRawData(const unsigned calPoint, stringstream &rateCoeffTable, vector<double> &residuals, bool writeReport) {
+  double System::calcChiSqRawData(const unsigned calPoint, vector<double> &residuals, bool writeReport) {
 
     //
     // With trace data, an indpendent assessment of the precision of the measurements is not possible. 
@@ -931,8 +941,8 @@ namespace mesmer
       double alpha = (sumef*ntimes - sume*sumf) / det;
       double beta = (sume*sumf2 - sumef*sumf) / det;
 
-      if (writeReport)
-        rateCoeffTable << endl;
+ //     if (writeReport)
+ //       rateCoeffTable << endl;
 
       double diff = 0.0;
       for (size_t j(0); j < signal.size(); ++j) {
@@ -942,17 +952,39 @@ namespace mesmer
 				residuals[calPoint] += diff;
 				chiSquare += (diff * diff);
 
-        if (writeReport)
-          rateCoeffTable << formatFloat(times[j], 6, 15) << "," << formatFloat(expSignal[j], 6, 15) << "," << formatFloat(signal[j], 6, 15) << endl;
+//        if (writeReport)
+//          rateCoeffTable << formatFloat(times[j], 6, 15) << "," << formatFloat(expSignal[j], 6, 15) << "," << formatFloat(signal[j], 6, 15) << endl;
       }
-      if (writeReport)
-        rateCoeffTable << endl;
+//      if (writeReport)
+//        rateCoeffTable << endl;
 
       // AddCalcValToXml(calPoint, i, diff);
     }
 
     return chiSquare;
   }
+
+	void System::WriteResultTable() const
+	{
+		stringstream rateCoeffTableTitle;
+		stringstream rateCoeffTable;
+
+		rateCoeffTableTitle << endl;
+		rateCoeffTableTitle << "    Temperature  Concentration    Exp. Coeff.    Cal. Coeff." << endl;
+		rateCoeffTableTitle << endl;
+
+		for (size_t calPoint(0); calPoint < m_Temp.size(); calPoint++) {
+			rateCoeffTable << formatFloat(m_Temp[calPoint], 6, 15);
+			rateCoeffTable << formatFloat(m_Conc[calPoint], 6, 15);
+			rateCoeffTable << formatFloat(m_Expt[calPoint], 6, 15);
+			rateCoeffTable << formatFloat(m_Clct[calPoint], 6, 15);
+			rateCoeffTable << endl;
+		}
+
+		rateCoeffTable << endl;
+
+		cinfo << rateCoeffTableTitle.str() << rateCoeffTable.str();
+	}
 
   void System::AddCalcValToXml(const unsigned calPoint, size_t i, double val) const
   {
