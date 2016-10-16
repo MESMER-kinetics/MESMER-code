@@ -11,7 +11,6 @@
 //
 //-------------------------------------------------------------------------------------------
 
-//#include "../MolecularComponents.h"
 #include "../gDensityOfStates.h"
 
 using namespace std;
@@ -34,9 +33,9 @@ namespace mesmer
     virtual unsigned int NoDegOfFreedom(gDensityOfStates* gdos) ;
 
     // Provide a function to calculate the zero point energy of a molecule.
-	virtual double ZeroPointEnergy(gDensityOfStates* gdos) ;
+	  virtual double ZeroPointEnergy(gDensityOfStates* gdos) ;
 
-	///Constructor which registers with the list of DensityOfStatesCalculators in the base class
+	  // Constructor which registers with the list of DensityOfStatesCalculators in the base class
     Morse(const char* id) : m_id(id) { Register(); }
 
     virtual ~Morse() {}
