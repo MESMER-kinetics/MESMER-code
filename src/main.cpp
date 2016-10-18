@@ -270,8 +270,10 @@ int main(int argc,char *argv[])
   catch(std::runtime_error& e)
   {
     cinfo.flush();
-    cerr << e.what() << endl;
-    exit(-1);
+		clog.flush();
+		cerr << e.what() << endl;
+		cerr.flush();
+		exit(-1);
   }
   catch(std::logic_error&){} // Outputs XML before terminating (for debugging)
 

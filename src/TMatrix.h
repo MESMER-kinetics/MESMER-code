@@ -20,7 +20,6 @@
 #include <stdio.h>
 #include <vector>
 #include <complex>
-#include <stdexcept>
 #include <stdlib.h>
 #include "Persistence.h"
 #include "qd/dd_real.h"

@@ -118,6 +118,7 @@
     <ClCompile Include="..\..\src\plugins\fitting.cpp" />
     <ClCompile Include="..\..\src\plugins\FittingUtils.cpp" />
     <ClCompile Include="..\..\src\formatfloat.cpp" />
+    <ClCompile Include="..\..\src\plugins\FourierGrid1D.cpp" />
     <ClCompile Include="..\..\src\plugins\GaussianModel.cpp" />
     <ClCompile Include="..\..\src\plugins\gridsearch.cpp" />
     <ClCompile Include="..\..\src\plugins\HinderedRotorCM1D.cpp" />

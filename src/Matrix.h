@@ -14,6 +14,7 @@
 //
 //-------------------------------------------------------------------------------------------
 
+#include <stdexcept>
 #include <sstream>
 #include "error.h"
 #include "formatfloat.h"
@@ -71,11 +72,17 @@ namespace mesmer
 
     // Internal function that creates matrix.
 
-    void create(size_t n) {
+		void create(size_t n) {
 
-      m_msize = n ;
+			m_msize = n;
 
-      m_matrix = allocatematrix(m_msize) ;
+			try {
+			  m_matrix = allocatematrix(m_msize);
+			}
+			catch (...) {
+				cerr << "Matrix allocation failed for matrix of size " << m_msize ;
+				throw std::runtime_error("__FUNCTION__: Matrix allocation failed.");
+			}
 
     }
 

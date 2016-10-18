@@ -60,7 +60,7 @@ namespace mesmer
     // TODO This would be better (with T, U random-access iterators) as
     // U FitPoly(unsigned order, T xstart, T xend, U ystart);
     // so that it is more like STL algorithms and can be used with arrays, vectors, etc.
-    vector<double> FitPoly(unsigned order,
+		vector<double> FitPoly(size_t order,
       vector<double>::const_iterator xstart,
       vector<double>::const_iterator xend,
       vector<double>::const_iterator ystart)const;

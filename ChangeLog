@@ -1,3 +1,7 @@
+2016-October-18 Struan Robertson
+
+		* MesmerILT.cpp, Matrix.h, main.cpp: Minor error handling changes.
+
 2016-October-16 Struan Robertson
 
 		* FourierGrid1D.cpp: Initial outline implementation of the Fourier Grid methods for 
