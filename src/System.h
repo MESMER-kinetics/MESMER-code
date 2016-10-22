@@ -100,6 +100,7 @@ namespace mesmer
     MoleculeManager*   getMoleculeManager()  { return m_pMoleculeManager; } ;
     ReactionManager*   getReactionManager()  { return m_pReactionManager; } ;
     ConditionsManager* getConditionsManager(){ return m_pConditionsManager; } ;
+		ParallelManager*   getParallelManager()  { return m_pParallelManager; } ;
 
     // Mesmer control flags.
     MesmerFlags m_Flags;
@@ -123,9 +124,6 @@ namespace mesmer
 
     //Add extra attributes) containing calculated value and timestamp to <me:experimentalRate> (or similar element)
     void AddCalcValToXml(const unsigned calPoint, size_t i, double val) const;
-
-		// Write results table if required.
-		void WriteResultTable() const;
 
     // Location of the molecule manager.
     MoleculeManager *m_pMoleculeManager;
@@ -157,13 +155,6 @@ namespace mesmer
 		// Collision operator instance.
 
     CollisionOperator m_collisionOperator ;
-
-		// Space to collect results 
-
-		vector<double> m_Temp;
-		vector<double> m_Conc;
-		vector<double> m_Expt;
-		vector<double> m_Clct;
 
   } ;
 

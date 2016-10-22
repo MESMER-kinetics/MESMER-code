@@ -54,6 +54,21 @@ namespace mesmer
 					sum[i] = tmp[i];
 				}
 
+			}
+
+			// Broadcast doubles across processes from a given route.
+
+			void broadcastDouble(double *tmp, int size, int root) {
+
+				MPI_Bcast(tmp, size, MPI_DOUBLE, root , MPI_COMM_WORLD);
+
+			}
+
+			// Brings processes to the same point.
+
+			void barrier() {
+
+				MPI_Barrier(MPI_COMM_WORLD);
 
 			}
 
@@ -70,6 +85,18 @@ namespace mesmer
 			// Sum vectors across all across processes and redistribute.
 
 			void sumDouble(double *sum, int size) {
+				// No Op.
+			}
+
+			// Broadcast doubles across processes from a given route.
+
+			void broadcastDouble(double *sum, int size, int root) {
+				// No Op.
+      }
+
+			// Brings processes to the same point.
+
+			void barrier() {
 				// No Op.
 			}
 
