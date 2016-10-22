@@ -130,21 +130,22 @@ namespace mesmer
 
     hessian.invertLUdecomposition();
 
-    cinfo << endl << "Chi^2 = " << chiSquare << endl << endl << "Best fit parameters:" << endl << endl;
+		stringstream line;
+    line << endl << "Chi^2 = " << chiSquare << endl << endl << "Best fit parameters:" << endl << endl;
 
     // Best fit parameters.
 
     for (size_t iVar(0); iVar < hessian.size(); iVar++) {
       Rdouble var = *Rdouble::withRange()[iVar];
       double sigma = errorFactor*to_double(sqrt(hessian[iVar][iVar]));
-      cinfo << var.get_varname() << " = " << setprecision(6) << var.originalUnits() << " +/- " << var.originalUnits(sigma) << endl;
+			line << var.get_varname() << " = " << setprecision(6) << var.originalUnits() << " +/- " << var.originalUnits(sigma) << endl;
       var.XmlWriteValue();
     }
     Rdouble::UpdateXMLDerivedVariables(); //properties specified with derivedFrom attribute
 
     // Correlation coefficients.
 
-    cinfo << endl << "Correlation coefficients:" << endl << endl;
+    line << endl << "Correlation coefficients:" << endl << endl;
 
     for (size_t iVar(0); iVar < hessian.size(); iVar++) {
       Rdouble vara = *Rdouble::withRange()[iVar];
@@ -152,7 +153,7 @@ namespace mesmer
       for (size_t jVar(0); jVar < iVar; jVar++) {
         double corrlCoeff = to_double(hessian[iVar][jVar] / (sigma*sqrt(hessian[jVar][jVar])));
         Rdouble varb = *Rdouble::withRange()[jVar];
-        cinfo << vara.get_varname() << " , " << varb.get_varname() << " = " << setprecision(6) << corrlCoeff << endl;
+        line << vara.get_varname() << " , " << varb.get_varname() << " = " << setprecision(6) << corrlCoeff << endl;
       }
 
     }
@@ -160,15 +161,17 @@ namespace mesmer
     // Goodness of fit.
 
 		if (bIndependentErrors) {
-			cinfo << endl << "Goodness of Fit:" << endl << endl;
-			cinfo << "Number of degrees of Freedom = " << NoDegFreedom << endl;
-			cinfo << "Chi^2 probability = " << ChiSquaredPrbFn(chiSquare / 2.0, double(NoDegFreedom) / 2.0) << endl << endl;
+			line << endl << "Goodness of Fit:" << endl << endl;
+			line << "Number of degrees of Freedom = " << NoDegFreedom << endl;
+			line << "Chi^2 probability = " << ChiSquaredPrbFn(chiSquare / 2.0, double(NoDegFreedom) / 2.0) << endl << endl;
 		}
 		else {
-			cinfo << endl << "No independent experimenal error estimates available, therefore Chi^2 test not applicable." << endl << endl;
-			cinfo << "Number of degrees of Freedom = " << NoDegFreedom << endl;
-			cinfo << "Error Factor = " << errorFactor << endl << endl;
+			line << endl << "No independent experimenal error estimates available, therefore Chi^2 test not applicable." << endl << endl;
+			line << "Number of degrees of Freedom = " << NoDegFreedom << endl;
+			line << "Error Factor = " << errorFactor << endl << endl;
 		}
+
+		cpinfo << string(line.str());
 
     return;
 

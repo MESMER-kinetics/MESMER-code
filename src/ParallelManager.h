@@ -16,6 +16,7 @@
 #ifdef PARALLEL
 #include "mpi.h"
 #endif
+#include "error.h"
 
 namespace mesmer
 {
@@ -35,7 +36,7 @@ namespace mesmer
 				MPI_Comm_rank(MPI_COMM_WORLD, &m_rank);
 				MPI_Comm_size(MPI_COMM_WORLD, &m_size);
 
-				//  printf("I am %d of %d\n", m_rank + 1, m_size);
+				cpinfo.initialize(m_rank);
 			} ;
 
 			// Destructor
@@ -76,7 +77,9 @@ namespace mesmer
 
 			// Constructor
 
-			ParallelManager(int argc, char ** argv) : m_rank(0), m_size(1) {} ;
+			ParallelManager(int argc, char ** argv) : m_rank(0), m_size(1) {
+				cpinfo.initialize(0);
+			} ;
 
 			// Destructor
 

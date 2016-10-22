@@ -600,19 +600,20 @@ namespace mesmer
 		if (writeReport) {
 			m_pParallelManager->barrier();
 			m_pConditionsManager->reconcileTable();
-			if (rank == 0)
-			  m_pConditionsManager->WriteDataTable();
+			m_pConditionsManager->WriteDataTable();
 		}
 
+		stringstream line;
     string thisEvent = "Finish Calculation of P-T case";
     events.setTimeStamp(thisEvent, timeElapsed);
-    cinfo << thisEvent;
+    line << thisEvent;
     if (timeElapsed > 0)
-      cinfo << " -- Time elapsed: " << timeElapsed << " seconds.";
-    cinfo << endl;
-    if (writeReport) cwarn << m_pConditionsManager->getNumPTPoints() << " temperature/concentration-pressure points calculated." << endl;
+      line << " -- Time elapsed: " << timeElapsed << " seconds.";
+    line << endl;
+    if (writeReport) line << m_pConditionsManager->getNumPTPoints() << " temperature/concentration-pressure points calculated." << endl;
 
-    if (m_Flags.viewEvents) cinfo << events;
+    if (m_Flags.viewEvents) line << events;
+		cpinfo << line.str();
 
     return true;
   }

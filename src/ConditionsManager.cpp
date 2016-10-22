@@ -456,13 +456,13 @@ namespace mesmer
 
     rateCoeffTable << endl;
 
-    cinfo << rateCoeffTable.str();
+    cpinfo << rateCoeffTable.str();
   }
 
   // Reconcile table across processs.
   void ConditionsManager::reconcileTable()
   {
-    int rank = m_pParallelManager->rank();
+    int rank   = m_pParallelManager->rank();
     int nRanks = m_pParallelManager->size();
 
     for (size_t calPoint(0); calPoint < PandTs.size(); calPoint++) {
