@@ -31,7 +31,7 @@ using namespace mesmer;
 
 void usage();
 string version();
-void banner();
+void banner(size_t nRanks);
 bool QACompare(string infilename, bool NOptionUsed);
 string duplicateFileName(const string& inName, const string& suffix, const string& newTimeStamp = "");
 string replaceFilename(const string& inName, const string& newFilename);
@@ -189,7 +189,7 @@ int main(int argc, char **argv)
   //Original streams restored when this goes out of context
   OStreamRedirector osr(&meErrorLog, &osout, nologging);
 
-  banner();
+  banner(parallelManager.size());
 
   //-----------------------------------------------
   //Get the top level directory from an environment variable,
@@ -427,7 +427,7 @@ string version()
   return ss.str();
 }
 
-void banner()
+void banner(size_t nRanks)
 {
   cinfo << endl;
   cinfo << "            /|      /|                        \\   " << endl;
@@ -456,6 +456,8 @@ void banner()
   cinfo << "    You should have received a copy of the GNU Public License" << endl;
   cinfo << "    along with Mesmer.  If not, see <http://www.gnu.org/licenses/>." << endl;
   cinfo << endl;
+	cinfo << "                     Number of ranks: " << nRanks << endl;
+	cinfo << endl;
 }
 
 bool QACompare(string infilename, bool NOptionUsed)
