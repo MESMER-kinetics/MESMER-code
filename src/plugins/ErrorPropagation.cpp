@@ -207,23 +207,20 @@ namespace mesmer
 				irxn = phenRates.begin();
 				for (size_t nOut(0); irxn != phenRates.end(); irxn++, nOut++) {
 					double output = irxn->second;
-					double tmp = f0[nOut] - output;
-					// Note: division by cnt, not cnt-1, because we know the mean.
-					varf[nOut] = (double(cnt-1)*varf[nOut] + tmp*tmp) / double(cnt);
+					double tmp    = f0[nOut] - output;
+					varf[nOut]   += tmp*tmp;
 				}
 
 			}
 
-			// Reconcile variance across ranks.
-			for (size_t nOut(0); nOut < varf.size(); nOut++) {
-				varf[nOut] *= double(cnt);
-			}
+			// Calculate mean and variance across ranks.
+			double dCnt(cnt);
+			pSys->getParallelManager()->sumDouble(&dCnt, 1);
 			pSys->getParallelManager()->sumDouble(&varf[0], varf.size());
+			// Note: division by cnt, not cnt-1, because we know the mean.
 			for (size_t nOut(0); nOut < varf.size(); nOut++) {
-				varf[nOut] /= double(m_nSample);
+				varf[nOut] /= dCnt;
 			}
-
-			int nRanks = pSys->getParallelManager()->size();
 
 			ctest.clear();
 

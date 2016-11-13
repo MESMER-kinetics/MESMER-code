@@ -57,12 +57,16 @@ namespace mesmer
 
 			}
 
+			// Broadcast integers across processes from a given route.
+
+			void broadcastInteger(int *tmp, int size, int root) {
+				MPI_Bcast(tmp, size, MPI_LONG, root, MPI_COMM_WORLD);
+			}
+
 			// Broadcast doubles across processes from a given route.
 
 			void broadcastDouble(double *tmp, int size, int root) {
-
 				MPI_Bcast(tmp, size, MPI_DOUBLE, root , MPI_COMM_WORLD);
-
 			}
 
 			// Brings processes to the same point.
