@@ -1,3 +1,9 @@
+2016-November-22 Struan Robertson
+
+		* FourierGrid1D.cpp: Updated prior to merge.
+
+		* MesmerQA: Updated priort to merge.
+
 2016-October-18 Struan Robertson
 
 		* MesmerILT.cpp, Matrix.h, main.cpp: Minor error handling changes.

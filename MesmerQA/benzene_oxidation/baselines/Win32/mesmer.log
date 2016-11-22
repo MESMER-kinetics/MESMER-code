@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.1 compiled: -- Feb 19 2016 -- 00:01:36
+     Mesmer v5.0 compiled: -- Nov 22 2016 -- 23:29:20
 
      Copyright (C) 2009-2016 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -63,7 +63,7 @@ In R_2_6c: --Parse data for SimpleRRKM
 In R_2_6c: No tunneling method used for R_2_6c
 The default value of the attribute precision was used.
 760Torr, 298K at d precision with N2
-Write metadata 20160219_000303
+Write metadata 20161122_233129
 
 File: "benzene_oxidation_test.xml" successfully parsed.
 Main Calculation begins
@@ -84,7 +84,7 @@ Diagonalize the Reaction Operator
 
             298    2.46273e+19
 
-Finish Calculation of P-T case
+Finish Calculation of P-T case -- Time elapsed: 1 seconds.
 1 temperature/concentration-pressure points calculated.
  -- Total time elapsed: 1 seconds.
 

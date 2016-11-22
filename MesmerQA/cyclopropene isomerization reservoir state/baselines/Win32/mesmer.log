@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.1 compiled: -- Feb 19 2016 -- 00:01:36
+     Mesmer v5.0 compiled: -- Nov 22 2016 -- 23:29:20
 
      Copyright (C) 2009-2016 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -57,7 +57,7 @@ The default value of the attribute precision was used.
 200.72Torr, 800K at d precision with He
 The default value of the attribute precision was used.
 250Torr, 1000K at d precision with He
-Write metadata 20160219_000321
+Write metadata 20161122_233143
 
 File: "Cyclopropene_isomerization_reservoir_state_test.xml" successfully parsed.
 Main Calculation begins
@@ -69,7 +69,7 @@ Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 1
 Number of cells = 50000, Number of grains = 191
-Build Collison Operator -- Time elapsed: 1 seconds.
+Build Collison Operator
 Diagonalize the Reaction Operator
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
@@ -79,7 +79,7 @@ Diagonalize the Reaction Operator
 
 Finish Calculation of P-T case
 2 temperature/concentration-pressure points calculated.
- -- Total time elapsed: 1 seconds.
+ -- Total time elapsed: 0 seconds.
 
 System saved to out.xml
-Total time elapsed: 1 seconds.
+Total time elapsed: 0 seconds.

@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.1 compiled: -- Feb 19 2016 -- 00:01:36
+     Mesmer v5.0 compiled: -- Nov 22 2016 -- 23:29:20
 
      Copyright (C) 2009-2016 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -32,7 +32,7 @@ Parsing input xml file...
 UnitTests.xml
 
 --Parse data for UnitTests
-Write metadata 20160219_000329
+Write metadata 20161122_233149
 
 File: "UnitTests.xml" successfully parsed.
 Main Calculation begins
@@ -60,7 +60,7 @@ Hindered rotor b1
 In ClOOCl: Hindered rotor b1
 gDensityOfStates initialization failed.
 Hindered rotor b1
- -- Total time elapsed: 8 seconds.
+ -- Total time elapsed: 4 seconds.
 
 System saved to out.xml
-Total time elapsed: 8 seconds.
+Total time elapsed: 4 seconds.

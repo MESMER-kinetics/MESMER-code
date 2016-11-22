@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.1 compiled: -- Feb 19 2016 -- 00:01:36
+     Mesmer v5.0 compiled: -- Nov 22 2016 -- 23:29:20
 
      Copyright (C) 2009-2016 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -68,7 +68,7 @@ In SO: The default value of me:DOSCMethod was used.
 In R6: No tunneling method used for R6
 3.37e+18PPCC, 295K at dd precision with He
 --Parse data for ThermodynamicTable
-Write metadata 20160219_000308
+Write metadata 20161122_233133
 
 File: "HSO2.xml" successfully parsed.
 Main Calculation begins
@@ -82,7 +82,7 @@ Number of grains produced : 1
 In FastLaplaceConvolution: 20 values in the FFT convolution routine were replaced by standard convolution
 In FastLaplaceConvolution: 40 values in the FFT convolution routine were replaced by standard convolution
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 6 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 5 seconds.
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
@@ -95,7 +95,7 @@ Finish Calculation of P-T case
 In He: The default value of me:DOSCMethod was used.
 In He: The default value of the attribute spinMultiplicity was used.
 gDensityOfStates initialization failed.
- -- Total time elapsed: 10 seconds.
+ -- Total time elapsed: 7 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 10 seconds.
+Total time elapsed: 7 seconds.
