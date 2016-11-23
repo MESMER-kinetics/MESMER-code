@@ -148,6 +148,10 @@ namespace mesmer
 		vector<double> Concentration;
 		pSys->getConditionsManager()->getConditions(Temperature, Concentration);
 
+		// Parallel execution details.
+		int rank   = pSys->getParallelManager()->rank();
+		int nRanks = pSys->getParallelManager()->size();
+
 		// Instantiate a random vector generator.
 		Sobol sobol;
 
@@ -174,8 +178,9 @@ namespace mesmer
 
 			// Loop over perturbed parameter values.
 
-			long long seed(7);
-			for (size_t itr(1), cnt(0) ; itr <= m_nSample ; itr++) {
+			long long seed(rank*m_nSample/nRanks+7);
+			size_t cnt(0);
+			for (size_t itr(rank+1) ; itr <= m_nSample ; itr += nRanks) {
 				vector<double> rndmd(m_nVar, 0.0);
 				sobol.sobol(rndmd.size(), &seed, rndmd);
 
@@ -202,10 +207,19 @@ namespace mesmer
 				irxn = phenRates.begin();
 				for (size_t nOut(0); irxn != phenRates.end(); irxn++, nOut++) {
 					double output = irxn->second;
-					double tmp = f0[nOut] - output;
-					varf[nOut] = (double(cnt-1)*varf[nOut] + tmp*tmp) / double(cnt);
+					double tmp    = f0[nOut] - output;
+					varf[nOut]   += tmp*tmp;
 				}
 
+			}
+
+			// Calculate mean and variance across ranks.
+			double dCnt(cnt);
+			pSys->getParallelManager()->sumDouble(&dCnt, 1);
+			pSys->getParallelManager()->sumDouble(&varf[0], varf.size());
+			// Note: division by cnt, not cnt-1, because we know the mean.
+			for (size_t nOut(0); nOut < varf.size(); nOut++) {
+				varf[nOut] /= dCnt;
 			}
 
 			ctest.clear();

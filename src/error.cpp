@@ -20,6 +20,7 @@ namespace mesmer
   ostream cwarn(clog.rdbuf());
   ostream cinfo(clog.rdbuf());
   ostream ctest(clog.rdbuf());
+	pstream cpinfo;
 
   //Global message handler
   MessageHandler meErrorLog;
@@ -144,7 +145,14 @@ namespace mesmer
       ctest.rdbuf(_oldctestbuf);
   }
 
-} // end namespace OpenBabel
+	pstream& operator<<(pstream& stream, std::string str) {
+		if (stream.write()) {
+			cinfo << str;
+		}
+		return stream;
+	};
+
+} // end namespace mesmer
 
 /*
 MessageHandler class controls the display of error messages. There is a

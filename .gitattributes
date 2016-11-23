@@ -657,6 +657,7 @@ src/Molecule.cpp -text
 src/Molecule.h -text
 src/MoleculeManager.cpp -text
 src/MoleculeManager.h -text
+src/ParallelManager.h -text
 src/ParseForPlugin.h -text
 src/Persistence.h -text
 src/PseudoIsomerizationReaction.cpp -text

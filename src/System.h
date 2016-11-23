@@ -20,6 +20,7 @@
 #include "calcmethod.h"
 #include "CollisionOperator.h"
 #include "ConditionsManager.h"
+#include "ParallelManager.h"
 
 #define MESMER_VERSION "5.0"
 
@@ -37,7 +38,7 @@ namespace mesmer
   {
   public:
 
-    System(const std::string& libraryfilename) ;
+    System(const std::string& libraryfilename, ParallelManager *pParallelManager) ;
     ~System() ;
 
     // Initialize the System object.
@@ -99,6 +100,7 @@ namespace mesmer
     MoleculeManager*   getMoleculeManager()  { return m_pMoleculeManager; } ;
     ReactionManager*   getReactionManager()  { return m_pReactionManager; } ;
     ConditionsManager* getConditionsManager(){ return m_pConditionsManager; } ;
+		ParallelManager*   getParallelManager()  { return m_pParallelManager; } ;
 
     // Mesmer control flags.
     MesmerFlags m_Flags;
@@ -115,10 +117,10 @@ namespace mesmer
 
   private:
 
-    double calcChiSqRateCoefficients(const qdMatrix& mesmerRates, const unsigned calPoint, stringstream &rateCoeffTable, vector<double> &residuals) ;
-    double calcChiSqYields(const unsigned calPoint, stringstream &rateCoeffTable, vector<double> &residuals);
-    double calcChiSqEigenvalues(const unsigned calPoint, stringstream &rateCoeffTable, vector<double> &residuals);
-    double calcChiSqRawData(const unsigned calPoint, stringstream &rateCoeffTable, vector<double> &residuals, bool writeReport);
+    double calcChiSqRateCoefficients(const qdMatrix& mesmerRates, const unsigned calPoint, vector<double> &residuals) ;
+    double calcChiSqYields(const unsigned calPoint, vector<double> &residuals);
+    double calcChiSqEigenvalues(const unsigned calPoint, vector<double> &residuals);
+    double calcChiSqRawData(const unsigned calPoint, vector<double> &residuals, bool writeReport);
 
     //Add extra attributes) containing calculated value and timestamp to <me:experimentalRate> (or similar element)
     void AddCalcValToXml(const unsigned calPoint, size_t i, double val) const;
@@ -128,7 +130,12 @@ namespace mesmer
 
     // Location of the reaction mananger.
     ReactionManager *m_pReactionManager ;
-    ConditionsManager* m_pConditionsManager;
+
+		// Location of the conditions manager.
+    ConditionsManager *m_pConditionsManager;
+
+		// Location of the parallel mananger.
+		ParallelManager *m_pParallelManager;
 
     // Physical variables. Reference to this are passed to all Molecule and Reaction constructors.
     MesmerEnv m_Env;
@@ -144,6 +151,8 @@ namespace mesmer
 
     const char* m_pTitle;
     const char* m_pDescription;
+
+		// Collision operator instance.
 
     CollisionOperator m_collisionOperator ;
 

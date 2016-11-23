@@ -6,7 +6,7 @@ Mesmer: Master Equation Solver for Multi-Energy well Reactions
 
 Mesmer is free software: you can redistribute it and/or modify
 it under the terms of the GNU Public License as published by
-the Free Software Foundation, either version 2 of the License, 
+the Free Software Foundation, either version 2 of the License,
 or (at your option) any later version.
 
 Mesmer is distributed in the hope that it will be useful,
@@ -23,19 +23,27 @@ along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 #include <sstream>
 #include <stdexcept>
 #include "System.h"
+#include "ParallelManager.h"
 
-using namespace std ;
-using namespace Constants ;
-using namespace mesmer ;
+using namespace std;
+using namespace Constants;
+using namespace mesmer;
 
 void usage();
 string version();
-void banner(); 
+void banner(size_t nRanks);
 bool QACompare(string infilename, bool NOptionUsed);
 string duplicateFileName(const string& inName, const string& suffix, const string& newTimeStamp = "");
 string replaceFilename(const string& inName, const string& newFilename);
-int main(int argc,char *argv[])
+
+int main(int argc, char **argv)
 {
+  //
+  // MPI initiation.
+  //
+
+  ParallelManager parallelManager(argc, argv);
+
   //
   // The following invocation is required by the QD  library to fix a problem 
   // with the extended precision methods on x86 platforms.
@@ -51,11 +59,11 @@ int main(int argc,char *argv[])
   // consequently different from those for Mesmer 5 after Aug 2015.
   // To get original behaviour with older compilers define
   // USE_OLD_EXPONENT before compiling. 
-  #if !USE_OLD_EXPONENT && __MSC_VER && _MSC_VER<1900
-     _set_output_format(_TWO_DIGIT_EXPONENT);
-  #endif
+#if !USE_OLD_EXPONENT && __MSC_VER && _MSC_VER<1900
+  _set_output_format(_TWO_DIGIT_EXPONENT);
+#endif
 
-  if(argc<2)
+  if (argc < 2)
   {
     usage();
     return 0;
@@ -64,36 +72,36 @@ int main(int argc,char *argv[])
   // process command line arguments
   string infilename, outfilename, testfilename, logfilename, punchfilename;
   vector<string> extraInfilenames;
-  bool nocalc=false, usecout=false, updatemols=true, overwriteinput=false,
-    qatest=false, nologging=false, changetestname=false;
+  bool nocalc = false, usecout = false, updatemols = true, overwriteinput = false,
+    qatest = false, nologging = false, changetestname = false;
 
-  for(int iarg=1; iarg<argc;++iarg)
+  for (int iarg = 1; iarg < argc; ++iarg)
   {
     const char* p = argv[iarg];
-    if(*p=='-')
+    if (*p == '-')
     {
-      switch(*++p)
+      switch (*++p)
       {
       case '?':
         usage();
         return 0;
       case 'g':
-        nologging=true;
+        nologging = true;
         cerr << "Logging is turned off: no info or test output" << endl;
         break;
       case 'l':
-        updatemols=false;
+        updatemols = false;
         break;
       case 'n':
-        overwriteinput=true;
+        overwriteinput = true;
         break;
       case 'N':
-        changetestname=true;
+        changetestname = true;
         break;
       case 'o': //output filename
-        if(!*++p) //if no digit after -o use next arg if its not an option
+        if (!*++p) //if no digit after -o use next arg if its not an option
         {
-          if(++iarg<argc && *argv[iarg]!='-')
+          if (++iarg < argc && *argv[iarg] != '-')
             p = argv[iarg];
           else //-o option has no filename
           {
@@ -105,10 +113,10 @@ int main(int argc,char *argv[])
         outfilename = p;
         break;
       case 'p': //just parse the input file - no calculation
-        nocalc=true;
+        nocalc = true;
         break;
       case 'q':
-        qatest=true;
+        qatest = true;
         break;
       case 'T': //Table of plugins with descriptions
         cout << TopPlugin::List(TopPlugin::verbose) << endl;
@@ -120,28 +128,28 @@ int main(int argc,char *argv[])
         cout << version();
         return 0;
       case 'w': //error level for reporting
-        if(!*++p) //if no digit after -w use next arg
-          p=argv[++iarg];
-        meErrorLog.SetOutputLevel((obMessageLevel)(*p-'0'));
+        if (!*++p) //if no digit after -w use next arg
+          p = argv[++iarg];
+        meErrorLog.SetOutputLevel((obMessageLevel)(*p - '0'));
         break;
       default:
         cerr << "The option -" << *p << " was not recognized" << endl;
-        if (--argc<2)
+        if (--argc < 2)
         {
           usage();
           return 0;
         }
       }
     }
-    else{
-      if(infilename.empty())
+    else {
+      if (infilename.empty())
         infilename = p;
       else
         extraInfilenames.push_back(p);
     }
   }
 
-  if (changetestname){
+  if (changetestname) {
     string testSuffix(".test");
     string logSuffix(".log");
     string punchSuffix(".punch");
@@ -149,13 +157,13 @@ int main(int argc,char *argv[])
     logfilename = duplicateFileName(infilename, logSuffix);
     punchfilename = duplicateFileName(infilename, punchSuffix);
   }
-  else{ // default test and log names
+  else { // default test and log names
     testfilename = "mesmer.test";
     logfilename = "mesmer.log";
     punchfilename = "mesmer.punch";
   }
 
-  if(!usecout && outfilename.empty()){
+  if (!usecout && outfilename.empty()) {
     string repname = "mesmer_out.xml";
     outfilename = overwriteinput ? infilename : replaceFilename(infilename, repname);
   }
@@ -163,9 +171,9 @@ int main(int argc,char *argv[])
   //-----------------------------------
   //Start the error handling system
   //
-  ostream* plog=NULL;
+  ostream* plog = NULL;
   ofstream logstream(logfilename.c_str());
-  if(!logstream)
+  if (!logstream)
     cerr << "Could not open " << logfilename << " for writing. Continuing without it." << endl;
   else
     plog = &logstream;
@@ -174,25 +182,25 @@ int main(int argc,char *argv[])
   meErrorLog.SetLogStream(plog);
 
   ofstream osout(testfilename.c_str());
-  if(!osout)
+  if (!osout)
     cerr << "Could not open " << testfilename << " for writing. Continuing without it." << endl;
 
   //Allow writing of messages to cerr, cwarn and cinfo. Send ctest to file mesmer.test
   //Original streams restored when this goes out of context
   OStreamRedirector osr(&meErrorLog, &osout, nologging);
 
-  banner() ;
+  banner(parallelManager.size());
 
   //-----------------------------------------------
   //Get the top level directory from an environment variable,
   //or if that fails, from two levels above the current directory
   //This contains librarymols.xml, defaults.xml.
   const char* pdir = getenv("MESMER_DIR");
-  if(!pdir || *pdir=='\0') //env var absent or empty
+  if (!pdir || *pdir == '\0') //env var absent or empty
     pdir = "../..";
   string MesmerDir(pdir);
   string::size_type pos = MesmerDir.find(';');
-  if(pos!=string::npos)
+  if (pos != string::npos)
     MesmerDir.erase(pos); //Use the first directory in the env var
   cinfo << "defaults.xml, librarymols.xml are in " << MesmerDir << endl;
   //-------------------------------
@@ -200,9 +208,9 @@ int main(int argc,char *argv[])
   // Instantiate the System collection. This holds all information
   // about reaction systems and all molecular data.
   //
-  System _sys(MesmerDir + "/librarymols.xml");
-  if(!_sys.initialize())
-    cerr << "Failed to create System object" << endl; 
+  System _sys(MesmerDir + "/librarymols.xml", &parallelManager);
+  if (!_sys.initialize())
+    cerr << "Failed to create System object" << endl;
 
   _sys.m_Flags.punchFileName = punchfilename;
 
@@ -211,25 +219,25 @@ int main(int argc,char *argv[])
   //This is where the type of IO is decided.
   //Opens the data file and checks that its root element is me:mesmer.
   PersistPtr ppIOPtr = XMLPersist::XmlLoad(infilename, MesmerDir + "/defaults.xml", "me:mesmer");
-  if(!ppIOPtr)
+  if (!ppIOPtr)
     return -1;
 
   //Incorporate the additional input files into the main datafile
   vector<string>::reverse_iterator fileitr;
-  for(fileitr=extraInfilenames.rbegin();fileitr!=extraInfilenames.rend();++fileitr)
+  for (fileitr = extraInfilenames.rbegin(); fileitr != extraInfilenames.rend(); ++fileitr)
   {
-    if(!ppIOPtr->XmlInclude(*fileitr))
+    if (!ppIOPtr->XmlInclude(*fileitr))
       return -1;
   }
 
   //------------
-  if(nocalc)
+  if (nocalc)
     _sys.assignMolTypes(ppIOPtr);
 
   // Parse input file
   {
     string thisEvent;
-    if(infilename.empty())
+    if (infilename.empty())
       thisEvent = "\nParsing xml from stdin...";
     else
       thisEvent = "\nParsing input xml file...\n" + infilename + '\n';
@@ -237,19 +245,19 @@ int main(int argc,char *argv[])
     //cinfo << endl;
     events.setTimeStamp(thisEvent);
   }
-  int returnCode=0;
+  int returnCode = 0;
   try {
-    if(!ppIOPtr || !_sys.parse(ppIOPtr))
+    if (!ppIOPtr || !_sys.parse(ppIOPtr))
     {
-      if(plog)
+      if (plog)
         plog->flush();
       cerr << "\nSystem parse failed." << endl;
       returnCode = -2;
-      if(!nocalc)
+      if (!nocalc)
         return returnCode;
     }
     _sys.WriteMetadata(infilename);
-    if(plog)
+    if (plog)
       plog->flush();
 
     if (!nocalc)
@@ -264,10 +272,10 @@ int main(int argc,char *argv[])
 
       clog << "Now calculating..." << endl;
 
-      _sys.executeCalculation() ;
+      _sys.executeCalculation();
     }
   }
-  catch(std::runtime_error& e)
+  catch (std::runtime_error& e)
   {
     cinfo.flush();
 		clog.flush();
@@ -275,7 +283,7 @@ int main(int argc,char *argv[])
 		cerr.flush();
 		exit(-1);
   }
-  catch(std::logic_error&){} // Outputs XML before terminating (for debugging)
+  catch (std::logic_error&) {} // Outputs XML before terminating (for debugging)
 
   //--------------------------------
   // Save XML document
@@ -286,44 +294,46 @@ int main(int argc,char *argv[])
 
   //Any existing file with the same name as the one being written is renamed with a _prev suffix
   //Any old _prev file is not deleted unless the write of the new file is successful
-  if(!usecout)
+  if (!usecout)
     rename(outfilename.c_str(), "temp");
 
-  if(!ppIOPtr->XmlSaveFile(outfilename))
+  if (!ppIOPtr->XmlSaveFile(outfilename))
   {
     cerr << "There was an error when writing " << outfilename;
     rename("temp", outfilename.c_str());
   }
   else
   {
-    if(!outfilename.empty())
+    if (!outfilename.empty())
     {
-      cerr << "System saved to " << outfilename << endl;
-	  cerr << "Total time elapsed: " << timeElapsed << " seconds." << endl;
+			stringstream line;
+      line << "System saved to " << outfilename << endl;
+      line << "Total time elapsed: " << timeElapsed << " seconds." << endl;
+			cpinfo << line.str();
 
-      if(!usecout)
+      if (!usecout)
       {
         string::size_type pos = outfilename.rfind('.');
         string prevname(outfilename);
-        prevname = pos==string::npos ?
+        prevname = pos == string::npos ?
           prevname + "_prev" :
-        prevname.replace(pos, 1, "_prev.");
+          prevname.replace(pos, 1, "_prev.");
         remove(prevname.c_str());
         rename("temp", prevname.c_str());
       }
     }
   }
 
-  if(qatest)
+  if (qatest)
   {
     osout.close();
-    if(!QACompare(infilename, changetestname))
+    if (!QACompare(infilename, changetestname))
     {
       cerr << "QA test *** FAILED ***" << endl;
       return -5;
     }
     else
-      cerr << "QA test successful" << endl; 
+      cerr << "QA test successful" << endl;
   }
 
   //
@@ -343,40 +353,40 @@ main return codes
 -5 QA test failed
 */
 
-string duplicateFileName(const string& inName, const string& suffix, const string& newTimeStamp){
+string duplicateFileName(const string& inName, const string& suffix, const string& newTimeStamp) {
   //construct duplicatedName from inName by adding or replacing a timestamp
   string duplicatedName = inName;
   string oldTimeStamp;
-  for(;;) // remove extensions and timestamps
+  for (;;) // remove extensions and timestamps
   {
     string::size_type pos = duplicatedName.rfind('.'); // search the string starting from the end
     //Break if no more dots or if part of current or parent directory aliases
-    if(pos==string::npos || duplicatedName[pos+1]=='/' || duplicatedName[pos+1]=='\\')
+    if (pos == string::npos || duplicatedName[pos + 1] == '/' || duplicatedName[pos + 1] == '\\')
       break;
     //Save last timestamp (that of the input file)
-    if(oldTimeStamp.empty() && !duplicatedName.compare(pos, 3, ".20"))
+    if (oldTimeStamp.empty() && !duplicatedName.compare(pos, 3, ".20"))
       oldTimeStamp = duplicatedName.substr(pos, 15);
     duplicatedName.erase(pos);
   }
-  if(!newTimeStamp.empty())
+  if (!newTimeStamp.empty())
     duplicatedName += oldTimeStamp + newTimeStamp;
   duplicatedName += suffix;
   return duplicatedName;
 }
 
-string replaceFilename(const string& inName, const string& newFilename){
+string replaceFilename(const string& inName, const string& newFilename) {
   string replacedName = inName;
   string::size_type posf = replacedName.rfind('/');
   string::size_type posr = replacedName.rfind('\\');
-  if (posf != string::npos){      // found '/'
-    replacedName.erase(posf+1);
-    replacedName+=newFilename;
+  if (posf != string::npos) {      // found '/'
+    replacedName.erase(posf + 1);
+    replacedName += newFilename;
   }
-  else if (posr != string::npos){ // found '\\' 
-    replacedName.erase(posr+1);
-    replacedName+=newFilename;
+  else if (posr != string::npos) { // found '\\' 
+    replacedName.erase(posr + 1);
+    replacedName += newFilename;
   }
-  else{                           // no '/' or '\\' found
+  else {                           // no '/' or '\\' found
     replacedName = newFilename;   // meaning the filename has no directory structure --> simply a filename
   }
 
@@ -415,56 +425,58 @@ void usage()
 string version()
 {
   stringstream ss;
-  ss << "Mesmer v" << MESMER_VERSION << " compiled: -- "  << __DATE__ << " -- " << __TIME__ << endl;
+  ss << "Mesmer v" << MESMER_VERSION << " compiled: -- " << __DATE__ << " -- " << __TIME__ << endl;
   return ss.str();
 }
 
-void banner() 
+void banner(size_t nRanks)
 {
-  cinfo << endl ;
-  cinfo << "            /|      /|                        \\   " << endl ;
-  cinfo << "           / |     / | ________________________\\  " << endl ;
-  cinfo << "          /  |    /  |  _   _             _   _   " << endl ;
-  cinfo << "         /   |   /   | / \\ / \\ |\\     /| / \\ / \\  " << endl ;
-  cinfo << "        /    |  /    | \\_/ \\_  | \\   / | \\_/ |_/  " << endl ;
-  cinfo << "       /     | /     | /     \\ |  \\ /  | /   | \\  " << endl ;
-  cinfo << "    \\_/      |/      | \\_/ \\_/ |   V   | \\_/ |  \\ " << endl ;
-  cinfo << endl ;
-  cinfo << "     Mesmer: Master Equation Solver for Multi-Energy well Reactions" << endl ;
-  cinfo << "     " << version() << endl ;
-  cinfo << "     Copyright (C) 2009-2016 by" << endl ;
-  cinfo << "     Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang," << endl ;
-  cinfo << "     Chris Morley, Michael J. Pilling and contributors" << endl ;
-  cinfo << endl ;
-  cinfo << "     Mesmer is free software: you can redistribute it and/or modify" << endl ;
-  cinfo << "     it under the terms of the GNU Public License as published by" << endl ;
-  cinfo << "     the Free Software Foundation, either version 2 of the License," << endl ;
-  cinfo << "     or (at your option) any later version." << endl ;
-  cinfo << endl ;
-  cinfo << "     But WITHOUT ANY WARRANTY; without even the implied warranty of" << endl ;
-  cinfo << "     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the" << endl ;
-  cinfo << "     GNU Public License for more details." << endl ;
-  cinfo << endl ;
-  cinfo << "    You should have received a copy of the GNU Public License" << endl ;
-  cinfo << "    along with Mesmer.  If not, see <http://www.gnu.org/licenses/>." << endl ;
-  cinfo << endl ;
+  cinfo << endl;
+  cinfo << "            /|      /|                        \\   " << endl;
+  cinfo << "           / |     / | ________________________\\  " << endl;
+  cinfo << "          /  |    /  |  _   _             _   _   " << endl;
+  cinfo << "         /   |   /   | / \\ / \\ |\\     /| / \\ / \\  " << endl;
+  cinfo << "        /    |  /    | \\_/ \\_  | \\   / | \\_/ |_/  " << endl;
+  cinfo << "       /     | /     | /     \\ |  \\ /  | /   | \\  " << endl;
+  cinfo << "    \\_/      |/      | \\_/ \\_/ |   V   | \\_/ |  \\ " << endl;
+  cinfo << endl;
+  cinfo << "     Mesmer: Master Equation Solver for Multi-Energy well Reactions" << endl;
+  cinfo << "     " << version() << endl;
+  cinfo << "     Copyright (C) 2009-2016 by" << endl;
+  cinfo << "     Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang," << endl;
+  cinfo << "     Chris Morley, Michael J. Pilling and contributors" << endl;
+  cinfo << endl;
+  cinfo << "     Mesmer is free software: you can redistribute it and/or modify" << endl;
+  cinfo << "     it under the terms of the GNU Public License as published by" << endl;
+  cinfo << "     the Free Software Foundation, either version 2 of the License," << endl;
+  cinfo << "     or (at your option) any later version." << endl;
+  cinfo << endl;
+  cinfo << "     But WITHOUT ANY WARRANTY; without even the implied warranty of" << endl;
+  cinfo << "     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the" << endl;
+  cinfo << "     GNU Public License for more details." << endl;
+  cinfo << endl;
+  cinfo << "    You should have received a copy of the GNU Public License" << endl;
+  cinfo << "    along with Mesmer.  If not, see <http://www.gnu.org/licenses/>." << endl;
+  cinfo << endl;
+	cinfo << "                     Number of ranks: " << nRanks << endl;
+	cinfo << endl;
 }
 
 bool QACompare(string infilename, bool NOptionUsed)
 {
   string::size_type pos = infilename.find_last_of("/\\:");
-  string filename = pos!=string::npos ? infilename.substr(pos) : infilename; //name without path
-  infilename.erase(pos+1); //path; may erase everything if has no path
+  string filename = pos != string::npos ? infilename.substr(pos) : infilename; //name without path
+  infilename.erase(pos + 1); //path; may erase everything if has no path
   pos = filename.find('.');
-  filename.erase(pos+1).append("test"); // e.g. "ipropyl_reservoir.test"
-  if(!NOptionUsed)
+  filename.erase(pos + 1).append("test"); // e.g. "ipropyl_reservoir.test"
+  if (!NOptionUsed)
     filename = "mesmer.test";
 
   //Access the baseline file
   infilename.append(TestFolder).append(filename);
   ifstream QAfile(infilename.c_str());
   ifstream CurrentTest(filename.c_str());
-  if(!QAfile || !CurrentTest)
+  if (!QAfile || !CurrentTest)
   {
     cerr << "Cannot open " << infilename << " or " << filename << endl;
     return false;
