@@ -180,6 +180,9 @@ namespace mesmer
     // Write data table.
     void WriteDataTable() const;
 
+    // Write calculated date to output.
+    void AddCalcValToXml() const;
+
   private:
 
     bool readPTs();
@@ -188,6 +191,9 @@ namespace mesmer
       std::vector<double>&  vals,
       PersistPtr            ppbase,
       bool                  MustBeThere = true);
+
+    // Write calculated date to XML.
+    void WriteDataToXml(PersistPtr pp, const vector<conditionSet> &data) const;
 
     System* m_pSys; //parent System
     PersistPtr m_ppConditions;

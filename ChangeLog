@@ -1,5 +1,10 @@
 2016-November-23 Struan Robertson
 
+		* ConditionsManager.cpp/.h, System.cpp/.h: Moved XML writer methods from System 
+		to ConditionsManager.
+
+2016-November-23 Struan Robertson
+
 		* Merge of MesmerMPI branch into trunk.
 
 2016-November-22 Struan Robertson

@@ -594,12 +594,13 @@ namespace mesmer
 
     // Reduce Chi^2 values and redistribute
 
-    m_pParallelManager->sumDouble(&chiSquare, 1);
+		m_pParallelManager->barrier();
+		m_pParallelManager->sumDouble(&chiSquare, 1);
 		m_pParallelManager->sumDouble(&residuals[0], residuals.size());
+		m_pConditionsManager->reconcileTable();
+		m_pConditionsManager->AddCalcValToXml();
 
 		if (writeReport) {
-			m_pParallelManager->barrier();
-			m_pConditionsManager->reconcileTable();
 			m_pConditionsManager->WriteDataTable();
 		}
 
@@ -774,9 +775,6 @@ namespace mesmer
       chiSquare += diff * diff;
 
 			calcRates[i] = rateCoeff;
-
-			AddCalcValToXml(calPoint, i, rateCoeff);
-
     }
 
 		m_pConditionsManager->set_calculatedRates(calPoint, calcRates);
@@ -838,8 +836,6 @@ namespace mesmer
 			chiSquare += (diff * diff);
 
 			calcYields[i] = yield;
-
-      AddCalcValToXml(calPoint, i, yield);
     }
 
 		m_pConditionsManager->set_calculatedYields(calPoint, calcYields);
@@ -877,8 +873,6 @@ namespace mesmer
 			chiSquare += (diff * diff);
 
 			calcEigenvalues[i] = eigenvalue;
-
-			AddCalcValToXml(calPoint, i, eigenvalue);
     }
 
 		m_pConditionsManager->set_calculatedEigenvalues(calPoint, calcEigenvalues);
@@ -959,19 +953,6 @@ namespace mesmer
     }
 
     return chiSquare;
-  }
-
-  void System::AddCalcValToXml(const unsigned calPoint, size_t i, double val) const
-  {
-    // Add extra attribute(s) containing calculated value and timestamp to <me:experimentalRate> (or similar element).
-    PersistPtr pp = m_pConditionsManager->get_experimentalDataPtr(calPoint, i);
-    TimeCount events;
-    string timeString;
-    pp->XmlWriteAttribute("calculated", events.setTimeStamp(timeString));
-    stringstream ss;
-    ss << val;
-    pp->XmlWriteAttribute("calcVal", ss.str());
-    pp->XmlReadDouble("calcVal", false);
   }
 
   void System::WriteMetadata(const string& infilename)

@@ -462,7 +462,7 @@ namespace mesmer
   // Reconcile table across processs.
   void ConditionsManager::reconcileTable()
   {
-    int rank   = m_pParallelManager->rank();
+    int rank = m_pParallelManager->rank();
     int nRanks = m_pParallelManager->size();
 
     for (size_t calPoint(0); calPoint < PandTs.size(); calPoint++) {
@@ -490,6 +490,47 @@ namespace mesmer
     }
   }
 
-}//namespace
+  // Write calculated date to output.
+  void ConditionsManager::AddCalcValToXml() const
+  {
 
+    int rank = m_pParallelManager->rank();
+    if (rank > 0)
+      return;
+
+    for (size_t i(0); i < PandTs.size(); i++) {
+
+      for (size_t j(0); j < PandTs[i].m_expDataPtrs.size(); j++) {
+
+        // Add extra attribute(s) containing calculated value and time-stamp
+        // to <me:experimentalRate> (or similar element).
+        PersistPtr pp = PandTs[i].m_expDataPtrs[j];
+        TimeCount events;
+        string timeString;
+        pp->XmlWriteAttribute("calculated", events.setTimeStamp(timeString));
+
+        // Add elements for rate coefficients.
+        WriteDataToXml(pp, PandTs[i].m_rates);
+
+        // Add elements for yields.
+        WriteDataToXml(pp, PandTs[i].m_yields);
+
+        // Add elements for eigenvalues.
+        WriteDataToXml(pp, PandTs[i].m_eigenvalues);
+      }
+    }
+  }
+
+  // Write calculated date to XML.
+  void ConditionsManager::WriteDataToXml(PersistPtr pp, const vector<conditionSet> &data) const {
+
+    for (size_t k(0); k < data.size(); k++) {
+      stringstream ss;
+      ss << data[k].m_calcValue;
+      pp->XmlWriteAttribute("calcVal", ss.str());
+      pp->XmlReadDouble("calcVal", false);
+    }
+  }
+
+}//namespace
 

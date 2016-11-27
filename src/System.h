@@ -122,9 +122,6 @@ namespace mesmer
     double calcChiSqEigenvalues(const unsigned calPoint, vector<double> &residuals);
     double calcChiSqRawData(const unsigned calPoint, vector<double> &residuals, bool writeReport);
 
-    //Add extra attributes) containing calculated value and timestamp to <me:experimentalRate> (or similar element)
-    void AddCalcValToXml(const unsigned calPoint, size_t i, double val) const;
-
     // Location of the molecule manager.
     MoleculeManager *m_pMoleculeManager;
 
