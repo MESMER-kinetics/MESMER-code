@@ -1,0 +1,744 @@
+
+            /|      /|                        \   
+           / |     / | ________________________\  
+          /  |    /  |  _   _             _   _   
+         /   |   /   | / \ / \ |\     /| / \ / \  
+        /    |  /    | \_/ \_  | \   / | \_/ |_/  
+       /     | /     | /     \ |  \ /  | /   | \  
+    \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
+
+     Mesmer: Master Equation Solver for Multi-Energy well Reactions
+     Mesmer v5.0 compiled: -- Jan 14 2016 -- 17:01:00
+
+     Copyright (C) 2009-2015 by
+     Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
+     Chris Morley, Michael J. Pilling and contributors
+
+     Mesmer is free software: you can redistribute it and/or modify
+     it under the terms of the GNU Public License as published by
+     the Free Software Foundation, either version 2 of the License,
+     or (at your option) any later version.
+
+     But WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU Public License for more details.
+
+    You should have received a copy of the GNU Public License
+    along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
+
+defaults.xml, librarymols.xml are in ../..
+
+Parsing input xml file...
+GlyoxalAllT.xml
+
+--Parse data for marquardt
+Energy convention "" written to <moleculeList>
+In R1: Parsing reaction...Association reaction
+In Glyoxal: The default value of me:DOSCMethod was used.
+In Glyoxal: The default value of the attribute spinMultiplicity was used.
+In C1: The default value of me:DOSCMethod was used.
+In C1: The default value of me:DistributionCalcMethod was used.
+In C1: --Parse data for Boltzmann
+In C1: The default value of me:energyTransferModel was used.
+In C1: --Parse data for ExponentialDown
+In R1: --Parse data for MesmerILT
+In R1: The default value of me:TInfinity was used.
+In R1: No tunneling method used for R1
+In R1: No crossing method used for R1
+In R1: Not a unimolecular reaction: look for excess reactant concentration.
+In R1: No value of me:excessReactantConc was supplied and the default value NEEDS TO BE CHECKED**
+In R2_2: Parsing reaction...Isomerization reaction
+In C2: The default value of me:DOSCMethod was used.
+In C2: The default value of me:DistributionCalcMethod was used.
+In C2: --Parse data for Boltzmann
+In C2: The default value of me:energyTransferModel was used.
+In C2: --Parse data for ExponentialDown
+In TS1: The default value of me:DOSCMethod was used.
+In R2_2: --Parse data for SimpleRRKM
+In R2_2: No tunneling method used for R2_2
+In R2_2: No crossing method used for R2_2
+In R3: Parsing reaction...Pseudoisomerization reaction
+In HC(O)CO: The default value of me:DistributionCalcMethod was used.
+In HC(O)CO: --Parse data for Boltzmann
+In HC(O)CO: The default value of me:energyTransferModel was used.
+In HC(O)CO: --Parse data for ExponentialDown
+In HC(O)CO: HC(O)CO:deltaEDown was given a range with 31 steps 
+In R3: --Parse data for MesmerILT
+In R3: The default value of me:TInfinity was used.
+In R3: No tunneling method used for R3
+In R3: No crossing method used for R3
+In R3: Not a unimolecular reaction: look for excess reactant concentration.
+In R4: Parsing reaction...Irreversible unimolecular reaction
+In TS2: Hindered rotor b1
+In R4: --Parse data for SimpleRRKM
+In R4: No tunneling method used for R4
+In R4: No crossing method used for R4
+In R2: Parsing reaction...Pseudoisomerization reaction
+In O2: The default value of me:DOSCMethod was used.
+In R02: The default value of me:DOSCMethod was used.
+In R02: Hindered rotor b1
+In R02: Hindered rotor b2
+In R02: The default value of me:DistributionCalcMethod was used.
+In R02: --Parse data for Boltzmann
+In R02: The default value of me:energyTransferModel was used.
+In R02: --Parse data for ExponentialDown
+In R2: --Parse data for MesmerILT
+In R2: R2:activationEnergy was given a range with 101 steps 
+In R2: R2:preExponential was given a range with 1000 steps 
+In R2: The default value of me:TInfinity was used.
+In R2: No tunneling method used for R2
+In R2: No crossing method used for R2
+In R2: Not a unimolecular reaction: look for excess reactant concentration.
+In R2: No value of me:excessReactantConc was supplied and the default value NEEDS TO BE CHECKED**
+In R6: Parsing reaction...Irreversible unimolecular reaction
+In TS4: The default value of me:DOSCMethod was used.
+In TS4: Hindered rotor b1
+In R6: --Parse data for SimpleRRKM
+In R6: No tunneling method used for R6
+In R6: No crossing method used for R6
+80Torr, 295K at dd precision with N2. Excess Reactant Conc = 1.547e+17 particles per cc
+80Torr, 295K at dd precision with N2. Excess Reactant Conc = 3.265e+17 particles per cc
+80Torr, 295K at dd precision with N2. Excess Reactant Conc = 5.866e+17 particles per cc
+80Torr, 295K at dd precision with N2. Excess Reactant Conc = 9.24e+17 particles per cc
+80Torr, 295K at dd precision with N2. Excess Reactant Conc = 1.32e+18 particles per cc
+40Torr, 295K at dd precision with N2. Excess Reactant Conc = 2.636e+16 particles per cc
+40Torr, 295K at dd precision with N2. Excess Reactant Conc = 1.129e+17 particles per cc
+40Torr, 295K at dd precision with N2. Excess Reactant Conc = 2.13259e+17 particles per cc
+40Torr, 295K at dd precision with N2. Excess Reactant Conc = 2.174e+17 particles per cc
+40Torr, 295K at dd precision with N2. Excess Reactant Conc = 4.056e+17 particles per cc
+40Torr, 295K at dd precision with N2. Excess Reactant Conc = 4.93e+17 particles per cc
+40Torr, 295K at dd precision with N2. Excess Reactant Conc = 6.93e+17 particles per cc
+40Torr, 295K at dd precision with N2. Excess Reactant Conc = 9.31e+17 particles per cc
+40Torr, 295K at dd precision with N2. Excess Reactant Conc = 1.288e+18 particles per cc
+20Torr, 295K at dd precision with N2. Excess Reactant Conc = 5.6298e+16 particles per cc
+20Torr, 295K at dd precision with N2. Excess Reactant Conc = 9.39e+16 particles per cc
+20Torr, 295K at dd precision with N2. Excess Reactant Conc = 2.509e+17 particles per cc
+20Torr, 295K at dd precision with N2. Excess Reactant Conc = 3.72e+17 particles per cc
+20Torr, 295K at dd precision with N2. Excess Reactant Conc = 4.12e+17 particles per cc
+20Torr, 295K at dd precision with N2. Excess Reactant Conc = 6.39e+17 particles per cc
+10Torr, 295K at dd precision with N2. Excess Reactant Conc = 4.067e+16 particles per cc
+10Torr, 295K at dd precision with N2. Excess Reactant Conc = 5.7057e+16 particles per cc
+10Torr, 295K at dd precision with N2. Excess Reactant Conc = 1.4129e+17 particles per cc
+10Torr, 295K at dd precision with N2. Excess Reactant Conc = 2.4672e+17 particles per cc
+10Torr, 295K at dd precision with N2. Excess Reactant Conc = 3.029e+17 particles per cc
+5Torr, 295K at dd precision with N2. Excess Reactant Conc = 1.507e+17 particles per cc
+5Torr, 295K at dd precision with N2. Excess Reactant Conc = 1.49e+17 particles per cc
+5Torr, 295K at dd precision with N2. Excess Reactant Conc = 1e+17 particles per cc
+5Torr, 295K at dd precision with N2. Excess Reactant Conc = 5.8e+16 particles per cc
+5Torr, 295K at dd precision with N2. Excess Reactant Conc = 5.714e+16 particles per cc
+5Torr, 295K at dd precision with N2. Excess Reactant Conc = 1.91e+16 particles per cc
+80Torr, 250K at dd precision with N2. Excess Reactant Conc = 1.3905e+16 particles per cc
+80Torr, 250K at dd precision with N2. Excess Reactant Conc = 2.94e+16 particles per cc
+80Torr, 250K at dd precision with N2. Excess Reactant Conc = 4.4823e+16 particles per cc
+80Torr, 250K at dd precision with N2. Excess Reactant Conc = 8.46e+16 particles per cc
+80Torr, 250K at dd precision with N2. Excess Reactant Conc = 1.71e+17 particles per cc
+80Torr, 250K at dd precision with N2. Excess Reactant Conc = 2.8136e+17 particles per cc
+80Torr, 250K at dd precision with N2. Excess Reactant Conc = 3.21e+17 particles per cc
+40Torr, 250K at dd precision with N2. Excess Reactant Conc = 2e+16 particles per cc
+40Torr, 250K at dd precision with N2. Excess Reactant Conc = 4.4e+16 particles per cc
+40Torr, 250K at dd precision with N2. Excess Reactant Conc = 8.1e+16 particles per cc
+40Torr, 250K at dd precision with N2. Excess Reactant Conc = 1.95e+17 particles per cc
+40Torr, 250K at dd precision with N2. Excess Reactant Conc = 2.77e+17 particles per cc
+20Torr, 250K at dd precision with N2. Excess Reactant Conc = 2.01e+16 particles per cc
+20Torr, 250K at dd precision with N2. Excess Reactant Conc = 4.14e+16 particles per cc
+20Torr, 250K at dd precision with N2. Excess Reactant Conc = 1.07e+17 particles per cc
+20Torr, 250K at dd precision with N2. Excess Reactant Conc = 1.64e+17 particles per cc
+20Torr, 250K at dd precision with N2. Excess Reactant Conc = 2.49e+17 particles per cc
+20Torr, 250K at dd precision with N2. Excess Reactant Conc = 3.18e+17 particles per cc
+10Torr, 250K at dd precision with N2. Excess Reactant Conc = 1.3e+16 particles per cc
+10Torr, 250K at dd precision with N2. Excess Reactant Conc = 5.4e+16 particles per cc
+10Torr, 250K at dd precision with N2. Excess Reactant Conc = 1.19e+17 particles per cc
+10Torr, 250K at dd precision with N2. Excess Reactant Conc = 2.55e+17 particles per cc
+5Torr, 250K at dd precision with N2. Excess Reactant Conc = 8e+15 particles per cc
+5Torr, 250K at dd precision with N2. Excess Reactant Conc = 1.5857e+16 particles per cc
+5Torr, 250K at dd precision with N2. Excess Reactant Conc = 3.59e+16 particles per cc
+5Torr, 250K at dd precision with N2. Excess Reactant Conc = 7.074e+16 particles per cc
+5Torr, 250K at dd precision with N2. Excess Reactant Conc = 1.93e+17 particles per cc
+80Torr, 212K at qd precision with N2. Excess Reactant Conc = 1.83e+15 particles per cc
+80Torr, 212K at qd precision with N2. Excess Reactant Conc = 5.17e+15 particles per cc
+80Torr, 212K at qd precision with N2. Excess Reactant Conc = 1.3e+16 particles per cc
+80Torr, 212K at qd precision with N2. Excess Reactant Conc = 3.04e+16 particles per cc
+80Torr, 212K at qd precision with N2. Excess Reactant Conc = 6.13e+16 particles per cc
+80Torr, 212K at qd precision with N2. Excess Reactant Conc = 1.08e+17 particles per cc
+80Torr, 212K at qd precision with N2. Excess Reactant Conc = 1.28e+17 particles per cc
+40Torr, 212K at qd precision with N2. Excess Reactant Conc = 5.69e+15 particles per cc
+40Torr, 212K at qd precision with N2. Excess Reactant Conc = 5.75e+15 particles per cc
+40Torr, 212K at qd precision with N2. Excess Reactant Conc = 1.3e+16 particles per cc
+40Torr, 212K at qd precision with N2. Excess Reactant Conc = 1.3e+16 particles per cc
+40Torr, 212K at qd precision with N2. Excess Reactant Conc = 3.96e+16 particles per cc
+40Torr, 212K at qd precision with N2. Excess Reactant Conc = 7.62e+16 particles per cc
+40Torr, 212K at qd precision with N2. Excess Reactant Conc = 1.42e+17 particles per cc
+20Torr, 212K at qd precision with N2. Excess Reactant Conc = 6.92e+15 particles per cc
+20Torr, 212K at qd precision with N2. Excess Reactant Conc = 2.48e+16 particles per cc
+20Torr, 212K at qd precision with N2. Excess Reactant Conc = 5.02e+16 particles per cc
+20Torr, 212K at qd precision with N2. Excess Reactant Conc = 5.45e+16 particles per cc
+20Torr, 212K at qd precision with N2. Excess Reactant Conc = 5.45e+16 particles per cc
+20Torr, 212K at qd precision with N2. Excess Reactant Conc = 8.69e+16 particles per cc
+20Torr, 212K at qd precision with N2. Excess Reactant Conc = 8.69e+16 particles per cc
+20Torr, 212K at qd precision with N2. Excess Reactant Conc = 1.23e+17 particles per cc
+10Torr, 212K at qd precision with N2. Excess Reactant Conc = 7.67e+14 particles per cc
+10Torr, 212K at qd precision with N2. Excess Reactant Conc = 5.02e+15 particles per cc
+10Torr, 212K at qd precision with N2. Excess Reactant Conc = 8.02e+15 particles per cc
+10Torr, 212K at qd precision with N2. Excess Reactant Conc = 1.05e+16 particles per cc
+10Torr, 212K at qd precision with N2. Excess Reactant Conc = 2.47e+16 particles per cc
+10Torr, 212K at qd precision with N2. Excess Reactant Conc = 7.45e+16 particles per cc
+10Torr, 212K at qd precision with N2. Excess Reactant Conc = 1.07e+17 particles per cc
+5Torr, 212K at qd precision with N2. Excess Reactant Conc = 1.13e+15 particles per cc
+5Torr, 212K at qd precision with N2. Excess Reactant Conc = 3.56e+15 particles per cc
+5Torr, 212K at qd precision with N2. Excess Reactant Conc = 1.56e+16 particles per cc
+5Torr, 212K at qd precision with N2. Excess Reactant Conc = 3.68e+16 particles per cc
+5Torr, 212K at qd precision with N2. Excess Reactant Conc = 1.01e+17 particles per cc
+Write metadata 20160511_184249
+
+File: "GlyoxalAllT.xml" successfully parsed.
+Main Calculation begins
+
+--Execute calcMethod marquardt
+In FastLaplaceConvolution: 40 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 260 values in the FFT convolution routine were replaced by standard convolution
+Association ILT calculation completed
+In FastLaplaceConvolution: 80 values in the FFT convolution routine were replaced by standard convolution
+Association ILT calculation completed
+In FastLaplaceConvolution: 140 values in the FFT convolution routine were replaced by standard convolution
+Association ILT calculation completed
+In FastLaplaceConvolution: 20 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 240 values in the FFT convolution routine were replaced by standard convolution
+No population was assigned. Initialize the first source term to 1.0.
+Finish Calculation of P-T case
+
+Chi^2 = 145.513 Lambda = 1
+HC(O)CO:deltaEDown=278.947  R2:activationEnergy=3.0715  R2:preExponential=1.50278e-12  
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Finish Calculation of P-T case
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Finish Calculation of P-T case
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Finish Calculation of P-T case
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Finish Calculation of P-T case
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Finish Calculation of P-T case
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Finish Calculation of P-T case
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Finish Calculation of P-T case
+
+Chi^2 = 139.503 Lambda = 0.1
+HC(O)CO:deltaEDown=276.773  R2:activationEnergy=2.94247  R2:preExponential=1.57169e-12  
+Iteration: 1 of Marquardt. ChiSquare = 139.503, Lambda = 0.1
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Finish Calculation of P-T case
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Finish Calculation of P-T case
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Finish Calculation of P-T case
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Finish Calculation of P-T case
+
+Chi^2 = 133.725 Lambda = 0.01
+HC(O)CO:deltaEDown=358.568  R2:activationEnergy=2.51391  R2:preExponential=1.67098e-12  
+Iteration: 2 of Marquardt. ChiSquare = 133.725, Lambda = 0.01
+
+Chi^2 = 133.725 Lambda = 0.1
+HC(O)CO:deltaEDown=358.568  R2:activationEnergy=2.51391  R2:preExponential=1.67098e-12  
+Iteration: 3 of Marquardt. ChiSquare = 133.725, Lambda = 0.1
+
+Chi^2 = 133.725 Lambda = 1
+HC(O)CO:deltaEDown=358.568  R2:activationEnergy=2.51391  R2:preExponential=1.67098e-12  
+Iteration: 4 of Marquardt. ChiSquare = 133.725, Lambda = 1
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Finish Calculation of P-T case
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Finish Calculation of P-T case
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Finish Calculation of P-T case
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Finish Calculation of P-T case
+
+Chi^2 = 133.108 Lambda = 0.1
+HC(O)CO:deltaEDown=372.031  R2:activationEnergy=2.46049  R2:preExponential=1.68085e-12  
+Iteration: 5 of Marquardt. ChiSquare = 133.108, Lambda = 0.1
+
+Chi^2 = 133.108 Lambda = 1
+HC(O)CO:deltaEDown=372.031  R2:activationEnergy=2.46049  R2:preExponential=1.68085e-12  
+Iteration: 6 of Marquardt. ChiSquare = 133.108, Lambda = 1
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Finish Calculation of P-T case
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Finish Calculation of P-T case
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Finish Calculation of P-T case
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Finish Calculation of P-T case
+
+Chi^2 = 132.555 Lambda = 0.1
+HC(O)CO:deltaEDown=386.846  R2:activationEnergy=2.41417  R2:preExponential=1.68781e-12  
+Iteration: 7 of Marquardt. ChiSquare = 132.555, Lambda = 0.1
+
+Chi^2 = 132.555 Lambda = 1
+HC(O)CO:deltaEDown=386.846  R2:activationEnergy=2.41417  R2:preExponential=1.68781e-12  
+Iteration: 8 of Marquardt. ChiSquare = 132.555, Lambda = 1
+
+Chi^2 = 132.555 Lambda = 10
+HC(O)CO:deltaEDown=386.846  R2:activationEnergy=2.41417  R2:preExponential=1.68781e-12  
+Iteration: 9 of Marquardt. ChiSquare = 132.555, Lambda = 10
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Finish Calculation of P-T case
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Finish Calculation of P-T case
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Finish Calculation of P-T case
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Finish Calculation of P-T case
+
+Chi^2 = 132.517 Lambda = 1
+HC(O)CO:deltaEDown=388.514  R2:activationEnergy=2.41  R2:preExponential=1.68824e-12  
+Iteration: 10 of Marquardt. ChiSquare = 132.517, Lambda = 1
+PT Grid 0
+Number of cells = 22400, Number of grains = 224
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 15 seconds.
+PT Grid 1
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 15 seconds.
+PT Grid 2
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 15 seconds.
+PT Grid 3
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 15 seconds.
+PT Grid 4
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 15 seconds.
+PT Grid 5
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 14 seconds.
+PT Grid 6
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 15 seconds.
+PT Grid 7
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 15 seconds.
+PT Grid 8
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 15 seconds.
+PT Grid 9
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 15 seconds.
+PT Grid 10
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 15 seconds.
+PT Grid 11
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 16 seconds.
+PT Grid 12
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 15 seconds.
+PT Grid 13
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 14 seconds.
+PT Grid 14
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 15 seconds.
+PT Grid 15
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 15 seconds.
+PT Grid 16
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 16 seconds.
+PT Grid 17
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 15 seconds.
+PT Grid 18
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 15 seconds.
+PT Grid 19
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 15 seconds.
+PT Grid 20
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 16 seconds.
+PT Grid 21
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 15 seconds.
+PT Grid 22
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 15 seconds.
+PT Grid 23
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 15 seconds.
+PT Grid 24
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 15 seconds.
+PT Grid 25
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 15 seconds.
+PT Grid 26
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 15 seconds.
+PT Grid 27
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 15 seconds.
+PT Grid 28
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 15 seconds.
+PT Grid 29
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 15 seconds.
+PT Grid 30
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 14 seconds.
+PT Grid 31
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 15 seconds.
+PT Grid 32
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 16 seconds.
+PT Grid 33
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 16 seconds.
+PT Grid 34
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 22 seconds.
+PT Grid 35
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 23 seconds.
+PT Grid 36
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 22 seconds.
+PT Grid 37
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 23 seconds.
+PT Grid 38
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 24 seconds.
+PT Grid 39
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 22 seconds.
+PT Grid 40
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 23 seconds.
+PT Grid 41
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 23 seconds.
+PT Grid 42
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 23 seconds.
+PT Grid 43
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 24 seconds.
+PT Grid 44
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 23 seconds.
+PT Grid 45
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 22 seconds.
+PT Grid 46
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 22 seconds.
+PT Grid 47
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 22 seconds.
+PT Grid 48
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 21 seconds.
+PT Grid 49
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 21 seconds.
+PT Grid 50
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 22 seconds.
+PT Grid 51
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 21 seconds.
+PT Grid 52
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 22 seconds.
+PT Grid 53
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 23 seconds.
+PT Grid 54
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 23 seconds.
+PT Grid 55
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 22 seconds.
+PT Grid 56
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 22 seconds.
+PT Grid 57
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 22 seconds.
+PT Grid 58
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 189 seconds.
+PT Grid 59
+Build Collison Operator -- Time elapsed: 2 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 192 seconds.
+PT Grid 60
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 194 seconds.
+PT Grid 61
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 193 seconds.
+PT Grid 62
+Build Collison Operator -- Time elapsed: 2 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 191 seconds.
+PT Grid 63
+Build Collison Operator -- Time elapsed: 2 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 193 seconds.
+PT Grid 64
+Build Collison Operator -- Time elapsed: 2 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 176 seconds.
+PT Grid 65
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 158 seconds.
+PT Grid 66
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 159 seconds.
+PT Grid 67
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 158 seconds.
+PT Grid 68
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 177 seconds.
+PT Grid 69
+Build Collison Operator -- Time elapsed: 2 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 180 seconds.
+PT Grid 70
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 180 seconds.
+PT Grid 71
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 181 seconds.
+PT Grid 72
+Build Collison Operator -- Time elapsed: 2 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 179 seconds.
+PT Grid 73
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 180 seconds.
+PT Grid 74
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 180 seconds.
+PT Grid 75
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 181 seconds.
+PT Grid 76
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 182 seconds.
+PT Grid 77
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 182 seconds.
+PT Grid 78
+Build Collison Operator -- Time elapsed: 2 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 182 seconds.
+PT Grid 79
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 181 seconds.
+PT Grid 80
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 181 seconds.
+PT Grid 81
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 180 seconds.
+PT Grid 82
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 180 seconds.
+PT Grid 83
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 181 seconds.
+PT Grid 84
+Build Collison Operator -- Time elapsed: 2 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 180 seconds.
+PT Grid 85
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 180 seconds.
+PT Grid 86
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 180 seconds.
+PT Grid 87
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 178 seconds.
+PT Grid 88
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 178 seconds.
+PT Grid 89
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 177 seconds.
+PT Grid 90
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 176 seconds.
+PT Grid 91
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 176 seconds.
+
+    Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
+
+            295    2.61871e+18         0.0508      0.0751134
+            295    2.61871e+18          0.135       0.124744
+            295    2.61871e+18        0.18893        0.16945
+            295    2.61871e+18        0.21629       0.202762
+            295    2.61871e+18         0.2378       0.225933
+            295    1.30935e+18        0.03818       0.028722
+            295    1.30935e+18        0.06349       0.094064
+            295    1.30935e+18          0.155       0.139584
+            295    1.30935e+18        0.17117       0.141047
+            295    1.30935e+18        0.20193       0.188164
+            295    1.30935e+18        0.22995       0.201984
+            295    1.30935e+18         0.2238       0.224024
+            295    1.30935e+18         0.2675       0.240572
+            295    1.30935e+18        0.26005       0.255834
+            295    6.54677e+17          0.105      0.0902741
+            295    6.54677e+17          0.166       0.125663
+            295    6.54677e+17          0.215       0.198616
+            295    6.54677e+17          0.188       0.223935
+            295    6.54677e+17        0.23972       0.229831
+            295    6.54677e+17        0.25785       0.251735
+            295    3.27339e+17        0.06035       0.112495
+            295    3.27339e+17        0.11838       0.137265
+            295    3.27339e+17        0.18617       0.203604
+            295    3.27339e+17         0.1974       0.236737
+            295    3.27339e+17        0.24264       0.246723
+            295    1.63669e+17          0.214        0.24492
+            295    1.63669e+17          0.218       0.244394
+            295    1.63669e+17          0.176       0.223544
+            295    1.63669e+17        0.12917       0.188208
+            295    1.63669e+17        0.13369       0.187148
+            295    1.63669e+17           0.06       0.106557
+            250    3.09008e+18         0.0786      0.0405395
+            250    3.09008e+18          0.166      0.0750655
+            250    3.09008e+18          0.185        0.10185
+            250    3.09008e+18          0.236       0.149734
+            250    3.09008e+18          0.249       0.204468
+            250    3.09008e+18          0.294       0.237864
+            250    3.09008e+18          0.272       0.245538
+            250    1.54504e+18           0.07      0.0890993
+            250    1.54504e+18           0.16       0.146773
+            250    1.54504e+18           0.23       0.194763
+            250    1.54504e+18           0.24       0.252061
+            250    1.54504e+18           0.27        0.26869
+            250    7.72519e+17           0.11       0.134077
+            250    7.72519e+17          0.148        0.19064
+            250    7.72519e+17          0.241       0.252196
+            250    7.72519e+17          0.275       0.271422
+            250    7.72519e+17          0.265       0.285366
+            250    7.72519e+17          0.294       0.291641
+            250     3.8626e+17           0.13       0.150257
+            250     3.8626e+17           0.22       0.249241
+            250     3.8626e+17           0.27       0.281347
+            250     3.8626e+17           0.28       0.298393
+            250     1.9313e+17         0.0731        0.16416
+            250     1.9313e+17          0.136       0.214988
+            250     1.9313e+17          0.194       0.260914
+            250     1.9313e+17          0.223       0.284611
+            250     1.9313e+17          0.281       0.302577
+            212    3.64396e+18            0.1      0.0420685
+            212    3.64396e+18          0.125      0.0961455
+            212    3.64396e+18          0.216        0.16698
+            212    3.64396e+18          0.296       0.231412
+            212    3.64396e+18          0.352        0.27076
+            212    3.64396e+18         0.3339       0.291873
+            212    3.64396e+18        0.36635       0.296618
+            212    1.82198e+18          0.159       0.150028
+            212    1.82198e+18          0.223       0.150885
+            212    1.82198e+18          0.327       0.216195
+            212    1.82198e+18          0.314       0.216195
+            212    1.82198e+18           0.38       0.280991
+            212    1.82198e+18          0.367       0.302256
+            212    1.82198e+18          0.392       0.314179
+            212     9.1099e+17          0.188       0.214222
+            212     9.1099e+17          0.318       0.285689
+            212     9.1099e+17          0.319       0.305659
+            212     9.1099e+17          0.355       0.307314
+            212     9.1099e+17          0.389       0.307314
+            212     9.1099e+17          0.379       0.314731
+            212     9.1099e+17          0.411       0.314731
+            212     9.1099e+17          0.361       0.318527
+            212    4.55495e+17         0.0825       0.092473
+            212    4.55495e+17          0.158       0.235378
+            212    4.55495e+17          0.199       0.262772
+            212    4.55495e+17          0.212       0.275442
+            212    4.55495e+17          0.296       0.302564
+            212    4.55495e+17          0.345       0.318047
+            212    4.55495e+17           0.33        0.32052
+            212    2.27747e+17          0.116       0.172356
+            212    2.27747e+17          0.181       0.253747
+            212    2.27747e+17          0.282       0.305515
+            212    2.27747e+17          0.367       0.316517
+            212    2.27747e+17          0.377       0.321948
+
+Finish Calculation of P-T case
+92 temperature/concentration-pressure points calculated.
+
+Chi^2 = 132.517
+
+Best fit parameters:
+
+HC(O)CO:deltaEDown = 388.514 +/- 456.278
+R2:activationEnergy = 2.41 +/- 1.80087
+R2:preExponential = 1.68824e-12 +/- 2.66653e-12
+
+Correlation coefficients:
+
+R2:activationEnergy , HC(O)CO:deltaEDown = 0.796992
+R2:preExponential , HC(O)CO:deltaEDown = 0.945366
+R2:preExponential , R2:activationEnergy = 0.948547
+
+Goodness of Fit:
+
+Number of degrees of Freedom = 89
+Chi^2 probability = 0.00191247
+
+ -- Total time elapsed: 151646 seconds.
+
+System saved to mesmer_out.xml
+Total time elapsed: 151646 seconds.

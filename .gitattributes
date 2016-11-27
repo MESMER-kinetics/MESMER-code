@@ -399,6 +399,9 @@ examples/Ethyl_H_to_Ethane/baselines/Linux64/mesmer.test -text
 examples/Ethyl_H_to_Ethane/baselines/Win32/mesmer.test -text
 examples/Examples.bat -text
 examples/Examples.sh -text
+examples/Glyoxyl/Glyoxal.xml -text
+examples/Glyoxyl/baselines/Linux64/Glyoxal.log -text
+examples/Glyoxyl/baselines/Win32/Glyoxal.log -text
 examples/H2Ominimal/H2Ominimal.xml -text
 examples/MesmerTemplate.text -text
 examples/Methoxymethyl/Chebyshev.xml -text

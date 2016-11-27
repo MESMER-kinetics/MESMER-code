@@ -1,4 +1,10 @@
-2016-November-23 Struan Robertson
+2016-November-27 Struan Robertson
+
+		* Documentation update.
+
+		* Added Glyoxyl example.
+
+2016-November-27 Struan Robertson
 
 		* ConditionsManager.cpp/.h, System.cpp/.h: Moved XML writer methods from System 
 		to ConditionsManager.
