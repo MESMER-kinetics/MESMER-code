@@ -21,105 +21,111 @@
 namespace mesmer
 {
 
-	class ParallelManager {
+  class ParallelManager {
 
-	  public: 
+  public:
 
 #ifdef PARALLEL
 
-			// Constructor
+    // Constructor
 
-			ParallelManager(int argc, char ** argv) : m_rank(0), m_size(1) {
+    ParallelManager(int argc, char ** argv) : m_rank(0), m_size(1) {
 
-				MPI_Init(&argc, &argv); 
+      MPI_Init(&argc, &argv); 
 
-				MPI_Comm_rank(MPI_COMM_WORLD, &m_rank);
-				MPI_Comm_size(MPI_COMM_WORLD, &m_size);
+      MPI_Comm_rank(MPI_COMM_WORLD, &m_rank);
+      MPI_Comm_size(MPI_COMM_WORLD, &m_size);
 
-				cpinfo.initialize(m_rank);
-			} ;
+      cpinfo.initialize(m_rank);
+    } ;
 
-			// Destructor
+    // Destructor
 
-			~ParallelManager() { MPI_Finalize(); } ;
+    ~ParallelManager() { MPI_Finalize(); } ;
 
-			// Sum vectors across all across processes and redistribute.
+    // Sum vectors across all across processes and redistribute.
 
-			void sumDouble(double *sum, int size) {
-				
-				vector<double> tmp(size, 0.0);
+    void sumDouble(double *sum, int size) {
 
-				MPI_Allreduce(sum, &tmp[0], size, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
+      vector<double> tmp(size, 0.0);
 
-				for (size_t i(0) ; i < size_t(size) ; i++) {
-					sum[i] = tmp[i];
-				}
+      MPI_Allreduce(sum, &tmp[0], size, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
 
-			}
+      for (size_t i(0) ; i < size_t(size) ; i++) {
+        sum[i] = tmp[i];
+      }
 
-			// Broadcast integers across processes from a given route.
+    }
 
-			void broadcastInteger(int *tmp, int size, int root) {
-				MPI_Bcast(tmp, size, MPI_LONG, root, MPI_COMM_WORLD);
-			}
+    // Broadcast integers across processes from a given route.
 
-			// Broadcast doubles across processes from a given route.
+    void broadcastInteger(int *tmp, int size, int root) {
+      MPI_Bcast(tmp, size, MPI_LONG, root, MPI_COMM_WORLD);
+    }
 
-			void broadcastDouble(double *tmp, int size, int root) {
-				MPI_Bcast(tmp, size, MPI_DOUBLE, root , MPI_COMM_WORLD);
-			}
+    // Broadcast doubles across processes from a given route.
 
-			// Brings processes to the same point.
+    void broadcastDouble(double *tmp, int size, int root) {
+      MPI_Bcast(tmp, size, MPI_DOUBLE, root , MPI_COMM_WORLD);
+    }
 
-			void barrier() {
+    // Brings processes to the same point.
 
-				MPI_Barrier(MPI_COMM_WORLD);
+    void barrier() {
 
-			}
+      MPI_Barrier(MPI_COMM_WORLD);
+
+    }
 
 #else
 
-			// Constructor
+    // Constructor
 
-			ParallelManager(int argc, char ** argv) : m_rank(0), m_size(1) {
-				cpinfo.initialize(0);
-			} ;
+    ParallelManager(int argc, char ** argv) : m_rank(0), m_size(1) {
+      cpinfo.initialize(0);
+    };
 
-			// Destructor
+    // Destructor
 
-			~ParallelManager() 
+		~ParallelManager() {} ;
 
-			// Sum vectors across all across processes and redistribute.
+    // Sum vectors across all across processes and redistribute.
 
-			void sumDouble(double *sum, int size) {
-				// No Op.
-			}
+    void sumDouble(double *sum, int size) {
+      // No Op.
+    }
 
-			// Broadcast doubles across processes from a given route.
+    // Broadcast integers across processes from a given route.
 
-			void broadcastDouble(double *sum, int size, int root) {
-				// No Op.
-      }
+    void broadcastInteger(int *tmp, int size, int root) {
+      // No Op.
+    }
 
-			// Brings processes to the same point.
+    // Broadcast doubles across processes from a given route.
 
-			void barrier() {
-				// No Op.
-			}
+    void broadcastDouble(double *sum, int size, int root) {
+      // No Op.
+    }
+
+    // Brings processes to the same point.
+
+    void barrier() {
+      // No Op.
+    }
 
 #endif 
 
-			// Accessors 
+    // Accessors 
 
-			int rank() { return m_rank ; } ;
-			int size() { return m_size ; };
+    int rank() { return m_rank; };
+    int size() { return m_size; };
 
-	private:
+  private:
 
-		int m_rank;
-		int m_size;
+    int m_rank;
+    int m_size;
 
-	};
+  };
 
 } //namespace mesmer
 
