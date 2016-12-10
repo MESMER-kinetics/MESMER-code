@@ -36,6 +36,9 @@ bool QACompare(string infilename, bool NOptionUsed);
 string duplicateFileName(const string& inName, const string& suffix, const string& newTimeStamp = "");
 string replaceFilename(const string& inName, const string& newFilename);
 
+//Global variable
+int Rank;
+
 int main(int argc, char **argv)
 {
   //
@@ -43,6 +46,7 @@ int main(int argc, char **argv)
   //
 
   ParallelManager parallelManager(argc, argv);
+  Rank = parallelManager.rank();
 
   //
   // The following invocation is required by the QD  library to fix a problem 
@@ -190,6 +194,7 @@ int main(int argc, char **argv)
   OStreamRedirector osr(&meErrorLog, &osout, nologging);
 
   banner(parallelManager.size());
+  ROOTONLY cerr << "Using " << parallelManager.size() << " processes" << endl;
 
   //-----------------------------------------------
   //Get the top level directory from an environment variable,
@@ -240,8 +245,8 @@ int main(int argc, char **argv)
     if (infilename.empty())
       thisEvent = "\nParsing xml from stdin...";
     else
-      thisEvent = "\nParsing input xml file...\n" + infilename + '\n';
-    cerr << thisEvent << endl; //usually output
+      ROOTONLY thisEvent = "\nParsing input xml file...\n" + infilename + '\n';
+    ROOTONLY cerr << thisEvent << endl; //usually output
     //cinfo << endl;
     events.setTimeStamp(thisEvent);
   }
@@ -270,7 +275,7 @@ int main(int argc, char **argv)
         events.setTimeStamp(thisEvent);
       }
 
-      clog << "Now calculating..." << endl;
+      ROOTONLY clog << "Now calculating..." << endl;
 
       _sys.executeCalculation();
     }
@@ -290,7 +295,8 @@ int main(int argc, char **argv)
   string thisEvent = "Save XML document";
   string currentTimeStamp = events.setTimeStamp(thisEvent, timeElapsed);
   string saveTimeStamp = '.' + currentTimeStamp;
-  cinfo << " -- Total time elapsed: " << timeElapsed << " seconds.\n" << endl;
+  //ROOTONLY cinfo << " -- Total time elapsed: " << timeElapsed << " seconds.\n" << endl;
+  ROOTONLY cerr << " -- Total time elapsed: " << timeElapsed << " seconds.\n" << endl;
 
   //Any existing file with the same name as the one being written is renamed with a _prev suffix
   //Any old _prev file is not deleted unless the write of the new file is successful

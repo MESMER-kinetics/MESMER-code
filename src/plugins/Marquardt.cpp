@@ -110,7 +110,7 @@ namespace mesmer
 
 		double bestChiSquare = chiSquare ;
 
-		WriteVarVals(chiSquare, lambda) ;
+		ROOTONLY WriteVarVals(chiSquare, lambda) ;
 
 		//
 		// The following is slightly modified implementation of the Marquardt
@@ -163,7 +163,7 @@ namespace mesmer
 				lambda *= m_lambdaScale ;
 			}
 
-			WriteVarVals(bestChiSquare, lambda) ;
+      ROOTONLY WriteVarVals(bestChiSquare, lambda) ;
 
 			cinfo << "Iteration: " << itr << " of Marquardt. ChiSquare = " << bestChiSquare << ", Lambda = " << lambda << endl;
 
@@ -193,7 +193,7 @@ namespace mesmer
 	//
 	void Marquardt::WriteVarVals(double chiSquare, double lambda) const {
 
-		cerr << endl << "Chi^2 = " << chiSquare << " Lambda = " << lambda << endl ;
+		ROOTONLY cerr << endl << "Chi^2 = " << chiSquare << " Lambda = " << lambda << endl ;
 		for(size_t iVar(0) ; iVar < m_nVar ; iVar++) {
 
 			Rdouble var = *Rdouble::withRange()[iVar] ;
