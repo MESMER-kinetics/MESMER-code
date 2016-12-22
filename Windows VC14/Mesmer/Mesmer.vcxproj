@@ -112,6 +112,7 @@
     <ClCompile Include="..\..\src\plugins\BoltzmannDistribution.cpp" />
     <ClCompile Include="..\..\src\plugins\ClassicalRotor.cpp" />
     <ClCompile Include="..\..\src\CollisionOperator.cpp" />
+    <ClCompile Include="..\..\src\plugins\DefinedDensityOfStates.cpp" />
     <ClCompile Include="..\..\src\plugins\DefinedStatesRotor.cpp" />
     <ClCompile Include="..\..\src\plugins\DefinedSumOfStates.cpp" />
     <ClCompile Include="..\..\src\plugins\DefinedTunnelingCoefficients.cpp" />

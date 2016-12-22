@@ -446,7 +446,11 @@ namespace mesmer
       return false;
     }
 
-    // Beyer-Swinehart object added by default at m_DOSCalculators[1]
+		// If the density of states are defined outside of MESMER then no additional terms are required.
+		if (string(name) == "DefinedDensityOfStatess")
+			return true;
+
+    // Beyer-Swinehart object added by default at m_DOSCalculators[1].
     m_DOSCalculators.push_back(DensityOfStatesCalculator::Find("BeyerSwinehart"));
     if (!m_DOSCalculators[1])
     {

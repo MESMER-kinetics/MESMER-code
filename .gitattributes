@@ -708,6 +708,7 @@ src/plugins/AnalyticalRepresentation.cpp -text
 src/plugins/BeyerSwinehart.cpp -text
 src/plugins/BoltzmannDistribution.cpp -text
 src/plugins/ClassicalRotor.cpp -text
+src/plugins/DefinedDensityOfStates.cpp -text
 src/plugins/DefinedStatesRotor.cpp -text
 src/plugins/DefinedSumOfStates.cpp -text
 src/plugins/DefinedTunnelingCoefficients.cpp -text

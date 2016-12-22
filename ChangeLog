@@ -1,3 +1,8 @@
+2016-December-22 Struan Robertson
+
+		* gDensityOfStates.cpp, DefindeDensityOfStates.cpp: Added a new density of states class
+		that allows densities of states calculated outside of MESMER to be read in. 
+
 2016-November-27 Struan Robertson
 
 		* Documentation update.
