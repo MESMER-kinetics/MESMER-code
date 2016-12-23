@@ -58,7 +58,7 @@ namespace mesmer
 
   //-------------------------------------------------------------
   //Global instance, defining its id
-  DefinedDensityOfStates theDefinedDensityOfStates("DefinedDensityOfStatess");
+  DefinedDensityOfStates theDefinedDensityOfStates("DefinedDensityOfStates");
   //-------------------------------------------------------------
 
   //Read data from XML and store in this instance.

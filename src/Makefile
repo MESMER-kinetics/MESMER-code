@@ -181,6 +181,7 @@ SRCS := \
 	plugins/ClassicalRotor.cpp \
 	plugins/DefinedStatesRotor.cpp \
 	plugins/DefinedSumOfStates.cpp \
+	plugins/DefinedDensityOfStates.cpp \
 	plugins/EckartCoefficients.cpp \
 	plugins/ErrorPropagation.cpp \
 	plugins/ExponentialDown.cpp \
