@@ -494,10 +494,6 @@ namespace mesmer
   void ConditionsManager::AddCalcValToXml() const
   {
 
-    int rank = m_pParallelManager->rank();
-    if (rank > 0)
-      return;
-
     for (size_t i(0); i < PandTs.size(); i++) {
 
       for (size_t j(0); j < PandTs[i].m_expDataPtrs.size(); j++) {
@@ -531,6 +527,51 @@ namespace mesmer
       pp->XmlReadDouble("calcVal", false);
     }
   }
+
+  // Write the Analysis section of the XML output.
+  void ConditionsManager::WriteAnalysisXML(PersistPtr m_ppIOPtr)
+  {
+    int rank = m_pParallelManager->rank();
+    int nRanks = m_pParallelManager->size();
+
+    for (size_t calPoint(0); calPoint < PandTs.size(); calPoint++) {
+
+      int broadcastRank = int(calPoint) % nRanks;
+
+      int *itmp = &PandTs[calPoint].m_analysisData.m_number;
+      m_pParallelManager->broadcastInteger(itmp, 1, broadcastRank);
+
+      string stmp = PandTs[calPoint].m_analysisData.m_selection;
+      m_pParallelManager->broadcastString(stmp, broadcastRank);
+      PandTs[calPoint].m_analysisData.m_selection = stmp;
+
+      vector<double>& eigenvalues = PandTs[calPoint].m_analysisData.m_eigenvalues;
+      m_pParallelManager->broadcastVecDouble(eigenvalues, broadcastRank);
+    }
+
+    string comment = "All calculations shown";
+    PersistPtr ppAnalysis = m_ppIOPtr->XmlWriteMainElement("me:analysis", comment, true);
+
+    for (size_t i(0); i < PandTs.size(); i++) {
+
+      // Eigenvalues.
+      PersistPtr ppEigenList = ppAnalysis->XmlWriteElement("me:eigenvalueList");
+      ppEigenList->XmlWriteAttribute("number", toString(PandTs[i].m_analysisData.m_number));
+      ppEigenList->XmlWriteAttribute("selection", PandTs[i].m_analysisData.m_selection);
+      const vector<double>& eigenvalues = PandTs[i].m_analysisData.m_eigenvalues;
+      for (size_t j(0); j < eigenvalues.size(); ++j) {
+        ppEigenList->XmlWriteValueElement("me:eigenvalue", eigenvalues[j], 6);
+      }
+
+      // BW Rate coefficients.
+      PersistPtr ppList = ppAnalysis->XmlWriteElement("me:rateList");
+      ppList->XmlWriteAttribute("T", toString(PandTs[i].m_temperature));
+      ppList->XmlWriteAttribute("conc", toString(PandTs[i].m_concentration));
+      ppList->XmlWriteAttribute("bathGas", toString(PandTs[i].m_pBathGasName.c_str()));
+      ppList->XmlWriteAttribute("units", "s-1");
+    }
+  }
+
 
 }//namespace
 

@@ -283,10 +283,10 @@ int main(int argc, char **argv)
   catch (std::runtime_error& e)
   {
     cinfo.flush();
-		clog.flush();
-		cerr << e.what() << endl;
-		cerr.flush();
-		exit(-1);
+    clog.flush();
+    cerr << e.what() << endl;
+    cerr.flush();
+    exit(-1);
   }
   catch (std::logic_error&) {} // Outputs XML before terminating (for debugging)
 
@@ -303,29 +303,31 @@ int main(int argc, char **argv)
   if (!usecout)
     rename(outfilename.c_str(), "temp");
 
-  if (!ppIOPtr->XmlSaveFile(outfilename))
-  {
-    cerr << "There was an error when writing " << outfilename;
-    rename("temp", outfilename.c_str());
-  }
-  else
-  {
-    if (!outfilename.empty())
+  if (parallelManager.rank() == 0) {
+    if (!ppIOPtr->XmlSaveFile(outfilename))
     {
-			stringstream line;
-      line << "System saved to " << outfilename << endl;
-      line << "Total time elapsed: " << timeElapsed << " seconds." << endl;
-			cpinfo << line.str();
-
-      if (!usecout)
+      cerr << "There was an error when writing " << outfilename;
+      rename("temp", outfilename.c_str());
+    }
+    else
+    {
+      if (!outfilename.empty())
       {
-        string::size_type pos = outfilename.rfind('.');
-        string prevname(outfilename);
-        prevname = pos == string::npos ?
-          prevname + "_prev" :
-          prevname.replace(pos, 1, "_prev.");
-        remove(prevname.c_str());
-        rename("temp", prevname.c_str());
+        stringstream line;
+        line << "System saved to " << outfilename << endl;
+        line << "Total time elapsed: " << timeElapsed << " seconds." << endl;
+        cpinfo << line.str();
+
+        if (!usecout)
+        {
+          string::size_type pos = outfilename.rfind('.');
+          string prevname(outfilename);
+          prevname = pos == string::npos ?
+            prevname + "_prev" :
+            prevname.replace(pos, 1, "_prev.");
+          remove(prevname.c_str());
+          rename("temp", prevname.c_str());
+        }
       }
     }
   }
@@ -464,8 +466,8 @@ void banner(size_t nRanks)
   cinfo << "    You should have received a copy of the GNU Public License" << endl;
   cinfo << "    along with Mesmer.  If not, see <http://www.gnu.org/licenses/>." << endl;
   cinfo << endl;
-	cinfo << "                     Number of ranks: " << nRanks << endl;
-	cinfo << endl;
+  cinfo << "                     Number of ranks: " << nRanks << endl;
+  cinfo << endl;
 }
 
 bool QACompare(string infilename, bool NOptionUsed)

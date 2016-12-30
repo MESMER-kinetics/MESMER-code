@@ -169,6 +169,7 @@
     <ClCompile Include="..\..\src\XMLPersist.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\src\AnalysisData.h" />
     <ClInclude Include="..\..\src\AssociationReaction.h" />
     <ClInclude Include="..\..\src\BimolecularSinkReaction.h" />
     <ClInclude Include="..\..\src\calcmethod.h" />

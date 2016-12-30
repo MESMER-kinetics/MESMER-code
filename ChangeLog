@@ -1,3 +1,8 @@
+2016-December-30 Struan Robertson
+
+		* CollisionOperator.h/,cpp, ConditionsManafer.h/.cpp, ParallelManager.h, System.cpp, 
+		main.cpp: Initial attempt at parallelizing analysis output.
+
 2016-December-22 Struan Robertson
 
 		* gDensityOfStates.cpp, DefindeDensityOfStates.cpp: Added a new density of states class

@@ -57,7 +57,21 @@ namespace mesmer
 
     }
 
-    // Broadcast integers across processes from a given route.
+		// Broadcast strings across processes from a given route.
+
+		void broadcastString(string &tmp, int root) {
+			int strSize = tmp.size() + 1;
+			MPI_Bcast(&strSize, 1, MPI_LONG, root, MPI_COMM_WORLD);
+			char *ctmp = new char[strSize];
+			if (m_rank == root)
+				strncpy(ctmp, tmp.c_str(), strSize-1);
+			ctmp[strSize - 1] = '\0';
+			MPI_Bcast(ctmp, strSize, MPI_CHAR, root, MPI_COMM_WORLD);
+			tmp = string(ctmp);
+			delete[] ctmp;
+		}
+
+		// Broadcast integers across processes from a given route.
 
     void broadcastInteger(int *tmp, int size, int root) {
       MPI_Bcast(tmp, size, MPI_LONG, root, MPI_COMM_WORLD);
@@ -69,7 +83,19 @@ namespace mesmer
       MPI_Bcast(tmp, size, MPI_DOUBLE, root , MPI_COMM_WORLD);
     }
 
-    // Brings processes to the same point.
+		// Broadcast vector of doubles across processes from a given route.
+
+		void broadcastVecDouble(vector<double> &tmp, int root) {
+			int size = tmp.size();
+			MPI_Bcast(&size, 1, MPI_LONG, root, MPI_COMM_WORLD);
+			vector<double> dtmp(size);
+			if (m_rank == root)
+				dtmp = tmp ;
+			MPI_Bcast(&dtmp[0], size, MPI_DOUBLE, root, MPI_COMM_WORLD);
+			tmp = dtmp;
+		}
+
+		// Brings processes to the same point.
 
     void barrier() {
 
@@ -95,7 +121,13 @@ namespace mesmer
       // No Op.
     }
 
-    // Broadcast integers across processes from a given route.
+		// Broadcast strings across processes from a given route.
+
+		void broadcastString(char *tmp, int size, int root) {
+			// No Op.
+		}
+
+		// Broadcast integers across processes from a given route.
 
     void broadcastInteger(int *tmp, int size, int root) {
       // No Op.

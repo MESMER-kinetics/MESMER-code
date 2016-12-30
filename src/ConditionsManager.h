@@ -4,6 +4,7 @@
 #include <vector>
 #include "System.h"
 #include "ParallelManager.h"
+#include "AnalysisData.h"
 
 namespace mesmer
 {
@@ -63,6 +64,8 @@ namespace mesmer
     std::vector<conditionSet> m_eigenvalues;
     std::vector<RawDataSet>   m_rawDataSets;
     std::vector<PersistPtr>   m_expDataPtrs;
+
+		AnalysisData m_analysisData;
 
     CandTpair(double cp_, double t_, Precision _pre, const char* _bathGas,
       const map<Reaction*, double>& _excessConcs)
@@ -171,6 +174,11 @@ namespace mesmer
       return PandTs[index].m_expDataPtrs[i];
     }
 
+		AnalysisData* get_analysisData(unsigned index) 
+		{
+			return &(PandTs[index].m_analysisData);
+		}
+
     // Collect bath gas names from PandTs.
     void getAllBathGases(std::set<std::string>& bathGases);
 
@@ -183,7 +191,10 @@ namespace mesmer
     // Write calculated date to output.
     void AddCalcValToXml() const;
 
-  private:
+		// Write data table.
+		void WriteAnalysisXML(PersistPtr m_ppIOPtr) ;
+
+	private:
 
     bool readPTs();
 

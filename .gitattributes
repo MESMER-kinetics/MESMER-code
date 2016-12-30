@@ -618,6 +618,7 @@ sketchup/mesmer/molecule.rb -text
 sketchup/mesmer/reaction.rb -text
 sketchup/mesmer/sphere.rb -text
 sketchup/mesmer_data.rb -text
+src/AnalysisData.h -text
 src/AssignMolTypes.cpp -text
 src/AssociationReaction.cpp -text
 src/AssociationReaction.h -text

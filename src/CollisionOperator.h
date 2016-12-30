@@ -19,35 +19,37 @@
 namespace mesmer
 {
 
-  typedef std::map<Reaction* , double, Reaction::ReactionPtrLess> YieldMap ;
+  typedef std::map<Reaction*, double, Reaction::ReactionPtrLess> YieldMap;
+
+	struct AnalysisData;
 
   class CollisionOperator
   {
   public:
 
     // Constructor
-    CollisionOperator() ;
+    CollisionOperator();
 
     // Destructor.
-    virtual ~CollisionOperator() ;
+    virtual ~CollisionOperator();
 
     // Initialize the collision operator object.
-    bool initialize(MoleculeManager *pMoleculeManager, ReactionManager *pReactionManager) ;
+    bool initialize(MoleculeManager *pMoleculeManager, ReactionManager *pReactionManager);
 
-	void setPrecision(Precision precision) { m_precision = precision ; }
+    void setPrecision(Precision precision) { m_precision = precision; }
 
     // Calculate the equilibrium fraction of each species in the system.
-    bool calculateEquilibriumFractions() ;
+    bool calculateEquilibriumFractions();
 
     // Build reaction operator for system.
-    bool BuildReactionOperator(MesmerEnv &mEnv, MesmerFlags& mFlags, bool writeReport = false) ;
+    bool BuildReactionOperator(MesmerEnv &mEnv, MesmerFlags& mFlags, bool writeReport = false);
 
     // Diagonalize the reaction operator.
     void diagReactionOperator(const MesmerFlags &mFlags, const MesmerEnv &mEnv,
-      PersistPtr ppAnalysis = NULL) ;
+			AnalysisData* analysisData = NULL);
 
     // Calculate the time evolution of the system
-    bool timeEvolution(MesmerFlags& mFlags,PersistPtr ppAnalysis, PersistPtr ppPopList, PersistPtr ppAvEList);
+    bool timeEvolution(MesmerFlags& mFlags, PersistPtr ppAnalysis, PersistPtr ppPopList, PersistPtr ppAvEList);
 
     // Calculates the Bartis-Widom macroscopic rate coefficients.
     bool BartisWidomPhenomenologicalRates(qdMatrix& rates, qdMatrix& lossRates, MesmerFlags& mFlags, PersistPtr ppBase = NULL);
@@ -56,20 +58,20 @@ namespace mesmer
     bool BartisWidomBasisSetRates(qdMatrix& rates, MesmerFlags& mFlags);
 
     // Write out phenomenological rate coefficients.
-    bool PrintPhenomenologicalRates(qdMatrix& Kr, qdMatrix& Kp, MesmerFlags& mFlags, PersistPtr ppList) ;
+    bool PrintPhenomenologicalRates(qdMatrix& Kr, qdMatrix& Kp, MesmerFlags& mFlags, PersistPtr ppList);
 
     int getSpeciesSequenceIndex(const std::string ref);
 
     // Accessor to get specified eigenvalue.
-    double getEigenvalue(size_t idEigenvalue) const ;
+    double getEigenvalue(size_t idEigenvalue) const;
 
     // Calculate Yields
-    void calculateYields (YieldMap &yieldMap, double &time) const ;
+    void calculateYields(YieldMap &yieldMap, double &time) const;
 
-		// Calculate Trace
-		void calculateTrace(const std::string &ref, std::vector<double> &times, std::vector<double> &signal) const;
+    // Calculate Trace
+    void calculateTrace(const std::string &ref, std::vector<double> &times, std::vector<double> &signal) const;
 
-		bool parseDataForGrainProfileAtTime(PersistPtr pp);
+    bool parseDataForGrainProfileAtTime(PersistPtr pp);
 
     bool printGrainProfileAtTime(PersistPtr ppGrainList);
 
@@ -77,8 +79,8 @@ namespace mesmer
 
     bool hasGrainProfileData() { return !m_GrainProfileAtTimeData.empty(); }
 
-	// Accessor for phenomenological rates.
-	void get_phenRates(std::map<std::string, double> &phenRates) const {phenRates = m_phenomenlogicalRates ; } ;
+    // Accessor for phenomenological rates.
+    void get_phenRates(std::map<std::string, double> &phenRates) const { phenRates = m_phenomenlogicalRates; };
 
   private:
 
@@ -89,44 +91,44 @@ namespace mesmer
     void SetMaximumCellEnergy(MesmerEnv &mEnv, const MesmerFlags& mFlags);
 
     // Construct a transition matrix based on grains.
-    template<class T> 
+    template<class T>
     void constructGrainMatrix(MesmerEnv &mEnv);
 
     // Construct a transition matrix based on collision operator eigenfunctions.
     void constructBasisMatrix(MesmerEnv &mEnv);
 
     // Locate all sinks in the relevant isomer or source map. 
-    void locateSinks() ;
+    void locateSinks();
 
     void printReactionOperator(const MesmerFlags &mFlags);
 
     bool produceEquilibriumVector();
 
-    bool produceInitialPopulationVector(vector<double>& initDist) const ;
+    bool produceInitialPopulationVector(vector<double>& initDist) const;
 
-    bool projectedInitialDistrbtn(vector<double>& initDist) const ;
+    bool projectedInitialDistrbtn(vector<double>& initDist) const;
 
-	// Calculate the equilibrium fraction for systems with second order terms
-	// using an iterative approach.
-    bool iterativeEquiSln(qdMatrix &eqMatrix, vector<qd_real> &eqFraction, size_t idxr, size_t idxs) ;
+    // Calculate the equilibrium fraction for systems with second order terms
+    // using an iterative approach.
+    bool iterativeEquiSln(qdMatrix &eqMatrix, vector<qd_real> &eqFraction, size_t idxr, size_t idxs);
 
     // Method to calculate points of interest on the time axis.
-	bool timeAxisPoints(MesmerFlags& mFlags, vector<double>& timePoints ) ;
+    bool timeAxisPoints(MesmerFlags& mFlags, vector<double>& timePoints);
 
-	// Method to integrate the phenomenological rate equations using BW coefficients.
-	bool PhenomenologicalIntegration(qdMatrix& Z_matrix, qdMatrix& Zinv, qdMatrix& Egv, MesmerFlags& mFlags) ;
+    // Method to integrate the phenomenological rate equations using BW coefficients.
+    bool PhenomenologicalIntegration(qdMatrix& Z_matrix, qdMatrix& Zinv, qdMatrix& Egv, MesmerFlags& mFlags);
 
     // Location of the molecule manager.
     MoleculeManager *m_pMoleculeManager;
 
     // Location of the reaction mananger.
-    ReactionManager *m_pReactionManager ;
+    ReactionManager *m_pReactionManager;
 
     // Maps the location of individual reactant collision operator and source terms in the reaction operator.
     Reaction::molMapType    m_isomers;
     Reaction::molMapType    m_sources;
 
-    typedef std::map<Reaction* , int, Reaction::ReactionPtrLess> sinkMap ;
+    typedef std::map<Reaction*, int, Reaction::ReactionPtrLess> sinkMap;
 
     sinkMap                 m_sinkRxns;
 
@@ -134,17 +136,17 @@ namespace mesmer
     double                  m_meanOmega;
 
     // The system transition matrix and associated eigenvalues and eigenvectors.
-	Precision               m_precision ;
-    qdMatrix               *m_reactionOperator ;
+    Precision               m_precision;
+    qdMatrix               *m_reactionOperator;
     qdMatrix               *m_eigenvectors;
     std::vector<qd_real>    m_eigenvalues;
 
     // Map modelled molecules (isomers + sources) with their sequence in the transition matrix.
-    Reaction::molMapType    m_SpeciesSequence ;
+    Reaction::molMapType    m_SpeciesSequence;
 
     // Equilibrium distribution.
     std::vector<qd_real>    m_eqVector;
-    size_t                  m_eqVecSize ;
+    size_t                  m_eqVecSize;
 
     bool                    m_punchSymbolGathered;
 
@@ -152,8 +154,8 @@ namespace mesmer
     std::vector<std::pair<Molecule*, std::vector<double> > > m_GrainProfileAtTimeData;
 
     // Map relating reactions with phenomenological rate coefficients.
-    std::map<std::string, double> m_phenomenlogicalRates ;
-  } ;
+    std::map<std::string, double> m_phenomenlogicalRates;
+  };
 
 }
 #endif // GUARD_CollisionOperator_h

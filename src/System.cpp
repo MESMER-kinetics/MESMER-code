@@ -513,7 +513,7 @@ namespace mesmer
           throw (std::runtime_error("Failed calculating equilibrium fractions."));
 
         // Diagonalise the collision operator.
-        m_collisionOperator.diagReactionOperator(m_Flags, m_Env, ppAnalysis);
+        m_collisionOperator.diagReactionOperator(m_Flags, m_Env, m_pConditionsManager->get_analysisData(calPoint));
 
         if (writeReport) {
           string thisEvent = "Diagonalize the Reaction Operator";
@@ -599,6 +599,7 @@ namespace mesmer
 		m_pParallelManager->sumDouble(&residuals[0], residuals.size());
 		m_pConditionsManager->reconcileTable();
 		m_pConditionsManager->AddCalcValToXml();
+		m_pConditionsManager->WriteAnalysisXML(m_ppIOPtr);
 
 		if (writeReport) {
 			m_pConditionsManager->WriteDataTable();

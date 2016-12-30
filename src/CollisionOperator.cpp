@@ -12,6 +12,7 @@
 #include <set>
 #include "CollisionOperator.h"
 
+#include "AnalysisData.h"
 #include "AssociationReaction.h"
 #include "IrreversibleUnimolecularReaction.h"
 #include "IsomerizationReaction.h"
@@ -757,7 +758,7 @@ namespace mesmer
   }
 
   void CollisionOperator::diagReactionOperator(const MesmerFlags &mFlags, const MesmerEnv &mEnv,
-    PersistPtr ppAnalysis)
+		AnalysisData* analysisData)
   {
     // Allocate space for eigenvalues.
     const size_t smsize = m_reactionOperator->size();
@@ -830,14 +831,13 @@ namespace mesmer
       }
       ctest << "}\n";
 
-      if (ppAnalysis) {
-        PersistPtr ppEigenList = ppAnalysis->XmlWriteElement("me:eigenvalueList");
-        ppEigenList->XmlWriteAttribute("number", toString(smsize));
-        ppEigenList->XmlWriteAttribute("selection",
-          mFlags.printEigenValuesNum != -1 ? toString(mFlags.printEigenValuesNum) : "all");
-        for (size_t i = numberStarted; i < smsize; ++i) {
+      if (analysisData) {
+				analysisData->m_number = smsize;
+				analysisData->m_selection = (mFlags.printEigenValuesNum != -1) ? toString(mFlags.printEigenValuesNum) : "all";
+				analysisData->m_eigenvalues.clear() ;
+				for (size_t i = numberStarted; i < smsize; ++i) {
           qd_real tmp = (mEnv.useBasisSetMethod) ? m_eigenvalues[i] : m_eigenvalues[i] * m_meanOmega;
-          ppEigenList->XmlWriteValueElement("me:eigenvalue", to_double(tmp), 6);
+					analysisData->m_eigenvalues.push_back(to_double(tmp));
         }
       }
 
