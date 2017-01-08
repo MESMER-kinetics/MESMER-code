@@ -109,6 +109,7 @@
     <ClCompile Include="..\..\src\plugins\BoltzmannDistribution.cpp" />
     <ClCompile Include="..\..\src\plugins\ClassicalRotor.cpp" />
     <ClCompile Include="..\..\src\CollisionOperator.cpp" />
+    <ClCompile Include="..\..\src\plugins\DefinedDensityOfStates.cpp" />
     <ClCompile Include="..\..\src\plugins\DefinedStatesRotor.cpp" />
     <ClCompile Include="..\..\src\plugins\DefinedSumOfStates.cpp" />
     <ClCompile Include="..\..\src\plugins\DefinedTunnelingCoefficients.cpp" />
@@ -165,6 +166,7 @@
     <ClCompile Include="..\..\src\XMLPersist.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\src\AnalysisData.h" />
     <ClInclude Include="..\..\src\AssociationReaction.h" />
     <ClInclude Include="..\..\src\BimolecularSinkReaction.h" />
     <ClInclude Include="..\..\src\calcmethod.h" />
@@ -182,6 +184,7 @@
     <ClInclude Include="..\..\src\gStructure.h" />
     <ClInclude Include="..\..\src\gTransitionState.h" />
     <ClInclude Include="..\..\src\gWellProperties.h" />
+    <ClInclude Include="..\..\src\ParallelManager.h" />
     <ClInclude Include="..\..\src\ParseForPlugin.h" />
     <ClInclude Include="..\..\src\plugin.h" />
     <ClInclude Include="..\..\src\plugins\FittingUtils.h" />
