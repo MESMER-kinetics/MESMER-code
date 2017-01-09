@@ -1,6 +1,11 @@
+2017-January-09 Struan Robertson
+
+		* CollisionOperator.cpp, ConditionsManager.cpp, ParallelManager.h, AnalysisData.h, 
+		main.cpp: More work on parallelizing analysis output (reaction rate coefficient data).
+
 2016-December-30 Struan Robertson
 
-		* CollisionOperator.h/,cpp, ConditionsManafer.h/.cpp, ParallelManager.h, System.cpp, 
+		* CollisionOperator.h/.cpp, ConditionsManager.h/.cpp, ParallelManager.h, System.cpp, 
 		main.cpp: Initial attempt at parallelizing analysis output.
 
 2016-December-22 Struan Robertson

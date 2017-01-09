@@ -1538,9 +1538,6 @@ namespace mesmer
         }
       }
 
-      // Write out phenomenological rate coefficients.
-      PrintPhenomenologicalRates(Kr, Kp, mFlags, ppList);
-
       // If eigenvalues adsorbed calculate an effective set of rate equations.
       if (adsorbedCSE > 0) {
       }
@@ -1608,7 +1605,7 @@ namespace mesmer
   }
 
   // Write out phenomenological rate coefficients.
-  bool CollisionOperator::PrintPhenomenologicalRates(qdMatrix& Kr, qdMatrix& Kp, MesmerFlags& mFlags, PersistPtr ppList) {
+  bool CollisionOperator::PrintPhenomenologicalRates(qdMatrix& Kr, qdMatrix& Kp, MesmerFlags& mFlags, AnalysisData* analysisData) {
 
     Reaction::molMapType::iterator ipos;  // set up an iterator through the isomer map
 
@@ -1623,9 +1620,9 @@ namespace mesmer
       int losspos = lossitr->second;
       string isomerName = iso->getName();
       ctest << isomerName << " loss = " << Kr[losspos][losspos] << endl;
-      if (ppList) {
-        PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderLoss", to_double(Kr[losspos][losspos]));
-        ppItem->XmlWriteAttribute("ref", isomerName);
+      if (analysisData) {
+				analysisData->m_lossRef.push_back(isomerName);
+				analysisData->m_lossRateCoeff.push_back(to_double(Kr[losspos][losspos]));
       }
       puNumbers << Kr[losspos][losspos] << "\t";
       if (m_punchSymbolGathered == false){
@@ -1651,12 +1648,16 @@ namespace mesmer
             reaction << rctName << " => " << pdtName;
             m_phenomenlogicalRates[reaction.str()] = to_double(Kr[pdtpos][rctpos]);
 
-            if (ppList) {
-              PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderRate", to_double(Kr[pdtpos][rctpos]));
-              ppItem->XmlWriteAttribute("fromRef", rctName);
-              ppItem->XmlWriteAttribute("toRef", pdtName);
-              ppItem->XmlWriteAttribute("reactionType", "isomerization");
-            }
+            if (analysisData) {
+              //PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderRate", to_double(Kr[pdtpos][rctpos]));
+              //ppItem->XmlWriteAttribute("fromRef", rctName);
+              //ppItem->XmlWriteAttribute("toRef", pdtName);
+              //ppItem->XmlWriteAttribute("reactionType", "isomerization");
+							analysisData->m_firstOrderRateCoeff.push_back(to_double(Kr[pdtpos][rctpos]));
+							analysisData->m_firstOrderFromRef.push_back(rctName);
+							analysisData->m_firstOrderToRef.push_back(pdtName);
+							analysisData->m_firstOrderReactionType.push_back("isomerization");
+						}
           }
 
           puNumbers << Kr[pdtpos][rctpos] << "\t";
@@ -1702,12 +1703,16 @@ namespace mesmer
             reaction << rctName << " => " << pdtsName;
             m_phenomenlogicalRates[reaction.str()] = to_double(Kp[sinkpos][rctpos]);
 
-            if (ppList) {
-              PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderRate", to_double(Kp[sinkpos][rctpos]));
-              ppItem->XmlWriteAttribute("fromRef", rctName);
-              ppItem->XmlWriteAttribute("toRef", pdtsName);
-              ppItem->XmlWriteAttribute("reactionType", "irreversible");
-              puNumbers << Kp[sinkpos][rctpos] << "\t";
+            if (analysisData) {
+              //PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderRate", to_double(Kp[sinkpos][rctpos]));
+              //ppItem->XmlWriteAttribute("fromRef", rctName);
+              //ppItem->XmlWriteAttribute("toRef", pdtsName);
+              //ppItem->XmlWriteAttribute("reactionType", "irreversible");
+							analysisData->m_firstOrderRateCoeff.push_back(to_double(Kp[sinkpos][rctpos]));
+							analysisData->m_firstOrderFromRef.push_back(rctName);
+							analysisData->m_firstOrderToRef.push_back(pdtsName);
+							analysisData->m_firstOrderReactionType.push_back("irreversible");
+							puNumbers << Kp[sinkpos][rctpos] << "\t";
             }
             if (m_punchSymbolGathered == false){
               puSymbols << rctName << " -> " << pdtsName << "\t";

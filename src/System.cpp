@@ -468,6 +468,8 @@ namespace mesmer
 
     for (size_t calPoint(rank); calPoint < m_pConditionsManager->getNumPTPoints() ; calPoint += nRanks) {
 
+			m_pConditionsManager->get_analysisData(calPoint)->clear();
+
       m_Env.beta = 1.0 / (boltzmann_RCpK * m_pConditionsManager->PTPointTemp(calPoint));
       m_Env.conc = m_pConditionsManager->PTPointConc(calPoint); // unit of conc: particles per cubic centimeter
       m_Env.bathGasName = m_pConditionsManager->PTPointBathGas(calPoint);
@@ -559,14 +561,14 @@ namespace mesmer
           }
 
           // Calculate rate coefficients. 
-          PersistPtr ppList = ppAnalysis->XmlWriteElement("me:rateList");
-          ppList->XmlWriteAttribute("T", toString(m_pConditionsManager->PTPointTemp(calPoint)));
-          ppList->XmlWriteAttribute("conc", toString(m_Env.conc));
-          ppList->XmlWriteAttribute("bathGas", m_Env.bathGasName);
-          ppList->XmlWriteAttribute("units", "s-1");
+          //PersistPtr ppList = ppAnalysis->XmlWriteElement("me:rateList");
           qdMatrix mesmerRates(1);
           qdMatrix lossRates(1);
-          m_collisionOperator.BartisWidomPhenomenologicalRates(mesmerRates, lossRates, m_Flags, ppList);
+          // m_collisionOperator.BartisWidomPhenomenologicalRates(mesmerRates, lossRates, m_Flags, ppList);
+					m_collisionOperator.BartisWidomPhenomenologicalRates(mesmerRates, lossRates, m_Flags, NULL);
+
+					// Write out phenomenological rate coefficients.
+					m_collisionOperator.PrintPhenomenologicalRates(mesmerRates, lossRates, m_Flags, m_pConditionsManager->get_analysisData(calPoint));
 
           // For these conditions calculate the contribution to the chi^2 merit function
           // for any of the experimentally observable data types. 
