@@ -1,3 +1,8 @@
+2017-January-15 Struan Robertson
+
+		* CollisionOperator.cpp, ConditionsManager.cpp, AnalysisData.h, 
+		main.cpp: More work on parallelizing analysis output (Average energies and populations).
+
 2017-January-09 Struan Robertson
 
 		* CollisionOperator.cpp, ConditionsManager.cpp, ParallelManager.h, AnalysisData.h, 

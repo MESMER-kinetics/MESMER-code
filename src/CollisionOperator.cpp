@@ -879,8 +879,7 @@ namespace mesmer
     }
   }
 
-  bool CollisionOperator::timeEvolution(MesmerFlags& mFlags,
-    PersistPtr ppAnalysis, PersistPtr ppPopList, PersistPtr ppAvEList)
+  bool CollisionOperator::timeEvolution(MesmerFlags& mFlags, AnalysisData* analysisData)
   {
     ErrorContext c(__FUNCTION__);
 
@@ -898,6 +897,8 @@ namespace mesmer
     // Calculate time points of interest.
     vector<double> timePoints ;
     timeAxisPoints(mFlags, timePoints) ;
+		if (analysisData)
+			analysisData->m_timePoints = timePoints;
 
     //Initialises dt vector for calculating product yields
     vector<double> dt(timePoints.size() - 1, 0.0);
@@ -971,9 +972,9 @@ namespace mesmer
         Molecule* isomer = ipos->first;
         ctest << isomer->getName() << ": " << endl;
         ctest << "\t" << endl;
-        PersistPtr ppAvEnergy = ppAvEList->XmlWriteElement("me:avEnergy");
-        ppAvEnergy->XmlWriteAttribute("ref", isomer->getName());
-        vector<double> grnEne;
+				if (analysisData)
+					analysisData->m_aveEnergyRef.push_back(isomer->getName()) ;
+				vector<double> grnEne;
         isomer->getDOS().getGrainEnergies(grnEne);
         for (size_t timestep(0); timestep < maxTimeStep; ++timestep){
           double averageEnergy(0.0);
@@ -987,9 +988,8 @@ namespace mesmer
           formatFloat(ctest, timePoints[timestep], 6, 15);
           formatFloat(ctest, normAvE, 6, 15);
           ctest << endl;
-          PersistPtr ppAv = ppAvEnergy->XmlWriteValueElement("me:Av", normAvE);
-          ppAv->XmlWriteAttribute("time", toString(timePoints[timestep]));
-          ppAv->XmlWriteAttribute("logTime", toString(log10(timePoints[timestep])));
+					if (analysisData)
+						analysisData->m_aveEnergy.push_back(normAvE);
         }
         ctest << endl;
       }
@@ -1109,18 +1109,20 @@ namespace mesmer
         }
       }
 
-      // Write to ctest and XML
+      // Write to ctest and (ultimately) XML.
       ctest << setw(16) << "totalIsomerPop" << setw(16) << "totalPdtPop" << endl;
-      for (size_t timestep(0); timestep < maxTimeStep; ++timestep){
+			if (analysisData) {
+				for (int i(0); i < speciesProfileidx; ++i) 
+					analysisData->m_PopRef.push_back(speciesNames[i]);
+			}
+			for (size_t timestep(0); timestep < maxTimeStep; ++timestep){
         ctest << setw(16) << timePoints[timestep];
-        PersistPtr ppPop = ppPopList->XmlWriteElement("me:population");
-        ppPop->XmlWriteAttribute("time", toString(timePoints[timestep]));
-        ppPop->XmlWriteAttribute("logTime", toString(log10(timePoints[timestep])));
         for (int i(0); i < speciesProfileidx; ++i){
           ctest << setw(16) << speciesProfile[i][timestep];
-          PersistPtr ppVal = ppPop->XmlWriteValueElement("me:pop", speciesProfile[i][timestep]);
-          ppVal->XmlWriteAttribute("ref", speciesNames[i]);
-        }
+					if (analysisData) {
+						analysisData->m_Pop.push_back(speciesProfile[i][timestep]);
+					}
+				}
         ctest << setw(16) << totalIsomerPop[timestep] << setw(16) << totalPdtPop[timestep] ;
         if (mFlags.printSinkFluxes) {
           for (size_t i(0); i < m_sinkRxns.size(); ++i){
@@ -1649,10 +1651,6 @@ namespace mesmer
             m_phenomenlogicalRates[reaction.str()] = to_double(Kr[pdtpos][rctpos]);
 
             if (analysisData) {
-              //PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderRate", to_double(Kr[pdtpos][rctpos]));
-              //ppItem->XmlWriteAttribute("fromRef", rctName);
-              //ppItem->XmlWriteAttribute("toRef", pdtName);
-              //ppItem->XmlWriteAttribute("reactionType", "isomerization");
 							analysisData->m_firstOrderRateCoeff.push_back(to_double(Kr[pdtpos][rctpos]));
 							analysisData->m_firstOrderFromRef.push_back(rctName);
 							analysisData->m_firstOrderToRef.push_back(pdtName);
@@ -1704,10 +1702,6 @@ namespace mesmer
             m_phenomenlogicalRates[reaction.str()] = to_double(Kp[sinkpos][rctpos]);
 
             if (analysisData) {
-              //PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderRate", to_double(Kp[sinkpos][rctpos]));
-              //ppItem->XmlWriteAttribute("fromRef", rctName);
-              //ppItem->XmlWriteAttribute("toRef", pdtsName);
-              //ppItem->XmlWriteAttribute("reactionType", "irreversible");
 							analysisData->m_firstOrderRateCoeff.push_back(to_double(Kp[sinkpos][rctpos]));
 							analysisData->m_firstOrderFromRef.push_back(rctName);
 							analysisData->m_firstOrderToRef.push_back(pdtsName);

@@ -207,6 +207,7 @@ namespace mesmer
     void WriteDataToXml(PersistPtr pp, const vector<conditionSet> &data) const;
 
     System* m_pSys; //parent System
+
     PersistPtr m_ppConditions;
 
     // The excess reactant concentrations as specified in <Reaction>.

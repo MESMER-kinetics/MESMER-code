@@ -49,7 +49,7 @@ namespace mesmer
 			AnalysisData* analysisData = NULL);
 
     // Calculate the time evolution of the system
-    bool timeEvolution(MesmerFlags& mFlags, PersistPtr ppAnalysis, PersistPtr ppPopList, PersistPtr ppAvEList);
+    bool timeEvolution(MesmerFlags& mFlags, AnalysisData* analysisData);
 
     // Calculates the Bartis-Widom macroscopic rate coefficients.
     bool BartisWidomPhenomenologicalRates(qdMatrix& rates, qdMatrix& lossRates, MesmerFlags& mFlags, PersistPtr ppBase = NULL);

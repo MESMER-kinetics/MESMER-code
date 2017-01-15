@@ -575,11 +575,28 @@ namespace mesmer
 
 			vector<double>& firstOrderRateCoeff = analysisData.m_firstOrderRateCoeff;
 			m_pParallelManager->broadcastVecDouble(firstOrderRateCoeff, broadcastRank);
+
+			vector<double>& timePoints = analysisData.m_timePoints;
+			m_pParallelManager->broadcastVecDouble(timePoints, broadcastRank);
+
+			vector<string>& aveEnergyRef = analysisData.m_aveEnergyRef;
+			m_pParallelManager->broadcastVecString(aveEnergyRef, broadcastRank);
+
+			vector<double>& aveEnergy = analysisData.m_aveEnergy;
+			m_pParallelManager->broadcastVecDouble(aveEnergy, broadcastRank);
+
+			vector<string>& PopRef = analysisData.m_PopRef;
+			m_pParallelManager->broadcastVecString(PopRef, broadcastRank);
+
+			vector<double>& Pop = analysisData.m_Pop;
+			m_pParallelManager->broadcastVecDouble(Pop, broadcastRank);
+
 		}
 
 		string comment = "All calculations shown";
 		PersistPtr ppAnalysis = m_ppIOPtr->XmlWriteMainElement("me:analysis", comment, true);
 
+		// Write <analysis> section.
 
 		for (size_t i(0); i < PandTs.size(); i++) {
 
@@ -593,8 +610,48 @@ namespace mesmer
 			for (size_t j(0); j < eigenvalues.size(); ++j) {
 				ppEigenList->XmlWriteValueElement("me:eigenvalue", eigenvalues[j], 6);
 			}
+			
+			// Populations
+
+			PersistPtr ppPopList;
+			if (m_pSys->m_Flags.speciesProfileEnabled)
+			{
+			  ppPopList = ppAnalysis->XmlWriteElement("me:populationList");
+			  ppPopList->XmlWriteAttribute("T", toString(PandTs[i].m_temperature));
+			  ppPopList->XmlWriteAttribute("conc", toString(PandTs[i].m_concentration));
+				for (size_t timestep(0), k(0); timestep < analysisData.m_timePoints.size(); ++timestep) {
+					PersistPtr ppPop = ppPopList->XmlWriteElement("me:population");
+				  ppPop->XmlWriteAttribute("time", toString(analysisData.m_timePoints[timestep]));
+				  ppPop->XmlWriteAttribute("logTime", toString(log10(analysisData.m_timePoints[timestep])));
+					for (size_t j(0) ; j < analysisData.m_PopRef.size(); ++j, ++k) {
+						PersistPtr ppVal = ppPop->XmlWriteValueElement("me:pop", toString(analysisData.m_Pop[k]));
+						ppVal->XmlWriteAttribute("ref", analysisData.m_PopRef[j]);
+					}
+				}
+			}
+
+			// Average energies
+
+			PersistPtr ppAvEList;
+			if (m_pSys->m_Flags.grainedProfileEnabled)
+			{
+			  ppAvEList = ppAnalysis->XmlWriteElement("me:avEnergyList");
+			  ppAvEList->XmlWriteAttribute("T", toString(PandTs[i].m_temperature));
+			  ppAvEList->XmlWriteAttribute("conc", toString(PandTs[i].m_concentration));
+			  ppAvEList->XmlWriteAttribute("energyUnits", "kJ/mol");
+				for (size_t j(0),k(0); j < analysisData.m_aveEnergyRef.size(); ++j) {
+					PersistPtr ppAvEnergy = ppAvEList->XmlWriteElement("me:avEnergy");
+					ppAvEnergy->XmlWriteAttribute("ref", analysisData.m_aveEnergyRef[j]);
+					for (size_t timestep(0); timestep < analysisData.m_timePoints.size() ; ++timestep, ++k) {
+						PersistPtr ppAv = ppAvEnergy->XmlWriteValueElement("me:Av", toString(analysisData.m_aveEnergy[k]));
+						ppAv->XmlWriteAttribute("time", toString(analysisData.m_timePoints[timestep]));
+						ppAv->XmlWriteAttribute("logTime", toString(log10(analysisData.m_timePoints[timestep])));
+					}
+				}
+			}
 
 			// BW Rate coefficients.
+
 			PersistPtr ppList = ppAnalysis->XmlWriteElement("me:rateList");
 			ppList->XmlWriteAttribute("T", toString(PandTs[i].m_temperature));
 			ppList->XmlWriteAttribute("conc", toString(PandTs[i].m_concentration));

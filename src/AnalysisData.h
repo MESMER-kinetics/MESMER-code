@@ -23,6 +23,11 @@ namespace mesmer
 			m_firstOrderFromRef.clear();
 			m_firstOrderToRef.clear();
 			m_firstOrderRateCoeff.clear();
+			m_timePoints.clear();
+			m_aveEnergyRef.clear();
+			m_aveEnergy.clear();
+			m_PopRef.clear();
+			m_Pop.clear();
 		};
 
 		// Eigenvalues.
@@ -39,6 +44,13 @@ namespace mesmer
 		std::vector<std::string> m_firstOrderFromRef;
 		std::vector<std::string> m_firstOrderToRef;
 		std::vector<double> m_firstOrderRateCoeff;
+
+		// Average Energy and population.
+		std::vector<double> m_timePoints;
+		std::vector<std::string> m_aveEnergyRef;
+		std::vector<double> m_aveEnergy;
+		std::vector<std::string> m_PopRef;
+		std::vector<double> m_Pop;
 
 	};
 

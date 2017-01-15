@@ -103,7 +103,7 @@ namespace mesmer
   System::System(const std::string& libraryfilename, ParallelManager *pParallelManager) :
     m_pMoleculeManager(0),
     m_pReactionManager(0),
-		m_pConditionsManager(0),
+    m_pConditionsManager(0),
     m_pParallelManager(pParallelManager),
     m_pTitle(NULL),
     m_pDescription(NULL)
@@ -114,7 +114,7 @@ namespace mesmer
   System::~System() {
     delete m_pReactionManager;
     delete m_pMoleculeManager;
-		delete m_pConditionsManager;
+    delete m_pConditionsManager;
   }
 
   // Initialize the System object.
@@ -427,13 +427,8 @@ namespace mesmer
     // Find the highest temperature
     m_Env.MaximumTemperature = m_pConditionsManager->getMaxTemperature();
 
-
-    //XML output
-    //Considered putting this output under each PT pair in me:conditions.
-    //But doesn't work with a range of Ps or Ts. So has to have its own section.
-
-    //There will usually be an <analysis> section for every calculate()
-    //When fitting set m_Flags.overwriteXmlAnalysis true
+    // There will usually be an <analysis> section for every calculate().
+    // When fitting set m_Flags.overwriteXmlAnalysis true.
     string comment = m_Flags.overwriteXmlAnalysis ?
       "Only selected calculations shown here" : "All calculations shown";
     PersistPtr ppAnalysis = m_ppIOPtr->XmlWriteMainElement("me:analysis", comment, m_Flags.overwriteXmlAnalysis);
@@ -458,17 +453,17 @@ namespace mesmer
 
     chiSquare = 0.0;
     residuals.clear();
-		residuals.resize(m_pConditionsManager->getNumPTPoints(), 0.0) ;
+    residuals.resize(m_pConditionsManager->getNumPTPoints(), 0.0);
 
     // Main loop over temperatures and concentrations.
 
     size_t uidx(0), lidx(0);
-    int rank   = m_pParallelManager->rank() ;
-		int nRanks = m_pParallelManager->size();
+    int rank = m_pParallelManager->rank();
+    int nRanks = m_pParallelManager->size();
 
-    for (size_t calPoint(rank); calPoint < m_pConditionsManager->getNumPTPoints() ; calPoint += nRanks) {
+    for (size_t calPoint(rank); calPoint < m_pConditionsManager->getNumPTPoints(); calPoint += nRanks) {
 
-			m_pConditionsManager->get_analysisData(calPoint)->clear();
+      m_pConditionsManager->get_analysisData(calPoint)->clear();
 
       m_Env.beta = 1.0 / (boltzmann_RCpK * m_pConditionsManager->PTPointTemp(calPoint));
       m_Env.conc = m_pConditionsManager->PTPointConc(calPoint); // unit of conc: particles per cubic centimeter
@@ -529,25 +524,9 @@ namespace mesmer
         if (!m_Env.useBasisSetMethod) {
 
           if (!m_Flags.bIsSystemSecondOrder) {
-            PersistPtr ppPopList;
-            if (m_Flags.speciesProfileEnabled)
-            {
-              ppPopList = ppAnalysis->XmlWriteElement("me:populationList");
-              ppPopList->XmlWriteAttribute("T", toString(m_pConditionsManager->PTPointTemp(calPoint)));
-              ppPopList->XmlWriteAttribute("conc", toString(m_Env.conc));
-            }
-
-            PersistPtr ppAvEList;
-            if (m_Flags.grainedProfileEnabled)
-            {
-              ppAvEList = ppAnalysis->XmlWriteElement("me:avEnergyList");
-              ppAvEList->XmlWriteAttribute("T", toString(m_pConditionsManager->PTPointTemp(calPoint)));
-              ppAvEList->XmlWriteAttribute("conc", toString(m_Env.conc));
-              ppAvEList->XmlWriteAttribute("energyUnits", "kJ/mol");
-            }
 
             // Calculate time-dependent properties.
-            m_collisionOperator.timeEvolution(m_Flags, ppAnalysis, ppPopList, ppAvEList);
+            m_collisionOperator.timeEvolution(m_Flags, m_pConditionsManager->get_analysisData(calPoint));
             if (m_collisionOperator.hasGrainProfileData())
             {
               PersistPtr ppGrainList = ppAnalysis->XmlWriteElement("me:grainPopulationList");
@@ -561,14 +540,13 @@ namespace mesmer
           }
 
           // Calculate rate coefficients. 
-          //PersistPtr ppList = ppAnalysis->XmlWriteElement("me:rateList");
           qdMatrix mesmerRates(1);
           qdMatrix lossRates(1);
           // m_collisionOperator.BartisWidomPhenomenologicalRates(mesmerRates, lossRates, m_Flags, ppList);
-					m_collisionOperator.BartisWidomPhenomenologicalRates(mesmerRates, lossRates, m_Flags, NULL);
+          m_collisionOperator.BartisWidomPhenomenologicalRates(mesmerRates, lossRates, m_Flags, NULL);
 
-					// Write out phenomenological rate coefficients.
-					m_collisionOperator.PrintPhenomenologicalRates(mesmerRates, lossRates, m_Flags, m_pConditionsManager->get_analysisData(calPoint));
+          // Write out phenomenological rate coefficients.
+          m_collisionOperator.PrintPhenomenologicalRates(mesmerRates, lossRates, m_Flags, m_pConditionsManager->get_analysisData(calPoint));
 
           // For these conditions calculate the contribution to the chi^2 merit function
           // for any of the experimentally observable data types. 
@@ -596,18 +574,18 @@ namespace mesmer
 
     // Reduce Chi^2 values and redistribute
 
-		m_pParallelManager->barrier();
-		m_pParallelManager->sumDouble(&chiSquare, 1);
-		m_pParallelManager->sumDouble(&residuals[0], residuals.size());
-		m_pConditionsManager->reconcileTable();
-		m_pConditionsManager->AddCalcValToXml();
-		m_pConditionsManager->WriteAnalysisXML(m_ppIOPtr);
+    m_pParallelManager->barrier();
+    m_pParallelManager->sumDouble(&chiSquare, 1);
+    m_pParallelManager->sumDouble(&residuals[0], residuals.size());
+    m_pConditionsManager->reconcileTable();
+    m_pConditionsManager->AddCalcValToXml();
 
-		if (writeReport) {
-			m_pConditionsManager->WriteDataTable();
-		}
+    if (writeReport) {
+      m_pConditionsManager->WriteDataTable();
+      m_pConditionsManager->WriteAnalysisXML(m_ppIOPtr);
+    }
 
-		stringstream line;
+    stringstream line;
     string thisEvent = "Finish Calculation of P-T case";
     events.setTimeStamp(thisEvent, timeElapsed);
     line << thisEvent;
@@ -617,7 +595,7 @@ namespace mesmer
     if (writeReport) line << m_pConditionsManager->getNumPTPoints() << " temperature/concentration-pressure points calculated." << endl;
 
     if (m_Flags.viewEvents) line << events;
-		cpinfo << line.str();
+    cpinfo << line.str();
 
     return true;
   }
@@ -724,7 +702,7 @@ namespace mesmer
 
     vector<conditionSet> expRates;
     m_pConditionsManager->get_experimentalRates(calPoint, expRates);
-		vector<double> calcRates(expRates.size(), 0.0) ;
+    vector<double> calcRates(expRates.size(), 0.0);
     for (size_t i(0); i < expRates.size(); ++i) {
 
       string ref1, ref2, refReaction;
@@ -774,15 +752,15 @@ namespace mesmer
       }
 
       double diff = (expRate - rateCoeff) / expErr;
-      residuals[calPoint] += diff ;
+      residuals[calPoint] += diff;
       chiSquare += diff * diff;
 
-			calcRates[i] = rateCoeff;
+      calcRates[i] = rateCoeff;
     }
 
-		m_pConditionsManager->set_calculatedRates(calPoint, calcRates);
+    m_pConditionsManager->set_calculatedRates(calPoint, calcRates);
 
-		return chiSquare;
+    return chiSquare;
   }
 
   double System::calcChiSqYields(const unsigned calPoint, vector<double> &residuals) {
@@ -793,8 +771,8 @@ namespace mesmer
     if (expYields.size() == 0)
       return chiSquare;
 
-		vector<double> calcYields(expYields.size(), 0.0);
-		//
+    vector<double> calcYields(expYields.size(), 0.0);
+    //
     // Calculate yields for these conditions. Assume all yields are measured at the same time.
     //
     YieldMap yieldMap;
@@ -835,15 +813,15 @@ namespace mesmer
       }
 
       double diff = (expYield - yield) / expErr;
-			residuals[calPoint] += diff;
-			chiSquare += (diff * diff);
+      residuals[calPoint] += diff;
+      chiSquare += (diff * diff);
 
-			calcYields[i] = yield;
+      calcYields[i] = yield;
     }
 
-		m_pConditionsManager->set_calculatedYields(calPoint, calcYields);
+    m_pConditionsManager->set_calculatedYields(calPoint, calcYields);
 
-		return chiSquare;
+    return chiSquare;
   }
 
   double System::calcChiSqEigenvalues(const unsigned calPoint, vector<double> &residuals) {
@@ -852,8 +830,8 @@ namespace mesmer
 
     vector<conditionSet> expEigenvalues;
     m_pConditionsManager->get_experimentalEigenvalues(calPoint, expEigenvalues);
-		vector<double> calcEigenvalues(expEigenvalues.size(), 0.0);
-		for (size_t i(0); i < expEigenvalues.size(); ++i) {
+    vector<double> calcEigenvalues(expEigenvalues.size(), 0.0);
+    for (size_t i(0); i < expEigenvalues.size(); ++i) {
 
       string ref1, ref2, strIdEigenvalue;
       double expEigenvalue(0.0), expErr(0.0);
@@ -872,15 +850,15 @@ namespace mesmer
       }
 
       double diff = (expEigenvalue - eigenvalue) / expErr;
-			residuals[calPoint] += diff;
-			chiSquare += (diff * diff);
+      residuals[calPoint] += diff;
+      chiSquare += (diff * diff);
 
-			calcEigenvalues[i] = eigenvalue;
+      calcEigenvalues[i] = eigenvalue;
     }
 
-		m_pConditionsManager->set_calculatedEigenvalues(calPoint, calcEigenvalues);
+    m_pConditionsManager->set_calculatedEigenvalues(calPoint, calcEigenvalues);
 
-		return chiSquare;
+    return chiSquare;
   }
 
   double System::calcChiSqRawData(const unsigned calPoint, vector<double> &residuals, bool writeReport) {
@@ -935,24 +913,24 @@ namespace mesmer
       double alpha = (sumef*ntimes - sume*sumf) / det;
       double beta = (sume*sumf2 - sumef*sumf) / det;
 
- //     if (writeReport)
- //       rateCoeffTable << endl;
+      //     if (writeReport)
+      //       rateCoeffTable << endl;
 
       double diff = 0.0;
       for (size_t j(0); j < signal.size(); ++j) {
         signal[j] *= alpha;
         signal[j] += beta;
         diff = (signal[j] - expSignal[j]);
-				residuals[calPoint] += diff;
-				chiSquare += (diff * diff);
+        residuals[calPoint] += diff;
+        chiSquare += (diff * diff);
 
-//        if (writeReport)
-//          rateCoeffTable << formatFloat(times[j], 6, 15) << "," << formatFloat(expSignal[j], 6, 15) << "," << formatFloat(signal[j], 6, 15) << endl;
+        //        if (writeReport)
+        //          rateCoeffTable << formatFloat(times[j], 6, 15) << "," << formatFloat(expSignal[j], 6, 15) << "," << formatFloat(signal[j], 6, 15) << endl;
       }
-//      if (writeReport)
-//        rateCoeffTable << endl;
+      //      if (writeReport)
+      //        rateCoeffTable << endl;
 
-      // AddCalcValToXml(calPoint, i, diff);
+            // AddCalcValToXml(calPoint, i, diff);
     }
 
     return chiSquare;
