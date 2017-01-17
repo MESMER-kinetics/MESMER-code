@@ -1,7 +1,9 @@
 2017-January-17 Struan Robertson
 
-		* CollisionOperator.cpp, ConditionsManager.cpp, main.cpp, error.h/.cpp: Addressed parallel 
-		output issues by redirecting slaves to write to a null device.
+		* CollisionOperator.cpp, ConditionsManager.cpp, main.cpp, error.h/.cpp, System.h, 
+		parallelManager.h, fitting.cpp, Marquadt.cpp, FittingUtils.cpp: Addressed parallel 
+		output issues by redirecting slaves to write to a null device. This change replaces 
+		a number of others that have been wound back.
 
 2017-January-15 Struan Robertson
 
