@@ -834,7 +834,6 @@ namespace mesmer
       if (analysisData) {
 				analysisData->m_number = smsize;
 				analysisData->m_selection = (mFlags.printEigenValuesNum != -1) ? toString(mFlags.printEigenValuesNum) : "all";
-				analysisData->m_eigenvalues.clear() ;
 				for (size_t i = numberStarted; i < smsize; ++i) {
           qd_real tmp = (mEnv.useBasisSetMethod) ? m_eigenvalues[i] : m_eigenvalues[i] * m_meanOmega;
 					analysisData->m_eigenvalues.push_back(to_double(tmp));

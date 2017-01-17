@@ -36,7 +36,6 @@ namespace mesmer
       MPI_Comm_rank(MPI_COMM_WORLD, &m_rank);
       MPI_Comm_size(MPI_COMM_WORLD, &m_size);
 
-      cpinfo.initialize(m_rank);
     } ;
 
     // Destructor
@@ -124,8 +123,8 @@ namespace mesmer
     // Constructor
 
     ParallelManager(int argc, char ** argv) : m_rank(0), m_size(1) {
-      cpinfo.initialize(0);
-    };
+			// No Op.
+		};
 
     // Destructor
 
@@ -179,6 +178,7 @@ namespace mesmer
 
     int rank() { return m_rank; };
     int size() { return m_size; };
+		bool Master() { return (m_rank == 0) ; };
 
   private:
 

@@ -22,11 +22,7 @@
 #include "ConditionsManager.h"
 #include "ParallelManager.h"
 
-//Global variable
-extern int Rank;
-
 #define MESMER_VERSION "5.0"
-#define ROOTONLY if(!Rank) 
 
 namespace mesmer
 {

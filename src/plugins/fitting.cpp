@@ -164,7 +164,7 @@ namespace mesmer
 
     double oldChiSquare = chiSquare ;
 
-    ROOTONLY WriteVarVals(chiSquare) ;
+    WriteVarVals(chiSquare) ;
 
 	//
     // The following implementation is loosely based on the Powell method. An initial
@@ -201,7 +201,7 @@ namespace mesmer
         oldChiSquare = chiSquare ;
         LineSearch(pSys, direction, chiSquare, m_tol);
 
-        ROOTONLY WriteVarVals(chiSquare) ;
+        WriteVarVals(chiSquare) ;
       }
 
       // Calculate new search direction.
@@ -216,7 +216,7 @@ namespace mesmer
       oldChiSquare = chiSquare ;
       LineSearch(pSys, direction, chiSquare, m_tol);
 
-      ROOTONLY WriteVarVals(chiSquare) ;
+      WriteVarVals(chiSquare) ;
 
       // Update direction vectors in accord with the modified Powell algorithm.
 

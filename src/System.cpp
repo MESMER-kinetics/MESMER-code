@@ -595,7 +595,7 @@ namespace mesmer
     if (writeReport) line << m_pConditionsManager->getNumPTPoints() << " temperature/concentration-pressure points calculated." << endl;
 
     if (m_Flags.viewEvents) line << events;
-    cpinfo << line.str();
+    cinfo << line.str();
 
     return true;
   }

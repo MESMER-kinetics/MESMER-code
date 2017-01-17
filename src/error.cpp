@@ -20,7 +20,6 @@ namespace mesmer
   ostream cwarn(clog.rdbuf());
   ostream cinfo(clog.rdbuf());
   ostream ctest(clog.rdbuf());
-	pstream cpinfo;
 
   //Global message handler
   MessageHandler meErrorLog;
@@ -144,13 +143,6 @@ namespace mesmer
     if(_oldctestbuf)
       ctest.rdbuf(_oldctestbuf);
   }
-
-	pstream& operator<<(pstream& stream, std::string str) {
-		if (stream.write()) {
-			cinfo << str;
-		}
-		return stream;
-	};
 
 } // end namespace mesmer
 

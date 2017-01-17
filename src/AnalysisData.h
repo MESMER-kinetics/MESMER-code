@@ -4,9 +4,11 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include "dMatrix.h"
 
 namespace mesmer
 {
+	// This structure holds condition specific data.
 
 	struct AnalysisData
 	{
@@ -54,6 +56,29 @@ namespace mesmer
 
 	};
 
+	// This structure holds data that applied to all conditions.
+
+	struct GeneralAnalysisData
+	{
+	public:
+		GeneralAnalysisData() : m_covariance(1) {}
+
+		~GeneralAnalysisData() { clear(); };
+
+		void clear() {
+			m_covariance.resize(1) ;
+		};
+
+		void setCovariance(qdMatrix &covariance) {
+			m_covariance.resize(covariance.size());
+			m_covariance = covariance ; 
+			cinfo << " Size of covariance " << m_covariance.size() << endl;
+		};
+
+		// Covariance.
+		qdMatrix m_covariance;
+
+	};
 
 }//namespace
 

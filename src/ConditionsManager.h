@@ -179,7 +179,12 @@ namespace mesmer
 			return &(PandTs[index].m_analysisData);
 		}
 
-    // Collect bath gas names from PandTs.
+		GeneralAnalysisData* get_generalAnalysisData()
+		{
+			return &generalAnalysisData ;
+		}
+
+		// Collect bath gas names from PandTs.
     void getAllBathGases(std::set<std::string>& bathGases);
 
     // Reconcile table across processs.
@@ -221,6 +226,9 @@ namespace mesmer
 
     // Location of the parallel mananger.
     ParallelManager *m_pParallelManager;
+
+		// General analysis data.
+		GeneralAnalysisData generalAnalysisData;
 
   };
 

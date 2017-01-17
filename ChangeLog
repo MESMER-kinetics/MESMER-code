@@ -1,3 +1,8 @@
+2017-January-17 Struan Robertson
+
+		* CollisionOperator.cpp, ConditionsManager.cpp, main.cpp, error.h/.cpp: Addressed parallel 
+		output issues by redirecting slaves to write to a null device.
+
 2017-January-15 Struan Robertson
 
 		* CollisionOperator.cpp, ConditionsManager.cpp, AnalysisData.h, 

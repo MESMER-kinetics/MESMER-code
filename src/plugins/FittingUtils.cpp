@@ -171,7 +171,7 @@ namespace mesmer
 			line << "Error Factor = " << errorFactor << endl << endl;
 		}
 
-		cpinfo << string(line.str());
+		cinfo << string(line.str());
 
     return;
 

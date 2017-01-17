@@ -36,9 +36,6 @@ bool QACompare(string infilename, bool NOptionUsed);
 string duplicateFileName(const string& inName, const string& suffix, const string& newTimeStamp = "");
 string replaceFilename(const string& inName, const string& newFilename);
 
-//Global variable
-int Rank;
-
 int main(int argc, char **argv)
 {
   //
@@ -46,7 +43,6 @@ int main(int argc, char **argv)
   //
 
   ParallelManager parallelManager(argc, argv);
-  Rank = parallelManager.rank();
 
   //
   // The following invocation is required by the QD  library to fix a problem 
@@ -189,12 +185,14 @@ int main(int argc, char **argv)
   if (!osout)
     cerr << "Could not open " << testfilename << " for writing. Continuing without it." << endl;
 
-  //Allow writing of messages to cerr, cwarn and cinfo. Send ctest to file mesmer.test
-  //Original streams restored when this goes out of context
-  OStreamRedirector osr(&meErrorLog, &osout, nologging);
+  // Allow writing of messages to cerr, cwarn and cinfo. Send ctest to file mesmer.test
+  // Original streams restored when this goes out of context.
+	// SHR, 17/Jan/2017: The nologging feature is used here to stop slaves from writing
+	// to output during parallel execution.
+  OStreamRedirector osr(&meErrorLog, &osout, (nologging || parallelManager.rank()) );
 
   banner(parallelManager.size());
-  ROOTONLY cerr << "Using " << parallelManager.size() << " processes" << endl;
+  cerr << "Using " << parallelManager.size() << " processes" << endl;
 
   //-----------------------------------------------
   //Get the top level directory from an environment variable,
@@ -207,7 +205,8 @@ int main(int argc, char **argv)
   string::size_type pos = MesmerDir.find(';');
   if (pos != string::npos)
     MesmerDir.erase(pos); //Use the first directory in the env var
-  cinfo << "defaults.xml, librarymols.xml are in " << MesmerDir << endl;
+
+	cinfo << "defaults.xml, librarymols.xml are in " << MesmerDir << endl;
   //-------------------------------
   //
   // Instantiate the System collection. This holds all information
@@ -245,9 +244,8 @@ int main(int argc, char **argv)
     if (infilename.empty())
       thisEvent = "\nParsing xml from stdin...";
     else
-      ROOTONLY thisEvent = "\nParsing input xml file...\n" + infilename + '\n';
-    ROOTONLY cerr << thisEvent << endl; //usually output
-    //cinfo << endl;
+      thisEvent = "\nParsing input xml file...\n" + infilename + '\n';
+		cinfo << thisEvent << endl; //usually output
     events.setTimeStamp(thisEvent);
   }
   int returnCode = 0;
@@ -270,12 +268,12 @@ int main(int argc, char **argv)
       //------------------
       // Begin calculation
       {
-        string thisEvent = "Main Calculation begins";
-        cinfo << "\nFile: \"" << infilename << "\" successfully parsed.\n" << thisEvent << endl;
+        string thisEvent = "Main Calculation begins\n";
+				cinfo << "\nFile: \"" << infilename << "\" successfully parsed.\n" << thisEvent ;
         events.setTimeStamp(thisEvent);
       }
 
-      ROOTONLY clog << "Now calculating..." << endl;
+      cinfo << "Now calculating..." << endl;
 
       _sys.executeCalculation();
     }
@@ -295,15 +293,14 @@ int main(int argc, char **argv)
   string thisEvent = "Save XML document";
   string currentTimeStamp = events.setTimeStamp(thisEvent, timeElapsed);
   string saveTimeStamp = '.' + currentTimeStamp;
-  //ROOTONLY cinfo << " -- Total time elapsed: " << timeElapsed << " seconds.\n" << endl;
-  ROOTONLY cerr << " -- Total time elapsed: " << timeElapsed << " seconds.\n" << endl;
+  cerr << " -- Total time elapsed: " << timeElapsed << " seconds.\n" << endl;
 
   //Any existing file with the same name as the one being written is renamed with a _prev suffix
   //Any old _prev file is not deleted unless the write of the new file is successful
   if (!usecout)
     rename(outfilename.c_str(), "temp");
 
-  if (parallelManager.rank() == 0) {
+  if (parallelManager.Master()) {
     if (!ppIOPtr->XmlSaveFile(outfilename))
     {
       cerr << "There was an error when writing " << outfilename;
@@ -316,7 +313,7 @@ int main(int argc, char **argv)
         stringstream line;
         line << "System saved to " << outfilename << endl;
         line << "Total time elapsed: " << timeElapsed << " seconds." << endl;
-        cpinfo << line.str();
+        cinfo << line.str();
 
         if (!usecout)
         {

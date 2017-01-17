@@ -30,26 +30,12 @@ namespace mesmer
 
   enum errorQualifier {always, onceOnly};
 
-	// The following class, pstream, is used to control output during parallel
-	// execution, by only writing output from the master (rank 0) process.
-	class pstream {
-	public:
-		pstream() : m_rank(-1) {};
-		~pstream() {};
-		void initialize(int rank) { m_rank = rank; };
-		bool write() const { return (m_rank == 0); };
-	private:
-		int m_rank;
-	};
-	pstream& operator<<(pstream& stream, std::string str);
-
   //******************************************************************
   //Global output streams which by default go to clog
   //They are redirected in a MessageHandler constructor
   extern std::ostream cwarn;
   extern std::ostream cinfo;
   extern std::ostream ctest;
-	extern pstream cpinfo;
 
 //******************************************************************************
   //! \brief Handle error messages, warnings, debugging information and the like
