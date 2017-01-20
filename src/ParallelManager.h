@@ -138,7 +138,7 @@ namespace mesmer
 
 		// Broadcast strings across processes from a given route.
 
-		void broadcastString(char *tmp, int size, int root) {
+		void broadcastString(string &tmp, int root) {
 			// No Op.
 		}
 
