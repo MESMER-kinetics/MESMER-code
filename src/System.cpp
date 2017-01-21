@@ -395,10 +395,13 @@ namespace mesmer
         }
         cinfo << endl;
         m_CalcMethod->DoCalculation(this);
-      }
+				m_pConditionsManager->WriteXMLandClear();
+			}
     }
-    else
-      m_CalcMethod->DoCalculation(this);
+		else {
+			m_CalcMethod->DoCalculation(this);
+			m_pConditionsManager->WriteXMLandClear();
+		}
 
     //Calls Finish() for each Reaction. Usually does nothing except in AssociationReaction
     m_pReactionManager->finish();
@@ -432,7 +435,6 @@ namespace mesmer
     string comment = m_Flags.overwriteXmlAnalysis ?
       "Only selected calculations shown here" : "All calculations shown";
     PersistPtr ppAnalysis = m_ppIOPtr->XmlWriteMainElement("me:analysis", comment, m_Flags.overwriteXmlAnalysis);
-    m_ppAnalysis = ppAnalysis;
     if (Rdouble::withRange().size() != 0)
     {
       PersistPtr ppParams = ppAnalysis->XmlWriteElement("me:parameters");

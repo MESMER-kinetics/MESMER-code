@@ -58,25 +58,34 @@ namespace mesmer
 
 	// This structure holds data that applied to all conditions.
 
-	struct GeneralAnalysisData
+	class GeneralAnalysisData
 	{
 	public:
-		GeneralAnalysisData() : m_covariance(1) {}
+		GeneralAnalysisData() : m_covariance(1), m_writeCovar(false) {}
 
 		~GeneralAnalysisData() { clear(); };
 
 		void clear() {
-			m_covariance.resize(1) ;
+			m_covariance.resize(1);
 		};
 
 		void setCovariance(qdMatrix &covariance) {
-			m_covariance.resize(covariance.size());
-			m_covariance = covariance ; 
-			cinfo << " Size of covariance " << m_covariance.size() << endl;
+			m_covariance = covariance;
+			m_writeCovar = true;
 		};
+
+		void writeCovariance(PersistPtr ppAnalysis) const {
+			if (m_writeCovar) {
+				PersistPtr ppCovariance = ppAnalysis->XmlWriteElement("me:covariance", "");
+				m_covariance.WriteToXML(ppCovariance);
+			}
+		};
+
+	private:
 
 		// Covariance.
 		qdMatrix m_covariance;
+		bool m_writeCovar;
 
 	};
 

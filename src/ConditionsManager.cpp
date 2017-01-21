@@ -7,7 +7,13 @@ using namespace std;
 namespace mesmer
 {
 
-  ConditionsManager::ConditionsManager(System* pSys) : m_pSys(pSys) {
+  ConditionsManager::ConditionsManager(System* pSys) : m_pSys(pSys), 
+    m_ppConditions(),
+		m_ppAnalysis(),
+		baseExcessConcs(),
+		PandTs(),
+		m_pParallelManager(NULL),
+		generalAnalysisData() {
     m_pParallelManager = m_pSys->getParallelManager();
   }
 
@@ -595,6 +601,7 @@ namespace mesmer
 
     string comment = "All calculations shown";
     PersistPtr ppAnalysis = m_ppIOPtr->XmlWriteMainElement("me:analysis", comment, true);
+		m_ppAnalysis = ppAnalysis;
 
     // Write <analysis> section.
 
@@ -672,12 +679,17 @@ namespace mesmer
 
     }
 
-    // Write general data.
-    PersistPtr ppCovariance = ppAnalysis->XmlWriteElement("me:covariance", "");
-    generalAnalysisData.m_covariance.WriteToXML(ppCovariance);
+	}
 
-  }
+	// Write the general analysis data to <me:analysis> section of the XML output.
 
+	void ConditionsManager::WriteXMLandClear()
+	{
+		if (m_ppAnalysis) {
+			generalAnalysisData.writeCovariance(m_ppAnalysis);
+			generalAnalysisData.clear();
+		}
+	}
 
 }//namespace
 

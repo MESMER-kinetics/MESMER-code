@@ -1,3 +1,8 @@
+2017-January-21 Struan Robertson
+
+		* ConditionsManager.h/.cpp, System.h/.cpp, TMatrix.h	parallelManager.h, fitting.cpp: 
+		Parallel output of the covariance matrix.
+
 2017-January-17 Struan Robertson
 
 		* CollisionOperator.cpp, ConditionsManager.cpp, main.cpp, error.h/.cpp, System.h, 

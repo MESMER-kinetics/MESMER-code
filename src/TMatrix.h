@@ -152,7 +152,7 @@ namespace mesmer
     void Transpose() ;
 
     // Write matrix to an XML stream.
-    void WriteToXML(PersistPtr pp) ;
+    void WriteToXML(PersistPtr pp) const ;
 
     void showFinalBits(const size_t n, bool isTabbed = false);
 
@@ -953,7 +953,7 @@ namespace mesmer
   }
 
   template<class T>
-  void TMatrix<T>::WriteToXML(PersistPtr pp)
+  void TMatrix<T>::WriteToXML(PersistPtr pp) const
   {
     //Write a CML element <matrix> as child of pp
     stringstream ss;

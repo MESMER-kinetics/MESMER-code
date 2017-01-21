@@ -196,10 +196,13 @@ namespace mesmer
     // Write calculated date to output.
     void AddCalcValToXml() const;
 
-		// Write data table.
+		// Write analysis data to <me:analysis> section of the XML output.
 		void WriteAnalysisXML(PersistPtr m_ppIOPtr) ;
 
-	private:
+		// Write the general analysis data to <me:analysis> section of the XML output.
+		void WriteXMLandClear() ;
+
+		private:
 
     bool readPTs();
 
@@ -214,6 +217,8 @@ namespace mesmer
     System* m_pSys; //parent System
 
     PersistPtr m_ppConditions;
+
+		PersistPtr m_ppAnalysis;
 
     // The excess reactant concentrations as specified in <Reaction>.
     // Provides unchanging base data when excess concs are individually
