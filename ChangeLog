@@ -1,3 +1,7 @@
+2017-January-22 Struan Robertson
+
+		* Error.cpp, System.cpp: Changes to fix broken examples.
+
 2017-January-21 Struan Robertson
 
 		* ConditionsManager.h/.cpp, System.h/.cpp, TMatrix.h	parallelManager.h, fitting.cpp: 

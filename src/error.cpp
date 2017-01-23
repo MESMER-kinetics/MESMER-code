@@ -129,7 +129,7 @@ namespace mesmer
       std::cerr.rdbuf(NULL);
       cwarn.rdbuf(NULL);
       cinfo.rdbuf(NULL);
-      //ctest.rdbuf(NULL);
+      ctest.rdbuf(NULL);
     }
   }
   OStreamRedirector::~OStreamRedirector()

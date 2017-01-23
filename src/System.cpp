@@ -693,7 +693,9 @@ namespace mesmer
     qdMatrix BWrates(1);
     qdMatrix lossRates(1);
     m_collisionOperator.BartisWidomPhenomenologicalRates(BWrates, lossRates, m_Flags);
-    m_collisionOperator.get_phenRates(phenRates);
+		// Write out phenomenological rate coefficients.
+		m_collisionOperator.PrintPhenomenologicalRates(BWrates, lossRates, m_Flags, NULL);
+		m_collisionOperator.get_phenRates(phenRates);
 
     return true;
   }
