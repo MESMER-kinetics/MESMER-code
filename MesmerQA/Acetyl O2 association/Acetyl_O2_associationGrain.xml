@@ -44,7 +44,7 @@
           <scalar>2</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      
     </molecule>
     <molecule id="TSabs">
       <atomArray>
@@ -88,7 +88,7 @@
           <array units="cm-1">533.0</array>
         </property>
       </propertyList>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      
     </molecule>
     <molecule id="O2" description="oxygen">
       <atomArray>
@@ -121,7 +121,7 @@
           <scalar>3</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      
     </molecule>
     <molecule id="OH" description="OH radical">
       <atomArray>
@@ -157,7 +157,7 @@
           <array units="cm-1">139.7</array>
         </property>
       </propertyList>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      
     </molecule>
     <molecule id="Int1" description="peroxy acetyl O2 adduct">
       <atomArray>
@@ -211,9 +211,8 @@
       <me:energyTransferModel xsi:type="me:ExponentialDown">
         <me:deltaEDown units="cm-1">130.0</me:deltaEDown>
       </me:energyTransferModel>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
-      <me:DistributionCalcMethod default="true">Boltzmann</me:DistributionCalcMethod>
-      <me:energyTransferModel default="true">ExponentialDown</me:energyTransferModel>
+      <me:DOSCMethod xsi:type="ClassicalRotors"/>
+      <me:DistributionCalcMethod xsi:type="Boltzmann"/>
       <me:densityOfStatesList calculated="20120616_114305">
         <me:description>Rovibronic partition function calculation at various temperatures. qtot : product of QM partition functions for vibrations (1-D harmonic oscillator) and classical partition functions for rotations.  sumc : cell based partition function. sumg : grain based partition function </me:description>
         <me:densityOfStates>
@@ -274,7 +273,7 @@
           <scalar units="cm-1">1688.0</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      
     </molecule>
     <molecule id="TS2" description="peroxy -&gt; HO2 + ketene">
       <atomArray>
@@ -320,7 +319,7 @@
           <scalar units="cm-1">1063.0</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      
     </molecule>
     <molecule id="ketene" description="CH2CO">
       <atomArray>
@@ -359,7 +358,7 @@
           <scalar>1</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      
     </molecule>
     <molecule id="HO2">
       <atomArray>
@@ -394,7 +393,7 @@
           <scalar>1</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      
     </molecule>
     <molecule id="Int2" description="peroxide_isomer_opt">
       <atomArray>
@@ -448,9 +447,6 @@
       <me:energyTransferModel xsi:type="me:ExponentialDown">
         <me:deltaEDown units="cm-1">130.0</me:deltaEDown>
       </me:energyTransferModel>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
-      <me:DistributionCalcMethod default="true">Boltzmann</me:DistributionCalcMethod>
-      <me:energyTransferModel default="true">ExponentialDown</me:energyTransferModel>
     </molecule>
     <molecule id="TS3" description="TS peroxide -&gt; lactone + OH">
       <atomArray>
@@ -497,7 +493,7 @@
           <scalar units="cm-1">656.0</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      
     </molecule>
     <molecule id="lactone">
       <atomArray>
@@ -539,7 +535,7 @@
           <scalar>1</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      
     </molecule>
     <molecule id="triplet_C2H2O2">
       <atomArray>
@@ -580,7 +576,7 @@
           <scalar>1</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      
     </molecule>
     <molecule id="He">
       <atom elementType="He" />
@@ -630,7 +626,7 @@
       <me:transitionState>
         <molecule ref="TS1" me:type="transitionState" />
       </me:transitionState>
-      <me:tunneling>Eckart</me:tunneling>
+      <me:tunneling xsi:type="Eckart "/>
       <me:MCRCMethod name="SimpleRRKM"/>
     </reaction>
     <reaction id="R3">
@@ -701,7 +697,7 @@
     <me:printGrainkfE />
     <me:printGrainkbE />
     <me:eigenvalues>0</me:eigenvalues>
-    <me:calcMethod>simpleCalc</me:calcMethod>
+    <me:calcMethod name="simpleCalc"></me:calcMethod>
   </me:control>
 </me:mesmer>
 

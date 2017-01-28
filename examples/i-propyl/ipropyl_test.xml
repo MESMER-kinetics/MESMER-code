@@ -65,7 +65,7 @@
         <me:deltaEDown units="cm-1" lower="160" upper="300" stepsize="10">190.0</me:deltaEDown>
       </me:energyTransferModel>
 
-      <me:DOSCMethod>QMRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="me:QMRotors"/>
 
         <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
         <me:bondRef>b1</me:bondRef>
@@ -136,7 +136,7 @@
         </property>
       </propertyList>
 
-      <me:DOSCMethod>QMRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="me:QMRotors"/>
 
         <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
         <me:bondRef>b1</me:bondRef>
@@ -433,8 +433,9 @@
   </me:modelParameters>
 
   <me:control>
-    <me:calcMethod>fitting</me:calcMethod>
-    <me:fittingIterations>20</me:fittingIterations>
+    <me:calcMethod xsi:type="me:fitting">
+      <me:fittingIterations>20</me:fittingIterations>
+    </me:calcMethod>
     <me:testDOS />
     <!--<me:testMicroRates />-->
     <me:eigenvalues>1</me:eigenvalues>

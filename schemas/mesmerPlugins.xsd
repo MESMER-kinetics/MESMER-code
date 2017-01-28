@@ -224,6 +224,12 @@
     <xs:sequence></xs:sequence>
     <xs:attribute name="name" type="xs:string" use="optional"/>
   </xs:complexType>
+  
+  <xs:complexType name="DOSCMethodt">
+    <xs:sequence></xs:sequence>
+    <xs:attribute name="name" type="xs:string" use="optional"/>
+    <xs:attribute name="default" use ="optional"/>
+  </xs:complexType>
 
   <xs:simpleType name="bondRefType">
     <xs:annotation>
@@ -233,6 +239,42 @@
       <xs:whiteSpace value="collapse"/>
     </xs:restriction>
   </xs:simpleType>
+
+  <xs:simpleType name="classicalRotors" >
+    <xs:restriction base="xs:string">
+      <xs:length value="0"></xs:length>
+    </xs:restriction> </xs:simpleType>
+  
+  <xs:complexType name="DefinedDensityOfStates">
+    <xs:complexContent>
+      <xs:extension base="DOSCMethodt">
+        <xs:sequence>
+          <xs:element name="states" minOccurs="1" maxOccurs="1">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="state" minOccurs="1" maxOccurs="unbounded">
+                  <xs:complexType>
+                    <!-- attributes for <me:state-->
+                    <xs:attribute name="energy" type="xs:decimal" use="required"/>
+                    <xs:attribute name="degeneracy" type="xs:decimal" use="optional"/>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+              <!--attributes for <me:states>-->
+              <xs:attribute name="units" type="me:energyUnitsType" use="optional">
+                <xs:annotation>
+                  <xs:documentation>The default energy units are cm-1</xs:documentation>
+                </xs:annotation>
+              </xs:attribute>
+              <xs:attribute name="nologSpline" type="xs:boolean" use="optional"/>
+              <xs:attribute name="grainSize" type="xs:decimal" use="optional"/>
+            </xs:complexType>
+          </xs:element>
+          
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
 
   <xs:complexType name="HinderedRotorQM1D">
     <xs:complexContent>
@@ -356,6 +398,13 @@
       <xs:enumeration value="ClassicalRotors"/>
       <xs:enumeration value="QMRotors"/>
       <xs:enumeration value="DefinedStatesRotors"/>
+      <xs:enumeration value="DefinedDensityOfStates">
+        <xs:annotation>
+          <xs:documentation>
+            &lt;me:DOSCMethod name="DefinedDensityOfStates"> CAN have a sub element &lt;me:States>
+        </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
     </xs:restriction>
   </xs:simpleType>
 
@@ -503,7 +552,7 @@
     <xs:complexContent>
       <xs:extension base="calcMethodct">
         <xs:sequence>
-          <xs:element name="errorPropagationSamples" type="xs:integer" />
+          <xs:element name="errorPropagationSamples" type="xs:integer" minOccurs="0"/>
           <xs:element name="errorPropagationTable" minOccurs="0" maxOccurs="unbounded" >
             <xs:complexType>
               <xs:sequence>

@@ -66,9 +66,9 @@
         <me:deltaEDown units="cm-1" lower="160" upper="300" stepsize="10">190.0</me:deltaEDown>
       </me:energyTransferModel>
 
-      <me:DOSCMethod>QMRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="me:QMRotors"/>
 
-        <me:ExtraDOSCMethod xsi:type="HinderedRotorQM1D">
+      <me:ExtraDOSCMethod xsi:type="HinderedRotorQM1D">
         <me:bondRef>b1</me:bondRef>
         <me:HinderedRotorPotential format="analytical" units="kJ/mol">
           <me:PotentialPoint index="0"  coefficient="6.2"/>
@@ -137,7 +137,7 @@
         </property>
       </propertyList>
 
-      <me:DOSCMethod>QMRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="QMRotors"/>
 
         <me:ExtraDOSCMethod xsi:type="HinderedRotorQM1D">
         <me:bondRef>b1</me:bondRef>

@@ -54,7 +54,7 @@
         <me:deltaEDownTExponent referenceTemperature="298.">0.6</me:deltaEDownTExponent>
       </me:energyTransferModel>
 
-      <me:DOSCMethod>QMRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="me:QMRotors"/>
 
 	</molecule>
 
@@ -93,7 +93,7 @@
         </property>
       </propertyList>
 
-	  <me:DOSCMethod>QMRotors</me:DOSCMethod>
+	  <me:DOSCMethod xsi:type="me:QMRotors"/>
 
 	</molecule>
 

@@ -49,7 +49,7 @@
           <scalar>1 </scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>QMRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="me:QMRotors"/>
     </molecule>
 
     <!-- Details supplied by John Barker for MEIC tests.-->
@@ -75,7 +75,7 @@
         </property>
       </propertyList>
 
-      <me:DOSCMethod>QMRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="me:QMRotors"/>
       <me:ExtraDOSCMethod name="Morse" xsi:type="me:Morse">
         <!--Need to include a vibration only when its anaharmonicity is not zero-->
         <me:MorseParameters vibrationalFrequency="3161.925" anharmonicity="-37.593"/>
@@ -120,7 +120,7 @@
           <scalar>1 </scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>QMRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="me:QMRotors"/>
     </molecule>
 
     <!-- Details supplied by John Barker for MEIC tests, hindering potential taken from Waage & Rabinovitch, IJCK, 3, 105 (1971).-->
@@ -177,7 +177,7 @@
         </property>
       </propertyList>
 
-      <me:DOSCMethod>QMRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="me:QMRotors"/>
       <me:energyTransferModel xsi:type="me:ExponentialDown">
         <me:deltaEDown units="cm-1">210</me:deltaEDown>
         <me:deltaEDownTExponent>0.6</me:deltaEDownTExponent>
@@ -239,7 +239,7 @@
 
       </propertyList>
 
-      <me:DOSCMethod>QMRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="me:QMRotors"/>
       <me:energyTransferModel xsi:type="me:ExponentialDown">
         <me:deltaEDown units="cm-1">210</me:deltaEDown>
         <me:deltaEDownTExponent>0.6</me:deltaEDownTExponent>
@@ -307,7 +307,7 @@
 
       </propertyList>
 
-      <me:DOSCMethod>QMRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="me:QMRotors"/>
       <me:energyTransferModel xsi:type="me:ExponentialDown">
         <me:deltaEDown units="cm-1">210</me:deltaEDown>
         <me:deltaEDownTExponent>0.6</me:deltaEDownTExponent>

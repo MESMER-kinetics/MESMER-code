@@ -77,16 +77,16 @@
   <xsl:variable name="Emin" select="math:min($okEnergies)"/>
   <xsl:variable name="Emax" select="math:max($okEnergies)"/>
 
-  <!-- energyOffset (subtracted from each non-zero energy)
-  If the value of me:diagramEnergyOffset is 0, the lowest energy in the system will be labelled 0.0.
-  If a species whose energy is now labelled E needs to be set to 0.0, change the value of
-  me:diagramEnergyOffset to E.-->
+  <!-- energyOffset Adjusts labelled energy.
+  e.g. <me:diagramEnergyOffset ref="R2">0</me:diagramEnergyOffset>
+  The energy of the reactants of the reaction whose id is in the ref attribute value
+  is set to the value of the element. If there is no ref attribute, the lowest enery level
+  in the system is set to the value of the element.
+  (Sign of offset changed 21 Jan 2017)-->
   <xsl:variable name="energyOffset">
     <xsl:choose>
       <xsl:when test="//me:diagramEnergyOffset">
         <xsl:choose>
-          <!--An enhancement to set aspecified reaction's reactants
-          as zero energy is not yet working-->
           <xsl:when test="//me:diagramEnergyOffset/@ref">
             <xsl:variable name="posn">
               <xsl:for-each select="//cml:reaction">
@@ -95,11 +95,11 @@
                 </xsl:if>
               </xsl:for-each>
             </xsl:variable>
-            <xsl:value-of select=" //me:diagramEnergyOffset  
-                          + exsl:node-set($RandPEnergies)/Energy[number($posn)]"/>
+            <xsl:value-of select="exsl:node-set($RandPEnergies)/Energy[number($posn)]
+                                 - //me:diagramEnergyOffset " />
           </xsl:when>
           <xsl:otherwise>
-            <xsl:value-of select="$Emin + //me:diagramEnergyOffset"/>
+            <xsl:value-of select="$Emin - //me:diagramEnergyOffset"/>
           </xsl:otherwise>
         </xsl:choose>       
       </xsl:when>

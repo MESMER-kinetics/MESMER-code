@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
-<?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
+<?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl'?>
 <me:mesmer xmlns="http://www.xml-cml.org/schema"
            xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <title> Acetyl O2 with Eoffset</title>
+  <me:title> Acetyl O2 with Eoffset</me:title>
   <moleculeList>
     <molecule id="acetyl">
       <propertyList>
@@ -195,7 +194,7 @@
           <scalar units="cm-1">656.0</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="ClassicalRotors"/>
     </molecule>
     <molecule id="lactone"/>
     <molecule id="He">
@@ -224,32 +223,32 @@
       <product>
         <molecule ref="Int1" me:type="modelled" />
       </product>
-      <me:MCRCMethod>MesmerILT</me:MCRCMethod>
-      <me:preExponential>6.00e-12</me:preExponential>
-      <me:excessReactantConc>2.25E16</me:excessReactantConc>
-      <me:activationEnergy>0.0</me:activationEnergy>
-      <me:TInfinity>298.0</me:TInfinity>
-      <me:nInfinity>-0.5</me:nInfinity>
+      <me:MCRCMethod xsi:type="me:MesmerILT">
+        <me:preExponential units="cm3molecule-1s-1">6.00e-12</me:preExponential>
+        <me:excessReactantConc>2.25E16</me:excessReactantConc>
+        <me:activationEnergy units="kJ/mol">0.0</me:activationEnergy>
+        <me:TInfinity>298.0</me:TInfinity>
+      <me:nInfinity>-0.5</me:nInfinity></me:MCRCMethod>
     </reaction>
     <reaction id="R2">
       <reactant>
-        <molecule ref="Int1" me:type="modelled" />
+        <molecule ref="Int1" role="modelled" />
       </reactant>
       <product>
-        <molecule ref="Int2" me:type="modelled" />
+        <molecule ref="Int2" role="modelled" />
       </product>
       <me:transitionState>
-        <molecule ref="TS1" me:type="transitionState" />
+        <molecule ref="TS1" role="transitionState" />
       </me:transitionState>
-      <me:tunneling>Eckart</me:tunneling>
-      <me:MCRCMethod>SimpleRRKM</me:MCRCMethod>
+      <me:tunneling xsi:type="Eckart"/>
+      <me:MCRCMethod xsi:type="SimpleRRKM"/>
     </reaction>
     <reaction id="R3">
       <reactant>
-        <molecule ref="Int2" me:type="modelled" />
+        <molecule ref="Int2" role="modelled" />
       </reactant>
       <product>
-        <molecule ref="lactone" me:type="sink" />
+        <molecule ref="lactone" role="sink" />
       </product>
       <product>
         <molecule ref="OH" me:type="sink" />
@@ -257,28 +256,28 @@
       <me:transitionState>
         <molecule ref="TS3" me:type="transitionState" />
       </me:transitionState>
-      <me:MCRCMethod>SimpleRRKM</me:MCRCMethod>
+      <me:MCRCMethod xsi:type="SimpleRRKM"/>
     </reaction>
     <reaction id="R4">
       <reactant>
-        <molecule ref="Int1" me:type="modelled" />
+        <molecule ref="Int1" role="modelled" />
       </reactant>
       <product>
-        <molecule ref="ketene" me:type="sink" />
+        <molecule ref="ketene" role="sink" />
       </product>
       <product>
-        <molecule ref="HO2" me:type="sink" />
+        <molecule ref="HO2" role="sink" />
       </product>
       <me:transitionState>
         <molecule ref="TS2" me:type="transitionState" />
       </me:transitionState>
-      <me:MCRCMethod>SimpleRRKM</me:MCRCMethod>
+      <me:MCRCMethod xsi:type="SimpleRRKM"/>
     </reaction>
   </reactionList>
   <me:conditions>
     <me:bathGas>He</me:bathGas>
     <me:PTs>
-      <me:PTpair me:units="Torr" me:P="200.72" me:T="298." />
+      <me:PTpair units="Torr" P="200.72" T="298." />
     </me:PTs>
   </me:conditions>
   <me:modelParameters>

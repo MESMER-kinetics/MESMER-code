@@ -57,7 +57,7 @@
       <me:energyTransferModel xsi:type="me:ExponentialDown">
         <me:deltaEDown units="cm-1">250.0</me:deltaEDown>
       </me:energyTransferModel>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="ClassicalRotors"/>
       <me:reservoirSize units="kJ/mol">-2.0</me:reservoirSize>
     </molecule>
     <molecule id="cyclopropene" description="C_3H_4">
@@ -109,7 +109,7 @@
         <me:deltaEDown units="cm-1">250.0</me:deltaEDown>
       </me:energyTransferModel>
       <me:reservoirSize units="kJ/mol">-2.0</me:reservoirSize>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="ClassicalRotors"/>
     </molecule>
     <molecule id="allene" description="CH2CCH2">
       <atomArray>
@@ -159,7 +159,7 @@
         <me:deltaEDown units="cm-1">250.0</me:deltaEDown>
       </me:energyTransferModel>
       <me:reservoirSize units="kJ/mol">-2.0</me:reservoirSize>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="ClassicalRotors"/>
     </molecule>
     <molecule id="TS1" description="allene to cyclopropene">
       <metadata>JPC Vol. 92, p. 6924, 1988</metadata>
@@ -178,8 +178,8 @@
         <bond atomRefs2="a1 a4" order="2" />
         <bond atomRefs2="a4 a5" order="1" />
         <bond atomRefs2="a5 a6" order="1" />
-        <bond atomRefs2="a5 a7" order="" />
-        <bond atomRefs2="a4 a7" order="" />
+        <bond atomRefs2="a5 a7" order="1" />
+        <bond atomRefs2="a4 a7" order="1" />
       </bondArray>
       <propertyList>
         <property dictRef="me:ZPE">
@@ -204,7 +204,7 @@
           <scalar>1</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="ClassicalRotors"/>
     </molecule>
     <molecule id="TS3" description="cyclopropene to propyne">
       <propertyList>
@@ -230,7 +230,7 @@
           <scalar>1</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="ClassicalRotors"/>
     </molecule>
     <molecule id="He">
       <atom elementType="He" />

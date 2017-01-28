@@ -5,7 +5,7 @@
   property with dictRef="me:symmetryNumber", then the whole entry is copied
   to the datafile. If there is no default attribute on <property> (as with
   the property with dictRef="me:Hf0"), then all the attributes from the
-  child element of <property> (probably scalar are copied to the datafile.-->
+  child element of <property> (probably scalar) are copied to the datafile.-->
   
   <me:activationEnergy units="kJ/mol" default="NEEDS TO BE CHECKED**">0.0</me:activationEnergy>
   <me:preExponential default="NEEDS TO BE CHECKED**">6.00e-12</me:preExponential>

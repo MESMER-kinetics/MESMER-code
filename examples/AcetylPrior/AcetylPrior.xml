@@ -95,7 +95,7 @@
           <array units="cm-1">533.0</array>
         </property>
       </propertyList>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="me:ClassicalRotor"/>
     </molecule>
     <molecule id="CO">
       <propertyList>
@@ -160,7 +160,7 @@
           <scalar>1</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="me:ClassicalRotor"/>
     </molecule>
     <molecule id="O2" description="oxygen">
       <atomArray>

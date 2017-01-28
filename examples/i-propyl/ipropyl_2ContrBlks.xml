@@ -70,7 +70,7 @@
         <me:deltaEDown units="cm-1" lower="160" upper="300" stepsize="10">260.0</me:deltaEDown>
       </me:energyTransferModel>
 
-      <me:DOSCMethod>QMRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="me:QMRotors"/>
 
         <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
         <me:bondRef>b1</me:bondRef>
@@ -141,7 +141,7 @@
         </property>
       </propertyList>
 
-      <me:DOSCMethod>QMRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="me:QMRotors"/>
 
         <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
         <me:bondRef>b1</me:bondRef>

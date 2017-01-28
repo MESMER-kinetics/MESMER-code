@@ -21,7 +21,8 @@
         <xs:element name="conditions" type="me:conditionsType" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="modelParameters" type="me:modelParametersType" minOccurs="0"/>
         <xs:element name="control" type="me:controlType" maxOccurs="unbounded"/>
-        
+        <xs:group ref="me:conditionsControlGrp" minOccurs="0"/>
+
         <xs:element ref="cml:metadataList" minOccurs="0" maxOccurs="unbounded">
           <xs:annotation>
             <xs:documentation>
@@ -155,6 +156,7 @@
                         </xs:element>
                       </xs:sequence>
                       <xs:attribute name="name" type="xs:string" />
+                      <xs:attribute name="ref" type="cml:moleculeIDType" use="required" />
                       <xs:attribute name="startTime" type="xs:float" />
                       <xs:attribute name="excessReactantConc" type="xs:float" use="optional"/>
                     </xs:complexType>
@@ -264,10 +266,19 @@
       </xs:element>
       <xs:element name="calculateRateCoefficientsOnly" minOccurs="0"/>
       <xs:element name="diagramEnergyOffset" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            e.g. &lt;me:diagramEnergyOffset ref="R2">0&lt;/me:diagramEnergyOffset>
+            Adjusts the displayed energy values of species in the Firefox energy diagram
+            by setting the energy of the reactants of the reaction in the ref attribute
+            to the value of element. If there is no ref attribute, the lowest energy level
+            in the system is set to the value of the element.
+          </xs:documentation>
+        </xs:annotation>
         <xs:complexType>
           <xs:simpleContent>
             <xs:extension base="xs:float">
-              <xs:attribute name="ref" type ="cml:refType" use="optional"/>
+              <xs:attribute name="ref" type ="xs:string" use="optional"/>
             </xs:extension>
           </xs:simpleContent>
         </xs:complexType>
@@ -448,22 +459,17 @@
     <xs:attribute name="default" use="optional"/>
   </xs:complexType>
 
-  <xs:element name="DOSCMethod">
+  <xs:element name="DOSCMethod" type="me:DOSCMethodt">
     <xs:annotation>
       <xs:documentation>
-        &lt;DOSCMethod>methodname&lt;/DOSCMethod> OR &lt;DOSCMethod name="methodname"/>
+        The preferred form is &lt;DOSCMethod xsi:type="me:methodname"/>
+        Methods with no data can also use &lt;DOSCMethod name="methodname"/>
+        OR &lt;DOSCMethod>methodname&lt;/DOSCMethod>
+        The last one is not validated by the schemas and is deprecated.
+        If the element &lt;me:DOSCMethod> is omitted entirely, a default method
+        (probably ClassicaRotors, see defaults.xml) is used.
       </xs:documentation>
     </xs:annotation>
-    <!--Unfortunately, allows empty value together with no or empty attribute
-    Does not allow elements with the data-->
-    <xs:complexType mixed="true">
-      <xs:simpleContent>
-        <xs:extension base="me:DOSCMethodName">
-        <xs:attribute name="name"  type="me:DOSCMethodName" use="optional" />
-        <xs:attribute name="default"  type="me:ynboolean" use="optional" />
-        </xs:extension>
-      </xs:simpleContent>
-    </xs:complexType>
   </xs:element>
   
   <xs:element name="ExtraDOSCMethod" type="me:ExtraDOSCt"/>
@@ -550,4 +556,11 @@
       <xs:enumeration value="0"/>
     </xs:restriction>
   </xs:simpleType>
+
+  <xs:group name="conditionsControlGrp">
+    <xs:sequence>
+      <xs:element name="conditions" type="me:conditionsType"/>
+      <xs:element name="control" type="me:controlType"/>
+    </xs:sequence>
+  </xs:group>
 </xs:schema>

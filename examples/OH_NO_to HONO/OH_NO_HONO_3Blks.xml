@@ -70,7 +70,7 @@
 
       <!--me:reservoirSize units="kcal/mol">-2.0</me:reservoirSize> -->
 
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="ClassicalRotors"/>
 
       <!--Rotation about CH2-O bond.-->
       <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">

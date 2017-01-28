@@ -51,7 +51,7 @@
       <me:energyTransferModel xsi:type="me:ExponentialDown">
         <me:deltaEDown units="cm-1">650.0</me:deltaEDown>
       </me:energyTransferModel>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="ClassicalRotors"/>
     </molecule>
     <molecule id="TS_1a">
       <atomArray>
@@ -88,7 +88,7 @@
           <scalar>2</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="ClassicalRotors"/>
     </molecule>
     <molecule id="OCHCH2">
       <atomArray>
@@ -158,7 +158,7 @@
           <array units="cm-1">139.7</array>
         </property>
       </propertyList>
-      <me:DOSCMethod>QMRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="QMRotors"/>
     </molecule>
     <molecule id="acetylene">
       <atomArray>
@@ -192,7 +192,7 @@
           <scalar>1</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="ClassicalRotors"/>
     </molecule>
     <molecule id="N2">
       <atom elementType="N" />

@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
-<?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
+<?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl'?>
 <me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <me:title>isopropyl decomposition</me:title>
@@ -64,7 +63,7 @@
         <me:deltaEDown units="cm-1" lower="160" upper="300" stepsize="10">190.0</me:deltaEDown>
       </me:energyTransferModel>
 
-      <me:DOSCMethod>QMRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="me:QMRotors"/>
       <me:ExtraDOSCMethod name="HinderedRotorQM1D" xsi:type="me:HinderedRotorQM1D">
         <me:bondRef>b1</me:bondRef>
         <me:HinderedRotorPotential format="analytical" units="kJ/mol">

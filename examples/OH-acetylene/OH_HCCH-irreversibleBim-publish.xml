@@ -37,7 +37,7 @@
           <array units="cm-1">139.7</array>
         </property>
       </propertyList>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="ClassicalRotors"/>
     </molecule>
     <molecule id="acetylene">
       <atomArray>
@@ -71,7 +71,7 @@
           <scalar>1</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="ClassicalRotors"/>
     </molecule>
     <molecule id="TC">
       <propertyList>
@@ -108,7 +108,7 @@
         <me:deltaEDown units="cm-1">310.0</me:deltaEDown>
       </me:energyTransferModel>
 
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="ClassicalRotors"/>
     </molecule>
     <molecule id="CC">
       <propertyList>
@@ -145,7 +145,7 @@
         <me:deltaEDown units="cm-1">310.0</me:deltaEDown>
       </me:energyTransferModel>
 
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="ClassicalRotors"/>
     </molecule>
     <molecule id="O2">
       <propertyList>
@@ -173,7 +173,7 @@
           <scalar>3</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="ClassicalRotors"/>
     </molecule>
     <molecule id="TS_CC_TC">
       <propertyList>
@@ -199,7 +199,7 @@
           <scalar>2</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="ClassicalRotors"/>
     </molecule>
     <molecule id="CC_O2">
       <propertyList>
@@ -207,7 +207,7 @@
           <scalar units="kJ/mol">-165.7</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="ClassicalRotors"/>
     </molecule>
     <molecule id="TC_O2">
       <propertyList>
@@ -215,7 +215,7 @@
           <scalar units="kJ/mol">-193.3</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="ClassicalRotors"/>
     </molecule>
     <molecule id="OCHCH2">
       <atomArray>

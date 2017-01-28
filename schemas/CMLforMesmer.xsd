@@ -2229,7 +2229,14 @@ Relaxed in MESMER to allow also<h:tt>)(</h:tt> because chemical formula are comm
               </xsd:documentation>
             </xsd:annotation>
           </xsd:enumeration>
-          <xsd:enumeration value="unknown">
+      <xsd:enumeration value="RC"><!--MESMER-->
+        <xsd:annotation>
+          <xsd:documentation>
+            <h:div class="summary">Reaction coordinate.</h:div>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="unknown">
             <xsd:annotation>
               <xsd:documentation>
                 <h:div class="summary">Unknown bond order.</h:div>
@@ -9696,9 +9703,9 @@ Relaxed in MESMER to allow also<h:tt>)(</h:tt> because chemical formula are comm
           <xsd:attributeGroup ref="ref"/>
           <xsd:attributeGroup ref="units"/>
           <!--Extra attributes for MESMER-->
-          <xsd:attribute name="lower" type="xsd:decimal"/>
-          <xsd:attribute name="upper" type="xsd:decimal"/>
-          <xsd:attribute name="stepsize" type="xsd:decimal"/>
+          <xsd:attribute name="lower" type="xsd:float"/><!--MESMER was decimal-->
+          <xsd:attribute name="upper" type="xsd:float"/><!--MESMER was decimal-->
+          <xsd:attribute name="stepsize" type="xsd:float"/><!--MESMER was decimal-->
           <xsd:attribute name="fitted" type="xsd:string"/>
           <xsd:attribute name="chiSquared" type="xsd:float"/>
           <xsd:attribute name="referenceTemperature" type="xsd:decimal"/>

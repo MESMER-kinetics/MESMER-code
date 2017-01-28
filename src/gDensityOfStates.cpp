@@ -428,10 +428,20 @@ namespace mesmer
     ErrorContext c(getHost()->getName());
     PersistPtr pp = getHost()->get_PersistentPointer();
 
-    //Get the method which includes rotations, or use the default
-    const char* name = pp->XmlReadValue("me:DOSCMethod");
-    if (!*name) // Must be alt form e.g. <me:DOSCMethod name="QMRotors"/>
-      name = pp->XmlMoveTo("me:DOSCMethod")->XmlReadValue("name");
+    //Get the method which includes rotations, or use the default from defaults.xml
+    const char* name = pp->XmlReadValue("me:DOSCMethod"); //e.g. <me:DOSCMethod>QMRotors<\me:DOSCMethod>
+    if (!*name)
+    {
+      PersistPtr ppDM = pp->XmlMoveTo("me:DOSCMethod");
+      if(ppDM)
+        name= ppDM->XmlReadValue("xsi:type", optional);//e.g. <me:DOSCMethod xsi:type="me:QMRotors"/>
+      if (!name)
+        name = pp->XmlMoveTo("me:DOSCMethod")->XmlReadValue("name"); // e.g. <me:DOSCMethod name="QMRotors"/>
+        // and will provide default if there is no <me:DOSCMethod>
+    }
+    //remove "me:" if present
+    if (name && name[2]==':')
+      name = name + 3;
 
     m_DOSCalculators.push_back(DensityOfStatesCalculator::Find(string(name)));
     if (!m_DOSCalculators[0] || !m_DOSCalculators[0]->ReadParameters(this, pp))
@@ -446,9 +456,10 @@ namespace mesmer
       return false;
     }
 
-		// If the density of states are defined outside of MESMER then no additional terms are required.
-		if (string(name) == "DefinedDensityOfStatess")
-			return true;
+		// Not necessary; and better not to have the name of a plugin explicitly in the code.
+    // If the density of states are defined outside of MESMER then no additional terms are required.
+		//if (string(name) == "DefinedDensityOfStates")
+		//	return true;
 
     // Beyer-Swinehart object added by default at m_DOSCalculators[1].
     m_DOSCalculators.push_back(DensityOfStatesCalculator::Find("BeyerSwinehart"));

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
-<?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
+<?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl'?>
 <me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <!--J. Phys. Chem. A 2005, 109, 1890-1896-->
@@ -38,7 +37,7 @@
           <scalar>1</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="ClassicalRotors"/>
     </molecule>
     <molecule id="acetylene" description="C_2H_2">
       <atomArray>
@@ -75,7 +74,7 @@
           <scalar>1</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="ClassicalRotors"/>
     </molecule>
     <molecule id="Xe">
       <atom id="Xenon" elementType="Xe"/>
@@ -86,7 +85,7 @@
         <property dictRef="me:MW">
           <scalar units="amu">131.9</scalar>
         </property>
-        <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+        <me:DOSCMethod xsi:type="ClassicalRotors"/>
       </propertyList>
     </molecule>
     <molecule id="triplet" description="CH2CCH2">
@@ -141,7 +140,7 @@
         <me:deltaEDown units="cm-1">250.0</me:deltaEDown>
       </me:energyTransferModel>
 
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="ClassicalRotors"/>
     </molecule>
     <molecule id="MECP1" description="HCCH-CH2 MECP">
       <propertyList>
@@ -186,7 +185,7 @@
           <scalar>3</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="ClassicalRotors"/>
     </molecule>
     <molecule id="MECP2" description="HCCH-Xe MECP">
       <propertyList>
@@ -222,7 +221,7 @@
           <scalar>3</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="ClassicalRotors"/>
     </molecule>
     <molecule id="dummy_product" description="dummy product for trip diss">
       <propertyList>
@@ -276,7 +275,7 @@
         <me:deltaEDown units="cm-1">250.0</me:deltaEDown>
       </me:energyTransferModel>
 
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="ClassicalRotors"/>
     </molecule>
   </moleculeList>
   <reactionList>

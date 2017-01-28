@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
-<?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
+<?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl'?>
 <me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <me:title>Cyclopropene isomerization</me:title>
@@ -58,7 +57,7 @@
         <me:deltaEDown units="cm-1">250.0</me:deltaEDown>
       </me:energyTransferModel>
 
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="ClassicalRotors"/>
     </molecule>
     <molecule id="triplet" description="CH2CCH2">
       <propertyList>
@@ -112,7 +111,7 @@
         <me:deltaEDown units="cm-1">250.0</me:deltaEDown>
       </me:energyTransferModel>
 
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="ClassicalRotors"/>
     </molecule>
     <molecule id="MECP1" description="cyclopropene to triplet">
       <propertyList>
@@ -157,7 +156,7 @@
           <scalar>1</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="ClassicalRotors"/>
     </molecule>
     <molecule id="He">
       <atom elementType="He" />

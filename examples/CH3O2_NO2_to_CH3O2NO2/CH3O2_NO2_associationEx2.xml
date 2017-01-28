@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
-<?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
+<?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl'?>
 <me:mesmer xmlns="http://www.xml-cml.org/schema"
            xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -93,9 +92,9 @@
         </property>
       </propertyList>
 
-      <me:DOSCMethod>QMRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="me:QMRotors"/>
 
-      <me:ExtraDOSCMethod name="HinderedRotorQM1D">
+      <me:ExtraDOSCMethod xsi:type="HinderedRotorQM1D">
         <bondRef>b3</bondRef>
         <me:HinderedRotorPotential format="numerical" expansionSize="15" units="kJ/mol" UseSineTerms="yes" scale="1">
           <me:PotentialPoint angle= "0" potential = "0.0" />
@@ -134,7 +133,7 @@
         <bond id="b1" atomRefs2="a5 a3" order="1"/>
         <bond id="b2" atomRefs2="a4 a3" order="1"/>
         <bond id="b3" atomRefs2="a1 a2" order="1"/>
-        <bond id="b4" tomRefs2="a3 a2" order="1"/>
+        <bond id="b4" atomRefs2="a3 a2" order="1"/>
         <bond id="b5" atomRefs2="a3 a6" order="1"/>
       </bondArray>
 
@@ -168,7 +167,7 @@
         </property>
       </propertyList>
 
-      <me:DOSCMethod>QMRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="me:QMRotors"/>
 
     </molecule>
 
@@ -207,7 +206,7 @@
           <scalar>2</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="ClassicalRotors"/>
     </molecule>
 
     <molecule id="N2">
@@ -241,7 +240,6 @@
     </molecule>
 
     <molecule id="SF6">
-      <atom elementType="SF6"/>
       <propertyList>
         <property dictRef="me:epsilon">
           <scalar>212</scalar>
@@ -269,8 +267,7 @@
         <molecule ref="CH3OONO2" role="modelled" />
       </product>
       <me:MCRCMethod xsi:type="me:MesmerILT">
-
-        <me:preExponential lower="1e-13" upper="9e-11" stepsize="1e-13">8.84e-12</me:preExponential>
+        <me:preExponential units="cm3molecule-1s-1" lower="1e-13" upper="9e-11" stepsize="1e-13">8.84e-12</me:preExponential>
         <!--me:preExponential units="cm3molecule-1s-1">5.00e-12</me:preExponential-->
         <me:activationEnergy units="kJ/mol">0.0</me:activationEnergy>
         <me:TInfinity>298.0</me:TInfinity>

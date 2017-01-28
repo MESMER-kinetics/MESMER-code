@@ -4,7 +4,7 @@
 <me:mesmer xmlns="http://www.xml-cml.org/schema"
            xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <title> Acetyl O2 minimal</title>
+  <me:title> Acetyl O2 minimal</me:title>
   <moleculeList>
     <molecule id="acetyl" spinMultiplicity="2">
       <propertyList>
