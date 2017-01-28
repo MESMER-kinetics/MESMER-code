@@ -1,8 +1,12 @@
 2017-January-28 Chris Morley
 
 		Update of schema to include DefinedDensityOfStates and, more generally, me:DOSCMethods
-		with data. Edit example and Mesmer QA files to comply with the current recommendations
-		on DOSCMethods and similar, although Mesmer still parses the older forms.
+		with data. Edit example and Mesmer QA files to remove old stylesheet statements, to
+		comply with the current recommendations on DOSCMethods and similar, although Mesmer
+		still parses the older forms.
+		schemas/memsmer.xsd, schemas/mesmerPlugins.xsd, schemas/CMLforMesmer.xsd,
+		MesmerQA/*.xml, examples/*.xml/
+		gDensityOfStates.cpp(gDensityOfStates::ReadDOSMethods()) parse for xsi:type attribute;
 
 2017-January-22 Struan Robertson
 
