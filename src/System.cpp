@@ -435,23 +435,6 @@ namespace mesmer
     string comment = m_Flags.overwriteXmlAnalysis ?
       "Only selected calculations shown here" : "All calculations shown";
     PersistPtr ppAnalysis = m_ppIOPtr->XmlWriteMainElement("me:analysis", comment, m_Flags.overwriteXmlAnalysis);
-    if (Rdouble::withRange().size() != 0)
-    {
-      PersistPtr ppParams = ppAnalysis->XmlWriteElement("me:parameters");
-      for (size_t i = 0; i != Rdouble::withRange().size(); ++i)
-      {
-        string varname = Rdouble::withRange()[i]->get_varname();
-        //The varnames contain ':' or '(' or')' which is incompatible with XML. replace by '-'.
-        replace(varname.begin(), varname.end(), ':', '-');
-        replace(varname.begin(), varname.end(), '(', '-');
-        replace(varname.begin(), varname.end(), ')', '-');
-        //Tolerate spaces in varnames
-        replace(varname.begin(), varname.end(), ' ', '_');
-        stringstream ss;
-        ss << *Rdouble::withRange()[i];
-        ppParams->XmlWriteAttribute(varname, ss.str());
-      }
-    }
 
     chiSquare = 0.0;
     residuals.clear();
@@ -544,8 +527,7 @@ namespace mesmer
           // Calculate rate coefficients. 
           qdMatrix mesmerRates(1);
           qdMatrix lossRates(1);
-          // m_collisionOperator.BartisWidomPhenomenologicalRates(mesmerRates, lossRates, m_Flags, ppList);
-          m_collisionOperator.BartisWidomPhenomenologicalRates(mesmerRates, lossRates, m_Flags, NULL);
+          m_collisionOperator.BartisWidomPhenomenologicalRates(mesmerRates, lossRates, m_Flags, m_pConditionsManager->get_analysisData(calPoint));
 
           // Write out phenomenological rate coefficients.
           m_collisionOperator.PrintPhenomenologicalRates(mesmerRates, lossRates, m_Flags, m_pConditionsManager->get_analysisData(calPoint));

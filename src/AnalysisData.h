@@ -32,6 +32,9 @@ namespace mesmer
 			m_Pop.clear();
 		};
 
+		// Parameters
+		std::string m_parameters;
+
 		// Eigenvalues.
 		int m_number;
 		std::string m_selection;
@@ -54,6 +57,8 @@ namespace mesmer
 		std::vector<std::string> m_PopRef;
 		std::vector<double> m_Pop;
 
+		// Warning.
+		std::string m_warning;
 	};
 
 	// This structure holds data that applied to all conditions.

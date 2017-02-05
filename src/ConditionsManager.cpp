@@ -597,11 +597,33 @@ namespace mesmer
       vector<double>& Pop = analysisData.m_Pop;
       m_pParallelManager->broadcastVecDouble(Pop, broadcastRank);
 
-    }
+			stmp = analysisData.m_warning;
+			m_pParallelManager->broadcastString(stmp, broadcastRank);
+			analysisData.m_warning = stmp;
 
-    string comment = "All calculations shown";
+		}
+
+		string comment = m_pSys->m_Flags.overwriteXmlAnalysis ?
+			"Only selected calculations shown here" : "All calculations shown";
     PersistPtr ppAnalysis = m_ppIOPtr->XmlWriteMainElement("me:analysis", comment, true);
 		m_ppAnalysis = ppAnalysis;
+		if (Rdouble::withRange().size() != 0)
+		{
+			PersistPtr ppParams = ppAnalysis->XmlWriteElement("me:parameters");
+			for (size_t i = 0; i != Rdouble::withRange().size(); ++i)
+			{
+				string varname = Rdouble::withRange()[i]->get_varname();
+				//The varnames contain ':' or '(' or')' which is incompatible with XML. replace by '-'.
+				replace(varname.begin(), varname.end(), ':', '-');
+				replace(varname.begin(), varname.end(), '(', '-');
+				replace(varname.begin(), varname.end(), ')', '-');
+				//Tolerate spaces in varnames
+				replace(varname.begin(), varname.end(), ' ', '_');
+				stringstream ss;
+				ss << *Rdouble::withRange()[i];
+				ppParams->XmlWriteAttribute(varname, ss.str());
+			}
+		}
 
     // Write <analysis> section.
 
@@ -664,6 +686,7 @@ namespace mesmer
       ppList->XmlWriteAttribute("conc", toString(PandTs[i].m_concentration));
       ppList->XmlWriteAttribute("bathGas", toString(PandTs[i].m_pBathGasName.c_str()));
       ppList->XmlWriteAttribute("units", "s-1");
+			if (!analysisData.m_warning.empty()) ppList->XmlWriteValueElement("me:warning", analysisData.m_warning);
 
       for (size_t j(0); j < analysisData.m_lossRateCoeff.size(); j++) {
         PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderLoss", analysisData.m_lossRateCoeff[j]);
@@ -687,6 +710,7 @@ namespace mesmer
 	{
 		if (m_ppAnalysis) {
 			generalAnalysisData.writeCovariance(m_ppAnalysis);
+
 			generalAnalysisData.clear();
 		}
 	}

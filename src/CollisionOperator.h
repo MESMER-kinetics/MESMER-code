@@ -21,6 +21,7 @@ namespace mesmer
 
   typedef std::map<Reaction*, double, Reaction::ReactionPtrLess> YieldMap;
 
+	// Forward declarations.
 	struct AnalysisData;
 
   class CollisionOperator
@@ -52,7 +53,7 @@ namespace mesmer
     bool timeEvolution(MesmerFlags& mFlags, AnalysisData* analysisData);
 
     // Calculates the Bartis-Widom macroscopic rate coefficients.
-    bool BartisWidomPhenomenologicalRates(qdMatrix& rates, qdMatrix& lossRates, MesmerFlags& mFlags, PersistPtr ppBase = NULL);
+    bool BartisWidomPhenomenologicalRates(qdMatrix& rates, qdMatrix& lossRates, MesmerFlags& mFlags, AnalysisData* genAnlData = NULL);
 
     // Calculates the Bartis-Widom macroscopic rate coefficients, using the contracted basis set eigenvectors.
     bool BartisWidomBasisSetRates(qdMatrix& rates, MesmerFlags& mFlags);
@@ -74,8 +75,6 @@ namespace mesmer
     bool parseDataForGrainProfileAtTime(PersistPtr pp);
 
     bool printGrainProfileAtTime(PersistPtr ppGrainList);
-
-    bool printAverageEnergies(PersistPtr ppAvList);
 
     bool hasGrainProfileData() { return !m_GrainProfileAtTimeData.empty(); }
 

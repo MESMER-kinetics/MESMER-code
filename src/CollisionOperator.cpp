@@ -1278,7 +1278,7 @@ namespace mesmer
     return true;
   }
 
-  bool CollisionOperator::BartisWidomPhenomenologicalRates(qdMatrix& mesmerRates, qdMatrix& lossRates, MesmerFlags& mFlags, PersistPtr ppList)
+  bool CollisionOperator::BartisWidomPhenomenologicalRates(qdMatrix& mesmerRates, qdMatrix& lossRates, MesmerFlags& mFlags, AnalysisData* anlysisData)
   {
     // Constants.
     const size_t smsize = m_eigenvectors->size();
@@ -1315,7 +1315,7 @@ namespace mesmer
 	vector<vector<qd_real> > assymEigenVec(nchem, vector<qd_real>(smsize, 0.0)) ; // U
     for (size_t i(0), ii(nchemIdx); i < nchem; ++i, ++ii) {
       for (size_t j(0); j < smsize; ++j){
-        assymEigenVec[i][j]    = m_eqVector[j] * (*m_eigenvectors)[j][ii] ; // Calculation of U = FV
+        assymEigenVec[i][j] = m_eqVector[j] * (*m_eigenvectors)[j][ii] ; // Calculation of U = FV
       }
     }
 
@@ -1364,7 +1364,7 @@ namespace mesmer
         // Replace tabs and line feeds (bad for XML) by spaces.
         replace(s.begin(), s.end(), '\t', ' ');
         replace(s.begin(), s.end(), '\n', ' ');
-        if (ppList) ppList->XmlWriteValueElement("me:warning", s);
+				if (anlysisData) anlysisData->m_warning = s;
 
         // Determine the number of adsorbed eigenvalues.
         adsorbedCSE++;
