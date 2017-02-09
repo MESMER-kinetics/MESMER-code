@@ -1,4 +1,9 @@
-2017-January-21 Struan Robertson
+2017-February-09 Struan Robertson
+
+		* ConditionsManager.h/.cpp, System.h/.cpp, Analysis.h: Write out energy distributions
+		to xml output.
+
+2017-February-05 Struan Robertson
 
 		* ConditionsManager.h/.cpp, System.h/.cpp, Analysis.h: Write out parameter values and 
 		warnings to xml output.

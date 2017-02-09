@@ -395,13 +395,13 @@ namespace mesmer
         }
         cinfo << endl;
         m_CalcMethod->DoCalculation(this);
-				m_pConditionsManager->WriteXMLandClear();
-			}
+        m_pConditionsManager->WriteXMLandClear();
+      }
     }
-		else {
-			m_CalcMethod->DoCalculation(this);
-			m_pConditionsManager->WriteXMLandClear();
-		}
+    else {
+      m_CalcMethod->DoCalculation(this);
+      m_pConditionsManager->WriteXMLandClear();
+    }
 
     //Calls Finish() for each Reaction. Usually does nothing except in AssociationReaction
     m_pReactionManager->finish();
@@ -429,12 +429,6 @@ namespace mesmer
 
     // Find the highest temperature
     m_Env.MaximumTemperature = m_pConditionsManager->getMaxTemperature();
-
-    // There will usually be an <analysis> section for every calculate().
-    // When fitting set m_Flags.overwriteXmlAnalysis true.
-    string comment = m_Flags.overwriteXmlAnalysis ?
-      "Only selected calculations shown here" : "All calculations shown";
-    PersistPtr ppAnalysis = m_ppIOPtr->XmlWriteMainElement("me:analysis", comment, m_Flags.overwriteXmlAnalysis);
 
     chiSquare = 0.0;
     residuals.clear();
@@ -512,12 +506,8 @@ namespace mesmer
 
             // Calculate time-dependent properties.
             m_collisionOperator.timeEvolution(m_Flags, m_pConditionsManager->get_analysisData(calPoint));
-            if (m_collisionOperator.hasGrainProfileData())
-            {
-              PersistPtr ppGrainList = ppAnalysis->XmlWriteElement("me:grainPopulationList");
-              ppGrainList->XmlWriteAttribute("T", toString(m_pConditionsManager->PTPointTemp(calPoint)));
-              ppGrainList->XmlWriteAttribute("conc", toString(m_Env.conc));
-              m_collisionOperator.printGrainProfileAtTime(ppGrainList);
+            if (m_collisionOperator.hasGrainProfileData()) {
+              m_collisionOperator.printGrainProfileAtTime(m_pConditionsManager->get_analysisData(calPoint));
             }
           }
           else {
@@ -675,9 +665,9 @@ namespace mesmer
     qdMatrix BWrates(1);
     qdMatrix lossRates(1);
     m_collisionOperator.BartisWidomPhenomenologicalRates(BWrates, lossRates, m_Flags);
-		// Write out phenomenological rate coefficients.
-		m_collisionOperator.PrintPhenomenologicalRates(BWrates, lossRates, m_Flags, NULL);
-		m_collisionOperator.get_phenRates(phenRates);
+    // Write out phenomenological rate coefficients.
+    m_collisionOperator.PrintPhenomenologicalRates(BWrates, lossRates, m_Flags, NULL);
+    m_collisionOperator.get_phenRates(phenRates);
 
     return true;
   }

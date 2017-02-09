@@ -1,3 +1,4 @@
+#include <numeric>
 #include <functional>
 #include "Persistence.h"
 #include "System.h"
@@ -7,13 +8,13 @@ using namespace std;
 namespace mesmer
 {
 
-  ConditionsManager::ConditionsManager(System* pSys) : m_pSys(pSys), 
+  ConditionsManager::ConditionsManager(System* pSys) : m_pSys(pSys),
     m_ppConditions(),
-		m_ppAnalysis(),
-		baseExcessConcs(),
-		PandTs(),
-		m_pParallelManager(NULL),
-		generalAnalysisData() {
+    m_ppAnalysis(),
+    baseExcessConcs(),
+    PandTs(),
+    m_pParallelManager(NULL),
+    generalAnalysisData() {
     m_pParallelManager = m_pSys->getParallelManager();
   }
 
@@ -597,33 +598,61 @@ namespace mesmer
       vector<double>& Pop = analysisData.m_Pop;
       m_pParallelManager->broadcastVecDouble(Pop, broadcastRank);
 
-			stmp = analysisData.m_warning;
-			m_pParallelManager->broadcastString(stmp, broadcastRank);
-			analysisData.m_warning = stmp;
+      vector<double>& grnTimes = analysisData.m_grnTimes;
+      m_pParallelManager->broadcastVecDouble(grnTimes, broadcastRank);
 
-		}
+      // The following piece of code deals with the transfer of the STL map that holds the energy distributions.
 
-		string comment = m_pSys->m_Flags.overwriteXmlAnalysis ?
-			"Only selected calculations shown here" : "All calculations shown";
+      if (analysisData.m_grnTimes.size() != 0) {
+        vector<string> molID;
+        map<string, vector<vector<double> > >::const_iterator itr = analysisData.m_grnDists.begin();
+        for (; itr != analysisData.m_grnDists.end(); itr++) {
+          molID.push_back(itr->first);
+        }
+        m_pParallelManager->broadcastVecString(molID, broadcastRank);
+        vector<vector<double> > grnDists;
+        for (size_t i(0); i < molID.size(); i++) {
+          grnDists = analysisData.m_grnDists[molID[i]];
+          if (grnDists.size() == 0)
+            grnDists.resize(analysisData.m_grnTimes.size());
+          for (size_t j(0); j < grnDists.size(); j++) {
+            vector<double> &dtmp = grnDists[j];
+            m_pParallelManager->broadcastVecDouble(dtmp, broadcastRank);
+          }
+          if (rank != broadcastRank)
+            analysisData.m_grnDists[molID[i]] = grnDists;
+        }
+      }
+
+      stmp = analysisData.m_warning;
+      m_pParallelManager->broadcastString(stmp, broadcastRank);
+      analysisData.m_warning = stmp;
+
+    }
+
+    // There will usually be an <analysis> section for every calculate().
+    // When fitting set m_Flags.overwriteXmlAnalysis true.
+    string comment = m_pSys->m_Flags.overwriteXmlAnalysis ?
+      "Only selected calculations shown here" : "All calculations shown";
     PersistPtr ppAnalysis = m_ppIOPtr->XmlWriteMainElement("me:analysis", comment, true);
-		m_ppAnalysis = ppAnalysis;
-		if (Rdouble::withRange().size() != 0)
-		{
-			PersistPtr ppParams = ppAnalysis->XmlWriteElement("me:parameters");
-			for (size_t i = 0; i != Rdouble::withRange().size(); ++i)
-			{
-				string varname = Rdouble::withRange()[i]->get_varname();
-				//The varnames contain ':' or '(' or')' which is incompatible with XML. replace by '-'.
-				replace(varname.begin(), varname.end(), ':', '-');
-				replace(varname.begin(), varname.end(), '(', '-');
-				replace(varname.begin(), varname.end(), ')', '-');
-				//Tolerate spaces in varnames
-				replace(varname.begin(), varname.end(), ' ', '_');
-				stringstream ss;
-				ss << *Rdouble::withRange()[i];
-				ppParams->XmlWriteAttribute(varname, ss.str());
-			}
-		}
+    m_ppAnalysis = ppAnalysis;
+    if (Rdouble::withRange().size() != 0)
+    {
+      PersistPtr ppParams = ppAnalysis->XmlWriteElement("me:parameters");
+      for (size_t i = 0; i != Rdouble::withRange().size(); ++i)
+      {
+        string varname = Rdouble::withRange()[i]->get_varname();
+        //The varnames contain ':' or '(' or')' which is incompatible with XML. replace by '-'.
+        replace(varname.begin(), varname.end(), ':', '-');
+        replace(varname.begin(), varname.end(), '(', '-');
+        replace(varname.begin(), varname.end(), ')', '-');
+        //Tolerate spaces in varnames
+        replace(varname.begin(), varname.end(), ' ', '_');
+        stringstream ss;
+        ss << *Rdouble::withRange()[i];
+        ppParams->XmlWriteAttribute(varname, ss.str());
+      }
+    }
 
     // Write <analysis> section.
 
@@ -679,6 +708,50 @@ namespace mesmer
         }
       }
 
+      // Grain distributions, Output density to XML (Chris)
+
+      if (analysisData.m_grnTimes.size() != 0)
+      {
+        PersistPtr ppGrainList = ppAnalysis->XmlWriteElement("me:grainPopulationList");
+        ppGrainList->XmlWriteAttribute("T", toString(PandTs[i].m_temperature));
+        ppGrainList->XmlWriteAttribute("conc", toString(PandTs[i].m_concentration));
+
+        map<string, vector<vector<double> > >::const_iterator itr = analysisData.m_grnDists.begin();
+        for (; itr != analysisData.m_grnDists.end(); itr++) {
+
+          for (size_t iTime(0); iTime < analysisData.m_grnTimes.size(); iTime++) {
+
+            vector<double> density = itr->second[iTime];
+
+            double totalPop = accumulate(density.begin(), density.end(), 0.0);
+            PersistPtr ppGrainPop = ppGrainList->XmlWriteElement("me:grainPopulation");
+            {
+              ppGrainPop->XmlWriteAttribute("ref", itr->first);
+              ppGrainPop->XmlWriteAttribute("time", toString(analysisData.m_grnTimes[iTime]));
+              //ppGrainPop->XmlWriteAttribute("logTime", toString(log10(Times[iTime])));
+              ppGrainPop->XmlWriteAttribute("me:pop", toString(totalPop));
+              ppGrainPop->XmlWriteAttribute("units", "cm-1");
+
+              // Output grain population at each grain energy in two forms:
+              // normalised - sum of all = 1; and log of unnormalised value
+              stringstream ssgpop;
+              for (size_t j(0); j < density.size(); ++j)
+              {
+                if (density[j] >= 1e-11) //ignore point if density is very small
+                {
+                  ssgpop.str("");
+                  ssgpop << fixed << setprecision(6) << density[j] / totalPop;
+                  PersistPtr ppGrain = ppGrainPop->XmlWriteElement("me:grain");
+                  ppGrain->XmlWriteAttribute("energy", toString((j + 0.5) * m_pSys->getEnv().GrainSize)); //cm-1
+                  ppGrain->XmlWriteAttribute("normpop", ssgpop.str());
+                  ppGrain->XmlWriteAttribute("logpop", toString(log10(density[j])));
+                }
+              }
+            }
+          }
+        }
+      }
+
       // BW Rate coefficients.
 
       PersistPtr ppList = ppAnalysis->XmlWriteElement("me:rateList");
@@ -686,7 +759,7 @@ namespace mesmer
       ppList->XmlWriteAttribute("conc", toString(PandTs[i].m_concentration));
       ppList->XmlWriteAttribute("bathGas", toString(PandTs[i].m_pBathGasName.c_str()));
       ppList->XmlWriteAttribute("units", "s-1");
-			if (!analysisData.m_warning.empty()) ppList->XmlWriteValueElement("me:warning", analysisData.m_warning);
+      if (!analysisData.m_warning.empty()) ppList->XmlWriteValueElement("me:warning", analysisData.m_warning);
 
       for (size_t j(0); j < analysisData.m_lossRateCoeff.size(); j++) {
         PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderLoss", analysisData.m_lossRateCoeff[j]);
@@ -702,18 +775,18 @@ namespace mesmer
 
     }
 
-	}
+  }
 
-	// Write the general analysis data to <me:analysis> section of the XML output.
+  // Write the general analysis data to <me:analysis> section of the XML output.
 
-	void ConditionsManager::WriteXMLandClear()
-	{
-		if (m_ppAnalysis) {
-			generalAnalysisData.writeCovariance(m_ppAnalysis);
+  void ConditionsManager::WriteXMLandClear()
+  {
+    if (m_ppAnalysis) {
+      generalAnalysisData.writeCovariance(m_ppAnalysis);
 
-			generalAnalysisData.clear();
-		}
-	}
+      generalAnalysisData.clear();
+    }
+  }
 
 }//namespace
 

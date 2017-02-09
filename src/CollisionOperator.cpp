@@ -2069,7 +2069,7 @@ namespace mesmer
     return true;
   }
 
-  bool CollisionOperator::printGrainProfileAtTime(PersistPtr ppGrainList) {
+  bool CollisionOperator::printGrainProfileAtTime(AnalysisData* analysisData) {
 
     // Check there is something to do.
     if (!m_GrainProfileAtTimeData.size())
@@ -2115,6 +2115,10 @@ namespace mesmer
       }
 
       const vector<double> Times(m_GrainProfileAtTimeData[iMol].second);
+			vector<vector<double> > grnDists;
+
+			if (analysisData) 
+				analysisData->m_grnTimes = Times;
 
       for (size_t iTime(0); iTime < Times.size(); ++iTime){
         double numColl = m_meanOmega * Times[iTime];
@@ -2132,34 +2136,10 @@ namespace mesmer
         // Copy densities for output.
 
         vector<double> density(p_t.begin() + iLoc, p_t.begin() + (iLoc + slsize - 1));
-        double totalPop = accumulate(density.begin(), density.end(), 0.0);
-
-        // Output density to XML (Chris)
-        PersistPtr ppGrainPop = ppGrainList->XmlWriteElement("me:grainPopulation");
-        {
-          ppGrainPop->XmlWriteAttribute("ref", pMol->getName());
-          ppGrainPop->XmlWriteAttribute("time", toString(Times[iTime]));
-          //ppGrainPop->XmlWriteAttribute("logTime", toString(log10(Times[iTime])));
-          ppGrainPop->XmlWriteAttribute("me:pop", toString(totalPop));
-          ppGrainPop->XmlWriteAttribute("units", "cm-1");
-
-          // Output grain population at each grain energy in two forms:
-          // normalised - sum of all = 1; and log of unnormalised value
-          stringstream ssgpop;
-          for (size_t j(0); j < slsize - 1; ++j)
-          {
-            if (density[j] >= 1e-11) //ignore point if density is very small
-            {
-              ssgpop.str("");
-              ssgpop << fixed << setprecision(6) << density[j] / totalPop;
-              PersistPtr ppGrain = ppGrainPop->XmlWriteElement("me:grain");
-              ppGrain->XmlWriteAttribute("energy", toString((j + 0.5) * pMol->getEnv().GrainSize)); //cm-1
-              ppGrain->XmlWriteAttribute("normpop", ssgpop.str());
-              ppGrain->XmlWriteAttribute("logpop", toString(log10(density[j])));
-            }
-          }
-        }
+				grnDists.push_back(density);
       }
+			if (analysisData) 
+					analysisData->m_grnDists[pMol->getName()] = grnDists ;
     }
 
     return true;

@@ -8,94 +8,116 @@
 
 namespace mesmer
 {
-	// This structure holds condition specific data.
+  // This structure holds condition specific data.
 
-	struct AnalysisData
-	{
-	public:
-		AnalysisData() : m_number(0), m_selection(""), m_eigenvalues(), m_lossRef(), m_lossRateCoeff() {}
+  struct AnalysisData
+  {
+  public:
+    AnalysisData() : m_number(0),
+      m_selection(""),
+      m_eigenvalues(),
+      m_lossRef(),
+      m_lossRateCoeff(),
+      m_firstOrderReactionType(),
+      m_firstOrderFromRef(),
+      m_firstOrderToRef(),
+      m_firstOrderRateCoeff(),
+      m_timePoints(),
+      m_aveEnergyRef(),
+      m_aveEnergy(),
+      m_PopRef(),
+      m_Pop(),
+      m_grnTimes(),
+      m_grnDists(),
+      m_warning() {}
 
-		~AnalysisData() {};
+    ~AnalysisData() {};
 
-		void clear() {
-			m_eigenvalues.clear();
-			m_lossRef.clear();
-			m_lossRateCoeff.clear();
-			m_firstOrderReactionType.clear();
-			m_firstOrderFromRef.clear();
-			m_firstOrderToRef.clear();
-			m_firstOrderRateCoeff.clear();
-			m_timePoints.clear();
-			m_aveEnergyRef.clear();
-			m_aveEnergy.clear();
-			m_PopRef.clear();
-			m_Pop.clear();
-		};
+    void clear() {
+      m_eigenvalues.clear();
+      m_lossRef.clear();
+      m_lossRateCoeff.clear();
+      m_firstOrderReactionType.clear();
+      m_firstOrderFromRef.clear();
+      m_firstOrderToRef.clear();
+      m_firstOrderRateCoeff.clear();
+      m_timePoints.clear();
+      m_aveEnergyRef.clear();
+      m_aveEnergy.clear();
+      m_PopRef.clear();
+      m_Pop.clear();
+      m_grnTimes.clear();
+      m_grnDists.clear();
+      m_warning.clear();
+    };
 
-		// Parameters
-		std::string m_parameters;
+    // Parameters
+    std::string m_parameters;
 
-		// Eigenvalues.
-		int m_number;
-		std::string m_selection;
-		std::vector<double> m_eigenvalues;
+    // Eigenvalues.
+    int m_number;
+    std::string m_selection;
+    std::vector<double> m_eigenvalues;
 
-		// Loss rate coefficients.
-		std::vector<std::string> m_lossRef;
-		std::vector<double> m_lossRateCoeff;
+    // Loss rate coefficients.
+    std::vector<std::string> m_lossRef;
+    std::vector<double> m_lossRateCoeff;
 
-		// First order rate coefficients.
-		std::vector<std::string> m_firstOrderReactionType;
-		std::vector<std::string> m_firstOrderFromRef;
-		std::vector<std::string> m_firstOrderToRef;
-		std::vector<double> m_firstOrderRateCoeff;
+    // First order rate coefficients.
+    std::vector<std::string> m_firstOrderReactionType;
+    std::vector<std::string> m_firstOrderFromRef;
+    std::vector<std::string> m_firstOrderToRef;
+    std::vector<double> m_firstOrderRateCoeff;
 
-		// Average Energy and population.
-		std::vector<double> m_timePoints;
-		std::vector<std::string> m_aveEnergyRef;
-		std::vector<double> m_aveEnergy;
-		std::vector<std::string> m_PopRef;
-		std::vector<double> m_Pop;
+    // Average Energy and population.
+    std::vector<double> m_timePoints;
+    std::vector<std::string> m_aveEnergyRef;
+    std::vector<double> m_aveEnergy;
+    std::vector<std::string> m_PopRef;
+    std::vector<double> m_Pop;
 
-		// Warning.
-		std::string m_warning;
-	};
+    // Grain populations.
+    std::vector<double> m_grnTimes;
+    std::map<string, std::vector<std::vector<double> > >  m_grnDists;
 
-	// This structure holds data that applied to all conditions.
+    // Warning.
+    std::string m_warning;
+  };
 
-	class GeneralAnalysisData
-	{
-	public:
-		GeneralAnalysisData() : m_covariance(1), m_writeCovar(false) {}
+  // This structure holds data that applied to all conditions.
 
-		~GeneralAnalysisData() { clear(); };
+  class GeneralAnalysisData
+  {
+  public:
+    GeneralAnalysisData() : m_covariance(1), m_writeCovar(false) {}
 
-		void clear() {
-			m_covariance.resize(1);
-		};
+    ~GeneralAnalysisData() { clear(); };
 
-		void setCovariance(qdMatrix &covariance) {
-			m_covariance = covariance;
-			m_writeCovar = true;
-		};
+    void clear() {
+      m_covariance.resize(1);
+    };
 
-		void writeCovariance(PersistPtr ppAnalysis) const {
-			if (m_writeCovar) {
-				PersistPtr ppCovariance = ppAnalysis->XmlWriteElement("me:covariance", "");
-				m_covariance.WriteToXML(ppCovariance);
-			}
-		};
+    void setCovariance(qdMatrix &covariance) {
+      m_covariance = covariance;
+      m_writeCovar = true;
+    };
 
-	private:
+    void writeCovariance(PersistPtr ppAnalysis) const {
+      if (m_writeCovar) {
+        PersistPtr ppCovariance = ppAnalysis->XmlWriteElement("me:covariance", "");
+        m_covariance.WriteToXML(ppCovariance);
+      }
+    };
 
-		// Covariance.
-		qdMatrix m_covariance;
-		bool m_writeCovar;
+  private:
 
-	};
+    // Covariance.
+    qdMatrix m_covariance;
+    bool m_writeCovar;
+
+  };
 
 }//namespace
-
 
 #endif // GUARD_AnalysisData_h
 

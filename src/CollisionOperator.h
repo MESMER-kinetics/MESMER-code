@@ -46,8 +46,7 @@ namespace mesmer
     bool BuildReactionOperator(MesmerEnv &mEnv, MesmerFlags& mFlags, bool writeReport = false);
 
     // Diagonalize the reaction operator.
-    void diagReactionOperator(const MesmerFlags &mFlags, const MesmerEnv &mEnv,
-			AnalysisData* analysisData = NULL);
+    void diagReactionOperator(const MesmerFlags &mFlags, const MesmerEnv &mEnv, AnalysisData* analysisData = NULL);
 
     // Calculate the time evolution of the system
     bool timeEvolution(MesmerFlags& mFlags, AnalysisData* analysisData);
@@ -74,7 +73,7 @@ namespace mesmer
 
     bool parseDataForGrainProfileAtTime(PersistPtr pp);
 
-    bool printGrainProfileAtTime(PersistPtr ppGrainList);
+    bool printGrainProfileAtTime(AnalysisData* genAnlData = NULL);
 
     bool hasGrainProfileData() { return !m_GrainProfileAtTimeData.empty(); }
 
