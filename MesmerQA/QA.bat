@@ -31,9 +31,11 @@ SET tfn=mesmer.test
 SET lfn=mesmer.log
 SET bline=baselines/Win32/
 SET outf=out.xml
+SET mpicommand="C:\Program Files\Microsoft MPI\Bin\mpiexec" -n 2 %executable%
+SET cmdline=%executable%
 
 :: This compares the "double quote" altogether with the content
-IF "%1"=="" (
+IF "%1"=="" executable
 SET directive=-q
 SET otfn=test.test
 echo.
@@ -83,85 +85,85 @@ cd pentyl
 :: display mesmer version
 %executable% -V
 
-%executable% pentyl_isomerization_test.xml -o %outf% %directive%
+%cmdline% pentyl_isomerization_test.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 cd ..
 echo --------------------------------------------------------------------
 
 cd benzene_oxidation
-%executable% benzene_oxidation_test.xml -o %outf% %directive%
+%cmdline% benzene_oxidation_test.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 cd ..
 echo --------------------------------------------------------------------
 
 cd HSO2
-%executable% HSO2_test.xml -o %outf% %directive%
+%cmdline% HSO2_test.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 
 set testName="HSO2"
-%executable% -N %testName%.xml %directive%
+%cmdline% -N %testName%.xml %directive%
 copy "./%testName%.test" "./%bline%%testName%.test"
 IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
 cd ..
 echo --------------------------------------------------------------------
 
 cd "cyclopropene isomerization"
-%executable% Cyclopropene_isomerization_test.xml -o %outf% %directive%
+%cmdline% Cyclopropene_isomerization_test.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 cd ..
 echo --------------------------------------------------------------------
 
 cd "cyclopropene isomerization reservoir state"
-%executable% Cyclopropene_isomerization_reservoir_state_test.xml -o %outf% %directive%
+%cmdline% Cyclopropene_isomerization_reservoir_state_test.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 cd ..
 echo --------------------------------------------------------------------
 
 cd "OH acetylene association"
-%executable% OH_acetylene_association_test.xml -o %outf% %directive%
+%cmdline% OH_acetylene_association_test.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 
 set testName="OH_acetylene_pseudo_isomerization"
-%executable% -N %testName%.xml %directive%
+%cmdline% -N %testName%.xml %directive%
 copy "./%testName%.test" "./%bline%%testName%.test"
 IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
 cd ..
 echo --------------------------------------------------------------------
 
 cd "Acetyl O2 association"
-%executable% Acetyl_O2_association.xml -o %outf% %directive%
+%cmdline% Acetyl_O2_association.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 cd ..
 echo --------------------------------------------------------------------
 
 cd "i-propyl"
-%executable% ipropyl_test.xml -o %outf% %directive%
+%cmdline% ipropyl_test.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 
 set testName="ipropyl_reservoir"
-%executable% -N %testName%.xml %directive%
+%cmdline% -N %testName%.xml %directive%
 copy "./%testName%.test" "./%bline%%testName%.test"
 IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
 cd ..
 echo --------------------------------------------------------------------
 
 cd "ThermodynamicTable"
-%executable% ThermodynamicTable.xml -o %outf% %directive%
+%cmdline% ThermodynamicTable.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 cd ..
 echo --------------------------------------------------------------------
 
 cd "UnitTests"
-%executable% UnitTests.xml -o %outf% %directive%
+%cmdline% UnitTests.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 cd ..

@@ -272,25 +272,25 @@ namespace mesmer
 
     // the code that follows is for printing of the f & r k(E)s
     if (getFlags().kfEGrainsEnabled){
-      ctest << "\nk_f(e) grains for " << getName() << ":\n{\n";
+      stest << "\nk_f(e) grains for " << getName() << ":\n{\n";
       for (int i = 0; i < MaximumGrain; ++i){
-        ctest << m_GrainKfmc[i] << endl;
+        stest << m_GrainKfmc[i] << endl;
       }
-      ctest << "}\n";
+      stest << "}\n";
     }
     if (getFlags().kbEGrainsEnabled){
-      ctest << "\nk_b(e) grains for " << getName() << ":\n{\n";
+      stest << "\nk_b(e) grains for " << getName() << ":\n{\n";
       for (int i = 0; i < MaximumGrain; ++i){
-        ctest << m_GrainKbmc[i] << endl;
+        stest << m_GrainKbmc[i] << endl;
       }
-      ctest << "}\n";
+      stest << "}\n";
     }
     if (getFlags().grainTSsosEnabled){
-      ctest << "\nN(e) for TS of " << getName() << " (referenced to " << (this->get_reactant())->getName() << " energy):\n{\n";
+      stest << "\nN(e) for TS of " << getName() << " (referenced to " << (this->get_reactant())->getName() << " energy):\n{\n";
       for (int i = 0; i < MaximumGrain; ++i){
-        ctest << m_GrainKfmc[i]*rctGrainDOS[i]/SpeedOfLight_in_cm << endl;
+        stest << m_GrainKfmc[i]*rctGrainDOS[i]/SpeedOfLight_in_cm << endl;
       }
-      ctest << "}\n";
+      stest << "}\n";
     }
     if (getFlags().testRateConstantEnabled)
       HighPresRateCoeffs(NULL);
@@ -329,9 +329,9 @@ namespace mesmer
       pCoeffs->push_back(k_backward) ;
       pCoeffs->push_back(Keq) ;
     } else {
-      ctest << endl << "Canonical first order forward rate constant of isomerization reaction " 
+      stest << endl << "Canonical first order forward rate constant of isomerization reaction " 
 				<< getName() << " = " << k_forward << " s-1 (" << temperature << " K)" << endl;
-      ctest << "Canonical first order backward rate constant of isomerization reaction " 
+      stest << "Canonical first order backward rate constant of isomerization reaction " 
 				<< getName() << " = " << k_backward << " s-1 (" << temperature << " K)" << endl;
     }
   }

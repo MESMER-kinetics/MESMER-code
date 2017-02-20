@@ -310,25 +310,25 @@ namespace mesmer
 
 	// the code that follows is for printing of the f & r k(E)s
 	if (getFlags().kfEGrainsEnabled){
-	  ctest << "\nk_f(e) grains for " << getName() << ":\n{\n";
+	  stest << "\nk_f(e) grains for " << getName() << ":\n{\n";
 	  for (int i = 0; i < MaximumGrain; ++i){
-		ctest << m_GrainKfmc[i] << endl;
+		stest << m_GrainKfmc[i] << endl;
 	  }
-	  ctest << "}\n";
+	  stest << "}\n";
 	}
 	if (getFlags().kbEGrainsEnabled){
-	  ctest << "\nk_b(e) grains for " << getName() << ":\n{\n";
+	  stest << "\nk_b(e) grains for " << getName() << ":\n{\n";
 	  for (int i = 0; i < MaximumGrain; ++i){
-		ctest << m_GrainKbmc[i] << endl;
+		stest << m_GrainKbmc[i] << endl;
 	  }
-	  ctest << "}\n";
+	  stest << "}\n";
 	}
 	if (getFlags().grainTSsosEnabled){
-	  ctest << "\nN(e) for TS of " << getName() << " (referenced to " << (this->get_pseudoIsomer())->getName() << " energy):\n{\n";
+	  stest << "\nN(e) for TS of " << getName() << " (referenced to " << (this->get_pseudoIsomer())->getName() << " energy):\n{\n";
 	  for (int i = 0; i < MaximumGrain; ++i){
-		ctest << m_GrainKfmc[i]*rctGrainDOS[i]/SpeedOfLight_in_cm << endl;
+		stest << m_GrainKfmc[i]*rctGrainDOS[i]/SpeedOfLight_in_cm << endl;
 	  }
-	  ctest << "}\n";
+	  stest << "}\n";
 	}
 	if (getFlags().testRateConstantEnabled)
 	  HighPresRateCoeffs(NULL);
@@ -361,11 +361,11 @@ namespace mesmer
 	  pCoeffs->push_back(Keq) ;
 	} else {
 	  const double temperature = 1. / (boltzmann_RCpK * beta);
-	  ctest << endl << "Canonical pseudo first order rate constant of association reaction "
+	  stest << endl << "Canonical pseudo first order rate constant of association reaction "
 		<< getName() << " = " << k_f_grained << " s-1 (" << temperature << " K)" << endl;
-	  ctest << "Canonical bimolecular rate constant of association reaction "
+	  stest << "Canonical bimolecular rate constant of association reaction "
 		<< getName() << " = " << k_f_grained/m_ERConc << " cm^3/mol/s (" << temperature << " K)" << endl;
-	  ctest << "Canonical first order rate constant for the reverse of reaction "
+	  stest << "Canonical first order rate constant for the reverse of reaction "
 		<< getName() << " = " << k_b_grained << " s-1 (" << temperature << " K)" << endl;
 	}
   }
@@ -390,26 +390,26 @@ namespace mesmer
 	const string catName = m_rct1->getName() + " + " + m_rct2->getName();
 
 	if (getFlags().cyclePrintCellDOS){
-	  ctest << endl << "Cell rovibronic density of states of " << catName << endl << "{" << endl;
+	  stest << endl << "Cell rovibronic density of states of " << catName << endl << "{" << endl;
 	  for (int i = 0; i < MaximumCell; ++i){
-		formatFloat(ctest, rctsCellEne[i],  6,  15) ;
-		formatFloat(ctest, rctsCellDOS[i],  6,  15) ;
-		ctest << endl ;
+		formatFloat(stest, rctsCellEne[i],  6,  15) ;
+		formatFloat(stest, rctsCellDOS[i],  6,  15) ;
+		stest << endl ;
 	  }
-	  ctest << "}" << endl;
+	  stest << "}" << endl;
 	  getFlags().cyclePrintCellDOS = false;
 	}
 
 	calcGrainAverages(getEnv().MaxGrn, getEnv().cellPerGrain(), cellOffset, rctsCellDOS, rctsCellEne, grainDOS, grainEne) ;
 
 	if (getFlags().cyclePrintGrainDOS){
-	  ctest << endl << "Grain rovibronic density of states of " << catName << endl << "{" << endl;
+	  stest << endl << "Grain rovibronic density of states of " << catName << endl << "{" << endl;
 	  for (size_t i(0); i < getEnv().MaxGrn; ++i){
-		formatFloat(ctest, grainEne[i],  6,  15) ;
-		formatFloat(ctest, grainDOS[i],  6,  15) ;
-		ctest << endl ;
+		formatFloat(stest, grainEne[i],  6,  15) ;
+		formatFloat(stest, grainDOS[i],  6,  15) ;
+		stest << endl ;
 	  }
-	  ctest << "}" << endl;
+	  stest << "}" << endl;
 	  getFlags().cyclePrintGrainDOS = false;
 	}
 

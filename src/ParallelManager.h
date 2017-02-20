@@ -113,10 +113,20 @@ namespace mesmer
     // Brings processes to the same point.
 
     void barrier() {
-
       MPI_Barrier(MPI_COMM_WORLD);
-
     }
+
+		// Gathers QA output from across ranks ans writes to ctest.
+
+		void writeCtest() {
+			ctest << stest.str();
+			for (int i(1); i < m_size; i++) {
+				string tmp = stest.str() ;
+				broadcastString(tmp, i);
+				ctest << tmp ;
+			}
+			stest.str("");
+		}
 
 #else
 
@@ -171,6 +181,13 @@ namespace mesmer
     void barrier() {
       // No Op.
     }
+
+		// Gathers QA output from across ranks ans writes to ctest.
+
+		void writeCtest() {
+			ctest << stest.str();
+			stest.str("");
+		}
 
 #endif 
 

@@ -205,18 +205,18 @@ namespace mesmer
 
     // the code that follows is for printing the forward k(E)s
     if (getFlags().kfEGrainsEnabled){
-      ctest << "\nk_f(e) grains for " << getName() << ":\n{\n";
+      stest << "\nk_f(e) grains for " << getName() << ":\n{\n";
       for (int i = 0; i < MaximumGrain; ++i){
-        ctest << m_GrainKfmc[i] << endl;
+        stest << m_GrainKfmc[i] << endl;
       }
-      ctest << "}\n";
+      stest << "}\n";
     }
     if (getFlags().grainTSsosEnabled){
-      ctest << "\nN(e) for TS of " << getName() << " (referenced to " << (this->get_reactant())->getName() << " energy):\n{\n";
+      stest << "\nN(e) for TS of " << getName() << " (referenced to " << (this->get_reactant())->getName() << " energy):\n{\n";
       for (int i = 0; i < MaximumGrain; ++i){
-        ctest << m_GrainKfmc[i]*rctGrainDOS[i]/SpeedOfLight_in_cm << endl;
+        stest << m_GrainKfmc[i]*rctGrainDOS[i]/SpeedOfLight_in_cm << endl;
       }
-      ctest << "}\n";
+      stest << "}\n";
     }
     if (getFlags().testRateConstantEnabled)
       HighPresRateCoeffs(NULL);
@@ -253,7 +253,7 @@ namespace mesmer
       }
     } else {
       const double temperature = 1./(boltzmann_RCpK * beta);
-      ctest << endl << "Canonical pseudo first order forward rate constant of irreversible reaction "
+      stest << endl << "Canonical pseudo first order forward rate constant of irreversible reaction "
 				<< getName() << " = " << kf << " s-1 (" << temperature << " K)" << endl;
     }
   }

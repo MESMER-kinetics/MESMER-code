@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.0 compiled: -- Nov 22 2016 -- 23:29:20
+     Mesmer v5.0 compiled: -- Feb 19 2017 -- 16:23:35
 
      Copyright (C) 2009-2016 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -26,16 +26,20 @@
     You should have received a copy of the GNU Public License
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
+                     Number of ranks: 1
+
+Using 1 processes
 defaults.xml, librarymols.xml are in ../..
 
 Parsing input xml file...
 UnitTests.xml
 
 --Parse data for UnitTests
-Write metadata 20161122_233149
+Write metadata 20170219_162834
 
 File: "UnitTests.xml" successfully parsed.
 Main Calculation begins
+Now calculating...
 In Test_Molecule: The default value of me:DOSCMethod was used.
 In Test_Molecule: The default value of the attribute spinMultiplicity was used.
 gDensityOfStates initialization failed.
@@ -62,5 +66,6 @@ gDensityOfStates initialization failed.
 Hindered rotor b1
  -- Total time elapsed: 4 seconds.
 
+QA test successful
 System saved to out.xml
 Total time elapsed: 4 seconds.

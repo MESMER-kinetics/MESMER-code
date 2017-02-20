@@ -161,26 +161,26 @@ namespace mesmer
 		string catName = m_rct1->getName() + " + " + m_rct2->getName();
 
 		if (getFlags().cyclePrintCellDOS){
-			ctest << endl << "Cell rovibronic density of states of " << catName << endl << "{" << endl;
+			stest << endl << "Cell rovibronic density of states of " << catName << endl << "{" << endl;
 			for (int i = 0; i < MaximumCell; ++i){
-				formatFloat(ctest, rctsCellEne[i], 6, 15);
-				formatFloat(ctest, rctsCellDOS[i], 6, 15);
-				ctest << endl;
+				formatFloat(stest, rctsCellEne[i], 6, 15);
+				formatFloat(stest, rctsCellDOS[i], 6, 15);
+				stest << endl;
 			}
-			ctest << "}" << endl;
+			stest << "}" << endl;
 			getFlags().cyclePrintCellDOS = false;
 		}
 
 		calcGrainAverages(getEnv().MaxGrn, getEnv().cellPerGrain(), cellOffset, rctsCellDOS, rctsCellEne, grainDOS, grainEne);
 
 		if (getFlags().cyclePrintGrainDOS){
-			ctest << endl << "Grain rovibronic density of states of " << catName << endl << "{" << endl;
+			stest << endl << "Grain rovibronic density of states of " << catName << endl << "{" << endl;
 			for (size_t i(0); i < getEnv().MaxGrn; ++i){
-				formatFloat(ctest, grainEne[i], 6, 15);
-				formatFloat(ctest, grainDOS[i], 6, 15);
-				ctest << endl;
+				formatFloat(stest, grainEne[i], 6, 15);
+				formatFloat(stest, grainDOS[i], 6, 15);
+				stest << endl;
 			}
-			ctest << "}" << endl;
+			stest << "}" << endl;
 			getFlags().cyclePrintGrainDOS = false;
 		}
 
@@ -203,26 +203,26 @@ namespace mesmer
 		const string catName = m_pdt1->getName() + " + " + m_pdt2->getName();
 
 		if (getFlags().cyclePrintCellDOS){
-			ctest << endl << "Cell rovibronic density of states of " << catName << endl << "{" << endl;
+			stest << endl << "Cell rovibronic density of states of " << catName << endl << "{" << endl;
 			for (int i = 0; i < MaximumCell; ++i){
-				formatFloat(ctest, pdtsCellEne[i], 6, 15);
-				formatFloat(ctest, pdtsCellDOS[i], 6, 15);
-				ctest << endl;
+				formatFloat(stest, pdtsCellEne[i], 6, 15);
+				formatFloat(stest, pdtsCellDOS[i], 6, 15);
+				stest << endl;
 			}
-			ctest << "}" << endl;
+			stest << "}" << endl;
 			getFlags().cyclePrintCellDOS = false;
 		}
 
 		calcGrainAverages(getEnv().MaxGrn, getEnv().cellPerGrain(), cellOffset, pdtsCellDOS, pdtsCellEne, grainDOS, grainEne);
 
 		if (getFlags().cyclePrintGrainDOS){
-			ctest << endl << "Grain rovibronic density of states of " << catName << endl << "{" << endl;
+			stest << endl << "Grain rovibronic density of states of " << catName << endl << "{" << endl;
 			for (size_t i(0); i < getEnv().MaxGrn; ++i){
-				formatFloat(ctest, grainEne[i], 6, 15);
-				formatFloat(ctest, grainDOS[i], 6, 15);
-				ctest << endl;
+				formatFloat(stest, grainEne[i], 6, 15);
+				formatFloat(stest, grainDOS[i], 6, 15);
+				stest << endl;
 			}
-			ctest << "}" << endl;
+			stest << "}" << endl;
 			getFlags().cyclePrintGrainDOS = false;
 		}
 
@@ -265,18 +265,18 @@ namespace mesmer
 		}
 
 		if (getFlags().kfEGrainsEnabled){               // printing of the forward k(E)s
-			ctest << "\nk_f(e) grains for " << getName() << ":\n{\n";
+			stest << "\nk_f(e) grains for " << getName() << ":\n{\n";
 			for (int i = 0; i < MaximumGrain; ++i){
-				ctest << m_GrainKfmc[i] << endl;
+				stest << m_GrainKfmc[i] << endl;
 			}
-			ctest << "}\n";
+			stest << "}\n";
 		}
 		if (getFlags().grainTSsosEnabled){
-			ctest << "\nN(e) for TS of " << getName() << " (referenced to " << (this->get_pseudoIsomer())->getName() << " energy):\n{\n";
+			stest << "\nN(e) for TS of " << getName() << " (referenced to " << (this->get_pseudoIsomer())->getName() << " energy):\n{\n";
 			for (int i = 0; i < MaximumGrain; ++i){
-				ctest << m_GrainKfmc[i] * rctGrainDOS[i] / SpeedOfLight_in_cm << endl;
+				stest << m_GrainKfmc[i] * rctGrainDOS[i] / SpeedOfLight_in_cm << endl;
 			}
-			ctest << "}\n";
+			stest << "}\n";
 		}
 
 		// Always execute this routine for irreversible exchange reactions
@@ -316,9 +316,9 @@ namespace mesmer
 		}
 		else if (getFlags().testRateConstantEnabled) {
 			const double temperature = 1. / (boltzmann_RCpK * beta);
-			ctest << endl << "Canonical pseudo first order rate constant of irreversible reaction "
+			stest << endl << "Canonical pseudo first order rate constant of irreversible reaction "
 				<< getName() << " = " << k_forward*m_ERConc << " s-1 (" << temperature << " K)" << endl;
-			ctest << "Canonical bimolecular rate constant of irreversible reaction "
+			stest << "Canonical bimolecular rate constant of irreversible reaction "
 				<< getName() << " = " << k_forward << " cm^3/mol/s (" << temperature << " K)" << endl;
 		}
 	}

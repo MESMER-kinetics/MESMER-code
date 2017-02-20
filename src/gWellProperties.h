@@ -140,7 +140,7 @@ namespace mesmer
     if (!rawTransitionMatrix(env, gEne, gDOS, egme)) return false;
 
     if (m_host->getFlags().showCollisionOperator != 0){
-      ctest << "\nCollision operator of " << m_host->getName() << " before normalization:\n";
+      stest << "\nCollision operator of " << m_host->getName() << " before normalization:\n";
       egme->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
     }
 
@@ -148,7 +148,7 @@ namespace mesmer
     egme->normalizeProbabilityMatrix();
 
     if (m_host->getFlags().showCollisionOperator >= 1){
-      ctest << "\nCollision operator of " << m_host->getName() << " after normalization:\n";
+      stest << "\nCollision operator of " << m_host->getName() << " after normalization:\n";
       egme->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
     }
 
@@ -192,7 +192,7 @@ namespace mesmer
     }
 
     if (m_host->getFlags().showCollisionOperator >= 2){
-      ctest << "Collision operator of " << m_host->getName() << " after :\n";
+      stest << "Collision operator of " << m_host->getName() << " after :\n";
       egme->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
     }
 
@@ -271,8 +271,8 @@ namespace mesmer
   //
   template<class T> 
   void gWellProperties::writeCollOpProps(vector<double>& ene, TMatrix<T>* egme) const {
-    ctest << endl << "Collision operator column sums and energy transfer parameters" << endl << "{" << endl;
-    ctest << " Column Sums           E   <Delta E>  <Delta E>d  <Delta E>u" << endl;
+    stest << endl << "Collision operator column sums and energy transfer parameters" << endl << "{" << endl;
+    stest << " Column Sums           E   <Delta E>  <Delta E>d  <Delta E>u" << endl;
     for (size_t i(0); i < m_ncolloptrsize; ++i) {
       T columnSum(0.0);
       T meanEnergyTransfer(0.0);
@@ -290,14 +290,14 @@ namespace mesmer
           meanEnergyTransferUp += eneMom ;
         }
       }
-      ctest << formatFloat(columnSum, 3, 12)
+      stest << formatFloat(columnSum, 3, 12)
         << formatFloat(ene[i], 3, 12)
         << formatFloat(meanEnergyTransfer, 3, 12)
         << formatFloat(meanEnergyTransferDown, 3, 12)
         << formatFloat(meanEnergyTransferUp, 3, 12)
         << endl;
     }
-    ctest << "}" << endl;
+    stest << "}" << endl;
   }
 
 

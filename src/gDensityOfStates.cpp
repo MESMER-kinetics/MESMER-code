@@ -640,8 +640,8 @@ namespace mesmer
 
       PersistPtr ppList = m_host->get_PersistentPointer()->XmlWriteMainElement("me:densityOfStatesList", comment);
 
-      if (m_host->getFlags().testDOSEnabled) ctest << endl << "Test rovibronic density of states for: " << m_host->getName() << "\n{\n";
-      if (m_host->getFlags().testDOSEnabled) ctest << "      T           qtot           sumc           sumg\n";
+      if (m_host->getFlags().testDOSEnabled) stest << endl << "Test rovibronic density of states for: " << m_host->getName() << "\n{\n";
+      if (m_host->getFlags().testDOSEnabled) stest << "      T           qtot           sumc           sumg\n";
 
 
       //loop through predefined test temperatures
@@ -662,11 +662,11 @@ namespace mesmer
         }
 
         if (m_host->getFlags().testDOSEnabled) {
-          formatFloat(ctest, temp, 6, 7);
-          formatFloat(ctest, qtot, 6, 15);
-          formatFloat(ctest, cellCanPrtnFn, 6, 15);
-          formatFloat(ctest, grainCanPrtnFn, 6, 15);
-          ctest << endl;
+          formatFloat(stest, temp, 6, 7);
+          formatFloat(stest, qtot, 6, 15);
+          formatFloat(stest, cellCanPrtnFn, 6, 15);
+          formatFloat(stest, grainCanPrtnFn, 6, 15);
+          stest << endl;
         }
 
         //Add to XML document
@@ -676,33 +676,32 @@ namespace mesmer
         ppItem->XmlWriteValueElement("me:sumc", cellCanPrtnFn, 6);
         ppItem->XmlWriteValueElement("me:sumg", grainCanPrtnFn, 6);
       }
-      if (m_host->getFlags().testDOSEnabled) ctest << "}" << endl;
+      if (m_host->getFlags().testDOSEnabled) stest << "}" << endl;
     }
 
     if (m_host->getFlags().cellDOSEnabled){
-      ctest << endl << "Cell rovibronic density of states of " << m_host->getName() << endl << "{" << endl;
+      stest << endl << "Cell rovibronic density of states of " << m_host->getName() << endl << "{" << endl;
       for (int i(0); i < MaximumCell; ++i){
-        formatFloat(ctest, cellEne[i], 6, 15);
-        formatFloat(ctest, m_cellDOS[i], 6, 15);
-        ctest << endl;
+        formatFloat(stest, cellEne[i], 6, 15);
+        formatFloat(stest, m_cellDOS[i], 6, 15);
+        stest << endl;
       }
-      ctest << "}" << endl;
+      stest << "}" << endl;
     }
 
     if (m_host->getFlags().grainDOSEnabled && (m_host->isMolType("modelled") || m_host->isMolType("transitionState"))){
-      ctest << endl << "Grain rovibronic density of states of " << m_host->getName() << endl << "{" << endl;
+      stest << endl << "Grain rovibronic density of states of " << m_host->getName() << endl << "{" << endl;
       for (int i(0); i < MaximumGrain; ++i){
-        formatFloat(ctest, m_grainEne[i], 6, 15);
-        formatFloat(ctest, m_grainDOS[i], 6, 15);
-        ctest << endl;
+        formatFloat(stest, m_grainEne[i], 6, 15);
+        formatFloat(stest, m_grainDOS[i], 6, 15);
+        stest << endl;
       }
-      ctest << "}" << endl;
+      stest << "}" << endl;
     }
   }
 
   double gDensityOfStates::get_zpe() {
     if (m_ZPE_chk == -1) {
-      //      cinfo << "m_ZPE was not defined but requested in " << m_host->getName() << ". Default value " << m_ZPE << " is given." << endl;
       --m_ZPE_chk;
     }
     else if (m_ZPE_chk < -1) {

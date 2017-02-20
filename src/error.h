@@ -36,6 +36,7 @@ namespace mesmer
   extern std::ostream cwarn;
   extern std::ostream cinfo;
   extern std::ostream ctest;
+	extern std::ostringstream stest;
 
 //******************************************************************************
   //! \brief Handle error messages, warnings, debugging information and the like

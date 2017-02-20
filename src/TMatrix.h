@@ -982,23 +982,23 @@ namespace mesmer
     //
     // Show the final n x n square of the current matrix
     //
-    ctest << "{\n";
+    stest << "{\n";
     if (!isTabbed){
       for (size_t i = size - fb ; i < size ; ++i ) {
         for (size_t j = size - fb ; j < size ; ++j ) {
-          formatFloat(ctest, (*this)[i][j], 5,  13) ;
+					stest << formatFloat((*this)[i][j], 5,  13) ;
         }
-        ctest << endl;
+        stest << endl;
       }
     } else {
       for (size_t i = size - fb ; i < size ; ++i ) {
         for (size_t j = size - fb ; j < size ; ++j ) {
-          ctest << (*this)[i][j] << "\t";
+          stest << (*this)[i][j] << "\t";
         }
-        ctest << endl;
+        stest << endl;
       }
     }
-    ctest << "}\n";
+    stest << "}\n";
   }
 
   // Read a square CML <matrix>:

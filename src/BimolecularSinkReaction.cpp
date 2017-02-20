@@ -160,11 +160,11 @@ namespace mesmer
 
     // the code that follows is for printing the forward k(E)s
     if (getFlags().kfEGrainsEnabled){
-      ctest << "\nk_f(e) grains for " << getName() << ":\n{\n";
+      stest << "\nk_f(e) grains for " << getName() << ":\n{\n";
       for (int i = 0; i < MaximumGrain; ++i){
-        ctest << m_GrainKfmc[i] << endl;
+        stest << m_GrainKfmc[i] << endl;
       }
-      ctest << "}\n";
+      stest << "}\n";
     }
     if (getFlags().testRateConstantEnabled)
       HighPresRateCoeffs(NULL);
@@ -202,7 +202,7 @@ namespace mesmer
         pCoeffs->push_back(Keq) ;
       }
     } else {
-      ctest << endl << "Canonical pseudo first order forward rate constant of irreversible reaction "
+      stest << endl << "Canonical pseudo first order forward rate constant of irreversible reaction "
 				<< getName() << " = " << k_forward << " s-1 (" << temperature << " K)" << endl;
     }
   }

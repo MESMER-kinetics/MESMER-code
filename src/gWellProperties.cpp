@@ -123,7 +123,7 @@ namespace mesmer
         unitsInput = unitsTxt;
       }
       else {
-        ctest << "No unit for reservoir size has been supplied, use kJ/mol." << endl;
+        stest << "No unit for reservoir size has been supplied, use kJ/mol." << endl;
       }
 
       const double value(getConvertedEnergy(unitsInput, tmpvalue));
@@ -132,13 +132,13 @@ namespace mesmer
 
       if (grainLoc > 0){
         if (grainLoc > lowestBarrier){
-          ctest << "The reservoir size provided is too high, corrected according to the lowest barrier height." << endl;
+          stest << "The reservoir size provided is too high, corrected according to the lowest barrier height." << endl;
           grainLoc = lowestBarrier;
         }
       }
       else {
         if (abs(grainLoc) > lowestBarrier){
-          ctest << "The reservoir size provided is too low, corrected to zero." << endl;
+          stest << "The reservoir size provided is too low, corrected to zero." << endl;
           grainLoc = 0;
         }
         else {
@@ -156,9 +156,9 @@ namespace mesmer
       m_numGroupedGrains = grainLoc;
       if (m_numGroupedGrains > 1) {
         double reservoirEnergy(m_numGroupedGrains * m_host->getEnv().GrainSize) ;
-        ctest << "The reservoir for " << m_host->getName() << " is " << m_numGroupedGrains << " grains," ;
-        ctest << "which is " << reservoirEnergy << " cm-1 (or " << reservoirEnergy / getConvertedEnergy("kJ/mol", 1.0) << " kJ/mol) from the well bottom." << endl;
-        ctest << "At equilibrium " << 1.0 - fracInRsvr << " of the " << m_host->getName() << " population is in the active states. " << endl ;
+        stest << "The reservoir for " << m_host->getName() << " is " << m_numGroupedGrains << " grains," ;
+        stest << "which is " << reservoirEnergy << " cm-1 (or " << reservoirEnergy / getConvertedEnergy("kJ/mol", 1.0) << " kJ/mol) from the well bottom." << endl;
+        stest << "At equilibrium " << 1.0 - fracInRsvr << " of the " << m_host->getName() << " population is in the active states. " << endl ;
       }
 
     }
@@ -181,16 +181,16 @@ namespace mesmer
 
     bool reportBasisSetDetails(false);
     if (reportBasisSetDetails) {
-      ctest << "\nEigenvectors of: " << m_host->getName() << endl;
+      stest << "\nEigenvectors of: " << m_host->getName() << endl;
       m_egvec->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
 
       // The eigenvalues in this series should contain a zero eigenvalue as 
       // energy transfer operators are conservative.
-      ctest << "\nEigenvalues of: " << m_host->getName() << "\n{\n";
+      stest << "\nEigenvalues of: " << m_host->getName() << "\n{\n";
       for (size_t i(0); i < m_ncolloptrsize; ++i){
-        ctest << m_egval[i] << endl;
+        stest << m_egval[i] << endl;
       }
-      ctest << "}\n";
+      stest << "}\n";
     }
   }
 
@@ -329,11 +329,11 @@ namespace mesmer
     }
 
     if (m_host->getFlags().grainBoltzmannEnabled){
-      ctest << "\nGrain fraction:\n{\n";
+      stest << "\nGrain fraction:\n{\n";
       for (size_t i(0); i < grainFrac.size(); ++i){
-        ctest << grainFrac[i] << endl;
+        stest << grainFrac[i] << endl;
       }
-      ctest << "}\n";
+      stest << "}\n";
     }
   }
 

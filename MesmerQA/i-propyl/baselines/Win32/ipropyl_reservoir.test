@@ -1,5 +1,3 @@
-PT Grid 0 Condition: conc = 3e+17, temp = 720, diagonalization precision: double
-{
 
 Hindered rotor data for plotting.
 
@@ -1793,6 +1791,8 @@ Hindered rotor data for plotting.
        -3.14159,          101573
         3.14159,          101573
 
+PT Grid 0 Condition: conc = 3e+17, temp = 720, diagonalization precision: double
+{
 
 Test rovibronic density of states for: i-propyl
 {

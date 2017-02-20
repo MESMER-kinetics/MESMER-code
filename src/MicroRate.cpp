@@ -14,19 +14,19 @@ namespace mesmer
     vector<Molecule *> unimolecularspecies;
     pReact->get_unimolecularspecies(unimolecularspecies);
     if (!unimolecularspecies.size()){
-      ctest << "\nNo microcanonical rate coefficients for " << pReact->getName() << endl;
+      stest << "\nNo microcanonical rate coefficients for " << pReact->getName() << endl;
       return true;
     }
 
     string comment("Canonical rate coefficients (calculated from microcanonical rate coefficients)");
     PersistPtr ppList = ppbase->XmlWriteMainElement("me:canonicalRateList", comment);
 
-    ctest << "\nCanonical (high pressure) rate coefficients for " << pReact->getName() << ", calculated from microcanonical rates\n{\n";
+    stest << "\nCanonical (high pressure) rate coefficients for " << pReact->getName() << ", calculated from microcanonical rates\n{\n";
     //Number of reactants and products to set kf,kb and Keq units
     vector<Molecule*> vec;
     int nr = pReact->get_reactants(vec);
     int np = pReact->get_products(vec);
-    ctest << right << setw(7) << "T/K"
+    stest << right << setw(7) << "T/K"
       << setw(20) << (nr == 2 ? "kf/cm3molecule-1s-1" : "kf/s-1")
       << setw(20) << (np == 2 ? "kb/cm3molecule-1s-1" : "kb/s-1")
       << setw(18) << ((np - nr) == 0 ? "Keq   " : ((np - nr) > 0 ? "Keq/moleculecm-3" : "Keq/cm3molecule-1"))
@@ -53,14 +53,14 @@ namespace mesmer
       Coeffs.clear();
       pReact->HighPresRateCoeffs(&Coeffs);
 
-      formatFloat(ctest, Temp, 6, 7);
-      formatFloat(ctest, Coeffs[0], 6, 20);
+      formatFloat(stest, Temp, 6, 7);
+      formatFloat(stest, Coeffs[0], 6, 20);
       if (Coeffs.size()>1) //output only forward rate if no ZPE has been provided
       {
-        formatFloat(ctest, Coeffs[1], 6, 20);
-        formatFloat(ctest, Coeffs[2], 6, 18);
+        formatFloat(stest, Coeffs[1], 6, 20);
+        formatFloat(stest, Coeffs[2], 6, 18);
       }
-      ctest << endl;
+      stest << endl;
 
       // Add to XML document.
       vector<Molecule*> vec;
@@ -79,7 +79,7 @@ namespace mesmer
         if (j == 0) pp->XmlWriteAttribute("units", ((np - nr) == 0 ? "" : ((np - nr) > 0 ? "moleculecm-3" : "cm3molecule-1")));
       }
     }
-    ctest << "}\n";
+    stest << "}\n";
 
     // Restore excess concentration value.
     pReact->set_concExcessReactant(current_conc);

@@ -257,6 +257,8 @@
     <me:PTs>
       <me:PTpair units="mbar" P="4.0e-03" T="1200.0" precision="d">
       </me:PTpair>
+      <me:PTpair units="mbar" P="4.0e-03" T="1300.0" precision="d">
+      </me:PTpair>
     </me:PTs>
   </me:conditions>
 

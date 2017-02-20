@@ -20,6 +20,7 @@ namespace mesmer
   ostream cwarn(clog.rdbuf());
   ostream cinfo(clog.rdbuf());
   ostream ctest(clog.rdbuf());
+	ostringstream stest("");
 
   //Global message handler
   MessageHandler meErrorLog;

@@ -1,3 +1,10 @@
+2017-February-19 Struan Robertson
+
+		* System.cpp, Error.h/,cpp, parallelManager.h, TMatrix.h, gWellproperties.h/.cpp, all 
+		the reaction term classes: ctest output altered to allow for parallel execution.
+
+		* Update of baselines and changed QA.bat in order to run smoke tests in parallel.
+
 2017-February-09 Struan Robertson
 
 		* ConditionsManager.h/.cpp, System.h/.cpp, Analysis.h: Write out energy distributions
@@ -24,7 +31,7 @@
 
 2017-January-21 Struan Robertson
 
-		* ConditionsManager.h/.cpp, System.h/.cpp, TMatrix.h	parallelManager.h, fitting.cpp: 
+		* ConditionsManager.h/.cpp, System.h/.cpp, TMatrix.h,	parallelManager.h, fitting.cpp: 
 		Parallel output of the covariance matrix.
 
 2017-January-17 Struan Robertson
