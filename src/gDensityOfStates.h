@@ -1,7 +1,7 @@
 #ifndef GUARD_gDensityOfStates_h
 #define GUARD_gDensityOfStates_h
 
-
+#include "Persistence.h"
 #include "MolecularComponents.h"
 
 using namespace std ;
@@ -190,6 +190,7 @@ namespace mesmer
 
     // Calculate vibrational frequencies from molecular Hessian.
     bool FrqsFromHessian() ;
+    void WriteFrqsFromHessian(PersistPtr ppProp);
 
     // Helper function to create projector.
     void UpdateProjector(vector<double> &eigenvector) ;

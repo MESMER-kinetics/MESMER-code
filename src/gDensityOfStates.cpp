@@ -79,7 +79,8 @@ namespace mesmer
       PersistPtr pMtrx = ppPropList->XmlMoveToProperty("me:hessian");
       txt = pMtrx->XmlReadValue("units", false);
       m_HessianUnits = (txt) ? string(txt) : "kJ/mol/amu/Ang^2";
-      FrqsFromHessian();
+      if(FrqsFromHessian())
+        WriteFrqsFromHessian(ppPropList);
     }
     else if ((txt = ppPropList->XmlReadProperty("me:vibFreqs", optional))) {
       istringstream idata(txt);
@@ -1133,6 +1134,24 @@ namespace mesmer
       }
     }
     return (nHeavyAtoms > n) ;
+  }
+
+  void gDensityOfStates::WriteFrqsFromHessian(PersistPtr ppProp)
+  {
+    //Write to log file
+    cinfo << "Vibrational frequencies (cm-1) were calculated from Hessian:";
+    for (unsigned i = 0; i < m_VibFreq.size(); ++i)
+    {
+      if (!(i % 10)) cinfo << "\n  ";;
+      cinfo << m_VibFreq[i] << ' ';
+    }
+    cinfo << endl;
+
+    //Write to XML
+    stringstream ss;
+    for (auto freq : m_VibFreq)
+      ss << freq << " ";
+    PersistPtr ppScalar = ppProp->XmlWriteProperty("me:vibFreqsFromHessian", ss.str(), "cm-1");
   }
 
 }//namespace
