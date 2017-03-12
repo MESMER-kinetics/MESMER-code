@@ -6,6 +6,11 @@
 
 		* QA.sh, Examples.sh/.bat: Updated QA scripts to allow for parallel testing.
 
+2017-February-23 Chris Morley
+
+		* gDensityOfStates.h, gDensityOfStates.cpp: Output vibrational frequencies to XML
+		 and log files if they are calculated from Hessian.
+
 2017-February-19 Struan Robertson
 
 		* System.cpp, Error.h/,cpp, parallelManager.h, TMatrix.h, gWellproperties.h/.cpp, all 
