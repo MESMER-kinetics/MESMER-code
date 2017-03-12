@@ -1,7 +1,10 @@
-2017-February-23 Chris Morley
+2017-March-12 Struan Robertson
 
-		* gDensityOfStates.h, gDensityOfStates.cpp: Output vibrational frequencies to XML
-		 and log files if they are calculated from Hessian.
+		* System.cpp: Rationalize .log output.
+
+		* ConditionsManger.cpp/.h, MesmerFlags.cpp: Corrected independent error check.
+
+		* QA.sh, Examples.sh/.bat: Updated QA scripts to allow for parallel testing.
 
 2017-February-19 Struan Robertson
 

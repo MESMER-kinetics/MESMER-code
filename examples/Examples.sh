@@ -78,9 +78,11 @@ esac
 
 pwd
 $executable -V
+mpicommand="mpirun -n 4 $executable" 
+cmdline=$executable
 
 cd AcetylO2
-$executable Acetyl_O2_associationEx.xml -o $outf $directive
+$cmdline Acetyl_O2_associationEx.xml -o $outf $directive
 cp ./$tfn ./$bline$otfn
 if [ "$1" == "-o" ]; then
   cp ./$lfn ./$bline$lfn 
@@ -88,7 +90,7 @@ fi
 cd ..
 
 cd AcetylPrior
-$executable AcetylPrior.xml -o $outf $directive
+$cmdline AcetylPrior.xml -o $outf $directive
 cp ./$tfn ./$bline$otfn
 if [ "$1" == "-o" ] ; then
   cp ./$lfn ./$bline$lfn
@@ -96,7 +98,7 @@ fi
 cd ..
 
 cd Butyl_H_to_Butane
-$executable Butyl_H_to_Butane.xml -o $outf $directive
+$cmdline Butyl_H_to_Butane.xml -o $outf $directive
 cp ./$tfn ./$bline$otfn
 if [ "$1" == "-o" ] ; then
   cp ./$lfn ./$bline$lfn 
@@ -104,7 +106,7 @@ fi
 cd ..
 
 cd Ethyl_H_to_Ethane
-$executable Ethyl_H_to_Ethane.xml -o $outf $directive
+$cmdline Ethyl_H_to_Ethane.xml -o $outf $directive
 cp ./$tfn ./$bline$otfn
 if [ "$1" == "-o" ] ; then
   cp ./$lfn ./$bline$lfn
@@ -112,7 +114,7 @@ fi
 cd ..
 
 cd i-propyl
-$executable ipropyl_LM.xml -o $outf $directive
+$cmdline ipropyl_LM.xml -o $outf $directive
 cp ./$tfn ./$bline$otfn
 if [ "$1" == "-o" ] ; then
   cp ./$lfn ./$bline$lfn 
@@ -120,13 +122,13 @@ fi
 cd ..
 
 cd Methyl_H_to_Methane
-$executable Methyl_H_to_Methane.xml -o $outf $directive
+$cmdline Methyl_H_to_Methane.xml -o $outf $directive
 cp ./$tfn ./$bline$otfn
 if [ "$1" == "-o" ] ; then
   cp ./$lfn ./$bline$lfn 
 fi
 
-$executable -N Methyl_H_to_Methane_FTST.xml $directive
+$cmdline -N Methyl_H_to_Methane_FTST.xml $directive
 cp ./Methyl_H_to_Methane_FTST.test ./$bline/Methyl_H_to_Methane_FTST.test
 if [ "$1" == "-o" ] ; then
   cp ./Methyl_H_to_Methane_FTST.log ./$bline/Methyl_H_to_Methane_FTST.log 
@@ -134,7 +136,7 @@ fi
 cd ..
 
 cd reservoirSink
-$executable reservoirSinkAcetylO2.xml -o $outf $directive
+$cmdline reservoirSinkAcetylO2.xml -o $outf $directive
 cp ./$tfn ./$bline$otfn
 if [ "$1" == "-o" ] ; then
   cp ./$lfn ./$bline$lfn 
@@ -142,19 +144,19 @@ fi
 cd ..
 
 cd spin_forbidden_kinetics
-$executable -N HCCH_methylene.xml  $directive
+$cmdline -N HCCH_methylene.xml  $directive
 cp ./HCCH_methylene.test ./$bline/HCCH_methylene.test
 if [ "$1" == "-o" ] ; then
   cp ./HCCH_methylene.log ./$bline/HCCH_methylene.log 
 fi
 
-$executable -N LZ_test.xml $directive
+$cmdline -N LZ_test.xml $directive
 cp ./LZ_test.test ./$bline/LZ_test.test
 if [ "$1" == "-o" ] ; then
   cp ./LZ_test.log ./$bline/LZ_test.log
 fi
 
-$executable -N WKB_test.xml $directive
+$cmdline -N WKB_test.xml $directive
 cp ./WKB_test.test ./$bline/WKB_test.test
 if [ "$1" == "-o" ] ; then
   cp ./WKB_test.log ./$bline/WKB_test.log
@@ -162,7 +164,7 @@ fi
 cd ..
 
 cd OH_NO_to\ HONO
-$executable OH_NO_HONO.xml -o $outf $directive
+$cmdline OH_NO_HONO.xml -o $outf $directive
 cp ./$tfn ./$bline$otfn
 if [ "$1" == "-o" ] ; then
   cp ./$lfn ./$bline$lfn 
@@ -170,7 +172,7 @@ fi
 cd ..
 
 cd OH-acetylene
-$executable OH_HCCH-irreversibleBim-publish.xml -o $outf $directive
+$cmdline OH_HCCH-irreversibleBim-publish.xml -o $outf $directive
 cp ./$tfn ./$bline$otfn
 if [ "$1" == "-o" ] ; then
   cp ./$lfn ./$bline$lfn 
@@ -179,13 +181,13 @@ cd ..
 
 cd "Methoxymethyl"
 testName=Chebyshev
-$executable -N $testName.xml
+$cmdline -N $testName.xml
 cp ./$testName.test ./$bline$testName.test
 if [ "$1" == "-o" ] ; then
   cp ./$testName.log ./$bline$testName.log
 fi
 testName=ChebyshevCK
-$executable -N $testName.xml
+$cmdline -N $testName.xml
 cp ./$testName.test ./$bline$testName.test
 if [ "$1" == "-o" ] ; then
   cp ./$testName.log ./$bline$testName.log
@@ -194,13 +196,13 @@ cd ..
 
 cd SensitivityAnalysis
 testName=ipropyl_SA
-$executable -N $testName.xml
+$cmdline -N $testName.xml
 cp ./$testName.test ./$bline$testName.test
 if [ "$1" == "-o" ] ; then
   cp ./$testName.log ./$bline$testName.log
 fi
 testName=pentyl_isomerization_SA
-$executable -N $testName.xml
+$cmdline -N $testName.xml
 cp ./$testName.test ./$bline$testName.test
 if [ "$1" == "-o" ] ; then
   cp ./$testName.log ./$bline$testName.log
@@ -209,7 +211,7 @@ cd ..
 
 cd "cis_to_trans_But-2-ene"
 testName=cis_to_trans_But-2-ene
-$executable -N $testName.xml
+$cmdline -N $testName.xml
 cp ./$testName.test ./$bline$testName.test
 if [ "$1" == "-o" ] ; then
   cp ./$testName.log ./$bline$testName.log
@@ -218,7 +220,7 @@ cd ..
 
 cd "C4H9O2_NO2_to_C4H9O2NO2"
 testName=C4H9O2_NO2_association
-$executable -N $testName.xml
+$cmdline -N $testName.xml
 cp ./$testName.test ./$bline$testName.test
 if [ "$1" == "-o" ] ; then
   cp ./$testName.log ./$bline$testName.log
@@ -227,7 +229,7 @@ cd ..
 
 cd "CH3O2_NO2_to_CH3O2NO2"
 testName=CH3O2_NO2_associationEx2
-$executable -N $testName.xml
+$cmdline -N $testName.xml
 cp ./$testName.test ./$bline$testName.test
 if [ "$1" == "-o" ] ; then
   cp ./$testName.log ./$bline$testName.log
@@ -236,7 +238,7 @@ cd ..
 
 cd "ErrorPropagation"
 testName=ipropyl_EP
-$executable -N $testName.xml
+$cmdline -N $testName.xml
 cp ./$testName.test ./$bline$testName.test
 if [ "$1" == "-o" ] ; then
   cp ./$testName.log ./$bline$testName.log
@@ -245,7 +247,7 @@ cd ..
 
 cd "2Methyl_to_Ethane"
 testName=CH3_CH3_to_C2H6
-$executable -N $testName.xml
+$cmdline -N $testName.xml
 cp ./$testName.test ./$bline$testName.test
 if [ "$1" == "-o" ] ; then
   cp ./$testName.log ./$bline$testName.log

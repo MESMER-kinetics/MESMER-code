@@ -9,8 +9,8 @@
 // Date:   11/Feb/2003
 //
 // This header file contains the declaration of the System class. This class is the route
-// of all molecular and reaction data will contain information about any number of System.
-// Reaction System inforamtion will be sorted in a vector of reaction maps. Molecular data
+// of all molecular and reaction data and contains information about any number of species.
+// Reaction System inforamtion will be stored in a vector of reaction maps. Molecular data
 // is stored in the molecule manager.
 //
 //-------------------------------------------------------------------------------------------

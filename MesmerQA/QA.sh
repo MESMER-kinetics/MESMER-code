@@ -78,8 +78,10 @@ esac
 cd pentyl
 pwd
 $executable -V
+mpicommand="mpirun -n 2 $executable" 
+cmdline=$executable
 
-$executable pentyl_isomerization_test.xml -o $outf $directive
+cmdline pentyl_isomerization_test.xml -o $outf $directive
 cp ./$tfn ./$bline$otfn
 if [ "$1" == "-o" ]; then
   cp ./$lfn ./$bline$lfn 
@@ -87,7 +89,7 @@ fi
 cd ..
 
 cd benzene_oxidation
-$executable benzene_oxidation_test.xml -o $outf $directive
+$cmdline benzene_oxidation_test.xml -o $outf $directive
 cp ./$tfn ./$bline$otfn
 if [ "$1" == "-o" ] ; then
   cp ./$lfn ./$bline$lfn 
@@ -95,14 +97,14 @@ fi
 cd ..
 
 cd HSO2
-$executable HSO2_test.xml -o $outf $directive
+$cmdline HSO2_test.xml -o $outf $directive
 cp ./$tfn ./$bline$otfn
 if [ "$1" == "-o" ] ; then
   cp ./$lfn ./$bline$lfn 
 fi
 
 testName=HSO2
-$executable -N $testName.xml
+$cmdline -N $testName.xml
 cp ./$testName.test ./$bline$testName.test
 if [ "$1" == "-o" ] ; then
   cp ./$testName.log ./$bline$testName.log 
@@ -110,7 +112,7 @@ fi
 cd ..
 
 cd "cyclopropene isomerization"
-$executable Cyclopropene_isomerization_test.xml -o $outf $directive
+$cmdline Cyclopropene_isomerization_test.xml -o $outf $directive
 cp ./$tfn ./$bline$otfn
 if [ "$1" == "-o" ] ; then
   cp ./$lfn ./$bline$lfn 
@@ -118,7 +120,7 @@ fi
 cd ..
 
 cd "cyclopropene isomerization reservoir state"
-$executable Cyclopropene_isomerization_reservoir_state_test.xml -o $outf $directive
+$cmdline Cyclopropene_isomerization_reservoir_state_test.xml -o $outf $directive
 cp ./$tfn ./$bline$otfn
 if [ "$1" == "-o" ] ; then
   cp ./$lfn ./$bline$lfn 
@@ -126,14 +128,14 @@ fi
 cd ..
 
 cd "OH acetylene association"
-$executable OH_acetylene_association_test.xml -o $outf $directive
+$cmdline OH_acetylene_association_test.xml -o $outf $directive
 cp ./$tfn ./$bline$otfn
 if [ "$1" == "-o" ] ; then
   cp ./$lfn ./$bline$lfn 
 fi
 
 testName=OH_acetylene_pseudo_isomerization
-$executable -N $testName.xml
+$cmdline -N $testName.xml
 cp ./$testName.test ./$bline$testName.test
 if [ "$1" == "-o" ] ; then
   cp ./$testName.log ./$bline$testName.log 
@@ -141,7 +143,7 @@ fi
 cd ..
 
 cd "Acetyl O2 association"
-$executable Acetyl_O2_association.xml -o $outf $directive
+$cmdline Acetyl_O2_association.xml -o $outf $directive
 cp ./$tfn ./$bline$otfn
 if [ "$1" == "-o" ] ; then
   cp ./$lfn ./$bline$lfn 
@@ -149,14 +151,14 @@ fi
 cd ..
 
 cd "i-propyl"
-$executable ipropyl_test.xml -o $outf $directive
+$cmdline ipropyl_test.xml -o $outf $directive
 cp ./$tfn ./$bline$otfn
 if [ "$1" == "-o" ] ; then
   cp ./$lfn ./$bline$lfn 
 fi
 
 testName=ipropyl_reservoir
-$executable -N $testName.xml
+$cmdline -N $testName.xml
 cp ./$testName.test ./$bline$testName.test
 if [ "$1" == "-o" ] ; then
   cp ./$testName.log ./$bline$testName.log 
@@ -164,7 +166,7 @@ fi
 cd ..
 
 cd "ThermodynamicTable"
-$executable ThermodynamicTable.xml -o $outf $directive
+$cmdline ThermodynamicTable.xml -o $outf $directive
 cp ./$tfn ./$bline$otfn
 if [ "$1" == "-o" ] ; then
   cp ./$lfn ./$bline$lfn 
@@ -172,7 +174,7 @@ fi
 cd ..
 
 cd "UnitTests"
-$executable UnitTests.xml -o $outf $directive
+$cmdline UnitTests.xml -o $outf $directive
 cp ./$tfn ./$bline$otfn
 if [ "$1" == "-o" ] ; then
   cp ./$lfn ./$bline$lfn 

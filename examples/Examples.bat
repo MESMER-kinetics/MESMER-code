@@ -31,6 +31,8 @@ SET tfn=mesmer.test
 SET lfn=mesmer.log
 SET bline=baselines/Win32/
 SET outf=out.xml
+SET mpicommand="C:\Program Files\Microsoft MPI\Bin\mpiexec" -n 2 %executable%
+SET cmdline=%executable%
 
 :: This compares the "double quote" altogether with the content
 IF "%1"=="" (
@@ -85,130 +87,130 @@ cd AcetylO2
 :: display mesmer version
 %executable% -V
 
-%executable% Acetyl_O2_associationEx.xml -o %outf% %directive%
+%cmdline% Acetyl_O2_associationEx.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 cd ..
 
 cd AcetylPrior
-%executable% AcetylPrior.xml -o %outf% %directive%
+%cmdline% AcetylPrior.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 cd ..
 
 cd Butyl_H_to_Butane
-%executable% Butyl_H_to_Butane.xml -o %outf% %directive%
+%cmdline% Butyl_H_to_Butane.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 cd ..
 
 cd Ethyl_H_to_Ethane
-%executable% Ethyl_H_to_Ethane.xml -o %outf% %directive%
+%cmdline% Ethyl_H_to_Ethane.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 cd ..
 
 cd i-propyl
-%executable% ipropyl_LM.xml -o %outf% %directive%
+%cmdline% ipropyl_LM.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 cd ..
 
 cd Methyl_H_to_Methane
-%executable% Methyl_H_to_Methane.xml -o %outf% %directive%
+%cmdline% Methyl_H_to_Methane.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 
-%executable% -N Methyl_H_to_Methane_FTST.xml %directive%
+%cmdline% -N Methyl_H_to_Methane_FTST.xml %directive%
 copy Methyl_H_to_Methane_FTST.test "./%bline%Methyl_H_to_Methane_FTST.test"
 IF "%1"=="-o" copy Methyl_H_to_Methane_FTST.log "./%bline%Methyl_H_to_Methane_FTST.log"
 cd ..
 
 cd reservoirSink
-%executable% reservoirSinkAcetylO2.xml -o %outf% %directive%
+%cmdline% reservoirSinkAcetylO2.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 cd ..
 
 cd spin_forbidden_kinetics
-%executable% -N HCCH_methylene.xml %directive%
+%cmdline% -N HCCH_methylene.xml %directive%
 copy "./HCCH_methylene.test" "./%bline%HCCH_methylene.test"
 IF "%1"=="-o" copy "./HCCH_methylene.log" "./%bline%HCCH_methylene.log"
 
-%executable% -N LZ_test.xml %directive%
+%cmdline% -N LZ_test.xml %directive%
 copy "./LZ_test.test" "./%bline%LZ_test.test"
 IF "%1"=="-o" copy "./LZ_test.log" "./%bline%LZ_test.log"
 
-%executable% -N WKB_test.xml %directive%
+%cmdline% -N WKB_test.xml %directive%
 copy "./WKB_test.test" "./%bline%WKB_test.test"
 IF "%1"=="-o" copy "./WKB_test.log" "./%bline%WKB_test.log"
 cd ..
 
 cd "OH_NO_to HONO"
-%executable% OH_NO_HONO.xml -o %outf% %directive%
+%cmdline% OH_NO_HONO.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 cd ..
 
 cd "OH-acetylene"
-%executable% OH_HCCH-irreversibleBim-publish.xml -o %outf% %directive%
+%cmdline% OH_HCCH-irreversibleBim-publish.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 cd ..
 
 cd "Methoxymethyl"
 set testName="Chebyshev"
-%executable% -N %testName%.xml
+%cmdline% -N %testName%.xml
 copy "./%testName%.test" "./%bline%%testName%.test"
 IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
 set testName="ChebyshevCK"
-%executable% -N %testName%.xml
+%cmdline% -N %testName%.xml
 copy "./%testName%.test" "./%bline%%testName%.test"
 IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
 cd ..
 
 cd "SensitivityAnalysis"
 set testName="ipropyl_SA"
-%executable% -N %testName%.xml
+%cmdline% -N %testName%.xml
 copy "./%testName%.test" "./%bline%%testName%.test"
 IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
 set testName="pentyl_isomerization_SA"
-%executable% -N %testName%.xml
+%cmdline% -N %testName%.xml
 copy "./%testName%.test" "./%bline%%testName%.test"
 IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
 cd ..
 
 cd "cis_to_trans_But-2-ene"
 set testName="cis_to_trans_But-2-ene"
-%executable% -N %testName%.xml
+%cmdline% -N %testName%.xml
 copy "./%testName%.test" "./%bline%%testName%.test"
 IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
 cd ..
 
 cd "C4H9O2_NO2_to_C4H9O2NO2"
 set testName="C4H9O2_NO2_association"
-%executable% -N %testName%.xml
+%cmdline% -N %testName%.xml
 copy "./%testName%.test" "./%bline%%testName%.test"
 IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
 cd ..
 
 cd "CH3O2_NO2_to_CH3O2NO2"
 set testName="CH3O2_NO2_associationEx2"
-%executable% -N %testName%.xml
+%cmdline% -N %testName%.xml
 copy "./%testName%.test" "./%bline%%testName%.test"
 IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
 cd ..
 
 cd "ErrorPropagation"
 set testName="ipropyl_EP"
-%executable% -N %testName%.xml
+%cmdline% -N %testName%.xml
 copy "./%testName%.test" "./%bline%%testName%.test"
 IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
 cd ..
 
 cd "2Methyl_to_Ethane"
 set testName="CH3_CH3_to_C2H6"
-%executable% -N %testName%.xml
+%cmdline% -N %testName%.xml
 copy "./%testName%.test" "./%bline%%testName%.test"
 IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
 cd ..

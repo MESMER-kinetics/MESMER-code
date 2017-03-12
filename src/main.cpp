@@ -434,6 +434,17 @@ string version()
   return ss.str();
 }
 
+string platform()
+{
+	string OS;
+#ifdef WIN32
+	OS = "Windows";
+#else
+	OS = "Linux";
+#endif
+  return OS;
+}
+
 void banner(size_t nRanks)
 {
   cinfo << endl;
@@ -463,7 +474,8 @@ void banner(size_t nRanks)
   cinfo << "    You should have received a copy of the GNU Public License" << endl;
   cinfo << "    along with Mesmer.  If not, see <http://www.gnu.org/licenses/>." << endl;
   cinfo << endl;
-  cinfo << "                     Number of ranks: " << nRanks << endl;
+	cinfo << "                     Platform:        " << platform() << endl;
+	cinfo << "                     Number of ranks: " << nRanks << endl;
   cinfo << endl;
 }
 

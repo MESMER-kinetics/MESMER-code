@@ -80,15 +80,16 @@ namespace mesmer
 
 		const char* m_id;
 
-		double m_ZPE;                   // Zero point energy.
-		double m_reducedMass;           // reduced mass.
+		double m_ZPE;                    // Zero point energy.
+		double m_reducedMass;            // reduced mass.
+		vector<double> m_potentialCoeff; // The polynomial coefficients of the vibration potential.
 
-		vector<double> m_energyLevels;	// The energies of the hindered rotor states.
-		vector<double> m_x;           	// Linear coordinate.
-		vector<double> m_potential;	    // Potential associated with linear coordinate.
+		vector<double> m_energyLevels;	 // The energies of the hindered rotor states.
+		vector<double> m_x;           	 // Linear coordinate.
+		vector<double> m_potential;	     // Potential associated with linear coordinate.
 
-		bool m_plotStates;              // If true output data for plotting. 
-		bool m_writeStates;             // If true energy levels written to output. 
+		bool m_plotStates;               // If true output data for plotting. 
+		bool m_writeStates;              // If true energy levels written to output. 
 		PersistPtr m_ppConfigData;
 	};
 
@@ -121,53 +122,24 @@ namespace mesmer
 		}
 		cinfo << endl;
 
-		// Determine reduced moment of inertia function. These can either 
-		// be read in or calculated if the coordinates are available.
+		// Determine reduced moment mass. These can either be read 
+		// in or calculated if the coordinates are available.
 
-		PersistPtr pp = ppDOSC->XmlMoveTo("me:InternalRotorInertia");
+		PersistPtr pp = ppDOSC->XmlMoveTo("me:reducedMass");
 
 		if (pp) {
 			const char* p = pp->XmlReadValue("units", optional);
-			string units = p ? p : "cm-1";
-
-			vector<int> indicies;
-			vector<double> coefficients;
-			int maxIndex(0);
-			while (pp = pp->XmlMoveTo("me:InertiaPoint"))
-			{
-				int index = pp->XmlReadInteger("index", optional);
-				indicies.push_back(index);
-				maxIndex = max(maxIndex, index);
-
-				double coefficient = pp->XmlReadDouble("coefficient", optional);
-				if (IsNan(coefficient))
-					coefficient = 0.0;
-				coefficients.push_back(coefficient);
-			}
-
-			if (units == "amuA^2") {
-			}
-
+			string units = p ? p : "amu";
+			m_reducedMass = ppDOSC->XmlReadDouble("me:reducedMass", optional);
 		}
 		else {
-
-			// No inertia terms red in so let us see if they are to be calculated.
-			// If so, set the appropriate flags.
-
-			pp = ppDOSC->XmlMoveTo("me:CalculateInternalRotorInertia");
-			if (pp) {
-			}
-			else {
-
-				// No information supplied, so simply calculate reduced moment of inertia
-				// for current configuration.
-
-			}
+			cerr << "No reduced mass found." << endl;
+			return false;
 		}
 
 		// Read in potential information.
 
-		pp = ppDOSC->XmlMoveTo("me:Potential");
+		pp = ppDOSC->XmlMoveTo("me:vibrationalPotential");
 
 		if (pp) {
 
@@ -177,25 +149,55 @@ namespace mesmer
 			p = pp->XmlReadValue("units", optional);
 			string units = p ? p : "kJ/mol";
 
-			// Numerical potential.
+			if (format == "analytical") {
 
-			vector<double> potential;
-			vector<double> angle;
+				// Analytical potential.
 
-			while (pp = pp->XmlMoveTo("me:PotentialPoint"))
-			{
-				double anglePoint = pp->XmlReadDouble("angle", optional);
-				if (IsNan(anglePoint))
-					anglePoint = 0.0;
-				angle.push_back(anglePoint);
+				vector<int> indicies;
+				vector<double> coefficients;
+				int maxIndex(0);
+				while (pp = pp->XmlMoveTo("me:PotentialPoint"))
+				{
+					int index = pp->XmlReadInteger("index", optional);
+					indicies.push_back(index);
+					maxIndex = max(maxIndex, index);
 
-				double potentialPoint = pp->XmlReadDouble("potential", optional);
-				if (IsNan(potentialPoint))
-					potentialPoint = 0.0;
-				potentialPoint = getConvertedEnergy(units, potentialPoint);
-				potential.push_back(potentialPoint);
+					double coefficient = pp->XmlReadDouble("coefficient", optional);
+					if (IsNan(coefficient))
+						coefficient = 0.0;
+					coefficient = getConvertedEnergy(units, coefficient);
+					coefficients.push_back(coefficient);
+				}
+
+				// As coefficients can be supplied in any order, they are sorted here.
+				m_potentialCoeff.resize(++maxIndex, 0.0);
+				for (size_t i(0); i < coefficients.size(); i++) {
+					m_potentialCoeff[indicies[i]] = coefficients[i];
+				}
+
 			}
+			else if (format == "numerical") {
 
+				// Numerical potential.
+
+				vector<double> potential;
+				vector<double> angle;
+
+				while (pp = pp->XmlMoveTo("me:PotentialPoint"))
+				{
+					double anglePoint = pp->XmlReadDouble("angle", optional);
+					if (IsNan(anglePoint))
+						anglePoint = 0.0;
+					angle.push_back(anglePoint);
+
+					double potentialPoint = pp->XmlReadDouble("potential", optional);
+					if (IsNan(potentialPoint))
+						potentialPoint = 0.0;
+					potentialPoint = getConvertedEnergy(units, potentialPoint);
+					potential.push_back(potentialPoint);
+				}
+
+			}
 		}
 
 		// Check if there is a Hessian and knock out the frequency
@@ -205,7 +207,6 @@ namespace mesmer
 			// The following vector, "mode", will be used to hold the internal rotation 
 			// mode vector as defined by Sharma, Raman and Green, J. Phys. Chem. (2010). 
 			vector<double> mode(3 * gs.NumAtoms(), 0.0);
-			// gs.internalRotationVector(get_BondID(), mode);
 			if (!gdos->projectMode(mode)) {
 				cerr << "Failed to project out internal rotation." << endl;
 				return false;
@@ -238,8 +239,8 @@ namespace mesmer
 	}
 
 	//
-	// Calculate quantum mechanical 1D rotor densities of states of an 
-	// internal rotor and convolve them with the main density of states.
+	// Calculate quantum mechanical 1D densities of states of a
+	// vibration and convolve them with the main density of states.
 	//
 	bool FourierGrid1D::countCellDOS(gDensityOfStates* pDOS, const MesmerEnv& env)
 	{
@@ -255,14 +256,6 @@ namespace mesmer
 		// has to be done at this point in order to capture any interaction
 		// with other internal rotors.
 
-		//if (calIntrlIrt) {
-		//	gStructure& gs = pDOS->getHost()->getStruc();
-		//	size_t nAngle(36);
-		//	vector<double> angle(nAngle, 0.0), redInvMOI;
-		//	gs.reducedMomentInertiaAngular(get_BondID(), get_Phase(), angle, redInvMOI, m_ppConfigData);  // Units a.u.*Angstrom*Angstrom.
-		//	FourierCosCoeffs(angle, redInvMOI, m_kineticCosCoeff, get_Expansion());
-		//	FourierSinCoeffs(angle, redInvMOI, m_kineticSinCoeff, get_Expansion());
-		//}
 
 		// Find maximum quantum No. for rotor. To ensure convergence basis functions 
 		// that span a range twice that request are used with a minimum of 100000

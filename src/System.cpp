@@ -417,6 +417,7 @@ namespace mesmer
     if (m_Flags.grainDOSEnabled) m_Flags.cyclePrintGrainDOS = true;
 
     TimeCount events; unsigned int timeElapsed = 0;
+		bool debugOutput = (meErrorLog.GetOutputLevel() == obDebug);
 
     //
     // Reset microcanonical rate re-calculation flag as parameters, such
@@ -459,7 +460,7 @@ namespace mesmer
 				for (map<Reaction*, double>::iterator it = excessConcs.begin(); it != excessConcs.end(); ++it)
 					it->first->set_concExcessReactant(it->second);
 
-				if (writeReport) { cinfo << "PT Grid " << calPoint << endl; }
+				if (writeReport && debugOutput) { cinfo << "PT Grid " << calPoint << endl; }
 				Precision precision = m_pConditionsManager->PTPointPrecision(calPoint);
 				m_collisionOperator.setPrecision(precision);
 
@@ -481,7 +482,7 @@ namespace mesmer
 				if (!m_collisionOperator.BuildReactionOperator(m_Env, m_Flags, writeReport))
 					throw (std::runtime_error("Failed building system collison operator."));
 
-				if (writeReport) {
+				if (writeReport && debugOutput) {
 					string thisEvent = "Build Collison Operator";
 					events.setTimeStamp(thisEvent, timeElapsed);
 					cinfo << thisEvent;
@@ -498,7 +499,7 @@ namespace mesmer
 					// Diagonalise the collision operator.
 					m_collisionOperator.diagReactionOperator(m_Flags, m_Env, m_pConditionsManager->get_analysisData(calPoint));
 
-					if (writeReport) {
+					if (writeReport && debugOutput) {
 						string thisEvent = "Diagonalize the Reaction Operator";
 						events.setTimeStamp(thisEvent, timeElapsed);
 						cinfo << thisEvent;
@@ -576,10 +577,13 @@ namespace mesmer
     if (timeElapsed > 0)
       line << " -- Time elapsed: " << timeElapsed << " seconds.";
     line << endl;
-    if (writeReport) line << m_pConditionsManager->getNumPTPoints() << " temperature/concentration-pressure points calculated." << endl;
+    if (writeReport) 
+			line << m_pConditionsManager->getNumPTPoints() << " temperature/concentration-pressure points calculated." << endl;
 
-    if (m_Flags.viewEvents) line << events;
-    cinfo << line.str();
+    if (m_Flags.viewEvents) 
+			line << events;
+		if (writeReport && debugOutput)
+			cinfo << line.str();
 
     return true;
   }
@@ -857,7 +861,7 @@ namespace mesmer
     // flag needs to be set.
     //
 
-    m_Flags.bIndependentErrors = false;
+    // m_Flags.bIndependentErrors = false;
 
     double chiSquare(0.0);
     const vector<RawDataSet> &rawDataSets = m_pConditionsManager->get_experimentalrawDataSets(calPoint);

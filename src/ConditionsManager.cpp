@@ -267,8 +267,9 @@ namespace mesmer
             stringstream s3(txt); s3 >> refReaction;
           }
           stringstream s4(ppExpRate->XmlReadValue("error")); s4 >> errorValue;
-          thisPair.set_experimentalRates(ppExpRate, ref1, ref2, refReaction, rateValue, errorValue);
-          ppExpRate = ppExpRate->XmlMoveTo("me:experimentalRate");
+					thisPair.set_experimentalRates(ppExpRate, ref1, ref2, refReaction, rateValue, errorValue);
+					m_pSys->m_Flags.bIndependentErrors |= (errorValue > 0.0); // Assume independent errors.
+					ppExpRate = ppExpRate->XmlMoveTo("me:experimentalRate");
         }
 
         // Extract experimental yield values for chiSquare calculation.
@@ -289,8 +290,9 @@ namespace mesmer
             yieldTime = "-1.0";
           }
           stringstream s4(ppExpRate->XmlReadValue("error")); s4 >> errorValue;
-          thisPair.set_experimentalYields(ppExpRate, ref, yieldTime, yield, errorValue);
-          ppExpRate = ppExpRate->XmlMoveTo("me:experimentalYield");
+          thisPair.set_experimentalYields(ppExpRate, ref, yieldTime, yield, errorValue);					
+					m_pSys->m_Flags.bIndependentErrors |= (errorValue > 0.0) ; // Assume independent errors.
+					ppExpRate = ppExpRate->XmlMoveTo("me:experimentalYield");
         }
 
         // Extract experimental eigenvalues for chiSquare calculation.
@@ -303,7 +305,8 @@ namespace mesmer
           string EigenvalueID(ppExpRate->XmlReadValue("EigenvalueID"));
           stringstream s4(ppExpRate->XmlReadValue("error")); s4 >> errorValue;
           thisPair.set_experimentalEigenvalues(ppExpRate, EigenvalueID, eigenValue, errorValue);
-          ppExpRate = ppExpRate->XmlMoveTo("me:experimentalEigenvalue");
+					m_pSys->m_Flags.bIndependentErrors |= (errorValue > 0.0); // Assume independent errors.
+					ppExpRate = ppExpRate->XmlMoveTo("me:experimentalEigenvalue");
         }
 
         // Read in all experimental time-series data for analysis.

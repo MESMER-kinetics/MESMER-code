@@ -42,7 +42,7 @@ namespace mesmer{
 	  popThreshold(1.0e-5),
     bForceMacroDetailedBalance(false),
 	  bIsSystemSecondOrder(false),
-		bIndependentErrors(true)
+		bIndependentErrors(false)
 	{}
 }//namespace
 
