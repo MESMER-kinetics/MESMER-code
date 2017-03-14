@@ -741,8 +741,8 @@ namespace mesmer
         // No reference reaction. Assume reaction is unimolecular.
       }
 
-      double diff = (expRate - rateCoeff) / expErr;
-      residuals[calPoint] += diff;
+			double diff = (m_Flags.bIndependentErrors) ? (expRate - rateCoeff) / expErr : (expRate - rateCoeff);
+			residuals[calPoint] += diff;
       chiSquare += diff * diff;
 
       calcRates[i] = rateCoeff;
@@ -802,8 +802,8 @@ namespace mesmer
 
       }
 
-      double diff = (expYield - yield) / expErr;
-      residuals[calPoint] += diff;
+			double diff = (m_Flags.bIndependentErrors) ? (expYield - yield) / expErr : (expYield - yield);
+			residuals[calPoint] += diff;
       chiSquare += (diff * diff);
 
       calcYields[i] = yield;
@@ -839,7 +839,7 @@ namespace mesmer
         continue;
       }
 
-      double diff = (expEigenvalue - eigenvalue) / expErr;
+      double diff = (m_Flags.bIndependentErrors) ? (expEigenvalue - eigenvalue) / expErr : (expEigenvalue - eigenvalue);
       residuals[calPoint] += diff;
       chiSquare += (diff * diff);
 

@@ -8,11 +8,11 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.0 compiled: -- Nov 12 2016 -- 23:51:30
+     Mesmer v5.0 compiled: -- Mar 14 2017 -- 20:31:14
 
-     Copyright (C) 2009-2016 by
-     Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
-     Chris Morley, Michael J. Pilling and contributors
+     Copyright (C) 2009-2017 by
+     Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
+     David R. Glowacki, Michael J. Pilling and contributors
 
      Mesmer is free software: you can redistribute it and/or modify
      it under the terms of the GNU Public License as published by
@@ -26,8 +26,10 @@
     You should have received a copy of the GNU Public License
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
+                     Platform:        Windows
                      Number of ranks: 4
 
+Using 4 processes
 defaults.xml, librarymols.xml are in ../..
 
 Parsing input xml file...
@@ -52,13 +54,14 @@ In R1: --Parse data for SimpleRRKM
 In R1: No tunneling method used for R1
 The default value of the attribute precision was used.
 1e+08PPCC, 500K at d precision with Ar
-Write metadata 20161113_104116
+Write metadata 20170314_212638
 
 File: "pentyl_isomerization_SA.xml" successfully parsed.
 Main Calculation begins
+Now calculating...
 
 --Execute calcMethod SensitivityAnalysis
- -- Total time elapsed: 6 seconds.
+ -- Total time elapsed: 7 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 6 seconds.
+Total time elapsed: 7 seconds.

@@ -8,11 +8,11 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.1 compiled: -- Feb 20 2016 -- 13:49:03
+     Mesmer v5.0 compiled: -- Mar 14 2017 -- 20:31:14
 
-     Copyright (C) 2009-2016 by
-     Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
-     Chris Morley, Michael J. Pilling and contributors
+     Copyright (C) 2009-2017 by
+     Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
+     David R. Glowacki, Michael J. Pilling and contributors
 
      Mesmer is free software: you can redistribute it and/or modify
      it under the terms of the GNU Public License as published by
@@ -26,6 +26,10 @@
     You should have received a copy of the GNU Public License
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
+                     Platform:        Windows
+                     Number of ranks: 4
+
+Using 4 processes
 defaults.xml, librarymols.xml are in ../..
 
 Parsing input xml file...
@@ -34,6 +38,10 @@ CH3O2_NO2_associationEx2.xml
 --Parse data for marquardt
 Energy convention "" written to <moleculeList>
 In R1: Parsing reaction...Association reaction
+In CH3OONO2: Vibrational frequencies (cm-1) were calculated from Hessian:
+  19.225 101.431 165.414 189.582 301.889 439.871 533.99 716.46 777.114 914.13 
+  919.024 1166.12 1193.21 1306.45 1447.82 1469.73 1483.9 1782.74 3045.11 3138.54 
+  3152.29 
 In CH3OONO2: Hindered rotor b3
 In CH3OONO2: CH3OONO2:ZPE was given a range with 501 steps 
 In CH3OONO2: The default value of me:DistributionCalcMethod was used.
@@ -111,10 +119,11 @@ In R1: Not a unimolecular reaction: look for excess reactant concentration.
 30mbar, 272K at d precision with N2
 10mbar, 272K at d precision with N2
 --Parse data for ThermodynamicTable
-Write metadata 20160220_160231
+Write metadata 20170314_214833
 
 File: "CH3O2_NO2_associationEx2.xml" successfully parsed.
 Main Calculation begins
+Now calculating...
 
 --Execute calcMethod marquardt
 In FastLaplaceConvolution: 5280 values in the FFT convolution routine were replaced by standard convolution
@@ -123,34 +132,22 @@ Association ILT calculation completed
 Warning: CH3OONO2 is an asymmetric top containing five or more non-hydrogen
 atoms. The asymmetric top rotation states may be expensive to calculate. You may 
 wish to consider using a classical treatment.
-Finish Calculation of P-T case
 
 Chi^2 = 114.756 Lambda = 1
 CH3OONO2:ZPE=-44.91  CH3OONO2:deltaEDown:N2=419  CH3OONO2:deltaEDownTExponent:N2=0.339  R1:preExponential=8.84e-12  R1:nInfinity=-0.87  
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 In FastLaplaceConvolution: 2900 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 In FastLaplaceConvolution: 2840 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
-Finish Calculation of P-T case
 
 Chi^2 = 69.9219 Lambda = 0.1
 CH3OONO2:ZPE=-44.9353  CH3OONO2:deltaEDown:N2=394.513  CH3OONO2:deltaEDownTExponent:N2=-0.0651801  R1:preExponential=8.50999e-12  R1:nInfinity=-0.823159  
@@ -168,212 +165,17 @@ Chi^2 = 69.9219 Lambda = 100
 CH3OONO2:ZPE=-44.9353  CH3OONO2:deltaEDown:N2=394.513  CH3OONO2:deltaEDownTExponent:N2=-0.0651801  R1:preExponential=8.50999e-12  R1:nInfinity=-0.823159  
 Iteration: 4 of Marquardt. ChiSquare = 69.9219, Lambda = 100
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 
 Chi^2 = 69.7131 Lambda = 10
 CH3OONO2:ZPE=-44.9354  CH3OONO2:deltaEDown:N2=394.279  CH3OONO2:deltaEDownTExponent:N2=-0.0695636  R1:preExponential=8.50696e-12  R1:nInfinity=-0.822716  
 Iteration: 5 of Marquardt. ChiSquare = 69.7131, Lambda = 10
-PT Grid 0
 Number of cells = 50000, Number of grains = 374
 Association ILT calculation completed
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 1
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 2
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 3
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 4
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 5
-Build Collison Operator -- Time elapsed: 1 seconds.
-Diagonalize the Reaction Operator
-PT Grid 6
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 7
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 8
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 9
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 10
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 11
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 12
-Build Collison Operator -- Time elapsed: 1 seconds.
-Diagonalize the Reaction Operator
-PT Grid 13
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 14
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 15
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 16
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 17
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 18
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 19
-Build Collison Operator -- Time elapsed: 1 seconds.
-Diagonalize the Reaction Operator
-PT Grid 20
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 21
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 22
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 23
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 24
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 25
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 26
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 27
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 28
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 29
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 30
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 31
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 32
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 33
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 34
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 35
-Build Collison Operator -- Time elapsed: 1 seconds.
-Diagonalize the Reaction Operator
-PT Grid 36
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 37
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 38
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 39
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 40
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 41
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 42
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 43
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 44
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 45
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 46
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 47
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 48
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 49
-Build Collison Operator -- Time elapsed: 1 seconds.
-Diagonalize the Reaction Operator
-PT Grid 50
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 51
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 52
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 53
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 54
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 55
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 56
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 57
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 58
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 59
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 60
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 61
-Build Collison Operator -- Time elapsed: 1 seconds.
-Diagonalize the Reaction Operator
-PT Grid 62
-Build Collison Operator
-Diagonalize the Reaction Operator
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
@@ -441,8 +243,6 @@ Diagonalize the Reaction Operator
             272    7.98856e+17         0.0117      0.0103166
             272    2.66285e+17        0.00538     0.00479395
 
-Finish Calculation of P-T case
-63 temperature/concentration-pressure points calculated.
 
 Chi^2 = 69.7131
 
@@ -477,7 +277,7 @@ Chi^2 probability = 0.139433
 In N2: The default value of me:DOSCMethod was used.
 In N2: The default value of the attribute spinMultiplicity was used.
 gDensityOfStates initialization failed.
- -- Total time elapsed: 704 seconds.
+ -- Total time elapsed: 171 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 704 seconds.
+Total time elapsed: 171 seconds.

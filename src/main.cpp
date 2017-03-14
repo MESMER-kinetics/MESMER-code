@@ -1,6 +1,6 @@
-/*  Copyright (C) 2009-2016 by
-Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
-Chris Morley, Michael J. Pilling and contributors
+/*  Copyright (C) 2009-2017 by
+Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
+David R. Glowacki, Michael J. Pilling and contributors
 This file is a part of
 Mesmer: Master Equation Solver for Multi-Energy well Reactions
 
@@ -458,9 +458,9 @@ void banner(size_t nRanks)
   cinfo << endl;
   cinfo << "     Mesmer: Master Equation Solver for Multi-Energy well Reactions" << endl;
   cinfo << "     " << version() << endl;
-  cinfo << "     Copyright (C) 2009-2016 by" << endl;
-  cinfo << "     Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang," << endl;
-  cinfo << "     Chris Morley, Michael J. Pilling and contributors" << endl;
+  cinfo << "     Copyright (C) 2009-2017 by" << endl;
+  cinfo << "     Struan H. Robertson, Chris Morley, Chi-Hsiu Liang," << endl;
+  cinfo << "     David R. Glowacki, Michael J. Pilling and contributors" << endl;
   cinfo << endl;
   cinfo << "     Mesmer is free software: you can redistribute it and/or modify" << endl;
   cinfo << "     it under the terms of the GNU Public License as published by" << endl;

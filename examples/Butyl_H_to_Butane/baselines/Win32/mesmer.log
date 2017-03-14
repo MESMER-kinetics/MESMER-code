@@ -8,11 +8,11 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.1 compiled: -- Feb 20 2016 -- 13:49:03
+     Mesmer v5.0 compiled: -- Mar 14 2017 -- 20:31:14
 
-     Copyright (C) 2009-2016 by
-     Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
-     Chris Morley, Michael J. Pilling and contributors
+     Copyright (C) 2009-2017 by
+     Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
+     David R. Glowacki, Michael J. Pilling and contributors
 
      Mesmer is free software: you can redistribute it and/or modify
      it under the terms of the GNU Public License as published by
@@ -26,6 +26,10 @@
     You should have received a copy of the GNU Public License
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
+                     Platform:        Windows
+                     Number of ranks: 4
+
+Using 4 processes
 defaults.xml, librarymols.xml are in ../..
 
 Parsing input xml file...
@@ -37,6 +41,11 @@ In ThermodynamicTable: The default value of me:Tmin was used.
 In ThermodynamicTable: The default value of me:Tmax was used.
 In ThermodynamicTable: The default value of me:Tstep was used.
 In ThermodynamicTable: The default value of me:Tmid was used.
+In Butane: Vibrational frequencies (cm-1) were calculated from Hessian:
+  149.139 241.652 264.108 291.647 440.828 701.095 799.51 837.676 962.519 976.115 
+  1023.95 1077.86 1175.07 1201.17 1290.82 1324.9 1340.39 1394.62 1410.72 1416.43 
+  1485.27 1491.88 1504.45 1506.58 1506.82 1509.31 3020.72 3030 3038.09 3040.26 
+  3040.89 3060.7 3092.66 3095.9 3109.37 3110.18 
 In Butane: Rotational constants were calculated from atom coordinates: 0.113192 0.120421 0.790797 cm-1
 In Butane: Hindered rotor b6
 In Butane: Hindered rotor b2
@@ -63,10 +72,11 @@ In R1: No tunneling method used for R1
 In R1: Not a unimolecular reaction: look for excess reactant concentration.
 In R1: No value of me:excessReactantConc was supplied and the default value NEEDS TO BE CHECKED**
 25.1Torr, 301K at dd precision with He
-Write metadata 20160220_135544
+Write metadata 20170314_210230
 
 File: "Butyl_H_to_Butane.xml" successfully parsed.
 Main Calculation begins
+Now calculating...
 
 --Execute calcMethod ThermodynamicTable
 14
@@ -709,7 +719,7 @@ Butane-orig_coords
          H        2.10131      -0.762706      -0.879091
          H       0.470231        1.15894      -0.873117
          H       0.470226        1.15899       0.873094
- -- Total time elapsed: 21 seconds.
+ -- Total time elapsed: 12 seconds.
 
 System saved to out.xml
-Total time elapsed: 21 seconds.
+Total time elapsed: 12 seconds.

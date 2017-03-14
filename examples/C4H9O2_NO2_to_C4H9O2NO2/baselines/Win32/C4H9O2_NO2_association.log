@@ -8,11 +8,11 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.1 compiled: -- Feb 20 2016 -- 13:49:03
+     Mesmer v5.0 compiled: -- Mar 14 2017 -- 20:31:14
 
-     Copyright (C) 2009-2016 by
-     Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
-     Chris Morley, Michael J. Pilling and contributors
+     Copyright (C) 2009-2017 by
+     Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
+     David R. Glowacki, Michael J. Pilling and contributors
 
      Mesmer is free software: you can redistribute it and/or modify
      it under the terms of the GNU Public License as published by
@@ -26,6 +26,10 @@
     You should have received a copy of the GNU Public License
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
+                     Platform:        Windows
+                     Number of ranks: 4
+
+Using 4 processes
 defaults.xml, librarymols.xml are in ../..
 
 Parsing input xml file...
@@ -34,6 +38,12 @@ C4H9O2_NO2_association.xml
 --Parse data for marquardt
 Energy convention "" written to <moleculeList>
 In R1: Parsing reaction...Association reaction
+In C4H9OONO2: Vibrational frequencies (cm-1) were calculated from Hessian:
+  15.9701 39.3871 59.5748 96.2644 130.683 145.141 196.44 246.318 255.144 351.513 
+  412.446 499.296 636.968 717.452 749.577 788.735 822.606 873.414 937.059 958.626 
+  969.638 1030.42 1056 1107.94 1186.18 1243.13 1298.06 1307.04 1324.23 1329.18 
+  1385.68 1409.41 1422.7 1459.23 1502.26 1504.81 1508.74 1522.64 1784.85 3015.2 
+  3035.3 3036.56 3049.07 3052.63 3082.69 3100.33 3102.77 3110.21 
 In C4H9OONO2: Hindered rotor b12
 In C4H9OONO2: C4H9OONO2:ZPE was given a range with 501 steps 
 In C4H9OONO2: The default value of me:DistributionCalcMethod was used.
@@ -58,44 +68,33 @@ In R1: Not a unimolecular reaction: look for excess reactant concentration.
 800mbar, 253K at d precision with N2
 800mbar, 253K at d precision with N2
 --Parse data for analyticalRepresentation
-Write metadata 20160220_152656
+Write metadata 20170314_212649
 
 File: "C4H9O2_NO2_association.xml" successfully parsed.
 Main Calculation begins
+Now calculating...
 
 --Execute calcMethod marquardt
 In FastLaplaceConvolution: 22840 values in the FFT convolution routine were replaced by standard convolution
 In FastLaplaceConvolution: 16340 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
 In mesmer::CollisionOperator::timeEvolution: No population was assigned. Initialize the first source term to 1.0.
-Finish Calculation of P-T case
 
 Chi^2 = 38.1484 Lambda = 1
 C4H9OONO2:ZPE=-44.9  C4H9OONO2:deltaEDown:He=244  C4H9OONO2:deltaEDownTExponent:He=1  R1:preExponential=1.061e-11  R1:nInfinity=-0.6  
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 In FastLaplaceConvolution: 16320 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
-Finish Calculation of P-T case
 In FastLaplaceConvolution: 16060 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 
 Chi^2 = 31.2482 Lambda = 0.1
 C4H9OONO2:ZPE=-44.8298  C4H9OONO2:deltaEDown:He=249.94  C4H9OONO2:deltaEDownTExponent:He=1.0322  R1:preExponential=1.08152e-11  R1:nInfinity=-0.712914  
@@ -106,18 +105,12 @@ C4H9OONO2:ZPE=-44.8298  C4H9OONO2:deltaEDown:He=249.94  C4H9OONO2:deltaEDownTExp
 Iteration: 2 of Marquardt. ChiSquare = 31.2482, Lambda = 1
 In FastLaplaceConvolution: 15940 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 In FastLaplaceConvolution: 15920 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
-Finish Calculation of P-T case
 
 Chi^2 = 30.5327 Lambda = 0.1
 C4H9OONO2:ZPE=-44.8028  C4H9OONO2:deltaEDown:He=247.566  C4H9OONO2:deltaEDownTExponent:He=1.11196  R1:preExponential=1.08661e-11  R1:nInfinity=-0.760171  
@@ -128,18 +121,12 @@ C4H9OONO2:ZPE=-44.8028  C4H9OONO2:deltaEDown:He=247.566  C4H9OONO2:deltaEDownTEx
 Iteration: 4 of Marquardt. ChiSquare = 30.5327, Lambda = 1
 In FastLaplaceConvolution: 15860 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 In FastLaplaceConvolution: 15820 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
-Finish Calculation of P-T case
 
 Chi^2 = 30.2126 Lambda = 0.1
 C4H9OONO2:ZPE=-44.793  C4H9OONO2:deltaEDown:He=243.932  C4H9OONO2:deltaEDownTExponent:He=1.20206  R1:preExponential=1.08855e-11  R1:nInfinity=-0.792491  
@@ -150,18 +137,12 @@ C4H9OONO2:ZPE=-44.793  C4H9OONO2:deltaEDown:He=243.932  C4H9OONO2:deltaEDownTExp
 Iteration: 6 of Marquardt. ChiSquare = 30.2126, Lambda = 1
 In FastLaplaceConvolution: 15780 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 In FastLaplaceConvolution: 15760 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
-Finish Calculation of P-T case
 
 Chi^2 = 30.0031 Lambda = 0.1
 C4H9OONO2:ZPE=-44.7914  C4H9OONO2:deltaEDown:He=239.922  C4H9OONO2:deltaEDownTExponent:He=1.2992  R1:preExponential=1.08892e-11  R1:nInfinity=-0.816471  
@@ -172,18 +153,12 @@ C4H9OONO2:ZPE=-44.7914  C4H9OONO2:deltaEDown:He=239.922  C4H9OONO2:deltaEDownTEx
 Iteration: 8 of Marquardt. ChiSquare = 30.0031, Lambda = 1
 In FastLaplaceConvolution: 15700 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 In FastLaplaceConvolution: 15580 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
-Finish Calculation of P-T case
 
 Chi^2 = 29.8113 Lambda = 0.1
 C4H9OONO2:ZPE=-44.7933  C4H9OONO2:deltaEDown:He=236.429  C4H9OONO2:deltaEDownTExponent:He=1.3931  R1:preExponential=1.08946e-11  R1:nInfinity=-0.839533  
@@ -193,18 +168,12 @@ Chi^2 = 29.8113 Lambda = 1
 C4H9OONO2:ZPE=-44.7933  C4H9OONO2:deltaEDown:He=236.429  C4H9OONO2:deltaEDownTExponent:He=1.3931  R1:preExponential=1.08946e-11  R1:nInfinity=-0.839533  
 Iteration: 10 of Marquardt. ChiSquare = 29.8113, Lambda = 1
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 In FastLaplaceConvolution: 15560 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
-Finish Calculation of P-T case
 
 Chi^2 = 29.6433 Lambda = 0.1
 C4H9OONO2:ZPE=-44.7972  C4H9OONO2:deltaEDown:He=233.008  C4H9OONO2:deltaEDownTExponent:He=1.48634  R1:preExponential=1.08954e-11  R1:nInfinity=-0.859399  
@@ -219,17 +188,11 @@ C4H9OONO2:ZPE=-44.7972  C4H9OONO2:deltaEDown:He=233.008  C4H9OONO2:deltaEDownTEx
 Iteration: 13 of Marquardt. ChiSquare = 29.6433, Lambda = 10
 In FastLaplaceConvolution: 15540 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 
 Chi^2 = 29.6259 Lambda = 1
 C4H9OONO2:ZPE=-44.7976  C4H9OONO2:deltaEDown:He=232.596  C4H9OONO2:deltaEDownTExponent:He=1.49578  R1:preExponential=1.0894e-11  R1:nInfinity=-0.860771  
@@ -243,17 +206,11 @@ Chi^2 = 29.6259 Lambda = 100
 C4H9OONO2:ZPE=-44.7976  C4H9OONO2:deltaEDown:He=232.596  C4H9OONO2:deltaEDownTExponent:He=1.49578  R1:preExponential=1.0894e-11  R1:nInfinity=-0.860771  
 Iteration: 16 of Marquardt. ChiSquare = 29.6259, Lambda = 100
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 
 Chi^2 = 29.6241 Lambda = 10
 C4H9OONO2:ZPE=-44.7977  C4H9OONO2:deltaEDown:He=232.554  C4H9OONO2:deltaEDownTExponent:He=1.49673  R1:preExponential=1.08938e-11  R1:nInfinity=-0.8609  
@@ -263,17 +220,11 @@ Chi^2 = 29.6241 Lambda = 100
 C4H9OONO2:ZPE=-44.7977  C4H9OONO2:deltaEDown:He=232.554  C4H9OONO2:deltaEDownTExponent:He=1.49673  R1:preExponential=1.08938e-11  R1:nInfinity=-0.8609  
 Iteration: 18 of Marquardt. ChiSquare = 29.6241, Lambda = 100
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 
 Chi^2 = 29.6224 Lambda = 10
 C4H9OONO2:ZPE=-44.7977  C4H9OONO2:deltaEDown:He=232.512  C4H9OONO2:deltaEDownTExponent:He=1.49767  R1:preExponential=1.08937e-11  R1:nInfinity=-0.86103  
@@ -282,38 +233,8 @@ Iteration: 19 of Marquardt. ChiSquare = 29.6224, Lambda = 10
 Chi^2 = 29.6224 Lambda = 100
 C4H9OONO2:ZPE=-44.7977  C4H9OONO2:deltaEDown:He=232.512  C4H9OONO2:deltaEDownTExponent:He=1.49767  R1:preExponential=1.08937e-11  R1:nInfinity=-0.86103  
 Iteration: 20 of Marquardt. ChiSquare = 29.6224, Lambda = 100
-PT Grid 0
 Number of cells = 50000, Number of grains = 389
 Association ILT calculation completed
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 1
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 2
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 3
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 4
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 5
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 6
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 7
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 8
-Build Collison Operator -- Time elapsed: 1 seconds.
-Diagonalize the Reaction Operator
-PT Grid 9
-Build Collison Operator -- Time elapsed: 1 seconds.
-Diagonalize the Reaction Operator
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
@@ -328,8 +249,6 @@ Diagonalize the Reaction Operator
             253    2.29027e+19         0.0133      0.0127342
             253    2.29027e+19         0.0133      0.0127342
 
-Finish Calculation of P-T case
-10 temperature/concentration-pressure points calculated.
 
 Chi^2 = 29.6224
 
@@ -394,7 +313,7 @@ chebyshev_reaction(' => C4H9OO + NO2',
                            [    9.0324e-06,  -1.79033e-05,   1.14981e-05,  -6.36982e-07,  -3.87936e-06,    5.6797e-07,   1.24804e-06,   4.07627e-07]])
 
 
- -- Total time elapsed: 2135 seconds.
+ -- Total time elapsed: 1302 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 2135 seconds.
+Total time elapsed: 1302 seconds.

@@ -61,7 +61,7 @@
           <scalar units="cm-1">200.0</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod name="ClassicalRotors"/>
+      <me:DOSCMethod  xsi:type="me:ClassicalRotors"/>
       <me:DistributionCalcMethod xsi:type="me:Prior">
         <me:CoFragment>AceticAcid</me:CoFragment>
         <me:EnergyExcess units="kJ/mol" lower="100" upper="130" stepsize="10"> 120</me:EnergyExcess>
@@ -95,7 +95,7 @@
           <array units="cm-1">533.0</array>
         </property>
       </propertyList>
-      <me:DOSCMethod xsi:type="me:ClassicalRotor"/>
+      <me:DOSCMethod xsi:type="me:ClassicalRotors"/>
     </molecule>
     <molecule id="CO">
       <propertyList>
@@ -160,7 +160,7 @@
           <scalar>1</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod xsi:type="me:ClassicalRotor"/>
+      <me:DOSCMethod xsi:type="me:ClassicalRotors"/>
     </molecule>
     <molecule id="O2" description="oxygen">
       <atomArray>
@@ -193,7 +193,7 @@
           <scalar>3</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod name="ClassicalRotors"/>
+      <me:DOSCMethod  xsi:type="me:ClassicalRotors"/>
     </molecule>
     <molecule id="Int1" description="peroxy acetyl O2 adduct">
       <atomArray>
@@ -251,7 +251,7 @@
           <scalar units="cm-1">130.0</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod name="ClassicalRotors"/>
+      <me:DOSCMethod  xsi:type="me:ClassicalRotors"/>
     </molecule>
   </moleculeList>
   <reactionList>

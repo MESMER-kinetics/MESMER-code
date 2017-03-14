@@ -268,7 +268,7 @@ namespace mesmer
           }
           stringstream s4(ppExpRate->XmlReadValue("error")); s4 >> errorValue;
 					thisPair.set_experimentalRates(ppExpRate, ref1, ref2, refReaction, rateValue, errorValue);
-					m_pSys->m_Flags.bIndependentErrors |= (errorValue > 0.0); // Assume independent errors.
+					m_pSys->m_Flags.bIndependentErrors &= (errorValue > 0.0); // Assume independent errors.
 					ppExpRate = ppExpRate->XmlMoveTo("me:experimentalRate");
         }
 
@@ -291,7 +291,7 @@ namespace mesmer
           }
           stringstream s4(ppExpRate->XmlReadValue("error")); s4 >> errorValue;
           thisPair.set_experimentalYields(ppExpRate, ref, yieldTime, yield, errorValue);					
-					m_pSys->m_Flags.bIndependentErrors |= (errorValue > 0.0) ; // Assume independent errors.
+					m_pSys->m_Flags.bIndependentErrors &= (errorValue > 0.0); // Assume independent errors.
 					ppExpRate = ppExpRate->XmlMoveTo("me:experimentalYield");
         }
 
@@ -305,7 +305,7 @@ namespace mesmer
           string EigenvalueID(ppExpRate->XmlReadValue("EigenvalueID"));
           stringstream s4(ppExpRate->XmlReadValue("error")); s4 >> errorValue;
           thisPair.set_experimentalEigenvalues(ppExpRate, EigenvalueID, eigenValue, errorValue);
-					m_pSys->m_Flags.bIndependentErrors |= (errorValue > 0.0); // Assume independent errors.
+					m_pSys->m_Flags.bIndependentErrors &= (errorValue > 0.0); // Assume independent errors.
 					ppExpRate = ppExpRate->XmlMoveTo("me:experimentalEigenvalue");
         }
 

@@ -1,3 +1,9 @@
+2017-March-14 Struan Robertson
+
+		* ConditionsManger.cpp/.h, System.cpp: Corrected independent error check (again).
+
+		* Documentation update.
+
 2017-March-12 Struan Robertson
 
 		* System.cpp: Rationalize .log output.
