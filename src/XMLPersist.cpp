@@ -492,7 +492,7 @@ namespace mesmer
     }
 
     TiXmlNode* pnBefore = pnNode->FirstChild();
-    if(!pnBefore) return false;
+    if(!pnBefore) return NULL;
     XMLPersist* pxP = dynamic_cast<XMLPersist*> (ppToBeCopied.get());
     return PersistPtr( new XMLPersist(pnNode->InsertBeforeChild(pnBefore, *pxP->pnNode)->ToElement()));
   }
