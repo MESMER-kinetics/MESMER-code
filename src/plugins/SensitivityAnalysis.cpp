@@ -594,7 +594,7 @@ namespace mesmer
 
       // Have each thread print out in order.
       for (size_t i(0); i < size_t(m_nRanks); i++) {
-        if (m_rank == i)
+				if (size_t(m_nRanks) == i)
           cinfo << sensitivityTable.str() << endl;
         pSys->getParallelManager()->barrier();
       }
@@ -1166,7 +1166,7 @@ namespace mesmer
       int tableSize = int(table.size()) ;
 			m_pParallelManager->broadcastInteger(&tableSize, 1, i);
 			for (size_t j(0); j < size_t(tableSize); j++) {
-        if (m_rank == i)
+				if (size_t(m_nRanks) == i)
           tmp = table[j];
         m_pParallelManager->broadcastDouble(&tmp[0], tmp.size(), i);
         wrk.push_back(tmp);

@@ -1149,8 +1149,9 @@ namespace mesmer
 
     //Write to XML
     stringstream ss;
-    for (auto freq : m_VibFreq)
-      ss << freq << " ";
+		for (size_t i(0); i < m_VibFreq.size(); i++) {
+			ss << m_VibFreq[i] << " ";
+		}
     PersistPtr ppScalar = ppProp->XmlWriteProperty("me:vibFreqsFromHessian", ss.str(), "cm-1");
   }
 

@@ -180,8 +180,7 @@ namespace mesmer
 
     int nTemps = static_cast<int>(std::floor((m_Tmax - m_Tmin) / m_TempInterval))+1;
     int nTempsLower = static_cast<int>(std::floor((m_Tmid - m_Tmin) / m_TempInterval)+1);
-    bool enoughPoints =  !m_Tmid && nTemps > 6 
-      || m_Tmid && nTempsLower> 6 && (nTemps-nTempsLower)>=6;
+    bool enoughPoints = (!m_Tmid && (nTemps > 6)) || (m_Tmid && (nTempsLower > 6) && ((nTemps-nTempsLower)>=6));
     if (!enoughPoints)
     {
       cinfo << "Too few data points to fit NASA polynomials." << endl;

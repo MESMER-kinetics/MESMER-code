@@ -34,7 +34,7 @@ namespace mesmer
       if (libfile.empty() || !ppLib)
       {
         cwarn << "Could not find Library file to search it for missing molecule(s)." << endl;
-        return false;
+        return NULL;
       }
     }
     PersistPtr ppLibMolList = ppLib->XmlMoveTo("moleculeList");

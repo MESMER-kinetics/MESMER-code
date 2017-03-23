@@ -86,7 +86,7 @@ namespace mesmer
           return NULL;
         }
         pMol = m_pMoleculeManager->addmol(string(reftxt), string(typetxt), getEnv(), getFlags());
-        if(typetxt=="excessReactant")
+        if(string(typetxt)==string("excessReactant"))
           m_ExcessReactant = pMol;
       }
     }
