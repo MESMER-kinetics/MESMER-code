@@ -31,8 +31,8 @@ SET tfn=mesmer.test
 SET lfn=mesmer.log
 SET bline=baselines/Win32/
 SET outf=out.xml
-SET mpicommand="C:\Program Files\Microsoft MPI\Bin\mpiexec" -n 2 %executable%
-SET cmdline=%executable%
+SET mpicommand="C:\Program Files\Microsoft MPI\Bin\mpiexec" -n 4 %executable%
+SET cmdline=%mpicommand%
 
 :: This compares the "double quote" altogether with the content
 IF "%1"=="" (
@@ -81,6 +81,7 @@ GOTO END
 
 
 :RUNNING
+REM GOTO IN
 
 cd AcetylO2
 
@@ -214,6 +215,8 @@ set testName="CH3_CH3_to_C2H6"
 copy "./%testName%.test" "./%bline%%testName%.test"
 IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
 cd ..
+
+:OUT
 
 echo Start Time=%starttime% - End Time=%time%
 
