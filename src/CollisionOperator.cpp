@@ -899,13 +899,6 @@ namespace mesmer
 		if (analysisData)
 			analysisData->m_timePoints = timePoints;
 
-    //Initialises dt vector for calculating product yields
-    vector<double> dt(timePoints.size() - 1, 0.0);
-    dt[0] = timePoints[0];
-    for (int i = 1; i < int(dt.size()); ++i){
-      dt[i] = timePoints[i] - timePoints[i - 1];
-    }
-
     dMatrix totalEigenVecs(smsize); // copy full eigenvectors of the system
     for (size_t i = 0; i < smsize; ++i) {
       double tmp = to_double(m_eqVector[i]);
@@ -914,8 +907,8 @@ namespace mesmer
       }
     }
 
-    const size_t maxTimeStep = dt.size();
-    vector<vector<double> > grnProfile(smsize, vector<double>(maxTimeStep));
+		const size_t maxTimeStep = timePoints.size();
+		vector<vector<double> > grnProfile(smsize, vector<double>(maxTimeStep));
     vector<double> p_t(smsize, 0.);
 
     for (size_t timestep(0); timestep < maxTimeStep; ++timestep){
@@ -1060,14 +1053,17 @@ namespace mesmer
       }
 
       // SHR 2/Jan/2015: The following vector holds the flux into each sink.
-      // I am not sure how useful this quantity is and my wish to remove it 
+      // I am not sure how useful this quantity is and may wish to remove it 
       // at a later stage.
       vector<vector<double> > sinkFluxProfile(m_sinkRxns.size(), vector<double>(maxTimeStep));
 
       int pdtProfileStartIdx = speciesProfileidx;
       size_t fluxIdx(0) ;
 
-      sinkMap::iterator pos;      // Iterate through sink map to get product profile vs t.
+			// Iterate through sink map to get product profile vs t.
+			// SHR 26/Mar/2017: This section involves a very crude integration 
+			// over time and is in need of review.
+      sinkMap::iterator pos;
       for (pos = m_sinkRxns.begin(); pos != m_sinkRxns.end(); ++pos){
         Reaction* sinkReaction = pos->first;
         const vector<double> KofEs = sinkReaction->get_MtxGrnKf();        // Vector to hold sink k(E)s.
@@ -1082,9 +1078,12 @@ namespace mesmer
         int rxnMatrixLoc = pos->second;  // Get sink location.
         double TimeIntegratedProductPop(0.0);
 
+				double lastTime(0.0);
         for (size_t timestep(0); timestep < maxTimeStep; ++timestep) {
+					double deltat = timePoints[timestep] - lastTime ;
+					lastTime = timePoints[timestep];
           for (size_t i(0); i < KofEs.size(); ++i) {
-            speciesProfile[speciesProfileidx][timestep]  += KofEs[i] * grnProfile[i + rxnMatrixLoc][timestep] * dt[timestep];
+            speciesProfile[speciesProfileidx][timestep]  += KofEs[i] * grnProfile[i + rxnMatrixLoc][timestep] * deltat;
             sinkFluxProfile[fluxIdx][timestep] += KofEs[i] * grnProfile[i + rxnMatrixLoc][timestep] ;
           }
           TimeIntegratedProductPop += speciesProfile[speciesProfileidx][timestep];

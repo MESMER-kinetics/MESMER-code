@@ -229,6 +229,7 @@
     <me:testDOS />
     <me:testMicroRates />
     <me:eigenvalues>5</me:eigenvalues>
+    <me:printSpeciesProfile />
   </me:control>
 
   <me:control>

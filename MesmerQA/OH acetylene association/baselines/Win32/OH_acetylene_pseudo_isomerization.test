@@ -1620,6 +1620,7 @@ Print time dependent species and product profiles
          50118.7      2.0541e-15          4.3331               0          4.3331               0
          63095.7      3.0057e-15         6.34051               0         6.34051               0
          79432.8     4.85376e-15          10.239               0          10.239               0
+          100000     8.87362e-15         18.7188               0         18.7188               0
 }
 
 Bartis Widom eigenvalue/eigenvector analysis

@@ -1,5 +1,10 @@
 2017-March-26 Struan Robertson
 
+		* CollisionOperator.cpp: Fix bug related the number of time points for population 
+		densities are calculated.
+
+2017-March-26 Struan Robertson
+
 		* FourierGrid1D.cpp, Potential1D.h/.cpp: Addition of new classes to represent a 
 		general 1D potential from which QM states are calculated.
 
