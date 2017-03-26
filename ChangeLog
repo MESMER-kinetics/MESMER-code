@@ -1,3 +1,8 @@
+2017-March-26 Struan Robertson
+
+		* FourierGrid1D.cpp, Potential1D.h/.cpp: Addition of new classes to represent a 
+		general 1D potential from which QM states are calculated.
+
 2017-March-14 Struan Robertson
 
 		* ConditionsManger.cpp/.h, System.cpp: Corrected independent error check (again).

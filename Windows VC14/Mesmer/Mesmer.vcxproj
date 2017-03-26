@@ -143,6 +143,7 @@
     <ClCompile Include="..\..\src\Molecule.cpp" />
     <ClCompile Include="..\..\src\MoleculeManager.cpp" />
     <ClCompile Include="..\..\src\plugins\Morse.cpp" />
+    <ClCompile Include="..\..\src\plugins\Potential1D.cpp" />
     <ClCompile Include="..\..\src\plugins\PriorDistribution.cpp" />
     <ClCompile Include="..\..\src\plugins\QMRotor.cpp" />
     <ClCompile Include="..\..\src\plugins\SensitivityAnalysis.cpp" />
@@ -208,6 +209,7 @@
     <ClInclude Include="..\..\src\MoleculeManager.h" />
     <ClInclude Include="..\..\src\Persistence.h" />
     <ClInclude Include="..\..\src\plugins\HinderedRotorUtils.h" />
+    <ClInclude Include="..\..\src\plugins\Potential1D.h" />
     <ClInclude Include="..\..\src\PseudoIsomerizationReaction.h" />
     <ClInclude Include="..\..\src\qd_test.h" />
     <ClInclude Include="..\..\src\Rdouble.h" />
@@ -237,11 +239,17 @@
     <None Include="..\..\examples\Ethyl_H_to_Ethane\Ethyl_H_to_Ethane.xml" />
     <None Include="..\..\examples\H2Ominimal\H2Ominimal.xml" />
     <None Include="..\..\examples\i-propyl\ipropyl_2ContrBlks.xml" />
-    <None Include="..\..\examples\i-propyl\ipropyl_LM.xml" />
+    <None Include="..\..\examples\i-propyl\ipropyl_LM.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="..\..\examples\Methoxymethyl\Chebyshev.xml" />
     <None Include="..\..\examples\Methoxymethyl\ChebyshevCK.xml" />
-    <None Include="..\..\examples\Methyl_H_to_Methane\Methyl_H_to_Methane.xml" />
-    <None Include="..\..\examples\Methyl_H_to_Methane\Methyl_H_to_Methane_FTST.xml" />
+    <None Include="..\..\examples\Methyl_H_to_Methane\Methyl_H_to_Methane.xml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="..\..\examples\Methyl_H_to_Methane\Methyl_H_to_Methane_FTST.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="..\..\examples\OH-acetylene\OH_HCCH-irreversibleBim-ci-TC-start.xml" />
     <None Include="..\..\examples\OH-acetylene\OH_HCCH-irreversibleBim-publish.xml" />
     <None Include="..\..\examples\OH_NO_to HONO\OH_NO_HONO.xml" />

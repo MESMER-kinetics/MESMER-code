@@ -727,6 +727,8 @@ src/plugins/LandauZenerCrossing.cpp -text
 src/plugins/Marquardt.cpp -text
 src/plugins/MesmerILT.cpp -text
 src/plugins/Morse.cpp -text
+src/plugins/Potential1D.cpp -text
+src/plugins/Potential1D.h -text
 src/plugins/PriorDistribution.cpp -text
 src/plugins/QMRotor.cpp -text
 src/plugins/SensitivityAnalysis.cpp -text
