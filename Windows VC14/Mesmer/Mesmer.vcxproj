@@ -52,7 +52,7 @@
       <Optimization>Disabled</Optimization>
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <AdditionalIncludeDirectories>../../src/plugins;../../src;../../tinyxml;../../qd/include;C:\Program Files %28x86%29\Microsoft SDKs\MPI\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;TIXML_USE_STL;_CRT_SECURE_NO_WARNINGS;PARALLEL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;TIXML_USE_STL;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -149,6 +149,7 @@
     <ClCompile Include="..\..\src\plugins\SensitivityAnalysis.cpp" />
     <ClCompile Include="..\..\src\plugins\SimpleBimolecularSink.cpp" />
     <ClCompile Include="..\..\src\plugins\UnitTests.cpp" />
+    <ClCompile Include="..\..\src\plugins\ZhuNakamuraCrossingCoeff.cpp" />
     <ClCompile Include="..\..\src\PseudoIsomerizationReaction.cpp" />
     <ClCompile Include="..\..\src\Rdouble.cpp" />
     <ClCompile Include="..\..\src\Reaction.cpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="..\..\src\ParallelManager.h" />
     <ClInclude Include="..\..\src\ParseForPlugin.h" />
     <ClInclude Include="..\..\src\plugin.h" />
+    <ClInclude Include="..\..\src\plugins\AdiabaticCurve.h" />
     <ClInclude Include="..\..\src\plugins\FittingUtils.h" />
     <ClInclude Include="..\..\src\formatfloat.h" />
     <ClInclude Include="..\..\src\IrreversibleExchangeReaction.h" />

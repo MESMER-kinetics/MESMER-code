@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
+<?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
+<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <me:title>HPALD singlet to triplet</me:title>
+
+  <moleculeList>
+
+    <molecule id="HPALD-S1" description="C_5H_8O_3">
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kJ/mol">0.00</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">
+            0.0082
+            0.0102
+            0.0338
+          </array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:frequenciesScaleFactor">
+          <scalar>1.0</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">
+            64.80
+            112.51
+            147.37
+            154.27
+            186.72
+            222.15
+            245.10
+            271.05
+            337.19
+            360.64
+            489.27
+            534.35
+            643.64
+            680.99
+            766.00
+            819.19
+            923.62
+            967.57
+            1006.05
+            1068.29
+            1097.99
+            1127.29
+            1185.25
+            1244.07
+            1264.87
+            1324.10
+            1353.89
+            1416.60
+            1455.69
+            1471.32
+            1517.55
+            1526.79
+            1549.59
+            1663.83
+            3023.74
+            3067.46
+            3076.76
+            3150.95
+            3158.22
+            3188.09
+            3237.00
+            3647.73
+          </array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">116</scalar>
+        </property>
+        <property dictRef="me:epsilon">
+          <scalar>473.1</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>5.5</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <!--this value of the spin Multiplicity accounts for the fact that, on the timescale
+                     of the AIMS dynamics, two minima in the OH torsional coordinate are sampled -->
+          <scalar>2</scalar>
+        </property>
+      </propertyList>
+
+      <me:energyTransferModel xsi:type="me:ExponentialDown">
+        <me:deltaEDown units="cm-1">250.0</me:deltaEDown>
+      </me:energyTransferModel>
+
+      <me:DOSCMethod xsi:type="ClassicalRotors"/>
+    </molecule>
+
+    <molecule id="dummy-Triplet-OH" description="C_5H_8O_3">
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kJ/mol">-200.0</scalar>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:frequenciesScaleFactor">
+          <scalar>1.0</scalar>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">116</scalar>
+        </property>
+        <property dictRef="me:epsilon">
+          <scalar>473.1</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>5.5</scalar>
+        </property>
+      </propertyList>
+
+      <me:energyTransferModel xsi:type="me:ExponentialDown">
+        <me:deltaEDown units="cm-1">250.0</me:deltaEDown>
+      </me:energyTransferModel>
+
+      <me:DOSCMethod xsi:type="ClassicalRotors"/>
+    </molecule>
+
+    <molecule id="dummy-Singlet-OH" description="C_5H_8O_3">
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kJ/mol">-200.0</scalar>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:frequenciesScaleFactor">
+          <scalar>1.0</scalar>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">116</scalar>
+        </property>
+        <property dictRef="me:epsilon">
+          <scalar>473.1</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>5.5</scalar>
+        </property>
+      </propertyList>
+
+      <me:energyTransferModel xsi:type="me:ExponentialDown">
+        <me:deltaEDown units="cm-1">250.0</me:deltaEDown>
+      </me:energyTransferModel>
+
+      <me:DOSCMethod xsi:type="ClassicalRotors"/>
+    </molecule>
+
+    <molecule id="MECP-S1-T3" description="C_5H_8O_3">
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kJ/mol">6.32</scalar>
+          <!--<scalar units="kJ/mol">-4.75</scalar>-->
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">
+            0.0084
+            0.0107
+            0.0326
+          </array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:frequenciesScaleFactor">
+          <scalar>1.0</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">
+            62.97
+            100.03
+            140.82
+            154.12
+            175.31
+            246.72
+            268.07
+            277.36
+            331.72
+            364.43
+            488.37
+            544.7
+            646.24
+            698.32
+            775.93
+            818.67
+            955.37
+            1006.12
+            1068.59
+            1097.95
+            1132.69
+            1199.63
+            1242.29
+            1266.89
+            1294.02
+            1343.00
+            1410.57
+            1414.58
+            1459.76
+            1518.18
+            1528.36
+            1546.33
+            1658.44
+            3025.87
+            3067.31
+            3078.48
+            3155.09
+            3159.97
+            3188.23
+            3233.71
+            3652.1
+          </array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">116</scalar>
+        </property>
+        <property dictRef="me:epsilon">
+          <scalar>473.1</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>5.5</scalar>
+        </property>
+      </propertyList>
+
+      <me:energyTransferModel xsi:type="me:ExponentialDown">
+        <me:deltaEDown units="cm-1">250.0</me:deltaEDown>
+      </me:energyTransferModel>
+
+      <me:DOSCMethod xsi:type="ClassicalRotors"/>
+    </molecule>
+
+    <molecule id="TS-S1-S2" description="C_5H_8O_3">
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kJ/mol">33.65</scalar>
+          <!--<scalar units="kJ/mol">33.1</scalar>-->
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">
+            0.0318
+            0.0424
+            0.1079
+          </array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:frequenciesScaleFactor">
+          <scalar>1.0</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">
+            94
+            139
+            150
+            175
+            211
+            233
+            284
+            331
+            353
+            457
+            491
+            550
+            631
+            794
+            810
+            822
+            922
+            990
+            1057
+            1099
+            1117
+            1131
+            1232
+            1258
+            1311
+            1373
+            1391
+            1398
+            1461
+            1515
+            1521
+            1526
+            1675
+            3040
+            3074
+            3079
+            3139
+            3162
+            3188
+            3225
+            3641
+          </array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">116</scalar>
+        </property>
+        <property dictRef="me:epsilon">
+          <scalar>473.1</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>5.5</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>1</scalar>
+        </property>
+      </propertyList>
+
+      <me:energyTransferModel xsi:type="me:ExponentialDown">
+        <me:deltaEDown units="cm-1">250.0</me:deltaEDown>
+      </me:energyTransferModel>
+
+      <me:DOSCMethod xsi:type="ClassicalRotors"/>
+    </molecule>
+
+    <molecule id="He">
+      <atom elementType="He" />
+      <propertyList>
+        <property dictRef="me:epsilon">
+          <scalar>10.2</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>2.55</scalar>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">4.0</scalar>
+        </property>
+      </propertyList>
+    </molecule>
+
+  </moleculeList>
+
+  <reactionList>
+    <!--<reaction id="R1">
+         <reactant>
+         <molecule ref="HPALD-S1" role="modelled" />
+         </reactant>
+         <product>
+         <molecule ref="dummy-Triplet-OH" role="sink" />
+         </product>
+         <me:transitionState>
+         <molecule ref="MECP-S1-T3" role="transitionState" />
+         </me:transitionState>
+         <me:crossing xsi:type="me:LZ">
+         <me:RMS_SOC_element units="cm-1">3.99</me:RMS_SOC_element>
+         <me:GradientDifferenceMagnitude units="a.u./Bohr">0.29294641</me:GradientDifferenceMagnitude>
+         <me:GradientReducedMass units="a.m.u.">15.4607</me:GradientReducedMass>
+         </me:crossing>
+         <me:MCRCMethod name="SimpleRRKM"/>
+         </reaction>-->
+    <reaction id="R2">
+      <reactant>
+        <molecule ref="HPALD-S1" role="modelled" />
+      </reactant>
+      <product>
+        <molecule ref="dummy-Singlet-OH" role="sink" />
+      </product>
+      <me:transitionState>
+        <molecule ref="TS-S1-S2" role="transitionState" />
+      </me:transitionState>
+      <!--<me:crossing xsi:type="me:LZ">
+             <me:RMS_SOC_element units="cm-1">1779</me:RMS_SOC_element>
+             <me:GradientDifferenceMagnitude units="a.u./Bohr">0.24953101</me:GradientDifferenceMagnitude>
+             <me:GradientReducedMass units="a.m.u.">15.2138</me:GradientReducedMass>
+             </me:crossing>-->
+      <!--Parameters for the CC2/vdz curves-->
+      <me:crossing xsi:type="me:ZN">
+        <me:harmonicReactantDiabat-FC units="kJ/mol/Bohr**2">166.614</me:harmonicReactantDiabat-FC>
+        <me:harmonicReactantDiabat-X0 units="Bohr">-0.487</me:harmonicReactantDiabat-X0>
+        <me:harmonicReactantDiabat-DE units="kJ/mol">0.0</me:harmonicReactantDiabat-DE>
+        <me:exponentialProductDiabat-A units="kJ/mol">89.86</me:exponentialProductDiabat-A>
+        <me:exponentialProductDiabat-B units="Bohr**-1">-3.74</me:exponentialProductDiabat-B>
+        <me:exponentialProductDiabat-DE units="kJ/mol">-46.34</me:exponentialProductDiabat-DE>
+        <me:H12 units="kJ/mol">7.00</me:H12>
+        <me:ReducedMass units="a.m.u.">9.072</me:ReducedMass>
+      </me:crossing>
+      <me:MCRCMethod name="SimpleRRKM"/>
+    </reaction>
+  </reactionList>
+  <me:conditions>
+    <me:bathGas>He</me:bathGas>
+    <me:PTs>
+      <!--<me:PTpair units="Torr" P="760.0" T="250." />-->
+      <!--<me:PTpair units="Torr" P="760.0" T="800." />-->
+      <me:PTpair units="Torr" P="760.0" T="300." />
+    </me:PTs>
+    <me:InitialPopulation>
+      <!--<me:molecule ref="HPALD-S1" population="1.0" />-->
+      <me:molecule ref="HPALD-S1" population="1.0" grain="815" />
+    </me:InitialPopulation>
+  </me:conditions>
+  <me:modelParameters>
+    <!--Specify grain size directly...-->
+    <me:numberOfGrains> 1000 </me:numberOfGrains>
+    <!--<me:grainSize units="cm-1">40</me:grainSize>-->
+    <!--Specify increased energy range
+         <me:maxTemperature>6000</me:maxTemperature>-->
+    <me:energyAboveTheTopHill>500.0</me:energyAboveTheTopHill>
+  </me:modelParameters>
+  <me:control>
+    <me:testDOS />
+    <me:testMicroRates />
+    <me:printGrainDOS />
+    <me:printGrainedSpeciesProfile/>
+    <me:printTSsos />
+    <me:printCrossingCoefficients />
+    <me:printGrainkfE />
+    <me:printGrainkbE />
+    <me:printSpeciesProfile />
+    <me:eigenvalues>0</me:eigenvalues>
+  </me:control>
+</me:mesmer>

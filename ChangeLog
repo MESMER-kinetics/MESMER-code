@@ -1,3 +1,8 @@
+2017-March-27 Struan Robertson
+
+		* ZhuNakamuraCrossingCoeff.cpp, AdiabaticCurve.h: Initial revision of Zhu-Nakamura 
+		surface crossing implemenetation.
+
 2017-March-26 Struan Robertson
 
 		* CollisionOperator.cpp: Fix bug related the number of time points for population 
