@@ -1,5 +1,6 @@
 * text=auto !eol
 /Build.sh -text
+/BuildParallel.sh -text
 /ChangeLog -text
 Client/README[!!-~](2).txt -text
 Client/README.txt -text
@@ -647,6 +648,7 @@ src/IrreversibleUnimolecularReaction.h -text
 src/IsomerizationReaction.cpp -text
 src/IsomerizationReaction.h -text
 src/Makefile -text
+src/MakefileParallel -text
 src/Matrix.h -text
 src/MesmerConfig.h -text
 src/MesmerEnv.cpp -text

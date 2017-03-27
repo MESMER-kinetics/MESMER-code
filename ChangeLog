@@ -1,7 +1,11 @@
 2017-March-27 Struan Robertson
 
+		* BuildParallel.sh, MakefileParallel: Initial revision of Linux parallel build tools.
+
+2017-March-27 Struan Robertson
+
 		* ZhuNakamuraCrossingCoeff.cpp, AdiabaticCurve.h: Initial revision of Zhu-Nakamura 
-		surface crossing implemenetation.
+		surface crossing implementation.
 
 2017-March-26 Struan Robertson
 
