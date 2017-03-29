@@ -16,7 +16,7 @@
 //
 //-------------------------------------------------------------------------------------------
 
-#include "XMLPersist.h"
+#include "../XMLPersist.h"
 #include <vector>
 #include "../Spline.h"
 

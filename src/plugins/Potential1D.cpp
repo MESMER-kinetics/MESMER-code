@@ -10,9 +10,9 @@
 //-------------------------------------------------------------------------------------------
 
 #include "Potential1D.h"
-#include "unitsConversion.h"
-#include "Constants.h"
-#include "MesmerConfig.h"
+#include "../unitsConversion.h"
+#include "../Constants.h"
+#include "../MesmerConfig.h"
 #include <algorithm>
 
 using namespace std;

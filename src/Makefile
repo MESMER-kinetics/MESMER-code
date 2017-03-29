@@ -196,7 +196,7 @@ SRCS := \
 	plugins/ExponentialDown.cpp \
 	plugins/fitting.cpp \
 	plugins/FittingUtils.cpp \
-#	plugins/FourierGrid1D.cpp \
+	plugins/FourierGrid1D.cpp \
 	plugins/GaussianModel.cpp \
 	plugins/gridsearch.cpp \
 	plugins/HinderedRotorUtils.cpp \
@@ -207,7 +207,7 @@ SRCS := \
 	plugins/MesmerILT.cpp \
 	plugins/Morse.cpp \
 	plugins/PriorDistribution.cpp \
-#	plugins/Potential1D.cpp \
+	plugins/Potential1D.cpp \
 	plugins/QMRotor.cpp \
 	plugins/SensitivityAnalysis.cpp \
 	plugins/SimpleBimolecularSink.cpp \
@@ -218,7 +218,7 @@ SRCS := \
 	plugins/UnitTests.cpp \
 	plugins/WKBCrossing.cpp \
 	plugins/WKBTunnellingCoefficients.cpp \
-#	plugins/ZhuNakamuraCrossingCoeff.cpp \
+	plugins/ZhuNakamuraCrossingCoeff.cpp \
 	plugins/DefinedTunnelingCoefficients.cpp    
 
 # Add on the sources for libraries

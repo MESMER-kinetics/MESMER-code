@@ -140,6 +140,7 @@
     <ClCompile Include="..\..\src\Molecule.cpp" />
     <ClCompile Include="..\..\src\MoleculeManager.cpp" />
     <ClCompile Include="..\..\src\plugins\Morse.cpp" />
+    <ClCompile Include="..\..\src\plugins\Potential1D.cpp" />
     <ClCompile Include="..\..\src\plugins\PriorDistribution.cpp" />
     <ClCompile Include="..\..\src\plugins\QMRotor.cpp" />
     <ClCompile Include="..\..\src\plugins\SensitivityAnalysis.cpp" />
@@ -147,6 +148,7 @@
     <ClCompile Include="..\..\src\plugins\UnitTests.cpp" />
     <ClCompile Include="..\..\src\plugins\WKBCrossing.cpp" />
     <ClCompile Include="..\..\src\plugins\WKBTunnellingCoefficients.cpp" />
+    <ClCompile Include="..\..\src\plugins\ZhuNakamuraCrossingCoeff.cpp" />
     <ClCompile Include="..\..\src\PseudoIsomerizationReaction.cpp" />
     <ClCompile Include="..\..\src\Rdouble.cpp" />
     <ClCompile Include="..\..\src\Reaction.cpp" />
