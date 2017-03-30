@@ -347,6 +347,8 @@ int main(int argc, char **argv)
   //
   fpu_fix_end(&old_cw);
 
+	parallelManager.finalize();
+
   return returnCode;
 }
 /*

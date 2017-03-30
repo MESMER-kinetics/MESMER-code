@@ -40,7 +40,11 @@ namespace mesmer
 
     // Destructor
 
-    ~ParallelManager() { MPI_Finalize(); };
+    ~ParallelManager() {};
+
+		// Finalize
+
+		void finalize () { MPI_Finalize(); } ;
 
     // Sum vectors across all across processes and redistribute.
 
@@ -140,7 +144,11 @@ namespace mesmer
 
     ~ParallelManager() {};
 
-    // Sum vectors across all across processes and redistribute.
+		// Finalize
+
+		void finalize() {};
+
+		// Sum vectors across all across processes and redistribute.
 
     void sumDouble(double *sum, int size) {
       // No Op.
