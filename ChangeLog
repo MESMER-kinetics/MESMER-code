@@ -1,3 +1,7 @@
+2017-April-01 Struan Robertson
+
+		* SensitivityAnalysis.cpp: Fix for sensitivity analysis parallel execution.
+
 2017-March-27 Struan Robertson
 
 		* BuildParallel.sh, MakefileParallel: Initial revision of Linux parallel build tools.

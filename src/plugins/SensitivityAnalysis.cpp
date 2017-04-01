@@ -466,9 +466,9 @@ namespace mesmer
   }
 
   bool SensitivityAnalysis::DoCalculation(System* pSys) {
-      m_pParallelManager = pSys->getParallelManager();
-      m_rank = m_pParallelManager->rank();
-      m_nRanks = m_pParallelManager->size();
+    m_pParallelManager = pSys->getParallelManager();
+    m_rank = m_pParallelManager->rank();
+    m_nRanks = m_pParallelManager->size();
     return (m_bGenerateData) ? DoCalculationOld(pSys) : DoCalculationNew(pSys);
   }
 
@@ -493,9 +493,6 @@ namespace mesmer
     // Use the same grain numbers for for all calcuations regardless of 
     // temperature (i.e. reduce the number of times micro-rates are calculated).
     pSys->m_Flags.useTheSameCellNumber = true;
-
-    //Default is to disable ctest during analysis. Restored when leaving this function.
-    StopCTestOutput stop(true);
 
     vector<double> originalLocation(m_nVar, 0.0);
     vector<double> newLocation(m_nVar, 0.0);
@@ -530,8 +527,8 @@ namespace mesmer
       }
       stringstream inputKey;
       WriteInputVariableKey(inputKey);
-      cinfo << inputKey.str();
-      cinfo << outputKey.str();
+			ctest << inputKey.str();
+			ctest << outputKey.str();
 
       // String stream to hold results. 
       stringstream sensitivityTable;
@@ -555,7 +552,18 @@ namespace mesmer
       }
       sensitivityTable << endl;
 
+      if (m_rank == 0)
+        ctest << sensitivityTable.str() << endl;
+
+      sensitivityTable.str("");
+
+      // Suppress output to .test.
+      ctest.clear(std::ios::failbit);
+
       // Loop over perturbed parameter values.
+
+      Table locationData;
+      Table outputData;
 
       long long seed(m_rank*m_nSample / m_nRanks);
       for (size_t itr(m_rank + 1); itr <= m_nSample; itr += m_nRanks) {
@@ -573,7 +581,7 @@ namespace mesmer
         map<string, double> phenRates;
 
         // As some perturbations will produce unrealistic configurations the
-    // diagonalizer will fail, in which case this configuration is skipped.
+        // diagonalizer will fail, in which case this configuration is skipped.
         try {
           pSys->calculate(nCnd, phenRates);
         }
@@ -584,20 +592,34 @@ namespace mesmer
         for (size_t j(0); j < newLocation.size(); j++) {
           sensitivityTable << formatFloat(rndmd[j], 5, 15);
         }
+        vector<double> trial;
         for (RxnItr irxn = phenRates.begin(); irxn != phenRates.end(); irxn++) {
-          sensitivityTable << formatFloat(irxn->second, 5, 15);
+          trial.push_back(irxn->second);
         }
+
+        locationData.push_back(rndmd);
+        outputData.push_back(trial);
 
         sensitivityTable << endl;
 
       }
 
-      // Have each thread print out in order.
-      for (size_t i(0); i < size_t(m_nRanks); i++) {
-				if (size_t(m_nRanks) == i)
-          cinfo << sensitivityTable.str() << endl;
-        pSys->getParallelManager()->barrier();
+      AccumulateDataAcrossRanks(locationData);
+      AccumulateDataAcrossRanks(outputData);
+
+      ctest.clear();
+
+      // Print out data.
+      for (size_t i(0); i < locationData.size(); i++) {
+        for (size_t j(0); j < locationData[i].size(); j++) {
+          ctest << formatFloat(locationData[i][j], 5, 15);
+        }
+        for (size_t j(0); j < outputData[i].size(); j++) {
+          ctest << formatFloat(outputData[i][j], 5, 15);
+        }
+        ctest << endl;
       }
+      pSys->getParallelManager()->barrier();
 
     }
 
@@ -696,7 +718,7 @@ namespace mesmer
           continue;
         }
 
-				vector<double> trial;
+        vector<double> trial;
         cnt++;
         RxnItr irxn = phenRates.begin();
         for (size_t nOut(0); irxn != phenRates.end(); irxn++, nOut++) {
@@ -705,9 +727,9 @@ namespace mesmer
           f0[nOut] += output;
           varf[nOut] += output*output;
         }
-				locationData.push_back(rndmd);
-				outputData.push_back(trial);
-			}
+        locationData.push_back(rndmd);
+        outputData.push_back(trial);
+      }
 
       // Calculate mean and variance across ranks.
       double dCnt(cnt);
@@ -719,8 +741,9 @@ namespace mesmer
         varf[nOut] -= f0[nOut] * f0[nOut];
         varf[nOut] /= (dCnt - 1);
       }
-			AccumulateDataAcrossRanks(locationData);
-			AccumulateDataAcrossRanks(outputData);
+
+      AccumulateDataAcrossRanks(locationData);
+      AccumulateDataAcrossRanks(outputData);
 
       // Calculate all alpha and beta coefficients for the up to m_order polynomials.
 
@@ -1095,7 +1118,7 @@ namespace mesmer
 
       ctest << " Standard deviation for " << rxnId[i] << ": " << sqrt(varf[i]) << endl << endl;
 
-      // First order sensistivity indices.
+      // First order sensitivity indices.
 
       vector<double> &tmp = m_Di[i];
       ctest << " First order indices for " << rxnId[i] << ": " << endl;
@@ -1158,15 +1181,15 @@ namespace mesmer
     if (m_nRanks == 1)
       return;
 
-		m_pParallelManager->barrier();
+    m_pParallelManager->barrier();
 
-		Table wrk; // Workspace for the accumulated table.
-		vector<double> tmp = table[0];
+    Table wrk; // Workspace for the accumulated table.
     for (size_t i(0); i < size_t(m_nRanks); i++) {
-      int tableSize = int(table.size()) ;
-			m_pParallelManager->broadcastInteger(&tableSize, 1, i);
-			for (size_t j(0); j < size_t(tableSize); j++) {
-				if (size_t(m_nRanks) == i)
+      vector<double> tmp = table[0];
+      int tableSize = int(table.size());
+      m_pParallelManager->broadcastInteger(&tableSize, 1, i);
+      for (size_t j(0); j < size_t(tableSize); j++) {
+        if (m_rank == i)
           tmp = table[j];
         m_pParallelManager->broadcastDouble(&tmp[0], tmp.size(), i);
         wrk.push_back(tmp);
