@@ -1,3 +1,8 @@
+2017-April-04 Struan Robertson
+
+		* FourierGrid1D.cpp: Analytical expressions used for 1D Fourier grid Hamiltonian 
+		elements.
+
 2017-April-01 Struan Robertson
 
 		* SensitivityAnalysis.cpp: Fix for sensitivity analysis parallel execution.

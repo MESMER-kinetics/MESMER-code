@@ -2,7 +2,7 @@
 //
 // FourierGrid1D.cpp
 //
-// Authors: Struan Robertson, Chi-Hsiu Liang
+// Authors: Struan Robertson (based, in part, on earlier work by Chi-Hsiu Liang).
 // Date:    16/Oct/2016
 //
 // This file contains the implementation of the methods for calculating and testing the 
@@ -17,10 +17,21 @@
 // G.G. Balint-Kurti, R.N. Dixon and C.C. Marston, Internat. Rev.
 // Phys. Chem.,11, 317 (1992).
 //
-// The eigenvalues of the Hamiltonian matrix which lie below the
-// asymptotic (large x) value of V(x) correspond to the bound state
-// energies. The corresponding eigenvectors are the representation
-// of the bound state wavefunctions on a regular one dimensional grid.
+// The program uses an even number of grid points. The Hamiltonian matrix elements are
+// calculated using analytic formula described in the second of the above references.
+//
+// The analytical Hamiltonian expression given in the reference contains a small error.
+// The formula should read:
+//
+//            H(i,j) = {(h**2)/(4*m*(L**2)} *
+//                      [(N-1)(N-2)/6 + (N/2)] + V(Xi),   if i=j
+//
+//            H(i,j) = {[(-1)**(i-j)] / m } *
+//                      { h/[2*L*sin(M_PI*(i-j)/N)]}**2 ,     if i#j
+//
+// The eigenvalues of the Hamiltonian matrix which lie below the asymptotic (large x) value
+// of V(x) correspond to the bound state energies. The corresponding eigenvectors are the
+// representation of the bound state wavefunctions on a regular one dimensional grid.
 //
 //-------------------------------------------------------------------------------------------
 
@@ -126,10 +137,10 @@ namespace mesmer
     }
     cinfo << endl;
 
-		// Read the number of grid points it be used and make sure it is odd. 
+		// Read the number of grid points it be used and make sure it is even. 
 
 		m_nGridPoints  = ppDOSC->XmlReadInteger("me:NumGridPnts", optional);
-		m_nGridPoints += (m_nGridPoints % 2) ? 0 : 1;
+		m_nGridPoints += (m_nGridPoints % 2) ? 1 : 0;
 
     // Determine reduced moment mass. These can either be read 
     // in or calculated if the coordinates are available.
@@ -229,16 +240,17 @@ namespace mesmer
     dMatrix hamiltonian(m_nGridPoints);
 
     // Add kinetic energy terms.
-    size_t lmax  = (m_nGridPoints - 1)/2 ;
-		double cfctr = 2.0 * M_PI / double(m_nGridPoints);
-		double chlen = m_ppotential->get_characteristicLength();
-		double tfctr = PlancksConstant_in_JouleSecond * AvogadroC *1.e+23 / (SpeedOfLight_in_cm*m_reducedMass*m_nGridPoints*chlen*chlen);
-    for (size_t i(0), ii(1) ; i < m_nGridPoints; i++, ii++) {
-      for (size_t j(i), jj(ii) ; j < m_nGridPoints; j++, jj++) {
-				for (size_t l(1); l <= lmax; l++) {
-					hamiltonian[i][j] += double(l*l)*cos(l*(ii - jj)*cfctr);
-				}
-				hamiltonian[i][j] *= tfctr;
+		const double cfctr = M_PI / double(m_nGridPoints);
+		const double chlen = m_ppotential->get_characteristicLength();
+		const double tfctr = PlancksConstant_in_JouleSecond * AvogadroC *1.e+23 / (4.0*SpeedOfLight_in_cm*m_reducedMass*chlen*chlen);
+		const double dgnEl = tfctr*(double(m_nGridPoints*m_nGridPoints + 2) / 6.0);
+		for (size_t i(0) ; i < m_nGridPoints ; i++) {
+			hamiltonian[i][i] = dgnEl;
+      for (size_t j(i+1) ; j < m_nGridPoints ; j++) {
+				int dij     = int(i) - int(j);
+				double tmp  = sin(double(dij)*cfctr) ;
+				double dsgn = (dij) % 2 ? -1.0 : 1.0;
+				hamiltonian[i][j]  = tfctr*dsgn /(tmp * tmp) ;
 				hamiltonian[j][i]  = hamiltonian[i][j];
       }
     }
@@ -246,7 +258,7 @@ namespace mesmer
 		// Add diagonal potential terms.
 
 		for (size_t n(0); n < m_nGridPoints; n++) {
-		//	hamiltonian[n][n] += potential[n];
+			hamiltonian[n][n] += potential[n];
 		}
 
 		// Now diagonalize hamiltonian matrix to determine energy levels.
