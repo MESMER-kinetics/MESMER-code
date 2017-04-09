@@ -364,13 +364,7 @@
       <me:transitionState>
         <molecule ref="TS-S1-S2" role="transitionState" />
       </me:transitionState>
-      <!--<me:crossing xsi:type="me:LZ">
-             <me:RMS_SOC_element units="cm-1">1779</me:RMS_SOC_element>
-             <me:GradientDifferenceMagnitude units="a.u./Bohr">0.24953101</me:GradientDifferenceMagnitude>
-             <me:GradientReducedMass units="a.m.u.">15.2138</me:GradientReducedMass>
-             </me:crossing>-->
-      <!--Parameters for the CC2/vdz curves-->
-      <me:crossing xsi:type="me:ZN">
+      <me:MCRCMethod name="ZhuNakamuraCrossingCoeff" xsi:type="ZhuNakamuraCrossingCoeff">
         <me:harmonicReactantDiabat-FC units="kJ/mol/Bohr**2">166.614</me:harmonicReactantDiabat-FC>
         <me:harmonicReactantDiabat-X0 units="Bohr">-0.487</me:harmonicReactantDiabat-X0>
         <me:harmonicReactantDiabat-DE units="kJ/mol">0.0</me:harmonicReactantDiabat-DE>
@@ -379,15 +373,12 @@
         <me:exponentialProductDiabat-DE units="kJ/mol">-46.34</me:exponentialProductDiabat-DE>
         <me:H12 units="kJ/mol">7.00</me:H12>
         <me:ReducedMass units="a.m.u.">9.072</me:ReducedMass>
-      </me:crossing>
-      <me:MCRCMethod name="SimpleRRKM"/>
+      </me:MCRCMethod>
     </reaction>
   </reactionList>
   <me:conditions>
     <me:bathGas>He</me:bathGas>
     <me:PTs>
-      <!--<me:PTpair units="Torr" P="760.0" T="250." />-->
-      <!--<me:PTpair units="Torr" P="760.0" T="800." />-->
       <me:PTpair units="Torr" P="760.0" T="300." />
     </me:PTs>
     <me:InitialPopulation>
