@@ -12,7 +12,6 @@
 #include <math.h>
 #include <string>
 #include "../System.h"
-#include "../dMatrix.h"
 #include "AdiabaticCurve.h"
 #include "../Rdouble.h"
 #include "../gDensityOfStates.h"
@@ -46,8 +45,10 @@ namespace mesmer
     //
     virtual bool ThereIsTunnellingWithCrossing(void) { return true; };
 
-    // this is a Levenburg-Marquardt Algorithm for finding stationary points, crossings, & turning points
-    bool MarquardtOptimization(AdiabaticCurve*, double, double, double, double&);
+  private:
+
+    // One dimensional optimizaton method.
+    bool goldenSerachOptimization(AdiabaticCurve* energyCurve, double upperLimit, double lowerLimit, double& optimalR);
 
     double CalculateAReasonableLimit(AdiabaticCurve*, OneDimensionalFunction*, double);
 
@@ -69,7 +70,6 @@ namespace mesmer
     void complexGamma(double X, double Y, double &GR, double &GI);
     void argumentOfComplexNumber(double X, double Y, double &argument);
 
-  private:
     bool ReadDoubleAndUnits2(double& element, PersistPtr pp, const std::string identifier, const std::string units);
 
     const char* m_id;
@@ -139,14 +139,6 @@ namespace mesmer
     //  pReact->set_EffGrnFwdThreshold(0);
     //  pReact->set_EffGrnRvsThreshold(pReact->get);
 
-/*
-    //  test the Marquardt implementatation on a simple quadratic function of the form y = x^2
-    parabolicDiabat *testParabola;
-    testParabola = new parabolicDiabat(1,0,0);
-    double Emin, Rmin;
-    MarquardtOptimization(testParabola, -1.0, 5.0, -5.0, Rmin, Emin);
-    MarquardtOptimization(testParabola, 1.0, 5.0, -5.0, Rmin, Emin);
-*/
 
 // set up the functions corresponding to the reactant & product diabats
     reactantCurve = new parabolicDiabat(m_harmonicFC*kJPerMoltoHartree, m_harmonicX0, m_harmonicDE*kJPerMoltoHartree);
@@ -160,7 +152,7 @@ namespace mesmer
     double Rx, Ex;
     diffBetweenTwoDiabats *diabatDifference;
     diabatDifference = new diffBetweenTwoDiabats(reactantCurve, productCurve);
-    if (!MarquardtOptimization(diabatDifference, 0.0, 0.2, -0.2, Rx)) {  // find Rt on the flipped & translated surface
+    if (!goldenSerachOptimization(diabatDifference, 0.2, -0.2, Rx)) {  // find Rt on the flipped & translated surface
       cerr << "problem finding Ex & Rx in Zhu-Nakumara Marquardt routine " << endl;
       return false;
     }
@@ -181,7 +173,7 @@ namespace mesmer
     RbUpperLim = CalculateAReasonableLimit(upperCurve, reactantCurve, Rx); // get a sensible initial guess for the upper limit to Rb
     RbLowerLim = CalculateAReasonableLimit(upperCurve, productCurve, Rx);  // get a sensible initial guess for the lower limit to Rb
 
-    if (!MarquardtOptimization(upperCurve, Rx, RbUpperLim, RbLowerLim, Rb)) {
+    if (!goldenSerachOptimization(upperCurve, RbUpperLim, RbLowerLim, Rb)) {
       cerr << "problem finding Eb & Rb in Zhu-Nakumara Marquardt routine " << endl;
       return false;
     }
@@ -201,7 +193,7 @@ namespace mesmer
 
     flippedTranslatedLowerAdiabat *flippedTranslatedLowerCurve;
     flippedTranslatedLowerCurve = new flippedTranslatedLowerAdiabat(reactantCurve, productCurve, m_H12*kJPerMoltoHartree, Eb);
-    if (!MarquardtOptimization(flippedTranslatedLowerCurve, Rx, RtUpperLim, RtLowerLim, Rt)) {  // find Rt on the flipped & translated surface
+    if (!goldenSerachOptimization(flippedTranslatedLowerCurve, RtUpperLim, RtLowerLim, Rt)) {  // find Rt on the flipped & translated surface
       cerr << "problem finding Et & Rt in Zhu-Nakumara Marquardt routine " << endl;
       return false;
     }
@@ -216,13 +208,8 @@ namespace mesmer
     double Vx = m_H12*kJPerMoltoHartree;         // calculate coupling in A.U.
     double m = m_ReducedMass*1.822888e+3;        // calculate mass in A.U
 
-    reactantCurve->setQ(Rx);
-    reactantCurve->NumericalDerivatives(delta, gradient);
-    double F1 = gradient[0];
-
-    productCurve->setQ(Rx);
-    productCurve->NumericalDerivatives(delta, gradient);
-    double F2 = gradient[0];
+    double F1 = reactantCurve->NumericalDerivatives(Rx, delta);    
+    double F2 = productCurve->NumericalDerivatives(Rx, delta);
 
     double F = sqrt(abs(F1*F2));
     double asqd = F*(F1 - F2) / (16.0*m*pow(Vx, 3.0));
@@ -307,7 +294,7 @@ namespace mesmer
     // initialize a ftn which is the lower adiabat shifted by dE; solving Chi-Square for this ftn will give turning pts
     lowerAdiabatShiftedByE *lowerTPCurve;
     lowerTPCurve = new lowerAdiabatShiftedByE(reactantCurve, productCurve, m_H12*kJPerMoltoHartree, 0);   // initialize the ftn with dE=0
-    double leftBound, rightBound, deltaIntegral(0.0), sigma, P12, dummy ;
+    double leftBound, rightBound, deltaIntegral(0.0), sigma, P12, dummy;
     leftBound = rightBound = Rt;
 
     cout << "Calculating Zhu Nakamura Probabilities for energies less than Et..." << endl;
@@ -474,16 +461,11 @@ namespace mesmer
   double ZhuNakamuraCrossingCoeff::CalculateAReasonableLimit(AdiabaticCurve* upperOrLowerCurve, OneDimensionalFunction* productOrReactantCurve, double Rx) {
 
     double Rref, Rlast, dEdR1, dEdR2, trialStep, Rlimit;
-    vector<double> gradient(1, 0.0);
 
     Rref = Rx;      // establish a sensible initial guess for the upper limit to Rb
     do {
-      productOrReactantCurve->setQ(Rref);
-      productOrReactantCurve->NumericalDerivatives(0.001, gradient);
-      dEdR1 = gradient[0];
-      upperOrLowerCurve->setQ(Rref);
-      upperOrLowerCurve->NumericalDerivatives(0.001, gradient);
-      dEdR2 = gradient[0];
+      dEdR1 = productOrReactantCurve->NumericalDerivatives(Rref, 0.001) ;
+      dEdR2 = upperOrLowerCurve->NumericalDerivatives(Rref, 0.001);
       trialStep = (upperOrLowerCurve->evaluateEnergy(Rref) - productOrReactantCurve->evaluateEnergy(Rref)) / dEdR1;
       Rlast = Rref;
       Rref += trialStep;
@@ -495,30 +477,22 @@ namespace mesmer
 
   double ZhuNakamuraCrossingCoeff::CalculateLowerLeftTurningPoint(AdiabaticCurve* LowerCurve, double Rright, double TPEnergy) {
 
-    double dEdR, leftBound, Guess, trialStep, TP, energy;
-    vector<double> gradient(1, 0.0);
+    double dEdR, trialStep(0.001), TP, energy;
     double Rref = Rright;      // establish a sensible initial guess for a lower limit to find the left hand turning point
 
-    do {                              // first be sure that the gradient is of the correct sign (only really important for regions of very low
-      LowerCurve->setQ(Rref);         //   curvature, e.g., near the minimum or maximum of the function)
-      LowerCurve->NumericalDerivatives(0.001, gradient);
-      dEdR = gradient[0];
-      trialStep = 0.001;
+		// first be sure that the gradient is of the correct sign (only really important for regions of very low
+		//   curvature, e.g., near the minimum or maximum of the function)
+		do {                                
+      dEdR = LowerCurve->NumericalDerivatives(Rref, 0.001);
       Rref -= trialStep;
     } while (dEdR < 0.0);
 
     do {    // now we check for when the gradient changes sign
-      LowerCurve->setQ(Rref);
       energy = LowerCurve->evaluateEnergy(Rref);
-      trialStep = 0.001;
       Rref -= trialStep;
-      //      cout << energy << " " << TPEnergy;
     } while (energy > TPEnergy);
 
-    leftBound = Rref;
-    Guess = Rright - (Rright - leftBound) / 2.0;
-
-    if (!MarquardtOptimization(LowerCurve, Guess, Rright, leftBound, TP)) {            // find the left hand turning point on the lower surface
+    if (!goldenSerachOptimization(LowerCurve, Rright, Rref, TP)) {            // find the left hand turning point on the lower surface
       cerr << "CalculateLowerLeftTurningPoint: problem finding Ex & Rx in Zhu-Nakumara Marquardt routine " << endl;
       exit(1);
     }
@@ -528,29 +502,22 @@ namespace mesmer
 
   double ZhuNakamuraCrossingCoeff::CalculateLowerRightTurningPoint(AdiabaticCurve* LowerCurve, double Rleft, double TPEnergy) {
 
-    double dEdR, rightBound, Guess, trialStep, TP, energy;
-    vector<double> gradient(1, 0.0);
+    double dEdR, trialStep(0.001), TP, energy;
     double Rref = Rleft;      // establish a sensible initial guess for a lower limit to find the left hand turning point
 
-    do {                              // first be sure that the gradient is of the correct sign (only really important for regions of very low
-      LowerCurve->setQ(Rref);         //   curvature, e.g., near the minimum or maximum of the function)
-      LowerCurve->NumericalDerivatives(0.001, gradient);
-      dEdR = gradient[0];
-      trialStep = 0.001;
+		// first be sure that the gradient is of the correct sign (only really important for regions of very low
+		//   curvature, e.g., near the minimum or maximum of the function)
+		do {                                
+      dEdR = LowerCurve->NumericalDerivatives(Rref, 0.001);
       Rref += trialStep;
     } while (dEdR > 0.0);
 
     do {    // now we check for when the gradient changes sign
-      LowerCurve->setQ(Rref);
       energy = LowerCurve->evaluateEnergy(Rref);
-      trialStep = 0.001;
       Rref += trialStep;
     } while (energy > TPEnergy);
 
-    rightBound = Rref;
-    Guess = Rleft - (Rleft - rightBound) / 2.0;
-
-    if (!MarquardtOptimization(LowerCurve, Guess, rightBound, Rleft, TP)) {            // find the left hand turning point on the lower surface
+    if (!goldenSerachOptimization(LowerCurve, Rref, Rleft, TP)) {            // find the left hand turning point on the lower surface
       cerr << "CalculateLowerRightTurningPoint: problem finding Ex & Rx in Zhu-Nakumara Marquardt routine " << endl;
       exit(1);
     }
@@ -560,29 +527,22 @@ namespace mesmer
 
   double ZhuNakamuraCrossingCoeff::CalculateUpperLeftTurningPoint(AdiabaticCurve* UpperCurve, double Rright, double TPEnergy) {
 
-    double dEdR, leftBound, Guess, trialStep, TP, energy;
-    vector<double> gradient(1, 0.0);
+    double dEdR,trialStep(0.001), TP, energy;
     double Rref = Rright;      // establish a sensible initial guess for a lower limit to find the left hand turning point
 
-    do {                       // first be sure that the gradient is of the correct sign (only really important for regions of very low
-      UpperCurve->setQ(Rref);  //   curvature, e.g., near the minimum or maximum of the function)
-      UpperCurve->NumericalDerivatives(0.001, gradient);
-      dEdR = gradient[0];
-      trialStep = 0.001;
+		// first be sure that the gradient is of the correct sign (only really important for regions of very low
+		//   curvature, e.g., near the minimum or maximum of the function)
+		do {     
+      dEdR = UpperCurve->NumericalDerivatives(Rref, 0.001);
       Rref -= trialStep;
     } while (dEdR > 0.0);
 
     do {    // now we check for when the point we're at crosses the energy threshold corresponding to the turning point we want
-      UpperCurve->setQ(Rref);
       energy = UpperCurve->evaluateEnergy(Rref);
-      trialStep = 0.001;
       Rref -= trialStep;
     } while (energy < TPEnergy);
 
-    leftBound = Rref;
-    Guess = Rright - (Rright - leftBound) / 2.0;
-
-    if (!MarquardtOptimization(UpperCurve, Guess, Rright, leftBound, TP)) {            // find the left hand turning point on the lower surface
+    if (!goldenSerachOptimization(UpperCurve, Rright, Rref, TP)) {            // find the left hand turning point on the lower surface
       cerr << "CalculateUpperLeftTurningPoint: problem finding Ex & Rx in Zhu-Nakumara Marquardt routine " << endl;
       exit(1);
     }
@@ -592,29 +552,22 @@ namespace mesmer
 
   double ZhuNakamuraCrossingCoeff::CalculateUpperRightTurningPoint(AdiabaticCurve* UpperCurve, double Rleft, double TPEnergy) {
 
-    double dEdR, rightBound, Guess, trialStep, TP, energy;
-    vector<double> gradient(1, 0.0);
+    double dEdR, trialStep(0.001), TP, energy;
     double Rref = Rleft;      // establish a sensible initial guess for a lower limit to find the left hand turning point
 
-    do {                      // first be sure that the gradient is of the correct sign (only really important for regions of very low
-      UpperCurve->setQ(Rref); //   curvature, e.g., near the minimum or maximum of the function
-      UpperCurve->NumericalDerivatives(0.001, gradient);
-      dEdR = gradient[0];
-      trialStep = 0.001;
+		// first be sure that the gradient is of the correct sign (only really important for regions of very low
+		//   curvature, e.g., near the minimum or maximum of the function
+		do {                      
+      dEdR = UpperCurve->NumericalDerivatives(Rref, 0.001);
       Rref += trialStep;
     } while (dEdR < 0.0);
 
     do {    // now we check for when the gradient changes sign
-      UpperCurve->setQ(Rref);
       energy = UpperCurve->evaluateEnergy(Rref);
-      trialStep = 0.001;
       Rref += trialStep;
     } while (energy < TPEnergy);
 
-    rightBound = Rref;
-    Guess = Rleft - (Rleft - rightBound) / 2.0;
-
-    if (!MarquardtOptimization(UpperCurve, Guess, rightBound, Rleft, TP)) {            // find the left hand turning point on the lower surface
+    if (!goldenSerachOptimization(UpperCurve, Rref, Rleft, TP)) {            // find the left hand turning point on the lower surface
       cerr << "CalculateUpperRightTurningPoint: problem finding Ex & Rx in Zhu-Nakumara Marquardt routine " << endl;
       exit(1);
     }
@@ -622,96 +575,72 @@ namespace mesmer
     return TP;
   }
 
-  bool ZhuNakamuraCrossingCoeff::MarquardtOptimization
-  (AdiabaticCurve* energyCurve, double initialGuess, double upperLimit, double lowerLimit, double& optimalR)
+  bool ZhuNakamuraCrossingCoeff::goldenSerachOptimization(AdiabaticCurve* energyCurve, double upperLimit, double lowerLimit, double& optimalR)
   {
 
-    if (initialGuess > upperLimit || initialGuess < lowerLimit || lowerLimit >= upperLimit) {
+    if (lowerLimit >= upperLimit) {
       cerr << "There is a problem with either the initialGuess, lowerLimit, or upperLimit you specified for the Zhu-Nakamura Marquardt routine." << endl;
       return false;
     }
 
-    int nVar = 1;
+    const double Gold = (3.0 - sqrt(5.0)) / 2.0;
+    const double tol = 1.0e-8;
 
-    // Uncomment to enable ctest output during fitting. Or use -w5 option in command.
-    //ChangeErrorLevel e(obDebug); 
+    double a = lowerLimit;
+    double c = upperLimit;
+    double tmp;
+    tmp = energyCurve->evaluateEnergy(a);
+    double eneA = tmp*tmp;
+    tmp = energyCurve->evaluateEnergy(c);
+    double eneC = tmp*tmp;
 
-    //Default is to disable ctest during fitting. Restored when leaving this function.
-//		StopCTestOutput stop(true) ;
+    static const int limit = 20;
 
-    vector<double> currentLocation(nVar, 0.0); // I've left these as vectors shoul dwe want to generalize this to multidimensional ftns in the future
-    vector<double> newLocation(nVar, 0.0);     // for Zhu-Nakamura 1d curve optimization, it's not really necessary - DRG 4 Jun 2015
+    // Locate the initial mid-point by golden section. 
+    double b = a + Gold*(c - a);
+    tmp = energyCurve->evaluateEnergy(b);
+    double eneB = tmp*tmp;
 
-    // Set the Current Location to the initial Guess
-    currentLocation[0] = initialGuess;
-    energyCurve->setQ(currentLocation[0]);
+    double x = b + Gold*(c - b);
+    tmp = energyCurve->evaluateEnergy(x);
+    double eneX = tmp*tmp;
 
-    double chiSquare(0.0), lambda(0.001);
-
-    energyCurve->setQ(currentLocation[0]);
-    energyCurve->chiSquareCalculation(chiSquare);
-
-    double bestChiSquare = chiSquare;
-
-    //
-    // The following is slightly modified implementation of the Marquardt
-    // algorithm that copes with optimization bounds, copied from Marquardt.cpp 
-    //
-
-    double delta = 0.0001;
-    size_t m_maxIterations = 1000;
-    double tol = 1 / (10.0*Hartree_in_RC);
-    double lambdaScale = 10.0;
-
-    vector<double> gradient(nVar, 0.0);
-    qdMatrix hessian(nVar, 0.0);
-    energyCurve->NumericalDerivativesOfChiSquare(delta, gradient);
-    energyCurve->NumericalHessianOfChiSquare(delta, hessian);
-
+    int count = 0;
     bool converged(false);
-    for (size_t itr(1); itr <= m_maxIterations && !converged; itr++) {
+    while (count < limit && !converged) {
+      count++;
 
-      newLocation = currentLocation;
-      vector<qd_real> deltaLocation(nVar, 0.0);
-      qdMatrix invHessian = hessian;
+      if (eneX < eneB) {
+        a = b;
+        eneA = eneB;
+        b = x;
+        eneB = eneX;
 
-      for (int iVar = 0; iVar < nVar; iVar++) {
-        invHessian[iVar][iVar] *= 0.5*qd_real(1.0 + lambda);
-        deltaLocation[iVar] = qd_real(-0.5*gradient[iVar]);
-      }
+        x = c - Gold*(c - a);
+        tmp = energyCurve->evaluateEnergy(x);
+        eneX = tmp*tmp;
 
-      invHessian.solveLinearEquationSet(&deltaLocation[0]);
-
-      for (int iVar = 0; iVar < nVar; iVar++) {
-        newLocation[iVar] += to_double(deltaLocation[iVar]);
-      }
-
-      // Check bounds.    
-      if (newLocation[0] <= upperLimit && newLocation[0] >= lowerLimit) {
-
-        energyCurve->setQ(newLocation[0]);
-        energyCurve->chiSquareCalculation(chiSquare);
-
-        if (chiSquare > bestChiSquare) {
-          lambda *= lambdaScale;
-          energyCurve->setQ(newLocation[0]);
-        }
-        else {
-          double relativeChange = 1.0 - chiSquare / bestChiSquare;
-          converged = (relativeChange < tol);
-          lambda /= lambdaScale;
-          currentLocation[0] = energyCurve->getQ();
-          bestChiSquare = chiSquare;
-          energyCurve->NumericalDerivativesOfChiSquare(delta, gradient);
-          energyCurve->NumericalHessianOfChiSquare(delta, hessian);
-        }
+        converged = (fabs((eneX / eneB) - 1.0) < tol);
       }
       else {
-        lambda *= lambdaScale;
+        c = x;
+        eneC = eneX;
+        x = b;
+        eneX = eneB;
+
+        b = a + Gold*(c - a);
+        tmp = energyCurve->evaluateEnergy(b);
+        eneB = tmp*tmp;
+
+        converged = (fabs((eneB / eneX) - 1.0) < tol);
       }
-      optimalR = currentLocation[0];
-      cinfo << "Iteration: " << itr << " of Marquardt. ChiSquare = " << bestChiSquare << ", Lambda = " << lambda << endl;
+
     }
+
+    // Return the location of the minimum.
+
+    optimalR = (eneX < eneB) ? x : b;
+
     return true;
   }
 
@@ -759,22 +688,21 @@ namespace mesmer
   }
 
   double ZhuNakamuraCrossingCoeff::trapezoidRule(OneDimensionalFunction* func, double a, double b, int n) {
-    double x, tnm, sum, del;
     static double s;
-    int it, j;
 
-    if (n == 1) { return (s = 0.5*(b - a)*(func->evaluateEnergy(a) + func->evaluateEnergy(b))); }
+    if (n == 1) {
+      return (s = 0.5*(b - a)*(func->evaluateEnergy(a) + func->evaluateEnergy(b)));
+    }
     else {
-      for (it = 1, j = 1; j < n - 1; j++) it <<= 1;
-      tnm = it;
-      del = (b - a) / tnm;
-      x = a + 0.5*del;
-      sum = 0.0;
-      for (j = 1; j <= it; j++) {
-        x += del;
+      int it(1);
+      for (int j(1); j < n - 1; j++)
+        it <<= 1;
+      double del = (b - a) / double(it);
+      double x = a + 0.5*del;
+      double sum = 0.0;
+      for (int j(0); j < it; j++, x += del)
         sum += func->evaluateEnergy(x);
-      }
-      s = 0.5*(s + (b - a)*sum / tnm);
+      s = 0.5*(s + del*sum);
       return s;
     }
   }
@@ -813,7 +741,7 @@ namespace mesmer
   }
 
   // function for calculation of complex Gamma - taken from 'Computation of Special functions',
-	// translated by DRG (Jun 2015) from F77 to C++
+  // translated by DRG (Jun 2015) from F77 to C++
   // takes as input the real (X) & imaginary parts (Y) of a complex number
   // and returns the real (GR) and imaginary (GI) parts
   void ZhuNakamuraCrossingCoeff::complexGamma(double X, double Y, double &GR, double &GI) {

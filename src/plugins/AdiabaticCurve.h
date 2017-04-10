@@ -5,162 +5,147 @@
 
 namespace mesmer
 {
-	// Define an abstract base class that holds any of a range of one dimensional functions, 
-	// each of which returns at energy for some input coordinate r.
-	class OneDimensionalFunction {
+  // Define an abstract base class that holds any of a range of one dimensional functions, 
+  // each of which returns at energy for some input coordinate r.
+  class OneDimensionalFunction {
 
-	private:
-		double Q, Energy;
+  private:
+    double Energy;
 
-	public:
-		OneDimensionalFunction() {};
-		virtual ~OneDimensionalFunction() {};
+  public:
+    OneDimensionalFunction() {};
+    virtual ~OneDimensionalFunction() {};
 
-		// set Functions
-		void setQ(double r) { Q = r; };
-		void setEnergy(double e) { Energy = e; };
+    // set Functions
+    void setEnergy(double e) { Energy = e; };
 
-		// get Functions
-		double getQ() { return Q; };
-		double getEnergy() { return Energy; };
+    // get Functions
+    double getEnergy() { return Energy; };
 
-		// abstract virtual Energy evaluation function
-		virtual double evaluateEnergy(double) = 0;
+    // abstract virtual Energy evaluation function
+    virtual double evaluateEnergy(double) = 0;
 
-		// Function for finite central difference numerical derivative, 
-		// *note that I've retained the vector inputs in case we want to extend this in the future; At the moment its not strictly necessary.
-		void NumericalDerivatives(double delta, vector<double> &gradient) {
-			double r = getQ();
-			gradient[0] = (evaluateEnergy(r + 0.5*delta) - evaluateEnergy(r - 0.5*delta)) / delta;
-		};
+    // Function for finite central difference numerical derivative, 
+    // *note that I've retained the vector inputs in case we want to extend this in the future;
+		// At the moment its not strictly necessary.
+    double NumericalDerivatives(double r, double delta) {
+      return (evaluateEnergy(r + 0.5*delta) - evaluateEnergy(r - 0.5*delta)) / delta;
+    };
 
-		// Function for finite central difference enumerical derivative, 
-		// *note that I've retained the vector inputs in case we want to extend this in the future; At the moment its not strictly necessary.
-		void NumericalHessian(double delta, qdMatrix &hessian) {
-			double r = getQ();
-			hessian[0][0] = (evaluateEnergy(r + delta) - 2 * evaluateEnergy(r) + evaluateEnergy(r - delta)) / (delta*delta);
-		};
+  };
 
-		// for finding the minimum on a 1d curve, the value of ChiSquare & the residuals are identical
-		void chiSquareCalculation(double& chiSquare) {
-			double r = getQ();
-			chiSquare = evaluateEnergy(r)*evaluateEnergy(r);
-		};
+  // exponentialDiabat is a diabatic energy curve of the form A*exp(B*r)+DE
+  class exponentialDiabat : public OneDimensionalFunction {
 
-	};
+  private:
+    double A, B, DE;
 
-	// exponentialDiabat is a diabatic energy curve of the form A*exp(B*r)+DE
-	class exponentialDiabat : public OneDimensionalFunction {
+  public:
+    // Constructor
+    exponentialDiabat(double a, double b, double dE) { A = a; B = b; DE = dE; };
 
-	private:
-		double A, B, DE;
+    // Destructor
+    virtual ~exponentialDiabat() {};
 
-	public:
-		// Constructor
-		exponentialDiabat(double a, double b, double dE) { A = a; B = b; DE = dE; };
+    double evaluateEnergy(double r) {
+      double Energy = A*exp(B*r) + DE;
+      setEnergy(Energy);
+      return Energy;
+    };
 
-		// Destructor
-		virtual ~exponentialDiabat() {};
+  };
 
-		double evaluateEnergy(double r) {
-			double Energy = A*exp(B*r) + DE;
-			setEnergy(Energy);
-			return Energy;
-		};
+  // parabolicDiabat is a diabatic energy curve of the form K*(r-X0)**2+DE
+  class parabolicDiabat : public OneDimensionalFunction {
 
-	};
+  private:
+    double K, X0, DE;
 
-	// parabolicDiabat is a diabatic energy curve of the form K*(r-X0)**2+DE
-	class parabolicDiabat : public OneDimensionalFunction {
+  public:
+    // Constructor
+    parabolicDiabat(double k, double x0, double dE) { K = k; X0 = x0; DE = dE; };
 
-	private:
-		double K, X0, DE;
+    // Destructor
+    virtual ~parabolicDiabat() {};
 
-	public:
-		// Constructor
-		parabolicDiabat(double k, double x0, double dE) { K = k; X0 = x0; DE = dE; };
+    double evaluateEnergy(double r) {
+      double Energy = K*(r - X0)*(r - X0) + DE;
+      setEnergy(Energy);
+      return Energy;
+    };
 
-		// Destructor
-		virtual ~parabolicDiabat() {};
+  };
 
-		double evaluateEnergy(double r) {
-			double Energy = K*(r - X0)*(r - X0) + DE;
-			setEnergy(Energy);
-			return Energy;
-		};
+  // linearDiabat is a diabatic energy curve of the form K*r+DE
+  class linearDiabat : public OneDimensionalFunction {
 
-	};
+  private:
+    double K, DE;
 
-	// linearDiabat is a diabatic energy curve of the form K*r+DE
-	class linearDiabat : public OneDimensionalFunction {
+  public:
+    // Constructor
+    linearDiabat(double k, double dE) { K = k; DE = dE; };
 
-	private:
-		double K, DE;
+    // Destructor
+    virtual ~linearDiabat() {};
 
-	public:
-		// Constructor
-		linearDiabat(double k, double dE) { K = k; DE = dE; };
+    double evaluateEnergy(double r) {
+      double Energy = K*r + DE;
+      setEnergy(Energy);
+      return Energy;
+    };
+  };
 
-		// Destructor
-		virtual ~linearDiabat() {};
+  // another test function
+  class cosineTest2 : public OneDimensionalFunction {
 
-		double evaluateEnergy(double r) {
-			double Energy = K*r + DE;
-			setEnergy(Energy);
-			return Energy;
-		};
-	};
+  private:
+    double K, DE;
 
-	// another test function
-	class cosineTest2 : public OneDimensionalFunction {
+  public:
+    // Constructor
+    cosineTest2() {};
 
-	private:
-		double K, DE;
+    // Destructor
+    virtual ~cosineTest2() {};
 
-	public:
-		// Constructor
-		cosineTest2() {};
+    double evaluateEnergy(double r) {
+      double Energy = 0.472*cos((r*r*r) / 3.0 - 0.0575*r - 0.2436*r / (0.8895 + 1.4842*r));
+      setEnergy(Energy);
+      return Energy;
+    };
+  };
 
-		// Destructor
-		virtual ~cosineTest2() {};
+  // ftn of the form E(t) = K*cos[t**3/3 - A*t - B*t/(C + D*t)], which are the sorts 
+  // of functions required to specify the integrand in zone 2 of Zhu-Nakamura Theory
+  class ZNzone2Integrand : public OneDimensionalFunction {
 
-		double evaluateEnergy(double r) {
-			double Energy = 0.472*cos((r*r*r) / 3.0 - 0.0575*r - 0.2436*r / (0.8895 + 1.4842*r));
-			setEnergy(Energy);
-			return Energy;
-		};
-	};
+  private:
+    double K, A, B, C, D;
 
-	// ftn of the form E(t) = K*cos[t**3/3 - A*t - B*t/(C + D*t)], which are the sorts 
-	// of functions required to specify the integrand in zone 2 of Zhu-Nakamura Theory
-	class ZNzone2Integrand : public OneDimensionalFunction {
+  public:
+    // Constructor
+    ZNzone2Integrand(double k, double a, double b, double c, double d) {
+      K = k; A = a; B = b; C = c; D = d;
+    };
 
-	private:
-		double K, A, B, C, D;
+    // Destructor
+    virtual ~ZNzone2Integrand() {};
 
-	public:
-		// Constructor
-		ZNzone2Integrand(double k, double a, double b, double c, double d) {
-			K = k; A = a; B = b; C = c; D = d;
-		};
+    void setK(double k) { K = k; };
+    void setA(double a) { A = a; };
+    void setB(double b) { B = b; };
+    void setC(double c) { C = c; };
+    void setD(double d) { D = d; };
 
-		// Destructor
-		virtual ~ZNzone2Integrand() {};
+    double evaluateEnergy(double r) {
+      double Energy = K*cos((r*r*r) / 3.0 - A*r - B*r / (C + D*r));
+      setEnergy(Energy);
+      return Energy;
+    };
+  };
 
-		void setK(double k) { K = k; };
-		void setA(double a) { A = a; };
-		void setB(double b) { B = b; };
-		void setC(double c) { C = c; };
-		void setD(double d) { D = d; };
-
-		double evaluateEnergy(double r) {
-			double Energy = K*cos((r*r*r) / 3.0 - A*r - B*r / (C + D*r));
-			setEnergy(Energy);
-			return Energy;
-		};
-	};
-
-	// Define an abstract base class that holds any of a range of adiabatic curves.
+  // Define an abstract base class that holds any of a range of adiabatic curves.
   class AdiabaticCurve : public OneDimensionalFunction {
 
   private:
@@ -181,33 +166,6 @@ namespace mesmer
     OneDimensionalFunction* getR() { return R; };
     OneDimensionalFunction* getP() { return P; };
     double getH12() { return H12; };
-
-    // Function for numerical derivative of energy functions, 
-    // *note that I've retained the vector inputs in case we want to extend this in the future;
-    // At the moment its not strictly necessary.
-    void NumericalDerivativesOfChiSquare(double delta, vector<double> &gradient) {
-
-      double chiSquareForward, chiSquareBackward;
-      double r = getQ();
-
-      chiSquareForward = evaluateEnergy(r + 0.5*delta)*evaluateEnergy(r + 0.5*delta);
-      chiSquareBackward = evaluateEnergy(r - 0.5*delta)*evaluateEnergy(r - 0.5*delta);
-      gradient[0] = (chiSquareForward - chiSquareBackward) / delta;
-
-    };
-
-    // Function for numerical Hessian of energy functions, 
-    // *note that I've retained the vector inputs in case we want to extend this in the future; At the moment its not strictly necessary.
-    void NumericalHessianOfChiSquare(double delta, qdMatrix &hessian) {
-
-      double chiSquareForward, chiSquareBackward, chiSquareR;
-      double r = getQ();
-
-      chiSquareR = evaluateEnergy(r)*evaluateEnergy(r);
-      chiSquareForward = evaluateEnergy(r + delta)*evaluateEnergy(r + delta);
-      chiSquareBackward = evaluateEnergy(r - delta)*evaluateEnergy(r - delta);
-      hessian[0][0] = (chiSquareForward - 2 * chiSquareR + chiSquareBackward) / (delta*delta);
-    };
 
   };
 
