@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<moleculeList xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
+<moleculeList xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <!--Entries can be deactivated by adding an attribute active="false"-->
   <!--Put alias entries at the top of file-->
   <molecule id="oh" ref="OH"/>
@@ -88,7 +89,7 @@
         <scalar>3</scalar>
       </property>
     </propertyList>
-    <me:DOSCMethod default="true">ClassicalRotors</me:DOSCMethod>
+    <me:DOSCMethod xsi:type="me:ClassicalRotors"/>
   </molecule>
   <molecule id="OH">
     <metadataList>
@@ -127,7 +128,7 @@
         <scalar units="cm-1">139.21</scalar>
       </property>
     </propertyList>
-    <me:DOSCMethod>DefinedStatesRotors</me:DOSCMethod>
+    <me:DOSCMethod xsi:type="me:DefinedStatesRotors"/>
     <me:States units="cm-1">
       <!--F1 Branch-->
       <me:State energy="0.0"       degeneracy="4"/>
@@ -229,15 +230,9 @@
       <bond atomRefs2="a3 a1" order="1"/>
     </bondArray>
     <propertyList>
-      <!--
       <property title="Hf0">
         <scalar units="kJ/mol">-238.90</scalar>
       </property>
-      -->
-      <property title="HfAT0">
-        <scalar units="kJ/mol">-918.05</scalar>
-      </property>
-
       <property title="Vibrational Frequencies" dictRef="me:vibFreqs">
         <array units="cm-1">3657.00 1595.00 3756.00 </array>
       </property>

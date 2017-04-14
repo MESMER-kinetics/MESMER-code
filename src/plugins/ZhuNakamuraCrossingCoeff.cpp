@@ -105,7 +105,7 @@ namespace mesmer
       */
 
       ReadDoubleAndUnits2(m_H12, pp, "me:H12", "kJ/mol");
-      ReadDoubleAndUnits2(m_ReducedMass, pp, "me:ReducedMass", "a.m.u.");
+      ReadDoubleAndUnits2(m_ReducedMass, pp, "me:reducedMass", "a.m.u.");
 
       ReadDoubleAndUnits2(m_harmonicX0, pp, "me:harmonicReactantDiabat-X0", "Bohr");
       ReadDoubleAndUnits2(m_harmonicDE, pp, "me:harmonicReactantDiabat-DE", "kJ/mol");

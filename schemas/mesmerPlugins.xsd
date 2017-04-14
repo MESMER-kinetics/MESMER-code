@@ -371,7 +371,7 @@
       <xs:enumeration value="amuA^2"/>
     </xs:restriction>
   </xs:simpleType>
-
+  
   <xs:complexType name="Morse">
     <xs:complexContent>
       <xs:extension base="ExtraDOSCt">
@@ -689,6 +689,87 @@
             </xs:complexType>
           </xs:element>
         </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ZhuNakamuraCrossingCoeff">
+    <xs:complexContent>
+      <xs:extension base="MCRCMethodct">
+        <xs:all>
+          <xs:element name="harmonicReactantDiabat-FC">
+          <xs:complexType>
+            <xs:simpleContent>
+              <xs:extension base="xs:string">
+                <xs:attribute name="units" use="required"/>
+              </xs:extension>
+            </xs:simpleContent>
+          </xs:complexType>
+            </xs:element>
+            <xs:element name="harmonicReactantDiabat-X0">
+              <xs:complexType>
+                <xs:simpleContent>
+                  <xs:extension base="xs:float">
+                    <xs:attribute name="units" use="required"/>
+                  </xs:extension>
+                </xs:simpleContent>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="harmonicReactantDiabat-DE">
+              <xs:complexType>
+                <xs:simpleContent>
+                  <xs:extension base="xs:float">
+                    <xs:attribute name="units" type="me:energyUnitsType" use="required"/>
+                  </xs:extension>
+                </xs:simpleContent>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="exponentialProductDiabat-A">
+              <xs:complexType>
+                <xs:simpleContent>
+                  <xs:extension base="xs:float">
+                    <xs:attribute name="units" type="me:energyUnitsType" use="required"/>
+                  </xs:extension>
+                </xs:simpleContent>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="exponentialProductDiabat-B">
+              <xs:complexType>
+                <xs:simpleContent>
+                  <xs:extension base="xs:float">
+                    <xs:attribute name="units" use="required"/>
+                  </xs:extension>
+                </xs:simpleContent>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="exponentialProductDiabat-DE">
+          <xs:complexType>
+            <xs:simpleContent>
+              <xs:extension base="xs:float">
+                <xs:attribute name="units" type="me:energyUnitsType" use="required"/>
+              </xs:extension>
+            </xs:simpleContent>
+          </xs:complexType>
+            </xs:element>
+            <xs:element name="H12">
+            <xs:complexType>
+              <xs:simpleContent>
+                <xs:extension base="xs:float">
+                  <xs:attribute name="units" type="me:energyUnitsType" use="required"/>
+                </xs:extension>
+              </xs:simpleContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="reducedMass">
+          <xs:complexType>
+            <xs:simpleContent>
+              <xs:extension base="xs:float">
+                <xs:attribute name="units" use="required"/>
+              </xs:extension>
+            </xs:simpleContent>
+          </xs:complexType>
+          </xs:element>
+        </xs:all>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
