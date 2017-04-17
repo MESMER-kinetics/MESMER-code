@@ -95,46 +95,35 @@ namespace mesmer
 
 	}
 
-	//
-	// Get Grain canonical partition function for rotational, vibrational, and electronic contributions.
-	//
-	double IrreversibleExchangeReaction::rctsRovibronicGrnCanPrtnFn() {
-		vector<double> rctGrainDOS;
-		vector<double> rctGrainEne;
-		calcRctsGrainDensityOfStates(rctGrainDOS, rctGrainEne);
-
-		// Calculate the rovibronic partition function based on the grain DOS
-		return canonicalPartitionFunction(rctGrainDOS, rctGrainEne, getEnv().beta);
-	}
-
-	//
-	// Get Grain canonical partition function for rotational, vibrational, and electronic contributions.
-	//
-	double IrreversibleExchangeReaction::pdtsRovibronicGrnCanPrtnFn() {
-		vector<double> pdtGrainDOS;
-		vector<double> pdtGrainEne;
-		calcPdtsGrainDensityOfStates(pdtGrainDOS, pdtGrainEne);
-
-		// Calculate the rovibronic partition function based on the grain DOS
-		return canonicalPartitionFunction(pdtGrainDOS, pdtGrainEne, getEnv().beta);
-	}
-
 	double IrreversibleExchangeReaction::calcEquilibriumConstant() {   // Calculate reaction equilibrium constant.
 		// equilibrium constant:
 		double Keq(0.0);
 		const double beta = getEnv().beta;
 
-		// rovibronic partition function for products/reactants
-		double Qrcts = rctsRovibronicGrnCanPrtnFn();
-		double Qpdts = pdtsRovibronicGrnCanPrtnFn();
+		vector<double> cellEne;
+		getCellEnergies(m_rct1->getEnv().MaxCell, m_rct1->getEnv().CellSize, cellEne);
 
-		// rovibronic partition function for reactants/products multiplied by translation contribution
+		// Rovibronic partition function for products/reactants.
+		vector<double> tmpDOS;
+		m_rct1->getDOS().getCellDensityOfStates(tmpDOS);
+		double Qrcts = canonicalPartitionFunction(tmpDOS, cellEne, beta);
+		tmpDOS.clear();
+		m_rct2->getDOS().getCellDensityOfStates(tmpDOS);
+		Qrcts *= canonicalPartitionFunction(tmpDOS, cellEne, beta);
+
+		m_pdt1->getDOS().getCellDensityOfStates(tmpDOS);
+		double Qpdts = canonicalPartitionFunction(tmpDOS, cellEne, beta);
+		tmpDOS.clear();
+		m_pdt2->getDOS().getCellDensityOfStates(tmpDOS);
+		Qpdts *= canonicalPartitionFunction(tmpDOS, cellEne, beta);
+
+		// Rovibronic partition function for reactants/products multiplied by translation contribution.
 		Qrcts *= translationalContribution(m_rct1->getStruc().getMass(), m_rct2->getStruc().getMass(), beta);
 		Qpdts *= translationalContribution(m_pdt1->getStruc().getMass(), m_pdt2->getStruc().getMass(), beta);
 
 		Keq = Qpdts / Qrcts;
 
-		// Heat of reaction: use heat of reaction to calculate the zpe weighing of different wells
+		// Heat of reaction: use heat of reaction to calculate the zpe weighing of different wells.
 		const double HeatOfReaction = getHeatOfReaction();
 		Keq *= exp(-beta * HeatOfReaction);
 
@@ -287,20 +276,39 @@ namespace mesmer
 	// Calculate high pressure rate coefficients at current T.
 	void IrreversibleExchangeReaction::HighPresRateCoeffs(vector<double> *pCoeffs) {
 
-		const int MaximumGrain = (getEnv().MaxGrn - get_fluxFirstNonZeroIdx());
-		const double beta = getEnv().beta;
-		vector<double> rctsGrainDOS;
-		vector<double> rctsGrainEne;
-		double k_forward(0.0);
-
-		calcRctsGrainDensityOfStates(rctsGrainDOS, rctsGrainEne);
-		for (int i(0); i < MaximumGrain; ++i){
-			k_forward += m_GrainKfmc[i] * exp(log(rctsGrainDOS[i]) - beta * rctsGrainEne[i]);
+		// Check to see if there is a transition state defined.
+		if (!m_TransitionState) {
+			stringstream msg;
+			msg << "The irreversible exchange reaction" << this->getName() << "is defined without a transition state." << endl;
+			throw(std::runtime_error(msg.str())) ;
 		}
-		const double prtfn = canonicalPartitionFunction(rctsGrainDOS, rctsGrainEne, beta);
-		const double trans = translationalContribution(m_rct1->getStruc().getMass(), m_rct2->getStruc().getMass(), beta);
+
+		// Energies of cells. 
+		std::vector<double> cellEne;
+		getCellEnergies(m_rct1->getEnv().MaxCell, m_rct1->getEnv().CellSize, cellEne);
+
+		// Calculate ro-vibrational canonical partition function of reactants.
+		const double beta = getEnv().beta;
+		vector<double> tmpDOS;
+		m_rct1->getDOS().getCellDensityOfStates(tmpDOS) ;
+		double prtfn = canonicalPartitionFunction(tmpDOS, cellEne, beta);
+		tmpDOS.clear();
+		m_rct2->getDOS().getCellDensityOfStates(tmpDOS);
+		prtfn *= canonicalPartitionFunction(tmpDOS, cellEne, beta);
+
+		// Calculate ro-vibrational canonical partition function of transitions state.
+		tmpDOS.clear();
+		m_TransitionState->getDOS().getCellDensityOfStates(tmpDOS);
+		double k_forward(0.0);
+		k_forward  = canonicalPartitionFunction(tmpDOS, cellEne, beta);
 		k_forward /= prtfn;
+
+		// Calculate the translational partition function ratio and thence the rate coefficient.
+		const double trans = translationalContribution(m_rct1->getStruc().getMass(), m_rct2->getStruc().getMass(), beta);
 		k_forward /= trans;
+		double ene = get_ThresholdEnergy();
+		k_forward *= exp(-beta*get_ThresholdEnergy());
+		k_forward *= SpeedOfLight_in_cm/beta;
 
 		// Save high pressure rate coefficient for use in the construction of the collision operator.
 		m_MtxGrnKf.clear();

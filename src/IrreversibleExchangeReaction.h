@@ -113,9 +113,6 @@ namespace mesmer
     virtual void calcGrainRateCoeffs();
     virtual void calcFluxFirstNonZeroIdx(void);
 
-    double pdtsRovibronicGrnCanPrtnFn();
-    double rctsRovibronicGrnCanPrtnFn();
-
     molMapType *m_sourceMap ;
 
     Molecule    *m_rct1 ; // Reactant Molecule.

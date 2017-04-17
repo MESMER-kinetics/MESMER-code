@@ -11,13 +11,6 @@ namespace mesmer
 
   bool MicroRateCalculator::testMicroRateCoeffs(Reaction* pReact, PersistPtr ppbase) const
   {
-    vector<Molecule *> unimolecularspecies;
-    pReact->get_unimolecularspecies(unimolecularspecies);
-    if (!unimolecularspecies.size()){
-      stest << "\nNo microcanonical rate coefficients for " << pReact->getName() << endl;
-      return true;
-    }
-
     string comment("Canonical rate coefficients (calculated from microcanonical rate coefficients)");
     PersistPtr ppList = ppbase->XmlWriteMainElement("me:canonicalRateList", comment);
 

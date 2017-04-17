@@ -1,3 +1,9 @@
+2017-April-17 Struan Robertson
+
+		* IrreversibleExchangeReaction.cpp/.h, MicroRate.cpp: Irreversible exchange reactions 
+		high pressure rate coefficients altered to use canonical partition functions. Results
+		are also now printed.
+
 2017-April-13 Chris Morley
 		
 		* ZhuNakamuraCrossingCoeff.cpp, ZNTest.xml: Changed me:ReducedMass to me:reducedMass for
