@@ -1,6 +1,6 @@
 //-------------------------------------------------------------------------------------------
 //
-// Author: Dave Glowacki
+// Author: Dave Glowacki (with significant refactoring by Struan Robertson)
 // Date:   2 June 2015
 //
 // Produces Zhu-Nakamura spin forbidden crossing coefficients
@@ -16,27 +16,23 @@
 #include "../Rdouble.h"
 #include "../gDensityOfStates.h"
 
-#define JMAX 30
-#define JMAXP (JMAX+1)
-#define ROMBERGK 5
-
 using namespace Constants;
 using namespace std;
 
 namespace mesmer
 {
 
-  class ZhuNakamuraCrossingCoeff : public MicroRateCalculator
+  class ZhuNakamuraCrossing : public MicroRateCalculator
   {
   public:
     virtual bool ParseData(PersistPtr pp);
     // Constructor which registers with the list of CrossingCalculators in the base class
-    ZhuNakamuraCrossingCoeff(const char* id) : m_id(id), dataIsInTS(false) { Register(); }
+    ZhuNakamuraCrossing(const char* id) : m_id(id), dataIsInTS(false) { Register(); }
 
-    virtual ~ZhuNakamuraCrossingCoeff() {};
+    virtual ~ZhuNakamuraCrossing() {};
     virtual const char* getID() { return m_id; };
 
-    virtual ZhuNakamuraCrossingCoeff* Clone() { return new ZhuNakamuraCrossingCoeff(*this); }
+    virtual ZhuNakamuraCrossing* Clone() { return new ZhuNakamuraCrossing(*this); }
 
     virtual bool calculateMicroCnlFlux(Reaction* pReact);
 
@@ -52,12 +48,8 @@ namespace mesmer
 
     double CalculateAReasonableLimit(AdiabaticCurve*, OneDimensionalFunction*, double);
 
-    // functions for calculating left & right turning points on the Upper & Lower Adiabatic Curves
-    double CalculateLowerLeftTurningPoint(AdiabaticCurve*, double, double);
-    double CalculateLowerRightTurningPoint(AdiabaticCurve*, double, double);
-
-    double CalculateUpperLeftTurningPoint(AdiabaticCurve*, double, double);
-    double CalculateUpperRightTurningPoint(AdiabaticCurve*, double, double);
+    // Function for calculating left & right turning points on the Upper & Lower Adiabatic Curves
+    double CalculateTurningPoint(AdiabaticCurve* Curve, double Rint, double TPEnergy, double sgn, double dsgn);
 
     // these are functions for numerical integration of an appropriately defined OneDimensionalFunction
     double NumericalIntegration(OneDimensionalFunction*, double a, double b);
@@ -80,10 +72,10 @@ namespace mesmer
 
   //************************************************************
   //Global instance, defining its id
-  ZhuNakamuraCrossingCoeff theZhuNakamuraCrossingCoeff("ZhuNakamuraCrossingCoeff");
+  ZhuNakamuraCrossing theZhuNakamuraCrossing("ZhuNakamuraCrossing");
   //************************************************************
 
-  bool ZhuNakamuraCrossingCoeff::ParseData(PersistPtr pp)
+  bool ZhuNakamuraCrossing::ParseData(PersistPtr pp)
   {
     //Look for data in the reaction as child of <me:crossing>
 
@@ -91,18 +83,6 @@ namespace mesmer
 
     //convert H12 to wavenumbers if not already in wavenumbers
     if (ppData) {
-      /*
-          {
-            ppData->XmlMoveToProperty("me:H12");
-            if (!ppData){
-              cerr << "me:H12 is unspecified" << endl;
-              return false;
-            }
-            else{
-              const char* units = ppData->XmlReadValue("units", false);
-              m_H12 = getConvertedEnergy(units ? units : "cm-1",pp->XmlReadDouble("me:H12"));
-          }
-      */
 
       ReadDoubleAndUnits2(m_H12, pp, "me:H12", "kJ/mol");
       ReadDoubleAndUnits2(m_ReducedMass, pp, "me:reducedMass", "a.m.u.");
@@ -123,14 +103,13 @@ namespace mesmer
 
   }
 
-  bool ZhuNakamuraCrossingCoeff::calculateCellCrossingCoeffs(Reaction* pReact, vector<double>& CrossingProbability) {
+  bool ZhuNakamuraCrossing::calculateCellCrossingCoeffs(Reaction* pReact, vector<double>& CrossingProbability) {
 
     parabolicDiabat *reactantCurve;
     exponentialDiabat *productCurve;
     lowerAdiabat *lowerCurve;
     upperAdiabat *upperCurve;
     double delta(0.001), kJPerMoltoHartree(kJPerMol_in_RC / Hartree_in_RC);
-    vector<double> gradient(1, 0.0);
 
     // for Zhu-Nakamura theory, we set the threshold to zero; the routines herein will calculate transmission
     // coefficients appropriate to the specified diabats, which upon convolution with the TS sum of states,
@@ -139,8 +118,7 @@ namespace mesmer
     //  pReact->set_EffGrnFwdThreshold(0);
     //  pReact->set_EffGrnRvsThreshold(pReact->get);
 
-
-// set up the functions corresponding to the reactant & product diabats
+    // set up the functions corresponding to the reactant & product diabats
     reactantCurve = new parabolicDiabat(m_harmonicFC*kJPerMoltoHartree, m_harmonicX0, m_harmonicDE*kJPerMoltoHartree);
     productCurve = new exponentialDiabat(m_exponentialA*kJPerMoltoHartree, m_exponentialB, m_exponentialDE*kJPerMoltoHartree);
 
@@ -174,7 +152,7 @@ namespace mesmer
     RbLowerLim = CalculateAReasonableLimit(upperCurve, productCurve, Rx);  // get a sensible initial guess for the lower limit to Rb
 
     if (!goldenSerachOptimization(upperCurve, RbUpperLim, RbLowerLim, Rb)) {
-      cerr << "problem finding Eb & Rb in Zhu-Nakumara Marquardt routine " << endl;
+      cerr << "problem finding Eb & Rb in golden section search routine " << endl;
       return false;
     }
     Eb = upperCurve->evaluateEnergy(Rb);  // calcuate Eb
@@ -194,12 +172,12 @@ namespace mesmer
     flippedTranslatedLowerAdiabat *flippedTranslatedLowerCurve;
     flippedTranslatedLowerCurve = new flippedTranslatedLowerAdiabat(reactantCurve, productCurve, m_H12*kJPerMoltoHartree, Eb);
     if (!goldenSerachOptimization(flippedTranslatedLowerCurve, RtUpperLim, RtLowerLim, Rt)) {  // find Rt on the flipped & translated surface
-      cerr << "problem finding Et & Rt in Zhu-Nakumara Marquardt routine " << endl;
+      cerr << "problem finding Et & Rt in golden section search routine " << endl;
       return false;
     }
-    Et = lowerCurve->evaluateEnergy(Rt);  // calculate Et
+    Et = lowerCurve->evaluateEnergy(Rt);
     if (Et <= 0.0) {
-      cerr << "Zhu-Nakumara Marquardt routine found a negative Et... check your guess value & search range " << endl;
+      cerr << "Golden section search  routine found a negative Et... check your guess value & search range " << endl;
       return false;
     }
 
@@ -208,7 +186,7 @@ namespace mesmer
     double Vx = m_H12*kJPerMoltoHartree;         // calculate coupling in A.U.
     double m = m_ReducedMass*1.822888e+3;        // calculate mass in A.U
 
-    double F1 = reactantCurve->NumericalDerivatives(Rx, delta);    
+    double F1 = reactantCurve->NumericalDerivatives(Rx, delta);
     double F2 = productCurve->NumericalDerivatives(Rx, delta);
 
     double F = sqrt(abs(F1*F2));
@@ -223,48 +201,37 @@ namespace mesmer
 
     //
     // Get the properties of the Crossing coefficients vector in which the Z-N probabilities will be placed 
-    const int MaximumCell = pReact->getEnv().MaxCell;
-
-    CrossingProbability.clear();
-    CrossingProbability.resize(MaximumCell);
+    const size_t MaximumCell = pReact->getEnv().MaxCell;
+    const size_t MaximumGrn = pReact->getEnv().MaxGrn;
 
     double zeroThreshold = m_harmonicDE*kJPerMol_in_RC;
     double EinAU, transProbability(0.0);
     double Lt1(Rt), Lt2(Rt);  // initialize the turning points for the top of the Lower (L) Barrier
     double Ut1(Rb), Ut2(Rb);  // initialize the turning points for the bottom of the Upper (U) Barrier
     int lastZeroIndex, zone1StartIdx, lastIdx, zone1EndIdx, zone2StartIdx, zone2EndIdx, zone3StartIdx, zone3EndIdx;
-    int ctr(0), ii, gsize(pReact->getEnv().GrainSize);
-    vector <double> grainCenteredCrossingProbabilities(MaximumCell / gsize, 0.0), grainCenteredEnergies(MaximumCell / gsize, 0.0);;
+    int ctr(0), gsize(pReact->getEnv().GrainSize);
+    vector <double> grainCenteredCrossingProbabilities(MaximumGrn, 0.0), grainCenteredEnergies(MaximumGrn, 0.0);;
     double dErctpdt = pReact->get_relative_rctZPE() - pReact->get_relative_pdtZPE();
 
-    double E;
-    for (int i = 0; i < MaximumCell / gsize; ++i) {
-      E = 0.0;
-      for (int jj = 0; jj < gsize; ++jj) {
-        E += double(ctr) + 0.5;
-        ++ctr;
-      }
-      grainCenteredEnergies[i] = E / double(gsize);
+    for (size_t i(0); i < MaximumGrn; ++i) {
+      grainCenteredEnergies[i] = double(gsize)*(double(i) + 0.5);
     }
 
-    ii = 0;
-    do {                              // set Prob to zero for any cells which are below either the dE of the reactant diabat or the product zpe
-      E = grainCenteredEnergies[ii];          // set E to the avg energy of the cell in cm-1
-      EinAU = E / Hartree_in_RC;       // E in A.U.
-      grainCenteredCrossingProbabilities[ii] = 0.0;
-      lastIdx = ii;                  // gives the last cell index which was set to zero
-      ++ii;
-    } while (E <= zeroThreshold && E <= dErctpdt && ii < MaximumCell / gsize);
+    // Set Prob to zero for any cells which are below either the dE of the reactant diabat or the product zpe
+    size_t ii(0);
+    double E(0.0);
+    double Emin = min(zeroThreshold, dErctpdt);
+    ii = size_t(Emin / double(gsize));
 
-    lastZeroIndex = lastIdx - 1;     // if the do/while loop conditions are satisfied & we have terminated, then we've actually gone one idx too far
-    zone1StartIdx = lastZeroIndex + 1;
+    lastZeroIndex = ii - 1;
+    zone1StartIdx = ii;
     do {                              // Now we run the cell counter up to Et, to determine the range over which we will calculate zone 1 ZN probabilities
       E = grainCenteredEnergies[ii];          // this may seem an odd thing to do, but it's computationally much simpler to calculate zone 1 ZN probabilities
       EinAU = E / Hartree_in_RC;       //    beginning from Et and then going down in enegy, rather than from lower to higher energies.
       grainCenteredCrossingProbabilities[ii] = 0.0;
       lastIdx = ii;                  // gives the last cell index which was set to zero
       ++ii;
-    } while (bsqd->evaluateEnergy(EinAU) < -1.0 && EinAU < Et && ii < MaximumCell / gsize);
+    } while (bsqd->evaluateEnergy(EinAU) < -1.0 && EinAU < Et && ii < MaximumGrn);
 
     zone1EndIdx = lastIdx - 1;       // if the do/while loop conditions are satisfied & we have terminated, then we've actually gone one idx too far
     zone2StartIdx = zone1EndIdx + 1;
@@ -274,21 +241,11 @@ namespace mesmer
       grainCenteredCrossingProbabilities[ii] = 0.0;
       lastIdx = ii;                  // gives the last cell index which was set to zero
       ++ii;
-    } while (EinAU < Eb && ii < MaximumCell / gsize); // we could also enforce the condition *1.0 >= bsqd->evaluateEnergy(EinAU). However this only lines up with
+    } while (EinAU < Eb && ii < MaximumGrn); // we could also enforce the condition *1.0 >= bsqd->evaluateEnergy(EinAU). However this only lines up with
                                               // EinAU < Eb in the case of linear diabats; what's coded here works fine for general curved cases.
     zone2EndIdx = lastIdx - 1;       // if the do/while loop conditions are satisfied & we have terminated, then we've actually gone one idx too far
     zone3StartIdx = zone2EndIdx + 1;
-    zone3EndIdx = (MaximumCell / gsize - 1);
-
-    /* // simple tests of the numerical integration routine
-    OneDimensionalFunction* testCurve1;
-    testCurve1 = new parabolicDiabat(1,0.0,0.0);                      // int(x**2, x=0..4)
-    double testResult1 = NumericalIntegration(testCurve1,0.0,4.0);    // analytically equal to 21.33333
-
-    OneDimensionalFunction* testCurve3;
-    testCurve3 = new cosineTest2();                                   // int(0.472*cos(R**3/3.0 - 0.0575*r - 0.2436*r/(0.8895 + 1.4842*r)), x=0..10)
-    double testResult3 = NumericalIntegration(testCurve3,0.0,10.0);   // MAPLE sets this equal to 0.5784069247
-    */
+    zone3EndIdx = (MaximumGrn - 1);
 
     // Now we evaluate the Zone 1 Probabilities, starting from Et, and working our way down in Energy
     // initialize a ftn which is the lower adiabat shifted by dE; solving Chi-Square for this ftn will give turning pts
@@ -308,10 +265,10 @@ namespace mesmer
 
       lowerTPCurve->setDE(-1*EinAU); // set dE to the energy where we want to find a turning point (this makes the TP into a minima on the chi-squared function)
 
-      Lt1 = CalculateLowerLeftTurningPoint(lowerTPCurve, rightBound, EinAU);   // calculate Left hand turning point (LHTP) by minimizing the chi-squared function
+      Lt1 = CalculateTurningPoint(lowerTPCurve, rightBound, EinAU, -1.0, -1.0);   // calculate Left hand turning point (LHTP) by minimizing the chi-squared function
       rightBound = Lt1;           // the left hand turning point becomes the right hand bound in the LHTP seeach on the next iteration
 
-      Lt2 = CalculateLowerRightTurningPoint(lowerTPCurve, leftBound, EinAU);   // calculate right hand turning point (RHTP) by minimizing the chi-squared function
+      Lt2 = CalculateTurningPoint(lowerTPCurve, leftBound, EinAU, 1.0, 1.0);   // calculate right hand turning point (RHTP) by minimizing the chi-squared function
       leftBound = Lt2;            // the right hand turning point becomes the left hand bound in the RHTP seeach on the next iteration
 
       actionIntegrand->setEinAU(EinAU);                                  // calculate the classical action integrand
@@ -384,18 +341,19 @@ namespace mesmer
     upperAdiabatActionIntegrand* upperActionIntegrand;
     upperActionIntegrand = new upperAdiabatActionIntegrand(reactantCurve, productCurve, m_H12*kJPerMoltoHartree, m, 0.0);  // initialize the energy to zero for now
 
-    for (int i = zone3StartIdx; i <= zone3EndIdx; ++i) {  //calculate the monstrosity that is the Zhu Nakamura expression for E > Eb
+    // Calculate the Zhu Nakamura expression for E > Eb.
+    for (int i = zone3StartIdx; i <= zone3EndIdx; ++i) {
 
       E = grainCenteredEnergies[i];         //      E = double(i) + 0.5;         
       EinAU = E / Hartree_in_RC;
       realPart = 0.0; complexPart = 0.0; argOfGamma = 0.0;
 
-      upperTPCurve->setDE(-1 * EinAU); // set dE to the energy where we want to find a turning point (this makes the TP into a minima on the chi-squared function)    
+      upperTPCurve->setDE(-EinAU); // set dE to the energy where we want to find a turning point (this makes the TP into a minima on the chi-squared function)    
 
-      Lt1 = CalculateUpperLeftTurningPoint(upperTPCurve, rightBound, EinAU);   // calculate Left hand turning point (LHTP) by minimizing the chi-squared function
+      Lt1 = CalculateTurningPoint(upperTPCurve, rightBound, EinAU, -1.0, 1.0);   // calculate Left hand turning point (LHTP) by minimizing the chi-squared function
       rightBound = Lt1;           // the left hand turning point becomes the right hand bound in the LHTP seeach on the next iteration
 
-      Lt2 = CalculateUpperRightTurningPoint(upperTPCurve, leftBound, EinAU);   // calculate right hand turning point (RHTP) by minimizing the chi-squared function
+      Lt2 = CalculateTurningPoint(upperTPCurve, leftBound, EinAU, 1.0, -1.0);   // calculate right hand turning point (RHTP) by minimizing the chi-squared function
       leftBound = Lt2;            // the right hand turning point becomes the left hand bound in the RHTP seeach on the next iteration
 
       sigma = 0.0;
@@ -418,38 +376,24 @@ namespace mesmer
 
     cout << "Finished Calculating Zhu Nakamura Probabilities..." << endl;
 
-    ctr = 0;
+    CrossingProbability.clear();
+    CrossingProbability.resize(MaximumCell, 0.0);
+
+    ctr = int(grainCenteredEnergies[0]);
     double E0, dP12, P120;
-    for (int i = 0; i < grainCenteredEnergies[0]; ++i) {
-      CrossingProbability[i] = 0.0;
-      ++ctr;
-    }
-    for (int i = 0; i < MaximumCell / gsize - 1; ++i) {
+    for (size_t i(0); i < MaximumGrn - 1; ++i) {
       E0 = ctr;
       P120 = grainCenteredCrossingProbabilities[i];
-      dP12 = grainCenteredCrossingProbabilities[i + 1] - grainCenteredCrossingProbabilities[i];
+      dP12 = grainCenteredCrossingProbabilities[i + 1] - P120;
       for (int jj = 1; jj <= gsize; ++jj) {
         CrossingProbability[ctr] = (dP12 / gsize)*(jj)+P120;
         ++ctr;
       }
     }
-    for (int i = ctr; i < MaximumCell; ++i) {
-      CrossingProbability[i] = 0.0;
-    }
-
-
-    //    for(int i=zone2StartIdx; i<=zone3EndIdx; ++i){
-    //      CrossingProbability[i] = 1.0;
-    //    }
-
-    //      CrossingProbability[i] = transProbability;
-    //      CrossingProbability[i] = (1.0e+0 + trans_probability)*(1.0e+0 - trans_probability);
-    //      if(IsNan(CrossingProbability[i])) CrossingProbability[i] = 0.0;
-
 
     if (pReact->getFlags().CrossingCoeffEnabled) {
       ctest << "\nZhu Nakamura crossing coefficients for: " << pReact->getName() << endl;
-      for (int i = 0; i < MaximumCell / gsize; ++i) {
+      for (size_t i(0); i < MaximumGrn ; ++i) {
         ctest << grainCenteredEnergies[i] << "\t" << grainCenteredCrossingProbabilities[i] << endl;
       }
       ctest << "}" << endl << "end of Zhu Nakamura crossing coefficients \n";
@@ -458,13 +402,13 @@ namespace mesmer
     return true;
   }
 
-  double ZhuNakamuraCrossingCoeff::CalculateAReasonableLimit(AdiabaticCurve* upperOrLowerCurve, OneDimensionalFunction* productOrReactantCurve, double Rx) {
+  double ZhuNakamuraCrossing::CalculateAReasonableLimit(AdiabaticCurve* upperOrLowerCurve, OneDimensionalFunction* productOrReactantCurve, double Rx) {
 
     double Rref, Rlast, dEdR1, dEdR2, trialStep, Rlimit;
 
     Rref = Rx;      // establish a sensible initial guess for the upper limit to Rb
     do {
-      dEdR1 = productOrReactantCurve->NumericalDerivatives(Rref, 0.001) ;
+      dEdR1 = productOrReactantCurve->NumericalDerivatives(Rref, 0.001);
       dEdR2 = upperOrLowerCurve->NumericalDerivatives(Rref, 0.001);
       trialStep = (upperOrLowerCurve->evaluateEnergy(Rref) - productOrReactantCurve->evaluateEnergy(Rref)) / dEdR1;
       Rlast = Rref;
@@ -475,107 +419,40 @@ namespace mesmer
     return Rlimit;
   }
 
-  double ZhuNakamuraCrossingCoeff::CalculateLowerLeftTurningPoint(AdiabaticCurve* LowerCurve, double Rright, double TPEnergy) {
+  double ZhuNakamuraCrossing::CalculateTurningPoint(AdiabaticCurve* Curve, double Rint, double TPEnergy, double sgn, double dsgn) {
 
     double dEdR, trialStep(0.001), TP, energy;
-    double Rref = Rright;      // establish a sensible initial guess for a lower limit to find the left hand turning point
+    // Establish a sensible initial guess for a  limit to find the turning point.
+    double Rref = Rint;
+    trialStep *= sgn;
 
-		// first be sure that the gradient is of the correct sign (only really important for regions of very low
-		//   curvature, e.g., near the minimum or maximum of the function)
-		do {                                
-      dEdR = LowerCurve->NumericalDerivatives(Rref, 0.001);
-      Rref -= trialStep;
-    } while (dEdR < 0.0);
-
-    do {    // now we check for when the gradient changes sign
-      energy = LowerCurve->evaluateEnergy(Rref);
-      Rref -= trialStep;
-    } while (energy > TPEnergy);
-
-    if (!goldenSerachOptimization(LowerCurve, Rright, Rref, TP)) {            // find the left hand turning point on the lower surface
-      cerr << "CalculateLowerLeftTurningPoint: problem finding Ex & Rx in Zhu-Nakumara Marquardt routine " << endl;
-      exit(1);
-    }
-
-    return TP;
-  }
-
-  double ZhuNakamuraCrossingCoeff::CalculateLowerRightTurningPoint(AdiabaticCurve* LowerCurve, double Rleft, double TPEnergy) {
-
-    double dEdR, trialStep(0.001), TP, energy;
-    double Rref = Rleft;      // establish a sensible initial guess for a lower limit to find the left hand turning point
-
-		// first be sure that the gradient is of the correct sign (only really important for regions of very low
-		//   curvature, e.g., near the minimum or maximum of the function)
-		do {                                
-      dEdR = LowerCurve->NumericalDerivatives(Rref, 0.001);
+    // First be sure that the gradient is of the correct sign (only really important for regions
+    // of very low curvature, e.g., near the minimum or maximum of the function).
+    do {
+      dEdR = dsgn*Curve->NumericalDerivatives(Rref, 0.001);
       Rref += trialStep;
     } while (dEdR > 0.0);
 
     do {    // now we check for when the gradient changes sign
-      energy = LowerCurve->evaluateEnergy(Rref);
+      energy = Curve->evaluateEnergy(Rref);
       Rref += trialStep;
-    } while (energy > TPEnergy);
+    } while (dsgn*sgn*(energy - TPEnergy) > 0.0);
 
-    if (!goldenSerachOptimization(LowerCurve, Rref, Rleft, TP)) {            // find the left hand turning point on the lower surface
-      cerr << "CalculateLowerRightTurningPoint: problem finding Ex & Rx in Zhu-Nakumara Marquardt routine " << endl;
-      exit(1);
+    if (sgn > 0.0) {
+      double tmp = Rint;
+      Rint = Rref;
+      Rref = tmp;
+    }
+
+    // Find the turning point on the curve.
+    if (!goldenSerachOptimization(Curve, Rint, Rref, TP)) {
+      throw(std::runtime_error("CalculateTurningPoint: problem finding Ex & Rx in golden section search routine\n"));
     }
 
     return TP;
   }
 
-  double ZhuNakamuraCrossingCoeff::CalculateUpperLeftTurningPoint(AdiabaticCurve* UpperCurve, double Rright, double TPEnergy) {
-
-    double dEdR,trialStep(0.001), TP, energy;
-    double Rref = Rright;      // establish a sensible initial guess for a lower limit to find the left hand turning point
-
-		// first be sure that the gradient is of the correct sign (only really important for regions of very low
-		//   curvature, e.g., near the minimum or maximum of the function)
-		do {     
-      dEdR = UpperCurve->NumericalDerivatives(Rref, 0.001);
-      Rref -= trialStep;
-    } while (dEdR > 0.0);
-
-    do {    // now we check for when the point we're at crosses the energy threshold corresponding to the turning point we want
-      energy = UpperCurve->evaluateEnergy(Rref);
-      Rref -= trialStep;
-    } while (energy < TPEnergy);
-
-    if (!goldenSerachOptimization(UpperCurve, Rright, Rref, TP)) {            // find the left hand turning point on the lower surface
-      cerr << "CalculateUpperLeftTurningPoint: problem finding Ex & Rx in Zhu-Nakumara Marquardt routine " << endl;
-      exit(1);
-    }
-
-    return TP;
-  }
-
-  double ZhuNakamuraCrossingCoeff::CalculateUpperRightTurningPoint(AdiabaticCurve* UpperCurve, double Rleft, double TPEnergy) {
-
-    double dEdR, trialStep(0.001), TP, energy;
-    double Rref = Rleft;      // establish a sensible initial guess for a lower limit to find the left hand turning point
-
-		// first be sure that the gradient is of the correct sign (only really important for regions of very low
-		//   curvature, e.g., near the minimum or maximum of the function
-		do {                      
-      dEdR = UpperCurve->NumericalDerivatives(Rref, 0.001);
-      Rref += trialStep;
-    } while (dEdR < 0.0);
-
-    do {    // now we check for when the gradient changes sign
-      energy = UpperCurve->evaluateEnergy(Rref);
-      Rref += trialStep;
-    } while (energy < TPEnergy);
-
-    if (!goldenSerachOptimization(UpperCurve, Rref, Rleft, TP)) {            // find the left hand turning point on the lower surface
-      cerr << "CalculateUpperRightTurningPoint: problem finding Ex & Rx in Zhu-Nakumara Marquardt routine " << endl;
-      exit(1);
-    }
-
-    return TP;
-  }
-
-  bool ZhuNakamuraCrossingCoeff::goldenSerachOptimization(AdiabaticCurve* energyCurve, double upperLimit, double lowerLimit, double& optimalR)
+  bool ZhuNakamuraCrossing::goldenSerachOptimization(AdiabaticCurve* energyCurve, double upperLimit, double lowerLimit, double& optimalR)
   {
 
     if (lowerLimit >= upperLimit) {
@@ -644,7 +521,7 @@ namespace mesmer
     return true;
   }
 
-  bool ZhuNakamuraCrossingCoeff::ReadDoubleAndUnits2(double& element, PersistPtr pp, const std::string identifier, const std::string units)
+  bool ZhuNakamuraCrossing::ReadDoubleAndUnits2(double& element, PersistPtr pp, const std::string identifier, const std::string units)
   {
     PersistPtr ppData = pp->XmlMoveTo(identifier);
     if (!ppData)
@@ -667,15 +544,19 @@ namespace mesmer
   }
 
   // Returns integral of the function func from a to b using Romberg's method
-  double ZhuNakamuraCrossingCoeff::NumericalIntegration(OneDimensionalFunction* func, double a, double b) {
-    double EPS(1.0e-6);
-    int K(ROMBERGK), j;
-    double ss, dss;
-    double s[JMAXP + 1];
-    double h[JMAXP + 2];
+  double ZhuNakamuraCrossing::NumericalIntegration(OneDimensionalFunction* func, double a, double b) {
+
+    static const int JMax(30);
+    static const int JMaxP(JMax + 1);
+    static const int Rombergk(5);
+
+    double EPS(1.0e-6), ss, dss;
+    int K(Rombergk);
+    double s[JMaxP + 1];
+    double h[JMaxP + 2];
 
     h[1] = 1.0;
-    for (j = 1; j <= JMAX; j++) {
+    for (int j(1); j < JMaxP; j++) {
       s[j] = trapezoidRule(func, a, b, j);
       if (j >= K) {
         polynomialInterpolation(&h[j - K], &s[j - K], K, 0.0, ss, dss);
@@ -683,11 +564,11 @@ namespace mesmer
       }
       h[j + 1] = 0.25*h[j];
     }
-    cerr << "Too many steps in the ZhuNakamuraCrossingCoeff NumericalIntegration Routine" << endl;
+    cerr << "Too many steps in the ZhuNakamuraCrossing NumericalIntegration Routine" << endl;
     return 0.0;
   }
 
-  double ZhuNakamuraCrossingCoeff::trapezoidRule(OneDimensionalFunction* func, double a, double b, int n) {
+  double ZhuNakamuraCrossing::trapezoidRule(OneDimensionalFunction* func, double a, double b, int n) {
     static double s;
 
     if (n == 1) {
@@ -707,10 +588,10 @@ namespace mesmer
     }
   }
 
-  void ZhuNakamuraCrossingCoeff::polynomialInterpolation(double xa[], double ya[], int n, double x, double &y, double &dy) {
+  void ZhuNakamuraCrossing::polynomialInterpolation(double xa[], double ya[], int n, double x, double &y, double &dy) {
     int i, m, ns(1);
     double den, dif, dift, ho, hp, w;
-    double c[ROMBERGK + 1], d[ROMBERGK + 1];     //    vector <double> c(n,0.0), d(n,0.0);
+    vector<double> c(n + 1, 0.0), d(n + 1, 0.0);
     dif = abs(x - xa[1]);
 
     for (i = 1; i <= n; i++) {
@@ -730,7 +611,7 @@ namespace mesmer
         hp = xa[i + m] - x;
         w = c[i + 1] - d[i];
         if ((den = ho - hp) == 0.0) {
-          cerr << "Error in ZhuNakamuraCrossingCoeff::polynomialInterpolation routine" << endl;
+          cerr << "Error in ZhuNakamuraCrossing::polynomialInterpolation routine" << endl;
         }
         den = w / den;
         d[i] = hp*den;
@@ -744,7 +625,7 @@ namespace mesmer
   // translated by DRG (Jun 2015) from F77 to C++
   // takes as input the real (X) & imaginary parts (Y) of a complex number
   // and returns the real (GR) and imaginary (GI) parts
-  void ZhuNakamuraCrossingCoeff::complexGamma(double X, double Y, double &GR, double &GI) {
+  void ZhuNakamuraCrossing::complexGamma(double X, double Y, double &GR, double &GI) {
     vector <double> A(11, 0.0);
     double X1, Y1, X0, Z1, TH, GR1, GI1, T, TH1, SR, SI, Z2, TH2, G0;
     int NA;
@@ -763,7 +644,7 @@ namespace mesmer
     if (Y == 0.0 && X == int(X) && X <= 0.0) { // gamma is defined for all complex numbers
       GR = 1.0e+300;                       // except the non-positive integers
       GI = 0.0e0;
-      cerr << " ZhuNakamuraCrossingCoeff::complexGamma: undefined for non-positive integers! " << endl;
+      cerr << " ZhuNakamuraCrossing::complexGamma: undefined for non-positive integers! " << endl;
       return;
     }
     else if (X < 0.0) {
@@ -822,7 +703,7 @@ namespace mesmer
     GI = G0*sin(GI);
   }
 
-  void ZhuNakamuraCrossingCoeff::argumentOfComplexNumber(double X, double Y, double &argument) {
+  void ZhuNakamuraCrossing::argumentOfComplexNumber(double X, double Y, double &argument) {
     if (X > 0.0 || Y != 0.0) {
       argument = 2.0*atan(Y / (sqrt(X*X + Y*Y) + X));
     }
@@ -830,11 +711,11 @@ namespace mesmer
       argument = M_PI;
     }
     else if (X == 0.0 && Y == 0.0) {
-      cerr << "ZhuNakamuraCrossingCoeff::argumentOfComplexNumber: real & imaginary parts both equal to zero. Argument is undefined... exiting." << endl;
+      cerr << "ZhuNakamuraCrossing::argumentOfComplexNumber: real & imaginary parts both equal to zero. Argument is undefined... exiting." << endl;
       exit(1);
     }
   }
-  bool ZhuNakamuraCrossingCoeff::calculateMicroCnlFlux(Reaction* pReact)
+  bool ZhuNakamuraCrossing::calculateMicroCnlFlux(Reaction* pReact)
   {
     Molecule* pTS = pReact->get_TransitionState();
     if (!pTS)
