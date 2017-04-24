@@ -38,7 +38,6 @@ namespace mesmer
 
     virtual bool calculateCellCrossingCoeffs(Reaction* pReact, std::vector<double>& CrossingProbability);
 
-    //
     virtual bool ThereIsTunnellingWithCrossing(void) { return true; };
 
   private:
@@ -48,17 +47,17 @@ namespace mesmer
 
     double CalculateAReasonableLimit(AdiabaticCurve*, OneDimensionalFunction*, double);
 
-    // Function for calculating left & right turning points on the Upper & Lower Adiabatic Curves
+    // Function for calculating left & right turning points on the Upper & Lower Adiabatic Curves.
     double CalculateTurningPoint(AdiabaticCurve* Curve, double Rint, double TPEnergy, double sgn, double dsgn);
 
-    // these are functions for numerical integration of an appropriately defined OneDimensionalFunction
+    // These are functions for numerical integration of an appropriately defined OneDimensionalFunction.
     double NumericalIntegration(OneDimensionalFunction*, double a, double b);
     double trapezoidRule(OneDimensionalFunction* func, double a, double b, int n);
 
-    // this function is called by the numerical integration routines
+    // This function is called by the numerical integration routines.
     void polynomialInterpolation(double xa[], double ya[], int n, double x, double &y, double &dy);
 
-    // this function is a complex Gamma function
+    // This function is a complex Gamma function.
     void complexGamma(double X, double Y, double &GR, double &GI);
     void argumentOfComplexNumber(double X, double Y, double &argument);
 
@@ -334,7 +333,7 @@ namespace mesmer
     // initialize a ftn which is the lower adiabat shifted by dE; solving Chi-Square for this ftn will give turning pts
     upperAdiabatShiftedByE *upperTPCurve;
     upperTPCurve = new upperAdiabatShiftedByE(reactantCurve, productCurve, m_H12*kJPerMoltoHartree, 0);   // initialize the ftn with dE=0
-    double g7, argOfGamma, phi, p, bsqdval, realPart, complexPart;
+    double g7, argOfGamma, phi, p, bsqdval, realPart, imaginaryPart;
     leftBound = rightBound = Rb;
 
     cout << "Calculating Zhu Nakamura Probabilities for energies greater than Eb..." << endl;
@@ -342,11 +341,13 @@ namespace mesmer
     upperActionIntegrand = new upperAdiabatActionIntegrand(reactantCurve, productCurve, m_H12*kJPerMoltoHartree, m, 0.0);  // initialize the energy to zero for now
 
     // Calculate the Zhu Nakamura expression for E > Eb.
+    double fctr1 = (0.23*sqrt(a) / (sqrt(a) + 0.75));
+    double fctr2 = -0.72 + 0.62*pow(a, 1.43);
     for (int i = zone3StartIdx; i <= zone3EndIdx; ++i) {
 
       E = grainCenteredEnergies[i];         //      E = double(i) + 0.5;         
       EinAU = E / Hartree_in_RC;
-      realPart = 0.0; complexPart = 0.0; argOfGamma = 0.0;
+      realPart = 0.0; imaginaryPart = 0.0; argOfGamma = 0.0;
 
       upperTPCurve->setDE(-EinAU); // set dE to the energy where we want to find a turning point (this makes the TP into a minima on the chi-squared function)    
 
@@ -356,22 +357,19 @@ namespace mesmer
       Lt2 = CalculateTurningPoint(upperTPCurve, leftBound, EinAU, 1.0, -1.0);   // calculate right hand turning point (RHTP) by minimizing the chi-squared function
       leftBound = Lt2;            // the right hand turning point becomes the left hand bound in the RHTP seeach on the next iteration
 
-      sigma = 0.0;
       upperActionIntegrand->setEinAU(EinAU);                          // calculate the classical action integrand
       sigma = NumericalIntegration(upperActionIntegrand, Lt1, Lt2);   // evaluate the classical action integral
-      bsqdval = bsqd->evaluateEnergy(EinAU);
-      g7 = (0.23*sqrt(a) / (sqrt(a) + 0.75))*pow(40, -1.0*sigma);
-      dummy = sqrt(1.0 - 1.0 / pow(bsqdval, 2.0));
+      double bsqdval = bsqd->evaluateEnergy(EinAU);
+      double g7 = fctr1*pow(40, -sigma);
+      dummy = sqrt(1.0 - 1.0 / (bsqdval*bsqdval));
       delta = (M_PI / (16.0*a*sqrt(abs(bsqdval))))*sqrt(6.0 + 10.0*dummy) / (1.0 + dummy);
-      complexGamma(0.0, delta / M_PI, realPart, complexPart);           // complex Gamma function
-      argumentOfComplexNumber(realPart, complexPart, argOfGamma);     // get the argument of the result
+      complexGamma(0.0, delta / M_PI, realPart, imaginaryPart);           // complex Gamma function
+      argumentOfComplexNumber(realPart, imaginaryPart, argOfGamma);     // get the argument of the result
       phi = sigma + delta / M_PI - delta / M_PI*log(delta / M_PI) + M_PI / 4.0 - g7 + argOfGamma;
       dummy = 4.0*cos(phi)*cos(phi);
       p = exp((-M_PI / (4.0*a))*sqrt(2.0 / (bsqdval + sqrt(bsqdval*bsqdval - 0.72 + 0.62*pow(a, 1.43)))));
       P12 = dummy / (dummy + p*p / (1.0 - p));
-      //      cout << "Zone3 E: " << E << " Lt1 " << Lt1 << " Lt2 " << Lt2 << " P12 " << P12 << endl;
-      grainCenteredCrossingProbabilities[i] = P12;
-      if (IsNan(grainCenteredCrossingProbabilities[i])) grainCenteredCrossingProbabilities[i] = 0.0;
+      grainCenteredCrossingProbabilities[i] = (IsNan(P12)) ? 0.0 : P12;
     }
 
     cout << "Finished Calculating Zhu Nakamura Probabilities..." << endl;
@@ -621,10 +619,9 @@ namespace mesmer
     }
   }
 
-  // function for calculation of complex Gamma - taken from 'Computation of Special functions',
-  // translated by DRG (Jun 2015) from F77 to C++
-  // takes as input the real (X) & imaginary parts (Y) of a complex number
-  // and returns the real (GR) and imaginary (GI) parts
+  // Function for calculation of complex Gamma - taken from 'Computation of Special functions',
+  // translated by DRG (Jun 2015) from F77 to C++. Takes as input the real (X) & imaginary (Y)
+  // parts of a complex number and returns the real (GR) and imaginary (GI) parts.
   void ZhuNakamuraCrossing::complexGamma(double X, double Y, double &GR, double &GI) {
     vector <double> A(11, 0.0);
     double X1, Y1, X0, Z1, TH, GR1, GI1, T, TH1, SR, SI, Z2, TH2, G0;
@@ -704,17 +701,19 @@ namespace mesmer
   }
 
   void ZhuNakamuraCrossing::argumentOfComplexNumber(double X, double Y, double &argument) {
+
+    if (X == 0.0 && Y == 0.0) {
+      throw(std::runtime_error("__FUNCTION__: Real & imaginary parts both equal to zero. Argument is undefined... exiting.\n"));
+    }
+
     if (X > 0.0 || Y != 0.0) {
       argument = 2.0*atan(Y / (sqrt(X*X + Y*Y) + X));
     }
     else if (X < 0.0 && Y == 0.0) {
       argument = M_PI;
     }
-    else if (X == 0.0 && Y == 0.0) {
-      cerr << "ZhuNakamuraCrossing::argumentOfComplexNumber: real & imaginary parts both equal to zero. Argument is undefined... exiting." << endl;
-      exit(1);
-    }
   }
+
   bool ZhuNakamuraCrossing::calculateMicroCnlFlux(Reaction* pReact)
   {
     Molecule* pTS = pReact->get_TransitionState();
