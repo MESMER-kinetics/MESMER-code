@@ -761,24 +761,25 @@ Print time dependent species and product profiles
          794.328    1.67711e+144   -3.36812e+164   -3.36812e+164               1
             1000    1.42231e+190    -2.8564e+210    -2.8564e+210               1
          1258.93    9.40729e+247   -1.88925e+268   -1.88925e+268               1
-         1584.89             inf            -inf             nan             nan
-         1995.26             inf            -inf             nan             nan
-         2511.89             inf            -inf             nan             nan
-         3162.28             inf            -inf             nan             nan
-         3981.07             inf            -inf             nan             nan
-         5011.87             inf            -inf             nan             nan
-         6309.57             inf            -inf             nan             nan
-         7943.28             inf            -inf             nan             nan
-           10000             inf            -inf             nan             nan
-         12589.3             inf            -inf             nan             nan
-         15848.9             inf            -inf             nan             nan
-         19952.6             inf            -inf             nan             nan
-         25118.9             inf            -inf             nan             nan
-         31622.8             inf            -inf             nan             nan
-         39810.7             inf            -inf             nan             nan
-         50118.7             inf            -inf             nan             nan
-         63095.7             inf            -inf             nan             nan
-         79432.8             inf            -inf             nan             nan
+         1584.89             inf            -inf            -nan            -nan
+         1995.26             inf            -inf            -nan            -nan
+         2511.89             inf            -inf            -nan            -nan
+         3162.28             inf            -inf            -nan            -nan
+         3981.07             inf            -inf            -nan            -nan
+         5011.87             inf            -inf            -nan            -nan
+         6309.57             inf            -inf            -nan            -nan
+         7943.28             inf            -inf            -nan            -nan
+           10000             inf            -inf            -nan            -nan
+         12589.3             inf            -inf            -nan            -nan
+         15848.9             inf            -inf            -nan            -nan
+         19952.6             inf            -inf            -nan            -nan
+         25118.9             inf            -inf            -nan            -nan
+         31622.8             inf            -inf            -nan            -nan
+         39810.7             inf            -inf            -nan            -nan
+         50118.7             inf            -inf            -nan            -nan
+         63095.7             inf            -inf            -nan            -nan
+         79432.8             inf            -inf            -nan            -nan
+          100000             inf            -inf            -nan            -nan
 }
 
 Bartis Widom eigenvalue/eigenvector analysis
@@ -1300,6 +1301,7 @@ Print time dependent species and product profiles
          50118.7     3.55406e-08               1               1               0
          63095.7     3.55406e-08               1               1               0
          79432.8     3.55406e-08               1               1               0
+          100000     3.55406e-08               1               1               0
 }
 
 Bartis Widom eigenvalue/eigenvector analysis
@@ -1821,6 +1823,7 @@ Print time dependent species and product profiles
          50118.7     3.55406e-08               1               1     1.11022e-15
          63095.7     3.55406e-08               1               1     1.11022e-15
          79432.8     3.55406e-08               1               1     1.11022e-15
+          100000     3.55406e-08               1               1     1.11022e-15
 }
 
 Bartis Widom eigenvalue/eigenvector analysis

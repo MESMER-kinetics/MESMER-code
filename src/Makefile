@@ -218,7 +218,7 @@ SRCS := \
 	plugins/UnitTests.cpp \
 	plugins/WKBCrossing.cpp \
 	plugins/WKBTunnellingCoefficients.cpp \
-	plugins/ZhuNakamuraCrossingCoeff.cpp \
+	plugins/ZhuNakamuraCrossing.cpp \
 	plugins/DefinedTunnelingCoefficients.cpp    
 
 # Add on the sources for libraries

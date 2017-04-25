@@ -148,7 +148,7 @@
     <ClCompile Include="..\..\src\plugins\UnitTests.cpp" />
     <ClCompile Include="..\..\src\plugins\WKBCrossing.cpp" />
     <ClCompile Include="..\..\src\plugins\WKBTunnellingCoefficients.cpp" />
-    <ClCompile Include="..\..\src\plugins\ZhuNakamuraCrossingCoeff.cpp" />
+    <ClCompile Include="..\..\src\plugins\ZhuNakamuraCrossing.cpp" />
     <ClCompile Include="..\..\src\PseudoIsomerizationReaction.cpp" />
     <ClCompile Include="..\..\src\Rdouble.cpp" />
     <ClCompile Include="..\..\src\Reaction.cpp" />

@@ -121,9 +121,9 @@ Z_matrix^(-1):
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	-1.242429e-66	6.434447e-86	
--1.054969e-64	1.000000e+00	3.088535e-84	
-1.899114e-65	8.902095e-66	1.000000e+00	
+1.000000e+00	-1.048958e-66	9.008226e-85	
+-1.100709e-64	1.000000e+00	5.147558e-85	
+8.546011e-65	-9.139484e-65	1.000000e+00	
 }
 
 Kr matrix:
@@ -135,7 +135,7 @@ Kr matrix:
 
 Kp matrix:
 {
-   2.927906e-16,   6.569162e-27,   2.121420e-46,
+   2.927906e-16,   6.569163e-27,   2.121418e-46,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -158,8 +158,8 @@ HSO2 -> HOSO = 1.160972e-13
 First order & pseudo first order rate coefficients for irreversible rxns:
 {
 H -> OH+SO = 2.927906e-16
-HOSO -> OH+SO = 2.121420e-46
-HSO2 -> OH+SO = 6.569162e-27
+HOSO -> OH+SO = 2.121418e-46
+HSO2 -> OH+SO = 6.569163e-27
 }
 
 }

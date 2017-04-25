@@ -8,11 +8,11 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.1 compiled: -- Feb 19 2016 -- 09:53:08
+     Mesmer v5.0 compiled: -- Apr 25 2017 -- 19:08:47
 
-     Copyright (C) 2009-2016 by
-     Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
-     Chris Morley, Michael J. Pilling and contributors
+     Copyright (C) 2009-2017 by
+     Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
+     David R. Glowacki, Michael J. Pilling and contributors
 
      Mesmer is free software: you can redistribute it and/or modify
      it under the terms of the GNU Public License as published by
@@ -26,16 +26,21 @@
     You should have received a copy of the GNU Public License
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
+                     Platform:        Linux
+                     Number of ranks: 1
+
+Using 1 processes
 defaults.xml, librarymols.xml are in ../..
 
 Parsing input xml file...
 UnitTests.xml
 
 --Parse data for UnitTests
-Write metadata 20160219_095558
+Write metadata 20170425_191230
 
 File: "UnitTests.xml" successfully parsed.
 Main Calculation begins
+Now calculating...
 In Test_Molecule: The default value of me:DOSCMethod was used.
 In Test_Molecule: The default value of the attribute spinMultiplicity was used.
 gDensityOfStates initialization failed.
@@ -60,7 +65,7 @@ Hindered rotor b1
 In ClOOCl: Hindered rotor b1
 gDensityOfStates initialization failed.
 Hindered rotor b1
- -- Total time elapsed: 14 seconds.
+ -- Total time elapsed: 6 seconds.
 
 System saved to out.xml
-Total time elapsed: 14 seconds.
+Total time elapsed: 6 seconds.
