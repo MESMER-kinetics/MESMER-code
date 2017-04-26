@@ -1,27 +1,4 @@
 Initial population of acetyl = 1
-PT Grid 0 Condition: conc = 2.59235e+18, temp = 298, diagonalization precision: double
-{
-
-Eq fraction matrix:
-{
-  1.00000e+00
-}
-inverse of Eq fraction matrix:
-{
-  1.00000e+00
-}
-Equilibrium Fraction for acetyl = 1
-
-Total number of eigenvalues = 268
-Eigenvalues
-{
-  -1.871886e+08
-  -1.550682e+08
-  -1.272516e+08
-  -1.057275e+08
-  -9.023044e+07
-  -3.596000e+07
-}
 
 Initial distribution vector
 
@@ -10057,6 +10034,29 @@ Reactant	CoProduct	Translational
     1.36814e-12    8.19794e-11    8.37349e-18
     6.27327e-13    3.75985e-11    3.79053e-18
      1.7632e-13    1.05702e-11    1.03661e-18
+PT Grid 0 Condition: conc = 2.59235e+18, temp = 298, diagonalization precision: double
+{
+
+Eq fraction matrix:
+{
+  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+  1.00000e+00
+}
+Equilibrium Fraction for acetyl = 1
+
+Total number of eigenvalues = 268
+Eigenvalues
+{
+  -1.871886e+08
+  -1.550682e+08
+  -1.272516e+08
+  -1.057275e+08
+  -9.023044e+07
+  -3.596000e+07
+}
 mean collision frequency = 8.16407e+08/s
 
 Print time dependent species and product profiles
@@ -10292,6 +10292,7 @@ Print time dependent species and product profiles
          50118.7               0       0.0535203         0.94648               0               1
          63095.7               0       0.0535203         0.94648               0               1
          79432.8               0       0.0535203         0.94648               0               1
+          100000               0       0.0535203         0.94648               0               1
 }
 
 Bartis Widom eigenvalue/eigenvector analysis

@@ -8,11 +8,11 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.1 compiled: -- Feb 19 2016 -- 09:53:08
+     Mesmer v5.0 compiled: -- Apr 25 2017 -- 19:08:47
 
-     Copyright (C) 2009-2016 by
-     Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
-     Chris Morley, Michael J. Pilling and contributors
+     Copyright (C) 2009-2017 by
+     Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
+     David R. Glowacki, Michael J. Pilling and contributors
 
      Mesmer is free software: you can redistribute it and/or modify
      it under the terms of the GNU Public License as published by
@@ -26,6 +26,10 @@
     You should have received a copy of the GNU Public License
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
+                     Platform:        Linux
+                     Number of ranks: 1
+
+Using 1 processes
 defaults.xml, librarymols.xml are in ../..
 
 Parsing input xml file...
@@ -193,281 +197,48 @@ The default value of the attribute precision was used.
 The default value of me:errorPropagationSamples was used.
 3e+17PPCC, 1000K at d precision with He
 3e+16PPCC, 1000K at d precision with He
-Write metadata 20160219_123821
+Write metadata 20170425_210439
 
 File: "ipropyl_EP.xml" successfully parsed.
 Main Calculation begins
+Now calculating...
 
 --Execute calcMethod marquardt using first conditions block 
 Number of grains produced is not equal to that requested
 Number of grains requested: 205
 Number of grains produced : 1
 In FastLaplaceConvolution: 5920 values in the FFT convolution routine were replaced by standard convolution
-Finish Calculation of P-T case
 
 Chi^2 = 49.0607 Lambda = 1
 i-propyl:deltaEDown=190  propene:ZPE=13000  
-Finish Calculation of P-T case
 Number of grains requested: 206
-Finish Calculation of P-T case
-Finish Calculation of P-T case
-Finish Calculation of P-T case
-Finish Calculation of P-T case
 
 Chi^2 = 43.7218 Lambda = 0.1
 i-propyl:deltaEDown=189.637  propene:ZPE=13014  
 Iteration: 1 of Marquardt. ChiSquare = 43.7218, Lambda = 0.1
-Finish Calculation of P-T case
-Finish Calculation of P-T case
-Finish Calculation of P-T case
 
 Chi^2 = 34.4727 Lambda = 0.01
 i-propyl:deltaEDown=199.151  propene:ZPE=13065.3  
 Iteration: 2 of Marquardt. ChiSquare = 34.4727, Lambda = 0.01
 Number of grains requested: 208
-Finish Calculation of P-T case
-Finish Calculation of P-T case
-Finish Calculation of P-T case
 
 Chi^2 = 19.7354 Lambda = 0.001
 i-propyl:deltaEDown=237.715  propene:ZPE=13233.9  
 Iteration: 3 of Marquardt. ChiSquare = 19.7354, Lambda = 0.001
 Number of grains requested: 209
-Finish Calculation of P-T case
-Finish Calculation of P-T case
-Finish Calculation of P-T case
 
 Chi^2 = 11.6816 Lambda = 0.0001
 i-propyl:deltaEDown=266.819  propene:ZPE=13303.9  
 Iteration: 4 of Marquardt. ChiSquare = 11.6816, Lambda = 0.0001
-Finish Calculation of P-T case
-Finish Calculation of P-T case
-Finish Calculation of P-T case
 
 Chi^2 = 11.496 Lambda = 1e-05
 i-propyl:deltaEDown=269.975  propene:ZPE=13308.5  
 Iteration: 5 of Marquardt. ChiSquare = 11.496, Lambda = 1e-05
-Finish Calculation of P-T case
-Finish Calculation of P-T case
-Finish Calculation of P-T case
 
 Chi^2 = 11.4951 Lambda = 1e-06
 i-propyl:deltaEDown=270.058  propene:ZPE=13308.4  
 Iteration: 6 of Marquardt. ChiSquare = 11.4951, Lambda = 1e-06
-PT Grid 0
 Number of cells = 50000, Number of grains = 209
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 1
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 2
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 3
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 4
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 5
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 6
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 7
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 8
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 9
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 10
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 11
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 12
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 13
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 14
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 15
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 16
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 17
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 18
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 19
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 20
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 21
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 22
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 23
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 24
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 25
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 26
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 27
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 28
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 29
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 30
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 31
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 32
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 33
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 34
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 35
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 36
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 37
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 38
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 39
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 40
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 41
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 42
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 43
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 44
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 45
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 46
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 47
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 48
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 49
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 50
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 51
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 52
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 53
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 54
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 55
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 56
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 57
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 58
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 59
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 60
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 61
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 62
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 63
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 64
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 65
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 66
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 67
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 68
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 69
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 70
-Build Collison Operator
-Diagonalize the Reaction Operator
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
@@ -543,8 +314,6 @@ Diagonalize the Reaction Operator
             870       3.01e+16            436        418.996
             880          3e+16            535        498.736
 
-Finish Calculation of P-T case
-71 temperature/concentration-pressure points calculated.
 
 Chi^2 = 11.4951
 
@@ -567,7 +336,7 @@ Chi^2 probability = 1
 Number of grains requested: 278
 Number of grains requested: 279
 Number of grains requested: 277
- -- Total time elapsed: 239 seconds.
+ -- Total time elapsed: 183 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 239 seconds.
+Total time elapsed: 183 seconds.

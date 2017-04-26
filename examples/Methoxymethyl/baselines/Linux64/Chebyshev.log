@@ -8,11 +8,11 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.1 compiled: -- Feb 19 2016 -- 09:53:08
+     Mesmer v5.0 compiled: -- Apr 25 2017 -- 19:08:47
 
-     Copyright (C) 2009-2016 by
-     Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
-     Chris Morley, Michael J. Pilling and contributors
+     Copyright (C) 2009-2017 by
+     Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
+     David R. Glowacki, Michael J. Pilling and contributors
 
      Mesmer is free software: you can redistribute it and/or modify
      it under the terms of the GNU Public License as published by
@@ -26,6 +26,10 @@
     You should have received a copy of the GNU Public License
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
+                     Platform:        Linux
+                     Number of ranks: 1
+
+Using 1 processes
 defaults.xml, librarymols.xml are in ../..
 
 Parsing input xml file...
@@ -34,9 +38,16 @@ Chebyshev.xml
 --Parse data for analyticalRepresentation
 Energy convention "" written to <moleculeList>
 In R1: Parsing reaction...Association reaction
+In CH3OCH2: Vibrational frequencies (cm-1) were calculated from Hessian:
+  169.672 287.888 439.421 568.322 1021.55 1155.2 1192.08 1282.47 1343.7 1471.44 
+  1500.2 1508.72 1523.12 3088.04 3165.17 3197.22 3233.15 3356.85 
 In CH3OCH2: The default value of me:DOSCMethod was used.
 In CH3OCH2: Hindered rotor b5
 In CH3OCH2: Hindered rotor b4
+In IM1: Vibrational frequencies (cm-1) were calculated from Hessian:
+  91.8598 128.883 187.165 391.187 483.297 594.928 938.428 1012.93 1151.6 1194.73 
+  1218.54 1282.75 1305.74 1357.96 1435.01 1483.25 1499.22 1510.87 1516.91 3096.22 
+  3126.84 3182.05 3236.78 3239.2 
 In IM1: Hindered rotor b5
 In IM1: Hindered rotor b4
 In IM1: Hindered rotor b8
@@ -48,6 +59,10 @@ In R1: The default value of me:TInfinity was used.
 In R1: No tunneling method used for R1
 In R1: Not a unimolecular reaction: look for excess reactant concentration.
 In R2: Parsing reaction...Isomerization reaction
+In IM2: Vibrational frequencies (cm-1) were calculated from Hessian:
+  108.18 163.087 250.225 340.045 406.842 467.08 628.242 646.487 972.437 1023.15 
+  1130.32 1157.25 1251.69 1298.98 1363.23 1436 1468.44 1480.03 1513.69 3124.8 
+  3200.84 3231.89 3360.58 3889.55 
 In IM2: Hindered rotor b1
 In IM2: Hindered rotor b2
 In IM2: Hindered rotor b3
@@ -59,6 +74,10 @@ In R2: --Parse data for SimpleRRKM
 In R2: --Parse data for Eckart
 In R3: Parsing reaction...Irreversible unimolecular reaction
 In CH2O: Could not find CH2O in ../../librarymols.xml
+In TS5: Vibrational frequencies (cm-1) were calculated from Hessian:
+  78.8008 155.797 210.383 316.503 401.876 532.348 560.927 656.949 928.231 952.154 
+  977.833 1200.77 1243.63 1249.83 1361.65 1485.15 1520.63 1587.51 3088.36 3195.55 
+  3209.98 3361.1 3759.25 
 In TS5: The default value of me:DOSCMethod was used.
 In TS5: Hindered rotor b1
 In TS5: Hindered rotor b2
@@ -73,10 +92,11 @@ In cycCH2OCH2O: Could not find cycCH2OCH2O in ../../librarymols.xml
 In R5: --Parse data for SimpleRRKM
 In R5: No tunneling method used for R5
 No pressure and temperature specified.
-Write metadata 20160219_110114
+Write metadata 20170425_200216
 
 File: "Chebyshev.xml" successfully parsed.
 Main Calculation begins
+Now calculating...
 
 --Execute calcMethod analyticalRepresentation
 
@@ -238,7 +258,7 @@ chebyshev_reaction('IM2 => OH-3 + cycCH2OCH2O',
                            [    -0.0278479,   0.000513467,     0.0655479,    -0.0477113]])
 
 
- -- Total time elapsed: 1132 seconds.
+ -- Total time elapsed: 604 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 1132 seconds.
+Total time elapsed: 604 seconds.

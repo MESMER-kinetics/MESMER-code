@@ -8,11 +8,11 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.1 compiled: -- Feb 19 2016 -- 09:53:08
+     Mesmer v5.0 compiled: -- Apr 25 2017 -- 19:08:47
 
-     Copyright (C) 2009-2016 by
-     Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
-     Chris Morley, Michael J. Pilling and contributors
+     Copyright (C) 2009-2017 by
+     Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
+     David R. Glowacki, Michael J. Pilling and contributors
 
      Mesmer is free software: you can redistribute it and/or modify
      it under the terms of the GNU Public License as published by
@@ -26,6 +26,10 @@
     You should have received a copy of the GNU Public License
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
+                     Platform:        Linux
+                     Number of ranks: 1
+
+Using 1 processes
 defaults.xml, librarymols.xml are in ../..
 
 Parsing input xml file...
@@ -50,30 +54,21 @@ The default value of the attribute precision was used.
 200.72Torr, 800K at d precision with He
 The default value of the attribute precision was used.
 250Torr, 1000K at d precision with He
-Write metadata 20160219_105711
+Write metadata 20170425_195900
 
 File: "LZ_test.xml" successfully parsed.
 Main Calculation begins
+Now calculating...
 
 --Execute calcMethod simpleCalc
-PT Grid 0
 Number of cells = 50000, Number of grains = 120
 In FastLaplaceConvolution: 500 values in the FFT convolution routine were replaced by standard convolution
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 1
 Number of cells = 50000, Number of grains = 134
-Build Collison Operator
-Diagonalize the Reaction Operator
+ -- Total time elapsed: 0 seconds.
+
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
-            800    2.42281e+18
-           1000    2.41412e+18
-
-Finish Calculation of P-T case
-2 temperature/concentration-pressure points calculated.
- -- Total time elapsed: 0 seconds.
 
 System saved to mesmer_out.xml
 Total time elapsed: 0 seconds.

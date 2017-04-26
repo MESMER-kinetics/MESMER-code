@@ -8,11 +8,11 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.1 compiled: -- Feb 19 2016 -- 09:53:08
+     Mesmer v5.0 compiled: -- Apr 25 2017 -- 19:08:47
 
-     Copyright (C) 2009-2016 by
-     Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
-     Chris Morley, Michael J. Pilling and contributors
+     Copyright (C) 2009-2017 by
+     Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
+     David R. Glowacki, Michael J. Pilling and contributors
 
      Mesmer is free software: you can redistribute it and/or modify
      it under the terms of the GNU Public License as published by
@@ -26,6 +26,10 @@
     You should have received a copy of the GNU Public License
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
+                     Platform:        Linux
+                     Number of ranks: 1
+
+Using 1 processes
 defaults.xml, librarymols.xml are in ../..
 
 Parsing input xml file...
@@ -84,10 +88,11 @@ In R1: No value of me:excessReactantConc was supplied and the default value NEED
 515Torr, 601K at dd precision with He
 614.5Torr, 601K at dd precision with He
 711Torr, 601K at dd precision with He
-Write metadata 20160219_100528
+Write metadata 20170425_192330
 
 File: "Methyl_H_to_Methane.xml" successfully parsed.
 Main Calculation begins
+Now calculating...
 
 --Execute calcMethod fitting
 Number of grains produced is not equal to that requested
@@ -95,7 +100,6 @@ Number of grains requested: 204
 Number of grains produced : 1
 In FastLaplaceConvolution: 120 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
-Finish Calculation of P-T case
 
 Chi^2 = 5.98942e-20
 R1:preExponential=3e-10  R1:nInfinity=0.8  
@@ -104,19 +108,14 @@ Direction sweep:0 of fitting. chiSquare = 5.98942e-20
 
 Begin line search
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
     6.67841e-20    5.98942e-20    4.95297e-20
 In FastLaplaceConvolution: 100 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
-Finish Calculation of P-T case
     5.98942e-20    4.95297e-20    3.50097e-20
 Association ILT calculation completed
-Finish Calculation of P-T case
     4.95297e-20    3.50097e-20    1.84185e-20
 Association ILT calculation completed
-Finish Calculation of P-T case
     3.50097e-20    1.84185e-20    1.58668e-20
 
 Bound check failed in bracket search.
@@ -127,15 +126,11 @@ Direction sweep:1 of fitting. chiSquare = 1.84185e-20
 
 Begin line search
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
     1.84185e-20    1.59348e-20    1.60456e-20
 Association ILT calculation completed
-Finish Calculation of P-T case
     1.84185e-20    1.59348e-20    1.59768e-20    1.60456e-20
 Association ILT calculation completed
-Finish Calculation of P-T case
     1.84185e-20    1.59083e-20    1.59348e-20    1.59768e-20
 
 Chi^2 = 1.59083e-20
@@ -150,22 +145,16 @@ Direction sweep:0 of fitting. chiSquare = 1.59083e-20
 
 Begin line search
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
     1.59768e-20    1.59083e-20    1.58003e-20
 Association ILT calculation completed
-Finish Calculation of P-T case
     1.59083e-20    1.58003e-20    1.56333e-20
 Association ILT calculation completed
-Finish Calculation of P-T case
     1.58003e-20    1.56333e-20    1.53789e-20
 In FastLaplaceConvolution: 80 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
-Finish Calculation of P-T case
     1.56333e-20    1.53789e-20    1.50122e-20
 Association ILT calculation completed
-Finish Calculation of P-T case
     1.53789e-20    1.50122e-20    1.45374e-20
 
 Bound check failed in bracket search.
@@ -190,18 +179,13 @@ Direction sweep:0 of fitting. chiSquare = 1.50122e-20
 
 Begin line search
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
     1.50122e-20    1.30955e-20    1.28539e-20
 Association ILT calculation completed
-Finish Calculation of P-T case
     1.30955e-20    1.28539e-20    1.72812e-20
 Association ILT calculation completed
-Finish Calculation of P-T case
     1.30955e-20    1.28539e-20    1.38851e-20    1.72812e-20
 Association ILT calculation completed
-Finish Calculation of P-T case
     1.30955e-20    1.26564e-20    1.28539e-20    1.38851e-20
 
 Chi^2 = 1.26564e-20
@@ -210,24 +194,17 @@ Direction sweep:1 of fitting. chiSquare = 1.26564e-20
 
 Begin line search
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
     1.26564e-20    1.26459e-20    1.26315e-20
 Association ILT calculation completed
-Finish Calculation of P-T case
     1.26459e-20    1.26315e-20    1.26158e-20
 Association ILT calculation completed
-Finish Calculation of P-T case
     1.26315e-20    1.26158e-20    1.26094e-20
 Association ILT calculation completed
-Finish Calculation of P-T case
     1.26158e-20    1.26094e-20    1.26495e-20
 Association ILT calculation completed
-Finish Calculation of P-T case
     1.26158e-20    1.26094e-20    1.26174e-20    1.26495e-20
 Association ILT calculation completed
-Finish Calculation of P-T case
     1.26158e-20     1.2609e-20    1.26094e-20    1.26174e-20
 
 Chi^2 = 1.2609e-20
@@ -242,15 +219,11 @@ Direction sweep:0 of fitting. chiSquare = 1.2609e-20
 
 Begin line search
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
      1.2609e-20    1.26088e-20    1.26114e-20
 Association ILT calculation completed
-Finish Calculation of P-T case
      1.2609e-20    1.26088e-20    1.26094e-20    1.26114e-20
 Association ILT calculation completed
-Finish Calculation of P-T case
      1.2609e-20    1.26087e-20    1.26088e-20    1.26094e-20
 
 Chi^2 = 1.26087e-20
@@ -273,15 +246,11 @@ Direction sweep:0 of fitting. chiSquare = 1.26087e-20
 
 Begin line search
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
     1.28522e-20    1.26087e-20    1.41468e-20
 Association ILT calculation completed
-Finish Calculation of P-T case
     1.28522e-20    1.26087e-20    1.29026e-20    1.41468e-20
 Association ILT calculation completed
-Finish Calculation of P-T case
     1.28522e-20    1.25994e-20    1.26087e-20    1.29026e-20
 
 Chi^2 = 1.25994e-20
@@ -290,24 +259,17 @@ Direction sweep:1 of fitting. chiSquare = 1.25994e-20
 
 Begin line search
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
     1.25994e-20    1.25896e-20    1.25764e-20
 Association ILT calculation completed
-Finish Calculation of P-T case
     1.25896e-20    1.25764e-20    1.25627e-20
 Association ILT calculation completed
-Finish Calculation of P-T case
     1.25764e-20    1.25627e-20    1.25602e-20
 Association ILT calculation completed
-Finish Calculation of P-T case
     1.25627e-20    1.25602e-20     1.2608e-20
 Association ILT calculation completed
-Finish Calculation of P-T case
     1.25627e-20    1.25602e-20    1.25709e-20     1.2608e-20
 Association ILT calculation completed
-Finish Calculation of P-T case
     1.25627e-20    1.25583e-20    1.25602e-20    1.25709e-20
 
 Chi^2 = 1.25583e-20
@@ -318,124 +280,12 @@ Begin line search
 Chi^2 = 1.25583e-20
 R1:preExponential=1.70557e-10  R1:nInfinity=0.705279  
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
 Association ILT calculation completed
-Finish Calculation of P-T case
-PT Grid 0
 Number of cells = 50000, Number of grains = 204
 Association ILT calculation completed
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 1
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 2
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 3
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 4
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 5
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 6
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 7
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 8
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 9
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 10
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 11
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 12
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 13
-Build Collison Operator -- Time elapsed: 1 seconds.
-Diagonalize the Reaction Operator
-PT Grid 14
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 15
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 16
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 17
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 18
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 19
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 20
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 21
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 22
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 23
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 24
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 25
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 26
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 27
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 28
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 29
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 30
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 31
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 32
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 33
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 34
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 35
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 36
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+ -- Total time elapsed: 1045 seconds.
+
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
@@ -477,26 +327,22 @@ Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
             601     9.8734e+18       5.75e-11     7.8741e-11
             601    1.14239e+19       6.18e-11    8.40673e-11
 
-Finish Calculation of P-T case
-37 temperature/concentration-pressure points calculated.
 
 Chi^2 = 1.25583e-20
 
 Best fit parameters:
 
-R1:preExponential = 1.70557e-10 +/- 0.822671
-R1:nInfinity = 0.705279 +/- 2.01503e+10
+R1:preExponential = 1.70557e-10 +/- 1.55832e-11
+R1:nInfinity = 0.705279 +/- 0.381692
 
 Correlation coefficients:
 
 R1:nInfinity , R1:preExponential = 0.812283
 
-Goodness of Fit:
+No independent experimenal error estimates available, therefore Chi^2 test not applicable.
 
 Number of degrees of Freedom = 35
-Chi^2 probability = 1
-
- -- Total time elapsed: 1515 seconds.
+Error Factor = 1.89422e-11
 
 System saved to out.xml
-Total time elapsed: 1515 seconds.
+Total time elapsed: 1045 seconds.
