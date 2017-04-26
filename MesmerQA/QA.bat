@@ -159,6 +159,11 @@ cd "ThermodynamicTable"
 %cmdline% ThermodynamicTable.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
+
+set testName="ThermodynamicTable_Fourier"
+%cmdline% -N %testName%.xml %directive%
+copy "./%testName%.test" "./%bline%%testName%.test"
+IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
 cd ..
 echo --------------------------------------------------------------------
 

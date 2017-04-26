@@ -33,6 +33,9 @@
 // of V(x) correspond to the bound state energies. The corresponding eigenvectors are the
 // representation of the bound state wavefunctions on a regular one dimensional grid.
 //
+// Note this method is the conjugate to that used for the hindered rotors, where the basis
+// is taken to be eigenfunctions of the kinetic energy operator.
+//
 //-------------------------------------------------------------------------------------------
 
 #include "../DensityOfStates.h"
@@ -244,10 +247,10 @@ namespace mesmer
 		const double chlen = m_ppotential->get_characteristicLength();
 		const double tfctr = PlancksConstant_in_JouleSecond * AvogadroC *1.e+23 / (4.0*SpeedOfLight_in_cm*m_reducedMass*chlen*chlen);
 		const double dgnEl = tfctr*(double(m_nGridPoints*m_nGridPoints + 2) / 6.0);
-		for (size_t i(0) ; i < m_nGridPoints ; i++) {
+		for (int i(0) ; i < int(m_nGridPoints) ; i++) {
 			hamiltonian[i][i] = dgnEl;
-      for (size_t j(i+1) ; j < m_nGridPoints ; j++) {
-				int dij     = int(i) - int(j);
+      for (int j(i+1) ; j < int(m_nGridPoints) ; j++) {
+				int dij     = i - j;
 				double tmp  = sin(double(dij)*cfctr) ;
 				double dsgn = (dij) % 2 ? -1.0 : 1.0;
 				hamiltonian[i][j]  = tfctr*dsgn /(tmp * tmp) ;

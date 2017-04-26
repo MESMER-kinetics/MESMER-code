@@ -258,7 +258,7 @@ namespace mesmer
     actionIntegrand = new lowerAdiabatActionIntegrand(reactantCurve, productCurve, m_H12*kJPerMoltoHartree, m, 0.0);  // initialize the energy to zero for now
 
     for (int i = zone1EndIdx; i >= zone1StartIdx; --i) {  //calculate the Zhu Nakamura expression for E < Et
-/*
+
       E = grainCenteredEnergies[i];              // E = double(i) + 0.5;
       EinAU = E/Hartree_in_RC;
 
@@ -272,23 +272,18 @@ namespace mesmer
 
       actionIntegrand->setEinAU(EinAU);                                  // calculate the classical action integrand
       deltaIntegral = NumericalIntegration(actionIntegrand, Lt1, Lt2);   // evaluate the classical action integral
-      g6 = 0.32*pow(10, -2.0/asqd)*exp(-1.0*deltaIntegral);
+      double g6 = 0.32*pow(10, -2.0/asqd)*exp(-1.0*deltaIntegral);
       dummy = sqrt(1.0 - 1.0/pow(bsqd->evaluateEnergy(EinAU),2.0));
       sigma = (M_PI/(16.0*a*sqrt(abs(bsqd->evaluateEnergy(EinAU)))))*sqrt(6.0 + 10.0*dummy)/(1.0 + dummy);
-      sigc = sigma*(1.0-g6);
-      argToB = sigc/M_PI;
+      double sigc = sigma*(1.0-g6);
+      double argToB = sigc/M_PI;
       dummy = MesmerGamma(argToB);
-      fB=(2.0*M_PI*pow(argToB,2.0*argToB)*exp(-2.0*argToB))/(argToB*dummy*dummy);
+      double fB=(2.0*M_PI*pow(argToB,2.0*argToB)*exp(-2.0*argToB))/(argToB*dummy*dummy);
       dummy = fB*exp(-2.0*deltaIntegral);
-      dummy2 = 1.0 + 0.5*a*dummy/(1.0+a);
+      double dummy2 = 1.0 + 0.5*a*dummy/(1.0+a);
       P12 = dummy/(dummy2*dummy2 + dummy);
-//      cout << E << " Lt1 " << Lt1 << " Lt2 " << Lt2 << " " << EinAU/lowerCurve->evaluateEnergy(Lt1)
-//                                                    << " " << EinAU/lowerCurve->evaluateEnergy(Lt2) << " " << P12 << endl;
-      grainCenteredCrossingProbabilities[i] = P12;
-      if(IsNan(grainCenteredCrossingProbabilities[i])) grainCenteredCrossingProbabilities[i] = 0.0;
-*/
-      grainCenteredCrossingProbabilities[i] = 0.0;
-    }
+			grainCenteredCrossingProbabilities[i] = (IsNan(P12)) ? 0.0 : P12;
+		}
 
     // now we calculate the zone 2 probabilities, beginning at Et and working our way up to Eb
     // comment out Zone 2 ------------------------------------------------------------------------
@@ -323,10 +318,8 @@ namespace mesmer
         ++ctr;
       } while (abs((P12 - previousP12) / previousP12) > 0.01);  // converge the Probablities to within 1%
 
-//      cout << "E " << E << " P12 " << P12 << " ctr " << ctr << endl;
-      grainCenteredCrossingProbabilities[i] = P12;
-      if (IsNan(grainCenteredCrossingProbabilities[i])) grainCenteredCrossingProbabilities[i] = 0.0;
-    }
+			grainCenteredCrossingProbabilities[i] = (IsNan(P12)) ? 0.0 : P12;
+		}
     // ------------------------------------------------------------------end comment out of zone 2
 
     // Now we evaluate the Zone 3 Probabilities, starting from Eb, and working our way up in Energy
@@ -709,9 +702,12 @@ namespace mesmer
     if (X > 0.0 || Y != 0.0) {
       argument = 2.0*atan(Y / (sqrt(X*X + Y*Y) + X));
     }
-    else if (X < 0.0 && Y == 0.0) {
-      argument = M_PI;
+    else if (X < 0.0 && Y > 0.0) {
+      argument = M_PI - 2.0*atan(Y / (sqrt(X*X + Y*Y) + fabs(X)));
     }
+		else if (X < 0.0 && Y < 0.0) {
+			argument = -M_PI - 2.0*atan(Y / (sqrt(X*X + Y*Y) + fabs(X)));
+		}
   }
 
   bool ZhuNakamuraCrossing::calculateMicroCnlFlux(Reaction* pReact)

@@ -71,8 +71,8 @@ namespace mesmer
     while(pp = pp->XmlMoveTo("me:MorseParameters")) {
       double vibFreq  = pp->XmlReadDouble("vibrationalFrequency", optional);
       double anharmty = pp->XmlReadDouble("anharmonicity",         true);
-      for(unsigned i=0; i<=m_vibFreq.size(); ++i) {
-        if(abs(m_vibFreq[i]/scale - vibFreq) < 0.1) { //correct back to raw frequency
+      for(unsigned i=0; i < m_vibFreq.size(); ++i) {
+        if(abs(m_vibFreq[i]/scale - vibFreq) < 0.1) { // Correct back to raw frequency.
           m_anharmty[i] = anharmty;
           break;
         }

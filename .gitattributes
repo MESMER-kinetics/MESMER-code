@@ -288,8 +288,12 @@ MesmerQA/QA.bat -text
 MesmerQA/QA.sh -text
 MesmerQA/ThermodynamicTable/ThermodynamicTable.xml -text
 MesmerQA/ThermodynamicTable/ThermodynamicTable_Fourier.xml -text
+MesmerQA/ThermodynamicTable/baselines/Linux64/ThermodynamicTable_Fourier.log -text
+MesmerQA/ThermodynamicTable/baselines/Linux64/ThermodynamicTable_Fourier.test -text
 MesmerQA/ThermodynamicTable/baselines/Linux64/mesmer.log -text
 MesmerQA/ThermodynamicTable/baselines/Linux64/mesmer.test -text
+MesmerQA/ThermodynamicTable/baselines/Win32/ThermodynamicTable_Fourier.log -text
+MesmerQA/ThermodynamicTable/baselines/Win32/ThermodynamicTable_Fourier.test -text
 MesmerQA/ThermodynamicTable/baselines/Win32/mesmer.log -text
 MesmerQA/ThermodynamicTable/baselines/Win32/mesmer.test -text
 MesmerQA/UnitTests/UnitTests.xml -text
@@ -330,14 +334,6 @@ MesmerQA/pentyl/pentyl_isomerization_basisset_test.xml -text
 MesmerQA/pentyl/pentyl_isomerization_test.xml -text
 MesmerQA/pentyl/pentyl_isomerize_dissocn.xml -text
 /README -text
-Windows[!!-~]VC10/MESMER.sln -text
-Windows[!!-~]VC10/Mesmer/Mesmer.vcxproj -text
-Windows[!!-~]VC10/TinyXML/TinyXML.vcxproj -text
-Windows[!!-~]VC10/distribution/NSISScriptToCreateInstaller.nsi -text
-Windows[!!-~]VC10/distribution/ReadMe.txt -text
-Windows[!!-~]VC10/qd/config.h -text
-Windows[!!-~]VC10/qd/qd.vcxproj -text
-Windows[!!-~]VC10/qd/qd_config.h -text
 Windows[!!-~]VC12/MESMER.sln -text
 Windows[!!-~]VC12/Mesmer/Mesmer.vcxproj -text
 Windows[!!-~]VC12/TinyXML/TinyXML.vcxproj -text

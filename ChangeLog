@@ -1,3 +1,11 @@
+2017-April-26 Struan Robertson
+
+		* ZhuNakamuraCrossing.cpp: Further refactoring of Zhu-Nakamura method.
+
+		* Windows VC10: VC10 project files removed.
+
+		* Minor baseline updates.
+
 2017-April-17 Struan Robertson
 
 		* ZhuNakamuraCrossing.cpp: Name change and further refactoring of Zhu-Nakamura method.

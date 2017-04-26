@@ -87,6 +87,7 @@ if [ "$1" == "-o" ]; then
   cp ./$lfn ./$bline$lfn 
 fi
 cd ..
+echo "--------------------------------------------------------------------"
 
 cd benzene_oxidation
 $cmdline benzene_oxidation_test.xml -o $outf $directive
@@ -95,6 +96,7 @@ if [ "$1" == "-o" ] ; then
   cp ./$lfn ./$bline$lfn 
 fi
 cd ..
+echo "--------------------------------------------------------------------"
 
 cd HSO2
 $cmdline HSO2_test.xml -o $outf $directive
@@ -110,6 +112,7 @@ if [ "$1" == "-o" ] ; then
   cp ./$testName.log ./$bline$testName.log 
 fi
 cd ..
+echo "--------------------------------------------------------------------"
 
 cd "cyclopropene isomerization"
 $cmdline Cyclopropene_isomerization_test.xml -o $outf $directive
@@ -118,6 +121,7 @@ if [ "$1" == "-o" ] ; then
   cp ./$lfn ./$bline$lfn 
 fi
 cd ..
+echo "--------------------------------------------------------------------"
 
 cd "cyclopropene isomerization reservoir state"
 $cmdline Cyclopropene_isomerization_reservoir_state_test.xml -o $outf $directive
@@ -126,6 +130,7 @@ if [ "$1" == "-o" ] ; then
   cp ./$lfn ./$bline$lfn 
 fi
 cd ..
+echo "--------------------------------------------------------------------"
 
 cd "OH acetylene association"
 $cmdline OH_acetylene_association_test.xml -o $outf $directive
@@ -141,6 +146,7 @@ if [ "$1" == "-o" ] ; then
   cp ./$testName.log ./$bline$testName.log 
 fi
 cd ..
+echo "--------------------------------------------------------------------"
 
 cd "Acetyl O2 association"
 $cmdline Acetyl_O2_association.xml -o $outf $directive
@@ -149,6 +155,7 @@ if [ "$1" == "-o" ] ; then
   cp ./$lfn ./$bline$lfn 
 fi
 cd ..
+echo "--------------------------------------------------------------------"
 
 cd "i-propyl"
 $cmdline ipropyl_test.xml -o $outf $directive
@@ -164,6 +171,7 @@ if [ "$1" == "-o" ] ; then
   cp ./$testName.log ./$bline$testName.log 
 fi
 cd ..
+echo "--------------------------------------------------------------------"
 
 cd "ThermodynamicTable"
 $cmdline ThermodynamicTable.xml -o $outf $directive
@@ -171,7 +179,15 @@ cp ./$tfn ./$bline$otfn
 if [ "$1" == "-o" ] ; then
   cp ./$lfn ./$bline$lfn 
 fi
+
+testName=ThermodynamicTable_Fourier
+$cmdline -N $testName.xml
+cp ./$testName.test ./$bline$testName.test
+if [ "$1" == "-o" ] ; then
+  cp ./$testName.log ./$bline$testName.log 
+fi
 cd ..
+echo "--------------------------------------------------------------------"
 
 cd "UnitTests"
 $cmdline UnitTests.xml -o $outf $directive
@@ -180,6 +196,7 @@ if [ "$1" == "-o" ] ; then
   cp ./$lfn ./$bline$lfn 
 fi
 cd ..
+echo "--------------------------------------------------------------------"
 
 echo Start Time=$starttime - End Time=`date`
 
