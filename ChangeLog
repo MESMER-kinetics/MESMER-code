@@ -1,3 +1,7 @@
+2017-April-27 Struan Robertson
+
+		* FourierGrid1D.cpp: Numerical potential implementation added to FourierGrid1D method.
+
 2017-April-26 Struan Robertson
 
 		* ZhuNakamuraCrossing.cpp: Further refactoring of Zhu-Nakamura method.

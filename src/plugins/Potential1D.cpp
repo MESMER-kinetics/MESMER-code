@@ -85,12 +85,20 @@ namespace mesmer
     const char* p = pp->XmlReadValue("units", optional);
     m_units = p ? p : "kJ/mol";
 
-    vector<double> potential;
+		double val = pp->XmlReadDouble("minx", optional);
+		if (!IsNan(val))
+			m_minx = val;
+
+		val = pp->XmlReadDouble("maxx", optional);
+		if (!IsNan(val))
+			m_maxx = val;
+
+		vector<double> potential;
     vector<double> angle;
 
     while (pp = pp->XmlMoveTo("me:PotentialPoint"))
     {
-      double anglePoint = pp->XmlReadDouble("angle", optional);
+      double anglePoint = pp->XmlReadDouble("coordinate", optional);
       if (IsNan(anglePoint))
         anglePoint = 0.0;
       angle.push_back(anglePoint);
@@ -107,7 +115,17 @@ namespace mesmer
 
   void NumericalPotential::calculatePotential(vector<double> &abscissa, vector<double> &potential) const {
 
-    // Finally convert to wavenumbers.
+		abscissa.resize(m_npoints, 0.0);
+		potential.resize(m_npoints, 0.0);
+
+		// Calculate abscissa and potential points
+		double deltax = (m_maxx - m_minx) / double(m_npoints - 1);
+		for (size_t i(0); i < abscissa.size(); i++) {
+			abscissa[i] = m_minx + double(i)*deltax;
+			potential[i] = m_spline.Calculate(abscissa[i]) ;
+		}
+
+		// Finally convert to wavenumbers.
     for (size_t i(0); i < potential.size(); i++) {
       potential[i] = getConvertedEnergy(m_units, potential[i]);
     }
