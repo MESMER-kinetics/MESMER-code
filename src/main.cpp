@@ -67,6 +67,7 @@ int main(int argc, char **argv)
   if (argc < 2)
   {
     usage();
+    parallelManager.finalize();
     return 0;
   }
 
@@ -85,6 +86,7 @@ int main(int argc, char **argv)
       {
       case '?':
         usage();
+        parallelManager.finalize();
         return 0;
       case 'g':
         nologging = true;
@@ -121,12 +123,15 @@ int main(int argc, char **argv)
         break;
       case 'T': //Table of plugins with descriptions
         cout << TopPlugin::List(TopPlugin::verbose) << endl;
+        parallelManager.finalize();
         return 0;
       case 't': //Table of plugins
         cout << TopPlugin::List() << endl;
+        parallelManager.finalize();
         return 0;
       case 'V':
         cout << version();
+        parallelManager.finalize();
         return 0;
       case 'w': //error level for reporting
         if (!*++p) //if no digit after -w use next arg
@@ -138,6 +143,7 @@ int main(int argc, char **argv)
         if (--argc < 2)
         {
           usage();
+          parallelManager.finalize();
           return 0;
         }
       }
@@ -188,9 +194,9 @@ int main(int argc, char **argv)
 
   // Allow writing of messages to cerr, cwarn and cinfo. Send ctest to file mesmer.test
   // Original streams restored when this goes out of context.
-	// SHR, 17/Jan/2017: The nologging feature is used here to stop slaves from writing
-	// to output during parallel execution.
-  OStreamRedirector osr(&meErrorLog, &osout, (nologging || parallelManager.rank()) );
+  // SHR, 17/Jan/2017: The nologging feature is used here to stop slaves from writing
+  // to output during parallel execution.
+  OStreamRedirector osr(&meErrorLog, &osout, (nologging || parallelManager.rank()));
 
   banner(parallelManager.size());
   cerr << "Using " << parallelManager.size() << " processes" << endl;
@@ -207,7 +213,7 @@ int main(int argc, char **argv)
   if (pos != string::npos)
     MesmerDir.erase(pos); //Use the first directory in the env var
 
-	cinfo << "defaults.xml, librarymols.xml are in " << MesmerDir << endl;
+  cinfo << "defaults.xml, librarymols.xml are in " << MesmerDir << endl;
   //-------------------------------
   //
   // Instantiate the System collection. This holds all information
@@ -224,15 +230,19 @@ int main(int argc, char **argv)
   //This is where the type of IO is decided.
   //Opens the data file and checks that its root element is me:mesmer.
   PersistPtr ppIOPtr = XMLPersist::XmlLoad(infilename, MesmerDir + "/defaults.xml", "me:mesmer");
-  if (!ppIOPtr)
+  if (!ppIOPtr) {
+    parallelManager.finalize();
     return -1;
+  }
 
   //Incorporate the additional input files into the main datafile
   vector<string>::reverse_iterator fileitr;
   for (fileitr = extraInfilenames.rbegin(); fileitr != extraInfilenames.rend(); ++fileitr)
   {
-    if (!ppIOPtr->XmlInclude(*fileitr))
+    if (!ppIOPtr->XmlInclude(*fileitr)) {
+      parallelManager.finalize();
       return -1;
+    }
   }
 
   //------------
@@ -246,7 +256,7 @@ int main(int argc, char **argv)
       thisEvent = "\nParsing xml from stdin...";
     else
       thisEvent = "\nParsing input xml file...\n" + infilename + '\n';
-		cinfo << thisEvent << endl; //usually output
+    cinfo << thisEvent << endl; //usually output
     events.setTimeStamp(thisEvent);
   }
   int returnCode = 0;
@@ -257,8 +267,10 @@ int main(int argc, char **argv)
         plog->flush();
       cerr << "\nSystem parse failed." << endl;
       returnCode = -2;
-      if (!nocalc)
+      if (!nocalc) {
+        parallelManager.finalize();
         return returnCode;
+      }
     }
     _sys.WriteMetadata(infilename);
     if (plog)
@@ -270,7 +282,7 @@ int main(int argc, char **argv)
       // Begin calculation
       {
         string thisEvent = "Main Calculation begins\n";
-				cinfo << "\nFile: \"" << infilename << "\" successfully parsed.\n" << thisEvent ;
+        cinfo << "\nFile: \"" << infilename << "\" successfully parsed.\n" << thisEvent;
         events.setTimeStamp(thisEvent);
       }
 
@@ -285,6 +297,7 @@ int main(int argc, char **argv)
     clog.flush();
     cerr << e.what() << endl;
     cerr.flush();
+    parallelManager.finalize();
     exit(-1);
   }
   catch (std::logic_error&) {} // Outputs XML before terminating (for debugging)
@@ -336,7 +349,7 @@ int main(int argc, char **argv)
     if (!QACompare(infilename, changetestname))
     {
       cerr << "QA test *** FAILED ***" << endl;
-      return -5;
+      returnCode = -5;
     }
     else
       cerr << "QA test successful" << endl;
@@ -348,7 +361,7 @@ int main(int argc, char **argv)
   //
   fpu_fix_end(&old_cw);
 
-	parallelManager.finalize();
+  parallelManager.finalize();
 
   return returnCode;
 }
@@ -439,11 +452,11 @@ string version()
 
 string platform()
 {
-	string OS;
+  string OS;
 #ifdef WIN32
-	OS = "Windows";
+  OS = "Windows";
 #else
-	OS = "Linux";
+  OS = "Linux";
 #endif
   return OS;
 }
@@ -477,9 +490,9 @@ void banner(size_t nRanks)
   cinfo << "    You should have received a copy of the GNU Public License" << endl;
   cinfo << "    along with Mesmer.  If not, see <http://www.gnu.org/licenses/>." << endl;
   cinfo << endl;
-	cinfo << "                     Platform:        " << platform() << endl;
-	cinfo << "                     Execution Date:  " << date();
-	cinfo << "                     Number of ranks: " << nRanks << endl;
+  cinfo << "                     Platform:        " << platform() << endl;
+  cinfo << "                     Execution Date:  " << date();
+  cinfo << "                     Number of ranks: " << nRanks << endl;
   cinfo << endl;
 }
 
@@ -530,7 +543,7 @@ QA test output    ctest <<...                          mesmer.test
 
 Temporary debug   cout <<...                           File when redirected from
 Use for bulky debug output                             commandline with >
-                                                       (Otherwise console)
+																											 (Otherwise console)
 
 Temporary debug   clog <<...                           Console
 Use for short debug output

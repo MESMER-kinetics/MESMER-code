@@ -8,11 +8,11 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.0 compiled: -- Nov 22 2016 -- 23:29:20
+     Mesmer v5.0 compiled: -- Apr 28 2017 -- 22:14:59
 
-     Copyright (C) 2009-2016 by
-     Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
-     Chris Morley, Michael J. Pilling and contributors
+     Copyright (C) 2009-2017 by
+     Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
+     David R. Glowacki, Michael J. Pilling and contributors
 
      Mesmer is free software: you can redistribute it and/or modify
      it under the terms of the GNU Public License as published by
@@ -26,6 +26,11 @@
     You should have received a copy of the GNU Public License
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
+                     Platform:        Windows
+                     Execution Date:  Fri Apr 28 22:48:37 2017
+                     Number of ranks: 1
+
+Using 1 processes
 defaults.xml, librarymols.xml are in ../..
 
 Parsing input xml file...
@@ -56,33 +61,28 @@ In ThermodynamicTable: The default value of the attribute units was used.
 In ThermodynamicTable: The default value of me:Tmin was used.
 In ThermodynamicTable: The default value of me:Tmax was used.
 In ThermodynamicTable: The default value of me:Tmid was used.
-Write metadata 20161122_233147
+Write metadata 20170428_224837
 
 File: "ipropyl_test.xml" successfully parsed.
 Main Calculation begins
+Now calculating...
 
 --Execute calcMethod simpleCalc
-PT Grid 0
 Number of cells = 50000, Number of grains = 186
 Number of grains produced is not equal to that requested
 Number of grains requested: 186
 Number of grains produced : 1
 In FastLaplaceConvolution: 5900 values in the FFT convolution routine were replaced by standard convolution
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 1
+In mesmer::CollisionOperator::timeEvolution: No population was assigned, and there is no source term.
+In mesmer::CollisionOperator::timeEvolution: Initial poupulation set to 1.0  in the first isomer.
 Number of cells = 50000, Number of grains = 187
 Number of grains requested: 187
-Build Collison Operator
-Diagonalize the Reaction Operator
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
             720          3e+17           41.5        45.0269
             730       3.01e+17           51.1        61.3846
 
-Finish Calculation of P-T case
-2 temperature/concentration-pressure points calculated.
 
 --Execute calcMethod ThermodynamicTable
 Too few data points to fit NASA polynomials.
@@ -90,5 +90,6 @@ In He: The default value of me:DOSCMethod was used.
 In He: The default value of the attribute spinMultiplicity was used.
  -- Total time elapsed: 0 seconds.
 
+QA test *** FAILED ***
 System saved to out.xml
 Total time elapsed: 0 seconds.

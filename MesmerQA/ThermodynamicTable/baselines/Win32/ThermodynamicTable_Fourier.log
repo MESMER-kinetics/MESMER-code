@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.0 compiled: -- Mar 31 2017 -- 12:25:26
+     Mesmer v5.0 compiled: -- Apr 28 2017 -- 22:14:59
 
      Copyright (C) 2009-2017 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,6 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
+                     Execution Date:  Fri Apr 28 22:48:39 2017
                      Number of ranks: 1
 
 Using 1 processes
@@ -56,7 +57,7 @@ In ThermodynamicTable. Own default: Number of cells 100000
 In ThermodynamicTable. Own default: The default value of me:grainSize was used.
 Energy convention "thermodynamic" written to <moleculeList>
 No conditions specified
-Write metadata 20170426_230831
+Write metadata 20170428_224839
 
 File: "ThermodynamicTable_Fourier.xml" successfully parsed.
 Main Calculation begins
@@ -66,9 +67,8 @@ Restricted thermo output for He because it has no non-arbitrary energy data.
 In NO: enthalpy of formation at 298K:energy converted from thermodynamic to thermodynamic298K
 In O2: enthalpy of formation at 298K:energy converted from thermodynamic to thermodynamic298K
 In OH: enthalpy of formation at 298K:energy converted from thermodynamic to thermodynamic298K
- -- Total time elapsed: 0 seconds.
+ -- Total time elapsed: 1 seconds.
 
-Cannot open baselines\Win32\ThermodynamicTable_Fourier.test or ThermodynamicTable_Fourier.test
-QA test *** FAILED ***
+QA test successful
 System saved to mesmer_out.xml
-Total time elapsed: 0 seconds.
+Total time elapsed: 1 seconds.

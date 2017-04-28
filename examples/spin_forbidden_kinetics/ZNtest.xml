@@ -364,7 +364,7 @@
       <me:transitionState>
         <molecule ref="TS-S1-S2" role="transitionState" />
       </me:transitionState>
-      <me:MCRCMethod name="ZhuNakamuraCrossingCoeff" xsi:type="me:ZhuNakamuraCrossingCoeff">
+      <me:MCRCMethod name="ZhuNakamuraCrossing" xsi:type="me:ZhuNakamuraCrossing">
         <me:harmonicReactantDiabat-FC units="kJ/mol/Bohr**2">166.614</me:harmonicReactantDiabat-FC>
         <me:harmonicReactantDiabat-X0 units="Bohr">-0.487</me:harmonicReactantDiabat-X0>
         <me:harmonicReactantDiabat-DE units="kJ/mol">0.0</me:harmonicReactantDiabat-DE>

@@ -1,5 +1,11 @@
 2017-April-28 Struan Robertson
 
+		* main.cpp: Fix for MPI shutdown problem. 
+
+		* Win32 baseline updates.
+
+2017-April-28 Struan Robertson
+
 		* TimeCounter.h/.cpp: Added a general date method and rationalised the use of TimeCounter.h 
 
 		* Minor Linux64 compilation issues.
