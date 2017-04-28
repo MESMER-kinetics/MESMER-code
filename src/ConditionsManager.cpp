@@ -3,6 +3,7 @@
 #include "Persistence.h"
 #include "System.h"
 #include "ConditionsManager.h"
+#include "TimeCounter.h"
 
 using namespace std;
 namespace mesmer
@@ -472,7 +473,6 @@ namespace mesmer
   // Reconcile table across processs.
   void ConditionsManager::reconcileTable()
   {
-    int rank = m_pParallelManager->rank();
     int nRanks = m_pParallelManager->size();
 
     for (size_t calPoint(0); calPoint < PandTs.size(); calPoint++) {

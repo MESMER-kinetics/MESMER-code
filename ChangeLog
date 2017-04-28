@@ -1,3 +1,9 @@
+2017-April-28 Struan Robertson
+
+		* TimeCounter.h/.cpp: Added a general date method and rationalised the use of TimeCounter.h 
+
+		* Minor Linux64 compilation issues.
+
 2017-April-27 Struan Robertson
 
 		* FourierGrid1D.cpp: Numerical potential implementation added to FourierGrid1D method.

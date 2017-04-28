@@ -24,6 +24,7 @@ along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdexcept>
 #include "System.h"
 #include "ParallelManager.h"
+#include "TimeCounter.h"
 
 using namespace std;
 using namespace Constants;
@@ -477,6 +478,7 @@ void banner(size_t nRanks)
   cinfo << "    along with Mesmer.  If not, see <http://www.gnu.org/licenses/>." << endl;
   cinfo << endl;
 	cinfo << "                     Platform:        " << platform() << endl;
+	cinfo << "                     Execution Date:  " << date();
 	cinfo << "                     Number of ranks: " << nRanks << endl;
   cinfo << endl;
 }

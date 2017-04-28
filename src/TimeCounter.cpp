@@ -84,5 +84,13 @@ namespace mesmer
     }
     return os;
   }
+
+	// General function to return date.
+	std::string date() {
+		time_t rawtime;
+		time(&rawtime);
+		return std::string(ctime(&rawtime));
+	}
+
 };
 

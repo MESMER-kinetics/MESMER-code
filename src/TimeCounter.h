@@ -2,6 +2,7 @@
 #define GUARD_TimeCounter_h
 //Time count header of Mesmer
 //This header must be be p_thread safe and parallel computing safe
+#include <string>
 #include <sstream>
 #include <iostream>
 #include <ctime>
@@ -38,12 +39,6 @@
 //------------------------
 
 
-template<typename T>
-std::string toString(T t)
-{
-  std::ostringstream s; s << t; return s.str();
-}
-
 namespace mesmer
 {
   class EventObj
@@ -69,6 +64,10 @@ namespace mesmer
       std::string getTimeStamp(const std::string& timeStampName, unsigned int &timeElapsed);
       friend std::ostream& operator<<(std::ostream& os, TimeCount& MTC);
   };
+
+	// General function to return date.
+	std::string date() ;
+
 };
 
 //---------------------------------------------------------------------------------------------------------

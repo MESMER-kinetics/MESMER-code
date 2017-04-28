@@ -15,6 +15,7 @@
 #include "../System.h"
 #include "../calcmethod.h"
 #include "../dMatrix.h"
+#include "../TimeCounter.h"
 #include "FittingUtils.h"
 
 namespace mesmer

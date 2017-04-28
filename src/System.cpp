@@ -10,6 +10,7 @@
 //-------------------------------------------------------------------------------------------
 #include "System.h"
 #include <fstream>
+#include "TimeCounter.h"
 #include "ParseForPlugin.h"
 
 using namespace std;

@@ -5,8 +5,13 @@
 #include <vector>
 #include <stdexcept>
 #include "MesmerMath.h"
-#include "TimeCounter.h"
 #include "unitsConversion.h"
+
+template<typename T>
+std::string toString(T t)
+{
+	std::ostringstream s; s << t; return s.str();
+}
 
 namespace mesmer
 {

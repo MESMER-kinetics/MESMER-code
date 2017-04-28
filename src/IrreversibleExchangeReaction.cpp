@@ -306,7 +306,6 @@ namespace mesmer
 		// Calculate the translational partition function ratio and thence the rate coefficient.
 		const double trans = translationalContribution(m_rct1->getStruc().getMass(), m_rct2->getStruc().getMass(), beta);
 		k_forward /= trans;
-		double ene = get_ThresholdEnergy();
 		k_forward *= exp(-beta*get_ThresholdEnergy());
 		k_forward *= SpeedOfLight_in_cm/beta;
 
