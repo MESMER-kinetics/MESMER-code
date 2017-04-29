@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.0 compiled: -- Mar 14 2017 -- 20:31:14
+     Mesmer v5.0 compiled: -- Apr 28 2017 -- 22:56:46
 
      Copyright (C) 2009-2017 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,6 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
+                     Execution Date:  Sat Apr 29 14:53:18 2017
                      Number of ranks: 4
 
 Using 4 processes
@@ -92,7 +93,7 @@ In R1: No value of me:excessReactantConc was supplied and the default value NEED
 614.5Torr, 601K at dd precision with He
 711Torr, 601K at dd precision with He
 TS1:ZPE is derived from Methyl:ZPE
-Write metadata 20170314_210946
+Write metadata 20170429_145318
 
 File: "Methyl_H_to_Methane_FTST.xml" successfully parsed.
 Main Calculation begins
@@ -166,7 +167,7 @@ Chi^2 = 4.46167e-20 Lambda = 1000
 Methyl:ZPE=103.35  Methane:deltaEDown=160.031  
 Iteration: 15 of Marquardt. ChiSquare = 4.46167e-20, Lambda = 1000
 Number of cells = 50000, Number of grains = 270
- -- Total time elapsed: 420 seconds.
+ -- Total time elapsed: 380 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
@@ -227,4 +228,4 @@ Number of degrees of Freedom = 35
 Error Factor = 3.57038e-11
 
 System saved to mesmer_out.xml
-Total time elapsed: 420 seconds.
+Total time elapsed: 380 seconds.

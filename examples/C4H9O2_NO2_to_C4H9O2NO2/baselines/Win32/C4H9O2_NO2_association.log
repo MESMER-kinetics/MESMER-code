@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.0 compiled: -- Mar 14 2017 -- 20:31:14
+     Mesmer v5.0 compiled: -- Apr 28 2017 -- 22:56:46
 
      Copyright (C) 2009-2017 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,6 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
+                     Execution Date:  Sat Apr 29 15:08:40 2017
                      Number of ranks: 4
 
 Using 4 processes
@@ -68,7 +69,7 @@ In R1: Not a unimolecular reaction: look for excess reactant concentration.
 800mbar, 253K at d precision with N2
 800mbar, 253K at d precision with N2
 --Parse data for analyticalRepresentation
-Write metadata 20170314_212649
+Write metadata 20170429_150840
 
 File: "C4H9O2_NO2_association.xml" successfully parsed.
 Main Calculation begins
@@ -313,7 +314,7 @@ chebyshev_reaction(' => C4H9OO + NO2',
                            [    9.0324e-06,  -1.79033e-05,   1.14981e-05,  -6.36982e-07,  -3.87936e-06,    5.6797e-07,   1.24804e-06,   4.07627e-07]])
 
 
- -- Total time elapsed: 1302 seconds.
+ -- Total time elapsed: 1247 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 1302 seconds.
+Total time elapsed: 1247 seconds.
