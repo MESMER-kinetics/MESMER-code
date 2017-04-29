@@ -94,10 +94,7 @@
           <scalar units="kJ/mol">0.0</scalar>
         </property>
         <property dictRef="me:rotConsts">
-          <array units="cm-1">
-            2.36572
-            0.35402
-            0.30794
+          <array units="cm-1">2.36572 0.35402 0.30794
           </array>
         </property>
         <property dictRef="me:symmetryNumber">
@@ -107,22 +104,7 @@
           <scalar>1.0</scalar>
         </property>
         <property dictRef="me:vibFreqs">
-          <array units="cm-1">
-            416
-            793
-            1016
-            1414
-            3163
-            535
-            830
-            1219
-            1502
-            3250
-            563
-            909
-            1238
-            3047
-            3261
+          <array units="cm-1">416. 793. 1016. 1414. 3163. 535. 830. 1219. 1502. 3250. 563. 909. 1238. 3047. 3261.
           </array>
         </property>
         <property dictRef="me:MW">
@@ -135,12 +117,15 @@
           <scalar>5.5</scalar>
         </property>
       </propertyList>
+      <property dictRef="me:spinMultiplicity">
+        <scalar>3</scalar>
+      </property>
+      <me:DOSCMethod xsi:type="ClassicalRotors"/>
 
       <me:energyTransferModel xsi:type="me:ExponentialDown">
         <me:deltaEDown units="cm-1">250.0</me:deltaEDown>
       </me:energyTransferModel>
 
-      <me:DOSCMethod xsi:type="ClassicalRotors"/>
     </molecule>
     <molecule id="MECP1" description="HCCH-CH2 MECP">
       <propertyList>
@@ -289,9 +274,9 @@
       <product>
         <molecule ref="triplet" role="sink" />
       </product>
-      <product>
+      <!--<product>
         <molecule ref="dummy_product" role="sink" />
-      </product>
+      </product>-->
       <me:transitionState>
         <molecule ref="MECP1" role="transitionState" />
       </me:transitionState>
