@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.0 compiled: -- Apr 28 2017 -- 22:14:59
+     Mesmer v5.0 compiled: -- Apr 28 2017 -- 22:56:46
 
      Copyright (C) 2009-2017 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Fri Apr 28 22:48:21 2017
+                     Execution Date:  Sat Apr 29 16:06:58 2017
                      Number of ranks: 1
 
 Using 1 processes
@@ -68,7 +68,7 @@ In R_2_6c: --Parse data for SimpleRRKM
 In R_2_6c: No tunneling method used for R_2_6c
 The default value of the attribute precision was used.
 760Torr, 298K at d precision with N2
-Write metadata 20170428_224821
+Write metadata 20170429_160658
 
 File: "benzene_oxidation_test.xml" successfully parsed.
 Main Calculation begins
@@ -84,7 +84,7 @@ Number of cells = 11400, Number of grains = 228
 In FastLaplaceConvolution: 100 values in the FFT convolution routine were replaced by standard convolution
  -- Total time elapsed: 0 seconds.
 
-QA test *** FAILED ***
+QA test successful
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 

@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.0 compiled: -- Apr 28 2017 -- 22:14:59
+     Mesmer v5.0 compiled: -- Apr 28 2017 -- 22:56:46
 
      Copyright (C) 2009-2017 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Fri Apr 28 22:48:37 2017
+                     Execution Date:  Sat Apr 29 16:07:14 2017
                      Number of ranks: 1
 
 Using 1 processes
@@ -61,7 +61,7 @@ In ThermodynamicTable: The default value of the attribute units was used.
 In ThermodynamicTable: The default value of me:Tmin was used.
 In ThermodynamicTable: The default value of me:Tmax was used.
 In ThermodynamicTable: The default value of me:Tmid was used.
-Write metadata 20170428_224837
+Write metadata 20170429_160714
 
 File: "ipropyl_test.xml" successfully parsed.
 Main Calculation begins
@@ -90,6 +90,6 @@ In He: The default value of me:DOSCMethod was used.
 In He: The default value of the attribute spinMultiplicity was used.
  -- Total time elapsed: 0 seconds.
 
-QA test *** FAILED ***
+QA test successful
 System saved to out.xml
 Total time elapsed: 0 seconds.
