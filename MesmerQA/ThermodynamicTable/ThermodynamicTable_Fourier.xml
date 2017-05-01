@@ -223,6 +223,73 @@
 
     </molecule>
 
+    <molecule id="O2_Numerical">
+      <atomArray>
+        <atom id="a1" elementType="O" x3="0.000000" y3="0.000000" z3="0.601629" />
+        <atom id="a2" elementType="O" x3="0.000000" y3="0.000000" z3="-0.601629" />
+      </atomArray>
+      <bondArray>
+        <bond atomRefs2="a2 a1" order="2" />
+      </bondArray>
+      <propertyList>
+        <property title="MW">
+          <scalar>31.9988</scalar>
+        </property>
+        <property title="Energy" dictRef="me:ZPE">
+          <scalar units="kJ/mol" convention="computational">-394594.52</scalar>
+        </property>
+        <property title="Vibrational Frequencies" dictRef="me:vibFreqs">
+          <array units="cm-1">1645.28</array>
+        </property>
+        <property title="Rotational Constants" dictRef="me:rotConsts">
+          <array units="cm-1">1.455</array>
+        </property>
+        <property title="Symmetry Number" dictRef="me:symmetryNumber">
+          <scalar>2</scalar>
+        </property>
+        <property dictRef="me:frequenciesScaleFactor" default="true">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>3</scalar>
+        </property>
+      </propertyList>
+
+      <me:DOSCMethod xsi:type="me:QMRotors"/>
+
+      <me:ExtraDOSCMethod xsi:type="me:FourierGrid1D">
+        <me:NumGridPnts>100</me:NumGridPnts>
+        <me:replaceVibFreq>1645.28</me:replaceVibFreq>
+        <me:reducedMass>7.9997</me:reducedMass>
+        <me:vibrationalPotential format="numerical" units="kJ/mol" minx="0.6" maxx="1.8">
+          <me:PotentialPoint coordinate="	0.1	"  potential="	4709.9496	"/>
+          <me:PotentialPoint coordinate="	0.2	"  potential="	3894.8204	"/>
+          <me:PotentialPoint coordinate="	0.3	"  potential="	3157.0824	"/>
+          <me:PotentialPoint coordinate="	0.4	"  potential="	2496.7356	"/>
+          <me:PotentialPoint coordinate="	0.5	"  potential="	1913.78	"/>
+          <me:PotentialPoint coordinate="	0.6	"  potential="	1408.2156	"/>
+          <me:PotentialPoint coordinate="	0.7	"  potential="	980.0424	"/>
+          <me:PotentialPoint coordinate="	0.8	"  potential="	629.2604	"/>
+          <me:PotentialPoint coordinate="	0.9	"  potential="	355.8696	"/>
+          <me:PotentialPoint coordinate="	1.0	"  potential="	159.87	"/>
+          <me:PotentialPoint coordinate="	1.1	"  potential="	41.2616	"/>
+          <me:PotentialPoint coordinate="	1.2	"  potential="	0.0444	"/>
+          <me:PotentialPoint coordinate="	1.3	"  potential="	36.2184	"/>
+          <me:PotentialPoint coordinate="	1.4	"  potential="	149.7836	"/>
+          <me:PotentialPoint coordinate="	1.5	"  potential="	340.74	"/>
+          <me:PotentialPoint coordinate="	1.6	"  potential="	609.0876	"/>
+          <me:PotentialPoint coordinate="	1.7	"  potential="	954.8264	"/>
+          <me:PotentialPoint coordinate="	1.8	"  potential="	1377.9564	"/>
+          <me:PotentialPoint coordinate="	1.9	"  potential="	1878.4776	"/>
+          <me:PotentialPoint coordinate="	2.0	"  potential="	2456.39	"/>
+          <me:PotentialPoint coordinate="	2.1	"  potential="	3111.6936	"/>
+          <me:PotentialPoint coordinate="	2.2	"  potential="	3844.3884	"/>
+          <me:PotentialPoint coordinate="	2.3	"  potential="	4654.4744	"/>
+        </me:vibrationalPotential>
+      </me:ExtraDOSCMethod>
+
+    </molecule>
+
     <molecule id="He">
       <atom elementType="He"/>
       <propertyList>

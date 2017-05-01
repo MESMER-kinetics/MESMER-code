@@ -73,7 +73,7 @@ namespace mesmer
     // This class is an extra DOS class.
     FourierGrid1D(const char* id) : m_id(id),
 			m_ppotential(NULL),
-			m_nGridPoints(101),
+			m_nGridPoints(100),
       m_ZPE(0.0),
       m_reducedMass(0.0),
       m_energyLevels(),
@@ -175,8 +175,9 @@ namespace mesmer
         m_ppotential = new NumericalPotential(m_nGridPoints);
       }
       else {
-        // Unknown type of potential.
-      }
+				cerr << "__FUNCTION__: Unknown potential type." << endl;
+				return false;
+			}
       m_ppotential->InitializePotential(pp);
     }
 

@@ -1,3 +1,11 @@
+2017-May-02 Struan Robertson
+
+		* Fourier1D.cpp, Potential1D.cpp: Input check for Fourier1D method added. 
+
+		* Win32 baseline updates.
+
+		* Documentation updates.
+
 2017-April-28 Struan Robertson
 
 		* main.cpp: Fix for MPI shutdown problem. 

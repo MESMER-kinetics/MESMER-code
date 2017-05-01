@@ -94,14 +94,17 @@ namespace mesmer
 			m_maxx = val;
 
 		vector<double> potential;
-    vector<double> angle;
-
+    vector<double> coord;
+		double maxCoord(-1000.0), minCoord(1000.0);
     while (pp = pp->XmlMoveTo("me:PotentialPoint"))
     {
-      double anglePoint = pp->XmlReadDouble("coordinate", optional);
-      if (IsNan(anglePoint))
-        anglePoint = 0.0;
-      angle.push_back(anglePoint);
+      double coordPoint = pp->XmlReadDouble("coordinate", optional);
+      if (IsNan(coordPoint))
+				coordPoint = 0.0;
+			coord.push_back(coordPoint);
+
+			maxCoord = max(maxCoord, coordPoint);
+			minCoord = min(minCoord, coordPoint);
 
       double potentialPoint = pp->XmlReadDouble("potential", optional);
       if (IsNan(potentialPoint))
@@ -109,7 +112,10 @@ namespace mesmer
       potential.push_back(potentialPoint);
     }
 
-		m_spline.Initialize(angle, potential);
+		if (maxCoord < m_maxx || minCoord > m_minx)
+			throw(std::runtime_error("__FUNCTION__: Requested grid range does not fall within the potential coordinate range."));
+
+		m_spline.Initialize(coord, potential);
 
   }
 
