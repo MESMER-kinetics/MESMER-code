@@ -14,6 +14,7 @@
 #include "../Constants.h"
 #include "../MesmerConfig.h"
 #include <algorithm>
+#include <stdexcept>
 
 using namespace std;
 using namespace Constants;
