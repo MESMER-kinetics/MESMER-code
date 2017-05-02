@@ -29,6 +29,6 @@ echo " Building Mesmer."
 echo "----------------------------------------------------------------------"
 
 cd ./src
-make -f MakefileParallel install DEBUG=NO
+make -f Makefile install DEBUG=NO PARALLEL=YES
 cd ../
 

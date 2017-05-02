@@ -11,12 +11,12 @@ DEBUG          := YES
 # PROFILE can be set to YES to include profiling info, or NO otherwise
 PROFILE        := NO
 
-# PROFILE can be set to YES to include profiling info, or NO otherwise
-PARALLEL       := NO
-
 # TINYXML_USE_STL can be used to turn on STL support. NO, then STL
 # will not be used. YES will include the STL files.
 TINYXML_USE_STL := YES
+
+# PARALLEL can be set to YES to include MPI, or NO otherwise
+PARALLEL        := NO
 
 #****************************************************************************
 
@@ -84,7 +84,6 @@ ifeq (YES, ${PARALLEL})
    CFLAGS   := ${CFLAGS} -DPARALLEL
    CXXFLAGS := ${CXXFLAGS} -DPARALLEL
 endif
-
 
 #****************************************************************************
 # Preprocessor directives
