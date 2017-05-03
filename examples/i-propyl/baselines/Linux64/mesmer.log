@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.0 compiled: -- Apr 25 2017 -- 19:08:47
+     Mesmer v5.0 compiled: -- May  2 2017 -- 19:09:13
 
      Copyright (C) 2009-2017 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,6 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
+                     Execution Date:  Tue May  2 19:11:54 2017
                      Number of ranks: 1
 
 Using 1 processes
@@ -193,7 +194,7 @@ The default value of the attribute precision was used.
 3.01e+16PPCC, 870K at d precision with He
 The default value of the attribute precision was used.
 3e+16PPCC, 880K at d precision with He
-Write metadata 20170425_192227
+Write metadata 20170502_191154
 
 File: "ipropyl_LM.xml" successfully parsed.
 Main Calculation begins
@@ -235,7 +236,7 @@ Chi^2 = 11.4951 Lambda = 1e-06
 i-propyl:deltaEDown=270.058  propene:ZPE=13308.4  
 Iteration: 6 of Marquardt. ChiSquare = 11.4951, Lambda = 1e-06
 Number of cells = 50000, Number of grains = 200
- -- Total time elapsed: 63 seconds.
+ -- Total time elapsed: 64 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
@@ -330,4 +331,4 @@ Number of degrees of Freedom = 69
 Chi^2 probability = 1
 
 System saved to out.xml
-Total time elapsed: 63 seconds.
+Total time elapsed: 64 seconds.

@@ -7,29 +7,29 @@ Input variable key:
   1-pentyl=TS=2-pentyl:ZPE      : (2)
 
 
- Standard deviation for 1-pentyl => 2-pentyl: 2.536e-06
+ Standard deviation for 1-pentyl => 2-pentyl: 9.43e-06
 
  First order indices for 1-pentyl => 2-pentyl: 
                 (1)            (2)
-           0.015673        0.94801
+          0.0011335       0.068561
 
  Second order indices for 1-pentyl => 2-pentyl: 
                 (1)            (2)
 (1)              --             --
-(2)       0.0035326             --
+(2)      0.00025548             --
 
- R-Squared statistic: 0.9762
+ R-Squared statistic: 0.9983
 
- Standard deviation for 2-pentyl => 1-pentyl: 3.312e-07
+ Standard deviation for 2-pentyl => 1-pentyl: 1.231e-06
 
  First order indices for 2-pentyl => 1-pentyl: 
                 (1)            (2)
-           0.015671        0.94801
+          0.0011335       0.068569
 
  Second order indices for 2-pentyl => 1-pentyl: 
                 (1)            (2)
 (1)              --             --
-(2)       0.0035325             --
+(2)       0.0002555             --
 
- R-Squared statistic: 0.9762
+ R-Squared statistic: 0.9983
 

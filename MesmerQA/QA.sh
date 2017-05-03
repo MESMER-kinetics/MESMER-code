@@ -75,13 +75,13 @@ case $1 in
     ;;
 esac
 
-cd pentyl
 pwd
 $executable -V
 mpicommand="mpirun -n 2 $executable" 
 cmdline=$executable
 
-cmdline pentyl_isomerization_test.xml -o $outf $directive
+cd pentyl
+$cmdline pentyl_isomerization_test.xml -o $outf $directive
 cp ./$tfn ./$bline$otfn
 if [ "$1" == "-o" ]; then
   cp ./$lfn ./$bline$lfn 

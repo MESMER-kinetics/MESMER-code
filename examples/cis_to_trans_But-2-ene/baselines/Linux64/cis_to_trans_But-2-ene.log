@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.0 compiled: -- Apr 25 2017 -- 19:08:47
+     Mesmer v5.0 compiled: -- May  2 2017 -- 19:09:13
 
      Copyright (C) 2009-2017 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,6 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
+                     Execution Date:  Tue May  2 20:11:48 2017
                      Number of ranks: 1
 
 Using 1 processes
@@ -52,7 +53,7 @@ In R2: No imaginary vibrational frequency. Check if there is tunneling.
 In R2: No tunneling method used for R2
 0.004mbar, 1200K at d precision with He
 0.004mbar, 1300K at d precision with He
-Write metadata 20170425_202414
+Write metadata 20170502_201148
 
 File: "cis_to_trans_But-2-ene.xml" successfully parsed.
 Main Calculation begins

@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.0 compiled: -- Apr 25 2017 -- 19:08:47
+     Mesmer v5.0 compiled: -- May  2 2017 -- 19:09:13
 
      Copyright (C) 2009-2017 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,6 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
+                     Execution Date:  Tue May  2 20:40:41 2017
                      Number of ranks: 1
 
 Using 1 processes
@@ -119,7 +120,7 @@ In R1: Not a unimolecular reaction: look for excess reactant concentration.
 30mbar, 272K at d precision with N2
 10mbar, 272K at d precision with N2
 --Parse data for ThermodynamicTable
-Write metadata 20170425_205357
+Write metadata 20170502_204041
 
 File: "CH3O2_NO2_associationEx2.xml" successfully parsed.
 Main Calculation begins
@@ -278,7 +279,7 @@ Chi^2 probability = 0.139446
 In N2: The default value of me:DOSCMethod was used.
 In N2: The default value of the attribute spinMultiplicity was used.
 gDensityOfStates initialization failed.
- -- Total time elapsed: 642 seconds.
+ -- Total time elapsed: 638 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 642 seconds.
+Total time elapsed: 638 seconds.

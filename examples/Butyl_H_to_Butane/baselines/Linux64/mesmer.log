@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.0 compiled: -- Apr 25 2017 -- 19:08:47
+     Mesmer v5.0 compiled: -- May  2 2017 -- 19:09:13
 
      Copyright (C) 2009-2017 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,6 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
+                     Execution Date:  Tue May  2 19:11:38 2017
                      Number of ranks: 1
 
 Using 1 processes
@@ -72,7 +73,7 @@ In R1: No tunneling method used for R1
 In R1: Not a unimolecular reaction: look for excess reactant concentration.
 In R1: No value of me:excessReactantConc was supplied and the default value NEEDS TO BE CHECKED**
 25.1Torr, 301K at dd precision with He
-Write metadata 20170425_192210
+Write metadata 20170502_191138
 
 File: "Butyl_H_to_Butane.xml" successfully parsed.
 Main Calculation begins
@@ -719,7 +720,7 @@ Butane-orig_coords
          H        2.10131      -0.762706      -0.879091
          H       0.470231        1.15894      -0.873117
          H       0.470226        1.15899       0.873094
- -- Total time elapsed: 16 seconds.
+ -- Total time elapsed: 15 seconds.
 
 System saved to out.xml
-Total time elapsed: 16 seconds.
+Total time elapsed: 15 seconds.

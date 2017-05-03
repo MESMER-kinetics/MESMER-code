@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.0 compiled: -- Mar 31 2017 -- 12:25:26
+     Mesmer v5.0 compiled: -- May  2 2017 -- 19:09:13
 
      Copyright (C) 2009-2017 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -26,7 +26,8 @@
     You should have received a copy of the GNU Public License
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
-                     Platform:        Windows
+                     Platform:        Linux
+                     Execution Date:  Tue May  2 19:10:52 2017
                      Number of ranks: 1
 
 Using 1 processes
@@ -48,6 +49,8 @@ In NO: energy converted from thermodynamic298K to thermodynamic
 In NO: New me:ZPE element written with data from me:Hf298
 In O2:  replacing vib freq 1645.28
 In O2: energy converted from computational to thermodynamic
+In O2_Numerical:  replacing vib freq 1645.28
+In O2_Numerical: energy converted from computational to thermodynamic
 In He: The default value of me:DOSCMethod was used.
 In He: The default value of the attribute spinMultiplicity was used.
 In He: gDensityOfStates initialization failed.
@@ -56,7 +59,7 @@ In ThermodynamicTable. Own default: Number of cells 100000
 In ThermodynamicTable. Own default: The default value of me:grainSize was used.
 Energy convention "thermodynamic" written to <moleculeList>
 No conditions specified
-Write metadata 20170426_230831
+Write metadata 20170502_191052
 
 File: "ThermodynamicTable_Fourier.xml" successfully parsed.
 Main Calculation begins
@@ -65,10 +68,9 @@ In HNO2: enthalpy of formation at 298K:energy converted from thermodynamic to th
 Restricted thermo output for He because it has no non-arbitrary energy data.
 In NO: enthalpy of formation at 298K:energy converted from thermodynamic to thermodynamic298K
 In O2: enthalpy of formation at 298K:energy converted from thermodynamic to thermodynamic298K
+In O2_Numerical: enthalpy of formation at 298K:energy converted from thermodynamic to thermodynamic298K
 In OH: enthalpy of formation at 298K:energy converted from thermodynamic to thermodynamic298K
- -- Total time elapsed: 0 seconds.
+ -- Total time elapsed: 1 seconds.
 
-Cannot open baselines\Win32\ThermodynamicTable_Fourier.test or ThermodynamicTable_Fourier.test
-QA test *** FAILED ***
 System saved to mesmer_out.xml
-Total time elapsed: 0 seconds.
+Total time elapsed: 1 seconds.
