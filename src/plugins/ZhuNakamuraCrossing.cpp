@@ -110,22 +110,22 @@ namespace mesmer
     upperAdiabat *upperCurve;
     double delta(0.001), kJPerMoltoHartree(kJPerMol_in_RC / Hartree_in_RC);
 
-    // for Zhu-Nakamura theory, we set the threshold to zero; the routines herein will calculate transmission
+    // For Zhu-Nakamura theory, we set the threshold to zero; the routines herein will calculate transmission
     // coefficients appropriate to the specified diabats, which upon convolution with the TS sum of states,
     // will give the correct Energy dependent profile in the k(E)s, and detailed balance will sort it out for
-    // the reverse direction
+    // the reverse direction.
     //  pReact->set_EffGrnFwdThreshold(0);
     //  pReact->set_EffGrnRvsThreshold(pReact->get);
 
-    // set up the functions corresponding to the reactant & product diabats
+    // Set up the functions corresponding to the reactant & product diabats.
     reactantCurve = new parabolicDiabat(m_harmonicFC*kJPerMoltoHartree, m_harmonicX0, m_harmonicDE*kJPerMoltoHartree);
     productCurve = new exponentialDiabat(m_exponentialA*kJPerMoltoHartree, m_exponentialB, m_exponentialDE*kJPerMoltoHartree);
 
-    // set up functions corresponding to the upper & lower adiabatic states
+    // Set up functions corresponding to the upper & lower adiabatic states.
     lowerCurve = new lowerAdiabat(reactantCurve, productCurve, m_H12*kJPerMoltoHartree);
     upperCurve = new upperAdiabat(reactantCurve, productCurve, m_H12*kJPerMoltoHartree);
 
-    // Find Rx & Ex, the coordinate & energy at which the two diabats cross
+    // Find Rx & Ex, the coordinate & energy at which the two diabats cross.
     double Rx, Ex;
     diffBetweenTwoDiabats *diabatDifference;
     diabatDifference = new diffBetweenTwoDiabats(reactantCurve, productCurve);
@@ -198,7 +198,6 @@ namespace mesmer
     linearDiabat *bsqd;
     bsqd = new linearDiabat(slope, intercept);
 
-    //
     // Get the properties of the Crossing coefficients vector in which the Z-N probabilities will be placed 
     const size_t MaximumCell = pReact->getEnv().MaxCell;
     const size_t MaximumGrn = pReact->getEnv().MaxGrn;
@@ -209,7 +208,7 @@ namespace mesmer
     double Ut1(Rb), Ut2(Rb);  // initialize the turning points for the bottom of the Upper (U) Barrier
     int lastZeroIndex, zone1StartIdx, lastIdx, zone1EndIdx, zone2StartIdx, zone2EndIdx, zone3StartIdx, zone3EndIdx;
     int ctr(0), gsize(pReact->getEnv().GrainSize);
-    vector <double> grainCenteredCrossingProbabilities(MaximumGrn, 0.0), grainCenteredEnergies(MaximumGrn, 0.0);;
+    vector <double> grainCenteredCrossingProbabilities(MaximumGrn, 0.0), grainCenteredEnergies(MaximumGrn, 0.0);
     double dErctpdt = pReact->get_relative_rctZPE() - pReact->get_relative_pdtZPE();
 
     for (size_t i(0); i < MaximumGrn; ++i) {
@@ -224,20 +223,20 @@ namespace mesmer
 
     lastZeroIndex = ii - 1;
     zone1StartIdx = ii;
-    do {                              // Now we run the cell counter up to Et, to determine the range over which we will calculate zone 1 ZN probabilities
-      E = grainCenteredEnergies[ii];          // this may seem an odd thing to do, but it's computationally much simpler to calculate zone 1 ZN probabilities
-      EinAU = E / Hartree_in_RC;       //    beginning from Et and then going down in enegy, rather than from lower to higher energies.
-      grainCenteredCrossingProbabilities[ii] = 0.0;
-      lastIdx = ii;                  // gives the last cell index which was set to zero
+		// Now we run the cell counter up to Et, to determine the range over which we will calculate zone 1 ZN probabilities,
+		// This may seem an odd thing to do, but it's computationally much simpler to calculate zone 1 ZN probabilities
+		// beginning from Et and then going down in enegy, rather than from lower to higher energies gives the last cell
+		// index which was set to zero.
+		do {
+			EinAU = grainCenteredEnergies[ii] / Hartree_in_RC;
+      lastIdx = ii;
       ++ii;
     } while (bsqd->evaluateEnergy(EinAU) < -1.0 && EinAU < Et && ii < MaximumGrn);
 
     zone1EndIdx = lastIdx - 1;       // if the do/while loop conditions are satisfied & we have terminated, then we've actually gone one idx too far
     zone2StartIdx = zone1EndIdx + 1;
     do {                              // Now we run the cell counter up to Eb, to determine the range over which we will calculate zone 2 ZN probabilities
-      E = grainCenteredEnergies[ii];
-      EinAU = E / Hartree_in_RC;
-      grainCenteredCrossingProbabilities[ii] = 0.0;
+      EinAU = grainCenteredEnergies[ii] / Hartree_in_RC;
       lastIdx = ii;                  // gives the last cell index which was set to zero
       ++ii;
     } while (EinAU < Eb && ii < MaximumGrn); // we could also enforce the condition *1.0 >= bsqd->evaluateEnergy(EinAU). However this only lines up with
@@ -259,10 +258,8 @@ namespace mesmer
 
     for (int i = zone1EndIdx; i >= zone1StartIdx; --i) {  //calculate the Zhu Nakamura expression for E < Et
 
-      E = grainCenteredEnergies[i];              // E = double(i) + 0.5;
-      EinAU = E/Hartree_in_RC;
-
-      lowerTPCurve->setDE(-1*EinAU); // set dE to the energy where we want to find a turning point (this makes the TP into a minima on the chi-squared function)
+      EinAU = grainCenteredEnergies[i] /Hartree_in_RC;  // E = double(i) + 0.5;
+      lowerTPCurve->setDE(-EinAU); // set dE to the energy where we want to find a turning point (this makes the TP into a minima on the chi-squared function)
 
       Lt1 = CalculateTurningPoint(lowerTPCurve, rightBound, EinAU, -1.0, -1.0);   // calculate Left hand turning point (LHTP) by minimizing the chi-squared function
       rightBound = Lt1;           // the left hand turning point becomes the right hand bound in the LHTP seeach on the next iteration
@@ -272,7 +269,7 @@ namespace mesmer
 
       actionIntegrand->setEinAU(EinAU);                                  // calculate the classical action integrand
       deltaIntegral = NumericalIntegration(actionIntegrand, Lt1, Lt2);   // evaluate the classical action integral
-      double g6 = 0.32*pow(10, -2.0/asqd)*exp(-1.0*deltaIntegral);
+      double g6 = 0.32*pow(10, -2.0/asqd)*exp(-deltaIntegral);
       dummy = sqrt(1.0 - 1.0/pow(bsqd->evaluateEnergy(EinAU),2.0));
       sigma = (M_PI/(16.0*a*sqrt(abs(bsqd->evaluateEnergy(EinAU)))))*sqrt(6.0 + 10.0*dummy)/(1.0 + dummy);
       double sigc = sigma*(1.0-g6);
@@ -326,7 +323,6 @@ namespace mesmer
     // initialize a ftn which is the lower adiabat shifted by dE; solving Chi-Square for this ftn will give turning pts
     upperAdiabatShiftedByE *upperTPCurve;
     upperTPCurve = new upperAdiabatShiftedByE(reactantCurve, productCurve, m_H12*kJPerMoltoHartree, 0);   // initialize the ftn with dE=0
-    double g7, argOfGamma, phi, p, bsqdval, realPart, imaginaryPart;
     leftBound = rightBound = Rb;
 
     cout << "Calculating Zhu Nakamura Probabilities for energies greater than Eb..." << endl;
@@ -338,10 +334,7 @@ namespace mesmer
     double fctr2 = -0.72 + 0.62*pow(a, 1.43);
     for (int i = zone3StartIdx; i <= zone3EndIdx; ++i) {
 
-      E = grainCenteredEnergies[i];         //      E = double(i) + 0.5;         
-      EinAU = E / Hartree_in_RC;
-      realPart = 0.0; imaginaryPart = 0.0; argOfGamma = 0.0;
-
+      EinAU = grainCenteredEnergies[i] / Hartree_in_RC;  //      E = double(i) + 0.5;
       upperTPCurve->setDE(-EinAU); // set dE to the energy where we want to find a turning point (this makes the TP into a minima on the chi-squared function)    
 
       Lt1 = CalculateTurningPoint(upperTPCurve, rightBound, EinAU, -1.0, 1.0);   // calculate Left hand turning point (LHTP) by minimizing the chi-squared function
@@ -355,12 +348,13 @@ namespace mesmer
       double bsqdval = bsqd->evaluateEnergy(EinAU);
       double g7 = fctr1*pow(40, -sigma);
       dummy = sqrt(1.0 - 1.0 / (bsqdval*bsqdval));
-      delta = (M_PI / (16.0*a*sqrt(abs(bsqdval))))*sqrt(6.0 + 10.0*dummy) / (1.0 + dummy);
-      complexGamma(0.0, delta / M_PI, realPart, imaginaryPart);           // complex Gamma function
+      double delta = (M_PI / (16.0*a*sqrt(abs(bsqdval))))*sqrt(6.0 + 10.0*dummy) / (1.0 + dummy);
+			double realPart(0.0), imaginaryPart(0.0), argOfGamma(0.0);
+			complexGamma(0.0, delta / M_PI, realPart, imaginaryPart);           // complex Gamma function
       argumentOfComplexNumber(realPart, imaginaryPart, argOfGamma);     // get the argument of the result
-      phi = sigma + delta / M_PI - delta / M_PI*log(delta / M_PI) + M_PI / 4.0 - g7 + argOfGamma;
+      double phi = sigma + delta / M_PI - delta / M_PI*log(delta / M_PI) + M_PI / 4.0 - g7 + argOfGamma;
       dummy = 4.0*cos(phi)*cos(phi);
-      p = exp((-M_PI / (4.0*a))*sqrt(2.0 / (bsqdval + sqrt(bsqdval*bsqdval - 0.72 + 0.62*pow(a, 1.43)))));
+      double p = exp((-M_PI / (4.0*a))*sqrt(2.0 / (bsqdval + sqrt(bsqdval*bsqdval + fctr2))));
       P12 = dummy / (dummy + p*p / (1.0 - p));
       grainCenteredCrossingProbabilities[i] = (IsNan(P12)) ? 0.0 : P12;
     }

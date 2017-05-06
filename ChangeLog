@@ -1,3 +1,7 @@
+2017-May-06 Struan Robertson
+
+		* ZhuNakamuraCrossing.cpp: Further adjustments of Zhu-Nakamura method. 
+
 2017-May-02 Struan Robertson
 
 		* Fourier1D.cpp, Potential1D.cpp: Input check for Fourier1D method added. 

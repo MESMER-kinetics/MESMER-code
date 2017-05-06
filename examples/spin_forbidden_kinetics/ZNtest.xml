@@ -379,7 +379,7 @@
   <me:conditions>
     <me:bathGas>He</me:bathGas>
     <me:PTs>
-      <me:PTpair units="Torr" P="760.0" T="300." />
+      <me:PTpair units="Torr" P="760.0" T="300." precision ="d" />
     </me:PTs>
     <me:InitialPopulation>
       <!--<me:molecule ref="HPALD-S1" population="1.0" />-->
