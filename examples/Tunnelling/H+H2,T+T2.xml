@@ -200,7 +200,7 @@
   </moleculeList>
 
   <reactionList>
-    <reaction id="R1">
+    <!--<reaction id="R1">
       <reactant>
         <molecule ref="H2-H" role="modelled" />
       </reactant>
@@ -589,7 +589,7 @@
       </me:IRCPotential>
       </me:tunneling>
       <me:MCRCMethod name="SimpleRRKM"/>
-    </reaction>
+    </reaction>-->
     <reaction id="R2">
       <reactant>
         <molecule ref="Cl2-H" role="modelled" />
@@ -824,20 +824,7 @@
   <me:control>
     <me:printSpeciesProfile />
     <me:testRateConstants />
-    <!--<me:gridSearch />
-    <me:calcMethod>gridSearch</me:calcMethod>-->
-
-    <!--<me:useDOSweighedDownWardTransition />
-    <me:testRateConstants />
-    <me:printGrainBoltzmann />
-    <me:printReactionOperatorSize />
-    
-   
-    
-    <me:printGrainedSpeciesProfile />-->
     <me:eigenvalues>3</me:eigenvalues>
     <me:printTunnellingCoefficients />
-    <!--<me:printGrainBoltzmann/>-->
-
   </me:control>
 </me:mesmer>

@@ -1392,7 +1392,7 @@
 
   <me:control>
     <me:calcMethod xsi:type="me:marquardt">
-      <me:MarquardtIterations>10</me:MarquardtIterations>
+      <me:MarquardtIterations>2</me:MarquardtIterations>
       <me:MarquardtTolerance>0.0001</me:MarquardtTolerance>
       <me:MarquardtDerivDelta>1.e-02</me:MarquardtDerivDelta>
     </me:calcMethod>

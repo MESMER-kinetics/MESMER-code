@@ -14,7 +14,7 @@
           <scalar units="amu">15.0</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="ClassicalRotors"/>
     </molecule>
     <molecule id="activeSpaceRadical">
       <propertyList>
@@ -25,9 +25,9 @@
           <scalar units="amu">156.0</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="ClassicalRotors"/>
     </molecule>
-    <molecule id="5AtomActiveSpace">
+    <molecule id="FiveAtomActiveSpace">
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="kJ/mol">0.0</scalar>
@@ -128,7 +128,7 @@
   <reactionList>
     <reaction id="R1">
       <reactant>
-        <molecule ref="5AtomActiveSpace" role="modelled" />
+        <molecule ref="FiveAtomActiveSpace" role="modelled" />
       </reactant>
       <product>
         <molecule ref="CH3" role="sink" />
@@ -150,7 +150,7 @@
       <me:PTpair units="Torr" P="50000000" T="1300.0" />
     </me:PTs>
     <me:InitialPopulation>
-      <me:molecule ref="5AtomActiveSpace" population="1.0" grain="171" />
+      <me:molecule ref="FiveAtomActiveSpace" population="1.0" grain="171" />
       <!--<molecule ref="5AtomActiveSpace" me:population="1.0" />-->
     </me:InitialPopulation>
   </me:conditions>

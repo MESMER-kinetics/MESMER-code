@@ -254,5 +254,41 @@ if [ "$1" == "-o" ] ; then
 fi
 cd ..
 
+# cd "Glyoxyl"
+# testName=Glyoxyl
+# $cmdline -N $testName.xml
+# cp ./$testName.test ./$bline$testName.test
+# if [ "$1" == "-o" ] ; then
+#   cp ./$testName.log ./$bline$testName.log
+# fi
+# cd ..
+
+cd "DefinedTunellingCoefficients"
+testName=OH+methanol
+$cmdline -N $testName.xml
+cp ./$testName.test ./$bline$testName.test
+if [ "$1" == "-o" ] ; then
+  cp ./$testName.log ./$bline$testName.log
+fi
+cd ..
+
+cd "diamond"
+testName=diamond-gaussianModel
+$cmdline -N $testName.xml
+cp ./$testName.test ./$bline$testName.test
+if [ "$1" == "-o" ] ; then
+  cp ./$testName.log ./$bline$testName.log
+fi
+cd ..
+
+cd "Tunnelling"
+testName="H+H2,T+T2"
+$cmdline -N $testName.xml
+cp ./$testName.test ./$bline$testName.test
+if [ "$1" == "-o" ] ; then
+  cp ./$testName.log ./$bline$testName.log
+fi
+cd ..
+
 echo Start Time=$starttime - End Time=`date`
 

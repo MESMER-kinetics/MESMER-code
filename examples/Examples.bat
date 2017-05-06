@@ -216,6 +216,34 @@ copy "./%testName%.test" "./%bline%%testName%.test"
 IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
 cd ..
 
+:: cd "Glyoxyl"
+:: set testName="Glyoxyl"
+:: %cmdline% -N %testName%.xml
+:: copy "./%testName%.test" "./%bline%%testName%.test"
+:: IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
+:: cd ..
+
+cd "DefinedTunellingCoefficients"
+set testName="OH+methanol"
+%cmdline% -N %testName%.xml
+copy "./%testName%.test" "./%bline%%testName%.test"
+IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
+cd ..
+
+cd "diamond"
+set testName="diamond-gaussianModel"
+%cmdline% -N %testName%.xml
+copy "./%testName%.test" "./%bline%%testName%.test"
+IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
+cd ..
+
+cd "Tunnelling"
+set testName="H+H2,T+T2"
+%cmdline% -N %testName%.xml
+copy "./%testName%.test" "./%bline%%testName%.test"
+IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
+cd ..
+
 :OUT
 
 echo Start Time=%starttime% - End Time=%time%
