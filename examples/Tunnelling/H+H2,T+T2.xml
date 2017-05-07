@@ -36,10 +36,8 @@
           <scalar units="amu">3</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod xsi:type="ClassicalRotors"/>
+      <me:DOSCMethod xsi:type="QMRotors"/>
     </molecule>
-
-
 
     <molecule id="TS-H" description="R">
       <atomArray>
@@ -72,7 +70,7 @@
           <scalar units="amu">3</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod xsi:type="ClassicalRotors"/>
+      <me:DOSCMethod xsi:type="QMRotors"/>
 
     </molecule>
 
@@ -108,10 +106,8 @@
           <scalar units="amu">3</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod xsi:type="ClassicalRotors"/>
+      <me:DOSCMethod xsi:type="QMRotors"/>
     </molecule>
-
-
 
     <molecule id="TS-Cl" description="R">
       <atomArray>
@@ -144,7 +140,7 @@
           <scalar units="amu">3</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod xsi:type="ClassicalRotors"/>
+      <me:DOSCMethod xsi:type="QMRotors"/>
     </molecule>
     
     <molecule id="ProdCl2-H" description="R">
@@ -179,10 +175,8 @@
           <scalar units="amu">3</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod xsi:type="ClassicalRotors"/>
+      <me:DOSCMethod xsi:type="QMRotors"/>
     </molecule>
-
-
 
     <molecule id="N_2">
       <propertyList>
@@ -197,6 +191,7 @@
         </property>
       </propertyList>
     </molecule>
+
   </moleculeList>
 
   <reactionList>

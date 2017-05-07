@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sat May  6 14:53:30 2017
+                     Execution Date:  Sun May  7 22:11:47 2017
                      Number of ranks: 4
 
 Using 4 processes
@@ -55,7 +55,7 @@ In R2: 194 PotentialPoints read for WKB tunneling
 750Torr, 300K at d precision with N_2
 750Torr, 600K at d precision with N_2
 750Torr, 1000K at d precision with N_2
-Write metadata 20170506_145330
+Write metadata 20170507_221147
 
 File: "H+H2,T+T2.xml" successfully parsed.
 Main Calculation begins
