@@ -371,7 +371,49 @@
       <xs:enumeration value="amuA^2"/>
     </xs:restriction>
   </xs:simpleType>
-  
+
+  <xs:attributeGroup  name="analyticalAtts">
+    <xs:attribute name="index" type="xs:decimal" use="optional"/>
+    <xs:attribute name="coefficient" type="xs:float" use="optional"/>
+  </xs:attributeGroup>
+  <xs:attributeGroup  name="numericalAtts">
+    <xs:attribute name="coordinate" type="xs:float" use="optional"/>
+    <xs:attribute name="potential" type="xs:float" use="optional"/>
+  </xs:attributeGroup>
+
+  <xs:complexType name="FourierGrid1D">
+    <xs:complexContent>
+      <xs:extension base="ExtraDOSCt">
+        <xs:all>
+          <xs:element name="replaceVibFreq" type="xs:decimal" minOccurs="0"/>
+          <xs:element name="NumGridPnts" type="xs:decimal" minOccurs="0"/>
+          <xs:element name="reducedMass" type="xs:float" minOccurs="0"/>
+          <!--needs units-->
+          
+          <xs:element name="vibrationalPotential">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="PotentialPoint" maxOccurs="unbounded">
+                  <xs:complexType>
+                    <xs:attributeGroup ref="analyticalAtts"/>
+                    <xs:attributeGroup ref="numericalAtts" />
+                    <!--<xs:attribute name="angle" type="xs:float" use="optional" />
+                    <xs:attribute name="potential" type="xs:float" use="optional" />-->
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+              <xs:attribute name="format" type="hinderedRotorFormatType" use="required"/>
+              <xs:attribute name="units" type="energyUnitsType" use="required"/>
+              <xs:attribute name="minx" type="xs:float" use="optional"/>
+              <xs:attribute name="maxx" type="xs:float" use="optional"/>
+            </xs:complexType>
+          </xs:element>
+        </xs:all>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+
   <xs:complexType name="Morse">
     <xs:complexContent>
       <xs:extension base="ExtraDOSCt">
@@ -693,7 +735,7 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="ZhuNakamuraCrossingCoeff">
+  <xs:complexType name="ZhuNakamuraCrossing">
     <xs:complexContent>
       <xs:extension base="MCRCMethodct">
         <xs:all>
