@@ -279,7 +279,7 @@
   <xs:complexType name="HinderedRotorQM1D">
     <xs:complexContent>
       <xs:extension base="ExtraDOSCt">
-        <xs:sequence>
+        <xs:all>
           <xs:element name="bondRef" type="bondRefType"/>
           <xs:element name="replaceVibFreq" type="xs:decimal" minOccurs="0"/>
           <xs:element name="InternalRotorInertia" minOccurs="0">
@@ -323,7 +323,7 @@
             </xs:complexType>
           </xs:element>
           <xs:element name="ConfigurationalData" minOccurs="0" />
-        </xs:sequence>
+        </xs:all>
         <xs:attribute name="name" type="xs:string" use="optional" />
       </xs:extension>
     </xs:complexContent>
@@ -332,7 +332,7 @@
   <xs:complexType name="HinderedRotorCM1D">
     <xs:complexContent>
       <xs:extension base="ExtraDOSCt">
-        <xs:sequence>
+        <xs:all>
           <xs:element name="bondRef" type="cml:bondRefType"/>
           <xs:element name="replaceVibFreq" type="xs:decimal" minOccurs="0"/>
           <xs:element name="HinderedRotorPotential">
@@ -352,7 +352,7 @@
           </xs:element>
           <xs:element name="periodicity" type="xs:unsignedInt" minOccurs="0"/>
           <xs:element minOccurs="0" name="PlotStates" />
-        </xs:sequence>
+        </xs:all>
         <xs:attribute name="name" type="xs:string" use="required" />
       </xs:extension>
     </xs:complexContent>
