@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.0 compiled: -- Apr 28 2017 -- 22:56:46
+     Mesmer v5.0 compiled: -- May 10 2017 -- 17:07:46
 
      Copyright (C) 2009-2017 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -26,11 +26,11 @@
     You should have received a copy of the GNU Public License
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
-                     Platform:        Windows
-                     Execution Date:  Sat May  6 14:32:36 2017
-                     Number of ranks: 4
+                     Platform:        Linux
+                     Execution Date:  Wed May 10 19:10:30 2017
+                     Number of ranks: 1
 
-Using 4 processes
+Using 1 processes
 defaults.xml, librarymols.xml are in ../..
 
 Parsing input xml file...
@@ -50,7 +50,7 @@ In R1: The default value of me:TInfinity was used.
 In R1: No tunneling method used for R1
 The default value of the attribute precision was used.
 5e+07Torr, 1300K at d precision with N2
-Write metadata 20170506_143236
+Write metadata 20170510_191030
 
 File: "diamond-gaussianModel.xml" successfully parsed.
 Main Calculation begins
