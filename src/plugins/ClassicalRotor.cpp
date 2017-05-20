@@ -23,7 +23,7 @@ namespace mesmer
 
     // Constructor which registers with the list of DensityOfStatesCalculators in TopPlugin
     // This class calculates a complete DOS: it is not an extra class. 
-		ClassicalRotor(const char* id) : m_id(id), m_Sym(1.0), m_SpinMultiplicity(1) { Register(); }
+    ClassicalRotor(const char* id) : m_id(id), m_Sym(1.0), m_SpinMultiplicity(1), m_OpticalSym(1.0) { Register(); }
 
     virtual ~ClassicalRotor() {}
     virtual const char* getID() { return m_id; }
@@ -34,11 +34,13 @@ namespace mesmer
 
     virtual ClassicalRotor* Clone() { return new ClassicalRotor(*this); }
 
-	private:
+  private:
 
     const char* m_id;
 
-    double m_Sym;              // Symmetry Number.
+    double m_Sym;              // Rotational Symmetry Number.
+    double m_OpticalSym;       // Transition states may have 2 optical isomers, which
+                               // is accounted for by an additionsl symmetry number. 
     size_t m_SpinMultiplicity; // Spin multiplicity.
 
   };
@@ -51,30 +53,45 @@ namespace mesmer
   //Read data from XML and store in this instance.
   bool ClassicalRotor::ReadParameters(gDensityOfStates* gdos, PersistPtr ppDOSC)
   {
-		PersistPtr pp = gdos->getHost()->get_PersistentPointer();
+    PersistPtr pp = gdos->getHost()->get_PersistentPointer();
 
-		PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
-		if (!ppPropList)
-			ppPropList = pp; // A propertyList element is not essential.
+    PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
+    if (!ppPropList)
+      ppPropList = pp; // A propertyList element is not essential.
 
     // Spin multiplicity (Note spin can be defined as an attribute on a molecule).
-		m_SpinMultiplicity = ppPropList->XmlReadPropertyInteger("me:spinMultiplicity", optional);
-		if (m_SpinMultiplicity == 0)
-			m_SpinMultiplicity = pp->XmlReadInteger("spinMultiplicity");
+    m_SpinMultiplicity = ppPropList->XmlReadPropertyInteger("me:spinMultiplicity", optional);
+    if (m_SpinMultiplicity == 0)
+      m_SpinMultiplicity = pp->XmlReadInteger("spinMultiplicity");
 
-		// Symmetry Number
-		m_Sym = ppPropList->XmlReadPropertyDouble("me:symmetryNumber");
+    // Rotational Symmetry Number
+    m_Sym = ppPropList->XmlReadPropertyDouble("me:symmetryNumber");
 
-		return true;
-	}
+    // Transition states may have 2 optical isomers, which
+    // is accounted for by an additionsl symmetry number.
+    m_OpticalSym = ppPropList->XmlReadPropertyDouble("me:TSOpticalSymmetryNumber", optional);
+    if (!IsNan(m_OpticalSym)) {
+      if (m_OpticalSym > 2.0) {
+        string name(gdos->getHost()->getName());
+        cinfo << "Warning: The transition state " << name << " has an optical symmetry number greater than 2." << endl;
+      }
+
+      // Adjust Rotational Symmetry Number by Optical Symmetry Number if necessary.
+      if (m_OpticalSym > 1.0)
+        m_Sym /= m_OpticalSym;
+    }
+
+    return true;
+  }
 
   // Provide a function to define particular counts of the DOS of a molecule.
   bool ClassicalRotor::countCellDOS(gDensityOfStates* pDOS, const MesmerEnv& env)
   {
     const size_t MaximumCell = env.MaxCell;
+    const double cellSize = env.CellSize;
 
     vector<double> cellEne;
-    getCellEnergies(MaximumCell, env.CellSize, cellEne);
+    getCellEnergies(MaximumCell, cellSize, cellEne);
     vector<double> cellDOS(MaximumCell, 0.0);
 
     //
@@ -112,7 +129,7 @@ namespace mesmer
     pDOS->getEleExcitation(eleExc);
     vector<double> tmpCellDOS(cellDOS);
     for (size_t j(0); j < eleExc.size(); ++j) {
-      size_t nr = nint(eleExc[j] / env.CellSize);
+      size_t nr = nint(eleExc[j] / cellSize);
       if (nr < MaximumCell) {
         for (size_t i(0); i < MaximumCell - nr; i++) {
           tmpCellDOS[i + nr] = tmpCellDOS[i + nr] + cellDOS[i];

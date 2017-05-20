@@ -1,3 +1,14 @@
+2017-May-20 Struan Robertson
+
+		* QMRotor.cpp, ClassicalRotor.cpp: Added new molecular property, 
+		me:TSOpticalSymmetryNumber, to account for transition state optical activity 
+		explicitly. 
+
+		* Potential1D.cpp, ThermodynamicTable_Fourier.xml: Added ammonia inversion 
+		example to Fourier Grid test set. 
+
+		* Documentation update. 
+
 2017-May-06 Struan Robertson
 
 		* ZhuNakamuraCrossing.cpp: Further adjustments of Zhu-Nakamura method. 

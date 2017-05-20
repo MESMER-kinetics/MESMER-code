@@ -96,6 +96,8 @@ namespace mesmer
 
 		vector<double> potential;
     vector<double> coord;
+		double minPotential(0.0);
+		bool bFlagMaxPot(true);
 		double maxCoord(-1000.0), minCoord(1000.0);
     while (pp = pp->XmlMoveTo("me:PotentialPoint"))
     {
@@ -108,6 +110,12 @@ namespace mesmer
 			minCoord = min(minCoord, coordPoint);
 
       double potentialPoint = pp->XmlReadDouble("potential", optional);
+
+			// Locate the potential minimum. 
+			if (bFlagMaxPot || (potentialPoint < minPotential)) {
+				bFlagMaxPot = false;
+				minPotential = potentialPoint;
+			}
       if (IsNan(potentialPoint))
         potentialPoint = 0.0;
       potential.push_back(potentialPoint);
@@ -115,6 +123,9 @@ namespace mesmer
 
 		if (maxCoord < m_maxx || minCoord > m_minx)
 			throw(std::runtime_error("__FUNCTION__: Requested grid range does not fall within the potential coordinate range."));
+
+		for (size_t i(0); i < potential.size(); i++)
+			potential[i] -= minPotential;
 
 		m_spline.Initialize(coord, potential);
 

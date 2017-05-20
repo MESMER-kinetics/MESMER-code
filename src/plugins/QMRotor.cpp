@@ -22,7 +22,7 @@ namespace mesmer
     virtual unsigned int NoDegOfFreedom(gDensityOfStates* gdos);
 
     // Constructor which registers with the list of DensityOfStatesCalculators in the base class
-		QMRotor(const char* id) : m_id(id), m_Sym(1.0), m_SpinMultiplicity(1) { Register(); }
+    QMRotor(const char* id) : m_id(id), m_Sym(1.0), m_SpinMultiplicity(1), m_OpticalSym(1.0) { Register(); }
 
     virtual const char* getID() { return m_id; }
     virtual bool includesRotations() { return true; }
@@ -35,7 +35,9 @@ namespace mesmer
 
     const char* m_id;
 
-    double m_Sym;              // Symmetry Number.
+    double m_Sym;              // Rotational Symmetry Number.
+    double m_OpticalSym;       // Transition states may have 2 optical isomers, which
+                               // is accounted for by an additionsl symmetry number. 
     size_t m_SpinMultiplicity; // Spin multiplicity.
 
     void asymmetricRotor(double A, double B, double C, int J, double kpp, vector<double> &Er);
@@ -50,19 +52,33 @@ namespace mesmer
   //Read data from XML and store in this instance.
   bool QMRotor::ReadParameters(gDensityOfStates* gdos, PersistPtr ppDOSC)
   {
-		PersistPtr pp = gdos->getHost()->get_PersistentPointer();
+    PersistPtr pp = gdos->getHost()->get_PersistentPointer();
 
     PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
     if (!ppPropList)
       ppPropList = pp; // A propertyList element is not essential.
 
     // Spin multiplicity (Note spin can be defined as an attribute on a molecule).
-		m_SpinMultiplicity = ppPropList->XmlReadPropertyInteger("me:spinMultiplicity", optional);
+    m_SpinMultiplicity = ppPropList->XmlReadPropertyInteger("me:spinMultiplicity", optional);
     if (m_SpinMultiplicity == 0)
       m_SpinMultiplicity = pp->XmlReadInteger("spinMultiplicity");
 
-		// Symmetry Number
+    // Rotational Symmetry Number
     m_Sym = ppPropList->XmlReadPropertyDouble("me:symmetryNumber");
+
+    // Transition states may have 2 optical isomers, which
+    // is accounted for by an additionsl symmetry number.
+    m_OpticalSym = ppPropList->XmlReadPropertyDouble("me:TSOpticalSymmetryNumber", optional);
+    if (!IsNan(m_OpticalSym)) {
+      if (m_OpticalSym > 2.0) {
+        string name(gdos->getHost()->getName());
+        cinfo << "Warning: The transition state " << name << " has an optical symmetry number greater than 2." << endl;
+      }
+
+      // Adjust Rotational Symmetry Number by Optical Symmetry Number if necessary.
+      if (m_OpticalSym > 1.0)
+        m_Sym /= m_OpticalSym;
+    }
 
     return true;
   }

@@ -7,7 +7,7 @@
   <me:description>
     Uses ThermodynamicTable, without any reactions and with non-default
     Tmin, Tmid, Tmax and Tstep parameters, to generate a table and
-    NASA polynomials for all molecules except He, which has no energy specified. 
+    NASA polynomials for all molecules except He, which has no energy specified.
     NO and OH energies are specified as Heat of Formation at 298K and HNO2 as
     Heat of Formation at 0K.
   </me:description>
@@ -285,6 +285,90 @@
           <me:PotentialPoint coordinate="	2.1	"  potential="	3111.6936	"/>
           <me:PotentialPoint coordinate="	2.2	"  potential="	3844.3884	"/>
           <me:PotentialPoint coordinate="	2.3	"  potential="	4654.4744	"/>
+        </me:vibrationalPotential>
+      </me:ExtraDOSCMethod>
+
+    </molecule>
+
+    <molecule id="Ammonia">
+      <atomArray>
+        <atom id="a1" elementType="N" x3= "0.000000" y3= "0.000000" z3= "0.000000" />
+        <atom id="a2" elementType="H" x3= "0.937529" y3= "0.000000" z3="-0.381028" />
+        <atom id="a3" elementType="H" x3="-0.468764" y3= "0.811924" z3="-0.381028" />
+        <atom id="a4" elementType="H" x3="-0.468764" y3="-0.811924" z3="-0.381028" />
+      </atomArray>
+      <bondArray>
+        <bond atomRefs2="a1 a2" order="1" />
+        <bond atomRefs2="a1 a3" order="1" />
+        <bond atomRefs2="a1 a4" order="1" />
+      </bondArray>
+      <propertyList>
+        <property title="MW">
+          <scalar>17.00</scalar>
+        </property>
+        <property title="Hf0" dictRef="me:Hf0">
+          <scalar units="kJ/mol">-38.907</scalar>
+        </property>
+        <property title="Vibrational Frequencies" dictRef="me:vibFreqs">
+          <array units="cm-1">1132.51 1727.23 1727.23 3433.9 3563.26 3563.26</array>
+        </property>
+        <property title="Symmetry Number" dictRef="me:symmetryNumber">
+          <scalar>3</scalar>
+        </property>
+        <property dictRef="me:frequenciesScaleFactor" default="true">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>1</scalar>
+        </property>
+      </propertyList>
+
+      <me:DOSCMethod xsi:type="me:QMRotors"/>
+
+      <me:ExtraDOSCMethod xsi:type="me:FourierGrid1D">
+        <me:NumGridPnts>100</me:NumGridPnts>
+        <me:replaceVibFreq>1132.51</me:replaceVibFreq>
+        <me:reducedMass>3.072432</me:reducedMass>
+        <me:vibrationalPotential format="numerical" units="kcal/mol" minx="-1.0" maxx="1.0">
+          <me:PotentialPoint coordinate="	-1.11919238	"  potential="	-101.4320112	"/>
+          <me:PotentialPoint coordinate="	-1.06028752	"  potential="	-156.2949132	"/>
+          <me:PotentialPoint coordinate="	-1.00138266	"  potential="	-197.3593839	"/>
+          <me:PotentialPoint coordinate="	-0.9424778	"  potential="	-229.0891492	"/>
+          <me:PotentialPoint coordinate="	-0.88357293	"  potential="	-254.0399925	"/>
+          <me:PotentialPoint coordinate="	-0.82466807	"  potential="	-273.7587874	"/>
+          <me:PotentialPoint coordinate="	-0.76576321	"  potential="	-289.2056232	"/>
+          <me:PotentialPoint coordinate="	-0.70685835	"  potential="	-301.0922214	"/>
+          <me:PotentialPoint coordinate="	-0.64795348	"  potential="	-309.9832775	"/>
+          <me:PotentialPoint coordinate="	-0.58904862	"  potential="	-316.3036157	"/>
+          <me:PotentialPoint coordinate="	-0.53014376	"  potential="	-320.4825150	"/>
+          <me:PotentialPoint coordinate="	-0.4712389	"  potential="	-322.8863155	"/>
+          <me:PotentialPoint coordinate="	-0.41233404	"  potential="	-323.8651048	"/>
+          <me:PotentialPoint coordinate="	-0.35342917	"  potential="	-323.8031696	"/>
+          <me:PotentialPoint coordinate="	-0.29452431	"  potential="	-323.0628967	"/>
+          <me:PotentialPoint coordinate="	-0.23561945	"  potential="	-321.9371447	"/>
+          <me:PotentialPoint coordinate="	-0.17671459	"  potential="	-320.6462322	"/>
+          <me:PotentialPoint coordinate="	-0.11780972	"  potential="	-319.5728145	"/>
+          <me:PotentialPoint coordinate="	-0.05890486	"  potential="	-318.8674939	"/>
+          <me:PotentialPoint coordinate=" 0.00000000	"  potential="	-318.6892184	"/>
+          <me:PotentialPoint coordinate="	0.05890486	"  potential="	-318.8674939	"/>
+          <me:PotentialPoint coordinate="	0.11780972	"  potential="	-319.5728145	"/>
+          <me:PotentialPoint coordinate="	0.17671459	"  potential="	-320.6462322	"/>
+          <me:PotentialPoint coordinate="	0.23561945	"  potential="	-321.9371447	"/>
+          <me:PotentialPoint coordinate="	0.29452431	"  potential="	-323.0628967	"/>
+          <me:PotentialPoint coordinate="	0.35342917	"  potential="	-323.8031696	"/>
+          <me:PotentialPoint coordinate="	0.41233404	"  potential="	-323.8651048	"/>
+          <me:PotentialPoint coordinate="	0.47123890	"  potential="	-322.8863155	"/>
+          <me:PotentialPoint coordinate="	0.53014376	"  potential="	-320.4825150	"/>
+          <me:PotentialPoint coordinate="	0.58904862	"  potential="	-316.3036157	"/>
+          <me:PotentialPoint coordinate="	0.64795348	"  potential="	-309.9832775	"/>
+          <me:PotentialPoint coordinate="	0.70685835	"  potential="	-301.0922214	"/>
+          <me:PotentialPoint coordinate="	0.76576321	"  potential="	-289.2056232	"/>
+          <me:PotentialPoint coordinate="	0.82466807	"  potential="	-273.7587874	"/>
+          <me:PotentialPoint coordinate="	0.88357293	"  potential="	-254.0399925	"/>
+          <me:PotentialPoint coordinate="	0.94247780	"  potential="	-229.0891492	"/>
+          <me:PotentialPoint coordinate="	1.00138266	"  potential="	-197.3593839	"/>
+          <me:PotentialPoint coordinate="	1.06028752	"  potential="	-156.2949132	"/>
+          <me:PotentialPoint coordinate="	1.11919238	"  potential="	-101.4320112	"/>
         </me:vibrationalPotential>
       </me:ExtraDOSCMethod>
 
