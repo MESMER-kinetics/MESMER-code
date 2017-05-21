@@ -69,16 +69,18 @@ namespace mesmer
 
     // Transition states may have 2 optical isomers, which
     // is accounted for by an additionsl symmetry number.
-    m_OpticalSym = ppPropList->XmlReadPropertyDouble("me:TSOpticalSymmetryNumber", optional);
-    if (!IsNan(m_OpticalSym)) {
-      if (m_OpticalSym > 2.0) {
-        string name(gdos->getHost()->getName());
-        cinfo << "Warning: The transition state " << name << " has an optical symmetry number greater than 2." << endl;
-      }
+    if (gdos->getHost()->isMolType("transitionState")) {
+      m_OpticalSym = ppPropList->XmlReadPropertyDouble("me:TSOpticalSymmetryNumber", optional);
+      if (!IsNan(m_OpticalSym)) {
+        if (m_OpticalSym > 2.0) {
+          string name(gdos->getHost()->getName());
+          cinfo << "Warning: The transition state " << name << " has an optical symmetry number greater than 2." << endl;
+        }
 
-      // Adjust Rotational Symmetry Number by Optical Symmetry Number if necessary.
-      if (m_OpticalSym > 1.0)
-        m_Sym /= m_OpticalSym;
+        // Adjust Rotational Symmetry Number by Optical Symmetry Number if necessary.
+        if (m_OpticalSym > 1.0)
+          m_Sym /= m_OpticalSym;
+      }
     }
 
     return true;

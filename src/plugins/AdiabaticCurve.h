@@ -25,9 +25,7 @@ namespace mesmer
     // abstract virtual Energy evaluation function
     virtual double evaluateEnergy(double) = 0;
 
-    // Function for finite central difference numerical derivative, 
-    // *note that I've retained the vector inputs in case we want to extend this in the future;
-		// At the moment its not strictly necessary.
+    // Function for finite central difference numerical derivative.
     double NumericalDerivatives(double r, double delta) {
       return (evaluateEnergy(r + 0.5*delta) - evaluateEnergy(r - 0.5*delta)) / delta;
     };
@@ -42,7 +40,7 @@ namespace mesmer
 
   public:
     // Constructor
-    exponentialDiabat(double a, double b, double dE) { A = a; B = b; DE = dE; };
+    exponentialDiabat(double a, double b, double dE): A(a), B(b), DE(dE) {};
 
     // Destructor
     virtual ~exponentialDiabat() {};
@@ -63,7 +61,7 @@ namespace mesmer
 
   public:
     // Constructor
-    parabolicDiabat(double k, double x0, double dE) { K = k; X0 = x0; DE = dE; };
+    parabolicDiabat(double k, double x0, double dE): K(k), X0(x0), DE(dE) {};
 
     // Destructor
     virtual ~parabolicDiabat() {};
@@ -84,7 +82,7 @@ namespace mesmer
 
   public:
     // Constructor
-    linearDiabat(double k, double dE) { K = k; DE = dE; };
+    linearDiabat(double k, double dE): K(k), DE(dE) {};
 
     // Destructor
     virtual ~linearDiabat() {};

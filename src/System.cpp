@@ -307,6 +307,7 @@ namespace mesmer
         m_Flags.print_TabbedMatrices = ppControl->XmlReadBoolean("me:printTabbedMatrices");
         m_Flags.useDOSweightedDT = ppControl->XmlReadBoolean("me:useDOSweighedDownWardTransition");
         m_Flags.bForceMacroDetailedBalance = ppControl->XmlReadBoolean("me:ForceMacroDetailedBalance");
+        m_Flags.useOrigFreqForZPECorrection = ppControl->XmlReadBoolean("me:useOrigFreqForZPECorrection");
 
         // System configuration information
         if (ppControl->XmlReadBoolean("me:runPlatformDependentPrecisionCheck")) configuration();
@@ -418,7 +419,7 @@ namespace mesmer
     if (m_Flags.grainDOSEnabled) m_Flags.cyclePrintGrainDOS = true;
 
     TimeCount events; unsigned int timeElapsed = 0;
-		bool debugOutput = (meErrorLog.GetOutputLevel() == obDebug);
+    bool debugOutput = (meErrorLog.GetOutputLevel() == obDebug);
 
     //
     // Reset microcanonical rate re-calculation flag as parameters, such
@@ -438,125 +439,125 @@ namespace mesmer
 
     // Main loop over temperatures and concentrations.
 
-    int rank      = m_pParallelManager->rank();
-    int nRanks    = m_pParallelManager->size();
-		size_t nPoint = m_pConditionsManager->getNumPTPoints();
-		size_t addand = (nPoint % nRanks > 0) ? 1 : 0;
-		size_t nLoop  = nRanks*( nPoint/nRanks + addand);
+    int rank = m_pParallelManager->rank();
+    int nRanks = m_pParallelManager->size();
+    size_t nPoint = m_pConditionsManager->getNumPTPoints();
+    size_t addand = (nPoint % nRanks > 0) ? 1 : 0;
+    size_t nLoop = nRanks*(nPoint / nRanks + addand);
 
-    for (size_t calPoint(rank); calPoint < nLoop ; calPoint += nRanks) {
+    for (size_t calPoint(rank); calPoint < nLoop; calPoint += nRanks) {
 
-			// This condition catches those situations where the number of ranks is not a factor 
-			// of the number of (p,T) points and so some ranks have nothing to do but none-the-less 
-			// need to commumicate this. 
-			if (calPoint < nPoint) {
+      // This condition catches those situations where the number of ranks is not a factor 
+      // of the number of (p,T) points and so some ranks have nothing to do but none-the-less 
+      // need to commumicate this. 
+      if (calPoint < nPoint) {
 
-				m_pConditionsManager->get_analysisData(calPoint)->clear();
+        m_pConditionsManager->get_analysisData(calPoint)->clear();
 
-				m_Env.beta = 1.0 / (boltzmann_RCpK * m_pConditionsManager->PTPointTemp(calPoint));
-				m_Env.conc = m_pConditionsManager->PTPointConc(calPoint); // unit of conc: particles per cubic centimeter
-				m_Env.bathGasName = m_pConditionsManager->PTPointBathGas(calPoint);
-				map<Reaction*, double> excessConcs = m_pConditionsManager->PTPointExcessConcs(calPoint);
-				//Set excess Concentrations for all reactions
-				for (map<Reaction*, double>::iterator it = excessConcs.begin(); it != excessConcs.end(); ++it)
-					it->first->set_concExcessReactant(it->second);
+        m_Env.beta = 1.0 / (boltzmann_RCpK * m_pConditionsManager->PTPointTemp(calPoint));
+        m_Env.conc = m_pConditionsManager->PTPointConc(calPoint); // unit of conc: particles per cubic centimeter
+        m_Env.bathGasName = m_pConditionsManager->PTPointBathGas(calPoint);
+        map<Reaction*, double> excessConcs = m_pConditionsManager->PTPointExcessConcs(calPoint);
+        //Set excess Concentrations for all reactions
+        for (map<Reaction*, double>::iterator it = excessConcs.begin(); it != excessConcs.end(); ++it)
+          it->first->set_concExcessReactant(it->second);
 
-				if (writeReport && debugOutput) { cinfo << "PT Grid " << calPoint << endl; }
-				Precision precision = m_pConditionsManager->PTPointPrecision(calPoint);
-				m_collisionOperator.setPrecision(precision);
+        if (writeReport && debugOutput) { cinfo << "PT Grid " << calPoint << endl; }
+        Precision precision = m_pConditionsManager->PTPointPrecision(calPoint);
+        m_collisionOperator.setPrecision(precision);
 
-				stest << "PT Grid " << calPoint << " Condition: conc = " << m_Env.conc << ", temp = "
-					<< m_pConditionsManager->PTPointTemp(calPoint);
+        stest << "PT Grid " << calPoint << " Condition: conc = " << m_Env.conc << ", temp = "
+          << m_pConditionsManager->PTPointTemp(calPoint);
 
-				switch (precision) {
-				case DOUBLE_DOUBLE:
-					stest << ", diagonalization precision: double-double\n{\n";
-					break;
-				case QUAD_DOUBLE:
-					stest << ", diagonalization precision: quad-double\n{\n";
-					break;
-				default:
-					stest << ", diagonalization precision: double\n{\n";
-				}
+        switch (precision) {
+        case DOUBLE_DOUBLE:
+          stest << ", diagonalization precision: double-double\n{\n";
+          break;
+        case QUAD_DOUBLE:
+          stest << ", diagonalization precision: quad-double\n{\n";
+          break;
+        default:
+          stest << ", diagonalization precision: double\n{\n";
+        }
 
-				// Build collison matrix for system.
-				if (!m_collisionOperator.BuildReactionOperator(m_Env, m_Flags, writeReport))
-					throw (std::runtime_error("Failed building system collison operator."));
+        // Build collison matrix for system.
+        if (!m_collisionOperator.BuildReactionOperator(m_Env, m_Flags, writeReport))
+          throw (std::runtime_error("Failed building system collison operator."));
 
-				if (writeReport && debugOutput) {
-					string thisEvent = "Build Collison Operator";
-					events.setTimeStamp(thisEvent, timeElapsed);
-					cinfo << thisEvent;
-					if (timeElapsed > 0)
-						cinfo << " -- Time elapsed: " << timeElapsed << " seconds.";
-					cinfo << endl;
-				}
+        if (writeReport && debugOutput) {
+          string thisEvent = "Build Collison Operator";
+          events.setTimeStamp(thisEvent, timeElapsed);
+          cinfo << thisEvent;
+          if (timeElapsed > 0)
+            cinfo << " -- Time elapsed: " << timeElapsed << " seconds.";
+          cinfo << endl;
+        }
 
-				if (!m_Flags.rateCoefficientsOnly) {
+        if (!m_Flags.rateCoefficientsOnly) {
 
-					if (!m_collisionOperator.calculateEquilibriumFractions())
-						throw (std::runtime_error("Failed calculating equilibrium fractions."));
+          if (!m_collisionOperator.calculateEquilibriumFractions())
+            throw (std::runtime_error("Failed calculating equilibrium fractions."));
 
-					// Diagonalise the collision operator.
-					m_collisionOperator.diagReactionOperator(m_Flags, m_Env, m_pConditionsManager->get_analysisData(calPoint));
+          // Diagonalise the collision operator.
+          m_collisionOperator.diagReactionOperator(m_Flags, m_Env, m_pConditionsManager->get_analysisData(calPoint));
 
-					if (writeReport && debugOutput) {
-						string thisEvent = "Diagonalize the Reaction Operator";
-						events.setTimeStamp(thisEvent, timeElapsed);
-						cinfo << thisEvent;
-						if (timeElapsed > 0)
-							cinfo << " -- Time elapsed: " << timeElapsed << " seconds.";
-						cinfo << endl;
-					}
+          if (writeReport && debugOutput) {
+            string thisEvent = "Diagonalize the Reaction Operator";
+            events.setTimeStamp(thisEvent, timeElapsed);
+            cinfo << thisEvent;
+            if (timeElapsed > 0)
+              cinfo << " -- Time elapsed: " << timeElapsed << " seconds.";
+            cinfo << endl;
+          }
 
-					if (!m_Env.useBasisSetMethod) {
+          if (!m_Env.useBasisSetMethod) {
 
-						if (!m_Flags.bIsSystemSecondOrder) {
+            if (!m_Flags.bIsSystemSecondOrder) {
 
-							// Calculate time-dependent properties.
-							m_collisionOperator.timeEvolution(m_Flags, m_pConditionsManager->get_analysisData(calPoint));
-							if (m_collisionOperator.hasGrainProfileData()) {
-								m_collisionOperator.printGrainProfileAtTime(m_pConditionsManager->get_analysisData(calPoint));
-							}
-						}
-						else {
-							cinfo << "At present it is not possible to print profiles for systems with a second order term." << once << endl;
-						}
+              // Calculate time-dependent properties.
+              m_collisionOperator.timeEvolution(m_Flags, m_pConditionsManager->get_analysisData(calPoint));
+              if (m_collisionOperator.hasGrainProfileData()) {
+                m_collisionOperator.printGrainProfileAtTime(m_pConditionsManager->get_analysisData(calPoint));
+              }
+            }
+            else {
+              cinfo << "At present it is not possible to print profiles for systems with a second order term." << once << endl;
+            }
 
-						// Calculate rate coefficients. 
-						qdMatrix mesmerRates(1);
-						qdMatrix lossRates(1);
-						m_collisionOperator.BartisWidomPhenomenologicalRates(mesmerRates, lossRates, m_Flags, m_pConditionsManager->get_analysisData(calPoint));
+            // Calculate rate coefficients. 
+            qdMatrix mesmerRates(1);
+            qdMatrix lossRates(1);
+            m_collisionOperator.BartisWidomPhenomenologicalRates(mesmerRates, lossRates, m_Flags, m_pConditionsManager->get_analysisData(calPoint));
 
-						// Write out phenomenological rate coefficients.
-						m_collisionOperator.PrintPhenomenologicalRates(mesmerRates, lossRates, m_Flags, m_pConditionsManager->get_analysisData(calPoint));
+            // Write out phenomenological rate coefficients.
+            m_collisionOperator.PrintPhenomenologicalRates(mesmerRates, lossRates, m_Flags, m_pConditionsManager->get_analysisData(calPoint));
 
-						// For these conditions calculate the contribution to the chi^2 merit function
-						// for any of the experimentally observable data types. 
+            // For these conditions calculate the contribution to the chi^2 merit function
+            // for any of the experimentally observable data types. 
 
-						chiSquare += calcChiSqRateCoefficients(mesmerRates, calPoint, residuals);
+            chiSquare += calcChiSqRateCoefficients(mesmerRates, calPoint, residuals);
 
-						chiSquare += calcChiSqYields(calPoint, residuals);
+            chiSquare += calcChiSqYields(calPoint, residuals);
 
-						chiSquare += calcChiSqEigenvalues(calPoint, residuals);
+            chiSquare += calcChiSqEigenvalues(calPoint, residuals);
 
-						chiSquare += calcChiSqRawData(calPoint, residuals, writeReport);
+            chiSquare += calcChiSqRawData(calPoint, residuals, writeReport);
 
-						stest << "}\n";
+            stest << "}\n";
 
-					}
-					else {
+          }
+          else {
 
-						qdMatrix mesmerRates(1);
-						m_collisionOperator.BartisWidomBasisSetRates(mesmerRates, m_Flags);
+            qdMatrix mesmerRates(1);
+            m_collisionOperator.BartisWidomBasisSetRates(mesmerRates, m_Flags);
 
-					}
-				}
-			}
+          }
+        }
+      }
 
-			m_pParallelManager->writeCtest();
+      m_pParallelManager->writeCtest();
 
-		} // End of temperature and concentration loop. 
+    } // End of temperature and concentration loop. 
 
     // Reduce Chi^2 values and redistribute
 
@@ -578,13 +579,13 @@ namespace mesmer
     if (timeElapsed > 0)
       line << " -- Time elapsed: " << timeElapsed << " seconds.";
     line << endl;
-    if (writeReport) 
-			line << m_pConditionsManager->getNumPTPoints() << " temperature/concentration-pressure points calculated." << endl;
+    if (writeReport)
+      line << m_pConditionsManager->getNumPTPoints() << " temperature/concentration-pressure points calculated." << endl;
 
-    if (m_Flags.viewEvents) 
-			line << events;
-		if (writeReport && debugOutput)
-			cinfo << line.str();
+    if (m_Flags.viewEvents)
+      line << events;
+    if (writeReport && debugOutput)
+      cinfo << line.str();
 
     return true;
   }
@@ -742,8 +743,8 @@ namespace mesmer
         // No reference reaction. Assume reaction is unimolecular.
       }
 
-			double diff = (m_Flags.bIndependentErrors) ? (expRate - rateCoeff) / expErr : (expRate - rateCoeff);
-			residuals[calPoint] += diff;
+      double diff = (m_Flags.bIndependentErrors) ? (expRate - rateCoeff) / expErr : (expRate - rateCoeff);
+      residuals[calPoint] += diff;
       chiSquare += diff * diff;
 
       calcRates[i] = rateCoeff;
@@ -803,8 +804,8 @@ namespace mesmer
 
       }
 
-			double diff = (m_Flags.bIndependentErrors) ? (expYield - yield) / expErr : (expYield - yield);
-			residuals[calPoint] += diff;
+      double diff = (m_Flags.bIndependentErrors) ? (expYield - yield) / expErr : (expYield - yield);
+      residuals[calPoint] += diff;
       chiSquare += (diff * diff);
 
       calcYields[i] = yield;

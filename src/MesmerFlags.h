@@ -59,7 +59,9 @@ namespace mesmer
     bool   bIsSystemSecondOrder;           // This flag is set if there is a second order reaction in the system and is
                                            // used to suspend an attempt to calculate species concentrations etc.
 		bool   bIndependentErrors;             // Used in data analysis. If true Chi^2 statistic test is valid.
-  };
+		bool   useOrigFreqForZPECorrection;    // Used with ab initio potentials, thus flag causes MESMER to use the original
+		                                       // frequencies to calculate the ZPE correction need to addjust the Classical potential.
+	};
 }//namespace
 
 

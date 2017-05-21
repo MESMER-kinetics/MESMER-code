@@ -50,8 +50,9 @@ namespace mesmer
     double m_RotCstB ;          // Moment of inertia B.
     double m_RotCstC ;          // Moment of inertia C.
 
-    Rdouble m_ZPE ;             // Zero Point Energy. //wavenumbers
-    double m_scaleFactor ;      // scale factor for input real/imaginary vibrational frequencies
+    Rdouble m_ZPE ;             // Zero Point Energy in wavenumbers.
+    double m_scaleFactor ;      // scale factor for input real/imaginary vibrational frequencies.
+		double m_DiffQMClassZPE;    // Difference between classical and QM zero point energy.
 
     //================================================
     // CHECK FOR INPUTFILE PARAMETERS
@@ -111,7 +112,6 @@ namespace mesmer
 
     double get_Hf298Thermo(); //kJ/mol
 
-    RotationalTop test_rotConsts(void);
     RotationalTop get_rotConsts(std::vector<double> &mmtsInt);
     void get_VibFreq(std::vector<double>& vibFreq);
     bool removeVibFreq(double freq); 

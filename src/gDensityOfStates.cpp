@@ -70,7 +70,7 @@ namespace mesmer
     if (!ppPropList)
       ppPropList = pp; // A propertyList element is not essential.
 
-    // Vibrational frequencies. Test for Hessain first and, if absent,
+    // Vibrational frequencies. Test for Hessian first and, if absent,
     // try to read frequencies.
 
     bool hasVibFreq(true);
@@ -327,15 +327,14 @@ namespace mesmer
       if (m_energyConvention.empty())
         m_energyConvention = txt ? txt : "arbitrary";
 
-      double zpCorrection = 0.0; //cm-1
+      double zpCorrection(0.0); // cm-1
       if (m_energyConvention == "computational" || (txt && strcmp(txt, "computational")==0))
       {
-        // Mesmer assumes that the ZPE is the true zero point energy, unless
-        // an attribute zeroPointVibEnergyAdded="false" 
-        // (or me:zeroPointVibEnergyAdded="false", an old version which also works with the schema)
-        // is present. This indicates that the value provided is 
-        // that the value provided is a computed energy at the bottom of the well
-        // and it is corrected here by adding 0.5*Sum(vib freqs).
+        // Mesmer assumes that the ZPE is the true zero point energy, unless an
+        // attribute zeroPointVibEnergyAdded="false" (or me:zeroPointVibEnergyAdded="false",
+				// an old version which also works with the schema) is present. This indicates
+				// that the value provided is a computed energy at the bottom of the well and
+        // it is corrected here by adding 0.5*Sum(vib freqs).
         string zpAttName("zeroPointVibEnergyAdded");
         txt = ppPropList->XmlReadPropertyAttribute(elName, zpAttName, optional);
         if (!txt)
@@ -345,11 +344,20 @@ namespace mesmer
         }
         if (txt && strcmp(txt, "false") == 0)
         {
-          if (m_VibFreq.size() > 0)
-          {
-            zpCorrection = accumulate(m_VibFreq.begin(), m_VibFreq.end(), 0.0);
-            zpCorrection *= 0.5;
-          }
+					if (getHost()->getFlags().useOrigFreqForZPECorrection) {
+						// Assume that the correction can be obtained from the original frequencies.
+						if (m_VibFreq.size() > 0)
+						{ 
+							zpCorrection = accumulate(m_VibFreq.begin(), m_VibFreq.end(), 0.0);
+							zpCorrection *= m_scaleFactor;
+							zpCorrection *= 0.5;
+						}
+					}
+					else { 
+						// This correction accounts for hindered rotors etc.
+						calcDensityOfStates();	
+						zpCorrection = m_DiffQMClassZPE;
+					}
           tempzpe += ConvertFromWavenumbers(unitsInput, zpCorrection);
           //Write back a corrected value and change attribute to zeroPointVibEnergyAdded="true"
           PersistPtr ppScalar = ppMol->XmlMoveToProperty(elName);
@@ -530,12 +538,6 @@ namespace mesmer
     return NULL;
   }
 
-  RotationalTop gDensityOfStates::test_rotConsts()
-  {
-    std::vector<double> mmtsInt;
-    return get_rotConsts(mmtsInt);
-  }
-
   RotationalTop gDensityOfStates::get_rotConsts(std::vector<double> &mmtsInt)
   {
     if (m_RC_chk <= -1){
@@ -606,8 +608,11 @@ namespace mesmer
   // Calculate Cell Density of states.
   bool gDensityOfStates::calcCellDensityOfStates() {
     bool ret(true);
-    for (size_t i(0); ret && i < m_DOSCalculators.size(); ++i)
-      ret = ret && m_DOSCalculators[i]->countCellDOS(this, m_host->getEnv());
+		m_DiffQMClassZPE = 0.0;
+		for (size_t i(0); ret && i < m_DOSCalculators.size(); ++i) {
+			ret = ret && m_DOSCalculators[i]->countCellDOS(this, m_host->getEnv());
+			m_DiffQMClassZPE += m_DOSCalculators[i]->ZeroPointEnergy(this);
+		}
 
     return ret ;
   }

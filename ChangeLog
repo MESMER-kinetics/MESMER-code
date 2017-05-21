@@ -1,3 +1,15 @@
+2017-May-21 Struan Robertson
+
+		* QMRotor.cpp, ClassicalRotor.cpp: Minor change to restrict transition state 
+		optical activity check to transition states only. 
+
+		* gdensityOfSates.h/.cpp: Altered zero point energy correction section for
+		computed potentials so that the the user can choose to use original ab initio
+		frequencies or projected frequencies obtained from projecting out a hindered 
+		rotor. The default is to use the original frequencies. 
+
+		* Documentation update. 
+
 2017-May-20 Struan Robertson
 
 		* QMRotor.cpp, ClassicalRotor.cpp: Added new molecular property, 
