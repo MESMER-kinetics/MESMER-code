@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.0 compiled: -- May  2 2017 -- 19:09:13
+     Mesmer v5.0 compiled: -- May 24 2017 -- 20:10:44
 
      Copyright (C) 2009-2017 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,10 +27,10 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Tue May  2 19:47:43 2017
-                     Number of ranks: 1
+                     Execution Date:  Thu May 25 13:08:57 2017
+                     Number of ranks: 4
 
-Using 1 processes
+Using 4 processes
 defaults.xml, librarymols.xml are in ../..
 
 Parsing input xml file...
@@ -55,7 +55,7 @@ The default value of the attribute precision was used.
 200.72Torr, 800K at d precision with He
 The default value of the attribute precision was used.
 250Torr, 1000K at d precision with He
-Write metadata 20170502_194743
+Write metadata 20170525_130857
 
 File: "WKB_test.xml" successfully parsed.
 Main Calculation begins
@@ -64,7 +64,6 @@ Now calculating...
 --Execute calcMethod simpleCalc
 Number of cells = 50000, Number of grains = 120
 In FastLaplaceConvolution: 13360 values in the FFT convolution routine were replaced by standard convolution
-Number of cells = 50000, Number of grains = 134
  -- Total time elapsed: 1 seconds.
 
 

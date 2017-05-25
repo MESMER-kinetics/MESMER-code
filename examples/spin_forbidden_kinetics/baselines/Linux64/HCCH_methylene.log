@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.0 compiled: -- May  2 2017 -- 19:09:13
+     Mesmer v5.0 compiled: -- May 24 2017 -- 20:10:44
 
      Copyright (C) 2009-2017 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,10 +27,10 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Tue May  2 19:47:42 2017
-                     Number of ranks: 1
+                     Execution Date:  Thu May 25 13:08:56 2017
+                     Number of ranks: 4
 
-Using 1 processes
+Using 4 processes
 defaults.xml, librarymols.xml are in ../..
 
 Parsing input xml file...
@@ -40,7 +40,7 @@ The default value of me:calcMethod was used.
 --Parse data for simpleCalc
 Energy convention "" written to <moleculeList>
 In He: He copied from ../../librarymols.xml
-In R1: Parsing reaction...Association reaction
+In R1: Parsing reaction...Irreversible exchange reaction
 In R1: No imaginary vibrational frequency. Check if there is tunneling.
 --Parse data for LandauZenerCrossing
 In R1: No tunneling method used for R1
@@ -49,26 +49,21 @@ The default value of the attribute precision was used.
 1Torr, 195K at d precision with He
 The default value of the attribute precision was used.
 1Torr, 298K at d precision with He
-Write metadata 20170502_194742
+Write metadata 20170525_130856
 
 File: "HCCH_methylene.xml" successfully parsed.
 Main Calculation begins
 Now calculating...
 
 --Execute calcMethod simpleCalc
-In triplet: The default value of the attribute spinMultiplicity was used.
-The default value of me:DistributionCalcMethod was used.
---Parse data for Boltzmann
---Parse data for ExponentialDown
-Number of cells = 50000, Number of grains = 1523
+Number of cells = 50000, Number of grains = 1356
 In FastLaplaceConvolution: 1660 values in the FFT convolution routine were replaced by standard convolution
 In FastLaplaceConvolution: 240 values in the FFT convolution routine were replaced by standard convolution
-Number of cells = 50000, Number of grains = 2239
- -- Total time elapsed: 0 seconds.
+ -- Total time elapsed: 1 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
 
 System saved to mesmer_out.xml
-Total time elapsed: 0 seconds.
+Total time elapsed: 1 seconds.

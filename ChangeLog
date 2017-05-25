@@ -1,3 +1,6 @@
+2017-May-21 Robin Shannon
+           * Update Linux64 baselines in examples folder
+
 2017-May-21 Struan Robertson
 
 		* QMRotor.cpp, ClassicalRotor.cpp: Minor change to restrict transition state 
