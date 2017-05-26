@@ -86,6 +86,12 @@ namespace mesmer
 
 		virtual ~FourierGrid1D() { delete m_ppotential; }
     virtual FourierGrid1D* Clone() { return new FourierGrid1D(*this); }
+    virtual const char* Description() {
+      return
+        "Solves one dimensional Schrodinger equation for bound state\n"
+        "  eigenvalues and eigenfunctions corresponding to a potential V(x).\n  "
+        "\n";
+    };
 
   private:
 

@@ -334,6 +334,8 @@
       <xs:element name="testRateConstant" minOccurs="0" />
       <xs:element name="testRateConstants" minOccurs="0"/>
       <xs:element name="useTheSameCellNumberForAllConditions" minOccurs="0"/>
+      <xs:element name="useOrigFreqForZPECorrection" minOccurs="0"/>
+      <xs:element name="useDOSweighedDownWardTransition" minOccurs="0"/>
     </xs:all>
     <xs:attribute name="active" type="me:ynboolean" use="optional"/>
   </xs:complexType>

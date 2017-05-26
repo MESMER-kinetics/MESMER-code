@@ -29,15 +29,16 @@ namespace mesmer
     virtual const char* typeDescription() { return
       "Normally it necessary to specify a density of states calculator that\n"
       "includes the rotations, such as ClassicalRotors, QMRotors or DefinedStates.\n"
-      "In the XML datafile this is done like\n" 
-      "<me:DOSCMethod>QMRotors/> or <me:DOSCMethod name=\"QMRotors\"/>\n\n"
+      "In the XML datafile this is done like\n"
+      "<me:DOSCMethod xsi:type=\"me:ClassicalRotors\"> or\n"
+      "<me:DOSCMethod>QMRotors/> or <me:DOSCMethod name=\"QMRotors\"/>\n"
       "If no method is specified with <me:DOSCMethod>, the value from defaults.xml\n"
-      "(currently ClassicalRotors) is used. The BeyerSwinehart method for vibrations"
-      " is normally automatically included.\n\n"
+      "(currently ClassicalRotors) is used. The BeyerSwinehart method for vibrations\n"
+      " is normally automatically included.\n"
       "Multiple additional methods can be specified like\n"
       "<me:ExtraDOSCMethod xsi:type=\"me:HinderedRotorQM1D\">\n"
       "  data for method...\n"
-      "</me:ExtraDOSCMethod>\nn";
+      "</me:ExtraDOSCMethod>\n";
     }
     virtual bool includesRotations(){return false;}
 
