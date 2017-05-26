@@ -1,3 +1,10 @@
+2017-May-26 Chris Morley
+		* mesmer.xsd: add two flag names for control section
+
+		* DensityOfStates.h: Small changes to description of DensityOfStatesCalculator
+
+		* FourierGrid1D.cpp: Add description (viewable with -t o -T options). Please review.
+
 2017-May-21 Robin Shannon
            * Update Linux64 baselines in examples folder
 
