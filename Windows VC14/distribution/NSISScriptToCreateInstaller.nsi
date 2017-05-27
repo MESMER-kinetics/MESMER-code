@@ -5,6 +5,8 @@
 ;Include Modern UI
 
   !include "MUI.nsh"
+  !include nsDialogs.nsh
+  !include LogicLib.nsh
 
 ; ======================================
 ; The main part of this script starts at
@@ -457,7 +459,7 @@ FunctionEnd
 ;General
 
   ;Mesmer version
-  !define MesmerVersion 4.1
+  !define MesmerVersion 5.0
 
   ;Name and file
   Name "Mesmer ${MESMERVERSION}"
@@ -497,6 +499,32 @@ FunctionEnd
   !define MUI_STARTMENUPAGE_REGISTRY_VALUENAME "Start Menu Folder"
   !insertmacro MUI_PAGE_STARTMENU Application $STARTMENU_FOLDER
 
+  Var MPICheckbox
+  Var MPICheckbox_State
+  Var MPIText
+  Var MPIDialog
+  Var MPILabel
+  Page custom MSMPIPage MSMPIPageLeave
+  Function MSMPIPage
+    nsDialogs::Create 1018
+    Pop $MPIDialog
+    ${If} $MPIDialog == error
+      Abort
+    ${EndIf}
+    !insertmacro MUI_HEADER_TEXT "Install Microsoft MPI" ""
+    ${NSD_CreateLabel} 0 0 100% 20u "Installing Microsoft MPI to speed up Mesmer's execution by using multiple processors is optional and can be done by the user at a later stage."
+    Pop $MPILabel
+    ${NSD_CreateLabel} 0 20u 100% 20u "Microsoft MPI remains installed if Mesmer is subsequently uninstalled."
+    Pop $MPILabel
+    ${NSD_CreateCheckbox} 0 50u 100% 20u "Install Microsoft MPI"
+    Pop $MPICheckbox
+    nsDialogs::Show
+  FunctionEnd
+
+  Function MSMPIPageLeave
+    ${NSD_GetState} $MPICheckbox $MPICheckbox_State
+  FunctionEnd
+
   !insertmacro MUI_PAGE_INSTFILES
   !insertmacro MUI_PAGE_FINISH
   
@@ -505,7 +533,6 @@ FunctionEnd
   
 ;--------------------------------
 ;Languages
- 
   !insertmacro MUI_LANGUAGE "English"
 
 ;--------------------------------
@@ -535,7 +562,7 @@ Section "Dummy Section" SecDummy
   SetOutPath "$INSTDIR" 
   File ..\..\License.txt
   File ..\Mesmer\Mesmer.exe
-  File vc_redist.x86.exe
+  File vcredist_x86.exe
   File ..\..\mesmer1.xsl
   File ..\..\mesmerDiag.xsl
   File ..\..\popDiag.xsl
@@ -547,11 +574,17 @@ Section "Dummy Section" SecDummy
   File ..\..\punchout.bat
   File ReadMe.txt
   
+  ${If} $MPICheckbox_State == ${BST_CHECKED}
+    File MSMpiSetup.exe
+    StrCpy $MPIText "MS MPI installed"
+    ExecWait "$INSTDIR/MSMpiSetup.exe"
+  ${EndIf}
+
   ;Store installation folder
   WriteRegStr HKCU "Software\Mesmer ${MESMERVERSION}" "" $INSTDIR
   
   ;Install Visual C++ Redistributable for Visual Studio 2015
-  ExecWait '"$INSTDIR/vc_redist.x86.exe" /q'
+  ExecWait '"$INSTDIR/vcredist_x86.exe" /q'
 
   ;Create uninstaller
   WriteUninstaller "$INSTDIR\Uninstall.exe"
@@ -613,7 +646,8 @@ Section "Uninstall"
   ;ADD YOUR OWN FILES HERE...
   Delete "$INSTDIR\License.txt"
   Delete "$INSTDIR\Mesmer.exe"
-  Delete "$INSTDIR\vc_redist.x86.exe"
+  Delete "$INSTDIR\vcredist_x86.exe"
+  Delete "$INSTDIR\MSMpiSetup.exe"
   Delete $INSTDIR\mesmer1.xsl
   Delete $INSTDIR\mesmerDiag.xsl
   Delete $INSTDIR\popDiag.xsl
