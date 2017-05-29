@@ -15,6 +15,7 @@
 #include "AdiabaticCurve.h"
 #include "../Rdouble.h"
 #include "../gDensityOfStates.h"
+#include "../Spline.h"
 
 using namespace Constants;
 using namespace std;
@@ -43,7 +44,7 @@ namespace mesmer
   private:
 
     // One dimensional optimizaton method.
-    bool goldenSerachOptimization(AdiabaticCurve* energyCurve, double upperLimit, double lowerLimit, double& optimalR);
+    bool goldenSearchOptimization(AdiabaticCurve* energyCurve, double upperLimit, double lowerLimit, double& optimalR);
 
     double CalculateAReasonableLimit(AdiabaticCurve*, OneDimensionalFunction*, double);
 
@@ -91,7 +92,7 @@ namespace mesmer
       ReadDoubleAndUnits2(m_harmonicFC, pp, "me:harmonicReactantDiabat-FC", "kJ/mol/Bohr**2");
 
       ReadDoubleAndUnits2(m_exponentialA, pp, "me:exponentialProductDiabat-A", "kJ/mol");
-      ReadDoubleAndUnits2(m_exponentialB, pp, "me:exponentialProductDiabat-B", "Bohr**-1");
+      ReadDoubleAndUnits2(m_exponentialB, pp, "me:exponentialProductDiabat-B", "1/Bohr");
       ReadDoubleAndUnits2(m_exponentialDE, pp, "me:exponentialProductDiabat-DE", "kJ/mol");
       return true;
     }
@@ -129,7 +130,8 @@ namespace mesmer
     double Rx, Ex;
     diffBetweenTwoDiabats *diabatDifference;
     diabatDifference = new diffBetweenTwoDiabats(reactantCurve, productCurve);
-    if (!goldenSerachOptimization(diabatDifference, 0.2, -0.2, Rx)) {  // find Rt on the flipped & translated surface
+		// Find Rt on the flipped & translated surface.
+    if (!goldenSearchOptimization(diabatDifference, 0.2, -0.2, Rx)) {
       cerr << "problem finding Ex & Rx in Zhu-Nakumara Marquardt routine " << endl;
       return false;
     }
@@ -138,19 +140,21 @@ namespace mesmer
       cerr << "Zhu-Nakumara Marquardt routine found a negative Et... check your guess value & search range " << endl;
       return false;
     }
-    double Etest = productCurve->evaluateEnergy(Rx); // test that the energy is more or less identical on both rct & pdt curves
+		// Test that the energy is more or less identical on both rct & pdt curves.
+    double Etest = productCurve->evaluateEnergy(Rx);
     if (abs(Ex - Etest) > (1 / Hartree_in_RC)) {
       cerr << "Zhu-Nakumara Marquardt routine could not find the crossing between the two diabats... exiting " << endl;
       return false;
     }
 
-    // Find Rb & Eb, the coordinate & enegy for the bottom (b) of the upper Adiabat, using Rx as the initial guess
+    // Find Rb & Eb, the coordinate and energy for the bottom of the upper Adiabat,
+		// using Rx as the initial guess.
     double Rb, Eb, RbUpperLim, RbLowerLim;
 
     RbUpperLim = CalculateAReasonableLimit(upperCurve, reactantCurve, Rx); // get a sensible initial guess for the upper limit to Rb
     RbLowerLim = CalculateAReasonableLimit(upperCurve, productCurve, Rx);  // get a sensible initial guess for the lower limit to Rb
 
-    if (!goldenSerachOptimization(upperCurve, RbUpperLim, RbLowerLim, Rb)) {
+    if (!goldenSearchOptimization(upperCurve, RbUpperLim, RbLowerLim, Rb)) {
       cerr << "problem finding Eb & Rb in golden section search routine " << endl;
       return false;
     }
@@ -160,9 +164,9 @@ namespace mesmer
       return false;
     }
 
-    // Find Et & Rt, the coordinate and energy for the top (t) of the lower Adiabat, using Rx as the initial guess
-    //   (to do this we flip the sign of the lower adiabatic curve (turning its max into a min) & translate it up in energy
-    //    so as to give non-negative values over the search range)
+    // Find Et & Rt, the coordinate and energy for the top of the lower Adiabat, using Rx as the initial
+		// guess. (To do this we flip the sign of the lower adiabatic curve (turning its max into a min) and
+		// translate it up in energy so as to give non-negative values over the search range.)
     double Rt, Et, RtUpperLim, RtLowerLim;
 
     RtUpperLim = CalculateAReasonableLimit(lowerCurve, productCurve, Rx);  // get a sensible initial guess for the upper limit to Rt
@@ -170,7 +174,7 @@ namespace mesmer
 
     flippedTranslatedLowerAdiabat *flippedTranslatedLowerCurve;
     flippedTranslatedLowerCurve = new flippedTranslatedLowerAdiabat(reactantCurve, productCurve, m_H12*kJPerMoltoHartree, Eb);
-    if (!goldenSerachOptimization(flippedTranslatedLowerCurve, RtUpperLim, RtLowerLim, Rt)) {  // find Rt on the flipped & translated surface
+    if (!goldenSearchOptimization(flippedTranslatedLowerCurve, RtUpperLim, RtLowerLim, Rt)) {  // find Rt on the flipped & translated surface
       cerr << "problem finding Et & Rt in golden section search routine " << endl;
       return false;
     }
@@ -180,10 +184,10 @@ namespace mesmer
       return false;
     }
 
-    // calculate the a & b parameters (in the diabatic representation)
+    // Calculate the a & b parameters (in the diabatic representation).
 
-    double Vx = m_H12*kJPerMoltoHartree;         // calculate coupling in A.U.
-    double m = m_ReducedMass*1.822888e+3;        // calculate mass in A.U
+    double Vx = m_H12*kJPerMoltoHartree;         // Calculate coupling in A.U.
+    double m = m_ReducedMass*1.822888e+3;        // Calculate mass in A.U.
 
     double F1 = reactantCurve->NumericalDerivatives(Rx, delta);
     double F2 = productCurve->NumericalDerivatives(Rx, delta);
@@ -192,14 +196,12 @@ namespace mesmer
     double asqd = F*(F1 - F2) / (16.0*m*pow(Vx, 3.0));
     double a = sqrt(asqd);
 
-    // in Z-N theory, b(E)**2 = (E-Ex)*(F1-F2)/(2*F*Vx) == (F1-F2)/(2*F*Vx)*E - Ex*(F1-F2)/(2*F*Vx)
+    // In Z-N theory, b(E)**2 = (E-Ex)*(F1-F2)/(2*F*Vx) == (F1-F2)/(2*F*Vx)*E - Ex*(F1-F2)/(2*F*Vx)
     double slope = (F1 - F2) / (2 * F*Vx);
-    double intercept = -1.0*Ex*(F1 - F2) / (2 * F*Vx);
-    linearDiabat *bsqd;
-    bsqd = new linearDiabat(slope, intercept);
+    double intercept = -Ex*(F1 - F2) / (2.0*F*Vx);
+    linearDiabat *bsqd = new linearDiabat(slope, intercept);
 
-    // Get the properties of the Crossing coefficients vector in which the Z-N probabilities will be placed 
-    const size_t MaximumCell = pReact->getEnv().MaxCell;
+    // Get the properties of the Crossing coefficients vector in which the Z-N probabilities will be placed. 
     const size_t MaximumGrn = pReact->getEnv().MaxGrn;
 
     double zeroThreshold = m_harmonicDE*kJPerMol_in_RC;
@@ -207,28 +209,27 @@ namespace mesmer
     double Lt1(Rt), Lt2(Rt);  // initialize the turning points for the top of the Lower (L) Barrier
     double Ut1(Rb), Ut2(Rb);  // initialize the turning points for the bottom of the Upper (U) Barrier
     int lastZeroIndex, zone1StartIdx, lastIdx, zone1EndIdx, zone2StartIdx, zone2EndIdx, zone3StartIdx, zone3EndIdx;
-    int ctr(0), gsize(pReact->getEnv().GrainSize);
-    vector <double> grainCenteredCrossingProbabilities(MaximumGrn, 0.0), grainCenteredEnergies(MaximumGrn, 0.0);
+    int gsize(pReact->getEnv().GrainSize);
+    vector <double> grnCrossingProb(MaximumGrn, 0.0), grnEnergies(MaximumGrn, 0.0);
     double dErctpdt = pReact->get_relative_rctZPE() - pReact->get_relative_pdtZPE();
 
     for (size_t i(0); i < MaximumGrn; ++i) {
-      grainCenteredEnergies[i] = double(gsize)*(double(i) + 0.5);
+      grnEnergies[i] = double(gsize)*(double(i));
     }
 
     // Set Prob to zero for any cells which are below either the dE of the reactant diabat or the product zpe
     size_t ii(0);
-    double E(0.0);
     double Emin = min(zeroThreshold, dErctpdt);
     ii = size_t(Emin / double(gsize));
 
     lastZeroIndex = ii - 1;
     zone1StartIdx = ii;
-		// Now we run the cell counter up to Et, to determine the range over which we will calculate zone 1 ZN probabilities,
-		// This may seem an odd thing to do, but it's computationally much simpler to calculate zone 1 ZN probabilities
-		// beginning from Et and then going down in enegy, rather than from lower to higher energies gives the last cell
-		// index which was set to zero.
+		// Now we run the cell counter up to Et, to determine the range over which we will calculate zone 1 ZN
+		// probabilities. This may seem an odd thing to do, but it's computationally much simpler to calculate
+		// zone 1 ZN probabilities beginning from Et and then going down in energy, rather than from lower to
+		// higher energies gives the last cell index which is set to zero.
 		do {
-			EinAU = grainCenteredEnergies[ii] / Hartree_in_RC;
+			EinAU = grnEnergies[ii] / Hartree_in_RC;
       lastIdx = ii;
       ++ii;
     } while (bsqd->evaluateEnergy(EinAU) < -1.0 && EinAU < Et && ii < MaximumGrn);
@@ -236,7 +237,7 @@ namespace mesmer
     zone1EndIdx = lastIdx - 1;       // if the do/while loop conditions are satisfied & we have terminated, then we've actually gone one idx too far
     zone2StartIdx = zone1EndIdx + 1;
     do {                              // Now we run the cell counter up to Eb, to determine the range over which we will calculate zone 2 ZN probabilities
-      EinAU = grainCenteredEnergies[ii] / Hartree_in_RC;
+      EinAU = grnEnergies[ii] / Hartree_in_RC;
       lastIdx = ii;                  // gives the last cell index which was set to zero
       ++ii;
     } while (EinAU < Eb && ii < MaximumGrn); // we could also enforce the condition *1.0 >= bsqd->evaluateEnergy(EinAU). However this only lines up with
@@ -246,7 +247,7 @@ namespace mesmer
     zone3EndIdx = (MaximumGrn - 1);
 
     // Now we evaluate the Zone 1 Probabilities, starting from Et, and working our way down in Energy
-    // initialize a ftn which is the lower adiabat shifted by dE; solving Chi-Square for this ftn will give turning pts
+    // initialize a ftn which is the lower adiabat shifted by dE.
     lowerAdiabatShiftedByE *lowerTPCurve;
     lowerTPCurve = new lowerAdiabatShiftedByE(reactantCurve, productCurve, m_H12*kJPerMoltoHartree, 0);   // initialize the ftn with dE=0
     double leftBound, rightBound, deltaIntegral(0.0), sigma, P12, dummy;
@@ -258,7 +259,7 @@ namespace mesmer
 
     for (int i = zone1EndIdx; i >= zone1StartIdx; --i) {  //calculate the Zhu Nakamura expression for E < Et
 
-      EinAU = grainCenteredEnergies[i] /Hartree_in_RC;  // E = double(i) + 0.5;
+      EinAU = grnEnergies[i] /Hartree_in_RC;  // E = double(i) + 0.5;
       lowerTPCurve->setDE(-EinAU); // set dE to the energy where we want to find a turning point (this makes the TP into a minima on the chi-squared function)
 
       Lt1 = CalculateTurningPoint(lowerTPCurve, rightBound, EinAU, -1.0, -1.0);   // calculate Left hand turning point (LHTP) by minimizing the chi-squared function
@@ -279,7 +280,7 @@ namespace mesmer
       dummy = fB*exp(-2.0*deltaIntegral);
       double dummy2 = 1.0 + 0.5*a*dummy/(1.0+a);
       P12 = dummy/(dummy2*dummy2 + dummy);
-			grainCenteredCrossingProbabilities[i] = (IsNan(P12)) ? 0.0 : P12;
+			grnCrossingProb[i] = (IsNan(P12)) ? 0.0 : P12;
 		}
 
     // now we calculate the zone 2 probabilities, beginning at Et and working our way up to Eb
@@ -291,8 +292,7 @@ namespace mesmer
                                                                  // all parameters initialized to zero
     for (int i = zone2StartIdx; i <= zone2EndIdx; ++i) {    //calculate the Zhu Nakamura expression for Et < E < Eb
 
-      E = grainCenteredEnergies[i];         // E = double(i) + 0.5;         
-      EinAU = E / Hartree_in_RC;
+      EinAU = grnEnergies[i] / Hartree_in_RC;
 
       g5 = 0.38*pow(1 + bsqd->evaluateEnergy(EinAU), 1.2 - 0.4*bsqd->evaluateEnergy(EinAU)) / asqd;
       g4 = ((a - 3.0*bsqd->evaluateEnergy(EinAU)) / (a + 3.0))*sqrt(1.23 + bsqd->evaluateEnergy(EinAU));
@@ -303,24 +303,28 @@ namespace mesmer
       zone2integrand->setC(0.61*sqrt(2.0 + bsqd->evaluateEnergy(EinAU))); // cc = 0.61*sqrt(2.0+bsqd->evaluateEnergy(EinAU));  
       zone2integrand->setD(pow(a, 1.0 / 3.0));                            // dd = pow(a, 1.0/3.0);                    
 
+		  // The integrand W(t) has very rapid oscillations at longer times. This creates
+			// a sign problem for numerical integration & extremely slow convergence. 
+			// Convergence is much faster if one always begins at zero, where the integrand
+			// has non-oscillatory positive values (prior to the fast oscillations)  
       int ctr(0);
       step = 1.0; upperLimitOft = step;
       P12 = 0.0; W = 0.0;
       do
       {
-        previousP12 = P12;                                           // The integrand W(t) has very rapid oscillations at longer times. This creates
-        W = NumericalIntegration(zone2integrand, 0.0, upperLimitOft);// a sign problem for numerical integration & extremely slow convergence. 
-        P12 = W*W / (1 + W*W);                                           // Convergence is much faster if one always begins at zero, where the integrand  
-        upperLimitOft += step;                                       // has non-oscillatory positive values (prior to the fast oscillations)  
+        previousP12 = P12;                                           
+        W = NumericalIntegration(zone2integrand, 0.0, upperLimitOft);
+        P12 = W*W / (1 + W*W);                                         
+        upperLimitOft += step;                                       
         ++ctr;
       } while (abs((P12 - previousP12) / previousP12) > 0.01);  // converge the Probablities to within 1%
 
-			grainCenteredCrossingProbabilities[i] = (IsNan(P12)) ? 0.0 : P12;
+			grnCrossingProb[i] = (IsNan(P12)) ? 0.0 : P12;
 		}
     // ------------------------------------------------------------------end comment out of zone 2
 
     // Now we evaluate the Zone 3 Probabilities, starting from Eb, and working our way up in Energy
-    // initialize a ftn which is the lower adiabat shifted by dE; solving Chi-Square for this ftn will give turning pts
+    // initialize a ftn which is the lower adiabat shifted by dE.
     upperAdiabatShiftedByE *upperTPCurve;
     upperTPCurve = new upperAdiabatShiftedByE(reactantCurve, productCurve, m_H12*kJPerMoltoHartree, 0);   // initialize the ftn with dE=0
     leftBound = rightBound = Rb;
@@ -334,14 +338,19 @@ namespace mesmer
     double fctr2 = -0.72 + 0.62*pow(a, 1.43);
     for (int i = zone3StartIdx; i <= zone3EndIdx; ++i) {
 
-      EinAU = grainCenteredEnergies[i] / Hartree_in_RC;  //      E = double(i) + 0.5;
-      upperTPCurve->setDE(-EinAU); // set dE to the energy where we want to find a turning point (this makes the TP into a minima on the chi-squared function)    
+			// Set dE to the energy where we want to find a turning point.    
+      EinAU = grnEnergies[i] / Hartree_in_RC;
+      upperTPCurve->setDE(-EinAU);
 
-      Lt1 = CalculateTurningPoint(upperTPCurve, rightBound, EinAU, -1.0, 1.0);   // calculate Left hand turning point (LHTP) by minimizing the chi-squared function
-      rightBound = Lt1;           // the left hand turning point becomes the right hand bound in the LHTP seeach on the next iteration
+      // Calculate Left hand turning point (LHTP). The left hand turning point becomes the right hand bound
+			// in the LHTP search on the next iteration.
+      Lt1 = CalculateTurningPoint(upperTPCurve, rightBound, EinAU, -1.0, 1.0);
+      rightBound = Lt1;
 
-      Lt2 = CalculateTurningPoint(upperTPCurve, leftBound, EinAU, 1.0, -1.0);   // calculate right hand turning point (RHTP) by minimizing the chi-squared function
-      leftBound = Lt2;            // the right hand turning point becomes the left hand bound in the RHTP seeach on the next iteration
+			// Calculate right hand turning point (RHTP). The right hand turning point becomes the left hand bound
+			// in the RHTP search on the next iteration.
+      Lt2 = CalculateTurningPoint(upperTPCurve, leftBound, EinAU, 1.0, -1.0);
+      leftBound = Lt2;
 
       upperActionIntegrand->setEinAU(EinAU);                          // calculate the classical action integrand
       sigma = NumericalIntegration(upperActionIntegrand, Lt1, Lt2);   // evaluate the classical action integral
@@ -356,30 +365,31 @@ namespace mesmer
       dummy = 4.0*cos(phi)*cos(phi);
       double p = exp((-M_PI / (4.0*a))*sqrt(2.0 / (bsqdval + sqrt(bsqdval*bsqdval + fctr2))));
       P12 = dummy / (dummy + p*p / (1.0 - p));
-      grainCenteredCrossingProbabilities[i] = (IsNan(P12)) ? 0.0 : P12;
+      grnCrossingProb[i] = (IsNan(P12)) ? 0.0 : P12;
     }
 
     cout << "Finished Calculating Zhu Nakamura Probabilities..." << endl;
 
-    CrossingProbability.clear();
+		// Interpolate crossing probabilities. 
+
+		const size_t MaximumCell = pReact->getEnv().MaxCell;
+		CrossingProbability.clear();
     CrossingProbability.resize(MaximumCell, 0.0);
 
-    ctr = int(grainCenteredEnergies[0]);
-    double E0, dP12, P120;
-    for (size_t i(0); i < MaximumGrn - 1; ++i) {
-      E0 = ctr;
-      P120 = grainCenteredCrossingProbabilities[i];
-      dP12 = grainCenteredCrossingProbabilities[i + 1] - P120;
-      for (int jj = 1; jj <= gsize; ++jj) {
-        CrossingProbability[ctr] = (dP12 / gsize)*(jj)+P120;
-        ++ctr;
-      }
-    }
+		Spline spline;
+		spline.Initialize(grnEnergies, grnCrossingProb);
 
-    if (pReact->getFlags().CrossingCoeffEnabled) {
+		const double cellSize = pReact->getEnv().CellSize;
+		for (size_t i(0); i < MaximumCell; ++i) {
+			CrossingProbability[i] = spline.Calculate(cellSize*(double(i) + 0.5));
+		}
+
+		// Output crossing probabilities if requested. 
+
+		if (pReact->getFlags().CrossingCoeffEnabled) {
       ctest << "\nZhu Nakamura crossing coefficients for: " << pReact->getName() << endl;
       for (size_t i(0); i < MaximumGrn ; ++i) {
-        ctest << grainCenteredEnergies[i] << "\t" << grainCenteredCrossingProbabilities[i] << endl;
+        ctest << grnEnergies[i] << "\t" << grnCrossingProb[i] << endl;
       }
       ctest << "}" << endl << "end of Zhu Nakamura crossing coefficients \n";
     }
@@ -430,14 +440,14 @@ namespace mesmer
     }
 
     // Find the turning point on the curve.
-    if (!goldenSerachOptimization(Curve, Rint, Rref, TP)) {
+    if (!goldenSearchOptimization(Curve, Rint, Rref, TP)) {
       throw(std::runtime_error("CalculateTurningPoint: problem finding Ex & Rx in golden section search routine\n"));
     }
 
     return TP;
   }
 
-  bool ZhuNakamuraCrossing::goldenSerachOptimization(AdiabaticCurve* energyCurve, double upperLimit, double lowerLimit, double& optimalR)
+  bool ZhuNakamuraCrossing::goldenSearchOptimization(AdiabaticCurve* energyCurve, double upperLimit, double lowerLimit, double& optimalR)
   {
 
     if (lowerLimit >= upperLimit) {

@@ -1,3 +1,13 @@
+
+2017-May-29 Struan Robertson
+
+		* ZhuNakamuraCrossing.cpp: Further refactoring. 
+
+		* gdensityOfSates.cpp: Added warning regarding Hessian-coordinate consistency. 
+
+		* Documentation update: Added warning regarding Hessian-coordinate consistency.
+		Added content for Zhu-Nakamura method. 
+
 2017-May-26 Chris Morley
 		* mesmer.xsd: add two flag names for control section
 
