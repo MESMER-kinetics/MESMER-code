@@ -22,7 +22,7 @@ namespace mesmer
     virtual unsigned int NoDegOfFreedom(gDensityOfStates* gdos);
 
     // Constructor which registers with the list of DensityOfStatesCalculators in the base class
-    QMRotor(const char* id) : m_id(id), m_Sym(1.0), m_SpinMultiplicity(1), m_OpticalSym(1.0) { Register(); }
+		QMRotor(const char* id) : m_id(id), m_Sym(1.0), m_OpticalSym(1.0), m_SpinMultiplicity(1) { Register(); }
 
     virtual const char* getID() { return m_id; }
     virtual bool includesRotations() { return true; }

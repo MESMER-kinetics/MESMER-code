@@ -205,9 +205,8 @@ namespace mesmer
     const size_t MaximumGrn = pReact->getEnv().MaxGrn;
 
     double zeroThreshold = m_harmonicDE*kJPerMol_in_RC;
-    double EinAU, transProbability(0.0);
+    double EinAU;
     double Lt1(Rt), Lt2(Rt);  // initialize the turning points for the top of the Lower (L) Barrier
-    double Ut1(Rb), Ut2(Rb);  // initialize the turning points for the bottom of the Upper (U) Barrier
     int lastZeroIndex, zone1StartIdx, lastIdx, zone1EndIdx, zone2StartIdx, zone2EndIdx, zone3StartIdx, zone3EndIdx;
     int gsize(pReact->getEnv().GrainSize);
     vector <double> grnCrossingProb(MaximumGrn, 0.0), grnEnergies(MaximumGrn, 0.0);
@@ -262,11 +261,15 @@ namespace mesmer
       EinAU = grnEnergies[i] /Hartree_in_RC;  // E = double(i) + 0.5;
       lowerTPCurve->setDE(-EinAU); // set dE to the energy where we want to find a turning point (this makes the TP into a minima on the chi-squared function)
 
-      Lt1 = CalculateTurningPoint(lowerTPCurve, rightBound, EinAU, -1.0, -1.0);   // calculate Left hand turning point (LHTP) by minimizing the chi-squared function
-      rightBound = Lt1;           // the left hand turning point becomes the right hand bound in the LHTP seeach on the next iteration
+			// Calculate Left hand turning point (LHTP). The left hand turning point becomes the right hand bound
+			// in the LHTP seeach on the next iteration.
+			Lt1 = CalculateTurningPoint(lowerTPCurve, rightBound, EinAU, -1.0, -1.0);
+      rightBound = Lt1;
 
-      Lt2 = CalculateTurningPoint(lowerTPCurve, leftBound, EinAU, 1.0, 1.0);   // calculate right hand turning point (RHTP) by minimizing the chi-squared function
-      leftBound = Lt2;            // the right hand turning point becomes the left hand bound in the RHTP seeach on the next iteration
+			// Calculate right hand turning point (RHTP). The right hand turning point becomes the left hand bound
+			// in the RHTP seeach on the next iteration.
+      Lt2 = CalculateTurningPoint(lowerTPCurve, leftBound, EinAU, 1.0, 1.0);
+      leftBound = Lt2;
 
       actionIntegrand->setEinAU(EinAU);                                  // calculate the classical action integrand
       deltaIntegral = NumericalIntegration(actionIntegrand, Lt1, Lt2);   // evaluate the classical action integral
@@ -622,7 +625,7 @@ namespace mesmer
   void ZhuNakamuraCrossing::complexGamma(double X, double Y, double &GR, double &GI) {
     vector <double> A(11, 0.0);
     double X1, Y1, X0, Z1, TH, GR1, GI1, T, TH1, SR, SI, Z2, TH2, G0;
-    int NA;
+    int NA(0);
 
     A[1] = 8.333333333333333e-02;
     A[2] = -2.777777777777778e-03;
