@@ -1,3 +1,13 @@
+2017-June-1 Chris Morley
+
+		* MesmerQA/cyclopropene isomerization reservoir state/baselines/Win32/mesmer.test:
+		Use version with 2 digit exponents.
+
+		* MesmerQA/QA.bat: Show mesmer commandline of each test. It's not clear to me why
+		this information stopped being output, nor why I cannot get the version number to be 
+		output without error.
+
+		* src/main.cpp: Remove "Using x processes" message.
 
 2017-May-29 Struan Robertson
 

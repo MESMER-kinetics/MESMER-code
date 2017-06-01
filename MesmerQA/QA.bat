@@ -11,19 +11,15 @@ IF EXIST "../Windows VC12/Mesmer/Mesmer.exe" GOTO VC12
 IF EXIST "../Windows VC10/Mesmer/Mesmer.exe" GOTO VC10
 
 ::For installed version
-SET executable="../../Mesmer.exe"
-GOTO SETTINGS
-
-:VC10
-SET executable="../../Windows VC10/Mesmer/Mesmer.exe"
+SET executable= "..\..\Mesmer.exe"
 GOTO SETTINGS
 
 :VC12
-SET executable="../../Windows VC12/Mesmer/Mesmer.exe"
+SET executable= "..\..\Windows VC12\Mesmer/Mesmer.exe"
 GOTO SETTINGS
 
 :VC14
-SET executable="../../Windows VC14/Mesmer/Mesmer.exe"
+SET executable= "..\..\Windows VC14\Mesmer\Mesmer.exe"
 GOTO SETTINGS
 
 :SETTINGS
@@ -35,7 +31,7 @@ SET mpicommand="C:\Program Files\Microsoft MPI\Bin\mpiexec" -n 2 %executable%
 SET cmdline=%executable%
 
 :: This compares the "double quote" altogether with the content
-IF "%1"=="" executable
+IF "%1"=="" (
 SET directive=-q
 SET otfn=test.test
 echo.
@@ -80,105 +76,101 @@ echo.
 GOTO END
 
 :RUNNING
-
-cd pentyl
-:: display mesmer version
-%executable% -V
-
+@echo on
+@cd pentyl
 %cmdline% pentyl_isomerization_test.xml -o %outf% %directive%
-copy "./%tfn%" "./%bline%%otfn%"
-IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
-cd ..
-echo --------------------------------------------------------------------
+@copy "./%tfn%" "./%bline%%otfn%"
+@IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
+@cd ..
+@echo --------------------------------------------------------------------
 
-cd benzene_oxidation
+@cd benzene_oxidation
 %cmdline% benzene_oxidation_test.xml -o %outf% %directive%
-copy "./%tfn%" "./%bline%%otfn%"
-IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
-cd ..
-echo --------------------------------------------------------------------
+@copy "./%tfn%" "./%bline%%otfn%"
+@IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
+@ cd ..
+@echo --------------------------------------------------------------------
 
-cd HSO2
+@cd HSO2
 %cmdline% HSO2_test.xml -o %outf% %directive%
-copy "./%tfn%" "./%bline%%otfn%"
-IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
+@@IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 
-set testName="HSO2"
+@set testName="HSO2"
 %cmdline% -N %testName%.xml %directive%
-copy "./%testName%.test" "./%bline%%testName%.test"
-IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
-cd ..
-echo --------------------------------------------------------------------
+@copy "./%testName%.test" "./%bline%%testName%.test"
+@IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
+@cd ..
+@echo --------------------------------------------------------------------
 
-cd "cyclopropene isomerization"
+@cd "cyclopropene isomerization"
 %cmdline% Cyclopropene_isomerization_test.xml -o %outf% %directive%
-copy "./%tfn%" "./%bline%%otfn%"
-IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
-cd ..
-echo --------------------------------------------------------------------
+@copy "./%tfn%" "./%bline%%otfn%"
+@IF "%1"=="-o" @copy "./%lfn%" "./%bline%%lfn%"
+@cd ..
+@echo --------------------------------------------------------------------
 
-cd "cyclopropene isomerization reservoir state"
+@cd "cyclopropene isomerization reservoir state"
 %cmdline% Cyclopropene_isomerization_reservoir_state_test.xml -o %outf% %directive%
-copy "./%tfn%" "./%bline%%otfn%"
-IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
-cd ..
-echo --------------------------------------------------------------------
+@copy "./%tfn%" "./%bline%%otfn%"
+@IF "%1"=="-o" @copy "./%lfn%" "./%bline%%lfn%"
+@cd ..
+@echo --------------------------------------------------------------------
 
-cd "OH acetylene association"
+@cd "OH acetylene association"
 %cmdline% OH_acetylene_association_test.xml -o %outf% %directive%
-copy "./%tfn%" "./%bline%%otfn%"
-IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
+@copy "./%tfn%" "./%bline%%otfn%"
+@IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 
-set testName="OH_acetylene_pseudo_isomerization"
+@set testName="OH_acetylene_pseudo_isomerization"
 %cmdline% -N %testName%.xml %directive%
-copy "./%testName%.test" "./%bline%%testName%.test"
-IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
-cd ..
-echo --------------------------------------------------------------------
+@copy "./%testName%.test" "./%bline%%testName%.test"
+@IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
+@cd ..
+@echo --------------------------------------------------------------------
 
-cd "Acetyl O2 association"
+@cd "Acetyl O2 association"
 %cmdline% Acetyl_O2_association.xml -o %outf% %directive%
-copy "./%tfn%" "./%bline%%otfn%"
-IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
-cd ..
-echo --------------------------------------------------------------------
+@copy "./%tfn%" "./%bline%%otfn%"
+@IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
+@cd ..
+@echo --------------------------------------------------------------------
 
-cd "i-propyl"
+@cd "i-propyl"
 %cmdline% ipropyl_test.xml -o %outf% %directive%
-copy "./%tfn%" "./%bline%%otfn%"
-IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
+@copy "./%tfn%" "./%bline%%otfn%"
+@IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 
-set testName="ipropyl_reservoir"
+@set testName="ipropyl_reservoir"
 %cmdline% -N %testName%.xml %directive%
-copy "./%testName%.test" "./%bline%%testName%.test"
-IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
-cd ..
-echo --------------------------------------------------------------------
+@copy "./%testName%.test" "./%bline%%testName%.test"
+@IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
+@cd ..
+@echo --------------------------------------------------------------------
 
-cd "ThermodynamicTable"
+@cd "ThermodynamicTable"
 %cmdline% ThermodynamicTable.xml -o %outf% %directive%
-copy "./%tfn%" "./%bline%%otfn%"
-IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
+@copy "./%tfn%" "./%bline%%otfn%"
+@IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 
-set testName="ThermodynamicTable_Fourier"
+@set testName="ThermodynamicTable_Fourier"
 %cmdline% -N %testName%.xml %directive%
-copy "./%testName%.test" "./%bline%%testName%.test"
-IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
-cd ..
-echo --------------------------------------------------------------------
+@copy "./%testName%.test" "./%bline%%testName%.test"
+@IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
+@cd ..
+@echo --------------------------------------------------------------------
 
-cd "UnitTests"
+@cd "UnitTests"
 %cmdline% UnitTests.xml -o %outf% %directive%
-copy "./%tfn%" "./%bline%%otfn%"
-IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
-cd ..
-echo --------------------------------------------------------------------
+@copy "./%tfn%" "./%bline%%otfn%"
+@IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
+@cd ..
+@echo --------------------------------------------------------------------
+@echo off
+@echo Start Time=%starttime% - End Time=%time%
 
-echo Start Time=%starttime% - End Time=%time%
-
-:: The line below makes DOS beep (err yup)
-echo 
-echo 
-echo 
+@:: The line below makes DOS beep (err yup)
+@echo 
+@echo 
+@echo 
 
 :END
