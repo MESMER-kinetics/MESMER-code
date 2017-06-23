@@ -22,7 +22,7 @@
 #include "ConditionsManager.h"
 #include "ParallelManager.h"
 
-#define MESMER_VERSION "5.0"
+#define MESMER_VERSION "5.1"
 
 namespace mesmer
 {

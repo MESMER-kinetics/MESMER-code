@@ -746,10 +746,10 @@ src/plugins/Potential1D.cpp -text
 src/plugins/Potential1D.h -text
 src/plugins/PriorDistribution.cpp -text
 src/plugins/QMRotor.cpp -text
+src/plugins/RRKM.cpp -text
 src/plugins/SensitivityAnalysis.cpp -text
 src/plugins/SimpleBimolecularSink.cpp -text
 src/plugins/SimpleILT.cpp -text
-src/plugins/SimpleRRKM.cpp -text
 src/plugins/ThermodynamicTable.cpp -text
 src/plugins/UnitTests.cpp -text
 src/plugins/WKBCrossing.cpp -text

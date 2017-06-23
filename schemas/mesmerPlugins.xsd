@@ -123,6 +123,7 @@
     <xs:restriction base="xs:string">
       <!--Only those with no data-->
       <xs:enumeration value="SimpleRRKM"/>
+      <xs:enumeration value="RRKM"/>
       <xs:enumeration value="DefinedSumOfStates"/>
     </xs:restriction>
   </xs:simpleType>
@@ -130,7 +131,7 @@
 
   <xs:complexType name="MCRCMethodct">
     <xs:sequence></xs:sequence>
-    <xs:attribute name="name"  type="xs:string" use="optional" />
+    <xs:attribute name="name"  type="MCRCMethodName" use="optional" />
   </xs:complexType>
 
   <xs:complexType name="MesmerILT">
@@ -186,7 +187,7 @@
           <xs:element name="excessReactantConc" type="xs:float" minOccurs="0">
           </xs:element>
         </xs:all>
-        <xs:attribute name="name" type="xs:string" use="optional" />
+        <xs:attribute name="nameZ" type="xs:string" use="optional" />
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>

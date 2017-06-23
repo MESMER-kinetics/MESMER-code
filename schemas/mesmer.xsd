@@ -479,9 +479,9 @@
   <xs:element name="MCRCMethod" type="me:MCRCMethodct">
     <xs:annotation>
       <xs:documentation>
-        For methods with no data, the form like &lt;MCRCMethod>SimpleRRKM&lt;/MCRCMethod>
+        For methods with no data, the form like &lt;MCRCMethod>RRKM&lt;/MCRCMethod>
         can still be parsed by Mesmer, but is not validated by the schema.
-        Prefer the form &lt;MCRCMethod name="SimpleRRKM"/>.
+        Prefer the form &lt;MCRCMethod name="RRKM"/>.
         If the method HAS data, an attribute like xsi:type="me:MesmerILT"
         should be used instead, and the data should appear in elements which are
         CHILDREN of &lt;me:MCRCMethod>, not siblings.>

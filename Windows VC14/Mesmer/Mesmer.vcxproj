@@ -146,6 +146,7 @@
     <ClCompile Include="..\..\src\plugins\Potential1D.cpp" />
     <ClCompile Include="..\..\src\plugins\PriorDistribution.cpp" />
     <ClCompile Include="..\..\src\plugins\QMRotor.cpp" />
+    <ClCompile Include="..\..\src\plugins\RRKM.cpp" />
     <ClCompile Include="..\..\src\plugins\SensitivityAnalysis.cpp" />
     <ClCompile Include="..\..\src\plugins\SimpleBimolecularSink.cpp" />
     <ClCompile Include="..\..\src\plugins\UnitTests.cpp" />
@@ -156,7 +157,6 @@
     <ClCompile Include="..\..\src\ReactionManager.cpp" />
     <ClCompile Include="..\..\src\plugins\simplecalc.cpp" />
     <ClCompile Include="..\..\src\plugins\SimpleILT.cpp" />
-    <ClCompile Include="..\..\src\plugins\SimpleRRKM.cpp" />
     <ClCompile Include="..\..\src\SecondOrderAssocReaction.cpp" />
     <ClCompile Include="..\..\src\sobol.cpp" />
     <ClCompile Include="..\..\src\Spline.cpp" />

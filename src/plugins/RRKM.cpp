@@ -1,6 +1,6 @@
 //-------------------------------------------------------------------------------------------
 //
-// SimpleRRKM.cpp
+// RRKM.cpp
 //
 // Authors: Struan Robertson, David Glowacki and Alyn Liang
 // Date:    Jul/2007
@@ -18,16 +18,16 @@ using namespace std;
 using namespace Constants;
 namespace mesmer
 {
-  class SimpleRRKM : public MicroRateCalculator
+  class RRKM : public MicroRateCalculator
   {
   public:
     ///Constructor which registers with the list of MicroRateCalculators in the base class
-    SimpleRRKM(const char* id) : m_id(id) { Register(); }
+    RRKM(const char* id) : m_id(id) { Register(); }
 
-    virtual ~SimpleRRKM() {}
+    virtual ~RRKM() {}
     virtual const char* getID()  { return m_id; }
 
-    virtual SimpleRRKM* Clone() { return new SimpleRRKM(*this); }
+    virtual RRKM* Clone() { return new RRKM(*this); }
 
     virtual bool ParseData(PersistPtr);
 
@@ -39,15 +39,17 @@ namespace mesmer
 
   //************************************************************
   //Global instance, defining its id (usually the only instance)
-  SimpleRRKM theSimpleRRKM("SimpleRRKM");
+  RRKM theSimpleRRKM("SimpleRRKM");
+  RRKM theRRKM("RRKM");
   //************************************************************
 
-  bool SimpleRRKM::calculateMicroCnlFlux(Reaction* pReact)
+  bool RRKM::calculateMicroCnlFlux(Reaction* pReact)
   {
     Molecule* pTS = pReact->get_TransitionState();
     if(!pTS)
     {
-      cerr << "Lack of transition state in reaction " << pReact->getName() << " for SimpleRRKM" << endl;
+      cerr << "Reaction " << pReact->getName() 
+           << " uses RRKM method, and should have transition state." << endl;
       return false;
     }
     // Allocate some work space for density of states.
@@ -103,12 +105,12 @@ namespace mesmer
     return true;
   }
 
-  bool SimpleRRKM::ParseData(PersistPtr)
+  bool RRKM::ParseData(PersistPtr)
   {
     if (!m_parent->get_TransitionState())
     {
       cerr << "Reaction " <<m_parent->getName() 
-        << " uses RRKM method, which should have transition state."<<endl;
+        << " uses RRKM method, and should have transition state."<<endl;
       return false;
     }
     return true;

@@ -1,3 +1,8 @@
+2017-June-16 Chris Morley
+
+		* Rename 'SimpleRRKM' xml keyword to 'RRKM', maintaining backward compatibility.
+		* SimpleRRKM.cpp: Add a renamed plugin class instance and rename file to RRKM.cpp.
+
 2017-June-1 Chris Morley
 
 		* MesmerQA/cyclopropene isomerization reservoir state/baselines/Win32/mesmer.test:
