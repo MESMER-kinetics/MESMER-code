@@ -222,10 +222,13 @@ namespace mesmer
       pDerivedtxt = pp->XmlReadValue("derivedFrom", optional);
     if(pDerivedtxt)
     {
+      double addandval = pp->XmlReadDouble("addand", optional);
+      if(IsNan(addandval))
+         addandval = pp->XmlReadDouble("addAnd", optional);
       rdouble.set_link_params(
         pDerivedtxt,
         pp->XmlReadDouble("factor", optional),
-        pp->XmlReadDouble("addand", optional),
+        addandval,
         pp->XmlReadValue("units", optional));
 
       cinfo << name << " will be derived from " << pDerivedtxt

@@ -81,6 +81,7 @@ namespace mesmer
     void set_label(const std::string& label) ;
     bool set_link_params(const char* name, double fac, double add, const char* units);
     void set_value() { value = atof(m_XMLPtr->XmlRead()) * m_unitConversion; }
+
     // Calculate the current value of a derivedFrom variable
     void update_value();
 
@@ -122,15 +123,15 @@ namespace mesmer
     {
       value += stepsize;
       if(value-upper < eps*stepsize)
-        return value; 
-      value = lower;
+        return value;
+        value = lower;
       return NaN;
     }
     const double& operator--()
     {
       value -= stepsize;
       if(lower-value < eps*stepsize)
-        return value; 
+        return value;
       value = upper;
       return NaN;
     }

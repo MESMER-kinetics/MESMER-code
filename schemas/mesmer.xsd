@@ -421,6 +421,7 @@
     <xs:attribute name="derivedFrom" type="me:linkNameType" use="optional"/>
     <xs:attribute name="factor" type="xs:float" use="optional"/>
     <xs:attribute name="addand" type="xs:float" use="optional"/>
+    <xs:attribute name="addAnd" type="xs:float" use="optional"/>
   </xs:attributeGroup>
 
   <xs:attributeGroup name="PTRangeAttributes">

@@ -9716,6 +9716,7 @@ Relaxed in MESMER to allow also<h:tt>)(</h:tt> because chemical formula are comm
           <xsd:attribute name="derivedFrom" type="xsd:string"/>
           <xsd:attribute name="factor" type="xsd:float"/>
           <xsd:attribute name="addand" type="xsd:float"/>
+          <xsd:attribute name="addAnd" type="xsd:float"/>
           <xsd:attribute name="zeroPointVibEnergyAdded" type="xsd:boolean"/>
 
           <xsd:attributeGroup ref="constantToSI">
