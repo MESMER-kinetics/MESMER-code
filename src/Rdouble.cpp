@@ -97,11 +97,22 @@ namespace mesmer
     value = *link * factor + addand;
   }
 
+  void Rdouble::UpdateDerivedVariables()
+  {
+    labelmap::iterator itrlabel = withLabel().begin() ;
+    for (; itrlabel != withLabel().end(); itrlabel++) {
+      if (itrlabel->second->link)
+        itrlabel->second->update_value();
+    }
+  }
+
   // This static method updates the value of all the derivedFrom variables in an XML file
   // with their current Rdouble value.
-  void Rdouble::UpdateXMLDerivedVariables() {
+  void Rdouble::UpdateXMLDerivedVariables()
+  {
     labelmap::iterator itrlabel = withLabel().begin() ;
-    for ( ;itrlabel != withLabel().end() ; itrlabel++) {
+    for (; itrlabel != withLabel().end(); itrlabel++)
+    {
       if (itrlabel->second->link)
       {
         itrlabel->second->update_value();
@@ -110,7 +121,7 @@ namespace mesmer
     }
   }
 
-   // Called after all the xml data has been read
+   // Called after all the xml data has been read()
   bool Rdouble::SetUpLinkedVars()
   {
     bool ok=true;

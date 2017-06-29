@@ -81,7 +81,6 @@ namespace mesmer
     void set_label(const std::string& label) ;
     bool set_link_params(const char* name, double fac, double add, const char* units);
     void set_value() { value = atof(m_XMLPtr->XmlRead()) * m_unitConversion; }
-
     // Calculate the current value of a derivedFrom variable
     void update_value();
 
@@ -108,7 +107,8 @@ namespace mesmer
     {
       m_XMLPtr->XmlWriteAttribute(name, value) ;
     }
-     
+
+    static void UpdateDerivedVariables();
     static void UpdateXMLDerivedVariables() ;
 
     //Returns true if the value is the same as when setUnchanged was last called.
@@ -124,7 +124,7 @@ namespace mesmer
       value += stepsize;
       if(value-upper < eps*stepsize)
         return value;
-        value = lower;
+      //value = lower;
       return NaN;
     }
     const double& operator--()

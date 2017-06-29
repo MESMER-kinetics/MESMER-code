@@ -33,6 +33,7 @@ namespace mesmer
 
     for (size_t iVar(0); iVar < loc.size(); iVar++) {
       *Rdouble::withRange()[iVar] = loc[iVar];
+      Rdouble::UpdateDerivedVariables();
       //	  Rdouble::withRange()[iVar]->XmlWriteValue();  CM leave writing XML to the end of calculation
     }
 

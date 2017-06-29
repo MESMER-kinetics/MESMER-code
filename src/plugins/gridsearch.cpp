@@ -53,6 +53,7 @@ namespace mesmer
 
   bool GridSearch::CalcAndReport(System* pSys)
   { 
+    Rdouble::UpdateDerivedVariables();
     double chiSquare(1000.0);
     ctest << "Parameter Grid\n";
 
@@ -64,7 +65,7 @@ namespace mesmer
     cerr << endl;
 
     ctest << "\n{" << endl;
-    pSys->calculate(chiSquare);
+    pSys->calculate(chiSquare, true); //CM write report
     ctest << "chiSquare = " << chiSquare << " )\n}\n";
 
     return true;

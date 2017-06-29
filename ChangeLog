@@ -1,3 +1,13 @@
+2017-June-29 Chris Morley
+		* src/Rdouble.cpp, src/Rdouble.h: add UpdateDerivedVariables() which does not
+		  write to XML
+		* src/plugins/FittingUtils.cpp, src/plugins/gridsearch.cpp: call
+		  UpdateDerivedVariables() when incrementing a range variable
+
+2017-June-28 Chris Morley
+		* schemas/CMLforMesmer.xsd, schemas/mesmer.xsd,src/Rdouble.cpp,src/Rdouble.h:
+		Make "addAnd" an alternative for the attribute "addand".
+
 2017-June-16 Chris Morley
 
 		* Rename 'SimpleRRKM' xml keyword to 'RRKM', maintaining backward compatibility.
