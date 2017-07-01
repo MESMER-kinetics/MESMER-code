@@ -155,7 +155,7 @@
     <ClCompile Include="..\..\src\ReactionManager.cpp" />
     <ClCompile Include="..\..\src\plugins\simplecalc.cpp" />
     <ClCompile Include="..\..\src\plugins\SimpleILT.cpp" />
-    <ClCompile Include="..\..\src\plugins\SimpleRRKM.cpp" />
+    <ClCompile Include="..\..\src\plugins\RRKM.cpp" />
     <ClCompile Include="..\..\src\SecondOrderAssocReaction.cpp" />
     <ClCompile Include="..\..\src\sobol.cpp" />
     <ClCompile Include="..\..\src\Spline.cpp" />
