@@ -119,7 +119,7 @@ namespace mesmer
     double calcChiSqRateCoefficients(const qdMatrix& mesmerRates, const unsigned calPoint, vector<double> &residuals) ;
     double calcChiSqYields(const unsigned calPoint, vector<double> &residuals);
     double calcChiSqEigenvalues(const unsigned calPoint, vector<double> &residuals);
-    double calcChiSqRawData(const unsigned calPoint, vector<double> &residuals, bool writeReport);
+    double calcChiSqRawData(const unsigned calPoint, vector<double> &residuals);
 
     // Location of the molecule manager.
     MoleculeManager *m_pMoleculeManager;

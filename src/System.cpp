@@ -541,7 +541,7 @@ namespace mesmer
 
             chiSquare += calcChiSqEigenvalues(calPoint, residuals);
 
-            chiSquare += calcChiSqRawData(calPoint, residuals, writeReport);
+            chiSquare += calcChiSqRawData(calPoint, residuals);
 
             stest << "}\n";
 
@@ -853,14 +853,14 @@ namespace mesmer
     return chiSquare;
   }
 
-  double System::calcChiSqRawData(const unsigned calPoint, vector<double> &residuals, bool writeReport) {
+  double System::calcChiSqRawData(const unsigned calPoint, vector<double> &residuals) {
 
     //
     // With trace data, an indpendent assessment of the precision of the measurements is not possible. 
     // This stems from the fact the signal is based on a number of counts (which are approximately
-    // poisson distributed) and is a relactive measure. Because of this an indpendent set of error
-    // estimates cannot be obtained, and so the Chi^2 statisitc is not applicable and so the relevant
-    // flag needs to be set.
+    // poisson distributed) and is a relative measure. Because of this an independent set of error
+    // estimates cannot be obtained, so the Chi^2 statisitc is not applicable and the relevant flag
+    // needs to be set.
     //
 
     // m_Flags.bIndependentErrors = false;
@@ -896,17 +896,14 @@ namespace mesmer
       double sumef(0.0), sume(0.0), sumf2(0.0), sumf(0.0);
       for (size_t j(0); j < signal.size(); ++j) {
         sumef += expSignal[j] * signal[j];
-        sume += expSignal[j];
+        sume  += expSignal[j];
         sumf2 += signal[j] * signal[j];
-        sumf += signal[j];
+        sumf  += signal[j];
       }
 
-      double det = sumf2*ntimes - sumf*sumf;
+      double det   = sumf2*ntimes - sumf*sumf;
       double alpha = (sumef*ntimes - sume*sumf) / det;
-      double beta = (sume*sumf2 - sumef*sumf) / det;
-
-      //     if (writeReport)
-      //       rateCoeffTable << endl;
+      double beta  = (sume*sumf2 - sumef*sumf) / det;
 
       double diff = 0.0;
       for (size_t j(0); j < signal.size(); ++j) {
@@ -915,17 +912,12 @@ namespace mesmer
         diff = (signal[j] - expSignal[j]);
         residuals[calPoint] += diff;
         chiSquare += (diff * diff);
-
-        //        if (writeReport)
-        //          rateCoeffTable << formatFloat(times[j], 6, 15) << "," << formatFloat(expSignal[j], 6, 15) << "," << formatFloat(signal[j], 6, 15) << endl;
       }
-      //      if (writeReport)
-      //        rateCoeffTable << endl;
-
-            // AddCalcValToXml(calPoint, i, diff);
     }
 
-    return chiSquare;
+		// m_pConditionsManager->set_calculatedEigenvalues(calPoint, calcEigenvalues);
+
+		return chiSquare;
   }
 
   void System::WriteMetadata(const string& infilename)

@@ -208,11 +208,11 @@ SRCS := \
 	plugins/PriorDistribution.cpp \
 	plugins/Potential1D.cpp \
 	plugins/QMRotor.cpp \
+	plugins/RRKM.cpp \
 	plugins/SensitivityAnalysis.cpp \
 	plugins/SimpleBimolecularSink.cpp \
 	plugins/simplecalc.cpp \
 	plugins/SimpleILT.cpp \
-	plugins/SimpleRRKM.cpp \
 	plugins/ThermodynamicTable.cpp \
 	plugins/UnitTests.cpp \
 	plugins/WKBCrossing.cpp \

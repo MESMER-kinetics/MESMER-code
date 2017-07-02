@@ -22,6 +22,7 @@
 #include <complex>
 #include <stdlib.h>
 #include "Persistence.h"
+#include "MesmerTools.h"
 #include "qd/dd_real.h"
 #include "qd/qd_real.h"
 

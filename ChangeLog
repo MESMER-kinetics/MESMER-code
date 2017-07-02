@@ -1,3 +1,14 @@
+2017-July-02 Struan Robertson
+
+		* Documentation and Makefile update for SimpleRRKM to RRKM keyword change.
+
+		* System.cpp/.h: Minor changes in preparation for grid fitting.
+
+		* TMatrix.h: Fix for Linux/MacOS build break.
+
+		* LandauZenerCrossing.cpp, ZhuNakamuraCrossing.cpp, WKBCrossing.cpp: minor
+		tidying of code in preparation for base class abstraction.
+
 2017-June-29 Chris Morley
 		* src/Rdouble.cpp, src/Rdouble.h: add UpdateDerivedVariables() which does not
 		  write to XML
