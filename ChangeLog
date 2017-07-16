@@ -1,8 +1,13 @@
 2017-July-02 Struan Robertson
 
+		* System.cpp, ConditionsManger.cpp/.h: Updates to trace fitting to allow for parallel
+		execution and output.
+
+2017-July-02 Struan Robertson
+
 		* Documentation and Makefile update for SimpleRRKM to RRKM keyword change.
 
-		* System.cpp/.h: Minor changes in preparation for grid fitting.
+		* System.cpp/.h: Minor changes in preparation for trace fitting.
 
 		* TMatrix.h: Fix for Linux/MacOS build break.
 

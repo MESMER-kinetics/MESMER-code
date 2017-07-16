@@ -463,14 +463,25 @@ namespace mesmer
       for (size_t i(0); i < eigenvalues.size(); ++i) {
         rateCoeffTable << conditions.str() << formatFloat(eigenvalues[i].m_value, 6, 15) << formatFloat(eigenvalues[i].m_calcValue, 6, 15) << endl;
       }
-    }
+			const vector<RawDataSet>& Traces = PandTs[calPoint].m_rawDataSets;
+			for (size_t i(0); i < Traces.size(); ++i) {
+				rateCoeffTable << conditions.str() << setw(15) << "Time" << setw(16) << "Expt." << setw(16) << "Calc." << endl;
+				const RawDataSet &Trace = Traces[i];
+				for (size_t j(0); j < Trace.data.size(); ++j) {
+					double time = Trace.data[j].first;
+					double expt = Trace.data[j].second;
+					double calc = Trace.m_calcTrace[j];
+					rateCoeffTable << setw(30) << " " << formatFloat(time, 6, 15) << "," << formatFloat(expt, 6, 15) << "," << formatFloat(calc, 6, 15) << endl;
+				}
+			}
+		}
 
     rateCoeffTable << endl;
 
     cinfo << rateCoeffTable.str();
   }
 
-  // Reconcile table across processs.
+  // Reconcile table across processes.
   void ConditionsManager::reconcileTable()
   {
     int nRanks = m_pParallelManager->size();
@@ -497,7 +508,13 @@ namespace mesmer
         m_pParallelManager->broadcastDouble(&tmp, 1, broadcastRank);
         eigenvalues[i].m_calcValue = tmp;
       }
-    }
+			vector<RawDataSet>& Trace = PandTs[calPoint].m_rawDataSets;
+			for (size_t i(0); i < Trace.size(); ++i) {
+				vector<double> tmp = Trace[i].m_calcTrace;
+				m_pParallelManager->broadcastVecDouble(tmp, broadcastRank);
+				Trace[i].m_calcTrace = tmp;
+			}
+		}
   }
 
   // Write calculated date to output.

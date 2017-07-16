@@ -35,6 +35,7 @@ namespace mesmer
 	struct RawDataSet
 	{
 		std::vector<std::pair<double, double> > data; // Time series data.
+		std::vector<double> m_calcTrace;              // Calculated trace. 
 		std::string m_ref1;                           // Monitored species.
 		const char* m_Name;                           // Name of trace.
 		double m_excessConc;                          // Concentration of excess reactant. 
@@ -164,7 +165,7 @@ namespace mesmer
 			PandTs[index].set_calcEigenvalues(calcEigenvalues);
 		}
 
-		const std::vector<RawDataSet>& get_experimentalrawDataSets(unsigned index) const
+		std::vector<RawDataSet>& get_experimentalrawDataSets(unsigned index) 
 		{
 			return PandTs[index].m_rawDataSets;
 		}

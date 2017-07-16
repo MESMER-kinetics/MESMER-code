@@ -866,7 +866,7 @@ namespace mesmer
     // m_Flags.bIndependentErrors = false;
 
     double chiSquare(0.0);
-    const vector<RawDataSet> &rawDataSets = m_pConditionsManager->get_experimentalrawDataSets(calPoint);
+    vector<RawDataSet> &rawDataSets = m_pConditionsManager->get_experimentalrawDataSets(calPoint);
     if (rawDataSets.size() == 0)
       return chiSquare;
 
@@ -875,7 +875,7 @@ namespace mesmer
     //
     for (size_t i(0); i < rawDataSets.size(); ++i) {
 
-      const RawDataSet& dataSet = rawDataSets[i];
+      RawDataSet& dataSet = rawDataSets[i];
 
       // Extract the times for which the trace should be calculated. 
       vector<double> times, expSignal;
@@ -905,14 +905,19 @@ namespace mesmer
       double alpha = (sumef*ntimes - sume*sumf) / det;
       double beta  = (sume*sumf2 - sumef*sumf) / det;
 
-      double diff = 0.0;
+      double diff(0.0), localChi(0.0);
       for (size_t j(0); j < signal.size(); ++j) {
         signal[j] *= alpha;
         signal[j] += beta;
         diff = (signal[j] - expSignal[j]);
-        residuals[calPoint] += diff;
-        chiSquare += (diff * diff);
+				localChi += (diff*diff);
       }
+			dataSet.m_calcTrace = signal;
+
+			// Taking the residual to be the euclidian distance between functions (represented as vectors).
+			residuals[calPoint] += sqrt(localChi);
+			chiSquare += localChi/double(ntimes);
+
     }
 
 		// m_pConditionsManager->set_calculatedEigenvalues(calPoint, calcEigenvalues);
