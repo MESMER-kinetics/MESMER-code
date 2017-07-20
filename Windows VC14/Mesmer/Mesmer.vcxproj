@@ -40,12 +40,15 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Debug\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <TargetName>MesmerD</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -245,7 +248,9 @@
     <None Include="..\..\examples\i-propyl\ipropyl_LM.xml">
       <SubType>Designer</SubType>
     </None>
-    <None Include="..\..\examples\Methoxymethyl\Chebyshev.xml" />
+    <None Include="..\..\examples\Methoxymethyl\Chebyshev.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="..\..\examples\Methoxymethyl\ChebyshevCK.xml" />
     <None Include="..\..\examples\Methyl_H_to_Methane\Methyl_H_to_Methane.xml">
       <SubType>Designer</SubType>
