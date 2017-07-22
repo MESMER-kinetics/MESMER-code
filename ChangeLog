@@ -1,3 +1,7 @@
+2017-July-22 Struan Robertson
+
+		* Added VS 2017 project files.
+
 2017-July-02 Struan Robertson
 
 		* System.cpp, ConditionsManger.cpp/.h: Updates to trace fitting to allow for parallel

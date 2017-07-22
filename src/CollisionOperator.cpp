@@ -1948,7 +1948,7 @@ namespace mesmer
 
 		// Signal is assumed to be proportional to the total population of the monitored species.
 		// The grain population is calculated in the usual way for the whole system and then the 
-		// monitored species populations is calculated throught integration. 
+		// monitored species populations is calculated through integration. 
 
 		// First we have to determine the location of the monitored species in the population vector.
 		// As the species might be a source or isomer this requires iterating through the two maps.
