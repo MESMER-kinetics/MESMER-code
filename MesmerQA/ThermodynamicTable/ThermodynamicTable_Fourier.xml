@@ -370,6 +370,7 @@
           <me:PotentialPoint coordinate="	1.06028752	"  potential="	-156.2949132	"/>
           <me:PotentialPoint coordinate="	1.11919238	"  potential="	-101.4320112	"/>
         </me:vibrationalPotential>
+        <me:PlotStates/>
       </me:ExtraDOSCMethod>
 
     </molecule>

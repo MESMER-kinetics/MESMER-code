@@ -96,7 +96,7 @@ namespace mesmer
   private:
 
     // Provide data for plotting states against potential.
-    void outputPlotData() const;
+    void outputPlotData(vector<double> &abscissa, vector<double> &potential) const;
 
     // Print the hindered rotor states.
     void outputStateData() const;
@@ -299,7 +299,7 @@ namespace mesmer
 
     // If required, created graphical date.
     if (m_plotStates)
-      outputPlotData();
+      outputPlotData(abscissa, potential);
 
     // If required, created graphical date.
     if (m_writeStates)
@@ -333,23 +333,21 @@ namespace mesmer
   }
 
   // Provide data for plotting states against potential.
-  void FourierGrid1D::outputPlotData() const {
+  void FourierGrid1D::outputPlotData(vector<double> &abscissa, vector<double> &potential) const {
 
     ctest << endl << "Vibrational state data for plotting." << endl << endl;
-    //int npoints(500);
-    //double dAngle = M_PI / double(npoints);
-    //for (int i(-npoints); i < npoints; ++i) {
-    //	double angle = double(i)*dAngle;
-    //	double potential = CalculatePotential(angle);
-    //	ctest << formatFloat(angle, 6, 15) << ", " << formatFloat(potential, 6, 15) << endl;
-    //}
-    //ctest << endl;
 
-    //for (size_t i(0); i < m_energyLevels.size(); i++) {
-    //	ctest << formatFloat(-M_PI, 6, 15) << ", " << formatFloat(m_energyLevels[i], 6, 15) << endl;
-    //	ctest << formatFloat(M_PI, 6, 15) << ", " << formatFloat(m_energyLevels[i], 6, 15) << endl;
-    //	ctest << endl;
-    //}
+    size_t npoints(abscissa.size());
+    for (size_t i(0); i < npoints; ++i) {
+    	ctest << formatFloat(abscissa[i], 6, 15) << ", " << formatFloat(potential[i], 6, 15) << endl;
+    }
+    ctest << endl;
+
+    for (size_t i(0); i < m_energyLevels.size(); i++) {
+    	ctest << formatFloat(abscissa[0], 6, 15) << ", " << formatFloat(m_energyLevels[i], 6, 15) << endl;
+    	ctest << formatFloat(abscissa[npoints-1], 6, 15) << ", " << formatFloat(m_energyLevels[i], 6, 15) << endl;
+    	ctest << endl;
+    }
 
   }
 
