@@ -143,6 +143,7 @@
     <ClCompile Include="..\..\src\AssociationReaction.cpp" />
     <ClCompile Include="..\..\src\BimolecularSinkReaction.cpp" />
     <ClCompile Include="..\..\src\ConditionsManager.cpp" />
+    <ClCompile Include="..\..\src\DiffusiveLossReaction.cpp" />
     <ClCompile Include="..\..\src\error.cpp" />
     <ClCompile Include="..\..\src\gBathProperties.cpp" />
     <ClCompile Include="..\..\src\gDensityOfStates.cpp" />
@@ -222,6 +223,7 @@
     <ClInclude Include="..\..\src\ConditionsManager.h" />
     <ClInclude Include="..\..\src\Constants.h" />
     <ClInclude Include="..\..\src\DensityOfStates.h" />
+    <ClInclude Include="..\..\src\DiffusiveLossReaction.h" />
     <ClInclude Include="..\..\src\Distribution.h" />
     <ClInclude Include="..\..\src\dMatrix.h" />
     <ClInclude Include="..\..\src\EnergyTransferModel.h" />

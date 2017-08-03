@@ -18,6 +18,7 @@
 #include "IrreversibleExchangeReaction.h"
 #include "BimolecularSinkReaction.h"
 #include "PseudoIsomerizationReaction.h"
+#include "DiffusiveLossReaction.h"
 
 using namespace Constants;
 using namespace std;
@@ -99,7 +100,7 @@ namespace mesmer
       //
       Reaction *preaction;
       if (!bRct2 && bPdt1 && pdt1Type == "modelled" && !bPdt2) {
-        preaction = new IsomerizationReaction(m_pMoleculeManager, mEnv, mFlags, id);
+				preaction = new IsomerizationReaction(m_pMoleculeManager, mEnv, mFlags, id);
       }
       else if (bRct2 && (rct1Type == "modelled" || rct2Type == "modelled") && bPdt1 && (pdt1Type == "sink")) {
         preaction = new BimolecularSinkReaction(m_pMoleculeManager, mEnv, mFlags, id, (rct1Type == "excessReactant"));
@@ -121,6 +122,9 @@ namespace mesmer
       else if (bRct2 && bPdt1 && (pdt1Type == "sink" || pdt2Type == "sink")) {
         preaction = new IrreversibleExchangeReaction(m_pMoleculeManager, mEnv, mFlags, id, (rct1Type == "deficientReactant"));
       }
+			else if (!bRct2 && !bPdt1 && (rct1Type == "diffusiveLoss") && !bPdt2) {
+				preaction = new DiffusiveLossReaction(m_pMoleculeManager, mEnv, mFlags, id);
+			}
       else {
         cinfo << "Unknown reaction type.\n";
         return false;
@@ -128,7 +132,7 @@ namespace mesmer
 
       const char* rtypes[] = { "Isomerization","Association", "Dissociation",
         "Irreversible unimolecular","Irreversible exchange",
-        "Bimolecular sink","Pseudoisomerization","Second Order Association" "Undefined" };
+        "Bimolecular sink","Pseudoisomerization","Second Order Association", "Diffusive Loss", "Undefined" };
       cinfo << rtypes[preaction->getReactionType()] << " reaction" << endl;
 
       // The information of the products of a dissociation reaction is necessary, as in

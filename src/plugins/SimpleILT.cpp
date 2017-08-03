@@ -180,8 +180,7 @@ namespace mesmer
     double RxnHeat = pReac->getHeatOfReaction();
 
     if (m_EInf < RxnHeat){
-      cerr << "E_infinity should be equal to or greater than the heat of reaction in ILT.";
-      exit(1);
+      throw(std::runtime_error("E_infinity should be equal to or greater than the heat of reaction in ILT."));
     }
 
     return m_EInf;
