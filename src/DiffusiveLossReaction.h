@@ -25,8 +25,10 @@ namespace mesmer
     // Constructors.
     DiffusiveLossReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, MesmerFlags& Flags, const char *id)
       : Reaction(pMoleculeManager, Env, Flags, id),
+			m_strRct1(),
       m_rct1(NULL),
-      m_diffusionRate(0.0)
+			m_sourceMap(NULL),
+			m_diffusionRate(0.0)
     {
       m_UsesProductProperties = false;
     }
@@ -37,7 +39,6 @@ namespace mesmer
     // Get unimolecular species information:
     virtual int get_unimolecularspecies(std::vector<Molecule *> &unimolecularspecies) const
     {
-      unimolecularspecies.push_back(m_rct1);
       return unimolecularspecies.size();
     };
 
@@ -52,7 +53,10 @@ namespace mesmer
     // Calculate high pressure rate coefficients at current T.
     virtual void HighPresRateCoeffs(vector<double> *pCoeffs);
 
-    // Calculate reaction equilibrium constant (Dummy method for diffusion).
+		// Re-define grain average k(E) function to null method as it has no meaning for diffusive loss.
+		virtual bool calcGrnAvrgMicroRateCoeffs() { return true; }
+
+		// Calculate reaction equilibrium constant (Dummy method for diffusion).
     virtual double calcEquilibriumConstant() {
       double Keq(0.0);
       return Keq;
@@ -79,7 +83,15 @@ namespace mesmer
       set_EffGrnFwdThreshold(int(RxnHeat));
     }
 
-    // Add reaction terms to the reaction matrix.
+		// Add reaction terms to the reaction matrix.
+		virtual void updateSourceMap(molMapType& sourcemap) {
+			if (m_rct1 && sourcemap.find(m_rct1) == sourcemap.end()) { // Reaction includes a new pseudoisomer.
+				sourcemap[m_rct1] = 0;
+			}
+			m_sourceMap = &sourcemap;
+		};
+
+		// Add reaction terms to the reaction matrix.
     virtual void AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega);
 
     // Add contracted basis set reaction terms to the reaction matrix.
@@ -95,8 +107,12 @@ namespace mesmer
     void calcFluxFirstNonZeroIdx(void) {m_GrnFluxFirstNonZeroIdx = 0;}
 
 		// Diffusing Molecule.
-		Molecule *m_rct1;
-		double    m_diffusionRate;
+		string      m_strRct1;
+		Molecule   *m_rct1;
+		molMapType *m_sourceMap;
+
+		// Rate of diffusion.
+		double      m_diffusionRate;
 
   };
 

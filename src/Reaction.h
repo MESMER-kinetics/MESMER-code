@@ -155,7 +155,7 @@ namespace mesmer
     const size_t getFluxCellOffset(void){return m_FluxCellOffset;};
 
     // Wrapper function to calculate and grain average microcanoincal rate coeffcients.
-    bool calcGrnAvrgMicroRateCoeffs() ;
+    virtual bool calcGrnAvrgMicroRateCoeffs() ;
 
     // Add reaction terms to the reaction matrix.
     virtual void AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega) = 0;

@@ -33,46 +33,73 @@ namespace mesmer
       ppReactantList = ppReac; //Be forgiving; we can get by without a reactantList element
 
     PersistPtr ppReactant1 = ppReactantList->XmlMoveTo("reactant");
-    Molecule* pMol1 = GetMolRef(ppReactant1);
-    if (!pMol1) {
-      cerr << "Cannot find molecule definition for diffusive loss " << getName() << ".";
-      return false;
-    }
+		if (!ppReactant1) 
+			return false;
+		PersistPtr ppmol = ppReactant1->XmlMoveTo("molecule");
+		if (!ppmol) 
+			return false;
 
-    // Save reactant as Molecule.
-    m_rct1 = pMol1;
+		const char* reftxt = ppmol->XmlReadValue("ref"); //using const char* in case NULL returned
+		if (reftxt) {
+			m_strRct1 = string(reftxt);
+		}
+		else
+			return false;
 
-    // Read diffusion rate parameters.
-		m_diffusionRate = ppReac->XmlReadDouble("me:diffusiveLoss", true);
+		// Read diffusion rate parameters.
+    m_diffusionRate = ppReac->XmlReadDouble("me:diffusiveLoss", true);
 
     return true;
   }
 
   //
-  // Add dissociation reaction terms to collision matrix.
+  // Add diffusive loss terms to collision matrix.
   //
   void DiffusiveLossReaction::AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega) {
-    // Get densities of states for detailed balance.
-    vector<double> rctDOS;
-    m_rct1->getDOS().getGrainDensityOfStates(rctDOS);
 
-    // Locate reactant in system matrix.
-    const int rctLocation = isomermap[m_rct1];
-    const int rShiftedGrains(m_rct1->getColl().reservoirShift());
+		// Initialize diffusing species here after all the participating have been specified by
+		// regular reaction terms.
+		if (!m_rct1) {
+			m_rct1 = m_pMoleculeManager->find(m_strRct1);
+			if (!m_rct1) {
+				stringstream msg;
+				msg << "Failed to located diffusing species referred to in diffusive loss reaction" << getName() << ".";
+				throw(std::runtime_error(msg.str()));
+			}
+		}
+		
+		// Search for diffusing species in isomers.
+    Reaction::molMapType::iterator rctitr = isomermap.find(m_rct1);
+    if (rctitr != isomermap.end()) {
+      const int rctLocation = rctitr->second;
+      const int colloptrsize = m_rct1->getColl().get_colloptrsize();
 
-    const int colloptrsize = m_rct1->getColl().get_colloptrsize();
-    const int forwardThreshE = get_EffGrnFwdThreshold();
-    const int fluxStartIdx = get_fluxFirstNonZeroIdx();
+      m_MtxGrnKf.clear();
+      m_MtxGrnKf.resize(colloptrsize, 0.0);
 
-    m_MtxGrnKf.clear();
-    m_MtxGrnKf.resize(colloptrsize, 0.0);
-
-    for (int i = fluxStartIdx, j = forwardThreshE; j < colloptrsize + rShiftedGrains; ++i, ++j) {
-      int ii(rctLocation + j - rShiftedGrains);
-      qd_real rtcf = qd_real(m_GrainFlux[i]) / qd_real(rctDOS[j]);
-      (*CollOptr)[ii][ii] -= qd_real(rMeanOmega) * rtcf;  // Forward loss reaction.
-      m_MtxGrnKf[j - rShiftedGrains] = to_double(rtcf);
+      for (int j = 0; j < colloptrsize; ++j) {
+        int ii(rctLocation + j);
+        (*CollOptr)[ii][ii] -= qd_real(m_diffusionRate*rMeanOmega);  // Forward loss reaction.
+        m_MtxGrnKf[j] = to_double(m_diffusionRate);
+      }
+      return;
     }
+
+    // Search for diffusing species in pseudoisomers.
+    if (m_sourceMap) {
+      Reaction::molMapType::iterator rctitr = m_sourceMap->find(m_rct1);
+      const int rctLocation = rctitr->second;
+      (*CollOptr)[rctLocation][rctLocation] -= qd_real(m_diffusionRate*rMeanOmega);  // Diffusive loss reaction.
+      m_MtxGrnKf.clear();
+      m_MtxGrnKf.push_back(m_diffusionRate);
+
+      return;
+    }
+
+    // If MESMER gets this far the loss is in a sink molecule which is not currently catered for.
+    stringstream msg;
+    msg << "Diffusive loss reaction" << getName() << " refers to a species that is not represented in the collision matrix.";
+    throw(std::runtime_error(msg.str()));
   }
 
   //
@@ -118,31 +145,16 @@ namespace mesmer
   // Calculate high pressure rate coefficients at current T.
   void DiffusiveLossReaction::HighPresRateCoeffs(vector<double> *pCoeffs) {
 
-    vector<double> rctGrainDOS, rctGrainEne;
-    m_rct1->getDOS().getGrainDensityOfStates(rctGrainDOS);
-    m_rct1->getDOS().getGrainEnergies(rctGrainEne);
-    const size_t MaximumGrain = (getEnv().MaxGrn - get_fluxFirstNonZeroIdx());
-    const double beta = getEnv().beta;
-
-    double kf(0.0);
-    for (size_t i(0); i < MaximumGrain; ++i)
-      kf += m_GrainKfmc[i] * exp(log(rctGrainDOS[i]) - beta * rctGrainEne[i]);
-
-    const double rctprtfn = canonicalPartitionFunction(rctGrainDOS, rctGrainEne, beta);
-    kf /= rctprtfn;
-
     if (pCoeffs) {
-      pCoeffs->push_back(kf);
-      const double Keq = calcEquilibriumConstant();
-      if (!IsNan(Keq)) {
-        pCoeffs->push_back(kf / Keq);
-        pCoeffs->push_back(Keq);
-      }
+      pCoeffs->push_back(m_diffusionRate);
+      pCoeffs->push_back(0.0);
+      pCoeffs->push_back(0.0);
     }
     else {
+      const double beta = getEnv().beta;
       const double temperature = 1. / (boltzmann_RCpK * beta);
-      ctest << endl << "Canonical pseudo first order forward rate constant of irreversible reaction "
-        << getName() << " = " << kf << " s-1 (" << temperature << " K)" << endl;
+      ctest << endl << "Diffusive loss constant for reaction "
+        << getName() << " = " << m_diffusionRate << " m2s-1 (" << temperature << " K)" << endl;
     }
   }
 

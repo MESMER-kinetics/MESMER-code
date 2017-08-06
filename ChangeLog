@@ -1,6 +1,12 @@
+
+2017-August-06 Struan Robertson
+
+		* DiffusiveLossReaction.cpp/.h: Diffusive loss terms added to collision matrix.
+
 2017-August-03 Struan Robertson
 
-		* ReactionManger.cpp, DiffusiveLossReaction.cpp/.h: Initial changes for diffusive loss term.
+		* ReactionManger.cpp, DiffusiveLossReaction.cpp/.h: Initial changes for diffusive
+		loss term.
 
 2017-July-31 Struan Robertson
 
