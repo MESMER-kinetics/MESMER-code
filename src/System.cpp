@@ -859,11 +859,11 @@ namespace mesmer
     // With trace data, an indpendent assessment of the precision of the measurements is not possible. 
     // This stems from the fact the signal is based on a number of counts (which are approximately
     // poisson distributed) and is a relative measure. Because of this an independent set of error
-    // estimates cannot be obtained, so the Chi^2 statisitc is not applicable and the relevant flag
+    // estimates cannot be obtained, so the Chi^2 statistic is not applicable and the relevant flag
     // needs to be set.
     //
 
-    // m_Flags.bIndependentErrors = false;
+    m_Flags.bIndependentErrors = false;
 
     double chiSquare(0.0);
     vector<RawDataSet> &rawDataSets = m_pConditionsManager->get_experimentalrawDataSets(calPoint);
@@ -891,24 +891,18 @@ namespace mesmer
       vector<double> signal(times.size(), 0.0);
       m_collisionOperator.calculateTrace(dataSet.m_ref1, times, signal);
 
-      // Alter the amplitude and base of the calculated signal by a linear least squares shift.
+      // Alter the amplitude of the calculated signal by a linear least squares shift.
 
-      double sumef(0.0), sume(0.0), sumf2(0.0), sumf(0.0);
-      for (size_t j(0); j < signal.size(); ++j) {
-        sumef += expSignal[j] * signal[j];
-        sume  += expSignal[j];
-        sumf2 += signal[j] * signal[j];
-        sumf  += signal[j];
-      }
+			double sumef(0.0), sume(0.0), sumf2(0.0), sumf(0.0);
+			for (size_t j(0); j < signal.size(); ++j) {
+			  sumef += expSignal[j] * signal[j];
+			  sumf2 += signal[j] * signal[j];
+			}
 
-      double det   = sumf2*ntimes - sumf*sumf;
-      double alpha = (sumef*ntimes - sume*sumf) / det;
-      double beta  = (sume*sumf2 - sumef*sumf) / det;
-
-      double diff(0.0), localChi(0.0);
+			double alpha = sumef / sumf2;
+			double diff(0.0), localChi(0.0);
       for (size_t j(0); j < signal.size(); ++j) {
         signal[j] *= alpha;
-        signal[j] += beta;
         diff = (signal[j] - expSignal[j]);
 				localChi += (diff*diff);
       }
@@ -916,11 +910,9 @@ namespace mesmer
 
 			// Taking the residual to be the euclidian distance between functions (represented as vectors).
 			residuals[calPoint] += sqrt(localChi);
-			chiSquare += localChi/double(ntimes);
+			chiSquare += localChi ;
 
     }
-
-		// m_pConditionsManager->set_calculatedEigenvalues(calPoint, calcEigenvalues);
 
 		return chiSquare;
   }

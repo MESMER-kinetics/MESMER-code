@@ -6,16 +6,12 @@ set starttime=%time%
 SET directive=
 SET otfn=mesmer.test
 
+IF EXIST "../Windows VC15/Mesmer/Mesmer.exe" GOTO VC15
 IF EXIST "../Windows VC14/Mesmer/Mesmer.exe" GOTO VC14
 IF EXIST "../Windows VC12/Mesmer/Mesmer.exe" GOTO VC12
-IF EXIST "../Windows VC10/Mesmer/Mesmer.exe" GOTO VC10
 
 ::For installed version
 SET executable="../../Mesmer.exe"
-GOTO SETTINGS
-
-:VC10
-SET executable="../../Windows VC10/Mesmer/Mesmer.exe"
 GOTO SETTINGS
 
 :VC12
@@ -26,6 +22,10 @@ GOTO SETTINGS
 SET executable="../../Windows VC14/Mesmer/Mesmer.exe"
 GOTO SETTINGS
 
+:VC15
+SET executable="../../Windows VC15/Mesmer/Mesmer.exe"
+GOTO SETTINGS
+
 :SETTINGS
 SET tfn=mesmer.test
 SET lfn=mesmer.log
@@ -33,6 +33,7 @@ SET bline=baselines/Win32/
 SET outf=out.xml
 SET mpicommand="C:\Program Files\Microsoft MPI\Bin\mpiexec" -n 4 %executable%
 SET cmdline=%mpicommand%
+::SET cmdline=%mpicommand%
 
 :: This compares the "double quote" altogether with the content
 IF "%1"=="" (

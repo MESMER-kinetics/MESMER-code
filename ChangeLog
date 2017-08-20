@@ -1,4 +1,8 @@
 
+2017-August-20 Struan Robertson
+
+		* System.cpp: Trace fitting altered so that it cannot produce negative values.
+
 2017-August-06 Struan Robertson
 
 		* DiffusiveLossReaction.cpp/.h: Diffusive loss terms added to collision matrix.
