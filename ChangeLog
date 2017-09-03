@@ -1,4 +1,10 @@
 
+2017-September-03 Struan Robertson
+
+		* ClassicalCoupledRotors.cpp: Initial revision of the coupled rotors model.
+
+		* Reaction.h/.cpp, gDensityOfStates: Minor tidying.
+
 2017-August-20 Struan Robertson
 
 		* System.cpp: Trace fitting altered so that it cannot produce negative values.

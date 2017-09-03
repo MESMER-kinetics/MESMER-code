@@ -29,7 +29,7 @@ namespace mesmer
     BIMOLECULAR_SINK,
     PSEUDOISOMERIZATION,
     SECONDORDERASSOCIATION,
-		DIFFUSION,
+    DIFFUSION,
     UNDEFINED_REACTION
   };
 
@@ -42,15 +42,19 @@ namespace mesmer
     struct MoleculePtrLess : public binary_function<const Molecule*, const Molecule*, bool>
     {
       bool operator()(const Molecule* mol1, const Molecule* mol2)const
-      { return mol1->getName() < mol2->getName(); }
+      {
+        return mol1->getName() < mol2->getName();
+      }
     };
     struct ReactionPtrLess : public binary_function<const Reaction*, const Reaction*, bool>
     {
       bool operator()(const Reaction* r1, const Reaction* r2)const
-      { return r1->getName() < r2->getName(); }
+      {
+        return r1->getName() < r2->getName();
+      }
     };
 
-    typedef std::map<Molecule*, int, MoleculePtrLess> molMapType ;
+    typedef std::map<Molecule*, int, MoleculePtrLess> molMapType;
 
     // Constructors.
 
@@ -58,23 +62,23 @@ namespace mesmer
 
     // Destructor.
     virtual ~Reaction();
-    virtual void Finish(){} // Mostly does nothing except AssociationReaction restores m_ZPEs of reactants
+    virtual void Finish() {} // Mostly does nothing except AssociationReaction restores m_ZPEs of reactants
 
     // Initialize reaction.
-    virtual bool InitializeReaction(PersistPtr ppReac) = 0 ;
+    virtual bool InitializeReaction(PersistPtr ppReac) = 0;
     PersistPtr get_PersistentPointer()const { return m_ppPersist; }
 
-    const std::string& getName() const    { return m_Name ; }
+    const std::string& getName() const { return m_Name; }
 
-    double getHeatOfReaction() const      {
+    double getHeatOfReaction() const {
       const double pdtZPE = get_relative_pdtZPE();
       const double rctZPE = get_relative_rctZPE();
       return pdtZPE - rctZPE;
     };
-    int getHeatOfReactionInt() const      { return int(getHeatOfReaction()) ; }
-    const MesmerEnv& getEnv() const { return m_Env; } ;
-    MesmerFlags& getFlags() { return m_Flags; } ;
-    void resetCalcFlag(){ m_reCalcMicroRateCoeffs = true; };
+    int getHeatOfReactionInt() const { return int(getHeatOfReaction()); }
+    const MesmerEnv& getEnv() const { return m_Env; };
+    MesmerFlags& getFlags() { return m_Flags; };
+    void resetCalcFlag() { m_reCalcMicroRateCoeffs = true; };
 
     // return reactant and product zero-point energy
     virtual double get_relative_rctZPE(void) const = 0;
@@ -82,7 +86,7 @@ namespace mesmer
     virtual double get_relative_TSZPE(void) const = 0;
 
     // Get threshold energy
-    virtual double get_ThresholdEnergy(void) {return m_pMicroRateCalculator->get_ThresholdEnergy(this) ; };
+    virtual double get_ThresholdEnergy(void) { return m_pMicroRateCalculator->get_ThresholdEnergy(this); };
     /* This function should be considered as a function to get Einf.
     In ILT, not the theoretical threshold energy but the experimental Einf is used.
     This function returns user defined m_EInf, otherwise zero.
@@ -95,112 +99,109 @@ namespace mesmer
     // get the reactant, which reacts in a first order or pseudo first order process
     virtual Molecule *get_reactant(void) const = 0;
 
-    Molecule* get_TransitionState() const { return m_TransitionState ; } ;
+    Molecule* get_TransitionState() const { return m_TransitionState; };
 
     // Get unimolecualr species information:
-    virtual int get_unimolecularspecies(std::vector<Molecule *> &unimolecularspecies) const = 0 ;
+    virtual int get_unimolecularspecies(std::vector<Molecule *> &unimolecularspecies) const = 0;
 
-    enum reactionType{all, rev, reactantsOnly, productsOnly};
-    std::string getReactionString(reactionType=all);
+    enum reactionType { all, rev, reactantsOnly, productsOnly };
+    std::string getReactionString(reactionType = all);
 
     // Get the imaginary frequency of the transitions state.
-    double get_TSImFreq(void) const {return m_TransitionState->getTS().get_ImFreq() ; } ;
+    double get_TSImFreq(void) const { return m_TransitionState->getTS().get_ImFreq(); };
 
-    bool thereIsTunnelling (void) const {return (m_pTunnelingCalculator) ? true : false ; } ;
+    bool thereIsTunnelling(void) const { return (m_pTunnelingCalculator) ? true : false; };
 
-    void calculateCellTunnelingCoeffs(std::vector<double>& TunnelingProbability) {m_pTunnelingCalculator->calculateCellTunnelingCoeffs(this, TunnelingProbability); } ;
-    
+    void calculateCellTunnelingCoeffs(std::vector<double>& TunnelingProbability) { m_pTunnelingCalculator->calculateCellTunnelingCoeffs(this, TunnelingProbability); };
+
     // calculate flux in grains
     void fluxCellToGrain();
 
     // returns the flux in cells for foreign modifications
-    std::vector<double>& get_CellFlux(void) {return m_CellFlux; };
+    std::vector<double>& get_CellFlux(void) { return m_CellFlux; };
 
     // returns the forward grain microcanoincal rate coefficients for foreign modifications
-    const std::vector<double>& get_GrainKfmc(void) {return m_GrainKfmc; };
+    const std::vector<double>& get_GrainKfmc(void) { return m_GrainKfmc; };
 
     // returns the forward grain microcanoincal rate coefficients for foreign modifications
-    const std::vector<double>& get_MtxGrnKf(void) {return m_MtxGrnKf; };
+    const std::vector<double>& get_MtxGrnKf(void) { return m_MtxGrnKf; };
 
     // get canonical pseudo first order irreversible loss rate coefficient
-    virtual double GetCanonicalIrreversibleLossRate(void){return 0.0;};
+    virtual double GetCanonicalIrreversibleLossRate(void) { return 0.0; };
 
     // set the bottom energy of m_CellFlux
     void setCellFluxBottom(const double energyValue);
 
     // return the grain idx in flux where the forward & reverse kofEs begin, respectively
-    void calcFluxFirstNonZeroIdx(void) ;
+    void calcFluxFirstNonZeroIdx(void);
 
     // get the grain in flux vector which corresponds to the threshold energy
     // normally this is the first grain, except for cases where the threshold energy is negative
-    const int get_fluxFirstNonZeroIdx(void){return int(m_GrnFluxFirstNonZeroIdx);};
+    const int get_fluxFirstNonZeroIdx(void) { return int(m_GrnFluxFirstNonZeroIdx); };
 
     // set & get flux Start Idx for calculating k(e)s from flux
-    void set_EffGrnFwdThreshold(int idx){m_EffGrainedFwdThreshold = idx;};
-    const int get_EffGrnFwdThreshold(void){return int(m_EffGrainedFwdThreshold);};
+    void set_EffGrnFwdThreshold(int idx) { m_EffGrainedFwdThreshold = idx; };
+    const int get_EffGrnFwdThreshold(void) { return int(m_EffGrainedFwdThreshold); };
 
     // set & get the forward threshold energy for calculating backward k(e)s from flux
-    void set_EffGrnRvsThreshold(int idx){m_EffGrainedRvsThreshold = idx;};
-    const int get_EffGrnRvsThreshold(void){return int(m_EffGrainedRvsThreshold);};
+    void set_EffGrnRvsThreshold(int idx) { m_EffGrainedRvsThreshold = idx; };
+    const int get_EffGrnRvsThreshold(void) { return int(m_EffGrainedRvsThreshold); };
 
     // get the backward threshold energy for calculating backward k(e)s from flux
-    const int get_fluxGrnZPE(void){return int(m_FluxGrainZPE);};
-    const int get_fluxZPE(void){return int(m_FluxCellZPE);};
+    const int get_fluxGrnZPE(void) { return int(m_FluxGrainZPE); };
+    const int get_fluxZPE(void) { return int(m_FluxCellZPE); };
 
     // calculate the effective threshold energy for utilizing in k(E) calculations, necessary for cases
     // with a negative threshold energy
     virtual void calcEffGrnThresholds(void) = 0;
 
     // get the bottom cell offset of m_CellFlux
-    const size_t getFluxCellOffset(void){return m_FluxCellOffset;};
+    const size_t getFluxCellOffset(void) { return m_FluxCellOffset; };
 
     // Wrapper function to calculate and grain average microcanoincal rate coeffcients.
-    virtual bool calcGrnAvrgMicroRateCoeffs() ;
+    virtual bool calcGrnAvrgMicroRateCoeffs();
 
     // Add reaction terms to the reaction matrix.
     virtual void AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega) = 0;
 
     // Add contracted basis set reaction terms to the reaction matrix.
-    virtual void AddContractedBasisReactionTerms(qdMatrix *CollOptr, molMapType &isomermap) = 0 ;
+    virtual void AddContractedBasisReactionTerms(qdMatrix *CollOptr, molMapType &isomermap) = 0;
 
     // Is reaction equilibrating and therefore contributes
     // to the calculation of equilibrium fractions.
-    virtual bool isEquilibratingReaction(double &Keq, Molecule **rct, Molecule **pdt) { return false ; } ;
+    virtual bool isEquilibratingReaction(double &Keq, Molecule **rct, Molecule **pdt) { return false; };
 
     // returns the reaction type
-    virtual ReactionType getReactionType() = 0 ; 
+    virtual ReactionType getReactionType() = 0;
 
     // Calculate high pressure rate coefficients at current T.
     virtual void HighPresRateCoeffs(vector<double> *pCoeffs) = 0;
 
     // Calculate reaction equilibrium constant.
-    virtual double calcEquilibriumConstant() = 0 ;
+    virtual double calcEquilibriumConstant() = 0;
 
     // For reactions involving a source update pseudoisomer map.
-    virtual void updateSourceMap(molMapType& sourcemap) { /* For reactions without source terms this is a NULL operation. */} ;
+    virtual void updateSourceMap(molMapType& sourcemap) { /* For reactions without source terms this is a NULL operation. */ };
 
     // Get the concentration of the excess reactant. 
-    double get_concExcessReactant() const { return m_ERConc ; }
+    double get_concExcessReactant() const { return m_ERConc; }
     void   set_concExcessReactant(double conc) { m_ERConc = conc; }
-    Molecule* getExcessReactant(){ return m_ExcessReactant; }
+    Molecule* getExcessReactant() { return m_ExcessReactant; }
 
-	// The following method takes an effective unimolecular rate 
-	// coefficient and normalizes it by, say, concentration and/or 
-	// any other factors in order to obtain a second order rate
-	// coefficient.
-	virtual double normalizeRateCoefficient(const double rateCoefficient) const {return rateCoefficient ; }  ;
+    // The following method takes an effective unimolecular rate 
+    // coefficient and normalizes it by, say, concentration and/or 
+    // any other factors in order to obtain a second order rate
+    // coefficient.
+    virtual double normalizeRateCoefficient(const double rateCoefficient) const { return rateCoefficient; };
 
     void setUsesProductProperties(bool b = true);
-    bool UsesProductProperties() const{ return m_UsesProductProperties; } 
-    
+    bool UsesProductProperties() const { return m_UsesProductProperties; }
+
   protected:
 
     // Read a molecule name from the XML file and look it up
     // The defaultType is used if there is no me:type or role attribute
     Molecule* GetMolRef(PersistPtr pp, const char* defaultType = NULL);
-
-    //Returns true if the XML input contains ZPE for all products
-    bool ProductEnergiesSupplied() const;
 
     // Grain averaged microcanonical rate coefficients.
     virtual void calcGrainRateCoeffs() = 0;
@@ -214,9 +215,9 @@ namespace mesmer
 
     Molecule            *m_TransitionState;       // Transition State
     Molecule            *m_ExcessReactant;
-    MoleculeManager     *m_pMoleculeManager ;     // Pointer to molecule manager.
-    MicroRateCalculator *m_pMicroRateCalculator ; // Pointer to microcanoical rate coeff. calculator.
-    TunnelingCalculator *m_pTunnelingCalculator ; // Pointer to Tunneling Calculator
+    MoleculeManager     *m_pMoleculeManager;     // Pointer to molecule manager.
+    MicroRateCalculator *m_pMicroRateCalculator; // Pointer to microcanoical rate coeff. calculator.
+    TunnelingCalculator *m_pTunnelingCalculator; // Pointer to Tunneling Calculator
 
     /*
     Each of the backward/forward microcanonical rate coefficients are based on
@@ -234,16 +235,16 @@ namespace mesmer
     double m_FluxGrainZPE;             // grain ZPE of m_GrainFlux
     size_t m_FluxCellOffset;           // cell Offset when converting m_CellFlux to m_GrainFlux
 
-    std::vector<double>  m_CellFlux ;  // Microcanonical transition state fluxes. (QM or classical)
-    std::vector<double>  m_GrainFlux ; // Grain summed microcanonical transition state fluxes..
+    std::vector<double>  m_CellFlux;  // Microcanonical transition state fluxes. (QM or classical)
+    std::vector<double>  m_GrainFlux; // Grain summed microcanonical transition state fluxes..
 
-    std::vector<double>  m_GrainKfmc ; // Grained averaged forward  microcanonical rates.
-    std::vector<double>  m_MtxGrnKf ;  // Grained averaged forward  microcanonical rates as used in collision operator.
+    std::vector<double>  m_GrainKfmc; // Grained averaged forward  microcanonical rates.
+    std::vector<double>  m_MtxGrnKf;  // Grained averaged forward  microcanonical rates as used in collision operator.
 
     // Read parameters requires to determine reaction heats and rates.
     bool ReadRateCoeffParameters(PersistPtr ppReac);
 
-    double m_ERConc ;           // Concentration of the excess reactant (This is a complement to reactions with
+    double m_ERConc;           // Concentration of the excess reactant (This is a complement to reactions with
                                 // excess species. This value is not used in unimolecular reactions.)
 
   private:
@@ -262,16 +263,16 @@ namespace mesmer
 
     const MesmerEnv& m_Env;
     MesmerFlags& m_Flags;
-    std::string m_Name ;            // Reaction name.
+    std::string m_Name;            // Reaction name.
 
     bool   m_reCalcMicroRateCoeffs; // re-calculation on DOS
 
-protected: //previously private but needed in IrreversibleUnimolecularReaction::calcFluxFirstNonZeroIdx(void)
+  protected: //previously private but needed in IrreversibleUnimolecularReaction::calcFluxFirstNonZeroIdx(void)
     bool m_UsesProductProperties;
     int m_GrnFluxFirstNonZeroIdx;  // idx of the starting grain for calculating forward/backward k(E)s from flux
     int m_EffGrainedFwdThreshold;  // effective threshold energy (in grains) for forward flux calculations
     int m_EffGrainedRvsThreshold;  // effective threshold energy (in grains) for backward flux calculations
-  } ;
+  };
 
   // _2008_04_24__12_35_40_
   //

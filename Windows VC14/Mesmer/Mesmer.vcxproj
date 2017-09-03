@@ -154,6 +154,7 @@
     <ClCompile Include="..\..\src\plugins\AnalyticalRepresentation.cpp" />
     <ClCompile Include="..\..\src\plugins\BeyerSwinehart.cpp" />
     <ClCompile Include="..\..\src\plugins\BoltzmannDistribution.cpp" />
+    <ClCompile Include="..\..\src\plugins\ClassicalCoupledRotors.cpp" />
     <ClCompile Include="..\..\src\plugins\ClassicalRotor.cpp" />
     <ClCompile Include="..\..\src\CollisionOperator.cpp" />
     <ClCompile Include="..\..\src\plugins\DefinedDensityOfStates.cpp" />

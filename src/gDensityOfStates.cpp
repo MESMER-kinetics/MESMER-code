@@ -129,8 +129,7 @@ namespace mesmer
     if (hasRotConst) {
       // Check rotational constants are valid.
       if (rCnst[0] < 0.0 || rCnst[1] < 0.0 || rCnst[2] < 0.0) {
-        cerr << "A negative rotational constant found " << endl;
-        throw (std::runtime_error("Fatal error"));
+        throw (std::runtime_error("A negative rotational constant found "));
       }
       // Make sure the rotational constants are in ascending order.
       std::sort(rCnst.begin(), rCnst.end());

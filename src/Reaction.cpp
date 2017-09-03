@@ -251,17 +251,6 @@ namespace mesmer
     return true ;
   }
 
-  //Returns true if the XML input contains ZPE for all products, but does not read them
-  bool Reaction::ProductEnergiesSupplied() const
-  {
-    vector<Molecule*> prods;
-    unsigned nprods = get_products(prods);
-    for(unsigned i=0;i<nprods;++i)
-      if(!(prods[i]->get_PersistentPointer())->XmlMoveToProperty("me:ZPE"))
-        return false;
-
-    return true;
-  }
 
   void Reaction::setUsesProductProperties(bool b)
   {

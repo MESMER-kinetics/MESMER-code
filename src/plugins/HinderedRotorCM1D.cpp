@@ -225,7 +225,7 @@ namespace mesmer
 
     //
     // Calculate the free rotor density of states. The density of states goes as
-    // (Energy)^(-1/2), howwever, to get a good estimate of the density of states
+    // (Energy)^(-1/2), however, to get a good estimate of the density of states
     // it is better to use the average of this function across the cell, hence the
     // slightly strange formula below.
     //
