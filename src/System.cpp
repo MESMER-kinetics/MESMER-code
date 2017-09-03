@@ -863,7 +863,7 @@ namespace mesmer
     // needs to be set.
     //
 
-    m_Flags.bIndependentErrors = false;
+    // m_Flags.bIndependentErrors = false;
 
     double chiSquare(0.0);
     vector<RawDataSet> &rawDataSets = m_pConditionsManager->get_experimentalrawDataSets(calPoint);
