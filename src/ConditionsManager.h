@@ -34,11 +34,14 @@ namespace mesmer
 
 	struct RawDataSet
 	{
+		RawDataSet() : data(), m_calcTrace(), m_ref1(""), m_Name(NULL), m_excessConc(0.0), m_pPersistPtr(NULL) {}
+	public:
 		std::vector<std::pair<double, double> > data; // Time series data.
 		std::vector<double> m_calcTrace;              // Calculated trace. 
 		std::string m_ref1;                           // Monitored species.
 		const char* m_Name;                           // Name of trace.
-		double m_excessConc;                          // Concentration of excess reactant. 
+		double m_excessConc;                          // Concentration of excess reactant.
+		PersistPtr m_pPersistPtr;                     // Location of data.
 	};
 
 	// Functor to compare times in RawDataSet.
@@ -55,7 +58,7 @@ namespace mesmer
 	struct CandTpair {
 
 		double      m_concentration; // particles per cubic centimeter
-		double      m_temperature; // Kelvin
+		double      m_temperature;   // Kelvin
 		Precision   m_precision;
 		std::string m_pBathGasName;
 		std::map<Reaction*, double> m_excessConcs; // Reaction, conc in ppcc
@@ -203,6 +206,12 @@ namespace mesmer
 		// Write the general analysis data to <me:analysis> section of the XML output.
 		void WriteXMLandClear();
 
+		// Set the the index to the data set being analysed.
+		void set_currentData(int i) { currentSet = i ; };
+
+		// Set the the index to the data set being analysed.
+		int get_currentData() { return currentSet; };
+
 	private:
 
 		bool readPTs();
@@ -235,6 +244,9 @@ namespace mesmer
 
 		// General analysis data.
 		GeneralAnalysisData generalAnalysisData;
+
+		// Index of the current set being analysed.
+		int currentSet;
 
 	};
 

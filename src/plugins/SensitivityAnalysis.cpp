@@ -15,6 +15,7 @@
 #include <iomanip>
 
 #include "../System.h"
+#include "../ConditionsManager.h"
 #include "../calcmethod.h"
 #include "FittingUtils.h"
 #include "../Sobol.h"

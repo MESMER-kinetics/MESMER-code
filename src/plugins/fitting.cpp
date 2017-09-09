@@ -13,6 +13,7 @@
 #include <iomanip>
 
 #include "../System.h"
+#include "../ConditionsManager.h"
 #include "../calcmethod.h"
 #include "../dMatrix.h"
 #include "../TimeCounter.h"

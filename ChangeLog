@@ -1,3 +1,9 @@
+2017-September-09 Struan Robertson
+
+		* System.h/.cpp, ConditionsManager.h/.cpp, CollisionOperator.h/.cpp MesmerFlags.h/.cpp,
+		fitting.cpp, Marquardt.cpp, SensitivityAnalysis.cpp, ErrorPropagation.cpp : Changes in
+		include layout to allow experimental parameters to be used in definition of the collision
+		matrix. Also, changes to read diffusive loss from trace data.
 
 2017-September-03 Struan Robertson
 

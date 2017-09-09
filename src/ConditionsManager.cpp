@@ -15,7 +15,8 @@ namespace mesmer
     baseExcessConcs(),
     PandTs(),
     m_pParallelManager(NULL),
-    generalAnalysisData() {
+    generalAnalysisData(),
+		currentSet(-1) {
     m_pParallelManager = m_pSys->getParallelManager();
   }
 
@@ -323,6 +324,7 @@ namespace mesmer
 
           RawDataSet ds;
           ds.m_Name = ppRawData->XmlReadValue("name", optional);
+					ds.m_pPersistPtr = ppRawData;
           try {
             ds.m_ref1 = ppRawData->XmlReadValue("ref");
           }
@@ -371,7 +373,13 @@ namespace mesmer
             ds.data.erase(remove_if(ds.data.begin(), ds.data.end(), Before(startTime)), ds.data.end());
 
           thisPair.m_rawDataSets.push_back(ds);
-        }
+
+					// Raw data usually is based on photon counts or similar, for which there is limited
+					// information about errors, so we must infer errors from the data itself, so there 
+					// can be no independent model assessment. 
+					m_pSys->m_Flags.bIndependentErrors = false;
+					m_pSys->m_Flags.bAddDiffusiveLossTerms = true;
+				}
 
         if (!rawDataOK) return false;
 

@@ -61,6 +61,7 @@ namespace mesmer
 		bool   bIndependentErrors;             // Used in data analysis. If true Chi^2 statistic test is valid.
 		bool   useOrigFreqForZPECorrection;    // Used with ab initio potentials, thus flag causes MESMER to use the original
 		                                       // frequencies to calculate the ZPE correction need to addjust the Classical potential.
+		bool   bAddDiffusiveLossTerms;         // True when fitting trace data that has a diffusive loss term associated with it.
 	};
 }//namespace
 

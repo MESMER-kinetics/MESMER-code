@@ -23,6 +23,7 @@ namespace mesmer
 
 	// Forward declarations.
 	struct AnalysisData;
+	class ConditionsManager;
 
   class CollisionOperator
   {
@@ -35,7 +36,7 @@ namespace mesmer
     virtual ~CollisionOperator();
 
     // Initialize the collision operator object.
-    bool initialize(MoleculeManager *pMoleculeManager, ReactionManager *pReactionManager);
+    bool initialize(MoleculeManager *pMoleculeManager, ReactionManager *pReactionManager, ConditionsManager *pConditionManager);
 
     void setPrecision(Precision precision) { m_precision = precision; }
 
@@ -90,13 +91,16 @@ namespace mesmer
 
     // Construct a transition matrix based on grains.
     template<class T>
-    void constructGrainMatrix(MesmerEnv &mEnv);
+    void constructGrainMatrix(MesmerEnv &mEnv, MesmerFlags& mFlags);
 
     // Construct a transition matrix based on collision operator eigenfunctions.
     void constructBasisMatrix(MesmerEnv &mEnv);
 
     // Locate all sinks in the relevant isomer or source map. 
     void locateSinks();
+
+		// Add diffusive loss terms to collision matrix.
+		void CollisionOperator::AddDiffusiveLossTerms(const double rMeanOmega);
 
     void printReactionOperator(const MesmerFlags &mFlags);
 
@@ -122,7 +126,10 @@ namespace mesmer
     // Location of the reaction mananger.
     ReactionManager *m_pReactionManager;
 
-    // Maps the location of individual reactant collision operator and source terms in the reaction operator.
+		// Location of the reaction mananger.
+		ConditionsManager *m_pConditionManager;
+
+		// Maps the location of individual reactant collision operator and source terms in the reaction operator.
     Reaction::molMapType    m_isomers;
     Reaction::molMapType    m_sources;
 
