@@ -549,7 +549,25 @@ namespace mesmer
         // Add elements for eigenvalues.
         WriteDataToXml(pp, PandTs[i].m_eigenvalues);
       }
-    }
+
+			// Add elements for trace data.
+			for (size_t j(0); j < PandTs[i].m_rawDataSets.size(); j++) {
+				const RawDataSet& dataSet = PandTs[i].m_rawDataSets[j];
+				const vector<double>& calcTrace = dataSet.m_calcTrace;
+				stringstream ss;
+				for (size_t k(0); k < calcTrace.size(); k++) {
+					string tmp = formatFloatNWS(calcTrace[k], 6, 15);
+					ss << tmp << " ";
+				}
+				PersistPtr pp = dataSet.m_pPersistPtr;
+				PersistPtr ppcs = pp->XmlMoveTo("me:calcSignals");
+				if (ppcs) {
+					ppcs->XmlWrite(ss.str());
+				} else
+				  pp->XmlWriteValueElement("me:calcSignals", ss.str());
+			}
+
+	  } // End Main conditions loop.
   }
 
   // Write calculated date to XML.

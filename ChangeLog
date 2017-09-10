@@ -1,3 +1,8 @@
+2017-September-10 Struan Robertson
+
+		* ConditionsManager.cpp, ReactionManager.cpp, formatfloat.h: Changes to allow for calculated 
+		trace data to be written to Mesmer_out.xml. Diffusive loss reaction code removed.
+
 2017-September-09 Struan Robertson
 
 		* System.h/.cpp, ConditionsManager.h/.cpp, CollisionOperator.h/.cpp MesmerFlags.h/.cpp,

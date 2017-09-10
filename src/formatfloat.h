@@ -78,5 +78,21 @@ namespace mesmer
 
   }
 
+	// Same as above but with white space removed.
+	template<typename T>
+	string formatFloatNWS(const T&  datum,     // Floating point value.
+		                    const int precision, // Required precision.
+		                    const int width      // Required width.
+	) {
+		string str = formatFloat(datum, precision, width);
+
+		string::iterator it = str.begin();
+		size_t pos(0);
+		for (; isspace(*it) && it != str.end(); ++it, ++pos)
+			;
+
+		return str.substr(pos);
+	}
+
 }
 #endif //GUARD_formatfloat_h

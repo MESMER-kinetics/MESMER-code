@@ -649,8 +649,6 @@ src/ConditionsManager.h -text
 src/Constants.h -text
 src/DensityOfStates.cpp -text
 src/DensityOfStates.h -text
-src/DiffusiveLossReaction.cpp -text
-src/DiffusiveLossReaction.h -text
 src/Distribution.h -text
 src/EnergyTransferModel.h -text
 src/IrreversibleExchangeReaction.cpp -text

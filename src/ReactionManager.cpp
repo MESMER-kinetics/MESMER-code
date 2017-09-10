@@ -18,7 +18,6 @@
 #include "IrreversibleExchangeReaction.h"
 #include "BimolecularSinkReaction.h"
 #include "PseudoIsomerizationReaction.h"
-#include "DiffusiveLossReaction.h"
 
 using namespace Constants;
 using namespace std;
@@ -122,9 +121,6 @@ namespace mesmer
       else if (bRct2 && bPdt1 && (pdt1Type == "sink" || pdt2Type == "sink")) {
         preaction = new IrreversibleExchangeReaction(m_pMoleculeManager, mEnv, mFlags, id, (rct1Type == "deficientReactant"));
       }
-			else if (!bRct2 && !bPdt1 && (rct1Type == "diffusiveLoss") && !bPdt2) {
-				preaction = new DiffusiveLossReaction(m_pMoleculeManager, mEnv, mFlags, id);
-			}
       else {
         cinfo << "Unknown reaction type.\n";
         return false;
