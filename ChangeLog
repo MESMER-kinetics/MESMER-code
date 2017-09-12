@@ -1,5 +1,12 @@
 2017-September-12 Struan Robertson
 
+		* ClassicalCoupledRotors.cpp, gStrucuture.cpp/.h: Further work for the coupled classical 
+		rotors density of states calculator.
+
+		* Minor documentation change.
+
+2017-September-12 Struan Robertson
+
 		* ClassicalCoupledRotors.cpp, gStrucuture.cpp/.h: Changes for the coupled classical 
 		rotors density of states calculator.
 

@@ -62,6 +62,9 @@ namespace mesmer
     // Apply inertia weighting to the raw internal rotation velocity vector.
     void ApplyInertiaWeighting(vector<string> &atomset, vector<double> &velocity, double fctr) const;
 
+		// Rotate one part of the molecule relative to the other by a given angle.
+		void applyTorsionAngle(string bondID, double angle);
+
     // Calculates the GRIT for the current set of coordinates.
 		void getGRIT(dMatrix& GRIT);
 
@@ -120,7 +123,7 @@ namespace mesmer
 		// Calculate the determinant of the Generalized Rotation Inertia Tensor.
 		// Used in the calculation of coupled rotor density of states and partition
 		// functions.
-		double getGRITDeterminant();
+		double getGRITDeterminant(vector<double>& angles);
 
     // Read librarymols.xml to obtain:
     //  the ab initio energy of the molecule, 

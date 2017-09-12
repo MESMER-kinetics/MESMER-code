@@ -36,9 +36,15 @@ namespace mesmer
     // Function to return the number of degrees of freedom associated with this count.
     virtual unsigned int NoDegOfFreedom(gDensityOfStates* gdos);
 
-    // Constructor which registers with the list of DensityOfStatesCalculators in TopPlugin
+    // Constructor which registers with the list of DensityOfStatesCalculators in TopPlugin.
     // This class calculates a complete DOS: it is not an extra class. 
-    ClassicalCoupledRotors(const char* id) : m_id(id), m_Sym(1.0), m_OpticalSym(1.0), m_SpinMultiplicity(1) { Register(); }
+    ClassicalCoupledRotors(const char* id) : m_id(id), 
+			m_Sym(1.0), 
+			m_OpticalSym(1.0), 
+			m_SpinMultiplicity(1), 
+			m_MCPnts(100), 
+			m_bondIDs(),
+			m_periodicities() { Register(); }
 
     virtual ~ClassicalCoupledRotors() {}
     virtual const char* getID() { return m_id; }
@@ -55,8 +61,9 @@ namespace mesmer
 
     double m_Sym;              // Rotational Symmetry Number.
     double m_OpticalSym;       // Transition states may have 2 optical isomers, which
-                               // is accounted for by an additionsl symmetry number. 
+                               // is accounted for by an additionsl symmetry number.
     size_t m_SpinMultiplicity; // Spin multiplicity.
+		size_t m_MCPnts;           // Number of Monte-Carlo points to use.
 
 		vector<string> m_bondIDs;       // The IDs of the binds to be used in the coupled model.
 		vector<size_t> m_periodicities; // The periodicities of the hindered rotors.
@@ -109,8 +116,9 @@ namespace mesmer
 			return false;
 		}
 
-		// Read in internal rotor information.
+		// Read in rotor information.
 		PersistPtr ppDOS = pp->XmlMoveTo("me:DOSCMethod");
+		int MCpnts = ppDOS->XmlReadInteger("me:MCPoints", optional);
 		PersistPtr ppRotor;
 		while (ppRotor = ppDOS->XmlMoveTo("me:Rotor")) {
 			const char* bondID = ppRotor->XmlReadValue("bondRef");
@@ -146,17 +154,34 @@ namespace mesmer
 
 		// Main loop
 
-		const size_t npnts(2000);
 		long long seed(1);
-		double sDet(0.0);
+		double aveDet(0.0);
 		double varDet(0.0);
-		for (size_t i(0); i < npnts; ++i) {
-			vector<double> rndmd(m_bondIDs.size(), 0.0);
-			sobol.sobol(rndmd.size(), &seed, rndmd);
+		double twoPi = 2.0*M_PI;
+		for (size_t i(0); i < m_MCPnts; ++i) {
 
-			sDet += gs.getGRITDeterminant();  // Units a.u.*Angstrom*Angstrom.
+			// Select angular coordinates.
+			vector<double> angles(m_bondIDs.size(), 0.0);
+			sobol.sobol(angles.size(), &seed, angles);
+			for (size_t j(0); j < angles.size(); j++)
+				angles[j] *= twoPi;
 
+			// Calculate the determinant of the Wilson G Matrix.
+			double det = gs.getGRITDeterminant(angles);  // Units a.u.*Angstrom*Angstrom.
+			aveDet    += sqrt(det);
+			varDet    += det;
 		}
+		aveDet /= double(m_MCPnts);
+		varDet /= double(m_MCPnts - 1);
+		varDet -= aveDet*aveDet;
+
+		// Kinetic density of states:
+
+		double cnt = pow(conMntInt2RotCnt, 0.5*double(m_bondIDs.size() + 3));
+		size_t SymNo = size_t(m_Sym);
+		for (size_t j(0); j < m_bondIDs.size(); ++j)
+			SymNo *= m_periodicities[j] ;
+		cnt /= SymNo;
 
     // Electronic excited states.
     vector<double> eleExc;
