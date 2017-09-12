@@ -37,7 +37,7 @@
           <array units="cm-1">1.528 0.2645 0.2645</array>
         </property>
         <property dictRef="me:symmetryNumber">
-          <scalar>18</scalar>
+          <scalar>2</scalar>
         </property>
         <property dictRef="me:vibFreqs">
           <!-- The last two frequencies removed and replaced by hindered rotors.-->
@@ -119,7 +119,7 @@
           </array>
         </property>
         <property dictRef="me:symmetryNumber">
-          <scalar>2</scalar>
+          <scalar>1</scalar>
         </property>
         <property dictRef="me:vibFreqs">
           <!-- The last frequency removed and replaced by a hindered rotor.-->

@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.0 compiled: -- Apr 28 2017 -- 22:56:46
+     Mesmer v5.1 compiled: -- Sep 11 2017 -- 18:46:52
 
-     Copyright (C) 2009-2017 by
+     Copyright (C) 2009-2018 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,10 +27,9 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sat Apr 29 15:29:31 2017
+                     Execution Date:  Tue Sep 12 12:04:56 2017
                      Number of ranks: 4
 
-Using 4 processes
 defaults.xml, librarymols.xml are in ../..
 
 Parsing input xml file...
@@ -39,6 +38,9 @@ CH3O2_NO2_associationEx2.xml
 --Parse data for marquardt
 Energy convention "" written to <moleculeList>
 In R1: Parsing reaction...Association reaction
+In CH3OONO2: WARNING: When calculating frequencies from a Hessian it is critical that
+In CH3OONO2: the Hessian and species coordinates are expressed relative to the same
+In CH3OONO2: Cartesian coordinate system.
 In CH3OONO2: Vibrational frequencies (cm-1) were calculated from Hessian:
   19.225 101.431 165.414 189.582 301.889 439.871 533.99 716.46 777.114 914.13 
   919.024 1166.12 1193.21 1306.45 1447.82 1469.73 1483.9 1782.74 3045.11 3138.54 
@@ -120,7 +122,7 @@ In R1: Not a unimolecular reaction: look for excess reactant concentration.
 30mbar, 272K at d precision with N2
 10mbar, 272K at d precision with N2
 --Parse data for ThermodynamicTable
-Write metadata 20170429_152931
+Write metadata 20170912_120456
 
 File: "CH3O2_NO2_associationEx2.xml" successfully parsed.
 Main Calculation begins
@@ -278,7 +280,7 @@ Chi^2 probability = 0.139433
 In N2: The default value of me:DOSCMethod was used.
 In N2: The default value of the attribute spinMultiplicity was used.
 gDensityOfStates initialization failed.
- -- Total time elapsed: 170 seconds.
+ -- Total time elapsed: 148 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 170 seconds.
+Total time elapsed: 148 seconds.

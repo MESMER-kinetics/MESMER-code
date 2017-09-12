@@ -58,13 +58,14 @@ namespace mesmer
                                // is accounted for by an additionsl symmetry number. 
     size_t m_SpinMultiplicity; // Spin multiplicity.
 
-		vector<string> m_bondIDs;  // The IDs of the binds to be used in the coupled model.
+		vector<string> m_bondIDs;       // The IDs of the binds to be used in the coupled model.
+		vector<size_t> m_periodicities; // The periodicities of the hindered rotors.
 
   };
 
   //************************************************************
   //Global instance, defining its id
-  ClassicalCoupledRotors theClassicalCoupledRotors("ClassicalCoupledRotorss");
+  ClassicalCoupledRotors theClassicalCoupledRotors("ClassicalCoupledRotors");
   //************************************************************
 
   //Read data from XML and store in this instance.
@@ -108,24 +109,21 @@ namespace mesmer
 			return false;
 		}
 
-		// Read bond IDs
-		const char* bondIDs = ppDOSC->XmlReadValue("me:bondRef", optional);
-		if (!bondIDs || *bondIDs == '\0')
-		{
-			cerr << "No <bondRef> specified for the coupled hindered rotating bond" << endl;
-			return false;
-		}
-		else {
-			string idata(bondIDs), delim(" ");
-			size_t prev = 0, pos = 0;
-			do
-			{
-				pos = idata.find(delim, prev);
-				if (pos == string::npos) pos = idata.length();
-				string token = idata.substr(prev, pos - prev);
-				if (!token.empty()) m_bondIDs.push_back(token);
-				prev = pos + delim.length();
-			} while (pos < idata.length() && prev < idata.length());
+		// Read in internal rotor information.
+		PersistPtr ppDOS = pp->XmlMoveTo("me:DOSCMethod");
+		PersistPtr ppRotor;
+		while (ppRotor = ppDOS->XmlMoveTo("me:Rotor")) {
+			const char* bondID = ppRotor->XmlReadValue("bondRef");
+			if (!bondID || *bondID == '\0') {
+				cerr << "No <bondRef> specified for the coupled hindered rotating bond" << endl;
+				return false;
+			}
+			else {
+				m_bondIDs.push_back(string(bondID));
+				gs.addRotBondID(string(bondID));
+			}
+			int periodicity = ppRotor->XmlReadInteger("periodicity", optional);
+			m_periodicities.push_back((periodicity > 0) ? periodicity:1); // set periodicity to unity by default.
 		}
 
 		return true;
@@ -150,12 +148,13 @@ namespace mesmer
 
 		const size_t npnts(2000);
 		long long seed(1);
+		double sDet(0.0);
+		double varDet(0.0);
 		for (size_t i(0); i < npnts; ++i) {
 			vector<double> rndmd(m_bondIDs.size(), 0.0);
 			sobol.sobol(rndmd.size(), &seed, rndmd);
 
-			// gs.reducedMomentInertiaAngular(get_BondID(), get_Phase(), angle, redInvMOI, m_ppConfigData);  // Units a.u.*Angstrom*Angstrom.
-
+			sDet += gs.getGRITDeterminant();  // Units a.u.*Angstrom*Angstrom.
 
 		}
 
@@ -220,11 +219,7 @@ namespace mesmer
 
   // Function to return the number of degrees of freedom associated with this count.
   unsigned int ClassicalCoupledRotors::NoDegOfFreedom(gDensityOfStates* gdos) {
-
-    vector<double> rotConst;
-    RotationalTop rotorType = gdos->get_rotConsts(rotConst);
-
-    unsigned int nDOF(3);
+    unsigned int nDOF(m_bondIDs.size() + 3); // The +3 is for the external rotors.
     return nDOF;
   }
 

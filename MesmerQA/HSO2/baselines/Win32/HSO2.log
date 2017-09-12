@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.0 compiled: -- Apr 28 2017 -- 22:56:46
+     Mesmer v5.1 compiled: -- Sep 11 2017 -- 18:46:52
 
-     Copyright (C) 2009-2017 by
+     Copyright (C) 2009-2018 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,10 +27,9 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sat Apr 29 16:07:02 2017
+                     Execution Date:  Tue Sep 12 11:24:57 2017
                      Number of ranks: 1
 
-Using 1 processes
 defaults.xml, librarymols.xml are in ../..
 
 Parsing input xml file...
@@ -73,7 +72,7 @@ In SO: The default value of me:DOSCMethod was used.
 In R6: No tunneling method used for R6
 3.37e+18PPCC, 295K at dd precision with He
 --Parse data for ThermodynamicTable
-Write metadata 20170429_160702
+Write metadata 20170912_112457
 
 File: "HSO2.xml" successfully parsed.
 Main Calculation begins
@@ -95,8 +94,7 @@ In FastLaplaceConvolution: 40 values in the FFT convolution routine were replace
 In He: The default value of me:DOSCMethod was used.
 In He: The default value of the attribute spinMultiplicity was used.
 gDensityOfStates initialization failed.
- -- Total time elapsed: 6 seconds.
+ -- Total time elapsed: 7 seconds.
 
-QA test successful
 System saved to mesmer_out.xml
-Total time elapsed: 6 seconds.
+Total time elapsed: 7 seconds.

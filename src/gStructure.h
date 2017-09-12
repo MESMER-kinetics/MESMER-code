@@ -63,9 +63,13 @@ namespace mesmer
     void ApplyInertiaWeighting(vector<string> &atomset, vector<double> &velocity, double fctr) const;
 
     // Calculates the GRIT for the current set of coordinates.
-    double getGRIT(std::string bondID);
+		void getGRIT(dMatrix& GRIT);
 
-  public:
+		// Calculates the effective reciprocal moment of inertia around
+		// a given bond for a given configuration.
+		double getReciprocalMOI(std::string bondID);
+	
+	public:
 
     gStructure(Molecule* pMol);
 
@@ -112,6 +116,11 @@ namespace mesmer
     // in the calculation of internal rotation moments of inertia and in this 
     // case "ApplyWeight" should be false.
     void internalRotationVector(string bondID, vector<double>& mode, bool ApplyMWeight = true);
+
+		// Calculate the determinant of the Generalized Rotation Inertia Tensor.
+		// Used in the calculation of coupled rotor density of states and partition
+		// functions.
+		double getGRITDeterminant();
 
     // Read librarymols.xml to obtain:
     //  the ab initio energy of the molecule, 

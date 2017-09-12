@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.0 compiled: -- Apr 28 2017 -- 22:56:46
+     Mesmer v5.1 compiled: -- Sep 11 2017 -- 18:46:52
 
-     Copyright (C) 2009-2017 by
+     Copyright (C) 2009-2018 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,10 +27,9 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sat Apr 29 16:07:12 2017
+                     Execution Date:  Tue Sep 12 11:25:07 2017
                      Number of ranks: 1
 
-Using 1 processes
 defaults.xml, librarymols.xml are in ../..
 
 Parsing input xml file...
@@ -55,7 +54,7 @@ In R2: No imaginary vibrational frequency. Check if there is tunneling.
 --Parse data for SimpleRRKM
 In R2: No tunneling method used for R2
 1000torr, 298K at double precision with N2
-Write metadata 20170429_160712
+Write metadata 20170912_112507
 
 File: "OH_acetylene_pseudo_isomerization.xml" successfully parsed.
 Main Calculation begins
@@ -73,7 +72,6 @@ In mesmer::CollisionOperator::timeEvolution: No population was assigned, and the
 In mesmer::CollisionOperator::timeEvolution: Initial poupulation set to 1.0  in the first isomer.
  -- Total time elapsed: 0 seconds.
 
-QA test successful
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 

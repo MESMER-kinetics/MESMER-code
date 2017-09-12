@@ -416,7 +416,7 @@ namespace mesmer
       // Rotate one fragment relative to the other.
 
       redInvMOI.clear();
-      redInvMOI.push_back(conMntInt2RotCnt*getGRIT(bondID));
+      redInvMOI.push_back(conMntInt2RotCnt*getReciprocalMOI(bondID));
       const size_t nAngle(angles.size());
       const double dAngle = 2.0*M_PI / double(nAngle);
       angles[0] = 0.0;
@@ -439,7 +439,7 @@ namespace mesmer
         }
 
         exportToXYZ(("rotate_fragment_" + toString(i)).c_str()) ;
-        redInvMOI.push_back(conMntInt2RotCnt*getGRIT(bondID)) ;
+        redInvMOI.push_back(conMntInt2RotCnt*getReciprocalMOI(bondID)) ;
       }
 
       // Restore original coordinates.
@@ -490,8 +490,135 @@ namespace mesmer
 
   }
 
-  // Calculates the GRIT for the current set of coodinates.
-  double gStructure::getGRIT(string bondID) {
+	// Calculates the GRIT for the current set of coordinates.
+	void gStructure::getGRIT(dMatrix& GRIT) {
+
+		size_t msize = GRIT.size();
+
+		// Save coordinates.
+
+		map<string, atom>::iterator iter;
+		vector<vector3> coordinates;
+		for (iter = Atoms.begin(); iter != Atoms.end(); ++iter) {
+			coordinates.push_back(iter->second.coords);
+		}
+
+		// Determine centre of mass.
+
+		vector3 centreOfMass;
+		double sm(0.0);
+		for (iter = Atoms.begin(); iter != Atoms.end(); ++iter) {
+			double mass = atomMass(iter->second.element);
+			centreOfMass += iter->second.coords * mass;
+			sm += mass;
+		}
+		centreOfMass /= sm;
+
+		// Determine ther inertial tensor for overall rotation.
+
+		double sxx = 0.0, syy = 0.0, szz = 0.0, sxy = 0.0, sxz = 0.0, syz = 0.0;
+		for (iter = Atoms.begin(); iter != Atoms.end(); ++iter) {
+			vector3 c = iter->second.coords - centreOfMass;
+			iter->second.coords = c;
+			double  m = atomMass(iter->second.element);
+			sxx += m * c.x() * c.x();
+			syy += m * c.y() * c.y();
+			szz += m * c.z() * c.z();
+			sxy += m * c.x() * c.y();
+			sxz += m * c.x() * c.z();
+			syz += m * c.y() * c.z();
+		}
+
+		GRIT[0][0] = syy + szz;
+		GRIT[1][1] = sxx + szz;
+		GRIT[2][2] = sxx + syy;
+		GRIT[0][1] = GRIT[1][0] = -sxy;
+		GRIT[0][2] = GRIT[2][0] = -sxz;
+		GRIT[1][2] = GRIT[2][1] = -syz;
+
+		// Calculate the velocity vectors (based on the Sharma, Raman and Green vector).
+
+		vector<vector<double> > velocities(m_RotBondIDs.size(), vector<double>(3 * NumAtoms(), 0.0));
+		for (size_t i(0); i < m_RotBondIDs.size(); i++) {
+
+			vector<double> velocity(3 * NumAtoms(), 0.0);
+
+			internalRotationVector(m_RotBondIDs[i], velocity, false);
+
+			// Remove centre of mass velocity.
+			vector3 centreOfMassVelocity;
+			for (size_t j(0); j < m_atomicOrder.size(); j++) {
+				double mass = atomMass((Atoms.find(m_atomicOrder[j]))->second.element);
+				vector3 vtmp;
+				vtmp.Set(&velocity[3 * j]);
+				centreOfMassVelocity += mass*vtmp;
+			}
+			centreOfMassVelocity /= sm;
+
+			for (size_t j(0), idx(0); j < m_atomicOrder.size(); j++) {
+				for (size_t n(0); n < 3; idx++, n++) {
+					velocity[idx] -= centreOfMassVelocity[n];
+				}
+			}
+
+			velocities[i] = velocity;
+		}
+
+		// Calculate the internal kinetic energy terms.
+
+		for (size_t i(0), ii(3); i < m_RotBondIDs.size(); i++, ii++) {
+			vector<double> &vi = velocities[i];
+			for (size_t j(i), jj(ii); j < m_RotBondIDs.size(); j++, jj++) {
+				vector<double> &vj = velocities[j];
+				double smk(0.0);
+				for (size_t m(0), idx(0); m < m_atomicOrder.size(); m++) {
+					double mass = atomMass((Atoms.find(m_atomicOrder[m]))->second.element);
+					for (size_t l(0); l < 3; l++, idx++) {
+						smk += mass*vi[idx] * vj[idx];
+					}
+				}
+				GRIT[ii][jj] = smk;
+				if (ii != jj)
+					GRIT[jj][ii] = GRIT[ii][jj];
+			}
+		}
+
+		// Calculate the Coriolis terms.
+
+		for (size_t i(0), ii(3); i < m_RotBondIDs.size(); i++, ii++) {
+			vector<double> &vi = velocities[i];
+			vector3 coriolis;
+			for (iter = Atoms.begin(); iter != Atoms.end(); ++iter) {
+				size_t ll = 3 * getAtomicOrder(iter->first);
+				vector3 r = iter->second.coords;
+				vector3 vtmp;
+				vtmp.Set(&vi[ll]);
+				double mass = atomMass(iter->second.element);
+				coriolis += mass*cross(r, vtmp);
+			}
+			GRIT[0][ii] = GRIT[ii][0] = coriolis.x();
+			GRIT[1][ii] = GRIT[ii][1] = coriolis.y();
+			GRIT[2][ii] = GRIT[ii][2] = coriolis.z();
+		}
+
+		// Restore original coordinates.
+
+		size_t i(0);
+		for (iter = Atoms.begin(); iter != Atoms.end(); ++iter, i++) {
+			iter->second.coords = coordinates[i];
+		}
+
+		if (m_verbose) {
+			string MatrixTitle("Generalized rotation inertia tensor:");
+			GRIT.print(MatrixTitle, ctest);
+			ctest << endl;
+		}
+
+	}
+
+	// Calculates the effective reciprocal moment of inertia around
+	// a given bond for a given configuration.
+  double gStructure::getReciprocalMOI(string bondID) {
 
     size_t msize(m_RotBondIDs.size() + 3);
     dMatrix GRIT(msize, 0.0);
@@ -628,6 +755,19 @@ namespace mesmer
 
     return invGRIT[idx][idx];
   }
+
+	// Calculate the determinant of the Generalized Rotation Inertia Tensor.
+	// Used in the calculation of coupled rotor density of states and partition
+	// functions.
+	double gStructure::getGRITDeterminant() {
+
+			size_t msize(m_RotBondIDs.size() + 3);
+			dMatrix GRIT(msize, 0.0);
+
+			getGRIT(GRIT);
+
+			return GRIT.Determinant() ;
+	}
 
   // Apply inertia weighting to the raw internal rotation velocity vector.
   void gStructure::ApplyInertiaWeighting(vector<string> &atomset, vector<double> &velocity, double fctr) const

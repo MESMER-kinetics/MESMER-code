@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.0 compiled: -- Apr 28 2017 -- 22:56:46
+     Mesmer v5.1 compiled: -- Sep 11 2017 -- 18:46:52
 
-     Copyright (C) 2009-2017 by
+     Copyright (C) 2009-2018 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,10 +27,9 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sat Apr 29 16:07:15 2017
+                     Execution Date:  Tue Sep 12 11:25:09 2017
                      Number of ranks: 1
 
-Using 1 processes
 defaults.xml, librarymols.xml are in ../..
 
 Parsing input xml file...
@@ -56,7 +55,7 @@ The default value of the attribute precision was used.
 3e+17PPCC, 720K at d precision with He
 The default value of the attribute precision was used.
 3.01e+17PPCC, 730K at d precision with He
-Write metadata 20170429_160715
+Write metadata 20170912_112509
 
 File: "ipropyl_reservoir.xml" successfully parsed.
 Main Calculation begins
@@ -70,14 +69,13 @@ Number of grains produced : 1
 In FastLaplaceConvolution: 5900 values in the FFT convolution routine were replaced by standard convolution
 Number of cells = 50000, Number of grains = 187
 Number of grains requested: 187
- -- Total time elapsed: 0 seconds.
+ -- Total time elapsed: 1 seconds.
 
-QA test successful
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
-            720          3e+17           41.5        45.0269
-            730       3.01e+17           51.1        61.3846
+            720          3e+17           41.5        18.6623
+            730       3.01e+17           51.1        25.8542
 
 System saved to mesmer_out.xml
-Total time elapsed: 0 seconds.
+Total time elapsed: 1 seconds.

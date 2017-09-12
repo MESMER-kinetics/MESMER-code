@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.0 compiled: -- Apr 28 2017 -- 22:56:46
+     Mesmer v5.1 compiled: -- Sep 11 2017 -- 18:46:52
 
-     Copyright (C) 2009-2017 by
+     Copyright (C) 2009-2018 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,10 +27,9 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sat Apr 29 14:59:43 2017
+                     Execution Date:  Tue Sep 12 11:39:04 2017
                      Number of ranks: 4
 
-Using 4 processes
 defaults.xml, librarymols.xml are in ../..
 
 Parsing input xml file...
@@ -55,7 +54,7 @@ The default value of the attribute precision was used.
 200.72Torr, 800K at d precision with He
 The default value of the attribute precision was used.
 250Torr, 1000K at d precision with He
-Write metadata 20170429_145943
+Write metadata 20170912_113904
 
 File: "LZ_test.xml" successfully parsed.
 Main Calculation begins
