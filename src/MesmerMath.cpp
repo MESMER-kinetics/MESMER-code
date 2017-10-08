@@ -6,7 +6,7 @@ using namespace std;
 using namespace mesmer;
 using namespace Constants;
 
-//convolutes DOSs
+// Convolves two functions.
 void Convolution(const std::vector<double> &f1,
 	const std::vector<double> &f2,
 	std::vector<double> &conv,

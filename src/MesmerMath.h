@@ -103,13 +103,13 @@ const T MesmerGamma(const T& x)
   return ga;
 }
 
-//convolutes rovibrational DOSs
+// Convolves rovibrational DOSs
 void Convolution(const std::vector<double> &f1,
   const std::vector<double> &f2,
   std::vector<double> &conv,
   const int n = 0);
 
-//convolutes rovibrational DOSs
+// Convolves rovibrational DOSs
 void FastLaplaceConvolution(const std::vector<double> &data, const std::vector<double> &respns, std::vector<double> &convolution);
 
 void getCellEnergies(const size_t &cellNumber, const double &cellSize, std::vector<double>& cellEne);

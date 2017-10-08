@@ -467,8 +467,6 @@ namespace mesmer
 			iter->second.coords -= origin;
 		}
 
-		exportToXYZ("origin_at_at1");
-
 		// Rotate molecule so that the at1-at2 bond is along z -axis.
 
 		vector3 bond = at2.coords;
@@ -494,8 +492,6 @@ namespace mesmer
 		}
 		bond = at2.coords;
 
-		exportToXYZ("at2_inXZ");
-
 		dMatrix rotY(3, 0.0);
 		sgn = (bond.z()*bond.x() > 0.0) ? 1.0 : -1.0;
 		double cosTheta = fabs(bond.z() / bond.length());
@@ -511,8 +507,6 @@ namespace mesmer
 			r *= rotY;
 			iter->second.coords.Set(&r[0]);
 		}
-
-		exportToXYZ("z_axis=at1-at2");
 
 		// Determine the content of one of the fragments so that it can moved relative to the other.
 
@@ -746,18 +740,21 @@ namespace mesmer
 	// functions.
 	double gStructure::getGRITDeterminant(vector<double>& angles) {
 
-		// Set torsional configuration.
-
+		// Save original coordinates.
 		map<string, atom>::iterator iter;
 		vector<vector3> coordinates;
 		for (iter = Atoms.begin(); iter != Atoms.end(); ++iter) {
 			coordinates.push_back(iter->second.coords);
 		}
 
+		// Set torsional configuration.
+
 		// Rotate about each bond in succession.
 		for (size_t i(0); i < m_RotBondIDs.size(); i++) {
 			applyTorsionAngle(m_RotBondIDs[i], angles[i]);
 		}
+
+		exportToXYZ("Torsional Configuration");
 
 		// Calculate general rotational inertia tensor.
 		size_t msize(m_RotBondIDs.size() + 3);
@@ -895,6 +892,10 @@ namespace mesmer
 		static PersistPtr pp;
 		if (ppConfigData)
 			pp = ppConfigData;
+
+		if (!pp)
+			return;
+
 		PersistPtr ppMol = pp->XmlWriteElement("molecule");
 		string id = getHost()->getName();
 		ppMol->XmlWriteAttribute("id", id + '-' + txt);
