@@ -139,7 +139,6 @@
     <ClCompile Include="..\..\src\AssociationReaction.cpp" />
     <ClCompile Include="..\..\src\BimolecularSinkReaction.cpp" />
     <ClCompile Include="..\..\src\ConditionsManager.cpp" />
-    <ClCompile Include="..\..\src\DiffusiveLossReaction.cpp" />
     <ClCompile Include="..\..\src\error.cpp" />
     <ClCompile Include="..\..\src\gBathProperties.cpp" />
     <ClCompile Include="..\..\src\gDensityOfStates.cpp" />
@@ -150,6 +149,7 @@
     <ClCompile Include="..\..\src\plugins\AnalyticalRepresentation.cpp" />
     <ClCompile Include="..\..\src\plugins\BeyerSwinehart.cpp" />
     <ClCompile Include="..\..\src\plugins\BoltzmannDistribution.cpp" />
+    <ClCompile Include="..\..\src\plugins\ClassicalCoupledRotors.cpp" />
     <ClCompile Include="..\..\src\plugins\ClassicalRotor.cpp" />
     <ClCompile Include="..\..\src\CollisionOperator.cpp" />
     <ClCompile Include="..\..\src\plugins\DefinedDensityOfStates.cpp" />
@@ -219,7 +219,6 @@
     <ClInclude Include="..\..\src\ConditionsManager.h" />
     <ClInclude Include="..\..\src\Constants.h" />
     <ClInclude Include="..\..\src\DensityOfStates.h" />
-    <ClInclude Include="..\..\src\DiffusiveLossReaction.h" />
     <ClInclude Include="..\..\src\Distribution.h" />
     <ClInclude Include="..\..\src\dMatrix.h" />
     <ClInclude Include="..\..\src\EnergyTransferModel.h" />

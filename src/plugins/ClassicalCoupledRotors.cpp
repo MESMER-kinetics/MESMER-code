@@ -44,7 +44,9 @@ namespace mesmer
 			m_SpinMultiplicity(1), 
 			m_MCPnts(100), 
 			m_bondIDs(),
-			m_periodicities() { Register(); }
+			m_periodicities(), 
+			m_knmtcFctr(), 
+			m_potential() { Register(); }
 
     virtual ~ClassicalCoupledRotors() {}
     virtual const char* getID() { return m_id; }
@@ -68,7 +70,9 @@ namespace mesmer
 		vector<string> m_bondIDs;       // The IDs of the binds to be used in the coupled model.
 		vector<size_t> m_periodicities; // The periodicities of the hindered rotors.
 
-  };
+		vector<double> m_knmtcFctr; // Configuration kinematic factor.
+		vector<double> m_potential; // Torsion configuration potential.
+	};
 
   //************************************************************
   //Global instance, defining its id
@@ -119,8 +123,8 @@ namespace mesmer
 		// Read in rotor information.
 		PersistPtr ppDOS = pp->XmlMoveTo("me:DOSCMethod");
 		int MCpnts = ppDOS->XmlReadInteger("me:MCPoints", optional);
-		PersistPtr ppRotor;
-		while (ppRotor = ppDOS->XmlMoveTo("me:Rotor")) {
+		PersistPtr ppRotor(ppDOS->XmlMoveTo("me:RotorArray"));
+		while (ppRotor = ppRotor->XmlMoveTo("me:Rotor")) {
 			const char* bondID = ppRotor->XmlReadValue("bondRef");
 			if (!bondID || *bondID == '\0') {
 				cerr << "No <bondRef> specified for the coupled hindered rotating bond" << endl;
@@ -132,6 +136,14 @@ namespace mesmer
 			}
 			int periodicity = ppRotor->XmlReadInteger("periodicity", optional);
 			m_periodicities.push_back((periodicity > 0) ? periodicity:1); // set periodicity to unity by default.
+		}
+
+		// Check if configuration data are required.
+
+		pp = ppDOS->XmlMoveTo("me:ConfigurationalData");
+		if (pp) {
+			gs.set_Verbose(true);
+			// m_ppConfigData = pp;
 		}
 
 		return true;
@@ -152,12 +164,13 @@ namespace mesmer
 		// Instantiate a random vector generator.
 		Sobol sobol;
 
-		// Main loop
-
+		// Configuration loop.
 		long long seed(1);
 		double aveDet(0.0);
 		double varDet(0.0);
 		double twoPi = 2.0*M_PI;
+		m_knmtcFctr.resize(m_MCPnts, 0.0);
+		m_potential.resize(m_MCPnts, 0.0);
 		for (size_t i(0); i < m_MCPnts; ++i) {
 
 			// Select angular coordinates.
@@ -170,23 +183,50 @@ namespace mesmer
 			double det = gs.getGRITDeterminant(angles);  // Units a.u.*Angstrom*Angstrom.
 			aveDet    += sqrt(det);
 			varDet    += det;
+			m_knmtcFctr[i] = sqrt(det);
+
+			// Calculate potential energy.
+			m_potential[i] = 0.0;
 		}
 		aveDet /= double(m_MCPnts);
 		varDet /= double(m_MCPnts - 1);
 		varDet -= aveDet*aveDet;
 
-		// Kinetic density of states:
+		// Heavyside function integration.
+		for (size_t i(0); i < m_MCPnts; ++i) {
+			double kfctr = m_knmtcFctr[i];
+			double ptnl  = m_potential[i];
+			size_t ll = size_t(ptnl / cellSize) ;
+			for (size_t j(ll); j < cellDOS.size(); ++j) {
+				cellDOS[j] += kfctr;
+			}
+		}
 
-		double cnt = pow(conMntInt2RotCnt, 0.5*double(m_bondIDs.size() + 3));
+		// Conversion, spin and symmetry number factor.
+		double cnt = size_t(m_SpinMultiplicity)/pow(conMntInt2RotCnt, 0.5*double(m_bondIDs.size() + 3));
 		size_t SymNo = size_t(m_Sym);
 		for (size_t j(0); j < m_bondIDs.size(); ++j)
-			SymNo *= m_periodicities[j] ;
+			SymNo *= m_periodicities[j];
 		cnt /= SymNo;
+		cnt /= double(m_MCPnts);
+		cnt /= ((m_bondIDs.size() > 1) ? MesmerGamma(0.5*double(m_bondIDs.size() - 1)) : 1.0);
+		for (size_t j(0); j < cellDOS.size(); ++j) {
+			cellDOS[j] *= cnt;
+		}
+
+		// Convolve with remaining energy contributions.
+		vector<double> tmpCellDOS(cellDOS.size(), 0.0);
+		double pwr = 0.5*(m_bondIDs.size() - 1);
+		for (size_t j(0); j < tmpCellDOS.size(); ++j) {
+			tmpCellDOS[j] += pow(cellEne[j], pwr);
+		}
+		vector<double> hndrRtrDOS(cellDOS.size(), 0.0);
+		FastLaplaceConvolution(cellDOS, tmpCellDOS, hndrRtrDOS);
 
     // Electronic excited states.
     vector<double> eleExc;
     pDOS->getEleExcitation(eleExc);
-    vector<double> tmpCellDOS(cellDOS);
+    tmpCellDOS = hndrRtrDOS;
     for (size_t j(0); j < eleExc.size(); ++j) {
       size_t nr = nint(eleExc[j] / cellSize);
       if (nr < MaximumCell) {
@@ -207,23 +247,30 @@ namespace mesmer
     vector<double> rotConst;
     RotationalTop rotorType = gdos->get_rotConsts(rotConst);
 
-    double qtot(1.0), ene(0.0), var(0.0);
-    qtot *= double(m_SpinMultiplicity);
+    double qtot(0.0), ene(0.0), var(0.0);
 
-    switch (rotorType) {
-    case NONLINEAR://3-D symmetric/asymmetric/spherical top
-      qtot *= (sqrt(M_PI / (rotConst[0] * rotConst[1] * rotConst[2]))*(pow(beta, -1.5)) / m_Sym);
-      ene = 1.5 / beta;
-      var = 1.5 / (beta*beta);
-      break;
-    case LINEAR://2-D linear
-      qtot /= (rotConst[0] * m_Sym*beta);
-      ene = 1.0 / beta;
-      var = 1.0 / (beta*beta);
-      break;
-    default:
-      break; // Assume atom.
-    }
+		// Conversion, spin and symmetry number factor.
+		double cnt = size_t(m_SpinMultiplicity) / pow(conMntInt2RotCnt, 0.5*double(m_bondIDs.size() + 3));
+		size_t SymNo = size_t(m_Sym);
+		for (size_t j(0); j < m_bondIDs.size(); ++j)
+			SymNo *= m_periodicities[j];
+		cnt /= SymNo;
+		cnt /= double(m_MCPnts);
+
+		// Heavyside function integration.
+		for (size_t i(0); i < m_MCPnts; ++i) {
+			const double ptnl = m_potential[i];
+			const double tmp  = m_knmtcFctr[i]*exp(-beta*ptnl);
+			qtot += tmp;
+			ene  += ptnl*tmp;
+			var  += ptnl*ptnl*tmp;
+		}
+		var  /= qtot;
+		ene  /= qtot;
+		var  -= ene*ene ;
+		var  += 0.5*double(m_bondIDs.size() + 3) / beta;
+		ene  += 0.5*double(m_bondIDs.size() + 3) / (beta*beta);
+		qtot *= cnt / pow(beta, 0.5*double (m_bondIDs.size() + 3));
 
     // Electronic excited states.
     vector<double> eleExc;

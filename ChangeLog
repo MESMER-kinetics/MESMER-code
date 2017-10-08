@@ -1,3 +1,9 @@
+2017-October-08 Struan Robertson
+
+		* ClassicalCoupledRotors.cpp: Added calculation of thermodynamic functions for couple rotors.
+
+		* gStrucuture.cpp: Minor changes to allow inspection of Monte-Carlo configurations.
+
 2017-September-12 Struan Robertson
 
 		* ClassicalCoupledRotors.cpp, gStrucuture.cpp/.h: Further work for the coupled classical 
