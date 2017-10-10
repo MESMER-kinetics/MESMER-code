@@ -350,7 +350,7 @@ namespace mesmer
 
     PrtnFn   *= Qintrot*Qhdr/double(npnts) ;
     IntrlEne += 1.0/(2.0*beta) + Ehdr ;
-    varEne   += boltzmann_RCpK/2.0 + varEhdr ;
+    varEne   += 1.0/ (2.0*beta*beta) + varEhdr ;
   }
 
 }//namespace

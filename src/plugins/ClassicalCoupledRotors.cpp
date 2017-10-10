@@ -244,11 +244,6 @@ namespace mesmer
   // Calculate contribution to canonical partition function.
   void  ClassicalCoupledRotors::canPrtnFnCntrb(gDensityOfStates* gdos, double beta, double &PrtnFn, double &IntrlEne, double &varEne) {
 
-    vector<double> rotConst;
-    RotationalTop rotorType = gdos->get_rotConsts(rotConst);
-
-    double qtot(0.0), ene(0.0), var(0.0);
-
 		// Conversion, spin and symmetry number factor.
 		double cnt = size_t(m_SpinMultiplicity) / pow(conMntInt2RotCnt, 0.5*double(m_bondIDs.size() + 3));
 		size_t SymNo = size_t(m_Sym);
@@ -258,6 +253,7 @@ namespace mesmer
 		cnt /= double(m_MCPnts);
 
 		// Heavyside function integration.
+		double qtot(0.0), ene(0.0), var(0.0);
 		for (size_t i(0); i < m_MCPnts; ++i) {
 			const double ptnl = m_potential[i];
 			const double tmp  = m_knmtcFctr[i]*exp(-beta*ptnl);
@@ -268,8 +264,8 @@ namespace mesmer
 		var  /= qtot;
 		ene  /= qtot;
 		var  -= ene*ene ;
-		var  += 0.5*double(m_bondIDs.size() + 3) / beta;
-		ene  += 0.5*double(m_bondIDs.size() + 3) / (beta*beta);
+		var  += 0.5*double(m_bondIDs.size() + 3) / (beta*beta);
+		ene  += 0.5*double(m_bondIDs.size() + 3) / beta ;
 		qtot *= cnt / pow(beta, 0.5*double (m_bondIDs.size() + 3));
 
     // Electronic excited states.
