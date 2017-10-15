@@ -17,68 +17,76 @@
 
 namespace mesmer
 {
-  class gStructure ;
+	class gStructure;
 
-  class HinderedRotorUtils: public DensityOfStatesCalculator
-  {
-  public:
+	class HinderedRotorUtils : public DensityOfStatesCalculator
+	{
+	public:
 
-	HinderedRotorUtils(const char* id) : DensityOfStatesCalculator(),
-      m_id(id),
-      m_bondID(),
-	  m_potentialCosCoeff(),
-	  m_potentialSinCoeff(),
-	  m_expansion(4),
-	  m_useSinTerms(false),
-	  m_calIntrlIrt(false),
-	  m_phase(0.0)
-	{ Register(); } ; 
-	~HinderedRotorUtils() {} ; 
+		HinderedRotorUtils(const char* id) : DensityOfStatesCalculator(),
+			m_id(id),
+			m_bondID(),
+			m_potentialCosCoeff(),
+			m_potentialSinCoeff(),
+			m_expansion(4),
+			m_useSinTerms(false),
+			m_calIntrlIrt(false),
+			m_phase(0.0)
+		{
+			Register();
+		};
+		~HinderedRotorUtils() {};
 
-    virtual const char* getID()  { return m_id; }
-	void set_BondID(const char *BondID) {m_bondID = string(BondID) ; } ;
-	string get_BondID () const { return m_bondID ; } ;
+		virtual const char* getID() { return m_id; }
+		void set_BondID(const char *BondID) { m_bondID = string(BondID); };
+		string get_BondID() const { return m_bondID; };
 
-  protected:
+	protected:
 
-	std::vector<double>& get_PotentialCosCoeff() {return m_potentialCosCoeff ; } ;
-	std::vector<double>& get_PotentialSinCoeff() {return m_potentialSinCoeff ; } ;
-	void set_Expansion(size_t expansion) {m_expansion = expansion ; } ;
-	void set_UseSinTerms(bool useSinTerms) {m_useSinTerms = useSinTerms ; } ;
-	void set_CalIntrlIrt(bool calIntrlIrt) {m_calIntrlIrt = calIntrlIrt ; } ;
-	void set_Phase(double phase) {m_phase = phase ; } ;
-	size_t get_Expansion() const {return m_expansion ; } ;
-	bool get_UseSinTerms() const {return m_useSinTerms ; } ;
-	bool get_CalIntrlIrt() const {return m_calIntrlIrt ; } ;
-	double get_Phase() const {return m_phase ; } ;
+		std::vector<double>& get_PotentialCosCoeff() { return m_potentialCosCoeff; };
+		std::vector<double>& get_PotentialSinCoeff() { return m_potentialSinCoeff; };
+		void set_Expansion(size_t expansion) { m_expansion = expansion; };
+		void set_UseSinTerms(bool useSinTerms) { m_useSinTerms = useSinTerms; };
+		void set_CalIntrlIrt(bool calIntrlIrt) { m_calIntrlIrt = calIntrlIrt; };
+		void set_Phase(double phase) { m_phase = phase; };
+		size_t get_Expansion() const { return m_expansion; };
+		bool get_UseSinTerms() const { return m_useSinTerms; };
+		bool get_CalIntrlIrt() const { return m_calIntrlIrt; };
+		double get_Phase() const { return m_phase; };
 
-	// Calculate the Fourier coefficients from potential data points.
-	void PotentialFourierCoeffs(vector<double> &angle, vector<double> &potential) ;
+		// Read potential parameters
+		void ReadPotentialParameters(PersistPtr ppHR, const string& bondID, vector<double>& potentialCosCoeff, vector<double>& potentialSinCoeff);
 
-	// Calculate potential.
-	double CalculatePotential(double angle) const ;
+		// Calculate the Fourier coefficients from potential data points.
+		void PotentialFourierCoeffs(vector<double> &angle, vector<double> &potential);
 
-	// Calculate gradient.
-	double CalculateGradient(double angle) const ;
+		// Calculate potential.
+		double CalculatePotential(double angle) const;
 
-  private:
+		// Calculate gradient.
+		double CalculateGradient(double angle) const;
 
-    const char* m_id;
+	private:
 
-    std::string m_bondID;
+		// Shift potential to origin.
+		void ShiftPotential();
 
-	std::vector<double> m_potentialCosCoeff ; // The cosine coefficients of the hindered rotor potential.
-	std::vector<double> m_potentialSinCoeff ; // The sine coefficients of the hindered rotor potential.
+		const char* m_id;
 
-	size_t m_expansion ;                      // Number of coefficients in the cosine expansion.
+		std::string m_bondID;
 
-	bool m_useSinTerms ;                      // If true sine terms are used in the representation of the potential.
+		std::vector<double> m_potentialCosCoeff; // The cosine coefficients of the hindered rotor potential.
+		std::vector<double> m_potentialSinCoeff; // The sine coefficients of the hindered rotor potential.
 
-	bool m_calIntrlIrt ;                      // If true the internal rotor moment of inertia will be calculated as
-	                                          // function the angle of rotation about the associated bond.
+		size_t m_expansion;                      // Number of coefficients in the cosine expansion.
 
-	double m_phase ;                          // Phase difference, in degrees, between potential and configuration.
-  } ;
+		bool m_useSinTerms;                      // If true sine terms are used in the representation of the potential.
+
+		bool m_calIntrlIrt;                      // If true the internal rotor moment of inertia will be calculated as
+																							// function the angle of rotation about the associated bond.
+
+		double m_phase;                          // Phase difference, in degrees, between potential and configuration.
+	};
 
 }  //namespace
 

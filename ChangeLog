@@ -1,3 +1,8 @@
+2017-October-15 Struan Robertson
+
+		* ClassicalCoupledRotors.cpp, HinderedRotorUtils.cpp/.h: Addition of potential energy 
+		contribution for coupled rotors.
+
 2017-October-10 Struan Robertson
 
 		* ClassicalCoupledRotors.cpp: Minor corrections to thermodynamic functions for coupled rotors.

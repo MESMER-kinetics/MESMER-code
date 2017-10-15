@@ -16,11 +16,12 @@
 #include "../gDensityOfStates.h"
 #include "../gStructure.h"
 #include "../Sobol.h"
+#include "HinderedRotorUtils.h"
 
 using namespace std;
 namespace mesmer
 {
-  class ClassicalCoupledRotors : public DensityOfStatesCalculator
+  class ClassicalCoupledRotors : public HinderedRotorUtils
   {
   public:
 
@@ -39,14 +40,17 @@ namespace mesmer
     // Constructor which registers with the list of DensityOfStatesCalculators in TopPlugin.
     // This class calculates a complete DOS: it is not an extra class. 
     ClassicalCoupledRotors(const char* id) : m_id(id), 
-			m_Sym(1.0), 
+			HinderedRotorUtils(id),
+			m_Sym(1.0),
 			m_OpticalSym(1.0), 
 			m_SpinMultiplicity(1), 
 			m_MCPnts(100), 
 			m_bondIDs(),
 			m_periodicities(), 
 			m_knmtcFctr(), 
-			m_potential() { Register(); }
+			m_potential(),
+			m_potentialCosCoeffs(),
+			m_potentialSinCoeffs() { Register(); }
 
     virtual ~ClassicalCoupledRotors() {}
     virtual const char* getID() { return m_id; }
@@ -58,6 +62,9 @@ namespace mesmer
     virtual ClassicalCoupledRotors* Clone() { return new ClassicalCoupledRotors(*this); }
 
   private:
+
+		// Calculates the potential energy associated with torsions.
+		double TorsionalPotential(const vector<double>& angles);
 
     const char* m_id;
 
@@ -72,6 +79,10 @@ namespace mesmer
 
 		vector<double> m_knmtcFctr; // Configuration kinematic factor.
 		vector<double> m_potential; // Torsion configuration potential.
+
+		vector<vector<double> > m_potentialCosCoeffs; // Torsion potential cosine Coefficients.
+		vector<vector<double> > m_potentialSinCoeffs; // Torsion potential sine Coefficients.
+
 	};
 
   //************************************************************
@@ -136,6 +147,14 @@ namespace mesmer
 			}
 			int periodicity = ppRotor->XmlReadInteger("periodicity", optional);
 			m_periodicities.push_back((periodicity > 0) ? periodicity:1); // set periodicity to unity by default.
+
+			// Read in potential parameters. 
+			vector<double> potentialCosCoeff;
+			vector<double> potentialSinCoeff;
+			ReadPotentialParameters(ppRotor, string(bondID), potentialCosCoeff, potentialSinCoeff);
+      m_potentialCosCoeffs.push_back(potentialCosCoeff);
+      m_potentialSinCoeffs.push_back(potentialSinCoeff);
+
 		}
 
 		// Check if configuration data are required.
@@ -166,8 +185,6 @@ namespace mesmer
 
 		// Configuration loop.
 		long long seed(1);
-		double aveDet(0.0);
-		double varDet(0.0);
 		double twoPi = 2.0*M_PI;
 		m_knmtcFctr.resize(m_MCPnts, 0.0);
 		m_potential.resize(m_MCPnts, 0.0);
@@ -181,16 +198,11 @@ namespace mesmer
 
 			// Calculate the determinant of the Wilson G Matrix.
 			double det = gs.getGRITDeterminant(angles);  // Units a.u.*Angstrom*Angstrom.
-			aveDet    += sqrt(det);
-			varDet    += det;
 			m_knmtcFctr[i] = sqrt(det);
 
 			// Calculate potential energy.
-			m_potential[i] = 0.0;
+			m_potential[i] = TorsionalPotential(angles) ;
 		}
-		aveDet /= double(m_MCPnts);
-		varDet /= double(m_MCPnts - 1);
-		varDet -= aveDet*aveDet;
 
 		// Heavyside function integration.
 		for (size_t i(0); i < m_MCPnts; ++i) {
@@ -290,5 +302,25 @@ namespace mesmer
     unsigned int nDOF(m_bondIDs.size() + 3); // The +3 is for the external rotors.
     return nDOF;
   }
+
+	// Calculates the potential energy associated with torsions.
+	double ClassicalCoupledRotors::TorsionalPotential(const vector<double>& angles) {
+
+		// SHR, 15/Oct/2017: At present the potential is modelled as the sum of separate 
+		// torsion terms, one for each angle. However, a better potential would take 
+		// account of non-bond terms.
+
+		double ptnl(0.0);
+
+		for (size_t i(0); i < angles.size(); ++i) {
+			double theta = angles[i] ;
+			const vector<double>& cosCoeff = m_potentialCosCoeffs[i];
+			for (size_t k(0); k < cosCoeff.size(); ++k) {
+				ptnl += cosCoeff[k] * cos(double(k)*theta);
+			}
+		}
+
+		return ptnl;
+	}
 
 }//namespace

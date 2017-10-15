@@ -187,6 +187,7 @@ SRCS := \
 	plugins/BeyerSwinehart.cpp \
 	plugins/BoltzmannDistribution.cpp	\
 	plugins/ClassicalRotor.cpp \
+	plugins/ClassicalCoupledRotors.cpp \
 	plugins/DefinedStatesRotor.cpp \
 	plugins/DefinedSumOfStates.cpp \
 	plugins/DefinedDensityOfStates.cpp \
