@@ -26,8 +26,8 @@ namespace mesmer
 		HinderedRotorUtils(const char* id) : DensityOfStatesCalculator(),
 			m_id(id),
 			m_bondID(),
-			m_potentialCosCoeff(),
-			m_potentialSinCoeff(),
+			//m_potentialCosCoeff(),
+			//m_potentialSinCoeff(),
 			m_expansion(4),
 			m_useSinTerms(false),
 			m_calIntrlIrt(false),
@@ -43,8 +43,8 @@ namespace mesmer
 
 	protected:
 
-		std::vector<double>& get_PotentialCosCoeff() { return m_potentialCosCoeff; };
-		std::vector<double>& get_PotentialSinCoeff() { return m_potentialSinCoeff; };
+		//std::vector<double>& get_PotentialCosCoeff() { return m_potentialCosCoeff; };
+		//std::vector<double>& get_PotentialSinCoeff() { return m_potentialSinCoeff; };
 		void set_Expansion(size_t expansion) { m_expansion = expansion; };
 		void set_UseSinTerms(bool useSinTerms) { m_useSinTerms = useSinTerms; };
 		void set_CalIntrlIrt(bool calIntrlIrt) { m_calIntrlIrt = calIntrlIrt; };
@@ -55,28 +55,28 @@ namespace mesmer
 		double get_Phase() const { return m_phase; };
 
 		// Read potential parameters
-		void ReadPotentialParameters(PersistPtr ppHR, const string& bondID, vector<double>& potentialCosCoeff, vector<double>& potentialSinCoeff);
+		void ReadPotentialParameters(PersistPtr ppHR, const string& bondID, vector<double>& ptnlCosCoeff, vector<double>& ptnlSinCoeff);
 
 		// Calculate the Fourier coefficients from potential data points.
-		void PotentialFourierCoeffs(vector<double> &angle, vector<double> &potential);
+		void PotentialFourierCoeffs(vector<double> &angle, vector<double> &potential, vector<double> &ptnlCosCoeff, vector<double> &ptnlSinCoeff);
 
 		// Calculate potential.
-		double CalculatePotential(double angle) const;
+		double CalculatePotential(double angle, const vector<double> &ptnlCosCoeff, const vector<double> &ptnlSinCoeff) const;
 
 		// Calculate gradient.
-		double CalculateGradient(double angle) const;
+		double CalculateGradient(double angle, const vector<double> &ptnlCosCoeff, const vector<double> &ptnlSinCoeff) const;
 
 	private:
 
 		// Shift potential to origin.
-		void ShiftPotential();
+		void ShiftPotential(vector<double> &ptnlCosCoeff, vector<double> &ptnlSinCoeff);
 
 		const char* m_id;
 
 		std::string m_bondID;
 
-		std::vector<double> m_potentialCosCoeff; // The cosine coefficients of the hindered rotor potential.
-		std::vector<double> m_potentialSinCoeff; // The sine coefficients of the hindered rotor potential.
+		//std::vector<double>& m_potentialCosCoeff; // The cosine coefficients of the hindered rotor potential.
+		//std::vector<double>& m_potentialSinCoeff; // The sine coefficients of the hindered rotor potential.
 
 		size_t m_expansion;                      // Number of coefficients in the cosine expansion.
 

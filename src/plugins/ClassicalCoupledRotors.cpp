@@ -155,6 +155,19 @@ namespace mesmer
       m_potentialCosCoeffs.push_back(potentialCosCoeff);
       m_potentialSinCoeffs.push_back(potentialSinCoeff);
 
+			// Check if there is a Hessian and knock out the frequency
+			// associated with this internal rotation.
+
+			if (gdos->hasHessian()) {
+				// The following vector, "mode", will be used to hold the internal rotation 
+				// mode vector as defined by Sharma, Raman and Green, J. Phys. Chem. (2010). 
+				vector<double> mode(3 * gs.NumAtoms(), 0.0);
+				gs.internalRotationVector(string(bondID), mode);
+				if (!gdos->projectMode(mode)) {
+					cerr << "Failed to project out internal rotation." << endl;
+					return false;
+				}
+			}
 		}
 
 		// Check if configuration data are required.
@@ -198,7 +211,7 @@ namespace mesmer
 
 			// Calculate the determinant of the Wilson G Matrix.
 			double det = gs.getGRITDeterminant(angles);  // Units a.u.*Angstrom*Angstrom.
-			m_knmtcFctr[i] = sqrt(det);
+			m_knmtcFctr[i] = sqrt(fabs(det));
 
 			// Calculate potential energy.
 			m_potential[i] = TorsionalPotential(angles) ;
@@ -219,9 +232,9 @@ namespace mesmer
 		size_t SymNo = size_t(m_Sym);
 		for (size_t j(0); j < m_bondIDs.size(); ++j)
 			SymNo *= m_periodicities[j];
-		cnt /= SymNo;
+		cnt /= double(SymNo);
 		cnt /= double(m_MCPnts);
-		cnt /= ((m_bondIDs.size() > 1) ? MesmerGamma(0.5*double(m_bondIDs.size() - 1)) : 1.0);
+		cnt /= ((m_bondIDs.size() > 1) ? MesmerGamma(0.5*double(m_bondIDs.size() + 1)) : 1.0);
 		for (size_t j(0); j < cellDOS.size(); ++j) {
 			cellDOS[j] *= cnt;
 		}
@@ -261,7 +274,7 @@ namespace mesmer
 		size_t SymNo = size_t(m_Sym);
 		for (size_t j(0); j < m_bondIDs.size(); ++j)
 			SymNo *= m_periodicities[j];
-		cnt /= SymNo;
+		cnt /= double(SymNo);
 		cnt /= double(m_MCPnts);
 
 		// Heavyside function integration.
@@ -292,9 +305,9 @@ namespace mesmer
     Eelec /= qelec;
     varEelec = varEelec / qelec - Eelec*Eelec;
 
-    PrtnFn *= qtot*qelec;
+    PrtnFn   *= qtot*qelec;
     IntrlEne += ene + Eelec;
-    varEne += var + varEelec;
+    varEne   += var + varEelec;
   }
 
   // Function to return the number of degrees of freedom associated with this count.

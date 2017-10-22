@@ -14,11 +14,11 @@
 
 namespace mesmer
 {
-  using namespace std;
-  using OpenBabel::vector3;
+	using namespace std;
+	using OpenBabel::vector3;
 
 	// Read potential parameters
-	void HinderedRotorUtils::ReadPotentialParameters(PersistPtr ppHR, const string& bondID, vector<double>& potentialCosCoeff, vector<double>& potentialSinCoeff) {
+	void HinderedRotorUtils::ReadPotentialParameters(PersistPtr ppHR, const string& bondID, vector<double>& ptnlCosCoeff, vector<double>& ptnlSinCoeff) {
 
 		PersistPtr pp = ppHR->XmlMoveTo("me:HinderedRotorPotential");
 
@@ -51,16 +51,16 @@ namespace mesmer
 				}
 
 				// As coefficients can be supplied in any order, they are sorted here.
-				potentialCosCoeff.resize(++maxIndex);
-				potentialSinCoeff.resize(++maxIndex);
+				ptnlCosCoeff.resize(++maxIndex);
+				ptnlSinCoeff.resize(++maxIndex);
 				for (size_t i(0); i < coefficients.size(); i++) {
-					potentialCosCoeff[indicies[i]] = coefficients[i];
-					potentialSinCoeff[i] = 0.0;
+					ptnlCosCoeff[indicies[i]] = coefficients[i];
+					ptnlSinCoeff[i] = 0.0;
 				}
 
 				// Shift potential so that lowest minimum is at zero.
 
-				ShiftPotential();
+				ShiftPotential(ptnlCosCoeff, ptnlSinCoeff);
 
 			}
 			else if (format == "numerical") {
@@ -88,7 +88,16 @@ namespace mesmer
 					potential.push_back(potentialPoint);
 				}
 
-				PotentialFourierCoeffs(angle, potential);
+				PotentialFourierCoeffs(angle, potential, ptnlCosCoeff, ptnlSinCoeff);
+
+				// Test potential
+
+				ctest << "          Angle         Potential          Series\n";
+				for (size_t i(0); i < angle.size(); ++i) {
+					double clcPtnl = CalculatePotential(angle[i], ptnlCosCoeff, ptnlSinCoeff);
+					ctest << formatFloat(angle[i], 6, 15) << ", " << formatFloat(potential[i], 6, 15) << ", " << formatFloat(clcPtnl, 6, 15) << '\n';
+				}
+				ctest << endl;
 
 			}
 			else {
@@ -96,7 +105,7 @@ namespace mesmer
 				// Unknown format.
 
 				cinfo << "Unknown hindering potential format for " << bondID << ", assuming free rotor." << endl;
-				potentialCosCoeff.push_back(0.0);
+				ptnlCosCoeff.push_back(0.0);
 
 			}
 
@@ -105,7 +114,7 @@ namespace mesmer
 	}
 
 	// Shift potential to origin.
-	void HinderedRotorUtils::ShiftPotential() {
+	void HinderedRotorUtils::ShiftPotential(vector<double> &ptnlCosCoeff, vector<double> &ptnlSinCoeff) {
 
 		// A coarse search for minima is done over intervals of 1 degree a minima 
 		// being located when the gradient changes sign from -ve to +ve. Then a 
@@ -117,7 +126,7 @@ namespace mesmer
 		size_t nDegrees(360);
 		for (size_t i(0); i <= nDegrees; ++i) {
 			double angb = double(i) * M_PI / 180.;
-			double grdb = CalculateGradient(angb);
+			double grdb = CalculateGradient(angb, ptnlCosCoeff, ptnlSinCoeff);
 			if (grdb < 0.0) {
 				anga = angb;
 				grda = grdb;
@@ -127,7 +136,7 @@ namespace mesmer
 				int n(0);
 				while (fabs(grdc) > tol && n < 10) {
 					angc = (grdb*anga - grda*angb) / (grdb - grda);
-					grdc = CalculateGradient(angc);
+					grdc = CalculateGradient(angc, ptnlCosCoeff, ptnlSinCoeff);
 					if (grdc > 0.0) {
 						anga = angc;
 						grda = grdc;
@@ -138,89 +147,84 @@ namespace mesmer
 					}
 					n++;
 				}
-				double potential = CalculatePotential(angc);
+				double potential = CalculatePotential(angc, ptnlCosCoeff, ptnlSinCoeff);
 				minPotential = min(minPotential, potential);
 			}
 		}
+
+		ptnlCosCoeff[0] -= minPotential;
+
+		return;
 	}
 
-  //
-  // Calculate cosine coefficients from potential data points.
-  //
-  void HinderedRotorUtils::PotentialFourierCoeffs(vector<double> &angle, vector<double> &potential)
-  {
-	size_t ndata = potential.size() ;
+	//
+	// Calculate cosine coefficients from potential data points.
+	//
+	void HinderedRotorUtils::PotentialFourierCoeffs(vector<double> &angle, vector<double> &potential, vector<double> &ptnlCosCoeff, vector<double> &ptnlSinCoeff)
+	{
+		size_t ndata = potential.size();
 
-	// Locate the potential minimum and shift to that minimum.
+		// Locate the potential minimum and shift to that minimum.
 
-	double vmin(potential[0]), amin(angle[0]) ;
-	for (size_t i(1); i < ndata; ++i) {
-	  if (potential[i] < vmin){
-		vmin = potential[i] ;
-		amin = angle[i] ;
-	  }
+		double vmin(potential[0]), amin(angle[0]);
+		for (size_t i(1); i < ndata; ++i) {
+			if (potential[i] < vmin) {
+				vmin = potential[i];
+				amin = angle[i];
+			}
+		}
+
+		for (size_t i(0); i < ndata; ++i) {
+			potential[i] -= vmin;
+			angle[i] -= amin;
+			angle[i] *= M_PI / 180.;
+		}
+
+		// Update the potential and and configuration phase difference.
+
+		m_phase += amin;
+
+		FourierCosCoeffs(angle, potential, ptnlCosCoeff, m_expansion);
+		if (m_useSinTerms) {
+			FourierSinCoeffs(angle, potential, ptnlSinCoeff, m_expansion);
+		}
+		else {
+			for (size_t k(0); k < m_expansion; ++k) {
+				ptnlSinCoeff.push_back(0.0);
+			}
+		}
+
+		return;
 	}
 
-	for (size_t i(0); i < ndata; ++i) {
-	  potential[i] -= vmin ;
-	  angle[i]     -= amin ;
-	  angle[i]     *= M_PI/180. ;
+	// Calculate potential.
+	double HinderedRotorUtils::CalculatePotential(double angle, const vector<double> &ptnlCosCoeff, const vector<double> &ptnlSinCoeff) const {
+
+		if (ptnlCosCoeff.size() == 0)
+			return 0.0;
+
+		double sum(0.0);
+		for (size_t k(0); k < ptnlCosCoeff.size(); ++k) {
+			double nTheta = double(k) * angle;
+			sum += (ptnlCosCoeff[k] * cos(nTheta)) + (ptnlSinCoeff[k] * sin(nTheta));
+		}
+
+		return sum;
 	}
 
-	// Update the potential and and configuration phase difference.
+	// Calculate potential gradient.
+	double HinderedRotorUtils::CalculateGradient(double angle, const vector<double> &ptnlCosCoeff, const vector<double> &ptnlSinCoeff) const {
 
-	m_phase += amin ;
+		if (ptnlCosCoeff.size() == 0)
+			return 0.0;
 
-    FourierCosCoeffs(angle, potential, m_potentialCosCoeff, m_expansion) ;
-	if (m_useSinTerms) {
-      FourierSinCoeffs(angle, potential, m_potentialSinCoeff, m_expansion) ;
-	} else {
-	  for(size_t k(0); k < m_expansion; ++k) {
-		m_potentialSinCoeff.push_back(0.0) ;
-	  }
+		double sum(0.0);
+		for (size_t k(0); k < ptnlCosCoeff.size(); ++k) {
+			double nTheta = double(k) * angle;
+			sum += double(k)*((-ptnlCosCoeff[k] * sin(nTheta)) + (ptnlSinCoeff[k] * cos(nTheta)));
+		}
+
+		return sum;
 	}
-
-	// Test potential
-
-	ctest << "          Angle         Potential          Series\n";
-	for (size_t i(0); i < ndata; ++i) {
-	  double clcPtnl = CalculatePotential(angle[i]) ;
-	  ctest << formatFloat(angle[i], 6, 15) << ", " <<  formatFloat(potential[i], 6, 15) << ", " <<  formatFloat(clcPtnl, 6, 15) <<'\n' ;
-	}
-	ctest << endl ;
-
-	return ;
-  }
-
-  // Calculate potential.
-  double HinderedRotorUtils::CalculatePotential(double angle) const {
-
-	if (m_potentialCosCoeff.size() == 0)
-	  return 0.0 ;
-
-	double sum(0.0) ;
-	for(size_t k(0); k < m_potentialCosCoeff.size(); ++k) {
-	  double nTheta = double(k) * angle;
-	  sum += m_potentialCosCoeff[k] * cos(nTheta) + m_potentialSinCoeff[k] * sin(nTheta);
-	}
-
-	return sum ;
-  }
-
-  // Calculate potential gradient.
-  double HinderedRotorUtils::CalculateGradient(double angle) const {
-
-	if (m_potentialCosCoeff.size() == 0)
-	  return 0.0 ;
-
-	double sum(0.0) ;
-	for(size_t k(0); k < m_potentialCosCoeff.size(); ++k) {
-	  double nTheta = double(k) * angle;
-	  sum += double(k)*(-m_potentialCosCoeff[k]*sin(nTheta) + m_potentialSinCoeff[k]*cos(nTheta)) ;
-	}
-
-	return sum ;
-  }
 
 }//namespace
-

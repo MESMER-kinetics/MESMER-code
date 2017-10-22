@@ -1,3 +1,8 @@
+2017-October-22 Struan Robertson
+
+		* ClassicalCoupledRotors.cpp, HinderedRotorUtils.cpp/.h, HinderedRotorQM1D.cpp,
+		HinderedRotorCM1D.cpp: Addition of numerical potential energy contribution for coupled rotors.
+
 2017-October-15 Struan Robertson
 
 		* ClassicalCoupledRotors.cpp, HinderedRotorUtils.cpp/.h: Addition of potential energy 

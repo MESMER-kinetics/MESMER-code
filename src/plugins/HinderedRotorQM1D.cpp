@@ -79,7 +79,10 @@ namespace mesmer
     vector<double> m_kineticCosCoeff;   // The cosine coefficients of the internal rotor inertia term.
     vector<double> m_kineticSinCoeff;   // The sine coefficients of the internal rotor inertia term.
 
-    vector<double> m_energyLevels;	    // The energies of the hindered rotor states.
+		vector<double> m_potentialCosCoeff; // The cosine coefficients of the hindered rotor potential.
+		vector<double> m_potentialSinCoeff; // The sine coefficients of the hindered rotor potential.
+
+		vector<double> m_energyLevels;	    // The energies of the hindered rotor states.
     double m_ZPE;                       // Zero point energy. 
 
     bool m_plotStates;                  // If true output data for plotting. 
@@ -196,104 +199,11 @@ namespace mesmer
       }
     }
 
-    // Read in potential information.
+		// Read in potential information.
 
-    vector<double>&  potentialCosCoeff = get_PotentialCosCoeff();
-    vector<double>&  potentialSinCoeff = get_PotentialSinCoeff();
+		m_periodicity = max(m_periodicity, ppDOSC->XmlReadInteger("me:periodicity", optional));
 
-    m_periodicity = max(m_periodicity, ppDOSC->XmlReadInteger("me:periodicity", optional));
-
-    pp = ppDOSC->XmlMoveTo("me:HinderedRotorPotential");
-
-    if (pp) {
-
-      const char* p = pp->XmlReadValue("format", true);
-      string format(p);
-
-      p = pp->XmlReadValue("units", optional);
-      string units = p ? p : "kJ/mol";
-
-      if (format == "analytical") {
-
-        // Analytical potential.
-
-        vector<int> indicies;
-        vector<double> coefficients;
-        int maxIndex(0);
-        while (pp = pp->XmlMoveTo("me:PotentialPoint"))
-        {
-          int index = pp->XmlReadInteger("index", optional);
-          indicies.push_back(index);
-          maxIndex = max(maxIndex, index);
-
-          double coefficient = pp->XmlReadDouble("coefficient", optional);
-          if (IsNan(coefficient))
-            coefficient = 0.0;
-          coefficient = getConvertedEnergy(units, coefficient);
-          coefficients.push_back(coefficient);
-        }
-
-        // As coefficients can be supplied in any order, they are sorted here.
-        potentialCosCoeff.resize(++maxIndex);
-        potentialSinCoeff.resize(++maxIndex);
-        for (size_t i(0); i < coefficients.size(); i++) {
-          potentialCosCoeff[indicies[i]] = coefficients[i];
-          potentialSinCoeff[i] = 0.0;
-        }
-
-        // Shift potential so that lowest minimum is at zero.
-
-        ShiftPotential();
-
-      }
-      else if (format == "numerical") {
-
-        // Numerical potential.
-
-        vector<double> potential;
-        vector<double> angle;
-        set_Expansion(pp->XmlReadInteger("expansionSize", optional));
-
-        // Check if sine terms are to be used.
-        set_UseSinTerms(pp->XmlReadBoolean("useSineTerms") || pp->XmlReadBoolean("UseSineTerms"));
-
-        while (pp = pp->XmlMoveTo("me:PotentialPoint"))
-        {
-          double anglePoint = pp->XmlReadDouble("angle", optional);
-          if (IsNan(anglePoint))
-            anglePoint = 0.0;
-          angle.push_back(anglePoint);
-
-          double potentialPoint = pp->XmlReadDouble("potential", optional);
-          if (IsNan(potentialPoint))
-            potentialPoint = 0.0;
-          potentialPoint = getConvertedEnergy(units, potentialPoint);
-          potential.push_back(potentialPoint);
-        }
-
-        PotentialFourierCoeffs(angle, potential);
-
-      }
-      else {
-
-        // Unknown format.
-
-        cinfo << "Unknown hindering potential format for " << bondID << ", assuming free rotor." << endl;
-
-        potentialCosCoeff.push_back(0.0);
-
-      }
-
-    }
-    else {
-
-      // Default : free rotor.
-
-      cinfo << "No potential defined for " << bondID << ", assuming free rotor." << endl;
-
-      potentialCosCoeff.push_back(0.0);
-
-    }
+		ReadPotentialParameters(ppDOSC, string(bondID), m_potentialCosCoeff, m_potentialSinCoeff);
 
     // Check if there is a Hessian and knock out the frequency
     // associated with this internal rotation.
@@ -348,8 +258,6 @@ namespace mesmer
 
     vector<double> tmpCellDOS(cellDOS);
 
-    const vector<double>&  potentialCosCoeff = get_PotentialCosCoeff();
-    const vector<double>&  potentialSinCoeff = get_PotentialSinCoeff();
     const bool useSinTerms = get_UseSinTerms();
     const bool calIntrlIrt = get_CalIntrlIrt();
 
@@ -385,9 +293,9 @@ namespace mesmer
 
     // Add diagonal kinetic and potential terms first.
 
-    hamiltonian[0][0] = potentialCosCoeff[0];
+    hamiltonian[0][0] = m_potentialCosCoeff[0];
     for (int k(1), i(1); k <= kmax; k++) {
-      double energy = bint*double(k*k) + potentialCosCoeff[0];
+      double energy = bint*double(k*k) + m_potentialCosCoeff[0];
       hamiltonian[i][i] = energy;
       stateIndicies[i] = -k;
       i++;                         // Need to account for the two directions of rotation.
@@ -398,8 +306,8 @@ namespace mesmer
 
     // Add off-diagonal cosine potential terms.
 
-    for (int n(1); n < int(potentialCosCoeff.size()) && n <= kmax; n++) {
-      double matrixElement = potentialCosCoeff[n] / 2.0;
+    for (int n(1); n < int(m_potentialCosCoeff.size()) && n <= kmax; n++) {
+      double matrixElement = m_potentialCosCoeff[n] / 2.0;
       for (size_t i(0); i < nstates; i++) {
         for (size_t j(0); j < nstates; j++) {
           hamiltonian[i][j] += matrixElement*(((abs(stateIndicies[j] - stateIndicies[i]) - n) == 0) ? 1.0 : 0.0);
@@ -437,8 +345,8 @@ namespace mesmer
       // Now, construct the off-diagonal sine potential terms,
       // placing result in the lower left off-diagoanl block.
 
-      for (int n(1); n < int(potentialSinCoeff.size()) && n <= kmax; n++) {
-        double matrixElement = potentialSinCoeff[n] / 2.0;
+      for (int n(1); n < int(m_potentialSinCoeff.size()) && n <= kmax; n++) {
+        double matrixElement = m_potentialSinCoeff[n] / 2.0;
         for (size_t i(0); i < nstates; i++) {
           for (size_t j(0); j < nstates; j++) {
             hamiltonian[nstates + i][j] += matrixElement*(
@@ -553,51 +461,6 @@ namespace mesmer
     varEne += varEintrot;
   }
 
-  // Shift potential to origin.
-  void HinderedRotorQM1D::ShiftPotential() {
-
-    // A coarse search for minima is done over intervals of 1 degree a minima 
-    // being located when the gradient changes sign from -ve to +ve. Then a 
-    // Newton-Raphson type iteration is applied to get a better estimate of
-    // the location of the minimum. Finally, the potential is shifted.
-
-    double minPotential(1.e10);
-    double anga(0.0), grda(0.0);
-    size_t nDegrees(360);
-    for (size_t i(0); i <= nDegrees; ++i) {
-      double angb = double(i) * M_PI / 180.;
-      double grdb = CalculateGradient(angb);
-      if (grdb < 0.0) {
-        anga = angb;
-        grda = grdb;
-      }
-      else if (grda < 0.0) {
-        double angc(0.0), grdc(1.0), tol(1.e-05);
-        int n(0);
-        while (fabs(grdc) > tol && n < 10) {
-          angc = (grdb*anga - grda*angb) / (grdb - grda);
-          grdc = CalculateGradient(angc);
-          if (grdc > 0.0) {
-            anga = angc;
-            grda = grdc;
-          }
-          else {
-            angb = angc;
-            grdb = grdc;
-          }
-          n++;
-        }
-        double potential = CalculatePotential(angc);
-        minPotential = min(minPotential, potential);
-      }
-    }
-
-    vector<double>&  potentialCosCoeff = get_PotentialCosCoeff();
-    potentialCosCoeff[0] -= minPotential;
-
-    return;
-  }
-
   // Provide data for plotting states against potential.
   void HinderedRotorQM1D::outputPlotData() const {
 
@@ -606,7 +469,7 @@ namespace mesmer
     double dAngle = M_PI / double(npoints);
     for (int i(-npoints); i < npoints; ++i) {
       double angle = double(i)*dAngle;
-      double potential = CalculatePotential(angle);
+      double potential = CalculatePotential(angle, m_potentialCosCoeff, m_potentialSinCoeff);
       ctest << formatFloat(angle, 6, 15) << ", " << formatFloat(potential, 6, 15) << endl;
     }
     ctest << endl;
