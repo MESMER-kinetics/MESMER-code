@@ -26,8 +26,6 @@ namespace mesmer
 		HinderedRotorUtils(const char* id) : DensityOfStatesCalculator(),
 			m_id(id),
 			m_bondID(),
-			//m_potentialCosCoeff(),
-			//m_potentialSinCoeff(),
 			m_expansion(4),
 			m_useSinTerms(false),
 			m_calIntrlIrt(false),
@@ -43,8 +41,6 @@ namespace mesmer
 
 	protected:
 
-		//std::vector<double>& get_PotentialCosCoeff() { return m_potentialCosCoeff; };
-		//std::vector<double>& get_PotentialSinCoeff() { return m_potentialSinCoeff; };
 		void set_Expansion(size_t expansion) { m_expansion = expansion; };
 		void set_UseSinTerms(bool useSinTerms) { m_useSinTerms = useSinTerms; };
 		void set_CalIntrlIrt(bool calIntrlIrt) { m_calIntrlIrt = calIntrlIrt; };
@@ -75,15 +71,12 @@ namespace mesmer
 
 		std::string m_bondID;
 
-		//std::vector<double>& m_potentialCosCoeff; // The cosine coefficients of the hindered rotor potential.
-		//std::vector<double>& m_potentialSinCoeff; // The sine coefficients of the hindered rotor potential.
-
 		size_t m_expansion;                      // Number of coefficients in the cosine expansion.
 
 		bool m_useSinTerms;                      // If true sine terms are used in the representation of the potential.
 
 		bool m_calIntrlIrt;                      // If true the internal rotor moment of inertia will be calculated as
-																							// function the angle of rotation about the associated bond.
+																						 // function the angle of rotation about the associated bond.
 
 		double m_phase;                          // Phase difference, in degrees, between potential and configuration.
 	};

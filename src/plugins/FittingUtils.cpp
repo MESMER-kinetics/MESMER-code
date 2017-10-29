@@ -12,6 +12,7 @@
 #include "../System.h"
 #include "FittingUtils.h"
 #include "../Sobol.h"
+#include "../ConditionsManager.h"
 
 namespace mesmer
 {
@@ -124,7 +125,7 @@ namespace mesmer
 
 		bool bIndependentErrors(pSys->m_Flags.bIndependentErrors);
 
-		size_t NoDegFreedom = residuals.size() - hessian.size();
+		size_t NoDegFreedom = pSys->getConditionsManager()->getTotalNumPoints() - hessian.size();
 		double errorFactor = (bIndependentErrors) ? 1.0 : sqrt(chiSquare/double(NoDegFreedom)) ;
 
 		// Calculate covaraince matrix.

@@ -1,3 +1,10 @@
+2017-October-29 Struan Robertson
+
+		* ClassicalCoupledRotors.cpp, HinderedRotorUtils.cpp/.h: Tidying-up of coupled rotors.
+
+		* ConditionsManager.cpp/.h, FittingUtils.cpp: Corrected number of degrees of freedom for
+		trace data. 
+
 2017-October-22 Struan Robertson
 
 		* ClassicalCoupledRotors.cpp, HinderedRotorUtils.cpp/.h, HinderedRotorQM1D.cpp,

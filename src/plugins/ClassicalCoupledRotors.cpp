@@ -7,7 +7,11 @@
 // Date:   07/Aug/2017
 //
 // This file contains the implementation of the methods for calculating and testing the 
-// density of states of a set of internal rotors coupled with each other and overall rotation.
+// density of states of a set of internal rotors coupled with each other and overall
+// rotation.
+//
+// The implementation is based on Gang, Pilling and Robertson, Chem. Phys. Vol. 231, p. 183
+// (1998).
 //
 //-------------------------------------------------------------------------------------------
 
