@@ -622,6 +622,7 @@ qd/tests/quadt.h -text
 qd/tests/quadt_test.cpp -text
 qd/tests/tictoc.cpp -text
 qd/tests/tictoc.h -text
+/rawdataplot.xsl -text
 schemas/CMLforMesmer.xsd -text
 schemas/mesmer.xsd -text
 schemas/mesmerPlugins.xsd -text

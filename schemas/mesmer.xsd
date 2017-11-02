@@ -154,11 +154,20 @@
                             </xs:simpleContent>
                           </xs:complexType>
                         </xs:element>
+                        <xs:element name="calcSignals">
+                          <xs:complexType>
+                            <xs:simpleContent>
+                              <xs:extension base="xs:string">
+                              </xs:extension>
+                            </xs:simpleContent>
+                          </xs:complexType>
+                        </xs:element>
                       </xs:sequence>
                       <xs:attribute name="name" type="xs:string" />
                       <xs:attribute name="ref" type="cml:moleculeIDType" use="required" />
                       <xs:attribute name="startTime" type="xs:float" />
                       <xs:attribute name="excessReactantConc" type="xs:float" use="optional"/>
+                      <xs:attribute name="diffusiveLoss" type="xs:float" use="optional"/>
                     </xs:complexType>
                   </xs:element>
                 </xs:sequence>

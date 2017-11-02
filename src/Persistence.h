@@ -120,6 +120,9 @@ namespace mesmer
     ///Replace or insert an element and return a pointer to the copy
     virtual PersistPtr XmlCopy(PersistPtr ppToBeCopied, PersistPtr ppToBeReplaced)=0;
 
+    ///Delete an element, returning true if successful.
+    virtual bool XmlDeleteElement(PersistPtr pp) = 0;
+
     virtual bool XmlSaveFile(const std::string& outfilename)=0;
 
     ///Utility function to return a string with the current time and date.

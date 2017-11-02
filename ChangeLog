@@ -1,3 +1,11 @@
+2017-November-02 Chris Morley
+
+    * mesmer1.xsl, rawdataplot.xsl: display rawdata plots
+    * src/ConditionsManager.cpp, src/ConditionsManager.h: rewrite signal,etc. in fixed format if necessary
+    * schemas/mesmer.xsd: update for rawData
+    * src/Persistence.h, src/XMLPersist.cpp, src/XMLPersist.h: Add XmlDeleteElement().
+    * src/gDensityOfStates.cpp: small reformat of a log message
+
 2017-October-29 Struan Robertson
 
 		* ClassicalCoupledRotors.cpp, HinderedRotorUtils.cpp/.h: Tidying-up of coupled rotors.

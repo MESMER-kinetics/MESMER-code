@@ -532,7 +532,7 @@
   </xsl:template>
 
 
-  <!-- Probably because XPath 1.0 doesn't use scientific numbers, some numbers give NaN when  
+    <!-- Probably because XPath 1.0 doesn't use scientific numbers, some numbers give NaN when  
        arithmetic is done on them in XSLT before passing on to SVG. Consequently, in the
        species population diagram the minus sign needed to invert the y axis is provided
        separately and the number is presumably handled as a string.-->

@@ -846,9 +846,9 @@ namespace mesmer
   bool gDensityOfStates::FrqsFromHessian() {
 
 		// Print warning about coordinate frame consistency.
-		cinfo << "WARNING: When calculating frequencies from a Hessian it is critical that" << endl; 
-		cinfo << "the Hessian and species coordinates are expressed relative to the same" << endl;
-		cinfo << "Cartesian coordinate system." << endl;
+		cinfo << "WARNING: When calculating frequencies from a Hessian it is critical\n" 
+    "     that the Hessian and species coordinates are expressed relative to\n"
+    "     the same Cartesian coordinate system." << endl;
 
     const size_t msize = m_Hessian->size();
     m_Modes = new dMatrix(msize, 0.0);

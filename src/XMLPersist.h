@@ -125,6 +125,8 @@ public:
   ///Replace an element, or insert a copy of an element as the first child of the current element and return a pointer to the copy
   virtual PersistPtr XmlCopy(PersistPtr ppToBeCopied, PersistPtr ppToBeReplaced=NULL);
 
+  ///Delete an element, returning PersistPtr true if successful.
+  virtual bool XmlDeleteElement(PersistPtr ppDeleteThis);
 
   virtual bool XmlSaveFile(const std::string& outfilename);
 

@@ -497,6 +497,13 @@ namespace mesmer
     return PersistPtr( new XMLPersist(pnNode->InsertBeforeChild(pnBefore, *pxP->pnNode)->ToElement()));
   }
 
+  bool XMLPersist::XmlDeleteElement(PersistPtr ppDeleteThis)
+  {
+    XMLPersist* pxP= dynamic_cast<XMLPersist*> (ppDeleteThis.get());
+    TiXmlNode* parent = pxP->pnNode->Parent();
+    return parent->RemoveChild(pxP->pnNode);
+  }
+
   bool XMLPersist::XmlSaveFile(const std::string& outfilename)
   {
     if(outfilename.empty())

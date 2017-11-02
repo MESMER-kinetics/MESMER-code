@@ -11,7 +11,8 @@
   <xsl:include href="mesmerDiag.xsl"/>
   <xsl:include href="switchcontent.xsl"/>
   <xsl:include href="popDiag.xsl"/>
-
+  <xsl:include href="rawdataplot.xsl"/>
+  
   <xsl:key name="molrefs" match="cml:molecule" use="@id"/>
   
 <xsl:variable name="title">
@@ -372,6 +373,7 @@
     </script>
 
     <xsl:call-template name="drawDiag"/>
+    <xsl:apply-templates select="//me:rawData"/>
     <xsl:apply-templates select="//me:analysis" mode="diagram"/>
 
     </body>
