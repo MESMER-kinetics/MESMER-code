@@ -1,3 +1,9 @@
+2017-November-22 Struan Robertson
+
+		* IrreversibleExchangeReaction.cpp/.h, benzene_oxidation_test.xml: Correction and tidy-up of 
+		irreversible exchange reaction type and example in preparation for the addition of new canonical
+		terms.
+
 2017-November-02 Chris Morley
 
     * mesmer1.xsl, rawdataplot.xsl: display rawdata plots

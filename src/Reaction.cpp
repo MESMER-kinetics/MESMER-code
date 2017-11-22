@@ -227,7 +227,7 @@ namespace mesmer
     }
 
     // Determine the method of MC rate coefficient calculation.
-    // The name of the method may be in a text element e.g.<me:MCRCMethod name="SimpleRRKM"/>
+    // The name of the method may be in a text element e.g.<me:MCRCMethod name="RRKM"/>
     // OR in a name or a xsi:type attribute e.g <me:MCRCMethod xsi:type ="me:MesmerILT">
 
     m_pMicroRateCalculator = ParseForPlugin<MicroRateCalculator>(this, "me:MCRCMethod", ppReac);

@@ -983,7 +983,7 @@
       <me:transitionState>
         <molecule ref="TS1_c" role="transitionState" />
       </me:transitionState>
-      <me:MCRCMethod name="SimpleRRKM"/>
+      <me:MCRCMethod name="RRKM"/>
       <me:excessReactantConc>5.0E18</me:excessReactantConc>
     </reaction>
     <reaction id="R_I1_I2t">
@@ -999,7 +999,7 @@
       <me:transitionState>
         <molecule ref="TS1_t" role="transitionState" />
       </me:transitionState>
-      <me:MCRCMethod name="SimpleRRKM"/>
+      <me:MCRCMethod name="RRKM"/>
       <me:excessReactantConc>5.0E18</me:excessReactantConc>
     </reaction>
     <reaction id="R1_HO2">
@@ -1018,7 +1018,7 @@
       <me:transitionState>
         <molecule ref="TS1_HO2" role="transitionState" />
       </me:transitionState>
-      <me:MCRCMethod name="SimpleRRKM"/>
+      <me:MCRCMethod name="RRKM"/>
       <me:excessReactantConc>5.0E18</me:excessReactantConc>
     </reaction>
     <reaction id="R3_HO2">
@@ -1034,7 +1034,7 @@
       <me:transitionState>
         <molecule ref="TS3_HO2" role="transitionState" />
       </me:transitionState>
-      <me:MCRCMethod name="SimpleRRKM"/>
+      <me:MCRCMethod name="RRKM"/>
     </reaction>
     <reaction id="R_2_6t">
       <reactant>
@@ -1046,7 +1046,7 @@
       <me:transitionState>
         <molecule ref="TS3_t_ax_2_6" role="transitionState" />
       </me:transitionState>
-      <me:MCRCMethod name="SimpleRRKM"/>
+      <me:MCRCMethod name="RRKM"/>
     </reaction>
     <reaction id="R_2_6c">
       <reactant>
@@ -1058,13 +1058,13 @@
       <me:transitionState>
         <molecule ref="TS3_c_ax_2_6" role="transitionState" />
       </me:transitionState>
-      <me:MCRCMethod name="SimpleRRKM"/>
+      <me:MCRCMethod name="RRKM"/>
     </reaction>
   </reactionList>
   <me:conditions>
     <me:bathGas>N2</me:bathGas>
     <me:PTs>
-      <me:PTpair units="Torr" P="760.00" T="298." />
+      <me:PTpair units="Torr" P="760.00" T="298." precision="d" />
     </me:PTs>
     <me:InitialPopulation>
       <me:molecule ref="I1" population="1.0" />
@@ -1081,6 +1081,7 @@
     <me:automaticallySetMaxEne>1.0e-09</me:automaticallySetMaxEne>
   </me:modelParameters>
   <me:control>
+    <me:ForceMacroDetailedBalance/>
     <me:testDOS />
     <me:printSpeciesProfile />
     <me:testMicroRates />

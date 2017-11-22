@@ -48,7 +48,7 @@ namespace mesmer
 
       formatFloat(stest, Temp, 6, 7);
       formatFloat(stest, Coeffs[0], 6, 20);
-      if (Coeffs.size()>1) //output only forward rate if no ZPE has been provided
+      if (Coeffs.size()>1) // Output only forward rate if no ZPE has been provided.
       {
         formatFloat(stest, Coeffs[1], 6, 20);
         formatFloat(stest, Coeffs[2], 6, 18);
