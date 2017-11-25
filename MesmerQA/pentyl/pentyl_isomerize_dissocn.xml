@@ -266,7 +266,7 @@
         <molecule ref="2-pentyl"  me:type="modelled" />
       </product>
 
-      <me:MCRCMethod name="SimpleRRKM"/>
+      <me:MCRCMethod name="RRKM"/>
 
       <me:transitionState>
         <molecule ref="n-pentyl=TS=2-pentyl" me:type="transitionState" />

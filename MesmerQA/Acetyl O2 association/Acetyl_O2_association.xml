@@ -614,7 +614,7 @@
         <molecule ref="TS1" role="transitionState" />
       </me:transitionState>
       <me:tunneling name="Eckart"/>
-      <me:MCRCMethod name="SimpleRRKM"/>
+      <me:MCRCMethod name="RRKM"/>
     </reaction>
     <reaction id="R3">
       <reactant>
@@ -629,7 +629,7 @@
       <me:transitionState>
         <molecule ref="TS3" role="transitionState" />
       </me:transitionState>
-      <me:MCRCMethod name="SimpleRRKM"/>
+      <me:MCRCMethod name="RRKM"/>
     </reaction>
     <reaction id="R4">
       <reactant>
@@ -644,7 +644,7 @@
       <me:transitionState>
         <molecule ref="TS2" role="transitionState" />
       </me:transitionState>
-      <me:MCRCMethod name="SimpleRRKM"/>
+      <me:MCRCMethod name="RRKM"/>
     </reaction>
   </reactionList>
   <me:conditions>

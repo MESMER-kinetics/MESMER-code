@@ -97,8 +97,14 @@ namespace mesmer
     // with a negative threshold energy
     void calcEffGrnThresholds(void);
 
-    // calculate reactant/product DOS/partition function
-    bool calcRctsGrainDensityOfStates(std::vector<double>& grainDOS, std::vector<double>& grainEne);
+		// Wrapper function to calculate and grain average microcanoincal rate coeffcients.
+		virtual bool calcGrnAvrgMicroRateCoeffs() {
+			// This function is specifically for reactions that involve a unimolecular species
+			// and as such does not makes sense for this bimolecular step. Consequently it is
+			// overloaded here to a no op. 
+
+			return true;
+		};
 
     // Add reaction terms to the reaction matrix.
     virtual void AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega);
@@ -109,7 +115,7 @@ namespace mesmer
   private:
 
     // Grain averaged microcanonical rate coefficients.
-    virtual void calcGrainRateCoeffs();
+		virtual void calcGrainRateCoeffs() {};
     virtual void calcFluxFirstNonZeroIdx(void);
 
     molMapType *m_sourceMap;

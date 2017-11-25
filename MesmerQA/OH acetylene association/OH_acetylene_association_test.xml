@@ -238,7 +238,7 @@
         <molecule ref="TS_1a" role="transitionState" />
       </me:transitionState>
       <!--Use zero point energies instead-->
-      <me:MCRCMethod name="SimpleRRKM"/>
+      <me:MCRCMethod name="RRKM"/>
     </reaction>
   </reactionList>
   <me:conditions>
