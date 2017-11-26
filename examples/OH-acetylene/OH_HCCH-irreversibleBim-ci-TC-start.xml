@@ -294,7 +294,7 @@
       <me:transitionState>
         <molecule ref="TS_CC_TC" role="transitionState" />
       </me:transitionState>
-      <me:MCRCMethod name="SimpleRRKM"/>
+      <me:MCRCMethod name="RRKM"/>
     </reaction>
     <reaction id="R3a">
       <reactant>

@@ -1,8 +1,17 @@
+2017-November-26 Struan Robertson
+
+		* IrreversibleExchangeReaction.cpp: Further changes to irreversible exchange reaction type
+		to allow for simple canonical rate expressions.
+
+		* examples/*.xml: All example input files altered to use "RRKM" rather than "SimpleRRKM".
+
 2017-November-25 Struan Robertson
 
-		* IrreversibleExchangeReaction.cpp/.h, benzene_oxidation_test.xml: Correction and tidy-up of 
-		irreversible exchange reaction type and example in preparation for the addition of new canonical
+		* IrreversibleExchangeReaction.cpp/.h: Further simplification of the 
+		irreversible exchange reaction type in preparation for the addition of new canonical
 		terms.
+
+		* MesmerQA/*.xml: All MesmerQA input files altered to use "RRKM" rather than "SimpleRRKM".
 
 2017-November-22 Struan Robertson
 

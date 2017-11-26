@@ -268,7 +268,7 @@
       <me:transitionState>
         <molecule ref="TSdecomp" me:type="transitionState"/>
       </me:transitionState>
-      <me:MCRCMethod name="SimpleRRKM" />
+      <me:MCRCMethod name="RRKM" />
     </reaction>
     <reaction id="R2">
       <reactant>

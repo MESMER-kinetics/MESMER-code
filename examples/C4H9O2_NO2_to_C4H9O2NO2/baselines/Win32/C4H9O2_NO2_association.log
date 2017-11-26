@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.1 compiled: -- Sep 11 2017 -- 18:46:52
+     Mesmer v5.1 compiled: -- Nov 18 2017 -- 17:09:47
 
      Copyright (C) 2009-2018 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Tue Sep 12 11:46:28 2017
+                     Execution Date:  Sun Nov 26 12:29:48 2017
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -38,9 +38,9 @@ C4H9O2_NO2_association.xml
 --Parse data for marquardt
 Energy convention "" written to <moleculeList>
 In R1: Parsing reaction...Association reaction
-In C4H9OONO2: WARNING: When calculating frequencies from a Hessian it is critical that
-In C4H9OONO2: the Hessian and species coordinates are expressed relative to the same
-In C4H9OONO2: Cartesian coordinate system.
+In C4H9OONO2: WARNING: When calculating frequencies from a Hessian it is critical
+     that the Hessian and species coordinates are expressed relative to
+     the same Cartesian coordinate system.
 In C4H9OONO2: Vibrational frequencies (cm-1) were calculated from Hessian:
   15.9701 39.3871 59.5748 96.2644 130.683 145.141 196.44 246.318 255.144 351.513 
   412.446 499.296 636.968 717.452 749.577 788.735 822.606 873.414 937.059 958.626 
@@ -71,7 +71,7 @@ In R1: Not a unimolecular reaction: look for excess reactant concentration.
 800mbar, 253K at d precision with N2
 800mbar, 253K at d precision with N2
 --Parse data for analyticalRepresentation
-Write metadata 20170912_114628
+Write metadata 20171126_122948
 
 File: "C4H9O2_NO2_association.xml" successfully parsed.
 Main Calculation begins
@@ -316,7 +316,7 @@ chebyshev_reaction(' => C4H9OO + NO2',
                            [    9.0324e-06,  -1.79033e-05,   1.14981e-05,  -6.36982e-07,  -3.87936e-06,    5.6797e-07,   1.24804e-06,   4.07627e-07]])
 
 
- -- Total time elapsed: 1103 seconds.
+ -- Total time elapsed: 1094 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 1103 seconds.
+Total time elapsed: 1094 seconds.

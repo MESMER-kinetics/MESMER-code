@@ -1018,7 +1018,7 @@
       <transitionState>
         <molecule ref="TS1" role="transitionState"/>
       </transitionState>
-      <me:MCRCMethod name="SimpleRRKM"/>
+      <me:MCRCMethod name="RRKM"/>
     </reaction>
     <reaction id="R3">
       <product>
@@ -1058,7 +1058,7 @@
       <transitionState>
         <molecule ref="TS2" role="transitionState"/>
       </transitionState>
-      <me:MCRCMethod name="SimpleRRKM"/>
+      <me:MCRCMethod name="RRKM"/>
     </reaction>
     <reaction id="R2">
       <reactant>
@@ -1087,7 +1087,7 @@
       <transitionState>
         <molecule ref="TS4" role="transitionState"/>
       </transitionState>
-      <me:MCRCMethod name="SimpleRRKM"/>
+      <me:MCRCMethod name="RRKM"/>
     </reaction>
     <!--<reaction id="R7">
       <reactant>
@@ -1099,7 +1099,7 @@
       <TransitionState>
         <molecule ref="TS5" role="transitionState"/>
       </TransitionState>
-      <me:MCRCMethod>SimpleRRKM</me:MCRCMethod>
+      <me:MCRCMethod>RRKM</me:MCRCMethod>
     </reaction>-->
 
   </reactionList>

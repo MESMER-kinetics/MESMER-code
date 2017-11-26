@@ -221,7 +221,7 @@
         <molecule ref="cis-But-2-ene"  me:type="modelled" />
       </product>
 
-      <me:MCRCMethod name="SimpleRRKM"/>
+      <me:MCRCMethod name="RRKM"/>
 
       <me:transitionState>
         <molecule ref="TS-cistrans" me:type="transitionState" />
@@ -242,7 +242,7 @@
         <molecule ref="H2" me:type="sink" />
       </product>
 
-      <me:MCRCMethod name="SimpleRRKM"/>
+      <me:MCRCMethod name="RRKM"/>
 
       <me:transitionState>
         <molecule ref="TS-decomp" me:type="transitionState" />

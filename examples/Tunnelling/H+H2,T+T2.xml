@@ -583,7 +583,7 @@
         <me:PotentialPoint	ReacCoord=	"	2.43E-10	"	potential=	"	2.54E-03	"	/>
       </me:IRCPotential>
       </me:tunneling>
-      <me:MCRCMethod name="SimpleRRKM"/>
+      <me:MCRCMethod name="RRKM"/>
     </reaction>-->
     <reaction id="R2">
       <reactant>
@@ -793,7 +793,7 @@
           <me:PotentialPoint	ReacCoord=	"	6.30E-11	"	potential=	"	3.05E+00	"	/>
         </me:IRCPotential>
       </me:tunneling>
-      <me:MCRCMethod name="SimpleRRKM"/>
+      <me:MCRCMethod name="RRKM"/>
     </reaction>
   </reactionList>
 

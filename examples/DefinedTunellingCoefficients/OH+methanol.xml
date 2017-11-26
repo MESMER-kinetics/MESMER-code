@@ -718,7 +718,7 @@
         </me:DefinedTunnelingCoefficients>
       </me:tunneling>
 
-      <me:MCRCMethod name="SimpleRRKM"/>
+      <me:MCRCMethod name="RRKM"/>
     </reaction>
   </reactionList>
   <me:conditions>

@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.1 compiled: -- Sep 11 2017 -- 18:46:52
+     Mesmer v5.1 compiled: -- Nov 18 2017 -- 17:09:47
 
      Copyright (C) 2009-2018 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Tue Sep 12 11:27:07 2017
+                     Execution Date:  Sun Nov 26 12:11:38 2017
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -193,7 +193,7 @@ The default value of the attribute precision was used.
 3.01e+16PPCC, 870K at d precision with He
 The default value of the attribute precision was used.
 3e+16PPCC, 880K at d precision with He
-Write metadata 20170912_112707
+Write metadata 20171126_121138
 
 File: "ipropyl_LM.xml" successfully parsed.
 Main Calculation begins

@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.1 compiled: -- Sep 11 2017 -- 18:46:52
+     Mesmer v5.1 compiled: -- Nov 18 2017 -- 17:09:47
 
      Copyright (C) 2009-2018 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Tue Sep 12 11:26:55 2017
+                     Execution Date:  Sun Nov 26 12:11:25 2017
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -45,7 +45,7 @@ In AceticAcid: gDensityOfStates initialization failed.
 In acetyl: The default value of me:energyTransferModel was used.
 In acetyl: --Parse data for ExponentialDown
 In TSdecomp: The default value of the attribute spinMultiplicity was used.
-In R1: --Parse data for SimpleRRKM
+In R1: --Parse data for RRKM
 In R1: No tunneling method used for R1
 In R2: Parsing reaction...Bimolecular sink reaction
 In R2: --Parse data for SimpleBimolecularSink
@@ -53,7 +53,7 @@ In R2: Reading parameters for Reaction R2 which uses the SimpleBimolecularSink m
 In R2: No tunneling method used for R2
 In R2: Not a unimolecular reaction: look for excess reactant concentration.
 80Torr, 298K at d precision with He
-Write metadata 20170912_112655
+Write metadata 20171126_121125
 
 File: "AcetylPrior.xml" successfully parsed.
 Main Calculation begins

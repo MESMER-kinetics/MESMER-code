@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.1 compiled: -- Sep 11 2017 -- 18:46:52
+     Mesmer v5.1 compiled: -- Nov 18 2017 -- 17:09:47
 
      Copyright (C) 2009-2018 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Tue Sep 12 11:42:56 2017
+                     Execution Date:  Sun Nov 26 12:26:17 2017
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -38,18 +38,18 @@ ChebyshevCK.xml
 --Parse data for analyticalRepresentation
 Energy convention "" written to <moleculeList>
 In R1: Parsing reaction...Association reaction
-In CH3OCH2: WARNING: When calculating frequencies from a Hessian it is critical that
-In CH3OCH2: the Hessian and species coordinates are expressed relative to the same
-In CH3OCH2: Cartesian coordinate system.
+In CH3OCH2: WARNING: When calculating frequencies from a Hessian it is critical
+     that the Hessian and species coordinates are expressed relative to
+     the same Cartesian coordinate system.
 In CH3OCH2: Vibrational frequencies (cm-1) were calculated from Hessian:
   169.672 287.888 439.421 568.322 1021.55 1155.2 1192.08 1282.47 1343.7 1471.44 
   1500.2 1508.72 1523.12 3088.04 3165.17 3197.22 3233.15 3356.85 
 In CH3OCH2: The default value of me:DOSCMethod was used.
 In CH3OCH2: Hindered rotor b5
 In CH3OCH2: Hindered rotor b4
-In IM1: WARNING: When calculating frequencies from a Hessian it is critical that
-In IM1: the Hessian and species coordinates are expressed relative to the same
-In IM1: Cartesian coordinate system.
+In IM1: WARNING: When calculating frequencies from a Hessian it is critical
+     that the Hessian and species coordinates are expressed relative to
+     the same Cartesian coordinate system.
 In IM1: Vibrational frequencies (cm-1) were calculated from Hessian:
   91.8598 128.883 187.165 391.187 483.297 594.928 938.428 1012.93 1151.6 1194.73 
   1218.54 1282.75 1305.74 1357.96 1435.01 1483.25 1499.22 1510.87 1516.91 3096.22 
@@ -65,9 +65,9 @@ In R1: The default value of me:TInfinity was used.
 In R1: No tunneling method used for R1
 In R1: Not a unimolecular reaction: look for excess reactant concentration.
 In R2: Parsing reaction...Isomerization reaction
-In IM2: WARNING: When calculating frequencies from a Hessian it is critical that
-In IM2: the Hessian and species coordinates are expressed relative to the same
-In IM2: Cartesian coordinate system.
+In IM2: WARNING: When calculating frequencies from a Hessian it is critical
+     that the Hessian and species coordinates are expressed relative to
+     the same Cartesian coordinate system.
 In IM2: Vibrational frequencies (cm-1) were calculated from Hessian:
   108.18 163.087 250.225 340.045 406.842 467.08 628.242 646.487 972.437 1023.15 
   1130.32 1157.25 1251.69 1298.98 1363.23 1436 1468.44 1480.03 1513.69 3124.8 
@@ -79,12 +79,12 @@ In IM2: Hindered rotor b4
 In IM2: The default value of me:DistributionCalcMethod was used.
 In IM2: --Parse data for Boltzmann
 In IM2: --Parse data for ExponentialDown
-In R2: --Parse data for SimpleRRKM
+In R2: --Parse data for RRKM
 In R2: --Parse data for Eckart
 In R3: Parsing reaction...Irreversible unimolecular reaction
-In TS5: WARNING: When calculating frequencies from a Hessian it is critical that
-In TS5: the Hessian and species coordinates are expressed relative to the same
-In TS5: Cartesian coordinate system.
+In TS5: WARNING: When calculating frequencies from a Hessian it is critical
+     that the Hessian and species coordinates are expressed relative to
+     the same Cartesian coordinate system.
 In TS5: Vibrational frequencies (cm-1) were calculated from Hessian:
   78.8008 155.797 210.383 316.503 401.876 532.348 560.927 656.949 928.231 952.154 
   977.833 1200.77 1243.63 1249.83 1361.65 1485.15 1520.63 1587.51 3088.36 3195.55 
@@ -93,16 +93,16 @@ In TS5: The default value of me:DOSCMethod was used.
 In TS5: Hindered rotor b1
 In TS5: Hindered rotor b2
 In TS5: Hindered rotor b3
-In R3: --Parse data for SimpleRRKM
+In R3: --Parse data for RRKM
 In R3: No tunneling method used for R3
 In R4: Parsing reaction...Irreversible unimolecular reaction
-In R4: --Parse data for SimpleRRKM
+In R4: --Parse data for RRKM
 In R4: No tunneling method used for R4
 In R5: Parsing reaction...Irreversible unimolecular reaction
-In R5: --Parse data for SimpleRRKM
+In R5: --Parse data for RRKM
 In R5: No tunneling method used for R5
 No pressure and temperature specified.
-Write metadata 20170912_114256
+Write metadata 20171126_122617
 
 File: "ChebyshevCK.xml" successfully parsed.
 Main Calculation begins
@@ -119,7 +119,7 @@ In FastLaplaceConvolution: 9440 values in the FFT convolution routine were repla
 REACTIONS MOLES
 
 CH3OCH2 + O2 => IM1 (+M)  1.00  0.0  0.0
-! Data generated by MESMER 5.1 on Tue Sep 12 11:45:58 2017
+! Data generated by MESMER 5.1 on Sun Nov 26 12:29:18 2017
     TCHEB/            200          1000/
     PCHEB/          0.001            10/
     CHEB/     6     4/
@@ -131,7 +131,7 @@ CH3OCH2 + O2 => IM1 (+M)  1.00  0.0  0.0
     CHEB/     0.0393074    -0.0992395    -0.0132484     0.0736527/
 
 CH3OCH2 + O2 => IM2 (+M)  1.00  0.0  0.0
-! Data generated by MESMER 5.1 on Tue Sep 12 11:45:58 2017
+! Data generated by MESMER 5.1 on Sun Nov 26 12:29:18 2017
     TCHEB/            200          1000/
     PCHEB/          0.001            10/
     CHEB/     6     4/
@@ -143,7 +143,7 @@ CH3OCH2 + O2 => IM2 (+M)  1.00  0.0  0.0
     CHEB/    -0.0367726    -0.0156607    0.00726989     0.0329844/
 
 CH3OCH2 + O2 => OH-1 (+M)  1.00  0.0  0.0
-! Data generated by MESMER 5.1 on Tue Sep 12 11:45:58 2017
+! Data generated by MESMER 5.1 on Sun Nov 26 12:29:18 2017
     TCHEB/            200          1000/
     PCHEB/          0.001            10/
     CHEB/     6     4/
@@ -155,7 +155,7 @@ CH3OCH2 + O2 => OH-1 (+M)  1.00  0.0  0.0
     CHEB/    -0.0151988   -0.00980064   -0.00526253   0.000391299/
 
 CH3OCH2 + O2 => OH-2 (+M)  1.00  0.0  0.0
-! Data generated by MESMER 5.1 on Tue Sep 12 11:45:58 2017
+! Data generated by MESMER 5.1 on Sun Nov 26 12:29:18 2017
     TCHEB/            200          1000/
     PCHEB/          0.001            10/
     CHEB/     6     4/
@@ -167,7 +167,7 @@ CH3OCH2 + O2 => OH-2 (+M)  1.00  0.0  0.0
     CHEB/   -0.00497955   -0.00640272   -0.00521217   -0.00175985/
 
 CH3OCH2 + O2 => OH-3 (+M)  1.00  0.0  0.0
-! Data generated by MESMER 5.1 on Tue Sep 12 11:45:58 2017
+! Data generated by MESMER 5.1 on Sun Nov 26 12:29:18 2017
     TCHEB/            200          1000/
     PCHEB/          0.001            10/
     CHEB/     6     4/
@@ -179,7 +179,7 @@ CH3OCH2 + O2 => OH-3 (+M)  1.00  0.0  0.0
     CHEB/   -0.00482399    -0.0061138   -0.00505414   -0.00188557/
 
 IM1 => CH3OCH2 + O2 (+M)  1.00  0.0  0.0
-! Data generated by MESMER 5.1 on Tue Sep 12 11:45:58 2017
+! Data generated by MESMER 5.1 on Sun Nov 26 12:29:18 2017
     TCHEB/            200          1000/
     PCHEB/          0.001            10/
     CHEB/     6     4/
@@ -191,7 +191,7 @@ IM1 => CH3OCH2 + O2 (+M)  1.00  0.0  0.0
     CHEB/     0.0360681    -0.0992395    -0.0132484     0.0736527/
 
 IM1 => IM2 (+M)  1.00  0.0  0.0
-! Data generated by MESMER 5.1 on Tue Sep 12 11:45:58 2017
+! Data generated by MESMER 5.1 on Sun Nov 26 12:29:18 2017
     TCHEB/            200          1000/
     PCHEB/          0.001            10/
     CHEB/     6     4/
@@ -203,7 +203,7 @@ IM1 => IM2 (+M)  1.00  0.0  0.0
     CHEB/    -0.0105806    -0.0311267    0.00162651     0.0220767/
 
 IM1 => OH-1 (+M)  1.00  0.0  0.0
-! Data generated by MESMER 5.1 on Tue Sep 12 11:45:58 2017
+! Data generated by MESMER 5.1 on Sun Nov 26 12:29:18 2017
     TCHEB/            200          1000/
     PCHEB/          0.001            10/
     CHEB/     6     4/
@@ -215,7 +215,7 @@ IM1 => OH-1 (+M)  1.00  0.0  0.0
     CHEB/    -0.0324262    0.00898884    -0.0130709   -0.00733553/
 
 IM1 => OH-2 (+M)  1.00  0.0  0.0
-! Data generated by MESMER 5.1 on Tue Sep 12 11:45:58 2017
+! Data generated by MESMER 5.1 on Sun Nov 26 12:29:18 2017
     TCHEB/            200          1000/
     PCHEB/          0.001            10/
     CHEB/     6     4/
@@ -227,7 +227,7 @@ IM1 => OH-2 (+M)  1.00  0.0  0.0
     CHEB/    -0.0806324     -0.258662     -0.159223    -0.0140657/
 
 IM1 => OH-3 (+M)  1.00  0.0  0.0
-! Data generated by MESMER 5.1 on Tue Sep 12 11:45:58 2017
+! Data generated by MESMER 5.1 on Sun Nov 26 12:29:18 2017
     TCHEB/            200          1000/
     PCHEB/          0.001            10/
     CHEB/     6     4/
@@ -239,7 +239,7 @@ IM1 => OH-3 (+M)  1.00  0.0  0.0
     CHEB/    0.00562827     -0.297763     -0.066528     0.0101489/
 
 IM2 => CH3OCH2 + O2 (+M)  1.00  0.0  0.0
-! Data generated by MESMER 5.1 on Tue Sep 12 11:45:58 2017
+! Data generated by MESMER 5.1 on Sun Nov 26 12:29:18 2017
     TCHEB/            200          1000/
     PCHEB/          0.001            10/
     CHEB/     6     4/
@@ -251,7 +251,7 @@ IM2 => CH3OCH2 + O2 (+M)  1.00  0.0  0.0
     CHEB/    -0.0406841    -0.0156607    0.00726989     0.0329844/
 
 IM2 => IM1 (+M)  1.00  0.0  0.0
-! Data generated by MESMER 5.1 on Tue Sep 12 11:45:58 2017
+! Data generated by MESMER 5.1 on Sun Nov 26 12:29:18 2017
     TCHEB/            200          1000/
     PCHEB/          0.001            10/
     CHEB/     6     4/
@@ -263,7 +263,7 @@ IM2 => IM1 (+M)  1.00  0.0  0.0
     CHEB/    -0.0112528    -0.0311267    0.00162651     0.0220767/
 
 IM2 => OH-1 (+M)  1.00  0.0  0.0
-! Data generated by MESMER 5.1 on Tue Sep 12 11:45:58 2017
+! Data generated by MESMER 5.1 on Sun Nov 26 12:29:18 2017
     TCHEB/            200          1000/
     PCHEB/          0.001            10/
     CHEB/     6     4/
@@ -275,7 +275,7 @@ IM2 => OH-1 (+M)  1.00  0.0  0.0
     CHEB/     0.0153131    -0.0851916     0.0750402     0.0140425/
 
 IM2 => OH-2 (+M)  1.00  0.0  0.0
-! Data generated by MESMER 5.1 on Tue Sep 12 11:45:58 2017
+! Data generated by MESMER 5.1 on Sun Nov 26 12:29:18 2017
     TCHEB/            200          1000/
     PCHEB/          0.001            10/
     CHEB/     6     4/
@@ -287,7 +287,7 @@ IM2 => OH-2 (+M)  1.00  0.0  0.0
     CHEB/    -0.0272478     0.0379957    -0.0229122     0.0749168/
 
 IM2 => OH-3 (+M)  1.00  0.0  0.0
-! Data generated by MESMER 5.1 on Tue Sep 12 11:45:58 2017
+! Data generated by MESMER 5.1 on Sun Nov 26 12:29:18 2017
     TCHEB/            200          1000/
     PCHEB/          0.001            10/
     CHEB/     6     4/
@@ -299,7 +299,7 @@ IM2 => OH-3 (+M)  1.00  0.0  0.0
     CHEB/    -0.0534858     0.0855393    -0.0537681     0.0892137/
 
 
- -- Total time elapsed: 182 seconds.
+ -- Total time elapsed: 181 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 182 seconds.
+Total time elapsed: 181 seconds.

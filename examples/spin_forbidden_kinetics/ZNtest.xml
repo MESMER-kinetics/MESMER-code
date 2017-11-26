@@ -352,7 +352,7 @@
          <me:GradientDifferenceMagnitude units="a.u./Bohr">0.29294641</me:GradientDifferenceMagnitude>
          <me:GradientReducedMass units="a.m.u.">15.4607</me:GradientReducedMass>
          </me:crossing>
-         <me:MCRCMethod name="SimpleRRKM"/>
+         <me:MCRCMethod name="RRKM"/>
          </reaction>-->
     <reaction id="R2">
       <reactant>

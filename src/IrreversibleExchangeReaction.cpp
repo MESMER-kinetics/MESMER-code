@@ -133,53 +133,65 @@ namespace mesmer
   // Add exchange reaction terms to collision matrix.
   void IrreversibleExchangeReaction::AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega)
   {
-		// Call high pressure rate method because exchange reaction rate coefficients
-		// do not depend on pressure. The extra logic is to control output. 
-		bool writeStatus = getFlags().testRateConstantEnabled;
-		getFlags().testRateConstantEnabled = false;
+    // Call high pressure rate method because exchange reaction rate coefficients
+    // do not depend on pressure. The extra logic is to control output. 
+    bool writeStatus = getFlags().testRateConstantEnabled;
+    getFlags().testRateConstantEnabled = false;
 
     HighPresRateCoeffs(NULL);
     const int jj = (*m_sourceMap)[get_pseudoIsomer()];
     (*CollOptr)[jj][jj] -= qd_real(rMeanOmega) * qd_real(m_MtxGrnKf[0]);
 
-		getFlags().testRateConstantEnabled = writeStatus;
+    getFlags().testRateConstantEnabled = writeStatus;
   }
 
   // Calculate high pressure rate coefficients at current T.
   void IrreversibleExchangeReaction::HighPresRateCoeffs(vector<double> *pCoeffs) {
 
-    // Check to see if there is a transition state defined.
-    if (!m_TransitionState) {
-      stringstream msg;
-      msg << "The irreversible exchange reaction" << this->getName() << "is defined without a transition state." << endl;
-      throw(std::runtime_error(msg.str()));
-    }
-
-    // Energies of cells. 
-    std::vector<double> cellEne;
-    getCellEnergies(m_rct1->getEnv().MaxCell, m_rct1->getEnv().CellSize, cellEne);
-
-    // Calculate ro-vibrational canonical partition function of reactants.
-    const double beta = getEnv().beta;
-    vector<double> tmpDOS;
-    m_rct1->getDOS().getCellDensityOfStates(tmpDOS);
-    double prtfn = canonicalPartitionFunction(tmpDOS, cellEne, beta);
-    tmpDOS.clear();
-    m_rct2->getDOS().getCellDensityOfStates(tmpDOS);
-    prtfn *= canonicalPartitionFunction(tmpDOS, cellEne, beta);
-
-    // Calculate ro-vibrational canonical partition function of transitions state.
-    tmpDOS.clear();
-    m_TransitionState->getDOS().getCellDensityOfStates(tmpDOS);
     double k_forward(0.0);
-    k_forward = canonicalPartitionFunction(tmpDOS, cellEne, beta);
-    k_forward /= prtfn;
+    const double beta = getEnv().beta;
 
-    // Calculate the translational partition function ratio and thence the rate coefficient.
-    const double trans = translationalContribution(m_rct1->getStruc().getMass(), m_rct2->getStruc().getMass(), beta);
-    k_forward /= trans;
-    k_forward *= exp(-beta*get_ThresholdEnergy());
-    k_forward *= SpeedOfLight_in_cm / beta;
+    string mrcID = string(m_pMicroRateCalculator->getID());
+
+    if (mrcID == "RRKM" || mrcID == "SimpleRRKM") {
+      // Check to see if there is a transition state defined.
+      if (m_TransitionState) {
+
+        // Energies of cells. 
+        std::vector<double> cellEne;
+        getCellEnergies(m_rct1->getEnv().MaxCell, m_rct1->getEnv().CellSize, cellEne);
+
+        // Calculate ro-vibrational canonical partition function of reactants.
+        vector<double> tmpDOS;
+        m_rct1->getDOS().getCellDensityOfStates(tmpDOS);
+        double prtfn = canonicalPartitionFunction(tmpDOS, cellEne, beta);
+        tmpDOS.clear();
+        m_rct2->getDOS().getCellDensityOfStates(tmpDOS);
+        prtfn *= canonicalPartitionFunction(tmpDOS, cellEne, beta);
+
+        // Calculate ro-vibrational canonical partition function of transitions state.
+        tmpDOS.clear();
+        m_TransitionState->getDOS().getCellDensityOfStates(tmpDOS);
+        k_forward = canonicalPartitionFunction(tmpDOS, cellEne, beta);
+        k_forward /= prtfn;
+
+        // Calculate the translational partition function ratio and thence the rate coefficient.
+        const double trans = translationalContribution(m_rct1->getStruc().getMass(), m_rct2->getStruc().getMass(), beta);
+        k_forward /= trans;
+        k_forward *= exp(-beta*get_ThresholdEnergy());
+        k_forward *= SpeedOfLight_in_cm / beta;
+      }
+      else {
+        throw(std::runtime_error(string("The irreversible exchange reaction" + getName() + "is defined without a transition state.\n")));
+      }
+    }
+    else if (mrcID == "CanonicalRateCoefficient") {
+      m_pMicroRateCalculator->calculateMicroCnlFlux(this);
+      k_forward = m_CellFlux[0];
+    }
+    else {
+      throw(std::runtime_error(string("The irreversible exchange reaction " + getName() + " is defined without either a transition state or Arrhenius parameters.\n")));
+    }
 
     // Save high pressure rate coefficient for use in the construction of the collision operator.
     m_MtxGrnKf.clear();
