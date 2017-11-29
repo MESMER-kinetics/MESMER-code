@@ -1,3 +1,11 @@
+2017-November-29 Struan Robertson
+
+		* CanonicalRateCoefficient.cpp: Addition of the CanonicalRateCoefficient class. This 
+		class is a dummy MicroRateCalculator that it is used in conjunction with the irreversible 
+		exchange reaction class to give a loss rate coefficient. This is usually used in the 
+		situations where there are competing association and bimolecular reactions that remove 
+		the same, deficient, species.
+
 2017-November-26 Struan Robertson
 
 		* IrreversibleExchangeReaction.cpp: Further changes to irreversible exchange reaction type
