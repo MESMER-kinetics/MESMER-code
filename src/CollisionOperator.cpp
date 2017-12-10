@@ -701,7 +701,9 @@ namespace mesmer
 		}
 
 		if (reactionCount < nIndependRxns)
-			throw(std::runtime_error(string(__FUNCTION__) + string(": The total number of species found does not match the number of reactions - system under specified.")));
+			throw(std::runtime_error(string(__FUNCTION__) 
+				+ string(":\n The total number of independent species is greater than the number of unique reactions - the system is under specified.")
+				+ string("\n This may be because two independent sets of reactions are being defined in one system.\n")));
 
 		// If counter==0 after the for loop above, then there are no equilibrating reactions
 		// (i.e., all the reactions are irreversible).  In that case, the lone isomer has an

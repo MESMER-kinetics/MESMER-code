@@ -1,3 +1,11 @@
+2017-December-10 Struan Robertson
+
+		* MesmerILT.cpp: Added improved warning regarding the value of n_inf.
+
+		* CollisionOperator.cpp: Added improved warning regarding uncoupled systems.
+
+		* Documentation: Minor update.
+
 2017-November-29 Struan Robertson
 
 		* CanonicalRateCoefficient.cpp: Addition of the CanonicalRateCoefficient class. This 

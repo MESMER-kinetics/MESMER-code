@@ -377,10 +377,7 @@ namespace mesmer
     rxnFlux.clear();
     rxnFlux.resize(MaximumCell, 0.0);
 
-    const double gammaValue = MesmerGamma(Ninf);
-    const double beta0 = 1.0 / (boltzmann_RCpK*Tinf);
-    const double constant = Ainf * pow(beta0, Ninf) / gammaValue;
-
+    double constant(0.0);
     vector<double> conv;
     if (Ninf > 0.0) {
       //
@@ -388,17 +385,24 @@ namespace mesmer
       // simple mean to analytic integral_x_to_y{E^(Ninf-1)dE}, where x and y are lower and
       // upper energy limits of the cell respectively.
       //
-      vector<double> work(MaximumCell, 0.0);
+			const double gammaValue = MesmerGamma(Ninf);
+			const double beta0 = 1.0 / (boltzmann_RCpK*Tinf);
+			constant = Ainf * pow(beta0, Ninf) / gammaValue;
+
+			vector<double> work(MaximumCell, 0.0);
       double cellSize = pReact->getEnv().CellSize;
       for (size_t i(0); i < MaximumCell; ++i) {
         double ene = double(i)*cellSize;
         work[i] = (pow((ene + cellSize), Ninf) - pow(ene, Ninf)) / Ninf;
       }
-      FastLaplaceConvolution(work, rctCellDOS, conv);    // FFT convolution replaces the standard convolution
+      FastLaplaceConvolution(work, rctCellDOS, conv);  // FFT convolution replaces the standard convolution
     }
+		else if (Ninf == 0.0) {
+			constant = Ainf ;
+			conv = rctCellDOS;
+		}
     else {
-      cerr << "nInfinity for unimolecular ILT must be greater than zero... if you want zero, respecify as a small number, e.g., 0.0001" << endl;
-      exit(1);
+			throw(std::runtime_error(string("Reaction ") + pReact->getName() + string(": nInfinity for unimolecular ILT must be >= zero.")));
     }
 
     for (size_t i(0); i < MaximumCell; ++i)
@@ -417,7 +421,10 @@ namespace mesmer
     rxnFlux.clear();
     rxnFlux.resize(MaximumCell, 0.0);
 
-    const double gammaValue = MesmerGamma(m_NInf + 1.5);
+		if(m_NInf + 1.5 <= 0.0)
+		  throw(std::runtime_error(string("Reaction ") + pReact->getName() + string(": nInfinity for association ILT must be > 1.5.")));
+		
+		const double gammaValue = MesmerGamma(m_NInf + 1.5);
 
     // Note electronic degeneracies were already accounted for in DOS calculations.
     // tp_C = 3.24331e+20: defined in Constant.h, constant used in the translational
