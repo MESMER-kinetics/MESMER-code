@@ -21,9 +21,9 @@ namespace mesmer
 
   typedef std::map<Reaction*, double, Reaction::ReactionPtrLess> YieldMap;
 
-	// Forward declarations.
-	struct AnalysisData;
-	class ConditionsManager;
+  // Forward declarations.
+  struct AnalysisData;
+  class ConditionsManager;
 
   class CollisionOperator
   {
@@ -99,8 +99,8 @@ namespace mesmer
     // Locate all sinks in the relevant isomer or source map. 
     void locateSinks();
 
-		// Add diffusive loss terms to collision matrix.
-		void CollisionOperator::AddDiffusiveLossTerms(const double rMeanOmega);
+    // Add diffusive loss terms to collision matrix.
+    void AddDiffusiveLossTerms(const double rMeanOmega);
 
     void printReactionOperator(const MesmerFlags &mFlags);
 
@@ -126,10 +126,10 @@ namespace mesmer
     // Location of the reaction mananger.
     ReactionManager *m_pReactionManager;
 
-		// Location of the reaction mananger.
-		ConditionsManager *m_pConditionManager;
+    // Location of the reaction mananger.
+    ConditionsManager *m_pConditionManager;
 
-		// Maps the location of individual reactant collision operator and source terms in the reaction operator.
+    // Maps the location of individual reactant collision operator and source terms in the reaction operator.
     Reaction::molMapType    m_isomers;
     Reaction::molMapType    m_sources;
 
