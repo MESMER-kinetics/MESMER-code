@@ -58,6 +58,9 @@ namespace mesmer
     bool   bForceMacroDetailedBalance;    // Impose detailed balance at the macroscopic level for non-conservative systems.
     bool   bIsSystemSecondOrder;          // This flag is set if there is a second order reaction in the system and is
 	                                      // used to suspend an attempt to calculate species concentrations etc.
+	bool   stochasticSimulation;
+    bool   stochAutoCorrelation;
+    bool stochOnePass;
   };
 }//namespace
 

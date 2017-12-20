@@ -34,7 +34,7 @@ namespace mesmer
       if(libfile.empty() || !ppLib)
       {
         cwarn << "Could not find Library file to search it for missing molecule(s)."<<endl;
-        return false;
+
       }
     }
     PersistPtr ppLibMolList   = ppLib->XmlMoveTo("moleculeList");
@@ -199,6 +199,14 @@ namespace mesmer
           }
           size_t nCells = ppParams->XmlReadInteger("me:numberOfCells", optional) ;
           if (nCells) m_Env.MaxCell = nCells ;
+		  
+		  //Stochastic method environmental parameters
+		  m_Env.stochTrials = ppParams->XmlReadInteger("me:numberStochasticTrials");
+		  m_Env.stochStartTime = ppParams->XmlReadDouble("me:stochasticStartTime");
+		  m_Env.stochEndTime = ppParams->XmlReadDouble("me:stochasticEndTime");
+		  m_Env.stochThermThresh = ppParams->XmlReadInteger("me:StochasticThermalThreshold");
+		  m_Env.stochEquilThresh = ppParams->XmlReadInteger("me:StochasticEqilThreshold");
+		  m_Env.stochAXDlimit = ppParams->XmlReadInteger("me:StochasticAxdLimit");
 
           m_Env.MaximumTemperature = ppParams->XmlReadDouble("me:maxTemperature", optional);
           if (IsNan(m_Env.MaximumTemperature))
@@ -221,6 +229,9 @@ namespace mesmer
             m_Flags.popThreshold = ppParams->XmlReadDouble("me:automaticallySetMaxEne");
           }
         }
+
+
+
 
         cinfo.flush();
 
@@ -302,6 +313,9 @@ namespace mesmer
         m_Flags.print_TabbedMatrices           = ppControl->XmlReadBoolean("me:printTabbedMatrices");
         m_Flags.useDOSweightedDT               = ppControl->XmlReadBoolean("me:useDOSweighedDownWardTransition");
         m_Flags.bForceMacroDetailedBalance     = ppControl->XmlReadBoolean("me:ForceMacroDetailedBalance");
+	m_Flags.stochasticSimulation           = ppControl->XmlReadBoolean("me:stochasticSimulation");
+	m_Flags.stochAutoCorrelation           = ppControl->XmlReadBoolean("me:stochasticAutoCorrelation");
+        m_Flags.stochOnePass                   = ppControl->XmlReadBoolean("me:stochasticOnePass"); 
 
         // System configuration information
         if (ppControl->XmlReadBoolean("me:runPlatformDependentPrecisionCheck")) configuration();
@@ -504,97 +518,107 @@ namespace mesmer
       cinfo << endl;
       }
 
-      if (!m_Flags.rateCoefficientsOnly){
+	  if (!m_Flags.rateCoefficientsOnly) {
 
-        if (!m_collisionOperator.calculateEquilibriumFractions())
-          throw (std::runtime_error("Failed calculating equilibrium fractions.")); 
+		  if (!m_collisionOperator.calculateEquilibriumFractions())
+			  throw (std::runtime_error("Failed calculating equilibrium fractions."));
+		  // Diagonalise the collision operator or perform stochastic simulation
+		  if (m_Flags.stochasticSimulation) {
+			  m_stochasticSimulation.simulate(m_collisionOperator, m_Env, m_Flags);
+		  }
+		  else {
+		  // Diagonalise the collision operator.
+		  m_collisionOperator.diagReactionOperator(m_Flags, m_Env, ppAnalysis);
 
-        // Diagonalise the collision operator.
-        m_collisionOperator.diagReactionOperator(m_Flags, m_Env, ppAnalysis) ;
+		  if (writeReport) {
+			  string thisEvent = "Diagonalize the Reaction Operator";
+			  events.setTimeStamp(thisEvent, timeElapsed);
+			  cinfo << thisEvent;
+			  if (timeElapsed > 0)
+				  cinfo << " -- Time elapsed: " << timeElapsed << " seconds.";
+			  cinfo << endl;
+		  }
 
-        if (writeReport) {
-          string thisEvent = "Diagonalize the Reaction Operator" ;
-          events.setTimeStamp(thisEvent, timeElapsed) ;
-          cinfo << thisEvent;
-          if(timeElapsed>0)
-            cinfo << " -- Time elapsed: " << timeElapsed << " seconds.";
-          cinfo << endl;
-        }
 
-        if (!m_Env.useBasisSetMethod) {
+			  if (!m_Env.useBasisSetMethod) {
 
-          if (!m_Flags.bIsSystemSecondOrder) {
-            PersistPtr ppPopList;
-            if(m_Flags.speciesProfileEnabled)
-            {
-              ppPopList  = ppAnalysis->XmlWriteElement("me:populationList");
-              ppPopList->XmlWriteAttribute("T", toString(m_pConditionsManager->PTPointTemp(calPoint)));
-              ppPopList->XmlWriteAttribute("conc", toString(m_Env.conc));
-            }
+				  if (!m_Flags.bIsSystemSecondOrder) {
+					  PersistPtr ppPopList;
+					  if (m_Flags.speciesProfileEnabled)
+					  {
+						  ppPopList = ppAnalysis->XmlWriteElement("me:populationList");
+						  ppPopList->XmlWriteAttribute("T", toString(m_pConditionsManager->PTPointTemp(calPoint)));
+						  ppPopList->XmlWriteAttribute("conc", toString(m_Env.conc));
+					  }
 
-            PersistPtr ppAvEList;
-            if(m_Flags.grainedProfileEnabled)
-            {
-              ppAvEList = ppAnalysis->XmlWriteElement("me:avEnergyList");
-              ppAvEList->XmlWriteAttribute("T", toString(m_pConditionsManager->PTPointTemp(calPoint)));
-              ppAvEList->XmlWriteAttribute("conc", toString(m_Env.conc));
-              ppAvEList->XmlWriteAttribute("energyUnits", "kJ/mol");
-            }
+					  PersistPtr ppAvEList;
+					  if (m_Flags.grainedProfileEnabled)
+					  {
+						  ppAvEList = ppAnalysis->XmlWriteElement("me:avEnergyList");
+						  ppAvEList->XmlWriteAttribute("T", toString(m_pConditionsManager->PTPointTemp(calPoint)));
+						  ppAvEList->XmlWriteAttribute("conc", toString(m_Env.conc));
+						  ppAvEList->XmlWriteAttribute("energyUnits", "kJ/mol");
+					  }
 
-            // Calculate time-dependent properties.
-            m_collisionOperator.timeEvolution(m_Flags, ppAnalysis, ppPopList, ppAvEList);
-            if(m_collisionOperator.hasGrainProfileData())
-            {
-              PersistPtr ppGrainList  = ppAnalysis->XmlWriteElement("me:grainPopulationList");
-              ppGrainList->XmlWriteAttribute("T", toString(m_pConditionsManager->PTPointTemp(calPoint)));
-              ppGrainList->XmlWriteAttribute("conc", toString(m_Env.conc));
-              m_collisionOperator.printGrainProfileAtTime(ppGrainList);
-            }
-          } else {
-            cinfo << "At present it is not possible to print profiles for systems with a second order term." << once << endl ;
-          }
+					  // Calculate time-dependent properties.
+					  m_collisionOperator.timeEvolution(m_Flags, ppAnalysis, ppPopList, ppAvEList);
+					  if (m_collisionOperator.hasGrainProfileData())
+					  {
+						  PersistPtr ppGrainList = ppAnalysis->XmlWriteElement("me:grainPopulationList");
+						  ppGrainList->XmlWriteAttribute("T", toString(m_pConditionsManager->PTPointTemp(calPoint)));
+						  ppGrainList->XmlWriteAttribute("conc", toString(m_Env.conc));
+						  m_collisionOperator.printGrainProfileAtTime(ppGrainList);
+					  }
+				  }
+				  else {
+					  cinfo << "At present it is not possible to print profiles for systems with a second order term." << endl;
+				  }
 
-          // Calculate rate coefficients. 
-          PersistPtr ppList = ppAnalysis->XmlWriteElement("me:rateList");
-          ppList->XmlWriteAttribute("T", toString(m_pConditionsManager->PTPointTemp(calPoint)));
-          ppList->XmlWriteAttribute("conc", toString(m_Env.conc));
-          ppList->XmlWriteAttribute("bathGas", m_Env.bathGasName);
-          ppList->XmlWriteAttribute("units", "s-1");
-          qdMatrix mesmerRates(1);
-          qdMatrix lossRates(1);
-          m_collisionOperator.BartisWidomPhenomenologicalRates(mesmerRates, lossRates, m_Flags, ppList);
+				  // Calculate rate coefficients. 
+				  PersistPtr ppList = ppAnalysis->XmlWriteElement("me:rateList");
+				  ppList->XmlWriteAttribute("T", toString(m_pConditionsManager->PTPointTemp(calPoint)));
+				  ppList->XmlWriteAttribute("conc", toString(m_Env.conc));
+				  ppList->XmlWriteAttribute("bathGas", m_Env.bathGasName);
+				  ppList->XmlWriteAttribute("me:units", "s-1");
+				  qdMatrix mesmerRates(1);
+				  qdMatrix lossRates(1);
+				  m_collisionOperator.BartisWidomPhenomenologicalRates(mesmerRates, lossRates, m_Flags, ppList);
 
-          rateCoeffTable << formatFloat(m_pConditionsManager->PTPointTemp(calPoint), 6, 15) ;
-          rateCoeffTable << formatFloat(m_pConditionsManager->PTPointConc(calPoint), 6, 15) ;
+				  rateCoeffTable << formatFloat(m_pConditionsManager->PTPointTemp(calPoint), 6, 15);
+				  rateCoeffTable << formatFloat(m_pConditionsManager->PTPointConc(calPoint), 6, 15);
 
-          // For these conditions calculate the contribution to the chi^2 merit function
-          // for any of the experimentally observable data types. 
+				  // For these conditions calculate the contribution to the chi^2 merit function
+				  // for any of the experimentally observable data types. 
 
-          chiSquare += calcChiSqRateCoefficients(mesmerRates, calPoint, rateCoeffTable, residuals);
+				  chiSquare += calcChiSqRateCoefficients(mesmerRates, calPoint, rateCoeffTable, residuals);
 
-          chiSquare += calcChiSqYields(calPoint, rateCoeffTable, residuals);
+				  chiSquare += calcChiSqYields(calPoint, rateCoeffTable, residuals);
 
-          chiSquare += calcChiSqEigenvalues(calPoint, rateCoeffTable, residuals);
+				  chiSquare += calcChiSqEigenvalues(calPoint, rateCoeffTable, residuals);
 
-          chiSquare += calcChiSqRawData(calPoint, rateCoeffTable, residuals);
+				  chiSquare += calcChiSqRawData(calPoint, rateCoeffTable, residuals);
 
-		  rateCoeffTable << endl;
+				  rateCoeffTable << endl;
 
-          ctest << "}\n";
+				  ctest << "}\n";
 
-        } else {
+			  }
+			  else {
 
-          qdMatrix mesmerRates(1);
-          m_collisionOperator.BartisWidomBasisSetRates(mesmerRates, m_Flags);
+				  qdMatrix mesmerRates(1);
+				  m_collisionOperator.BartisWidomBasisSetRates(mesmerRates, m_Flags);
 
-        }
-      }
+			  }
+		  }
+
+	  }
 
     } // End of temperature and concentration loop. 
 
-    rateCoeffTable << endl ;
-
-    if (writeReport) cinfo << rateCoeffTable.str() ;
+	if (!m_Flags.stochasticSimulation) {
+		rateCoeffTable << endl;
+		if (writeReport) cinfo << rateCoeffTable.str();
+	}
 
     string thisEvent = "Finish Calculation of P-T case";
     events.setTimeStamp(thisEvent, timeElapsed);
@@ -643,29 +667,33 @@ namespace mesmer
     if (!m_collisionOperator.calculateEquilibriumFractions())
       throw (std::runtime_error("Failed calculating equilibrium fractions.")); 
 
-    // Diagonalise the collision operator.
-    m_collisionOperator.diagReactionOperator(m_Flags, m_Env) ;
+    // Diagonalise the collision operator or perform stochastic simulation
+	if (m_Flags.stochasticSimulation) {
+		m_stochasticSimulation.simulate(m_collisionOperator, m_Env, m_Flags);
+	}
+	else {
+		m_collisionOperator.diagReactionOperator(m_Flags, m_Env);
 
-    // Calculate rate coefficients.
-    qdMatrix  mesmerRates(1) ;
-    qdMatrix lossRates(1);
-    m_collisionOperator.BartisWidomPhenomenologicalRates(mesmerRates, lossRates, m_Flags);
+		// Calculate rate coefficients.
+		qdMatrix  mesmerRates(1);
+		qdMatrix lossRates(1);
+		m_collisionOperator.BartisWidomPhenomenologicalRates(mesmerRates, lossRates, m_Flags);
 
-    // For this conditions calculate the experimentally observable data types. 
+		// For this conditions calculate the experimentally observable data types. 
 
-    stringstream rateCoeffTable ;
-    vector<double> residuals ;
-    calcChiSqRateCoefficients(mesmerRates, nConds, rateCoeffTable, residuals);
+		stringstream rateCoeffTable;
+		vector<double> residuals;
+		calcChiSqRateCoefficients(mesmerRates, nConds, rateCoeffTable, residuals);
 
-    calcChiSqYields(nConds, rateCoeffTable, residuals);
+		calcChiSqYields(nConds, rateCoeffTable, residuals);
 
-    calcChiSqEigenvalues(nConds, rateCoeffTable, residuals);
+		calcChiSqEigenvalues(nConds, rateCoeffTable, residuals);
 
-    double data(0.0) ;
-    while (rateCoeffTable >> data) {
-      Quantities.push_back(data) ;
-    }
-
+		double data(0.0);
+		while (rateCoeffTable >> data) {
+			Quantities.push_back(data);
+		}
+	}
     return true ;
   }
 

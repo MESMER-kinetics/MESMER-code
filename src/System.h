@@ -20,6 +20,7 @@
 #include "calcmethod.h"
 #include "CollisionOperator.h"
 #include "ConditionsManager.h"
+#include "Stochastic.h"
 
 #define MESMER_VERSION "4.1"
 
@@ -145,7 +146,10 @@ namespace mesmer
     const char* m_pTitle;
     const char* m_pDescription;
 
+
+	// Parameters needed for stochastic method
     CollisionOperator m_collisionOperator ;
+	Stochastic m_stochasticSimulation;
 
   } ;
 

@@ -169,6 +169,7 @@ SRCS := \
 	SecondOrderAssocReaction.cpp \
 	Spline.cpp \
 	Sobol.cpp \
+     Stochastic.cpp \
 	System.cpp \
 	TimeCounter.cpp \
 	TMatrix.cpp \

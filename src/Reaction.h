@@ -94,6 +94,12 @@ namespace mesmer
     // get the reactant, which reacts in a first order or pseudo first order process
     virtual Molecule *get_reactant(void) const = 0;
 
+	virtual vector<double> get_forwardTransition(void) { return m_forwardTransition; };
+	virtual vector<double> get_reverseTransition(void) { return m_reverseTransition; };
+
+	virtual vector<vector<double> > get_forwardTransitionMatrix(void) { return m_forwardTransitionMatrix; };
+	virtual vector<vector<double> > get_reverseTransitionMatrix(void) { return m_reverseTransitionMatrix; };
+
     Molecule* get_TransitionState() const { return m_TransitionState ; } ;
 
     // Get unimolecualr species information:
@@ -245,6 +251,11 @@ namespace mesmer
     double m_ERConc ;           // Concentration of the excess reactant (This is a complement to reactions with
                                 // excess species. This value is not used in unimolecular reactions.)
 
+	vector<double> m_forwardTransition;
+	vector<double> m_reverseTransition;
+
+	vector<vector<double> > m_forwardTransitionMatrix;
+	vector<vector<double> > m_reverseTransitionMatrix;
   private:
 
     // Copy constructor.

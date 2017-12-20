@@ -17,6 +17,12 @@ namespace mesmer
 
     // granularity of the system
     size_t GrainSize;           // Grain size in cm-1
+	int    stochTrials;         // Number of Stochatic simulations.
+	double stochEndTime;        // End time for stochastic trajectory.
+	double stochStartTime;      // Start time for stochastic trajectory.
+	int    stochThermThresh;    //Threshold for thermalisation in stochastic simulation
+	int    stochEquilThresh;    //Threshold for species to species equillibration in stochastic simulation
+	int    stochAXDlimit;       // Distance below lowest barrier for top AXD boundary. 
     double CellSize;            // Cell size in cm-1
     size_t MaxGrn;              // The number of grains
     size_t MaxCell;             // The number of cells
@@ -25,6 +31,8 @@ namespace mesmer
     double EAboveHill;          // Max energy above the highest Hill [in kT]
     bool   useBasisSetMethod;   // Use the contracted basis set method.
     size_t nBasisSet;           // Number of basis set functions to use.
+
+
 
 public:
 

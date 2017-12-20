@@ -181,6 +181,10 @@ namespace mesmer
 
     FragDist *m_fragDist ;
 
+
+
+
+
   } ;
 
 }//namespace

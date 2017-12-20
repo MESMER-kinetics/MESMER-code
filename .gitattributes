@@ -191,6 +191,10 @@ Documentation/MESMER[!!-~]manual.docx -text
 Documentation/MESMER[!!-~]manual.pdf -text
 Documentation/Procedure_to_configure_MESMER_under_XCode.doc -text
 Documentation/Video[!!-~]tutorial[!!-~]plan[!!-~]of[!!-~]MESMER.doc -text
+KMCexamples/cis_trans/Baselines/Windows/Stoch1.log -text
+KMCexamples/cis_trans/Baselines/Windows/Stoch1.test -text
+KMCexamples/cis_trans/Baselines/Windows/mesmer_out.xml -text
+KMCexamples/cis_trans/Stoch1.xml -text
 MesmerGUI/MESMER_deployment/MesmerWeb/MesmerWeb/.idea/MesmerWeb.iml -text
 MesmerGUI/MESMER_deployment/MesmerWeb/MesmerWeb/.idea/encodings.xml -text
 MesmerGUI/MESMER_deployment/MesmerWeb/MesmerWeb/.idea/misc.xml -text
@@ -669,6 +673,8 @@ src/Sobol.cpp -text
 src/Sobol.h -text
 src/Spline.cpp -text
 src/Spline.h -text
+src/Stochastic.cpp -text
+src/Stochastic.h -text
 src/System.cpp -text
 src/System.h -text
 src/TMatrix.cpp -text

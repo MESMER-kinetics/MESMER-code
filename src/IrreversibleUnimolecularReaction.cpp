@@ -197,10 +197,12 @@ namespace mesmer
     const int MaximumGrain = (getEnv().MaxGrn-fluxStartIdx);
     m_GrainKfmc.clear();
     m_GrainKfmc.resize(MaximumGrain , 0.0);
-
+	m_forwardTransition.clear();
+	m_forwardTransition.resize(MaximumGrain, 0.0);
     // calculate forward k(E)s from flux
     for (int i = forwardTE, j = fluxStartIdx; i < MaximumGrain; ++i, ++j){
       m_GrainKfmc[i] = m_GrainFlux[j] / rctGrainDOS[i];
+	  m_forwardTransition[i] = m_GrainFlux[j] / rctGrainDOS[i];
     }
 
     // the code that follows is for printing the forward k(E)s

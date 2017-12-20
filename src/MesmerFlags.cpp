@@ -41,7 +41,10 @@ namespace mesmer{
 	//default poulation threshold for automatic calculation of energy above the top barrier
 	popThreshold(1.0e-5),
     bForceMacroDetailedBalance(false),
-	bIsSystemSecondOrder(false)
+	bIsSystemSecondOrder(false),
+	stochasticSimulation(false),
+    stochAutoCorrelation(false),
+    stochOnePass(false)
   {}
 }//namespace
 

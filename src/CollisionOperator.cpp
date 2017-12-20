@@ -2120,4 +2120,16 @@ namespace mesmer
     return true;
   }
 
+  vector<string> CollisionOperator::getSinkNames() {
+	  sinkMap::iterator pos;      // Iterate through sink map to get product profile vs t.
+	  vector<string> names;
+	  for (pos = m_sinkRxns.begin(); pos != m_sinkRxns.end(); ++pos) {
+		  Reaction* sinkReaction = pos->first;
+		  const vector<double> KofEs = sinkReaction->get_MtxGrnKf();        // Vector to hold sink k(E)s.
+		  vector<Molecule*> pdts;                                           // in the sink reaction
+		  sinkReaction->get_products(pdts);
+		  names.push_back(pdts[0]->getName());
+	  }
+	  return names;
+  }
 }  //namespace

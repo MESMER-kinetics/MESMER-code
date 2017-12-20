@@ -43,6 +43,10 @@ namespace mesmer
     const size_t reverseThreshE = get_EffGrnRvsThreshold();
     const size_t fluxStartIdx   = get_fluxFirstNonZeroIdx();
 
+	vector<vector<double>> reverseTrans2(pColloptrsize,vector<double>(rColloptrsize,0.0));
+	vector<vector<double>> forwardTrans2(rColloptrsize, vector<double>(0.0,0.0));
+
+
     // Get Boltzmann distribution for detailed balance.
     vector<double> pdtEq ; // Population fraction of the adduct
     m_pdt1->getColl().normalizedGrnBoltzmannDistribution(pdtEq) ;
@@ -54,8 +58,14 @@ namespace mesmer
     m_fragDist->initialize(this) ;
     for ( size_t i = reverseThreshE, j = fluxStartIdx; i < pColloptrsize; ++i, ++j) {
       size_t ii(pdtLocation + i - pShiftedGrains) ;
+	  //get transition vectors for stocastic method
+	  vector<double> forwardTransition(0.0, 0.0);
+	  vector<double> reverseTransition(reverseThreshE, 0.0);
+
       qd_real disMicroRateCoeff = qd_real(rMeanOmega) * qd_real(m_GrainFlux[j]) / qd_real(pdtDOS[i]) ;
       (*CollOptr)[ii][ii] -= disMicroRateCoeff ;   // Loss from adduct to pseudoisomer.
+
+	  double test = to_double(disMicroRateCoeff);
 
       vector<double> fragDist ;
       m_fragDist->calculate(pdtEne[i], fragDist, rColloptrsize) ;
@@ -70,12 +80,19 @@ namespace mesmer
         (*CollOptr)[ii][jj]  = (*CollOptr)[jj][ii]*eqmRatio ;           // Gain of adduct from pseudoisomer.
         (*CollOptr)[jj][jj] -= (*CollOptr)[ii][jj] ;                    // Loss from pseudoisomer to adduct.
 
+		//Get raw transitions
+		reverseTrans2[i][k]=to_double((*CollOptr)[jj][ii])/rMeanOmega;
+		(forwardTrans2[k]).push_back(to_double((*CollOptr)[ii][jj])/rMeanOmega);
+
         // Symmetrize system.
 
         (*CollOptr)[jj][ii] *= sqrt(eqmRatio) ;  
         (*CollOptr)[ii][jj]  = (*CollOptr)[jj][ii] ; 
       }
     }
+
+	m_forwardTransitionMatrix = forwardTrans2;
+	m_reverseTransitionMatrix = reverseTrans2;
 
     // Return any resources used.
     m_fragDist->clear() ;

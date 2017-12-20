@@ -105,7 +105,7 @@ namespace mesmer
   //
   // Add isomer reaction terms to reaction matrix.
   //
-  void IsomerizationReaction::AddReactionTerms(qdMatrix         *CollOptr,
+  void IsomerizationReaction::AddReactionTerms   (qdMatrix         *CollOptr,
     molMapType       &isomermap,
     const double    rMeanOmega)
   {
@@ -129,16 +129,24 @@ namespace mesmer
     const int reverseThreshE = get_EffGrnRvsThreshold();
     const int fluxStartIdx   = get_fluxFirstNonZeroIdx();
 
+	//get transition vectors for stocastic method
+	vector<double> forwardTransition(forwardThreshE, 0.0);
+	vector<double> reverseTransition(reverseThreshE, 0.0);
+
     for ( int i=fluxStartIdx, j = reverseThreshE, k = forwardThreshE; j < colloptrsize; ++i, ++j, ++k) {
       int ii(rctLocation + k - rShiftedGrains) ;
       int jj(pdtLocation + j - pShiftedGrains) ;
       qd_real Flux(m_GrainFlux[i]), qMeanOmega(rMeanOmega), rDos(rctDOS[k]), pDos(pdtDOS[j]) ;
       (*CollOptr)[ii][ii] -= qMeanOmega * Flux / rDos;               // Forward loss reaction.
       (*CollOptr)[jj][jj] -= qMeanOmega * Flux / pDos ;              // Backward loss reaction from detailed balance.
-      (*CollOptr)[ii][jj]  = qMeanOmega * Flux / sqrt(rDos * pDos) ; // Reactive gain.
-      (*CollOptr)[jj][ii]  = (*CollOptr)[ii][jj] ;                   // Reactive gain.
-    }
+	  (*CollOptr)[ii][jj] = qMeanOmega * Flux / sqrt(rDos * pDos);   // Reactive gain.
+	  (*CollOptr)[jj][ii] = (*CollOptr)[ii][jj];                     // Reactive gain.
 
+	  forwardTransition.push_back(to_double(Flux / rDos));
+	  reverseTransition.push_back(to_double(Flux / pDos));
+    }
+	m_forwardTransition = forwardTransition;
+	m_reverseTransition = reverseTransition;
   }
 
   //

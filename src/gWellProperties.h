@@ -33,6 +33,7 @@ namespace mesmer
     size_t m_ncolloptrsize ;      // Size of the collision operator matrix.
     double m_lowestBarrier;       // lowest barrier associatied with this species
     size_t m_numGroupedGrains;    // Number of grains grouped into a reservoir grain.
+	vector<vector <double>> m_rawTransition;     // Save RawTransition Matrix for stochastic implementation. 
 
     DistributionCalculator* m_pDistributionCalculator;
 
@@ -102,6 +103,8 @@ namespace mesmer
 
     size_t get_colloptrsize() const {return m_ncolloptrsize ; } ;
 
+	vector<vector <double>> get_rawTransition() const { return m_rawTransition; };
+
     size_t get_nbasis() const ;
 
     const int get_grnZPE();
@@ -147,6 +150,11 @@ namespace mesmer
     //Normalisation
     egme->normalizeProbabilityMatrix();
 
+	vector<vector <double>> m_rawTransition2(m_ncolloptrsize, vector<double>(m_ncolloptrsize, 0.0));
+	m_rawTransition = m_rawTransition2;
+
+
+
     if (m_host->getFlags().showCollisionOperator >= 1){
       ctest << "\nCollision operator of " << m_host->getName() << " after normalization:\n";
       egme->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
@@ -176,6 +184,12 @@ namespace mesmer
       }
     }
 
+	for (size_t i = 0; i < m_ncolloptrsize; ++i) {
+		for (size_t j = 0; j < m_ncolloptrsize; ++j) {
+			m_rawTransition[i][j] = to_double((*egme)[i][j]);
+		}
+	}
+
     // Symmetrization of the collision matrix.
     for (size_t i(1); i < reducedCollOptrSize; ++i) {
       for (size_t j(0); j < i; ++j){
@@ -184,12 +198,18 @@ namespace mesmer
       }
     }
 
+
+
+
+
     // Account for collisional loss by subrtacting unity from the leading diagonal.
     // SHR: note the slightly complex lower limit below improves accuracy at lower 
     // temperatures where reservoir states are used.
     for (size_t i((m_numGroupedGrains > 1) ? 1 : 0); i < reducedCollOptrSize; ++i) {
       (*egme)[i][i] -= 1.0;
     }
+
+
 
     if (m_host->getFlags().showCollisionOperator >= 2){
       ctest << "Collision operator of " << m_host->getName() << " after :\n";
@@ -214,6 +234,7 @@ namespace mesmer
   template<class T> 
   bool gWellProperties::rawTransitionMatrix(MesmerEnv& env, vector<double> &gEne, vector<double> &gDOS, TMatrix<T>* egme)
   {
+
     EnergyTransferModel* pEnergyTransferModel = m_EnergyTransferModels[env.bathGasName];
     if (!pEnergyTransferModel)
     {
@@ -256,13 +277,12 @@ namespace mesmer
           // Transfer to lower Energy -
           T transferDown = T(pEnergyTransferModel->calculateTransitionProbability(to_double(ej), to_double(ei))) ;
           (*egme)[i][j] = transferDown;
-
           // Transfer to higher Energy (via detailed balance) -
           (*egme)[j][i] = transferDown * (nj / ni) * exp(-beta*(ej - ei));
         }
       }
     }
-
+	
     return true;
   }
 

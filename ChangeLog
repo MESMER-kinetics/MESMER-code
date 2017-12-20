@@ -1,3 +1,22 @@
+2017-December-19 Robin Shannon
+	*CollisionOperator.cpp
+	*CollisionOperator.h
+	*gWellProperties.h
+	*IrreversibleUnimolecularReaction.cpp
+	*IsomerisationReaction.cpp
+	*MesmerEnv.cpp
+	*MesmerEnv.h
+	*PseudoIsomerisationReaction.h
+	*PseudoIsomerisationReaction.cpp
+	*MesmerFlags.h
+	*MesmerFlags.cpp
+	*System.cpp
+	*Reaction.h
+	*Stochastic.cpp
+	*Stochastic.h
+
+	First pass addition of KMC code
+
 2016-February-19 Chris Morley
 
 	* Windows VC14/distribution/NSISScriptToCreateInstaller.nsi:

@@ -77,6 +77,18 @@ namespace mesmer
 	// Accessor for phenomenological rates.
 	void get_phenRates(std::map<std::string, double> &phenRates) const {phenRates = m_phenomenlogicalRates ; } ;
 
+	// Accessor for Stochastic Algorithm
+	qdMatrix* get_reactMat() { return m_reactionOperator; };
+	MoleculeManager* get_molManager() { return m_pMoleculeManager; };
+	ReactionManager* get_ReacManager() { return m_pReactionManager; };
+
+	Reaction::molMapType getIsomers() { return m_isomers; };
+	size_t get_sinkSize() { return m_sinkRxns.size(); };
+	vector<string> getSinkNames();
+
+	double getMeanOmega() { return m_meanOmega; };
+	std::vector<qd_real> getEqVec() { return m_eqVector; };
+
   private:
 
     // Sets grain parameters and determines system environment.
@@ -150,6 +162,7 @@ namespace mesmer
 
     // Map relating reactions with phenomenological rate coefficients.
     std::map<std::string, double> m_phenomenlogicalRates ;
+
   } ;
 
 }
