@@ -1,3 +1,7 @@
+2017-December-20 Struan Robertson
+
+		* ConditionsManager.cpp: Temporary fix for multiple excess reactant concentrations.
+
 2017-December-10 Struan Robertson
 
 		* MesmerILT.cpp: Added improved warning regarding the value of n_inf.

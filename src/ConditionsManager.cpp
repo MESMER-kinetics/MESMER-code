@@ -16,7 +16,7 @@ namespace mesmer
     PandTs(),
     m_pParallelManager(NULL),
     generalAnalysisData(),
-		currentSet(-1) {
+    currentSet(-1) {
     m_pParallelManager = m_pSys->getParallelManager();
   }
 
@@ -195,8 +195,16 @@ namespace mesmer
             Reaction* pReact = m_pSys->getReactionManager()->find(idtxt);
             if (!pReact)
               cerr << "Unknown refReactionExcess (for excess reactant concentration)" << endl;
-            else
-              thisExcessConcs[pReact] = excessConc;
+            else {
+              // Make sure the excess reactant has the same concentration in all reactions in which it participates.
+              Molecule* pMol = pReact->getExcessReactant();
+              vector<Reaction*> pReacts = m_pSys->getReactionManager()->getReactionsWithExcessReactant();
+              vector<Reaction*>::iterator it = pReacts.begin();
+              for (; it != pReacts.end(); ++it) {
+                if (pMol == (*it)->getExcessReactant())
+                  thisExcessConcs[*it] = excessConc;
+              }
+            }
           }
           else
           {
@@ -269,9 +277,9 @@ namespace mesmer
             stringstream s3(txt); s3 >> refReaction;
           }
           stringstream s4(ppExpRate->XmlReadValue("error")); s4 >> errorValue;
-					thisPair.set_experimentalRates(ppExpRate, ref1, ref2, refReaction, rateValue, errorValue);
-					m_pSys->m_Flags.bIndependentErrors &= (errorValue > 0.0); // Assume independent errors.
-					ppExpRate = ppExpRate->XmlMoveTo("me:experimentalRate");
+          thisPair.set_experimentalRates(ppExpRate, ref1, ref2, refReaction, rateValue, errorValue);
+          m_pSys->m_Flags.bIndependentErrors &= (errorValue > 0.0); // Assume independent errors.
+          ppExpRate = ppExpRate->XmlMoveTo("me:experimentalRate");
         }
 
         // Extract experimental yield values for chiSquare calculation.
@@ -292,9 +300,9 @@ namespace mesmer
             yieldTime = "-1.0";
           }
           stringstream s4(ppExpRate->XmlReadValue("error")); s4 >> errorValue;
-          thisPair.set_experimentalYields(ppExpRate, ref, yieldTime, yield, errorValue);					
-					m_pSys->m_Flags.bIndependentErrors &= (errorValue > 0.0); // Assume independent errors.
-					ppExpRate = ppExpRate->XmlMoveTo("me:experimentalYield");
+          thisPair.set_experimentalYields(ppExpRate, ref, yieldTime, yield, errorValue);
+          m_pSys->m_Flags.bIndependentErrors &= (errorValue > 0.0); // Assume independent errors.
+          ppExpRate = ppExpRate->XmlMoveTo("me:experimentalYield");
         }
 
         // Extract experimental eigenvalues for chiSquare calculation.
@@ -307,8 +315,8 @@ namespace mesmer
           string EigenvalueID(ppExpRate->XmlReadValue("EigenvalueID"));
           stringstream s4(ppExpRate->XmlReadValue("error")); s4 >> errorValue;
           thisPair.set_experimentalEigenvalues(ppExpRate, EigenvalueID, eigenValue, errorValue);
-					m_pSys->m_Flags.bIndependentErrors &= (errorValue > 0.0); // Assume independent errors.
-					ppExpRate = ppExpRate->XmlMoveTo("me:experimentalEigenvalue");
+          m_pSys->m_Flags.bIndependentErrors &= (errorValue > 0.0); // Assume independent errors.
+          ppExpRate = ppExpRate->XmlMoveTo("me:experimentalEigenvalue");
         }
 
         // Read in all experimental time-series data for analysis.
@@ -325,7 +333,7 @@ namespace mesmer
           RawDataSet ds;
           ds.m_pPersistPtr = ppRawData;
           ds.m_Name = ppRawData->XmlReadValue("name", optional);
-					ds.m_pPersistPtr = ppRawData;
+          ds.m_pPersistPtr = ppRawData;
           try {
             ds.m_ref1 = ppRawData->XmlReadValue("ref");
           }
@@ -375,9 +383,9 @@ namespace mesmer
 
           //Replace the me:times and me:signal elements if they use scientific format by versions that do not.
           //(so XSLT 1.0 can be used).
-          if(times.str().find_first_of("eE")!=string::npos && ppRawData->XmlDeleteElement(ppTimes))
+          if (times.str().find_first_of("eE") != string::npos && ppRawData->XmlDeleteElement(ppTimes))
             ppRawData->XmlWriteValueElement("me:times", timesout.str());
-          if(signals.str().find_first_of("eE")!=string::npos && ppRawData->XmlDeleteElement(ppSignals))
+          if (signals.str().find_first_of("eE") != string::npos && ppRawData->XmlDeleteElement(ppSignals))
             ppRawData->XmlWriteValueElement("me:signals", signalsout.str());
 
           //If startTime has been specified, remove data before startTime 
@@ -386,12 +394,12 @@ namespace mesmer
 
           thisPair.m_rawDataSets.push_back(ds);
 
-					// Raw data usually is based on photon counts or similar, for which there is limited
-					// information about errors, so we must infer errors from the data itself, so there 
-					// can be no independent model assessment. 
-					m_pSys->m_Flags.bIndependentErrors = false;
-					m_pSys->m_Flags.bAddDiffusiveLossTerms = true;
-				}
+          // Raw data usually is based on photon counts or similar, for which there is limited
+          // information about errors, so we must infer errors from the data itself, so there 
+          // can be no independent model assessment. 
+          m_pSys->m_Flags.bIndependentErrors = false;
+          m_pSys->m_Flags.bAddDiffusiveLossTerms = true;
+        }
 
         if (!rawDataOK) return false;
 
@@ -497,18 +505,18 @@ namespace mesmer
       for (size_t i(0); i < eigenvalues.size(); ++i) {
         rateCoeffTable << conditions.str() << formatFloat(eigenvalues[i].m_value, 6, 15) << formatFloat(eigenvalues[i].m_calcValue, 6, 15) << endl;
       }
-			const vector<RawDataSet>& Traces = PandTs[calPoint].m_rawDataSets;
-			for (size_t i(0); i < Traces.size(); ++i) {
-				rateCoeffTable << conditions.str() << setw(15) << "Time" << setw(16) << "Expt." << setw(16) << "Calc." << endl;
-				const RawDataSet &Trace = Traces[i];
-				for (size_t j(0); j < Trace.data.size(); ++j) {
-					double time = Trace.data[j].first;
-					double expt = Trace.data[j].second;
-					double calc = Trace.m_calcTrace[j];
-					rateCoeffTable << setw(30) << " " << formatFloat(time, 6, 15) << "," << formatFloat(expt, 6, 15) << "," << formatFloat(calc, 6, 15) << endl;
-				}
-			}
-		}
+      const vector<RawDataSet>& Traces = PandTs[calPoint].m_rawDataSets;
+      for (size_t i(0); i < Traces.size(); ++i) {
+        rateCoeffTable << conditions.str() << setw(15) << "Time" << setw(16) << "Expt." << setw(16) << "Calc." << endl;
+        const RawDataSet &Trace = Traces[i];
+        for (size_t j(0); j < Trace.data.size(); ++j) {
+          double time = Trace.data[j].first;
+          double expt = Trace.data[j].second;
+          double calc = Trace.m_calcTrace[j];
+          rateCoeffTable << setw(30) << " " << formatFloat(time, 6, 15) << "," << formatFloat(expt, 6, 15) << "," << formatFloat(calc, 6, 15) << endl;
+        }
+      }
+    }
 
     rateCoeffTable << endl;
 
@@ -521,14 +529,14 @@ namespace mesmer
       for (size_t i(0); i < Traces.size(); ++i) //each rawdataset
       {
         calcsignals.str() = "";
-         const RawDataSet &Trace = Traces[i];
+        const RawDataSet &Trace = Traces[i];
         for (size_t j(0); j < Trace.data.size(); ++j)
           calcsignals << fixed << Trace.m_calcTrace[j] << ' ';
         calcsignals << endl;
       }
-//    PersistPtr pp = Traces[calPoint].m_pPersistPtr;[calPoint] is wrong and crashes; but do not need this line
-//      pp->XmlWriteValueElement("me:calcSignals", calcsignals.str());Now written in AddCalcValToXml()
-//      cout << calcsignals.str() << endl; //temporary comment
+      //    PersistPtr pp = Traces[calPoint].m_pPersistPtr;[calPoint] is wrong and crashes; but do not need this line
+      //      pp->XmlWriteValueElement("me:calcSignals", calcsignals.str());Now written in AddCalcValToXml()
+      //      cout << calcsignals.str() << endl; //temporary comment
     }
   }
 
@@ -559,13 +567,13 @@ namespace mesmer
         m_pParallelManager->broadcastDouble(&tmp, 1, broadcastRank);
         eigenvalues[i].m_calcValue = tmp;
       }
-			vector<RawDataSet>& Trace = PandTs[calPoint].m_rawDataSets;
-			for (size_t i(0); i < Trace.size(); ++i) {
-				vector<double> tmp = Trace[i].m_calcTrace;
-				m_pParallelManager->broadcastVecDouble(tmp, broadcastRank);
-				Trace[i].m_calcTrace = tmp;
-			}
-		}
+      vector<RawDataSet>& Trace = PandTs[calPoint].m_rawDataSets;
+      for (size_t i(0); i < Trace.size(); ++i) {
+        vector<double> tmp = Trace[i].m_calcTrace;
+        m_pParallelManager->broadcastVecDouble(tmp, broadcastRank);
+        Trace[i].m_calcTrace = tmp;
+      }
+    }
   }
 
   // Write calculated date to output.
@@ -592,25 +600,25 @@ namespace mesmer
         WriteDataToXml(pp, PandTs[i].m_eigenvalues);
       }
 
-			// Add elements for trace data.
-			for (size_t j(0); j < PandTs[i].m_rawDataSets.size(); j++) {
-				const RawDataSet& dataSet = PandTs[i].m_rawDataSets[j];
-				const vector<double>& calcTrace = dataSet.m_calcTrace;
-				stringstream ss;
-				for (size_t k(0); k < calcTrace.size(); k++) {
-					string tmp = formatFloatNWS(calcTrace[k], 6, 15);
-					ss << fixed << tmp << " ";
-				}
-				PersistPtr pp = dataSet.m_pPersistPtr;
-				PersistPtr ppcs = pp->XmlMoveTo("me:calcSignals");
-				if (ppcs) {
-					ppcs->XmlWrite(ss.str());
+      // Add elements for trace data.
+      for (size_t j(0); j < PandTs[i].m_rawDataSets.size(); j++) {
+        const RawDataSet& dataSet = PandTs[i].m_rawDataSets[j];
+        const vector<double>& calcTrace = dataSet.m_calcTrace;
+        stringstream ss;
+        for (size_t k(0); k < calcTrace.size(); k++) {
+          string tmp = formatFloatNWS(calcTrace[k], 6, 15);
+          ss << fixed << tmp << " ";
+        }
+        PersistPtr pp = dataSet.m_pPersistPtr;
+        PersistPtr ppcs = pp->XmlMoveTo("me:calcSignals");
+        if (ppcs) {
+          ppcs->XmlWrite(ss.str());
         }
         else
-				  pp->XmlWriteValueElement("me:calcSignals", ss.str());
-			}
+          pp->XmlWriteValueElement("me:calcSignals", ss.str());
+      }
 
-	  } // End Main conditions loop.
+    } // End Main conditions loop.
   }
 
   // Write calculated data to XML.
