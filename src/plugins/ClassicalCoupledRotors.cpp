@@ -214,9 +214,8 @@ namespace mesmer
 				angles[j] *= twoPi;
 
 			// Calculate the determinant of the Wilson G Matrix.
-			double det = gs.getGRITDeterminant(angles);  // Units a.u.*Angstrom*Angstrom.
-			m_knmtcFctr[i] = sqrt(fabs(det));
-
+			m_knmtcFctr[i] = gs.getSqrtGRITDeterminant(angles);  // Units a.u.*Angstrom*Angstrom.
+			
 			// Calculate potential energy.
 			m_potential[i] = TorsionalPotential(angles) ;
 		}

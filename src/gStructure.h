@@ -120,10 +120,10 @@ namespace mesmer
     // case "ApplyWeight" should be false.
     void internalRotationVector(string bondID, vector<double>& mode, bool ApplyMWeight = true);
 
-		// Calculate the determinant of the Generalized Rotation Inertia Tensor.
-		// Used in the calculation of coupled rotor density of states and partition
+		// Calculate the square root of the determinant of the Generalized Rotation Inertia
+		// Tensor. Used in the calculation of coupled rotor density of states and partition
 		// functions.
-		double getGRITDeterminant(vector<double>& angles);
+		double getSqrtGRITDeterminant(vector<double>& angles);
 
     // Read librarymols.xml to obtain:
     //  the ab initio energy of the molecule, 

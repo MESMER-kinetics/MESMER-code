@@ -34,42 +34,42 @@ namespace mesmer
   public:
 
     // Constructors
-    TMatrix( size_t n, const T& init = T(0.0)) : Matrix<T>(n, init) { } ;
+    TMatrix(size_t n, const T& init = T(0.0)) : Matrix<T>(n, init) { };
 
     // Copy constructor
-    TMatrix(const Matrix<T>& rhs ) : Matrix<T>(rhs) { } ;
+    TMatrix(const Matrix<T>& rhs) : Matrix<T>(rhs) { };
 
     //
     // Wrapped calls to EISPACK routines to diagonalise matrix.
     //
     void diagonalize(T *rr) {
 
-      size_t size = this->size() ;
+      size_t size = this->size();
 
       //  Allocate memory for work array
-      T *work = new T[size] ;
-      T *rrProxy = new T[size] ;
+      T *work = new T[size];
+      T *rrProxy = new T[size];
 
       // vector<size_t> index(size, 0) ;
       // permuteMatrix(this->m_matrix, index) ;
-      tred2(this->m_matrix, size, rrProxy, work) ;
-      tqli(rrProxy, work, size, this->m_matrix) ;
+      tred2(this->m_matrix, size, rrProxy, work);
+      tqli(rrProxy, work, size, this->m_matrix);
       // unPermuteEigenEigenvectors(this->m_matrix, index) ;
 
-      for (size_t i = 0; i < size; ++i){
+      for (size_t i = 0; i < size; ++i) {
         rr[i] = rrProxy[i];
       }
 
-      bool diagnostic(false) ;
+      bool diagnostic(false);
       if (diagnostic) {
-        ctest << endl ;
-        ctest << "Largest eigenvalue:  " << rr[0] << endl ;
-        ctest << "Smallest eigenvalue: " << rr[size-2] << endl ;
-        ctest << "Ratio:               " << rr[0]/rr[size-2] << endl << endl ;
+        ctest << endl;
+        ctest << "Largest eigenvalue:  " << rr[0] << endl;
+        ctest << "Smallest eigenvalue: " << rr[size - 2] << endl;
+        ctest << "Ratio:               " << rr[0] / rr[size - 2] << endl << endl;
       }
 
-      delete [] work ;
-      delete [] rrProxy ;
+      delete[] work;
+      delete[] rrProxy;
 
     }
 
@@ -78,59 +78,60 @@ namespace mesmer
     //
     void solveLinearEquationSet(T *rr) {
 
-      const size_t size = this->size() ;
+      const size_t size = this->size();
 
       //  Allocate memory for work array
-      vector<size_t> indx(size, 0) ;
+      vector<size_t> indx(size, 0);
 
-      if (ludcmp(this->m_matrix, size, indx)){
+      if (ludcmp(this->m_matrix, size, indx)) {
         throw(std::runtime_error("Error encountered in LU decompostion invoked from solveLinearEquationSet."));
       }
 
-      lubksb(this->m_matrix, size, indx, rr) ;
+      lubksb(this->m_matrix, size, indx, rr);
 
     };
 
-	// Determinant of Matrix.
-	T Determinant() {
+    // Determinant of Matrix.
+    T Determinant() {
 
-      const size_t size = this->size() ;
+      const size_t size = this->size();
 
       //  Allocate memory for work array
-      TMatrix<T> work = *this ;
-	  
-	  //  Allocate memory for work array
-      vector<size_t> indx(size, 0) ;
+      TMatrix<T> work = *this;
+
+      //  Allocate memory for work array
+      vector<size_t> indx(size, 0);
 
       if (ludcmp(work.m_matrix, size, indx)) {
         throw(std::runtime_error("Error encountered in LU decompostion invoked from Determinant."));
       }
-	  T det(T(1.0)) ;
-      for (size_t i = 0; i < size ; i++) {
-		det *= work[i][i] ;
-	  }
+      T det(T(1.0));
+      for (size_t i = 0; i < size; i++) {
+        det *= work[i][i];
+      }
 
-	  return det ;
-	}
+      return det;
+    }
 
     // Code adapted from C acording to the algorithm given at rosettacode.org/wiki/Cholesky_decomposition.
     void cholesky() {
 
-      size_t size = this->size() ;
+      size_t size = this->size();
 
       //  Allocate memory for work array
-      TMatrix<T> work(size,0.0) ;
+      TMatrix<T> work(size, 0.0);
 
-      for (size_t i = 0; i < size; i++){
-        for (size_t j = 0; j < (i+1); j++){
-          T sum = T(0.0) ;
-          for (size_t k = 0; k < j; k++){
-            sum += work[i][k]*work[j][k];
+      for (size_t i = 0; i < size; i++) {
+        for (size_t j = 0; j < (i + 1); j++) {
+          T sum = T(0.0);
+          for (size_t k = 0; k < j; k++) {
+            sum += work[i][k] * work[j][k];
           }
-          if (i==j){
-            work[i][j] = sqrt((*this)[i][j]-sum);
-          }else{
-            work[i][j] = (1.0/work[j][j])*((*this)[i][j]-sum);
+          if (i == j) {
+            work[i][j] = sqrt((*this)[i][j] - sum);
+          }
+          else {
+            work[i][j] = (T(1.0) / work[j][j])*((*this)[i][j] - sum);
           }
         }
       }
@@ -144,26 +145,26 @@ namespace mesmer
     void normalizeProbabilityMatrix();
 
     // Print out the contents of the matrix.
-    void print(std::string& title, std::ostream& output_stream, int nr = -1, int nc = -1, int fr = -1, int fc = -1) const ;
+    void print(std::string& title, std::ostream& output_stream, int nr = -1, int nc = -1, int fr = -1, int fc = -1) const;
 
     // Apply the Gram-Schmidt procedure to orthogonalize the current matrix.
-    void GramSchimdt(size_t root_vector ) ;
+    void GramSchimdt(size_t root_vector);
 
     // Transpose matrix.
-    void Transpose() ;
+    void Transpose();
 
     // Write matrix to an XML stream.
-    void WriteToXML(PersistPtr pp) const ;
+    void WriteToXML(PersistPtr pp) const;
 
     void showFinalBits(const size_t n, bool isTabbed = false);
 
     //
     // EISPACK methods for diagonalizing matrix.
     //
-    static void tred2 (T **a, size_t n, T *d, T *e) ;
-    static void tqli  (T *d, T *e, size_t n, T **z) ;
-    static void tqlev (T *d, T *e, size_t n) ;
-    static T    pythag(T a, T b) ;
+    static void tred2(T **a, size_t n, T *d, T *e);
+    static void tqli(T *d, T *e, size_t n, T **z);
+    static void tqlev(T *d, T *e, size_t n);
+    static T    pythag(T a, T b);
 
   private:
 
@@ -175,39 +176,39 @@ namespace mesmer
     // in diagonalize() have been commented out as the benefits do not appear to out
     // way the cost in CPU time at present.
     //
-    void permuteMatrix(T **a, vector<size_t>& index) ;
-    void unPermuteEigenEigenvectors(T **a, vector<size_t>& index) ;
+    void permuteMatrix(T **a, vector<size_t>& index);
+    void unPermuteEigenEigenvectors(T **a, vector<size_t>& index);
 
     //
     // NR LU methods for linear equation solving.
     //
-    int  ludcmp(T **a, const size_t &n, vector<size_t> &indx) ;
-    void lubksb(T **a, const size_t &n, vector<size_t> &indx, T* b) ;
+    int  ludcmp(T **a, const size_t &n, vector<size_t> &indx);
+    void lubksb(T **a, const size_t &n, vector<size_t> &indx, T* b);
 
-  } ;
+  };
 
   // Matrix mutiplication operator.
   template<class T>
   TMatrix<T> operator*(const TMatrix<T>& lhs, const TMatrix<T>& rhs) {
 
-    size_t msize = lhs.size() ;
+    size_t msize = lhs.size();
     if (rhs.size() != msize) {
       // Throw error.
     }
 
-    TMatrix<T> result(msize) ;
+    TMatrix<T> result(msize);
 
-    for (size_t i(0) ; i < msize ; i++) {
-      for (size_t j(0) ; j < msize ; j++) {
-        T sm(0.0) ;
-        for (size_t k(0) ; k < msize ; k++) {
-          sm += lhs[i][k]*rhs[k][j] ;
+    for (size_t i(0); i < msize; i++) {
+      for (size_t j(0); j < msize; j++) {
+        T sm(0.0);
+        for (size_t k(0); k < msize; k++) {
+          sm += lhs[i][k] * rhs[k][j];
         }
-        result[i][j] = sm ;
+        result[i][j] = sm;
       }
-    }  
+    }
 
-    return result ; // Note result goes via the stack!
+    return result; // Note result goes via the stack!
 
   }
 
@@ -215,22 +216,22 @@ namespace mesmer
   template<class T>
   void operator*=(vector<T>& rhs, const TMatrix<T>& lhs) {
 
-    size_t msize = lhs.size() ;
+    size_t msize = lhs.size();
     if (rhs.size() != msize) {
       // Throw error.
     }
 
-    vector<T> result(msize) ;
+    vector<T> result(msize);
 
-    for (size_t j(0) ; j < msize ; j++) {
-      T sm(0.0) ;
-      for (size_t k(0) ; k < msize ; k++) {
-        sm += lhs[j][k]*rhs[k] ;
+    for (size_t j(0); j < msize; j++) {
+      T sm(0.0);
+      for (size_t k(0); k < msize; k++) {
+        sm += lhs[j][k] * rhs[k];
       }
-      result[j] = sm ;
+      result[j] = sm;
     }
 
-    rhs = result ; 
+    rhs = result;
 
   }
 
@@ -252,77 +253,78 @@ namespace mesmer
     size_t l, k, j, i;
     T scale, hh, h, g, f;
 
-    for (i=n-1; i>0; i--) {
-      l=i-1 ;
-      h=scale=T(0.0) ;
+    for (i = n - 1; i > 0; i--) {
+      l = i - 1;
+      h = scale = T(0.0);
       if (l > 0) {
 
-        for (k=0; k<l+1; k++)
+        for (k = 0; k < l + 1; k++)
           scale += fabs(a[i][k]);
         if (scale == T(0.0))
-          e[i]=a[i][l];
+          e[i] = a[i][l];
         else {
-          for (k=0; k<l+1; k++) {
+          for (k = 0; k < l + 1; k++) {
             a[i][k] /= scale;
-            h += a[i][k]*a[i][k];
+            h += a[i][k] * a[i][k];
           }
-          f=a[i][l];
+          f = a[i][l];
           g = (f > T(0.0)) ? -sqrt(h) : sqrt(h);
-          e[i]=scale*g;
+          e[i] = scale*g;
           h -= f*g;
-          a[i][l]=f-g;
-          f=T(0.0);
-          for (j=0; j<l+1; j++) {
+          a[i][l] = f - g;
+          f = T(0.0);
+          for (j = 0; j < l + 1; j++) {
             // Next statement can be omitted if eigenvectors not wanted.
-            a[j][i]=a[i][j]/h;
-            g=T(0.0);
+            a[j][i] = a[i][j] / h;
+            g = T(0.0);
 
-            for (k=0; k<j+1; k++)
-              g += a[j][k]*a[i][k];
+            for (k = 0; k < j + 1; k++)
+              g += a[j][k] * a[i][k];
 
-            for (k=j+1; k<l+1; k++)
-              g += a[k][j]*a[i][k];
+            for (k = j + 1; k < l + 1; k++)
+              g += a[k][j] * a[i][k];
 
-            e[j]=g/h;
-            f += e[j]*a[i][j];
+            e[j] = g / h;
+            f += e[j] * a[i][j];
           }
-          hh=f/(h+h);
-          for (j=0; j<l+1; j++) {
-            f=a[i][j];
-            e[j]=g=e[j]-hh*f;
+          hh = f / (h + h);
+          for (j = 0; j < l + 1; j++) {
+            f = a[i][j];
+            e[j] = g = e[j] - hh*f;
 
-            for (k=0; k<j+1; k++)
-              a[j][k] -= (f*e[k]+g*a[i][k]);
+            for (k = 0; k < j + 1; k++)
+              a[j][k] -= (f*e[k] + g*a[i][k]);
           }
         }
-      } else
-        e[i]=a[i][l];
+      }
+      else
+        e[i] = a[i][l];
 
       d[i] = h;
     }
     // Next statement can be omitted if eigenvectors not wanted.
-    d[0]= T(0.0);
-    e[0]= T(0.0);
+    d[0] = T(0.0);
+    e[0] = T(0.0);
     // Contents of this loop can be omitted if eigenvectors not
     // wanted except for statement "d[i]=a[i][i];".
-    for (i=0; i<n; i++) {
-      l=i;
+    for (i = 0; i < n; i++) {
+      l = i;
       if (d[i] != T(0.0)) {
-        for (j=0; j<=l; j++) {
-          g= T(0.0);
+        for (j = 0; j <= l; j++) {
+          g = T(0.0);
 
-          for (k=0; k<l; k++)
-            g += a[i][k]*a[k][j];
+          for (k = 0; k < l; k++)
+            g += a[i][k] * a[k][j];
 
-          for (k=0; k<l; k++)
+          for (k = 0; k < l; k++)
             a[k][j] -= g*a[k][i];
         }
       }
       d[i] = a[i][i];
       a[i][i] = T(1.0);
 
-      for (j=0; j<l; j++) 
-        a[j][i] = a[i][j] = T(0.0) ;
+      for (j = 0; j < l; j++)
+        a[j][i] = a[i][j] = T(0.0);
     }
   }
 
@@ -351,21 +353,21 @@ namespace mesmer
   template<class T>
   void TMatrix<T>::tqli(T *d, T *e, size_t n, T **z)
   {
-    size_t m,l,iter,i,k;
-    T s,r,p,g,f,dd,c,b;
+    size_t m, l, iter, i, k;
+    T s, r, p, g, f, dd, c, b;
 
-    for (i=2;i<=n;++i) e[i-2]=e[i-1];
-    e[n-1]=T(0.0);
-    for (l=1;l<=n;++l) {
-      iter=0;
+    for (i = 2; i <= n; ++i) e[i - 2] = e[i - 1];
+    e[n - 1] = T(0.0);
+    for (l = 1; l <= n; ++l) {
+      iter = 0;
       do {
-        for (m=l;m<=n-1;++m) {
-          dd=fabs(d[m-1])+fabs(d[m]);
-          if (fabs(e[m-1])+dd == dd) break;
+        for (m = l; m <= n - 1; ++m) {
+          dd = fabs(d[m - 1]) + fabs(d[m]);
+          if (fabs(e[m - 1]) + dd == dd) break;
         }
         if (m != l) {
           // if (iter++ == 30) fprintf(stderr, "Too many iterations in TQLI");
-          if (iter++ == 60) { 
+          if (iter++ == 60) {
             fprintf(stderr, "Too many iterations in TQLI");
             throw(std::runtime_error("Too many iterations in TQLI."));
           }
@@ -380,46 +382,47 @@ namespace mesmer
           SVD method used in book is an intrinsic iterative procedure, 30 iterations is a good number to
           convergency up to numerical accuracy. Evgeny
           */
-          g=(d[l]-d[l-1])/(T(2.0)*e[l-1]);
-          r=sqrt((g*g)+T(1.0));
+          g = (d[l] - d[l - 1]) / (T(2.0)*e[l - 1]);
+          r = sqrt((g*g) + T(1.0));
           //r = pythag(g, 1.0) ;
-          g=d[m-1]-d[l-1]+e[l-1]/(g + (g < 0.0 ? -fabs(r) : fabs(r)));
-          s=c=T(1.0) ;
-          p=0.0;
-          for (i=m-1;i>=l;--i) {
-            f=s*e[i-1];
-            b=c*e[i-1];
+          g = d[m - 1] - d[l - 1] + e[l - 1] / (g + (g < 0.0 ? -fabs(r) : fabs(r)));
+          s = c = T(1.0);
+          p = 0.0;
+          for (i = m - 1; i >= l; --i) {
+            f = s*e[i - 1];
+            b = c*e[i - 1];
             if (fabs(f) >= fabs(g)) {
-              c=g/f;
-              r=sqrt((c*c)+T(1.0));
+              c = g / f;
+              r = sqrt((c*c) + T(1.0));
               //r = pythag(c, 1.0) ;
-              e[i]=f*r;
-              c *= (s=T(1.0)/r);
-            } else {
-              s=f/g;
-              r=sqrt((s*s)+T(1.0));
-              //r = pythag(s, 1.0) ;
-              e[i]=g*r;
-              s *= (c=T(1.0)/r);
+              e[i] = f*r;
+              c *= (s = T(1.0) / r);
             }
-            g=d[i]-p;
-            r=(d[i-1]-g)*s + T(2.0)*c*b;
-            p=s*r;
-            d[i]=g+p;
-            g=c*r-b;
+            else {
+              s = f / g;
+              r = sqrt((s*s) + T(1.0));
+              //r = pythag(s, 1.0) ;
+              e[i] = g*r;
+              s *= (c = T(1.0) / r);
+            }
+            g = d[i] - p;
+            r = (d[i - 1] - g)*s + T(2.0)*c*b;
+            p = s*r;
+            d[i] = g + p;
+            g = c*r - b;
             /* Next loop can be omitted if eigenvectors not wanted */
 
-						size_t km1(0);
-            for (k=1;k<=n;++k) {
-							km1 = k - 1;
-              f=z[km1][i];
-              z[km1][i]=s*z[km1][i-1]+c*f;
-              z[km1][i-1]=c*z[km1][i-1]-s*f;
+            size_t km1(0);
+            for (k = 1; k <= n; ++k) {
+              km1 = k - 1;
+              f = z[km1][i];
+              z[km1][i] = s*z[km1][i - 1] + c*f;
+              z[km1][i - 1] = c*z[km1][i - 1] - s*f;
             }
           }
-          d[l-1]=d[l-1]-p;
-          e[l-1]=g;
-          e[m-1]= T(0.0) ;
+          d[l - 1] = d[l - 1] - p;
+          e[l - 1] = g;
+          e[m - 1] = T(0.0);
         }
       } while (m != l);
     }
@@ -436,7 +439,7 @@ namespace mesmer
           p = d[j];
         }
       }
-      if (k!=i) {
+      if (k != i) {
         d[k] = d[i];
         d[i] = p;
         for (size_t j = 0; j < n; ++j) {
@@ -468,19 +471,19 @@ namespace mesmer
   template<class T>
   void TMatrix<T>::tqlev(T *d, T *e, size_t n)
   {
-    size_t m,l,iter,i,k;
-    T s,r,p,g,f,dd,c,b;
+    size_t m, l, iter, i, k;
+    T s, r, p, g, f, dd, c, b;
 
-    if (n==0) return ;
+    if (n == 0) return;
 
-    for (i=2;i<=n;++i) e[i-2]=e[i-1];
-    e[n-1]=0.0;
-    for (l=1;l<=n;++l) {
-      iter=0;
+    for (i = 2; i <= n; ++i) e[i - 2] = e[i - 1];
+    e[n - 1] = 0.0;
+    for (l = 1; l <= n; ++l) {
+      iter = 0;
       do {
-        for (m=l;m<=n-1;++m) {
-          dd=fabs(d[m-1])+fabs(d[m]);
-          if (fabs(e[m-1])+dd == dd) break;
+        for (m = l; m <= n - 1; ++m) {
+          dd = fabs(d[m - 1]) + fabs(d[m]);
+          if (fabs(e[m - 1]) + dd == dd) break;
         }
         if (m != l) {
           // if (iter++ == 30) fprintf(stderr, "Too many iterations in tqlev");
@@ -499,34 +502,35 @@ namespace mesmer
           SVD method used in book is an intrinsic iterative procedure, 30 iterations is a good number to
           convergency up to numerical accuracy. Evgeny
           */
-          g=(d[l]-d[l-1])/(2.0*e[l-1]);
-          r=sqrt((g*g)+1.0);
-          g=d[m-1]-d[l-1]+e[l-1]/(g + (g < 0.0 ? -fabs(r) : fabs(r)));
-          s=c=1.0;
-          p=0.0;
-          for (i=m-1;i>=l;--i) {
-            f=s*e[i-1];
-            b=c*e[i-1];
+          g = (d[l] - d[l - 1]) / (2.0*e[l - 1]);
+          r = sqrt((g*g) + 1.0);
+          g = d[m - 1] - d[l - 1] + e[l - 1] / (g + (g < 0.0 ? -fabs(r) : fabs(r)));
+          s = c = 1.0;
+          p = 0.0;
+          for (i = m - 1; i >= l; --i) {
+            f = s*e[i - 1];
+            b = c*e[i - 1];
             if (fabs(f) >= fabs(g)) {
-              c=g/f;
-              r=sqrt((c*c)+1.0);
-              e[i]=f*r;
-              c *= (s=1.0/r);
-            } else {
-              s=f/g;
-              r=sqrt((s*s)+1.0);
-              e[i]=g*r;
-              s *= (c=1.0/r);
+              c = g / f;
+              r = sqrt((c*c) + 1.0);
+              e[i] = f*r;
+              c *= (s = 1.0 / r);
             }
-            g=d[i]-p;
-            r=(d[i-1]-g)*s+2.0*c*b;
-            p=s*r;
-            d[i]=g+p;
-            g=c*r-b;
+            else {
+              s = f / g;
+              r = sqrt((s*s) + 1.0);
+              e[i] = g*r;
+              s *= (c = 1.0 / r);
+            }
+            g = d[i] - p;
+            r = (d[i - 1] - g)*s + 2.0*c*b;
+            p = s*r;
+            d[i] = g + p;
+            g = c*r - b;
           }
-          d[l-1]=d[l-1]-p;
-          e[l-1]=g;
-          e[m-1]=0.0;
+          d[l - 1] = d[l - 1] - p;
+          e[l - 1] = g;
+          e[m - 1] = 0.0;
         }
       } while (m != l);
     }
@@ -543,7 +547,7 @@ namespace mesmer
           p = d[j];
         }
       }
-      if (k!=i) {
+      if (k != i) {
         d[k] = d[i];
         d[i] = p;
       }
@@ -560,24 +564,24 @@ namespace mesmer
   template<class T>
   T TMatrix<T>::pythag(T a, T b)
   {
-    T p,r,s,t,u;
+    T p, r, s, t, u;
 
-    T absa = fabs(a) ;
-    T absb = fabs(b) ;
+    T absa = fabs(a);
+    T absb = fabs(b);
 
-    p = (absa > absb) ? absa : absb ;
-    if (p == 0.) return p ;
-    r = (absa > absb) ? absb : absa ;
-    r = (r/p)*(r/p);
+    p = (absa > absb) ? absa : absb;
+    if (p == 0.) return p;
+    r = (absa > absb) ? absb : absa;
+    r = (r / p)*(r / p);
 
     while ((t = T(4.0) + r) != T(4.0)) {
-      s  = r/t;
-      u  = T(1.0) + T(2.0)*s;
+      s = r / t;
+      u = T(1.0) + T(2.0)*s;
       p *= u;
-      r *= ((s/u)*(s/u)) ;
+      r *= ((s / u)*(s / u));
     }
 
-    return p ;
+    return p;
   }
 
   //
@@ -587,12 +591,12 @@ namespace mesmer
   template<class T>
   void TMatrix<T>::permuteMatrix(T **a, vector<size_t>& index) {
 
-    size_t size = this->size() ;
-    vector<T> diagonalElements(size,0.0) ;
+    size_t size = this->size();
+    vector<T> diagonalElements(size, 0.0);
 
-    for (size_t i(0) ; i < size ; i++) {
-      diagonalElements[i] = fabs(a[i][i]) ;
-      index[i] = i ;
+    for (size_t i(0); i < size; i++) {
+      diagonalElements[i] = fabs(a[i][i]);
+      index[i] = i;
     }
 
     // Order matrix columns based on the magnitude of the diagonal elements.
@@ -601,7 +605,7 @@ namespace mesmer
       size_t i = ii - 1;
       size_t k = i;
       T p = diagonalElements[i];
-      for (size_t j(ii); j < size ; ++j) {
+      for (size_t j(ii); j < size; ++j) {
         if (diagonalElements[j] < p) {
           k = j;
           p = diagonalElements[j];
@@ -610,16 +614,16 @@ namespace mesmer
       if (k != i) {
         diagonalElements[k] = diagonalElements[i];
         diagonalElements[i] = p;
-        swap(index[i],index[k]) ;
+        swap(index[i], index[k]);
 
         // Swap columns.
         for (size_t j(0); j < size; ++j) {
-          swap(a[j][i], a[j][k]) ;
+          swap(a[j][i], a[j][k]);
         }
 
         // Swap rows.
         for (size_t j(0); j < size; ++j) {
-          swap(a[i][j], a[k][j]) ;
+          swap(a[i][j], a[k][j]);
         }
       }
     }
@@ -632,21 +636,21 @@ namespace mesmer
   template<class T>
   void TMatrix<T>::unPermuteEigenEigenvectors(T **a, vector<size_t>& index) {
 
-    size_t size = this->size() ;
+    size_t size = this->size();
 
-    vector<size_t> invIndex(size, 0) ;
-    for (size_t i(0) ; i < size ; i++) {
-      invIndex[index[i]] = i ;
+    vector<size_t> invIndex(size, 0);
+    for (size_t i(0); i < size; i++) {
+      invIndex[index[i]] = i;
     }
 
-    for (size_t i(0) ; i < size ; i++) {
-      size_t k = invIndex[i] ; 
+    for (size_t i(0); i < size; i++) {
+      size_t k = invIndex[i];
       if (k != i) {
-        invIndex[index[i]] = k ;
-        invIndex[i] = i ; 
-        swap(index[i],index[k]) ;
-        for (size_t j(0) ; j < size ; j++) {
-          swap(a[i][j],a[k][j]) ;
+        invIndex[index[i]] = k;
+        invIndex[i] = i;
+        swap(index[i], index[k]);
+        for (size_t j(0); j < size; j++) {
+          swap(a[i][j], a[k][j]);
         }
       }
     }
@@ -667,67 +671,67 @@ namespace mesmer
   * invert a matrix. Return code is 1, if matrix is singular.   *
   **************************************************************/
   template<class T>
-  int TMatrix<T>::ludcmp(T **a,  const size_t &n, vector<size_t> &indx) {
+  int TMatrix<T>::ludcmp(T **a, const size_t &n, vector<size_t> &indx) {
 
     size_t imax(0);
 
-    T big, dum, sum, temp ;
+    T big, dum, sum, temp;
     T tiny = numeric_limits<T>::epsilon();
 
-    vector<T> work(n,T(0.0)) ;
+    vector<T> work(n, T(0.0));
 
-    for (size_t i(0); i < n ; ++i) {
-      big = T(0.0) ;
-      for (size_t j(0); j < n ; ++j) {
-        if ((temp = fabs(a[i][j])) > big){
-          big = temp ;
+    for (size_t i(0); i < n; ++i) {
+      big = T(0.0);
+      for (size_t j(0); j < n; ++j) {
+        if ((temp = fabs(a[i][j])) > big) {
+          big = temp;
         }
       }
       if (big == T(0.0)) {
         cerr << "Singular Matrix in routine ludcmp";
         return 1;
       }
-      work[i] = T(1.0)/big ;
+      work[i] = T(1.0) / big;
     }
 
-    for (size_t j(0); j < n ; ++j) {
-      for (size_t i(0); i < j ; ++i) {
-        sum = a[i][j] ;
-        for (size_t k(0); k < i ; ++k){
-          sum -= a[i][k]*a[k][j] ;
+    for (size_t j(0); j < n; ++j) {
+      for (size_t i(0); i < j; ++i) {
+        sum = a[i][j];
+        for (size_t k(0); k < i; ++k) {
+          sum -= a[i][k] * a[k][j];
         }
-        a[i][j] = sum ;
+        a[i][j] = sum;
       }
-      big = T(0.0) ;
+      big = T(0.0);
       for (size_t i(j); i < n; ++i) {
-        sum = a[i][j] ;
-        for (size_t k(0); k < j ; ++k)
-          sum -= a[i][k]*a[k][j] ;
+        sum = a[i][j];
+        for (size_t k(0); k < j; ++k)
+          sum -= a[i][k] * a[k][j];
 
-        a[i][j] = sum ;
+        a[i][j] = sum;
 
-        if ( (dum = work[i]*fabs(sum)) >= big) {
-          big = dum ;
-          imax = i ;
+        if ((dum = work[i] * fabs(sum)) >= big) {
+          big = dum;
+          imax = i;
         }
       }
       if (j != imax) {
         for (size_t k(0); k < n; ++k) {
-          dum = a[imax][k] ;
-          a[imax][k] = a[j][k] ;
-          a[j][k] = dum ;
+          dum = a[imax][k];
+          a[imax][k] = a[j][k];
+          a[j][k] = dum;
         }
-        work[imax] = work[j] ;
+        work[imax] = work[j];
       }
-      indx[j] = imax ;
-      if (fabs(a[j][j]) < tiny){
+      indx[j] = imax;
+      if (fabs(a[j][j]) < tiny) {
         a[j][j] = tiny;
       }
 
-      if (j != n-1) {
-        dum = T(1.0)/(a[j][j]) ;
-        for (size_t i(j+1); i < n; ++i)
-          a[i][j] *= dum ;
+      if (j != n - 1) {
+        dum = T(1.0) / (a[j][j]);
+        for (size_t i(j + 1); i < n; ++i)
+          a[i][j] *= dum;
       }
 
     }
@@ -746,65 +750,65 @@ namespace mesmer
   * also efficient for plain matrix inversion.                     *
   *****************************************************************/
   template<class T>
-  void TMatrix<T>::lubksb(T **a,  const size_t &n,  vector<size_t> &indx, T* b) {
+  void TMatrix<T>::lubksb(T **a, const size_t &n, vector<size_t> &indx, T* b) {
 
     size_t ii(0), ip;
-    T sum ;
+    T sum;
 
     for (size_t i(0); i < n; ++i) {
-      ip = indx[i] ;
-      sum = b[ip] ;
-      b[ip] = b[i] ;
+      ip = indx[i];
+      sum = b[ip];
+      b[ip] = b[i];
       if (ii >= 0) {
         for (size_t j(ii); j < i; ++j)
-          sum -= a[i][j]*b[j] ;
+          sum -= a[i][j] * b[j];
       }
-      else if (sum != T(0.0)){
-        ii = i ;
+      else if (sum != T(0.0)) {
+        ii = i;
       }
-      b[i] = sum ;
+      b[i] = sum;
     }
-    for (int i(n-1); i >= 0; --i) {
-      sum = b[i] ;
-      if (size_t(i) < n-1){
-        for (size_t j(i+1); j < n; ++j)
-          sum -= a[i][j]*b[j] ;
+    for (int i(n - 1); i >= 0; --i) {
+      sum = b[i];
+      if (size_t(i) < n - 1) {
+        for (size_t j(i + 1); j < n; ++j)
+          sum -= a[i][j] * b[j];
       }
-      b[i] = sum/a[i][i] ;
+      b[i] = sum / a[i][i];
     }
   }
 
   template<class T>
-  int TMatrix<T>::invertLUdecomposition(){
+  int TMatrix<T>::invertLUdecomposition() {
 
-    const size_t size = this->size() ;
+    const size_t size = this->size();
 
     // Allocate memory for work array.
-    vector<size_t> indx(size, 0) ;
+    vector<size_t> indx(size, 0);
 
     // Construct an identity matrix as a primer for the inverse.
-    Matrix<T> invM(size, T(0.0)) ; 
-    for (size_t i(0); i < size; ++i){
+    Matrix<T> invM(size, T(0.0));
+    for (size_t i(0); i < size; ++i) {
       invM[i][i] = 1.0;
     }
 
-    int rc = ludcmp(this->m_matrix, size, indx) ;
+    int rc = ludcmp(this->m_matrix, size, indx);
 
     // Call solver, if previous return code is ok,
     // to obtain inverse of A one column at a time.
     if (rc == 0) {
-      T *temp = new T[size] ;
+      T *temp = new T[size];
       for (size_t j(0); j < size; ++j) {
         for (size_t i(0); i < size; ++i) temp[i] = invM[i][j];
         lubksb(this->m_matrix, size, indx, temp);
         for (size_t i(0); i < size; ++i) invM[i][j] = temp[i];
       }
       for (size_t j(0); j < size; ++j) {
-        for (size_t i(0); i < size; ++i){
+        for (size_t i(0); i < size; ++i) {
           this->m_matrix[i][j] = invM[i][j];
         }
       }
-      delete [] temp;
+      delete[] temp;
       return 0;
     }
     else {
@@ -817,7 +821,7 @@ namespace mesmer
   // Normalize collision operator
   //
   template<class T>
-  void TMatrix<T>::normalizeProbabilityMatrix(){
+  void TMatrix<T>::normalizeProbabilityMatrix() {
 
     //
     // Normalization of Probability matrix.
@@ -829,36 +833,36 @@ namespace mesmer
     int i, j; //int makes sure the comparison to negative numbers meaningful (i >=0)
 
     int optrsize(int(this->size()));
-    vector<T> work(optrsize) ;// Work space.
+    vector<T> work(optrsize);// Work space.
 
-    T scaledRemain(0.0) ;
-    for ( i = optrsize - 1 ; i >= 0 ; --i ) {
+    T scaledRemain(0.0);
+    for (i = optrsize - 1; i >= 0; --i) {
 
-      T upperSum(0.0) ;
-      for ( j = 0 ; j <= i ; ++j )
-        upperSum += (*this)[j][i] ;
+      T upperSum(0.0);
+      for (j = 0; j <= i; ++j)
+        upperSum += (*this)[j][i];
 
-      if (upperSum > 0.0){
-        if (i < optrsize - 1){
+      if (upperSum > 0.0) {
+        if (i < optrsize - 1) {
           scaledRemain = 0.0;
-          for ( j = i + 1 ; j < optrsize ; ++j ){
+          for (j = i + 1; j < optrsize; ++j) {
             T scale = work[j];
-            scaledRemain += (*this)[j][i] * scale ;
+            scaledRemain += (*this)[j][i] * scale;
           }
         }
-        work[i] = (1.0 - scaledRemain) / upperSum ;
+        work[i] = (1.0 - scaledRemain) / upperSum;
       }
     }
 
     //
     // Apply normalization coefficients
     //
-    for ( i = 0 ; i < optrsize ; ++i ) {
-      (*this)[i][i] *= work[i] ;
+    for (i = 0; i < optrsize; ++i) {
+      (*this)[i][i] *= work[i];
       //T value = (*this)[i][i];
-      for ( j = i + 1 ; j < optrsize ; ++j ) {
-        (*this)[j][i] *= work[j] ;
-        (*this)[i][j] *= work[j] ;
+      for (j = i + 1; j < optrsize; ++j) {
+        (*this)[j][i] *= work[j];
+        (*this)[i][j] *= work[j];
       }
     }
 
@@ -870,21 +874,21 @@ namespace mesmer
   template<class T>
   void TMatrix<T>::print(std::string& title, std::ostream& output_stream, int nr, int nc, int fr, int fc) const {
 
-    size_t msize = this->size() ;
-    size_t nrows = (nr < 0) ? msize : min(msize,size_t(nr)) ;
-    size_t nclms = (nc < 0) ? msize : min(msize,size_t(nc)) ;
-    size_t frow  = (fr < 0) ? 0     : min(msize,size_t(fr)) ;
-    size_t fclm  = (fc < 0) ? 0     : min(msize,size_t(fc)) ;
+    size_t msize = this->size();
+    size_t nrows = (nr < 0) ? msize : min(msize, size_t(nr));
+    size_t nclms = (nc < 0) ? msize : min(msize, size_t(nc));
+    size_t frow = (fr < 0) ? 0 : min(msize, size_t(fr));
+    size_t fclm = (fc < 0) ? 0 : min(msize, size_t(fc));
 
-    output_stream << endl << title << endl << "{" << endl ;
-    for (size_t i(frow) ; i < nrows ; ++i) {
-      for (size_t j(fclm) ; j < nclms ; ++j) {
-        formatFloat(output_stream, (*this)[i][j],  6,  15) ;
-		output_stream << "," ;
+    output_stream << endl << title << endl << "{" << endl;
+    for (size_t i(frow); i < nrows; ++i) {
+      for (size_t j(fclm); j < nclms; ++j) {
+        formatFloat(output_stream, (*this)[i][j], 6, 15);
+        output_stream << ",";
       }
-      output_stream << endl ;
+      output_stream << endl;
     }
-    output_stream << "}" << endl ;
+    output_stream << "}" << endl;
 
   }
 
@@ -892,39 +896,39 @@ namespace mesmer
   // Apply the Gram-Schmidt procedure to orthogonalize the current matrix.
   //
   template<class T>
-  void TMatrix<T>::GramSchimdt(size_t root_vector )  {
+  void TMatrix<T>::GramSchimdt(size_t root_vector) {
 
-    size_t size = this->size() ;
+    size_t size = this->size();
 
-    for (int i(size-1) ; i > -1 ; i--) { // Need to use int here as size_t is unsigned.
+    for (int i(size - 1); i > -1; i--) { // Need to use int here as size_t is unsigned.
 
-      size_t j ;
-      T sum(0.0) ;
+      size_t j;
+      T sum(0.0);
       //
       // Orthogonalize vector (Remove projections).
       //
-      for (j = (size-1) ; j > size_t(i) ; j--) {
-        sum = 0.0 ;
-        for (size_t k = 0 ; k < size ; k++) {
-          sum += (*this)[k][j] * (*this)[k][i] ;
+      for (j = (size - 1); j > size_t(i); j--) {
+        sum = 0.0;
+        for (size_t k = 0; k < size; k++) {
+          sum += (*this)[k][j] * (*this)[k][i];
         }
 
-        for (size_t k = 0 ; k < size ; k++) {
-          (*this)[k][i] -= sum * (*this)[k][j] ;
+        for (size_t k = 0; k < size; k++) {
+          (*this)[k][i] -= sum * (*this)[k][j];
         }
       }
 
       //
       // Normalize vector.
       //
-      sum = 0.0 ;
-      size_t l ;
-      for (l = 0 ; l < size ; l++) {
-        sum += (*this)[l][i] * (*this)[l][i] ;
+      sum = 0.0;
+      size_t l;
+      for (l = 0; l < size; l++) {
+        sum += (*this)[l][i] * (*this)[l][i];
       }
-      sum = sqrt(sum) ;
-      for (l = 0 ; l < size ; l++) {
-        (*this)[l][i] /= sum ;
+      sum = sqrt(sum);
+      for (l = 0; l < size; l++) {
+        (*this)[l][i] /= sum;
       }
 
     }
@@ -935,22 +939,20 @@ namespace mesmer
   // Transpose matrix the current matrix.
   //
   template<class T>
-  void TMatrix<T>::Transpose()  {
+  void TMatrix<T>::Transpose() {
 
-    size_t size = this->size() ;
+    size_t size = this->size();
 
-    for (size_t i(0); i < size ; ++i) {
+    for (size_t i(0); i < size; ++i) {
 
-      for (size_t j(i+1); j < size ; ++j) {
+      for (size_t j(i + 1); j < size; ++j) {
 
-        T tmp = (*this)[i][j] ;
-        (*this)[i][j] = (*this)[j][i] ;
-        (*this)[j][i] = tmp ;
+        T tmp = (*this)[i][j];
+        (*this)[i][j] = (*this)[j][i];
+        (*this)[j][i] = tmp;
 
       }
-
     }
-
   }
 
   template<class T>
@@ -958,12 +960,12 @@ namespace mesmer
   {
     //Write a CML element <matrix> as child of pp
     stringstream ss;
-    for(size_t i(0) ; i < this->size() ; i++) {
-      for(size_t j(0) ; j <= i ; j++)
+    for (size_t i(0); i < this->size(); i++) {
+      for (size_t j(0); j <= i; j++)
         ss << to_double((*this)[i][j]) << ' ';
-      ss << '\n'; 
+      ss << '\n';
     }
-    PersistPtr ppmatrix = pp->XmlWriteValueElement("matrix", ss.str(),true);
+    PersistPtr ppmatrix = pp->XmlWriteValueElement("matrix", ss.str(), true);
     // The "true" parameter puts the matrix values in a CDATA wrapper so that
     // the new lines are preserved. If the parameter is omitted the data
     // is all space separated. Both form are read identically.
@@ -972,9 +974,9 @@ namespace mesmer
   }
 
   template<class T>
-  void TMatrix<T>::showFinalBits(const size_t n, bool isTabbed){
+  void TMatrix<T>::showFinalBits(const size_t n, bool isTabbed) {
 
-    size_t size = this->size() ;
+    size_t size = this->size();
 
     // if n == 0, print the whole matrix
     size_t fb(n);
@@ -984,16 +986,17 @@ namespace mesmer
     // Show the final n x n square of the current matrix
     //
     stest << "{\n";
-    if (!isTabbed){
-      for (size_t i = size - fb ; i < size ; ++i ) {
-        for (size_t j = size - fb ; j < size ; ++j ) {
-					stest << formatFloat((*this)[i][j], 5,  13) ;
+    if (!isTabbed) {
+      for (size_t i = size - fb; i < size; ++i) {
+        for (size_t j = size - fb; j < size; ++j) {
+          stest << formatFloat((*this)[i][j], 5, 13);
         }
         stest << endl;
       }
-    } else {
-      for (size_t i = size - fb ; i < size ; ++i ) {
-        for (size_t j = size - fb ; j < size ; ++j ) {
+    }
+    else {
+      for (size_t i = size - fb; i < size; ++i) {
+        for (size_t j = size - fb; j < size; ++j) {
           stest << (*this)[i][j] << "\t";
         }
         stest << endl;
@@ -1011,25 +1014,25 @@ namespace mesmer
   // if it is omitted or is anything else all elements are assumed present.
   // The returned matrix is fully populated.
   template<class T>
-  TMatrix<T>* ReadMatrix(PersistPtr ppmatrix)  {
+  TMatrix<T>* ReadMatrix(PersistPtr ppmatrix) {
     size_t nrows(0);
-    if(ppmatrix && (nrows = ppmatrix->XmlReadInteger("rows",false))!=0)
+    if (ppmatrix && (nrows = ppmatrix->XmlReadInteger("rows", false)) != 0)
     {
-      bool upper=false, lower=false;
-      const char* ptype = ppmatrix->XmlReadValue("matrixType",false);
-      if(strcmp(ptype,"squareSymmetricLT")==0) 
-        lower=true;
-      else if(strcmp(ptype,"squareSymmetricUT")==0)
-        upper=true;
+      bool upper = false, lower = false;
+      const char* ptype = ppmatrix->XmlReadValue("matrixType", false);
+      if (strcmp(ptype, "squareSymmetricLT") == 0)
+        lower = true;
+      else if (strcmp(ptype, "squareSymmetricUT") == 0)
+        upper = true;
 
       TMatrix<T>* m = new TMatrix<T>(nrows);
       std::stringstream ss;
       ss.str(ppmatrix->XmlRead());
-      for(size_t nr=0; nr<nrows; ++nr)
+      for (size_t nr = 0; nr < nrows; ++nr)
       {
         size_t a = upper ? nr : 0;
-        size_t b = lower ? nr : nrows-1;
-        for(size_t nc=a; nc<=b; ++nc)
+        size_t b = lower ? nr : nrows - 1;
+        for (size_t nc = a; nc <= b; ++nc)
         {
           double val;
           ss >> val;

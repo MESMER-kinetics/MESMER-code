@@ -735,10 +735,10 @@ namespace mesmer
 		return invGRIT[idx][idx];
 	}
 
-	// Calculate the determinant of the Generalized Rotation Inertia Tensor.
-	// Used in the calculation of coupled rotor density of states and partition
+	// Calculate the square root of the determinant of the Generalized Rotation Inertia
+	// Tensor. Used in the calculation of coupled rotor density of states and partition
 	// functions.
-	double gStructure::getGRITDeterminant(vector<double>& angles) {
+	double gStructure::getSqrtGRITDeterminant(vector<double>& angles) {
 
 		// Save original coordinates.
 		map<string, atom>::iterator iter;
@@ -768,7 +768,19 @@ namespace mesmer
 			iter->second.coords = coordinates[i];
 		}
 
-		return GRIT.Determinant();
+		// Following Tafipolsky and Schmid Vol. 26, No. 15 p. 1579, Journal of Computational Chemistry:
+		// the GRIT matrix is always positive definite and so the Cholesky decomposition can be applied 
+		// and the product of the diagonal elements of this decomposition give the square root of the
+		// GRIT determinant. 
+
+		GRIT.cholesky();
+
+		double det(1.0);
+		for (size_t i(0); i < msize; i++) {
+			det *= GRIT[i][i];
+		}
+
+		return det;
 	}
 
 	// Apply inertia weighting to the raw internal rotation velocity vector.
