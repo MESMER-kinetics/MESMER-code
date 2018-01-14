@@ -51,12 +51,14 @@ namespace mesmer
 				}
 
 				// As coefficients can be supplied in any order, they are sorted here.
-				ptnlCosCoeff.resize(++maxIndex);
-				ptnlSinCoeff.resize(++maxIndex);
+				maxIndex++;
+				ptnlCosCoeff.resize(maxIndex);
+				ptnlSinCoeff.resize(maxIndex);
 				for (size_t i(0); i < coefficients.size(); i++) {
 					ptnlCosCoeff[indicies[i]] = coefficients[i];
 					ptnlSinCoeff[i] = 0.0;
 				}
+				set_Expansion(maxIndex);
 
 				// Shift potential so that lowest minimum is at zero.
 

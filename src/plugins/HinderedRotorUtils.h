@@ -26,7 +26,7 @@ namespace mesmer
 		HinderedRotorUtils(const char* id) : DensityOfStatesCalculator(),
 			m_id(id),
 			m_bondID(),
-			m_expansion(4),
+			m_expansion(1),
 			m_useSinTerms(false),
 			m_calIntrlIrt(false),
 			m_phase(0.0)

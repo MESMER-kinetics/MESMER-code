@@ -128,10 +128,12 @@ namespace mesmer
             sum += work[i][k] * work[j][k];
           }
           if (i == j) {
+						if (((*this)[i][j] - sum) < 0.0)
+							throw(std::runtime_error("Cholesky method: matrix not positive definite."));
             work[i][j] = sqrt((*this)[i][j] - sum);
           }
           else {
-            work[i][j] = (T(1.0) / work[j][j])*((*this)[i][j] - sum);
+            work[i][j] = ((*this)[i][j] - sum) / work[j][j];
           }
         }
       }
@@ -670,6 +672,11 @@ namespace mesmer
   * in combination with LUBKSB to solve linear equations or to  *
   * invert a matrix. Return code is 1, if matrix is singular.   *
   **************************************************************/
+	//
+	// SHR, 14/Jan/2018: unfortunately the D return variable appears
+	// to have been lost in translation which is a pity, as it would 
+	// be useful in finding the sign of a determinant.
+	//
   template<class T>
   int TMatrix<T>::ludcmp(T **a, const size_t &n, vector<size_t> &indx) {
 

@@ -1,3 +1,11 @@
+2018-January-14 Struan Robertson
+
+		* TMatrix.h: Added test in Cholesky method for non-positive definite matrix.
+
+		* MesmerILT.cpp: Added lower limit on Ninf below which a regular Arrhenius term is used.
+
+		* HinderedRotorUtils.cpp: Recorded expansion limit for analytical potentials.
+
 2018-January-01 Struan Robertson
 
 		* gStructure.h/.cpp, ClassicalCoupledRotors.cpp, TMatrix.h: For coupled rotors, take advantage

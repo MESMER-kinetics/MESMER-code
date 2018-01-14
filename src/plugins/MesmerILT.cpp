@@ -358,9 +358,10 @@ namespace mesmer
     //
     // Obtain Arrhenius parameters. Note constraint: Ninf >= 0.0
     //
-    const double Ninf = m_NInf;
-    const double Tinf = m_TInf;
-    const double Ainf = m_PreExp;
+    const double Ninf  = m_NInf;
+    const double Tinf  = m_TInf;
+    const double Ainf  = m_PreExp;
+		const double limit = 1.e-14; // The limit on m_Ninf below which the regular Arrhenius expression is used (machie precision?).
 
     Molecule* p_rct = pReact->get_reactant();
     size_t MaximumCell = pReact->getEnv().MaxCell;
@@ -379,7 +380,7 @@ namespace mesmer
 
     double constant(0.0);
     vector<double> conv;
-    if (Ninf > 0.0) {
+    if (Ninf > limit) {
       //
       // The expression held in the elements of the vector work has been altered from the
       // simple mean to analytic integral_x_to_y{E^(Ninf-1)dE}, where x and y are lower and
@@ -397,7 +398,7 @@ namespace mesmer
       }
       FastLaplaceConvolution(work, rctCellDOS, conv);  // FFT convolution replaces the standard convolution
     }
-		else if (Ninf == 0.0) {
+		else if (Ninf >= 0.0 && Ninf < limit) {
 			constant = Ainf ;
 			conv = rctCellDOS;
 		}
