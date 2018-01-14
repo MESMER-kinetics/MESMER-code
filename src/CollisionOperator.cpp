@@ -444,9 +444,7 @@ namespace mesmer
 		}
 
 		// Add diffusive Loss terms if required.
-		if (mFlags.bAddDiffusiveLossTerms) {
-			AddDiffusiveLossTerms(1.0 / m_meanOmega);
-		}
+		AddDiffusiveLossTerms(1.0 / m_meanOmega);
 
 	}
 
@@ -462,10 +460,16 @@ namespace mesmer
 			return;
 
 		std::vector<RawDataSet>& exptDataSets = m_pConditionManager->get_experimentalrawDataSets(size_t(currentSet));
+
+		if (exptDataSets.size() == 0) {
+			// Nothing to do so return.
+			return;
+		}
+
 		RawDataSet& expData = exptDataSets[0];
 		string ref1 = expData.m_ref1;
 
-		// Initialize diffusing species here after all the participating have been specified by
+		// Initialize diffusing species here, after all the participating have been specified by
 		// regular reaction terms.
 		Molecule* pMol = m_pMoleculeManager->find(ref1);
 		if (!pMol) {

@@ -43,8 +43,7 @@ namespace mesmer{
     bForceMacroDetailedBalance(false),
 	  bIsSystemSecondOrder(false),
 		bIndependentErrors(true),
-		useOrigFreqForZPECorrection(true),
-		bAddDiffusiveLossTerms(false)
+		useOrigFreqForZPECorrection(true)
 	{}
 }//namespace
 

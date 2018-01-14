@@ -398,7 +398,6 @@ namespace mesmer
           // information about errors, so we must infer errors from the data itself, so there 
           // can be no independent model assessment. 
           m_pSys->m_Flags.bIndependentErrors = false;
-          m_pSys->m_Flags.bAddDiffusiveLossTerms = true;
         }
 
         if (!rawDataOK) return false;
