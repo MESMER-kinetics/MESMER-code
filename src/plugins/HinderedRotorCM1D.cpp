@@ -167,7 +167,7 @@ namespace mesmer
     for (size_t i(0) ; i < MaximumCell ; i++ ) {
       const double ene = cellEne[i] - 0.5*cellSize ;
       freeRtrDOS[i] = 2.0*bint*(sqrt(ene + cellSize)-sqrt(ene)) ;
-    }
+		}
 
     //
     // Calculate the configuraton integral contribution to the density of states.
@@ -176,59 +176,48 @@ namespace mesmer
     // determine the roots of this difference and the gradient of the potential at
     // these points.
     //
-    // The configuation intergral evaluation is done in three steps:
-    //   1) The potential is eveluated at number of angles.
-    //   2) The configuration integral is determined for fine intervals of energy
+    // The configuation intergral evaluation is done in two steps:
+    //   1) The potential is evaluated at number of angles.
+    //   2) The configuration integral is determined for finite intervals of energy
     //      by bracketing and interpolating the energy and related functions.
-    //   3) The cell (note cell not grain) values are determined by integration.
-    //
-    // Step 3) seems to be require as mid cell energies tend to under estimate the 
-    // the configuration integral contribution.
-    //
+		//
 
     // 1) Set-up array of potential points.
-    const size_t npnts(2000) ;
+    const size_t npnts(200000) ;
     const double intvl(2.0*M_PI/double(npnts)) ;
     vector<double>  ptnl(npnts,0.0) ;
-    vector<double> dptnl(npnts,0.0) ;
+		double emax(-1.e+10);
+		double emin(1.e+10);
     for (size_t i(0); i < npnts; ++i) {
       double angle(double(i)*intvl) ;
       for(size_t k(0); k < get_Expansion() ; ++k) {
         double nTheta = double(k) * angle;
         ptnl[i]  +=  m_potentialCosCoeff[k] * cos(nTheta);
-        dptnl[i] += -m_potentialCosCoeff[k] * double(k) * sin(nTheta);
       }
-    }
+			emax = max(emax, ptnl[i]);
+			emin = min(emin, ptnl[i]);
+		}
 
-    // 2) Locate roots via bracketing and interpolate the potential gradient.
-    const int    nintvl = 10 ;
-    const double dene   = cellSize/double(nintvl) ;
-    size_t       emax   = 2*nintvl*(int(m_potentialCosCoeff[0]) + 1) + 1 ;
-    vector<double> cfgHdr(emax,0.0) ;
-    for (size_t i(0); i < emax ; ++i) {
-      const double ene = dene*double(i) ;
+    // 2) Locate roots via bracketing and determine the potential gradient.
+    size_t nemax = 2*size_t(emax-emin) ;
+		vector<double> tmpCellDOS(MaximumCell, 0.0);
+    for (size_t i(0); i < nemax ; ++i) {
+			const double ene = cellEne[i] + emin;
+			double sum(0.0);
       for (size_t j(0); j < npnts; ++j) {
         const double v1(ptnl[j]), v2(ptnl[(j+1)%npnts]) ;
         if ((ene > v1 && ene < v2)||(ene > v2 && ene < v1)) {
-          const double dp = fabs(dptnl[j] - (dptnl[j] - dptnl[j+1])*(v1 - ene)/(v1 - v2)) ;
-          cfgHdr[i] += (dp > 0.0) ? 1.0/dp : 0.0 ;
+					double angle = intvl*double(j) + intvl*(ene - v1)/(v2 -v1);
+					double dp(0.0);
+					for (size_t k(1); k < get_Expansion(); ++k) {
+						double nTheta = double(k) * angle;
+						dp += -m_potentialCosCoeff[k] * double(k) * sin(nTheta);
+					}
+          sum += fabs(1.0/dp) ;
         }
       }
-      cfgHdr[i] /= 2.0*M_PI ;
-    }
-
-    // 3) Integrate using the trapezium rule to get an average across each cell.
-    vector<double> tmpCellDOS(MaximumCell,0.0) ;
-    emax = 2*(int(m_potentialCosCoeff[0]) + 1) ;
-    for (size_t i(0), idx(0); i < emax ; ++i) {
-      double sum(0.0) ;
-      sum += 0.5*cfgHdr[idx] ;
-      for (size_t j(1); j < size_t(nintvl); ++j, ++idx) {
-        sum += cfgHdr[idx] ;
-      }
-      sum += 0.5*cfgHdr[++idx] ;
-      tmpCellDOS[i] = sum/double(nintvl) ;
-    }
+			tmpCellDOS[i] = sum / (2.0*M_PI);
+		}
 
     //
     // Convolve free rotor and configuration integral terms to give the
@@ -256,12 +245,12 @@ namespace mesmer
     //
     // Calculate the free rotor term first.
     //
-    double Qintrot = sqrt(M_PI*m_reducedMomentInertia/conMntInt2RotCnt/beta)/double(m_periodicity) ;
+    double Qintrot = 0.5*sqrt(m_reducedMomentInertia/conMntInt2RotCnt/beta/M_PI)/double(m_periodicity) ;
 
     //
     // Calculate the hindering potential correction via numerical integration.
     //
-    const size_t npnts(1000) ;
+    const size_t npnts(10000) ;
     const double intvl(2*M_PI/double(npnts)) ;
     double Qhdr(0.0), Ehdr(0.0), varEhdr(0.0) ;
     for (size_t i(0); i < npnts; ++i) {
@@ -278,7 +267,7 @@ namespace mesmer
     Ehdr    /= Qhdr ;
     varEhdr  = varEhdr/Qhdr - Ehdr*Ehdr ;
 
-    PrtnFn   *= Qintrot*Qhdr/double(npnts) ;
+    PrtnFn   *= Qintrot*Qhdr*intvl;
     IntrlEne += 1.0/(2.0*beta) + Ehdr ;
     varEne   += 1.0/ (2.0*beta*beta) + varEhdr ;
   }
