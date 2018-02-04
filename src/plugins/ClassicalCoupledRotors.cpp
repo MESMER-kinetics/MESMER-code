@@ -231,7 +231,8 @@ namespace mesmer
 		}
 
 		// Conversion, spin and symmetry number factor.
-		double cnt = size_t(m_SpinMultiplicity)/pow(conMntInt2RotCnt, 0.5*double(m_bondIDs.size() + 3));
+		double ndof = double(m_bondIDs.size() + 3);
+		double cnt = 2.0*pow(2.0*M_PI, (2.0 - 0.5*ndof))*size_t(m_SpinMultiplicity) / pow(conMntInt2RotCnt, 0.5*ndof);
 		size_t SymNo = size_t(m_Sym);
 		for (size_t j(0); j < m_bondIDs.size(); ++j)
 			SymNo *= m_periodicities[j];
@@ -273,7 +274,8 @@ namespace mesmer
   void  ClassicalCoupledRotors::canPrtnFnCntrb(gDensityOfStates* gdos, double beta, double &PrtnFn, double &IntrlEne, double &varEne) {
 
 		// Conversion, spin and symmetry number factor.
-		double cnt = size_t(m_SpinMultiplicity) / pow(conMntInt2RotCnt, 0.5*double(m_bondIDs.size() + 3));
+		double ndof = double(m_bondIDs.size() + 3);
+		double cnt = 2.0*pow(2.0*M_PI,(2.0 - 0.5*ndof))*size_t(m_SpinMultiplicity) / pow(conMntInt2RotCnt, 0.5*ndof);
 		size_t SymNo = size_t(m_Sym);
 		for (size_t j(0); j < m_bondIDs.size(); ++j)
 			SymNo *= m_periodicities[j];
@@ -331,8 +333,12 @@ namespace mesmer
 		for (size_t i(0); i < angles.size(); ++i) {
 			double theta = angles[i] ;
 			const vector<double>& cosCoeff = m_potentialCosCoeffs[i];
+			const vector<double>& sinCoeff = m_potentialSinCoeffs[i];
 			for (size_t k(0); k < cosCoeff.size(); ++k) {
 				ptnl += cosCoeff[k] * cos(double(k)*theta);
+			}
+			for (size_t k(0); k < sinCoeff.size(); ++k) {
+				ptnl += sinCoeff[k] * cos(double(k)*theta);
 			}
 		}
 

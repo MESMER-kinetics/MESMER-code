@@ -1,3 +1,9 @@
+2018-February-04 Struan Robertson
+
+		* ClassicalCoupledRotors.cpp: Corrected factor for rotational constant conversion term.
+
+		* Documentation update.
+
 2018-January-14 Struan Robertson
 
 		* MesmerFlags.h/.cpp, ConditionsManager.cpp, CollisionOperator.cpp: Diffusive loss now applied 
