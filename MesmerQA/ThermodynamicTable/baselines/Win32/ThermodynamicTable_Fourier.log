@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.1 compiled: -- Sep 11 2017 -- 18:46:52
+     Mesmer v5.1 compiled: -- Feb 24 2018 -- 14:13:17
 
      Copyright (C) 2009-2018 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,8 +27,8 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Tue Sep 12 11:25:11 2017
-                     Number of ranks: 1
+                     Execution Date:  Sat Feb 24 14:16:35 2018
+                     Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
 
@@ -50,7 +50,7 @@ In O2:  replacing vib freq 1645.28
 In O2: energy converted from computational to thermodynamic
 In O2_Numerical:  replacing vib freq 1645.28
 In O2_Numerical: energy converted from computational to thermodynamic
-In Ammonia: Rotational constants were calculated from atom coordinates: 6.34396 9.97722 9.97723 cm-1
+In Ammonia: Rotational constants were calculated from atom coordinates: 6.34338 9.9763 9.97631 cm-1
 In Ammonia:  replacing vib freq 1132.51
 In Ammonia: New me:ZPE element written with data from me:Hf0
 In He: The default value of me:DOSCMethod was used.
@@ -61,7 +61,7 @@ In ThermodynamicTable. Own default: Number of cells 100000
 In ThermodynamicTable. Own default: The default value of me:grainSize was used.
 Energy convention "thermodynamic" written to <moleculeList>
 No conditions specified
-Write metadata 20170912_112511
+Write metadata 20180224_141635
 
 File: "ThermodynamicTable_Fourier.xml" successfully parsed.
 Main Calculation begins
@@ -73,7 +73,7 @@ In NO: enthalpy of formation at 298K:energy converted from thermodynamic to ther
 In O2: enthalpy of formation at 298K:energy converted from thermodynamic to thermodynamic298K
 In O2_Numerical: enthalpy of formation at 298K:energy converted from thermodynamic to thermodynamic298K
 In OH: enthalpy of formation at 298K:energy converted from thermodynamic to thermodynamic298K
- -- Total time elapsed: 0 seconds.
+ -- Total time elapsed: 1 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 0 seconds.
+Total time elapsed: 1 seconds.

@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.1 compiled: -- Sep 11 2017 -- 18:46:52
+     Mesmer v5.1 compiled: -- Feb 24 2018 -- 14:13:17
 
      Copyright (C) 2009-2018 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,8 +27,8 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Tue Sep 12 11:24:57 2017
-                     Number of ranks: 1
+                     Execution Date:  Sat Feb 24 14:16:07 2018
+                     Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
 
@@ -47,7 +47,7 @@ In HSO2: --Parse data for Boltzmann
 In HSO2: --Parse data for ExponentialDown
 In TS1: No imaginary vibrational frequency. Check if there is tunneling.
 The default value of me:DOSCMethod was used.
-In R1: --Parse data for SimpleRRKM
+In R1: --Parse data for RRKM
 In R1: No tunneling method used for R1
 In R1: Not a unimolecular reaction: look for excess reactant concentration.
 In R2: Parsing reaction...Association reaction
@@ -56,13 +56,13 @@ In HOSO: --Parse data for Boltzmann
 In HOSO: --Parse data for ExponentialDown
 In TS2: No imaginary vibrational frequency. Check if there is tunneling.
 The default value of me:DOSCMethod was used.
-In R2: --Parse data for SimpleRRKM
+In R2: --Parse data for RRKM
 In R2: No tunneling method used for R2
 In R2: Not a unimolecular reaction: look for excess reactant concentration.
 In R4: Parsing reaction...Isomerization reaction
 In TS4: No imaginary vibrational frequency. Check if there is tunneling.
 The default value of me:DOSCMethod was used.
-In R4: --Parse data for SimpleRRKM
+In R4: --Parse data for RRKM
 In R4: No tunneling method used for R4
 In R6: Parsing reaction...Irreversible unimolecular reaction
 In R6: --Parse data for MesmerILT
@@ -72,7 +72,7 @@ In SO: The default value of me:DOSCMethod was used.
 In R6: No tunneling method used for R6
 3.37e+18PPCC, 295K at dd precision with He
 --Parse data for ThermodynamicTable
-Write metadata 20170912_112457
+Write metadata 20180224_141607
 
 File: "HSO2.xml" successfully parsed.
 Main Calculation begins
@@ -94,7 +94,7 @@ In FastLaplaceConvolution: 40 values in the FFT convolution routine were replace
 In He: The default value of me:DOSCMethod was used.
 In He: The default value of the attribute spinMultiplicity was used.
 gDensityOfStates initialization failed.
- -- Total time elapsed: 7 seconds.
+ -- Total time elapsed: 6 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 7 seconds.
+Total time elapsed: 6 seconds.

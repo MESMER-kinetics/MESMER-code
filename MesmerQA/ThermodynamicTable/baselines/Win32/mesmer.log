@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.1 compiled: -- Sep 11 2017 -- 18:46:52
+     Mesmer v5.1 compiled: -- Feb 24 2018 -- 14:13:17
 
      Copyright (C) 2009-2018 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,8 +27,8 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Tue Sep 12 11:25:10 2017
-                     Number of ranks: 1
+                     Execution Date:  Sat Feb 24 14:16:33 2018
+                     Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
 
@@ -54,7 +54,7 @@ In ThermodynamicTable. Own default: Number of cells 100000
 In ThermodynamicTable. Own default: The default value of me:grainSize was used.
 Energy convention "thermodynamic" written to <moleculeList>
 No conditions specified
-Write metadata 20170912_112510
+Write metadata 20180224_141633
 
 File: "ThermodynamicTable.xml" successfully parsed.
 Main Calculation begins

@@ -1,3 +1,8 @@
+2018-February-24 Struan Robertson
+
+		* Constant.h: Updated rotational constant conversion factor (from amu Ang^2 to cm-10) to use
+		fundamental constants. Updated baselines accordingly.
+
 2018-February-04 Struan Robertson
 
 		* ClassicalCoupledRotors.cpp: Corrected factor for rotational constant conversion term.

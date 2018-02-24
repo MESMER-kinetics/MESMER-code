@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.1 compiled: -- Sep 11 2017 -- 18:46:52
+     Mesmer v5.1 compiled: -- Feb 24 2018 -- 14:13:17
 
      Copyright (C) 2009-2018 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,8 +27,8 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Tue Sep 12 11:24:54 2017
-                     Number of ranks: 1
+                     Execution Date:  Sat Feb 24 14:16:00 2018
+                     Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
 
@@ -49,11 +49,11 @@ In 2-pentyl: --Parse data for Boltzmann
 In 2-pentyl: --Parse data for ExponentialDown
 In 1-pentyl=TS=2-pentyl: No imaginary vibrational frequency. Check if there is tunneling.
 The default value of me:DOSCMethod was used.
-In R1: --Parse data for SimpleRRKM
+In R1: --Parse data for RRKM
 In R1: No tunneling method used for R1
 The default value of the attribute precision was used.
 1e+08PPCC, 500K at d precision with Ar
-Write metadata 20170912_112454
+Write metadata 20180224_141600
 
 File: "pentyl_isomerization_test.xml" successfully parsed.
 Main Calculation begins

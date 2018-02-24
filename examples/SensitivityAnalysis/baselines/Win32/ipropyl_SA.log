@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.1 compiled: -- Nov 18 2017 -- 17:09:47
+     Mesmer v5.1 compiled: -- Feb 24 2018 -- 14:13:17
 
      Copyright (C) 2009-2018 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sun Nov 26 12:29:18 2017
+                     Execution Date:  Sat Feb 24 14:54:51 2018
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -50,7 +50,7 @@ In propene: propene:ZPE was given a range with 401 steps
 In R1: No tunneling method used for R1
 3e+17PPCC, 720K at d precision with He
 3e+16PPCC, 880K at d precision with He
-Write metadata 20171126_122918
+Write metadata 20180224_145451
 
 File: "ipropyl_SA.xml" successfully parsed.
 Main Calculation begins
@@ -60,7 +60,7 @@ Now calculating...
 Number of grains produced is not equal to that requested
 Number of grains requested: 239
 Number of grains produced : 1
-In FastLaplaceConvolution: 5900 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 5920 values in the FFT convolution routine were replaced by standard convolution
 Number of grains requested: 240
 Number of grains requested: 238
 In i-propyl: Delta E down is smaller than grain size: the solution may not converge.
@@ -74,7 +74,7 @@ Number of grains requested: 262
 Number of grains requested: 259
 Number of grains requested: 263
 Number of grains requested: 258
- -- Total time elapsed: 20 seconds.
+ -- Total time elapsed: 22 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 20 seconds.
+Total time elapsed: 22 seconds.

@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.1 compiled: -- Nov 18 2017 -- 17:09:47
+     Mesmer v5.1 compiled: -- Feb 24 2018 -- 14:13:17
 
      Copyright (C) 2009-2018 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sun Nov 26 12:29:48 2017
+                     Execution Date:  Sat Feb 24 14:55:25 2018
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -71,7 +71,7 @@ In R1: Not a unimolecular reaction: look for excess reactant concentration.
 800mbar, 253K at d precision with N2
 800mbar, 253K at d precision with N2
 --Parse data for analyticalRepresentation
-Write metadata 20171126_122948
+Write metadata 20180224_145525
 
 File: "C4H9O2_NO2_association.xml" successfully parsed.
 Main Calculation begins
@@ -83,7 +83,7 @@ In FastLaplaceConvolution: 16340 values in the FFT convolution routine were repl
 Association ILT calculation completed
 In mesmer::CollisionOperator::timeEvolution: No population was assigned. Initialize the first source term to 1.0.
 
-Chi^2 = 38.1484 Lambda = 1
+Chi^2 = 38.148 Lambda = 1
 C4H9OONO2:ZPE=-44.9  C4H9OONO2:deltaEDown:He=244  C4H9OONO2:deltaEDownTExponent:He=1  R1:preExponential=1.061e-11  R1:nInfinity=-0.6  
 Association ILT calculation completed
 Association ILT calculation completed
@@ -97,47 +97,47 @@ Association ILT calculation completed
 Association ILT calculation completed
 Association ILT calculation completed
 Association ILT calculation completed
+In FastLaplaceConvolution: 16020 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
 
-Chi^2 = 31.2482 Lambda = 0.1
-C4H9OONO2:ZPE=-44.8298  C4H9OONO2:deltaEDown:He=249.94  C4H9OONO2:deltaEDownTExponent:He=1.0322  R1:preExponential=1.08152e-11  R1:nInfinity=-0.712914  
-Iteration: 1 of Marquardt. ChiSquare = 31.2482, Lambda = 0.1
+Chi^2 = 31.2486 Lambda = 0.1
+C4H9OONO2:ZPE=-44.8298  C4H9OONO2:deltaEDown:He=249.942  C4H9OONO2:deltaEDownTExponent:He=1.03192  R1:preExponential=1.08152e-11  R1:nInfinity=-0.712897  
+Iteration: 1 of Marquardt. ChiSquare = 31.2486, Lambda = 0.1
 
-Chi^2 = 31.2482 Lambda = 1
-C4H9OONO2:ZPE=-44.8298  C4H9OONO2:deltaEDown:He=249.94  C4H9OONO2:deltaEDownTExponent:He=1.0322  R1:preExponential=1.08152e-11  R1:nInfinity=-0.712914  
-Iteration: 2 of Marquardt. ChiSquare = 31.2482, Lambda = 1
+Chi^2 = 31.2486 Lambda = 1
+C4H9OONO2:ZPE=-44.8298  C4H9OONO2:deltaEDown:He=249.942  C4H9OONO2:deltaEDownTExponent:He=1.03192  R1:preExponential=1.08152e-11  R1:nInfinity=-0.712897  
+Iteration: 2 of Marquardt. ChiSquare = 31.2486, Lambda = 1
 In FastLaplaceConvolution: 15940 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
 Association ILT calculation completed
 Association ILT calculation completed
 Association ILT calculation completed
 Association ILT calculation completed
-In FastLaplaceConvolution: 15920 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 15900 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
 
-Chi^2 = 30.5327 Lambda = 0.1
-C4H9OONO2:ZPE=-44.8028  C4H9OONO2:deltaEDown:He=247.566  C4H9OONO2:deltaEDownTExponent:He=1.11196  R1:preExponential=1.08661e-11  R1:nInfinity=-0.760171  
-Iteration: 3 of Marquardt. ChiSquare = 30.5327, Lambda = 0.1
+Chi^2 = 30.533 Lambda = 0.1
+C4H9OONO2:ZPE=-44.8028  C4H9OONO2:deltaEDown:He=247.569  C4H9OONO2:deltaEDownTExponent:He=1.11184  R1:preExponential=1.08661e-11  R1:nInfinity=-0.760158  
+Iteration: 3 of Marquardt. ChiSquare = 30.533, Lambda = 0.1
 
-Chi^2 = 30.5327 Lambda = 1
-C4H9OONO2:ZPE=-44.8028  C4H9OONO2:deltaEDown:He=247.566  C4H9OONO2:deltaEDownTExponent:He=1.11196  R1:preExponential=1.08661e-11  R1:nInfinity=-0.760171  
-Iteration: 4 of Marquardt. ChiSquare = 30.5327, Lambda = 1
-In FastLaplaceConvolution: 15860 values in the FFT convolution routine were replaced by standard convolution
+Chi^2 = 30.533 Lambda = 1
+C4H9OONO2:ZPE=-44.8028  C4H9OONO2:deltaEDown:He=247.569  C4H9OONO2:deltaEDownTExponent:He=1.11184  R1:preExponential=1.08661e-11  R1:nInfinity=-0.760158  
+Iteration: 4 of Marquardt. ChiSquare = 30.533, Lambda = 1
+In FastLaplaceConvolution: 15840 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
 Association ILT calculation completed
 Association ILT calculation completed
 Association ILT calculation completed
 Association ILT calculation completed
-In FastLaplaceConvolution: 15820 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
 
-Chi^2 = 30.2126 Lambda = 0.1
-C4H9OONO2:ZPE=-44.793  C4H9OONO2:deltaEDown:He=243.932  C4H9OONO2:deltaEDownTExponent:He=1.20206  R1:preExponential=1.08855e-11  R1:nInfinity=-0.792491  
-Iteration: 5 of Marquardt. ChiSquare = 30.2126, Lambda = 0.1
+Chi^2 = 30.2127 Lambda = 0.1
+C4H9OONO2:ZPE=-44.793  C4H9OONO2:deltaEDown:He=243.934  C4H9OONO2:deltaEDownTExponent:He=1.20197  R1:preExponential=1.08855e-11  R1:nInfinity=-0.792482  
+Iteration: 5 of Marquardt. ChiSquare = 30.2127, Lambda = 0.1
 
-Chi^2 = 30.2126 Lambda = 1
-C4H9OONO2:ZPE=-44.793  C4H9OONO2:deltaEDown:He=243.932  C4H9OONO2:deltaEDownTExponent:He=1.20206  R1:preExponential=1.08855e-11  R1:nInfinity=-0.792491  
-Iteration: 6 of Marquardt. ChiSquare = 30.2126, Lambda = 1
+Chi^2 = 30.2127 Lambda = 1
+C4H9OONO2:ZPE=-44.793  C4H9OONO2:deltaEDown:He=243.934  C4H9OONO2:deltaEDownTExponent:He=1.20197  R1:preExponential=1.08855e-11  R1:nInfinity=-0.792482  
+Iteration: 6 of Marquardt. ChiSquare = 30.2127, Lambda = 1
 In FastLaplaceConvolution: 15780 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
 Association ILT calculation completed
@@ -147,29 +147,30 @@ Association ILT calculation completed
 In FastLaplaceConvolution: 15760 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
 
-Chi^2 = 30.0031 Lambda = 0.1
-C4H9OONO2:ZPE=-44.7914  C4H9OONO2:deltaEDown:He=239.922  C4H9OONO2:deltaEDownTExponent:He=1.2992  R1:preExponential=1.08892e-11  R1:nInfinity=-0.816471  
-Iteration: 7 of Marquardt. ChiSquare = 30.0031, Lambda = 0.1
+Chi^2 = 30.0032 Lambda = 0.1
+C4H9OONO2:ZPE=-44.7914  C4H9OONO2:deltaEDown:He=239.924  C4H9OONO2:deltaEDownTExponent:He=1.29909  R1:preExponential=1.08892e-11  R1:nInfinity=-0.81646  
+Iteration: 7 of Marquardt. ChiSquare = 30.0032, Lambda = 0.1
 
-Chi^2 = 30.0031 Lambda = 1
-C4H9OONO2:ZPE=-44.7914  C4H9OONO2:deltaEDown:He=239.922  C4H9OONO2:deltaEDownTExponent:He=1.2992  R1:preExponential=1.08892e-11  R1:nInfinity=-0.816471  
-Iteration: 8 of Marquardt. ChiSquare = 30.0031, Lambda = 1
-In FastLaplaceConvolution: 15700 values in the FFT convolution routine were replaced by standard convolution
+Chi^2 = 30.0032 Lambda = 1
+C4H9OONO2:ZPE=-44.7914  C4H9OONO2:deltaEDown:He=239.924  C4H9OONO2:deltaEDownTExponent:He=1.29909  R1:preExponential=1.08892e-11  R1:nInfinity=-0.81646  
+Iteration: 8 of Marquardt. ChiSquare = 30.0032, Lambda = 1
+In FastLaplaceConvolution: 15620 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
 Association ILT calculation completed
 Association ILT calculation completed
 Association ILT calculation completed
 Association ILT calculation completed
+In FastLaplaceConvolution: 15600 values in the FFT convolution routine were replaced by standard convolution
+Association ILT calculation completed
+
+Chi^2 = 29.8114 Lambda = 0.1
+C4H9OONO2:ZPE=-44.7933  C4H9OONO2:deltaEDown:He=236.43  C4H9OONO2:deltaEDownTExponent:He=1.39299  R1:preExponential=1.08946e-11  R1:nInfinity=-0.839522  
+Iteration: 9 of Marquardt. ChiSquare = 29.8114, Lambda = 0.1
+
+Chi^2 = 29.8114 Lambda = 1
+C4H9OONO2:ZPE=-44.7933  C4H9OONO2:deltaEDown:He=236.43  C4H9OONO2:deltaEDownTExponent:He=1.39299  R1:preExponential=1.08946e-11  R1:nInfinity=-0.839522  
+Iteration: 10 of Marquardt. ChiSquare = 29.8114, Lambda = 1
 In FastLaplaceConvolution: 15580 values in the FFT convolution routine were replaced by standard convolution
-Association ILT calculation completed
-
-Chi^2 = 29.8113 Lambda = 0.1
-C4H9OONO2:ZPE=-44.7933  C4H9OONO2:deltaEDown:He=236.429  C4H9OONO2:deltaEDownTExponent:He=1.3931  R1:preExponential=1.08946e-11  R1:nInfinity=-0.839533  
-Iteration: 9 of Marquardt. ChiSquare = 29.8113, Lambda = 0.1
-
-Chi^2 = 29.8113 Lambda = 1
-C4H9OONO2:ZPE=-44.7933  C4H9OONO2:deltaEDown:He=236.429  C4H9OONO2:deltaEDownTExponent:He=1.3931  R1:preExponential=1.08946e-11  R1:nInfinity=-0.839533  
-Iteration: 10 of Marquardt. ChiSquare = 29.8113, Lambda = 1
 Association ILT calculation completed
 Association ILT calculation completed
 Association ILT calculation completed
@@ -178,36 +179,36 @@ Association ILT calculation completed
 In FastLaplaceConvolution: 15560 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
 
-Chi^2 = 29.6433 Lambda = 0.1
-C4H9OONO2:ZPE=-44.7972  C4H9OONO2:deltaEDown:He=233.008  C4H9OONO2:deltaEDownTExponent:He=1.48634  R1:preExponential=1.08954e-11  R1:nInfinity=-0.859399  
-Iteration: 11 of Marquardt. ChiSquare = 29.6433, Lambda = 0.1
+Chi^2 = 29.6434 Lambda = 0.1
+C4H9OONO2:ZPE=-44.7972  C4H9OONO2:deltaEDown:He=233.01  C4H9OONO2:deltaEDownTExponent:He=1.48622  R1:preExponential=1.08954e-11  R1:nInfinity=-0.859385  
+Iteration: 11 of Marquardt. ChiSquare = 29.6434, Lambda = 0.1
 
-Chi^2 = 29.6433 Lambda = 1
-C4H9OONO2:ZPE=-44.7972  C4H9OONO2:deltaEDown:He=233.008  C4H9OONO2:deltaEDownTExponent:He=1.48634  R1:preExponential=1.08954e-11  R1:nInfinity=-0.859399  
-Iteration: 12 of Marquardt. ChiSquare = 29.6433, Lambda = 1
+Chi^2 = 29.6434 Lambda = 1
+C4H9OONO2:ZPE=-44.7972  C4H9OONO2:deltaEDown:He=233.01  C4H9OONO2:deltaEDownTExponent:He=1.48622  R1:preExponential=1.08954e-11  R1:nInfinity=-0.859385  
+Iteration: 12 of Marquardt. ChiSquare = 29.6434, Lambda = 1
 
-Chi^2 = 29.6433 Lambda = 10
-C4H9OONO2:ZPE=-44.7972  C4H9OONO2:deltaEDown:He=233.008  C4H9OONO2:deltaEDownTExponent:He=1.48634  R1:preExponential=1.08954e-11  R1:nInfinity=-0.859399  
-Iteration: 13 of Marquardt. ChiSquare = 29.6433, Lambda = 10
+Chi^2 = 29.6434 Lambda = 10
+C4H9OONO2:ZPE=-44.7972  C4H9OONO2:deltaEDown:He=233.01  C4H9OONO2:deltaEDownTExponent:He=1.48622  R1:preExponential=1.08954e-11  R1:nInfinity=-0.859385  
+Iteration: 13 of Marquardt. ChiSquare = 29.6434, Lambda = 10
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
 In FastLaplaceConvolution: 15540 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
-Association ILT calculation completed
-Association ILT calculation completed
-Association ILT calculation completed
-Association ILT calculation completed
-Association ILT calculation completed
 
-Chi^2 = 29.6259 Lambda = 1
-C4H9OONO2:ZPE=-44.7976  C4H9OONO2:deltaEDown:He=232.596  C4H9OONO2:deltaEDownTExponent:He=1.49578  R1:preExponential=1.0894e-11  R1:nInfinity=-0.860771  
-Iteration: 14 of Marquardt. ChiSquare = 29.6259, Lambda = 1
+Chi^2 = 29.626 Lambda = 1
+C4H9OONO2:ZPE=-44.7976  C4H9OONO2:deltaEDown:He=232.598  C4H9OONO2:deltaEDownTExponent:He=1.49565  R1:preExponential=1.0894e-11  R1:nInfinity=-0.860757  
+Iteration: 14 of Marquardt. ChiSquare = 29.626, Lambda = 1
 
-Chi^2 = 29.6259 Lambda = 10
-C4H9OONO2:ZPE=-44.7976  C4H9OONO2:deltaEDown:He=232.596  C4H9OONO2:deltaEDownTExponent:He=1.49578  R1:preExponential=1.0894e-11  R1:nInfinity=-0.860771  
-Iteration: 15 of Marquardt. ChiSquare = 29.6259, Lambda = 10
+Chi^2 = 29.626 Lambda = 10
+C4H9OONO2:ZPE=-44.7976  C4H9OONO2:deltaEDown:He=232.598  C4H9OONO2:deltaEDownTExponent:He=1.49565  R1:preExponential=1.0894e-11  R1:nInfinity=-0.860757  
+Iteration: 15 of Marquardt. ChiSquare = 29.626, Lambda = 10
 
-Chi^2 = 29.6259 Lambda = 100
-C4H9OONO2:ZPE=-44.7976  C4H9OONO2:deltaEDown:He=232.596  C4H9OONO2:deltaEDownTExponent:He=1.49578  R1:preExponential=1.0894e-11  R1:nInfinity=-0.860771  
-Iteration: 16 of Marquardt. ChiSquare = 29.6259, Lambda = 100
+Chi^2 = 29.626 Lambda = 100
+C4H9OONO2:ZPE=-44.7976  C4H9OONO2:deltaEDown:He=232.598  C4H9OONO2:deltaEDownTExponent:He=1.49565  R1:preExponential=1.0894e-11  R1:nInfinity=-0.860757  
+Iteration: 16 of Marquardt. ChiSquare = 29.626, Lambda = 100
 Association ILT calculation completed
 Association ILT calculation completed
 Association ILT calculation completed
@@ -215,13 +216,13 @@ Association ILT calculation completed
 Association ILT calculation completed
 Association ILT calculation completed
 
-Chi^2 = 29.6241 Lambda = 10
-C4H9OONO2:ZPE=-44.7977  C4H9OONO2:deltaEDown:He=232.554  C4H9OONO2:deltaEDownTExponent:He=1.49673  R1:preExponential=1.08938e-11  R1:nInfinity=-0.8609  
-Iteration: 17 of Marquardt. ChiSquare = 29.6241, Lambda = 10
+Chi^2 = 29.6243 Lambda = 10
+C4H9OONO2:ZPE=-44.7977  C4H9OONO2:deltaEDown:He=232.556  C4H9OONO2:deltaEDownTExponent:He=1.4966  R1:preExponential=1.08939e-11  R1:nInfinity=-0.860886  
+Iteration: 17 of Marquardt. ChiSquare = 29.6243, Lambda = 10
 
-Chi^2 = 29.6241 Lambda = 100
-C4H9OONO2:ZPE=-44.7977  C4H9OONO2:deltaEDown:He=232.554  C4H9OONO2:deltaEDownTExponent:He=1.49673  R1:preExponential=1.08938e-11  R1:nInfinity=-0.8609  
-Iteration: 18 of Marquardt. ChiSquare = 29.6241, Lambda = 100
+Chi^2 = 29.6243 Lambda = 100
+C4H9OONO2:ZPE=-44.7977  C4H9OONO2:deltaEDown:He=232.556  C4H9OONO2:deltaEDownTExponent:He=1.4966  R1:preExponential=1.08939e-11  R1:nInfinity=-0.860886  
+Iteration: 18 of Marquardt. ChiSquare = 29.6243, Lambda = 100
 Association ILT calculation completed
 Association ILT calculation completed
 Association ILT calculation completed
@@ -229,57 +230,57 @@ Association ILT calculation completed
 Association ILT calculation completed
 Association ILT calculation completed
 
-Chi^2 = 29.6224 Lambda = 10
-C4H9OONO2:ZPE=-44.7977  C4H9OONO2:deltaEDown:He=232.512  C4H9OONO2:deltaEDownTExponent:He=1.49767  R1:preExponential=1.08937e-11  R1:nInfinity=-0.86103  
-Iteration: 19 of Marquardt. ChiSquare = 29.6224, Lambda = 10
+Chi^2 = 29.6225 Lambda = 10
+C4H9OONO2:ZPE=-44.7977  C4H9OONO2:deltaEDown:He=232.514  C4H9OONO2:deltaEDownTExponent:He=1.49755  R1:preExponential=1.08937e-11  R1:nInfinity=-0.861016  
+Iteration: 19 of Marquardt. ChiSquare = 29.6225, Lambda = 10
 
-Chi^2 = 29.6224 Lambda = 100
-C4H9OONO2:ZPE=-44.7977  C4H9OONO2:deltaEDown:He=232.512  C4H9OONO2:deltaEDownTExponent:He=1.49767  R1:preExponential=1.08937e-11  R1:nInfinity=-0.86103  
-Iteration: 20 of Marquardt. ChiSquare = 29.6224, Lambda = 100
+Chi^2 = 29.6225 Lambda = 100
+C4H9OONO2:ZPE=-44.7977  C4H9OONO2:deltaEDown:He=232.514  C4H9OONO2:deltaEDownTExponent:He=1.49755  R1:preExponential=1.08937e-11  R1:nInfinity=-0.861016  
+Iteration: 20 of Marquardt. ChiSquare = 29.6225, Lambda = 100
 Number of cells = 50000, Number of grains = 389
 Association ILT calculation completed
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
             241    4.00684e+18       1.16e-11    1.14712e-11
-            268    3.60317e+18       1.07e-11    9.55058e-12
-            293    3.29573e+18       6.49e-12    7.91673e-12
+            268    3.60317e+18       1.07e-11    9.55059e-12
+            293    3.29573e+18       6.49e-12    7.91674e-12
             316    3.05585e+18       7.68e-12    6.54736e-12
-            341    2.83182e+18       5.48e-12    5.22113e-12
+            341    2.83182e+18       5.48e-12    5.22112e-12
             341    2.83182e+18            342        371.071
-            316    3.05585e+18           51.7        37.5367
-            293    3.29573e+18            7.6        3.02314
+            316    3.05585e+18           51.7        37.5368
+            293    3.29573e+18            7.6        3.02315
             253    2.29027e+19         0.0133      0.0127342
             253    2.29027e+19         0.0133      0.0127342
 
 
-Chi^2 = 29.6224
+Chi^2 = 29.6225
 
 Best fit parameters:
 
-C4H9OONO2:ZPE = -44.7977 +/- 0.290272
-C4H9OONO2:deltaEDown:He = 232.512 +/- 121.882
-C4H9OONO2:deltaEDownTExponent:He = 1.49767 +/- 2.33171
-R1:preExponential = 1.08937e-11 +/- 2.90674e-12
-R1:nInfinity = -0.86103 +/- 0.807212
+C4H9OONO2:ZPE = -44.7977 +/- 0.29027
+C4H9OONO2:deltaEDown:He = 232.514 +/- 121.884
+C4H9OONO2:deltaEDownTExponent:He = 1.49755 +/- 2.33168
+R1:preExponential = 1.08937e-11 +/- 2.90683e-12
+R1:nInfinity = -0.861016 +/- 0.807232
 
 Correlation coefficients:
 
-C4H9OONO2:deltaEDown:He , C4H9OONO2:ZPE = 0.739165
-C4H9OONO2:deltaEDownTExponent:He , C4H9OONO2:ZPE = -0.63814
-C4H9OONO2:deltaEDownTExponent:He , C4H9OONO2:deltaEDown:He = -0.707187
-R1:preExponential , C4H9OONO2:ZPE = -0.590075
-R1:preExponential , C4H9OONO2:deltaEDown:He = -0.833527
-R1:preExponential , C4H9OONO2:deltaEDownTExponent:He = 0.25103
-R1:nInfinity , C4H9OONO2:ZPE = -0.202511
-R1:nInfinity , C4H9OONO2:deltaEDown:He = -0.370288
-R1:nInfinity , C4H9OONO2:deltaEDownTExponent:He = -0.329276
-R1:nInfinity , R1:preExponential = 0.813541
+C4H9OONO2:deltaEDown:He , C4H9OONO2:ZPE = 0.739166
+C4H9OONO2:deltaEDownTExponent:He , C4H9OONO2:ZPE = -0.638124
+C4H9OONO2:deltaEDownTExponent:He , C4H9OONO2:deltaEDown:He = -0.707193
+R1:preExponential , C4H9OONO2:ZPE = -0.590098
+R1:preExponential , C4H9OONO2:deltaEDown:He = -0.833535
+R1:preExponential , C4H9OONO2:deltaEDownTExponent:He = 0.251052
+R1:nInfinity , C4H9OONO2:ZPE = -0.202579
+R1:nInfinity , C4H9OONO2:deltaEDown:He = -0.370339
+R1:nInfinity , C4H9OONO2:deltaEDownTExponent:He = -0.329217
+R1:nInfinity , R1:preExponential = 0.813565
 
 Goodness of Fit:
 
 Number of degrees of Freedom = 5
-Chi^2 probability = 1.74997e-05
+Chi^2 probability = 1.74984e-05
 
 
 --Execute calcMethod analyticalRepresentation
@@ -290,33 +291,33 @@ units(length = 'cm', quantity = 'molecule')
 chebyshev_reaction('C4H9OO + NO2 => C4H9OONO2',
                    Tmin=   175, Tmax=   400,
                    Pmin=( 1e+14, 'PPCC'), Pmax=( 1e+25, 'PPCC'), 
-                   coeffs=[[      -11.4466,      0.923093,     -0.529155,      0.176159,   -0.00584206,      -0.02116,    0.00505356,    0.00255462],
-                           [      -0.52352,      0.576004,     -0.242118,   -0.00323895,      0.058982,    -0.0171898,    -0.0117017,    0.00725494],
-                           [     -0.109272,      0.135578,    -0.0346263,    -0.0220341,     0.0157914,    0.00504522,   -0.00706672,  -0.000624452],
-                           [    -0.0247719,     0.0300704,   -0.00292319,    -0.0079596,    0.00190499,    0.00330871,   -0.00103916,    -0.0016149],
-                           [   -0.00575325,    0.00668074,   0.000225325,   -0.00204133,  -0.000158079,    0.00102008,   0.000120886,  -0.000614755],
-                           [   -0.00129029,    0.00139303,   0.000259399,  -0.000468013,  -0.000158983,   0.000221525,   0.000108841,  -0.000123342],
-                           [  -0.000249661,   0.000220861,   0.000134247,  -0.000104766,  -6.13602e-05,   3.50615e-05,   3.78942e-05,  -5.25592e-06],
-                           [  -2.62547e-05,  -5.83757e-06,   6.40715e-05,  -2.42794e-05,  -2.22268e-05,   4.26698e-06,   1.11054e-05,   5.99177e-06],
-                           [   1.01082e-05,  -2.87933e-05,   2.87968e-05,  -5.52005e-06,  -8.95446e-06,   1.00777e-06,   3.43187e-06,   2.42554e-06],
-                           [   9.33384e-06,  -1.79033e-05,   1.14981e-05,  -6.36982e-07,  -3.87936e-06,    5.6797e-07,   1.24804e-06,   4.07627e-07]])
+                   coeffs=[[      -11.4466,      0.923093,     -0.529155,      0.176159,   -0.00584206,      -0.02116,    0.00505355,    0.00255462],
+                           [     -0.523517,      0.576004,     -0.242118,   -0.00323881,      0.058982,    -0.0171898,    -0.0117016,    0.00725495],
+                           [     -0.109272,      0.135578,    -0.0346264,    -0.0220341,     0.0157915,    0.00504521,   -0.00706673,  -0.000624444],
+                           [    -0.0247719,     0.0300705,    -0.0029232,    -0.0079596,      0.001905,    0.00330871,   -0.00103917,    -0.0016149],
+                           [   -0.00575325,    0.00668075,   0.000225324,   -0.00204133,  -0.000158078,    0.00102008,   0.000120885,  -0.000614756],
+                           [   -0.00129029,    0.00139303,   0.000259399,  -0.000468014,  -0.000158983,   0.000221526,   0.000108841,  -0.000123342],
+                           [  -0.000249661,   0.000220861,   0.000134247,  -0.000104767,  -6.13602e-05,   3.50617e-05,   3.78942e-05,  -5.25611e-06],
+                           [  -2.62545e-05,  -5.83791e-06,   6.40718e-05,  -2.42795e-05,  -2.22268e-05,   4.26705e-06,   1.11054e-05,   5.99173e-06],
+                           [   1.01084e-05,  -2.87935e-05,   2.87969e-05,  -5.52008e-06,  -8.95448e-06,   1.00779e-06,   3.43187e-06,   2.42553e-06],
+                           [   9.33391e-06,  -1.79034e-05,   1.14981e-05,  -6.36983e-07,  -3.87938e-06,   5.67978e-07,   1.24804e-06,   4.07624e-07]])
 
 chebyshev_reaction(' => C4H9OO + NO2',
                    Tmin=   175, Tmax=   400,
                    Pmin=( 1e+14, 'PPCC'), Pmax=( 1e+25, 'PPCC'), 
-                   coeffs=[[      -3.20034,      0.923093,     -0.529155,      0.176159,   -0.00584206,      -0.02116,    0.00505356,    0.00255462],
-                           [       7.13915,      0.576004,     -0.242118,   -0.00323895,      0.058982,    -0.0171898,    -0.0117017,    0.00725494],
-                           [     -0.137955,      0.135578,    -0.0346263,    -0.0220341,     0.0157914,    0.00504522,   -0.00706672,  -0.000624452],
-                           [    -0.0328957,     0.0300704,   -0.00292319,    -0.0079596,    0.00190499,    0.00330871,   -0.00103916,    -0.0016149],
-                           [   -0.00749557,    0.00668074,   0.000225325,   -0.00204133,  -0.000158079,    0.00102008,   0.000120886,  -0.000614755],
-                           [   -0.00161328,    0.00139303,   0.000259399,  -0.000468013,  -0.000158983,   0.000221525,   0.000108841,  -0.000123342],
-                           [  -0.000304384,   0.000220861,   0.000134247,  -0.000104766,  -6.13602e-05,   3.50615e-05,   3.78942e-05,  -5.25592e-06],
-                           [  -3.53085e-05,  -5.83757e-06,   6.40715e-05,  -2.42794e-05,  -2.22268e-05,   4.26698e-06,   1.11054e-05,   5.99177e-06],
-                           [    8.5321e-06,  -2.87933e-05,   2.87968e-05,  -5.52005e-06,  -8.95446e-06,   1.00777e-06,   3.43187e-06,   2.42554e-06],
-                           [    9.0324e-06,  -1.79033e-05,   1.14981e-05,  -6.36982e-07,  -3.87936e-06,    5.6797e-07,   1.24804e-06,   4.07627e-07]])
+                   coeffs=[[      -3.20034,      0.923093,     -0.529155,      0.176159,   -0.00584206,      -0.02116,    0.00505355,    0.00255462],
+                           [       7.13916,      0.576004,     -0.242118,   -0.00323881,      0.058982,    -0.0171898,    -0.0117016,    0.00725495],
+                           [     -0.137955,      0.135578,    -0.0346264,    -0.0220341,     0.0157915,    0.00504521,   -0.00706673,  -0.000624444],
+                           [    -0.0328957,     0.0300705,    -0.0029232,    -0.0079596,      0.001905,    0.00330871,   -0.00103917,    -0.0016149],
+                           [   -0.00749559,    0.00668075,   0.000225324,   -0.00204133,  -0.000158078,    0.00102008,   0.000120885,  -0.000614756],
+                           [   -0.00161328,    0.00139303,   0.000259399,  -0.000468014,  -0.000158983,   0.000221526,   0.000108841,  -0.000123342],
+                           [  -0.000304387,   0.000220861,   0.000134247,  -0.000104767,  -6.13602e-05,   3.50617e-05,   3.78942e-05,  -5.25611e-06],
+                           [  -3.53088e-05,  -5.83791e-06,   6.40718e-05,  -2.42795e-05,  -2.22268e-05,   4.26705e-06,   1.11054e-05,   5.99173e-06],
+                           [   8.53214e-06,  -2.87935e-05,   2.87969e-05,  -5.52008e-06,  -8.95448e-06,   1.00779e-06,   3.43187e-06,   2.42553e-06],
+                           [   9.03246e-06,  -1.79034e-05,   1.14981e-05,  -6.36983e-07,  -3.87938e-06,   5.67978e-07,   1.24804e-06,   4.07624e-07]])
 
 
- -- Total time elapsed: 1094 seconds.
+ -- Total time elapsed: 1226 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 1094 seconds.
+Total time elapsed: 1226 seconds.
