@@ -232,7 +232,7 @@ namespace mesmer
 
 		// Conversion, spin and symmetry number factor.
 		double ndof = double(m_bondIDs.size() + 3);
-		double cnt = 2.0*pow(2.0*M_PI, (2.0 - 0.5*ndof))*size_t(m_SpinMultiplicity) / pow(conMntInt2RotCnt, 0.5*ndof);
+		double cnt = pow(M_PI, (0.5*ndof - 1.0))*size_t(m_SpinMultiplicity) / (pow(conMntInt2RotCnt, 0.5*ndof));
 		size_t SymNo = size_t(m_Sym);
 		for (size_t j(0); j < m_bondIDs.size(); ++j)
 			SymNo *= m_periodicities[j];
@@ -275,7 +275,7 @@ namespace mesmer
 
 		// Conversion, spin and symmetry number factor.
 		double ndof = double(m_bondIDs.size() + 3);
-		double cnt = 2.0*pow(2.0*M_PI,(2.0 - 0.5*ndof))*size_t(m_SpinMultiplicity) / pow(conMntInt2RotCnt, 0.5*ndof);
+		double cnt = pow(M_PI,(0.5*ndof-1.0))*size_t(m_SpinMultiplicity) / (pow(conMntInt2RotCnt, 0.5*ndof)) ;
 		size_t SymNo = size_t(m_Sym);
 		for (size_t j(0); j < m_bondIDs.size(); ++j)
 			SymNo *= m_periodicities[j];
@@ -296,7 +296,7 @@ namespace mesmer
 		var  -= ene*ene ;
 		var  += 0.5*double(m_bondIDs.size() + 3) / (beta*beta);
 		ene  += 0.5*double(m_bondIDs.size() + 3) / beta ;
-		qtot *= cnt / pow(beta, 0.5*double (m_bondIDs.size() + 3));
+		qtot *= cnt / pow(beta, 0.5*ndof);
 
     // Electronic excited states.
     vector<double> eleExc;

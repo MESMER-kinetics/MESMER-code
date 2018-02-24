@@ -165,8 +165,9 @@ namespace mesmer
     //
     vector<double> freeRtrDOS(MaximumCell,0.0) ;
     for (size_t i(0) ; i < MaximumCell ; i++ ) {
-      const double ene = cellEne[i] - 0.5*cellSize ;
-      freeRtrDOS[i] = 2.0*bint*(sqrt(ene + cellSize)-sqrt(ene)) ;
+      //const double ene = cellEne[i] - 0.5*cellSize ;
+      //freeRtrDOS[i] = 2.0*bint*(sqrt(ene + cellSize)-sqrt(ene)) ;
+			freeRtrDOS[i] = bint / sqrt(cellEne[i] - 0.37*cellSize);
 		}
 
     //
