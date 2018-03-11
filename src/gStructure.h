@@ -169,6 +169,12 @@ namespace mesmer
     // Add rotatable bond ID (needed to calculate GRIT).
     void addRotBondID(std::string id) { m_RotBondIDs.push_back(id); };
 
+		// Set rotatable bonds.
+		void setRotBondID(std::vector<std::string>& BondIDs) { m_RotBondIDs = BondIDs ; };
+
+		// Get rotatable bonds.
+		void getRotBondID(std::vector<std::string>& BondIDs) { BondIDs = m_RotBondIDs ; };
+
     // Export to xmol and CML format.
     void exportToXYZ(const char* txt = NULL, bool last = false, PersistPtr ppConfigData = NULL);
     void exportToCML(const char* txt = NULL, bool last = false, PersistPtr ppConfigData = NULL);

@@ -393,6 +393,7 @@ examples/CH3O2_NO2_to_CH3O2NO2/baselines/Win32/CH3O2_NO2_associationEx2.log -tex
 examples/CoupledRotors/Butyl_H_to_Butane_CCR.xml -text
 examples/CoupledRotors/Butyl_H_to_Butane_UCR.xml -text
 examples/CoupledRotors/Butyl_H_to_Butane_UQR.xml -text
+examples/CoupledRotors/Pentyl_H_to_Pentane_CCQR.xml -text
 examples/CoupledRotors/Pentyl_H_to_Pentane_CCR.xml -text
 examples/CoupledRotors/Pentyl_H_to_Pentane_UCR.xml -text
 examples/CoupledRotors/Pentyl_H_to_Pentane_UQR.xml -text

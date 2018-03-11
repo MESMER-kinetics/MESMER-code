@@ -129,7 +129,7 @@
       </me:energyTransferModel>
 
       <me:DOSCMethod xsi:type="me:ClassicalCoupledRotors">
-        <me:MCPoints>100000</me:MCPoints>
+        <me:MCPoints>10000</me:MCPoints>
         <me:RotorArray>
           <me:Rotor bondRef="b7" periodicity="1">
             <me:HinderedRotorPotential format="numerical" units="kcal/mol" expansionSize="10">
@@ -288,22 +288,27 @@
             <me:CalculateInternalRotorInertia phaseDifference ="180.0"/>
           </me:Rotor>
 
-          <me:Rotor bondRef="b4" periodicity="3">
-            <me:HinderedRotorPotential format="analytical" units="kJ/mol">
-              <me:PotentialPoint index="0"  coefficient="6.2"/>
-              <me:PotentialPoint index="3"  coefficient="-6.2"/>
-            </me:HinderedRotorPotential>
-          </me:Rotor>
-
-          <me:Rotor bondRef="b13" periodicity="3">
-            <me:HinderedRotorPotential format="analytical" units="kJ/mol">
-              <me:PotentialPoint index="0"  coefficient="6.2"/>
-              <me:PotentialPoint index="3"  coefficient="-6.2"/>
-            </me:HinderedRotorPotential>
-          </me:Rotor>
-
         </me:RotorArray>
       </me:DOSCMethod>
+
+      <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
+        <me:bondRef>b4</me:bondRef>
+        <me:HinderedRotorPotential format="analytical" units="kJ/mol">
+          <me:PotentialPoint index="0"  coefficient="6.2"/>
+          <me:PotentialPoint index="3"  coefficient="-6.2"/>
+        </me:HinderedRotorPotential>
+        <me:periodicity>3</me:periodicity>
+        <me:PlotStates/>
+      </me:ExtraDOSCMethod>
+
+      <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
+        <me:bondRef>b13</me:bondRef>
+        <me:HinderedRotorPotential format="analytical" units="kJ/mol">
+          <me:PotentialPoint index="0"  coefficient="6.2"/>
+          <me:PotentialPoint index="3"  coefficient="-6.2"/>
+        </me:HinderedRotorPotential>
+        <me:periodicity>3</me:periodicity>
+      </me:ExtraDOSCMethod>
 
     </molecule>
 
@@ -412,7 +417,7 @@
       </propertyList>
 
       <me:DOSCMethod xsi:type="me:ClassicalCoupledRotors">
-        <me:MCPoints>10000</me:MCPoints>
+        <me:MCPoints>1000</me:MCPoints>
         <me:RotorArray>
           <me:Rotor bondRef="b7" periodicity="1">
             <me:HinderedRotorPotential format="numerical" units="kcal/mol" expansionSize="10">

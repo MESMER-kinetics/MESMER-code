@@ -42,9 +42,9 @@ namespace mesmer
 
     ~ParallelManager() {};
 
-		// Finalize
+    // Finalize
 
-		void finalize () { MPI_Finalize(); } ;
+    void finalize() { MPI_Finalize(); };
 
     // Sum vectors across all across processes and redistribute.
 
@@ -79,13 +79,15 @@ namespace mesmer
     void broadcastVecString(vector<string> &tmp, int root) {
       int size = tmp.size();
       MPI_Bcast(&size, 1, MPI_LONG, root, MPI_COMM_WORLD);
+      if (size == 0) // Nothing to copy so return;
+        return;
       vector<string> svtmp(size);
       if (m_rank == root)
         svtmp = tmp;
       for (int i(0); i < size; i++) {
-        string tmp = svtmp[i];
-        broadcastString(tmp, root);
-        svtmp[i] = tmp;
+        string stmp = svtmp[i];
+        broadcastString(stmp, root);
+        svtmp[i] = stmp;
       }
       tmp = svtmp;
     }
@@ -120,17 +122,17 @@ namespace mesmer
       MPI_Barrier(MPI_COMM_WORLD);
     }
 
-		// Gathers QA output from across ranks ans writes to ctest.
+    // Gathers QA output from across ranks ans writes to ctest.
 
-		void writeCtest() {
-			ctest << stest.str();
-			for (int i(1); i < m_size; i++) {
-				string tmp = stest.str() ;
-				broadcastString(tmp, i);
-				ctest << tmp ;
-			}
-			stest.str("");
-		}
+    void writeCtest() {
+      ctest << stest.str();
+      for (int i(1); i < m_size; i++) {
+        string tmp = stest.str();
+        broadcastString(tmp, i);
+        ctest << tmp;
+      }
+      stest.str("");
+    }
 
 #else
 
@@ -144,11 +146,11 @@ namespace mesmer
 
     ~ParallelManager() {};
 
-		// Finalize
+    // Finalize
 
-		void finalize() {};
+    void finalize() {};
 
-		// Sum vectors across all across processes and redistribute.
+    // Sum vectors across all across processes and redistribute.
 
     void sumDouble(double *sum, int size) {
       // No Op.
@@ -190,12 +192,12 @@ namespace mesmer
       // No Op.
     }
 
-		// Gathers QA output from across ranks ans writes to ctest.
+    // Gathers QA output from across ranks ans writes to ctest.
 
-		void writeCtest() {
-			ctest << stest.str();
-			stest.str("");
-		}
+    void writeCtest() {
+      ctest << stest.str();
+      stest.str("");
+      }
 
 #endif 
 
@@ -210,9 +212,9 @@ namespace mesmer
     int m_rank;
     int m_size;
 
-  };
+    };
 
-} //namespace mesmer
+  } //namespace mesmer
 
 
 #endif // GUARD_ParallelManager_h

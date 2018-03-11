@@ -43,18 +43,20 @@ namespace mesmer
 
     // Constructor which registers with the list of DensityOfStatesCalculators in TopPlugin.
     // This class calculates a complete DOS: it is not an extra class. 
-    ClassicalCoupledRotors(const char* id) : m_id(id), 
-			HinderedRotorUtils(id),
-			m_Sym(1.0),
-			m_OpticalSym(1.0), 
-			m_SpinMultiplicity(1), 
-			m_MCPnts(100), 
-			m_bondIDs(),
-			m_periodicities(), 
-			m_knmtcFctr(), 
-			m_potential(),
-			m_potentialCosCoeffs(),
-			m_potentialSinCoeffs() { Register(); }
+    ClassicalCoupledRotors(const char* id) : m_id(id),
+      HinderedRotorUtils(id),
+      m_Sym(1.0),
+      m_OpticalSym(1.0),
+      m_SpinMultiplicity(1),
+      m_MCPnts(100),
+      m_bondIDs(),
+      m_periodicities(),
+      m_knmtcFctr(),
+      m_potential(),
+      m_potentialCosCoeffs(),
+      m_potentialSinCoeffs() {
+      Register();
+    }
 
     virtual ~ClassicalCoupledRotors() {}
     virtual const char* getID() { return m_id; }
@@ -67,8 +69,8 @@ namespace mesmer
 
   private:
 
-		// Calculates the potential energy associated with torsions.
-		double TorsionalPotential(const vector<double>& angles);
+    // Calculates the potential energy associated with torsions.
+    double TorsionalPotential(const vector<double>& angles);
 
     const char* m_id;
 
@@ -76,18 +78,18 @@ namespace mesmer
     double m_OpticalSym;       // Transition states may have 2 optical isomers, which
                                // is accounted for by an additionsl symmetry number.
     size_t m_SpinMultiplicity; // Spin multiplicity.
-		size_t m_MCPnts;           // Number of Monte-Carlo points to use.
+    size_t m_MCPnts;           // Number of Monte-Carlo points to use.
 
-		vector<string> m_bondIDs;       // The IDs of the binds to be used in the coupled model.
-		vector<size_t> m_periodicities; // The periodicities of the hindered rotors.
+    vector<string> m_bondIDs;       // The IDs of the binds to be used in the coupled model.
+    vector<size_t> m_periodicities; // The periodicities of the hindered rotors.
 
-		vector<double> m_knmtcFctr; // Configuration kinematic factor.
-		vector<double> m_potential; // Torsion configuration potential.
+    vector<double> m_knmtcFctr; // Configuration kinematic factor.
+    vector<double> m_potential; // Torsion configuration potential.
 
-		vector<vector<double> > m_potentialCosCoeffs; // Torsion potential cosine Coefficients.
-		vector<vector<double> > m_potentialSinCoeffs; // Torsion potential sine Coefficients.
+    vector<vector<double> > m_potentialCosCoeffs; // Torsion potential cosine Coefficients.
+    vector<vector<double> > m_potentialSinCoeffs; // Torsion potential sine Coefficients.
 
-	};
+  };
 
   //************************************************************
   //Global instance, defining its id
@@ -127,62 +129,67 @@ namespace mesmer
       }
     }
 
-		// Check there is structural data present.
-		gStructure& gs = gdos->getHost()->getStruc();
-		if (!gs.ReadStructure())
-		{
-			cerr << "A complete set of atom coordinates are required for a coupled hindered rotor calculations" << endl;
-			return false;
-		}
+    // Check there is structural data present.
+    gStructure& gs = gdos->getHost()->getStruc();
+    if (!gs.ReadStructure())
+    {
+      cerr << "A complete set of atom coordinates are required for a coupled hindered rotor calculations" << endl;
+      return false;
+    }
 
-		// Read in rotor information.
-		PersistPtr ppDOS = pp->XmlMoveTo("me:DOSCMethod");
-		int MCpnts = ppDOS->XmlReadInteger("me:MCPoints", optional);
-		PersistPtr ppRotor(ppDOS->XmlMoveTo("me:RotorArray"));
-		while (ppRotor = ppRotor->XmlMoveTo("me:Rotor")) {
-			const char* bondID = ppRotor->XmlReadValue("bondRef");
-			if (!bondID || *bondID == '\0') {
-				cerr << "No <bondRef> specified for the coupled hindered rotating bond" << endl;
-				return false;
-			}
-			else {
-				m_bondIDs.push_back(string(bondID));
-				gs.addRotBondID(string(bondID));
-			}
-			int periodicity = ppRotor->XmlReadInteger("periodicity", optional);
-			m_periodicities.push_back((periodicity > 0) ? periodicity:1); // set periodicity to unity by default.
+    // Read in rotor information.
+    PersistPtr ppDOS = pp->XmlMoveTo("me:DOSCMethod");
+    int MCpnts = ppDOS->XmlReadInteger("me:MCPoints", optional);
+    if (MCpnts > 0)
+      m_MCPnts = size_t(MCpnts);
+    else
+      cerr << "Number of of Monte-Carlo points for coupled rotors method must be greater than 0." << endl;
 
-			// Read in potential parameters. 
-			vector<double> potentialCosCoeff;
-			vector<double> potentialSinCoeff;
-			ReadPotentialParameters(ppRotor, string(bondID), potentialCosCoeff, potentialSinCoeff);
+    PersistPtr ppRotor(ppDOS->XmlMoveTo("me:RotorArray"));
+    while (ppRotor = ppRotor->XmlMoveTo("me:Rotor")) {
+      const char* bondID = ppRotor->XmlReadValue("bondRef");
+      if (!bondID || *bondID == '\0') {
+        cerr << "No <bondRef> specified for the coupled hindered rotating bond" << endl;
+        return false;
+      }
+      else {
+        m_bondIDs.push_back(string(bondID));
+        gs.addRotBondID(string(bondID));
+      }
+      int periodicity = ppRotor->XmlReadInteger("periodicity", optional);
+      m_periodicities.push_back((periodicity > 0) ? periodicity : 1); // set periodicity to unity by default.
+
+      // Read in potential parameters. 
+      vector<double> potentialCosCoeff;
+      vector<double> potentialSinCoeff;
+      ReadPotentialParameters(ppRotor, string(bondID), potentialCosCoeff, potentialSinCoeff);
       m_potentialCosCoeffs.push_back(potentialCosCoeff);
       m_potentialSinCoeffs.push_back(potentialSinCoeff);
 
-			// Check if there is a Hessian and knock out the frequency
-			// associated with this internal rotation.
+      // Check if there is a Hessian and knock out the frequency
+      // associated with this internal rotation.
 
-			if (gdos->hasHessian()) {
-				// The following vector, "mode", will be used to hold the internal rotation 
-				// mode vector as defined by Sharma, Raman and Green, J. Phys. Chem. (2010). 
-				vector<double> mode(3 * gs.NumAtoms(), 0.0);
-				gs.internalRotationVector(string(bondID), mode);
-				if (!gdos->projectMode(mode)) {
-					cerr << "Failed to project out internal rotation." << endl;
-					return false;
-				}
-			}
-		}
+      if (gdos->hasHessian()) {
+        // The following vector, "mode", will be used to hold the internal rotation 
+        // mode vector as defined by Sharma, Raman and Green, J. Phys. Chem. (2010). 
+        vector<double> mode(3 * gs.NumAtoms(), 0.0);
+        gs.internalRotationVector(string(bondID), mode);
+        if (!gdos->projectMode(mode)) {
+          cerr << "Failed to project out internal rotation." << endl;
+          return false;
+        }
+      }
+    }
 
-		// Check if configuration data are required.
+    // Check if configuration data are required.
 
-		pp = ppDOS->XmlMoveTo("me:ConfigurationalData");
-		if (pp) {
-			gs.set_Verbose(true);
-			// m_ppConfigData = pp;
-		}
+    pp = ppDOS->XmlMoveTo("me:ConfigurationalData");
+    if (pp) {
+      gs.set_Verbose(true);
+      // m_ppConfigData = pp;
+    }
 
-		return true;
+    return true;
   }
 
   // Provide a function to define particular counts of the DOS of a molecule.
@@ -195,62 +202,71 @@ namespace mesmer
     getCellEnergies(MaximumCell, cellSize, cellEne);
     vector<double> cellDOS(MaximumCell, 0.0);
 
-		gStructure& gs = pDOS->getHost()->getStruc();
+    gStructure& gs = pDOS->getHost()->getStruc();
 
-		// Instantiate a random vector generator.
-		Sobol sobol;
+    // Save rotatable bind IDs, because mixed classical and quantum calculations
+    // will not require all bonds to be rotated.
+    vector<string> SavedRotBondIDs;
+    gs.getRotBondID(SavedRotBondIDs);
+    gs.setRotBondID(m_bondIDs);
 
-		// Configuration loop.
-		long long seed(1);
-		double twoPi = 2.0*M_PI;
-		m_knmtcFctr.resize(m_MCPnts, 0.0);
-		m_potential.resize(m_MCPnts, 0.0);
-		for (size_t i(0); i < m_MCPnts; ++i) {
+    // Instantiate a random vector generator.
+    Sobol sobol;
 
-			// Select angular coordinates.
-			vector<double> angles(m_bondIDs.size(), 0.0);
-			sobol.sobol(angles.size(), &seed, angles);
-			for (size_t j(0); j < angles.size(); j++)
-				angles[j] *= twoPi;
+    // Configuration loop.
+    long long seed(1);
+    double twoPi = 2.0*M_PI;
+    m_knmtcFctr.resize(m_MCPnts, 0.0);
+    m_potential.resize(m_MCPnts, 0.0);
+    for (size_t i(0); i < m_MCPnts; ++i) {
 
-			// Calculate the determinant of the Wilson G Matrix.
-			m_knmtcFctr[i] = gs.getSqrtGRITDeterminant(angles);  // Units a.u.*Angstrom*Angstrom.
-			
-			// Calculate potential energy.
-			m_potential[i] = TorsionalPotential(angles) ;
-		}
+      // Select angular coordinates.
+      vector<double> angles(m_bondIDs.size(), 0.0);
+      sobol.sobol(angles.size(), &seed, angles);
+      for (size_t j(0); j < angles.size(); j++)
+        angles[j] *= twoPi;
 
-		// Heavyside function integration.
-		for (size_t i(0); i < m_MCPnts; ++i) {
-			double kfctr = m_knmtcFctr[i];
-			double ptnl  = m_potential[i];
-			size_t ll = size_t(ptnl / cellSize) ;
-			for (size_t j(ll); j < cellDOS.size(); ++j) {
-				cellDOS[j] += kfctr;
-			}
-		}
+      // Calculate the determinant of the Wilson G Matrix.
+      m_knmtcFctr[i] = gs.getSqrtGRITDeterminant(angles);  // Units a.u.*Angstrom*Angstrom.
 
-		// Conversion, spin and symmetry number factor.
-		double ndof = double(m_bondIDs.size() + 3);
-		double cnt = pow(M_PI, (0.5*ndof - 1.0))*size_t(m_SpinMultiplicity) / (pow(conMntInt2RotCnt, 0.5*ndof));
-		size_t SymNo = size_t(m_Sym);
-		for (size_t j(0); j < m_bondIDs.size(); ++j)
-			SymNo *= m_periodicities[j];
-		cnt /= double(SymNo);
-		cnt /= double(m_MCPnts);
-		cnt /= ((m_bondIDs.size() > 1) ? MesmerGamma(0.5*double(m_bondIDs.size() + 1)) : 1.0);
-		for (size_t j(0); j < cellDOS.size(); ++j) {
-			cellDOS[j] *= cnt;
-		}
+      // Calculate potential energy.
+      m_potential[i] = TorsionalPotential(angles);
+    }
 
-		// Convolve with remaining energy contributions.
-		vector<double> tmpCellDOS(cellDOS.size(), 0.0);
-		double pwr = 0.5*(m_bondIDs.size() - 1);
-		for (size_t j(0); j < tmpCellDOS.size(); ++j) {
-			tmpCellDOS[j] += pow(cellEne[j], pwr);
-		}
-		vector<double> hndrRtrDOS(cellDOS.size(), 0.0);
-		FastLaplaceConvolution(cellDOS, tmpCellDOS, hndrRtrDOS);
+    // Restore rotatable bond IDs.
+    gs.setRotBondID(SavedRotBondIDs);
+
+    // Heavyside function integration.
+    for (size_t i(0); i < m_MCPnts; ++i) {
+      double kfctr = m_knmtcFctr[i];
+      double ptnl = m_potential[i];
+      size_t ll = size_t(ptnl / cellSize);
+      for (size_t j(ll); j < cellDOS.size(); ++j) {
+        cellDOS[j] += kfctr;
+      }
+    }
+
+    // Conversion, spin and symmetry number factor.
+    double ndof = double(m_bondIDs.size() + 3);
+    double cnt = pow(M_PI, (0.5*ndof - 1.0))*size_t(m_SpinMultiplicity) / (pow(conMntInt2RotCnt, 0.5*ndof));
+    size_t SymNo = size_t(m_Sym);
+    for (size_t j(0); j < m_bondIDs.size(); ++j)
+      SymNo *= m_periodicities[j];
+    cnt /= double(SymNo);
+    cnt /= double(m_MCPnts);
+    cnt /= ((m_bondIDs.size() > 1) ? MesmerGamma(0.5*double(m_bondIDs.size() + 1)) : 1.0);
+    for (size_t j(0); j < cellDOS.size(); ++j) {
+      cellDOS[j] *= cnt;
+    }
+
+    // Convolve with remaining energy contributions.
+    vector<double> tmpCellDOS(cellDOS.size(), 0.0);
+    double pwr = 0.5*(m_bondIDs.size() - 1);
+    for (size_t j(0); j < tmpCellDOS.size(); ++j) {
+      tmpCellDOS[j] += pow(cellEne[j], pwr);
+    }
+    vector<double> hndrRtrDOS(cellDOS.size(), 0.0);
+    FastLaplaceConvolution(cellDOS, tmpCellDOS, hndrRtrDOS);
 
     // Electronic excited states.
     vector<double> eleExc;
@@ -273,30 +289,30 @@ namespace mesmer
   // Calculate contribution to canonical partition function.
   void  ClassicalCoupledRotors::canPrtnFnCntrb(gDensityOfStates* gdos, double beta, double &PrtnFn, double &IntrlEne, double &varEne) {
 
-		// Conversion, spin and symmetry number factor.
-		double ndof = double(m_bondIDs.size() + 3);
-		double cnt = pow(M_PI,(0.5*ndof-1.0))*size_t(m_SpinMultiplicity) / (pow(conMntInt2RotCnt, 0.5*ndof)) ;
-		size_t SymNo = size_t(m_Sym);
-		for (size_t j(0); j < m_bondIDs.size(); ++j)
-			SymNo *= m_periodicities[j];
-		cnt /= double(SymNo);
-		cnt /= double(m_MCPnts);
+    // Conversion, spin and symmetry number factor.
+    double ndof = double(m_bondIDs.size() + 3);
+    double cnt = pow(M_PI, (0.5*ndof - 1.0))*size_t(m_SpinMultiplicity) / (pow(conMntInt2RotCnt, 0.5*ndof));
+    size_t SymNo = size_t(m_Sym);
+    for (size_t j(0); j < m_bondIDs.size(); ++j)
+      SymNo *= m_periodicities[j];
+    cnt /= double(SymNo);
+    cnt /= double(m_MCPnts);
 
-		// Heavyside function integration.
-		double qtot(0.0), ene(0.0), var(0.0);
-		for (size_t i(0); i < m_MCPnts; ++i) {
-			const double ptnl = m_potential[i];
-			const double tmp  = m_knmtcFctr[i]*exp(-beta*ptnl);
-			qtot += tmp;
-			ene  += ptnl*tmp;
-			var  += ptnl*ptnl*tmp;
-		}
-		var  /= qtot;
-		ene  /= qtot;
-		var  -= ene*ene ;
-		var  += 0.5*double(m_bondIDs.size() + 3) / (beta*beta);
-		ene  += 0.5*double(m_bondIDs.size() + 3) / beta ;
-		qtot *= cnt / pow(beta, 0.5*ndof);
+    // Heavyside function integration.
+    double qtot(0.0), ene(0.0), var(0.0);
+    for (size_t i(0); i < m_MCPnts; ++i) {
+      const double ptnl = m_potential[i];
+      const double tmp = m_knmtcFctr[i] * exp(-beta*ptnl);
+      qtot += tmp;
+      ene += ptnl*tmp;
+      var += ptnl*ptnl*tmp;
+    }
+    var /= qtot;
+    ene /= qtot;
+    var -= ene*ene;
+    var += 0.5*double(m_bondIDs.size() + 3) / (beta*beta);
+    ene += 0.5*double(m_bondIDs.size() + 3) / beta;
+    qtot *= cnt / pow(beta, 0.5*ndof);
 
     // Electronic excited states.
     vector<double> eleExc;
@@ -310,9 +326,9 @@ namespace mesmer
     Eelec /= qelec;
     varEelec = varEelec / qelec - Eelec*Eelec;
 
-    PrtnFn   *= qtot*qelec;
+    PrtnFn *= qtot*qelec;
     IntrlEne += ene + Eelec;
-    varEne   += var + varEelec;
+    varEne += var + varEelec;
   }
 
   // Function to return the number of degrees of freedom associated with this count.
@@ -321,28 +337,28 @@ namespace mesmer
     return nDOF;
   }
 
-	// Calculates the potential energy associated with torsions.
-	double ClassicalCoupledRotors::TorsionalPotential(const vector<double>& angles) {
+  // Calculates the potential energy associated with torsions.
+  double ClassicalCoupledRotors::TorsionalPotential(const vector<double>& angles) {
 
-		// SHR, 15/Oct/2017: At present the potential is modelled as the sum of separate 
-		// torsion terms, one for each angle. However, a better potential would take 
-		// account of non-bond terms.
+    // SHR, 15/Oct/2017: At present the potential is modelled as the sum of separate 
+    // torsion terms, one for each angle. However, a better potential would take 
+    // account of non-bond terms.
 
-		double ptnl(0.0);
+    double ptnl(0.0);
 
-		for (size_t i(0); i < angles.size(); ++i) {
-			double theta = angles[i] ;
-			const vector<double>& cosCoeff = m_potentialCosCoeffs[i];
-			const vector<double>& sinCoeff = m_potentialSinCoeffs[i];
-			for (size_t k(0); k < cosCoeff.size(); ++k) {
-				ptnl += cosCoeff[k] * cos(double(k)*theta);
-			}
-			for (size_t k(0); k < sinCoeff.size(); ++k) {
-				ptnl += sinCoeff[k] * cos(double(k)*theta);
-			}
-		}
+    for (size_t i(0); i < angles.size(); ++i) {
+      double theta = angles[i];
+      const vector<double>& cosCoeff = m_potentialCosCoeffs[i];
+      const vector<double>& sinCoeff = m_potentialSinCoeffs[i];
+      for (size_t k(0); k < cosCoeff.size(); ++k) {
+        ptnl += cosCoeff[k] * cos(double(k)*theta);
+      }
+      for (size_t k(0); k < sinCoeff.size(); ++k) {
+        ptnl += sinCoeff[k] * cos(double(k)*theta);
+      }
+    }
 
-		return ptnl;
-	}
+    return ptnl;
+  }
 
 }//namespace

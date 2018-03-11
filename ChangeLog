@@ -1,4 +1,11 @@
-2018-February-04 Struan Robertson
+2018-March-11 Struan Robertson
+
+		* ClassicalCoupledRotors.cpp: Corrected Monte-Carlo sampling input and combines classical/QM 
+		calculation.
+
+		* ParallelManager.h: Small changes to string vector transmission added for clarity.
+
+2018-February-24 Struan Robertson
 
 		* ClassicalCoupledRotors.cpp: Corrected factor for Monte-Carlo integration in coupled rotor method.
 
