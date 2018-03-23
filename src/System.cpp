@@ -913,7 +913,7 @@ namespace mesmer
 
       // Alter the amplitude of the calculated signal by a linear least squares shift.
 
-			double sumef(0.0), sume(0.0), sumf2(0.0), sumf(0.0);
+			double sumef(0.0), sumf2(0.0);
 			for (size_t j(0); j < signal.size(); ++j) {
 			  sumef += expSignal[j] * signal[j];
 			  sumf2 += signal[j] * signal[j];

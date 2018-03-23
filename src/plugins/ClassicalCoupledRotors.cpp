@@ -43,8 +43,7 @@ namespace mesmer
 
     // Constructor which registers with the list of DensityOfStatesCalculators in TopPlugin.
     // This class calculates a complete DOS: it is not an extra class. 
-    ClassicalCoupledRotors(const char* id) : m_id(id),
-      HinderedRotorUtils(id),
+		ClassicalCoupledRotors(const char* id) : HinderedRotorUtils(id),
       m_Sym(1.0),
       m_OpticalSym(1.0),
       m_SpinMultiplicity(1),
@@ -59,7 +58,6 @@ namespace mesmer
     }
 
     virtual ~ClassicalCoupledRotors() {}
-    virtual const char* getID() { return m_id; }
 
     // Included only in a subset of DensityOfStatesCalculators.
     // Otherwise the baseclass function returns false.
@@ -71,8 +69,6 @@ namespace mesmer
 
     // Calculates the potential energy associated with torsions.
     double TorsionalPotential(const vector<double>& angles);
-
-    const char* m_id;
 
     double m_Sym;              // Rotational Symmetry Number.
     double m_OpticalSym;       // Transition states may have 2 optical isomers, which

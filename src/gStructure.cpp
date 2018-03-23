@@ -589,8 +589,6 @@ namespace mesmer
 	// Calculates the GRIT for the current set of coordinates.
 	void gStructure::getGRIT(dMatrix& GRIT) {
 
-		size_t msize = GRIT.size();
-
 		// Save coordinates.
 
 		map<string, atom>::iterator iter;

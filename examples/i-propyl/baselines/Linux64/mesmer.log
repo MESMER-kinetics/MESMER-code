@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.0 compiled: -- May 24 2017 -- 20:10:44
+     Mesmer v5.1 compiled: -- Mar 23 2018 -- 10:59:05
 
-     Copyright (C) 2009-2017 by
+     Copyright (C) 2009-2018 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,10 +27,9 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Thu May 25 12:54:42 2017
-                     Number of ranks: 4
+                     Execution Date:  Fri Mar 23 11:02:52 2018
+                     Number of ranks: 1
 
-Using 4 processes
 defaults.xml, librarymols.xml are in ../..
 
 Parsing input xml file...
@@ -194,7 +193,7 @@ The default value of the attribute precision was used.
 3.01e+16PPCC, 870K at d precision with He
 The default value of the attribute precision was used.
 3e+16PPCC, 880K at d precision with He
-Write metadata 20170525_125442
+Write metadata 20180323_110252
 
 File: "ipropyl_LM.xml" successfully parsed.
 Main Calculation begins
@@ -206,124 +205,115 @@ Number of grains requested: 197
 Number of grains produced : 1
 In FastLaplaceConvolution: 5920 values in the FFT convolution routine were replaced by standard convolution
 
-Chi^2 = 49.0607 Lambda = 1
+Chi^2 = 1205.82 Lambda = 1
 i-propyl:deltaEDown=190  propene:ZPE=13000  
+Number of grains requested: 195
 
-Chi^2 = 43.7218 Lambda = 0.1
-i-propyl:deltaEDown=189.637  propene:ZPE=13014  
-Iteration: 1 of Marquardt. ChiSquare = 43.7218, Lambda = 0.1
-Number of grains requested: 198
+Chi^2 = 37.9145 Lambda = 0.1
+i-propyl:deltaEDown=245.075  propene:ZPE=12757.8  
+Iteration: 1 of Marquardt. ChiSquare = 37.9145, Lambda = 0.1
+Number of grains requested: 194
 
-Chi^2 = 34.4727 Lambda = 0.01
-i-propyl:deltaEDown=199.151  propene:ZPE=13065.3  
-Iteration: 2 of Marquardt. ChiSquare = 34.4727, Lambda = 0.01
-Number of grains requested: 199
-Number of grains requested: 200
+Chi^2 = 18.0875 Lambda = 0.01
+i-propyl:deltaEDown=246.385  propene:ZPE=12718.2  
+Iteration: 2 of Marquardt. ChiSquare = 18.0875, Lambda = 0.01
 
-Chi^2 = 19.7354 Lambda = 0.001
-i-propyl:deltaEDown=237.715  propene:ZPE=13233.9  
-Iteration: 3 of Marquardt. ChiSquare = 19.7354, Lambda = 0.001
+Chi^2 = 16.1 Lambda = 0.001
+i-propyl:deltaEDown=230.87  propene:ZPE=12670.1  
+Iteration: 3 of Marquardt. ChiSquare = 16.1, Lambda = 0.001
 
-Chi^2 = 11.6816 Lambda = 0.0001
-i-propyl:deltaEDown=266.819  propene:ZPE=13303.9  
-Iteration: 4 of Marquardt. ChiSquare = 11.6816, Lambda = 0.0001
-
-Chi^2 = 11.4961 Lambda = 1e-05
-i-propyl:deltaEDown=269.974  propene:ZPE=13308.5  
-Iteration: 5 of Marquardt. ChiSquare = 11.4961, Lambda = 1e-05
-
-Chi^2 = 11.4951 Lambda = 1e-06
-i-propyl:deltaEDown=270.058  propene:ZPE=13308.4  
-Iteration: 6 of Marquardt. ChiSquare = 11.4951, Lambda = 1e-06
-Number of cells = 50000, Number of grains = 200
- -- Total time elapsed: 16 seconds.
+Chi^2 = 15.9948 Lambda = 0.0001
+i-propyl:deltaEDown=226.235  propene:ZPE=12655.7  
+Iteration: 4 of Marquardt. ChiSquare = 15.9948, Lambda = 0.0001
+Number of cells = 50000, Number of grains = 194
+ -- Total time elapsed: 44 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
-            720          3e+17           41.5        35.8355
-            730       3.01e+17           51.1        49.7545
-            740        1.8e+17           55.5        54.2966
-            740        2.4e+17           70.1        61.8359
-            740          3e+17           71.1        68.1125
-            750        1.2e+17           55.3        60.1261
-            750        1.8e+17           67.2        73.2449
-            750       2.41e+17           86.4        83.8151
-            750          3e+17            102        92.3604
-            760       6.02e+16           51.9         55.321
-            760       9.02e+16           65.7        68.9153
-            760        1.2e+17           76.5        79.9505
-            760       1.81e+17             95        98.0421
-            760        2.4e+17            123        112.003
-            760          3e+17            128        123.934
-            770       6.01e+16           68.9        72.3017
-            770          9e+16           89.2        90.3768
-            770        1.2e+17             99        105.255
-            770        1.8e+17            121        129.232
-            770       2.41e+17            159        148.741
-            770          3e+17            164         164.63
-            780          3e+16           65.5        61.9232
-            780       6.01e+16           89.1        93.6865
-            780          9e+16            114        117.531
-            780        1.2e+17            125        137.244
-            780        1.8e+17            165        169.157
-            780        2.4e+17            203        194.858
-            780          3e+17            213        216.576
-            790          3e+16             77        79.0488
-            790       6.01e+16            119         120.29
-            790          9e+16            154        151.443
-            790        1.2e+17            170        177.307
-            790        1.8e+17            219        219.369
-            790        2.4e+17            258        253.399
-            790          3e+17            288        282.259
-            800          3e+16           96.1        100.035
-            800       6.01e+16            147        153.092
-            800          9e+16            199        193.417
-            800       1.21e+17          223.5        228.068
-            800        1.8e+17            302        281.948
-            800        2.4e+17            341        326.578
-            800          3e+17            350        364.559
-            810          3e+16            124        125.535
-            810          6e+16            185        193.001
-            810          9e+16            248        244.924
-            810       1.21e+17            274        289.559
-            810       1.81e+17            379        360.322
-            810        2.4e+17            402        417.259
-            810          3e+17            492        466.782
-            820          3e+16            160        156.268
-            820       6.01e+16            239        241.816
-            820       9.01e+16            320        307.807
-            820       1.21e+17            363        364.604
-            820        1.8e+17            447        453.995
-            820        2.4e+17            554        528.687
-            820          3e+17            549        592.683
-            830          3e+16            189         193.02
-            830          6e+16            287        299.996
-            830          9e+16            375        383.285
-            830        1.2e+17            447        453.294
-            830        1.8e+17            570        569.122
-            840       3.01e+16            252         237.16
-            840          6e+16            349        369.737
-            840          9e+16            471        473.948
-            840        1.2e+17            559        561.877
-            850          3e+16            314         288.03
-            850          6e+16            444        452.377
-            860       3.01e+16            378        348.945
-            860       6.03e+16            535        551.364
-            870       3.01e+16            436        418.995
-            880          3e+16            535        498.735
+            720          3e+17           41.5        37.6777
+            730       3.01e+17           51.1        51.7128
+            740        1.8e+17           55.5        57.1033
+            740        2.4e+17           70.1        64.2174
+            740          3e+17           71.1        70.0319
+            750        1.2e+17           55.3        63.6208
+            750        1.8e+17           67.2        76.1988
+            750       2.41e+17           86.4        86.1009
+            750          3e+17            102        93.9631
+            760       6.02e+16           51.9        59.4797
+            760       9.02e+16           65.7         72.961
+            760        1.2e+17           76.5        83.6908
+            760       1.81e+17             95        100.906
+            760        2.4e+17            123        113.894
+            760          3e+17            128        124.802
+            770       6.01e+16           68.9        76.8957
+            770          9e+16           89.2        94.6772
+            770        1.2e+17             99        109.034
+            770        1.8e+17            121         131.69
+            770       2.41e+17            159         149.72
+            770          3e+17            164        164.154
+            780          3e+16           65.5        66.7337
+            780       6.01e+16           89.1        98.5856
+            780          9e+16            114        121.858
+            780        1.2e+17            125        140.738
+            780        1.8e+17            165        170.684
+            780        2.4e+17            203        194.286
+            780          3e+17            213        213.896
+            790          3e+16             77        84.2703
+            790       6.01e+16            119        125.279
+            790          9e+16            154         155.45
+            790        1.2e+17            170        180.042
+            790        1.8e+17            219        219.243
+            790        2.4e+17            258        250.297
+            790          3e+17            288        276.201
+            800          3e+16           96.1        105.523
+            800       6.01e+16            147        157.849
+            800          9e+16            199        196.608
+            800       1.21e+17          223.5        229.315
+            800        1.8e+17            302        279.186
+            800        2.4e+17            341        319.664
+            800          3e+17            350        353.558
+            810          3e+16            124        131.068
+            810          6e+16            185        197.075
+            810          9e+16            248        246.618
+            810       1.21e+17            274        288.458
+            810       1.81e+17            379        353.523
+            810        2.4e+17            402        404.847
+            810          3e+17            492        448.792
+            820          3e+16            160        161.533
+            820       6.01e+16            239        244.573
+            820       9.01e+16            320        307.084
+            820       1.21e+17            363        359.965
+            820        1.8e+17            447        441.656
+            820        2.4e+17            554        508.601
+            820          3e+17            549        565.078
+            830          3e+16            189        197.591
+            830          6e+16            287        300.642
+            830          9e+16            375        378.992
+            830        1.2e+17            447        443.761
+            830        1.8e+17            570        548.985
+            840       3.01e+16            252        240.465
+            840          6e+16            349         367.22
+            840          9e+16            471         464.58
+            840        1.2e+17            559        545.407
+            850          3e+16            314        289.393
+            850          6e+16            444        445.387
+            860       3.01e+16            378        347.435
+            860       6.03e+16            535        538.168
+            870       3.01e+16            436         413.56
+            880          3e+16            535        488.151
 
 
-Chi^2 = 11.4951
+Chi^2 = 15.9948
 
 Best fit parameters:
 
-i-propyl:deltaEDown = 270.058 +/- 17.1758
-propene:ZPE = 13308.4 +/- 49.4493
+i-propyl:deltaEDown = 226.235 +/- 13.6943
+propene:ZPE = 12655.7 +/- 42.4299
 
 Correlation coefficients:
 
-propene:ZPE , i-propyl:deltaEDown = 0.976891
+propene:ZPE , i-propyl:deltaEDown = 0.972607
 
 Goodness of Fit:
 
@@ -331,4 +321,4 @@ Number of degrees of Freedom = 69
 Chi^2 probability = 1
 
 System saved to out.xml
-Total time elapsed: 16 seconds.
+Total time elapsed: 44 seconds.
