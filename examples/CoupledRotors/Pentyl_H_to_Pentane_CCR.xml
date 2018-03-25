@@ -52,7 +52,7 @@
           <scalar units="cm-1">0.0</scalar>
         </property>
         <property dictRef="me:symmetryNumber">
-          <scalar>1</scalar>
+          <scalar>2</scalar>
         </property>
         <property dictRef="me:MW">
           <scalar>72.0</scalar>

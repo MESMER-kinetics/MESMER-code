@@ -51,7 +51,7 @@
           <scalar units="cm-1">0.0</scalar>
         </property>
         <property dictRef="me:symmetryNumber">
-          <scalar>1</scalar>
+          <scalar>2</scalar>
         </property>
         <property dictRef="me:MW">
           <scalar>72.0</scalar>
@@ -205,9 +205,7 @@
           <me:PotentialPoint angle="350"  potential="-105334.107334187"/>
           <me:PotentialPoint angle="355"  potential="-105333.58336378"/>
          </me:HinderedRotorPotential>
-        <me:PlotStates/>
         <me:CalculateInternalRotorInertia phaseDifference ="180.0"/>
-        <me:ConfigurationalData/>
       </me:ExtraDOSCMethod>
 
       <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
@@ -286,9 +284,7 @@
           <me:PotentialPoint angle="350"  potential="-105334.107334187"/>
           <me:PotentialPoint angle="355"  potential="-105333.58336378"/>
         </me:HinderedRotorPotential>
-        <me:PlotStates/>
         <me:CalculateInternalRotorInertia phaseDifference ="180.0"/>
-        <me:ConfigurationalData/>
       </me:ExtraDOSCMethod>
 
       <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
@@ -298,7 +294,6 @@
           <me:PotentialPoint index="3"  coefficient="-6.2"/>
         </me:HinderedRotorPotential>
         <me:periodicity>3</me:periodicity>
-        <me:PlotStates/>
       </me:ExtraDOSCMethod>
 
       <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
@@ -581,7 +576,6 @@
           <me:PotentialPoint index="3"  coefficient="-6.2"/>
         </me:HinderedRotorPotential>
         <me:periodicity>3</me:periodicity>
-        <me:PlotStates/>
       </me:ExtraDOSCMethod>
 
       <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">

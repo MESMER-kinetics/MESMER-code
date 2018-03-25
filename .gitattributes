@@ -390,9 +390,14 @@ examples/C4H9O2_NO2_to_C4H9O2NO2/baselines/Win32/C4H9O2_NO2_association.test -te
 examples/CH3O2_NO2_to_CH3O2NO2/CH3O2_NO2_associationEx2.xml -text
 examples/CH3O2_NO2_to_CH3O2NO2/baselines/Linux64/CH3O2_NO2_associationEx2.log -text
 examples/CH3O2_NO2_to_CH3O2NO2/baselines/Win32/CH3O2_NO2_associationEx2.log -text
+examples/CoupledRotors/Butyl_H_to_Butane_CCQR.xml -text
 examples/CoupledRotors/Butyl_H_to_Butane_CCR.xml -text
 examples/CoupledRotors/Butyl_H_to_Butane_UCR.xml -text
 examples/CoupledRotors/Butyl_H_to_Butane_UQR.xml -text
+examples/CoupledRotors/Octyl_H_to_Octane_CCQR.xml -text
+examples/CoupledRotors/Octyl_H_to_Octane_CCR.xml -text
+examples/CoupledRotors/Octyl_H_to_Octane_UCR.xml -text
+examples/CoupledRotors/Octyl_H_to_Octane_UQR.xml -text
 examples/CoupledRotors/Pentyl_H_to_Pentane_CCQR.xml -text
 examples/CoupledRotors/Pentyl_H_to_Pentane_CCR.xml -text
 examples/CoupledRotors/Pentyl_H_to_Pentane_UCR.xml -text

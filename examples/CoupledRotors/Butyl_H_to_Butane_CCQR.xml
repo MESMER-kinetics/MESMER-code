@@ -154,7 +154,7 @@
       </me:energyTransferModel>
 
       <me:DOSCMethod xsi:type="me:ClassicalCoupledRotors">
-        <me:MCPoints>10000</me:MCPoints>
+        <me:MCPoints>200000</me:MCPoints>
         <!--<me:ConfigurationalData/>-->
         <me:RotorArray>
           <me:Rotor bondRef="b6" periodicity="1">
@@ -232,26 +232,29 @@
               <me:PotentialPoint angle="350"  potential="-105334.107334187"/>
               <me:PotentialPoint angle="355"  potential="-105333.58336378"/>
             </me:HinderedRotorPotential>
-            <me:PlotStates/>
-            <me:CalculateInternalRotorInertia phaseDifference ="180.0"/>
           </me:Rotor>
 
-          <me:Rotor bondRef="b2" periodicity="3">
-            <me:HinderedRotorPotential format="analytical" units="kJ/mol">
-              <me:PotentialPoint index="0"  coefficient="6.2"/>
-              <me:PotentialPoint index="3"  coefficient="-6.2"/>
-            </me:HinderedRotorPotential>
-          </me:Rotor>
-
-          <me:Rotor bondRef="b8" periodicity="3">
-            <me:HinderedRotorPotential format="analytical" units="kJ/mol">
-              <me:PotentialPoint index="0"  coefficient="6.2"/>
-              <me:PotentialPoint index="3"  coefficient="-6.2"/>
-            </me:HinderedRotorPotential>
-          </me:Rotor>
         </me:RotorArray>
 
       </me:DOSCMethod>
+
+      <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
+        <me:bondRef>b2</me:bondRef>
+        <me:HinderedRotorPotential format="analytical" units="kJ/mol">
+          <me:PotentialPoint index="0"  coefficient="6.2"/>
+          <me:PotentialPoint index="3"  coefficient="-6.2"/>
+        </me:HinderedRotorPotential>
+        <me:periodicity>3</me:periodicity>
+      </me:ExtraDOSCMethod>
+
+      <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
+        <me:bondRef>b8</me:bondRef>
+        <me:HinderedRotorPotential format="analytical" units="kJ/mol">
+          <me:PotentialPoint index="0"  coefficient="6.2"/>
+          <me:PotentialPoint index="3"  coefficient="-6.2"/>
+        </me:HinderedRotorPotential>
+        <me:periodicity>3</me:periodicity>
+      </me:ExtraDOSCMethod>
 
     </molecule>
 
