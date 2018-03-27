@@ -63,12 +63,13 @@ namespace mesmer
     // Broadcast strings across processes from a given route.
 
     void broadcastString(string &tmp, int root) {
-      int strSize = tmp.size() + 1;
-      MPI_Bcast(&strSize, 1, MPI_LONG, root, MPI_COMM_WORLD);
+      int strSize(0), intSize(1) ;
+      if (m_rank == root)
+        strSize = tmp.size() + 1;
+      MPI_Bcast(&strSize, intSize, MPI_INT, root, MPI_COMM_WORLD);
       char *ctmp = new char[strSize];
       if (m_rank == root)
-        strncpy(ctmp, tmp.c_str(), strSize - 1);
-      ctmp[strSize - 1] = '\0';
+        std::strcpy(ctmp, tmp.c_str());
       MPI_Bcast(ctmp, strSize, MPI_CHAR, root, MPI_COMM_WORLD);
       tmp = string(ctmp);
       delete[] ctmp;
@@ -78,24 +79,25 @@ namespace mesmer
 
     void broadcastVecString(vector<string> &tmp, int root) {
       int size = tmp.size();
-      MPI_Bcast(&size, 1, MPI_LONG, root, MPI_COMM_WORLD);
+      MPI_Bcast(&size, 1, MPI_INT, root, MPI_COMM_WORLD);
       if (size == 0) // Nothing to copy so return;
         return;
-      vector<string> svtmp(size);
-      if (m_rank == root)
-        svtmp = tmp;
+      if (m_rank != root)
+        tmp.clear();
       for (int i(0); i < size; i++) {
-        string stmp = svtmp[i];
+	    string stmp(" ");
+        if (m_rank == root)
+          stmp = tmp[i];
         broadcastString(stmp, root);
-        svtmp[i] = stmp;
+        if (m_rank != root)
+          tmp.push_back(stmp);
       }
-      tmp = svtmp;
     }
 
     // Broadcast integers across processes from a given route.
 
     void broadcastInteger(int *tmp, int size, int root) {
-      MPI_Bcast(tmp, size, MPI_LONG, root, MPI_COMM_WORLD);
+      MPI_Bcast(tmp, size, MPI_INT, root, MPI_COMM_WORLD);
     }
 
     // Broadcast doubles across processes from a given route.
@@ -107,8 +109,8 @@ namespace mesmer
     // Broadcast vector of doubles across processes from a given route.
 
     void broadcastVecDouble(vector<double> &tmp, int root) {
-      int size = tmp.size();
-      MPI_Bcast(&size, 1, MPI_LONG, root, MPI_COMM_WORLD);
+			int size = tmp.size();
+      MPI_Bcast(&size, 1, MPI_INT, root, MPI_COMM_WORLD);
       vector<double> dtmp(size);
       if (m_rank == root)
         dtmp = tmp;
@@ -197,7 +199,7 @@ namespace mesmer
     void writeCtest() {
       ctest << stest.str();
       stest.str("");
-      }
+    }
 
 #endif 
 
@@ -212,9 +214,9 @@ namespace mesmer
     int m_rank;
     int m_size;
 
-    };
+  };
 
-  } //namespace mesmer
+} //namespace mesmer
 
 
 #endif // GUARD_ParallelManager_h

@@ -1,3 +1,10 @@
+2018-March-27 Struan Robertson
+
+		* ParallelManager.h: Fix for crash of parallel execution on Linux, caused by a difference
+		in the definition of an integer.
+
+		* Removal of VC12 project files.
+
 2018-March-11 Struan Robertson
 
 		* ClassicalCoupledRotors.cpp: Corrected Monte-Carlo sampling input and combines classical/QM 

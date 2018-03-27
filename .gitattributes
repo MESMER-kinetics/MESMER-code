@@ -334,14 +334,6 @@ MesmerQA/pentyl/pentyl_isomerization_basisset_test.xml -text
 MesmerQA/pentyl/pentyl_isomerization_test.xml -text
 MesmerQA/pentyl/pentyl_isomerize_dissocn.xml -text
 /README -text
-Windows[!!-~]VC12/MESMER.sln -text
-Windows[!!-~]VC12/Mesmer/Mesmer.vcxproj -text
-Windows[!!-~]VC12/TinyXML/TinyXML.vcxproj -text
-Windows[!!-~]VC12/distribution/NSISScriptToCreateInstaller.nsi -text
-Windows[!!-~]VC12/distribution/ReadMe.txt -text
-Windows[!!-~]VC12/qd/config.h -text
-Windows[!!-~]VC12/qd/qd.vcxproj -text
-Windows[!!-~]VC12/qd/qd_config.h -text
 Windows[!!-~]VC14/MESMER.sln -text
 Windows[!!-~]VC14/Mesmer/Mesmer.vcxproj -text
 Windows[!!-~]VC14/TinyXML/TinyXML.vcxproj -text

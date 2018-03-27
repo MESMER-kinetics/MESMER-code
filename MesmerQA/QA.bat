@@ -8,14 +8,9 @@ SET otfn=mesmer.test
 
 IF EXIST "../Windows VC15/Mesmer/Mesmer.exe" GOTO VC15
 IF EXIST "../Windows VC14/Mesmer/Mesmer.exe" GOTO VC14
-IF EXIST "../Windows VC12/Mesmer/Mesmer.exe" GOTO VC12
 
 ::For installed version
 SET executable= "..\..\Mesmer.exe"
-GOTO SETTINGS
-
-:VC12
-SET executable= "..\..\Windows VC12\Mesmer/Mesmer.exe"
 GOTO SETTINGS
 
 :VC14
@@ -32,8 +27,8 @@ SET lfn=mesmer.log
 SET bline=baselines/Win32/
 SET outf=out.xml
 SET mpicommand="C:\Program Files\Microsoft MPI\Bin\mpiexec" -n 4 %executable%
-SET cmdline=%executable%
-::SET cmdline=%mpicommand%
+::SET cmdline=%executable%
+SET cmdline=%mpicommand%
 
 
 :: This compares the "double quote" altogether with the content

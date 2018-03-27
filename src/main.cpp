@@ -199,8 +199,6 @@ int main(int argc, char **argv)
   OStreamRedirector osr(&meErrorLog, &osout, (nologging || parallelManager.rank()));
 
   banner(parallelManager.size());
-  //if(parallelManager.size() >1)
-  //  cerr << "Using " << parallelManager.size() << " processes" << endl;
 
   //-----------------------------------------------
   //Get the top level directory from an environment variable,

@@ -8,14 +8,9 @@ SET otfn=mesmer.test
 
 IF EXIST "../Windows VC15/Mesmer/Mesmer.exe" GOTO VC15
 IF EXIST "../Windows VC14/Mesmer/Mesmer.exe" GOTO VC14
-IF EXIST "../Windows VC12/Mesmer/Mesmer.exe" GOTO VC12
 
 ::For installed version
 SET executable="../../Mesmer.exe"
-GOTO SETTINGS
-
-:VC12
-SET executable="../../Windows VC12/Mesmer/Mesmer.exe"
 GOTO SETTINGS
 
 :VC14
