@@ -60,17 +60,17 @@ case $1 in
     echo ""
     echo "Syntax:"
     echo ""
-    echo "    \MESMER_PATH\MesmerQA>./qashell.sh -u"
+    echo "    \MESMER_PATH\examples>./Examples.sh -u"
     echo ""
     echo "2. developer SVN test mode; it overwrites mesmer.test files in the baseline"
     echo "   folders, thus the developer can use SVN check for modifications from the "
-    echo "   MesmerQA folder to see what files are changed and the detail of the "
+    echo "   examples folder to see what files are changed and the detail of the "
     echo "   modifications. To use it in the developer mode simply give a -o directive"
     echo "   after QA command."
     echo ""
     echo "Syntax:"
     echo ""
-    echo "    \MESMER_PATH\MesmerQA>./qashell.sh -o"
+    echo "    \MESMER_PATH\examples>./Examples.sh -o"
     echo "----------------------------------------------------------------------"
     echo ""
     ;;
@@ -78,8 +78,8 @@ esac
 
 pwd
 $executable -V
-mpicommand="mpirun -n 4 $executable" 
-cmdline=$executable
+mpicommand="mpirun -n 12 $executable" 
+cmdline=mpicommand
 
 cd AcetylO2
 $cmdline Acetyl_O2_associationEx.xml -o $outf $directive
