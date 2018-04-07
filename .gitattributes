@@ -449,6 +449,8 @@ examples/H2Ominimal/H2Ominimal.xml -text
 examples/MesmerTemplate.text -text
 examples/Methoxymethyl/Chebyshev.xml -text
 examples/Methoxymethyl/ChebyshevCK.xml -text
+examples/Methoxymethyl/Plog.xml -text
+examples/Methoxymethyl/PlogCK.xml -text
 examples/Methoxymethyl/baselines/Linux64/Chebyshev.log -text
 examples/Methoxymethyl/baselines/Linux64/Chebyshev.test -text
 examples/Methoxymethyl/baselines/Linux64/ChebyshevCK.log -text
@@ -517,7 +519,7 @@ examples/spin_forbidden_kinetics/ZNtest.xml -text
 examples/spin_forbidden_kinetics/baselines/Linux64/HCCH_methylene.log -text
 examples/spin_forbidden_kinetics/baselines/Linux64/HCCH_methylene.test -text
 examples/spin_forbidden_kinetics/baselines/Linux64/LZ_test.log -text
-examples/spin_forbidden_kinetics/baselines/Linux64/LZ_test.test -text svneol=unset#unset
+examples/spin_forbidden_kinetics/baselines/Linux64/LZ_test.test -text
 examples/spin_forbidden_kinetics/baselines/Linux64/WKB_test.log -text
 examples/spin_forbidden_kinetics/baselines/Linux64/WKB_test.test -text
 examples/spin_forbidden_kinetics/baselines/Linux64/ZNtest.log -text

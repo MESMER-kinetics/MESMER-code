@@ -976,6 +976,8 @@
         </property>
       </propertyList>
     </molecule>
+    <molecule id="cycCH2OCH2O"/>
+    <molecule id="CH2O"/>
   </moleculeList>
   <reactionList>
     <reaction id="R1">
@@ -1016,6 +1018,12 @@
       <product>
         <molecule ref="OH-1" role="sink"/>
       </product>
+      <product>
+        <molecule ref="CH2O" role="sink"/>
+      </product>
+      <product>
+        <molecule ref="CH2O" role="sink"/>
+      </product>
       <me:transitionState>
         <molecule ref="TS5" role="transitionState"/>
       </me:transitionState>
@@ -1029,7 +1037,13 @@
       <product>
         <molecule ref="OH-2" role="sink"/>
       </product>
-      <me:transitionState>
+      <product>
+       <molecule ref="CH2O" role="sink"/>
+      </product>
+      <product>
+        <molecule ref="CH2O" role="sink"/>
+      </product>
+        <me:transitionState>
         <molecule ref="TS3" role="transitionState"/>
       </me:transitionState>
       <me:MCRCMethod name="RRKM"/>
@@ -1041,6 +1055,9 @@
       </reactant>
       <product>
         <molecule ref="OH-3" role="sink"/>
+      </product>
+      <product>
+        <molecule ref="cycCH2OCH2O" role="sink"/>
       </product>
       <me:transitionState>
         <molecule ref="TS4" role="transitionState"/>
@@ -1075,15 +1092,19 @@
   
   <me:control>
     <me:calcMethod xsi:type="me:analyticalRepresentation">
-      <me:format representation ="Chebyshev" rateUnits="cm3mole-1s-1">chemkin</me:format>
-      <me:chebNumTemp>7</me:chebNumTemp>
-      <me:chebNumConc>5</me:chebNumConc>
-      <me:chebMaxTemp>1000</me:chebMaxTemp>
-      <me:chebMinTemp>200</me:chebMinTemp>
-      <me:chebMaxConc units="atm">10.</me:chebMaxConc>
-      <me:chebMinConc>0.001</me:chebMinConc>
-      <me:chebTExSize>6</me:chebTExSize>
-      <me:chebPExSize>4</me:chebPExSize>
+      <me:format representation ="Plog" rateUnits="cm3mole-1s-1">cantera</me:format>
+      <me:plogNumTemp>5</me:plogNumTemp>
+      <!--this has a default-->
+      <me:plogMaxTemp>1000</me:plogMaxTemp>
+      <me:plogMinTemp>200</me:plogMinTemp>
+      <me:plogConcs units="atm">
+        <!--units has a default-->
+        <me:plogConc>1</me:plogConc>
+        <me:plogConc>2</me:plogConc>
+        <me:plogConc>10</me:plogConc>
+        <me:plogConc>100</me:plogConc>
+      </me:plogConcs>
+      <me:chebDoForAllBathGases/>
     </me:calcMethod>
     <me:eigenvalues>6</me:eigenvalues>
     <me:ForceMacroDetailedBalance/>

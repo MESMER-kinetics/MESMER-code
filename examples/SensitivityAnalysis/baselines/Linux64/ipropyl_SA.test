@@ -32,17 +32,17 @@ Input variable key:
   propene:ZPE                   : (3)
 
 
- Standard deviation for i-propyl => propene+H: 1001
+ Standard deviation for i-propyl => propene+H: 991.3
 
  First order indices for i-propyl => propene+H: 
                 (1)            (2)            (3)
-            0.54706     4.1474e-06     0.00013974
+            0.55889     0.00073598     0.00067531
 
  Second order indices for i-propyl => propene+H: 
                 (1)            (2)            (3)
 (1)              --             --             --
-(2)       0.0017012             --             --
-(3)      0.00046235      0.0026721             --
+(2)       0.0091671             --             --
+(3)      0.00089287      0.0013394             --
 
- R-Squared statistic: 0.8658
+ R-Squared statistic: 0.8485
 
