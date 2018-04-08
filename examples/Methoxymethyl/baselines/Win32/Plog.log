@@ -1,0 +1,218 @@
+
+            /|      /|                        \   
+           / |     / | ________________________\  
+          /  |    /  |  _   _             _   _   
+         /   |   /   | / \ / \ |\     /| / \ / \  
+        /    |  /    | \_/ \_  | \   / | \_/ |_/  
+       /     | /     | /     \ |  \ /  | /   | \  
+    \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
+
+     Mesmer: Master Equation Solver for Multi-Energy well Reactions
+     Mesmer v5.1 compiled: -- Apr  5 2018 -- 22:41:14
+
+     Copyright (C) 2009-2018 by
+     Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
+     David R. Glowacki, Michael J. Pilling and contributors
+
+     Mesmer is free software: you can redistribute it and/or modify
+     it under the terms of the GNU Public License as published by
+     the Free Software Foundation, either version 2 of the License,
+     or (at your option) any later version.
+
+     But WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU Public License for more details.
+
+    You should have received a copy of the GNU Public License
+    along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
+
+                     Platform:        Windows
+                     Execution Date:  Sun Apr  8 16:48:12 2018
+                     Number of ranks: 1
+
+defaults.xml, librarymols.xml are in ../..
+
+Parsing input xml file...
+Plog.xml
+
+--Parse data for analyticalRepresentation
+Energy convention "" written to <moleculeList>
+In R1: Parsing reaction...Association reaction
+In CH3OCH2: WARNING: When calculating frequencies from a Hessian it is critical
+     that the Hessian and species coordinates are expressed relative to
+     the same Cartesian coordinate system.
+In CH3OCH2: Vibrational frequencies (cm-1) were calculated from Hessian:
+  169.672 287.888 439.421 568.322 1021.55 1155.2 1192.08 1282.47 1343.7 1471.44 
+  1500.2 1508.72 1523.12 3088.04 3165.17 3197.22 3233.15 3356.85 
+In CH3OCH2: The default value of me:DOSCMethod was used.
+In CH3OCH2: Hindered rotor b5
+In CH3OCH2: Hindered rotor b4
+In IM1: WARNING: When calculating frequencies from a Hessian it is critical
+     that the Hessian and species coordinates are expressed relative to
+     the same Cartesian coordinate system.
+In IM1: Vibrational frequencies (cm-1) were calculated from Hessian:
+  91.8598 128.883 187.165 391.187 483.297 594.928 938.428 1012.93 1151.6 1194.73 
+  1218.54 1282.75 1305.74 1357.96 1435.01 1483.25 1499.22 1510.87 1516.91 3096.22 
+  3126.84 3182.05 3236.78 3239.2 
+In IM1: Hindered rotor b5
+In IM1: Hindered rotor b4
+In IM1: Hindered rotor b8
+In IM1: The default value of me:DistributionCalcMethod was used.
+In IM1: --Parse data for Boltzmann
+In IM1: --Parse data for ExponentialDown
+In R1: --Parse data for MesmerILT
+In R1: The default value of me:TInfinity was used.
+In R1: No tunneling method used for R1
+In R1: Not a unimolecular reaction: look for excess reactant concentration.
+In R2: Parsing reaction...Isomerization reaction
+In IM2: WARNING: When calculating frequencies from a Hessian it is critical
+     that the Hessian and species coordinates are expressed relative to
+     the same Cartesian coordinate system.
+In IM2: Vibrational frequencies (cm-1) were calculated from Hessian:
+  108.18 163.087 250.225 340.045 406.842 467.08 628.242 646.487 972.437 1023.15 
+  1130.32 1157.25 1251.69 1298.98 1363.23 1436 1468.44 1480.03 1513.69 3124.8 
+  3200.84 3231.89 3360.58 3889.55 
+In IM2: Hindered rotor b1
+In IM2: Hindered rotor b2
+In IM2: Hindered rotor b3
+In IM2: Hindered rotor b4
+In IM2: The default value of me:DistributionCalcMethod was used.
+In IM2: --Parse data for Boltzmann
+In IM2: --Parse data for ExponentialDown
+In R2: --Parse data for RRKM
+In R2: --Parse data for Eckart
+In R3: Parsing reaction...Irreversible unimolecular reaction
+In CH2O: Could not find CH2O in ../../librarymols.xml
+In TS5: WARNING: When calculating frequencies from a Hessian it is critical
+     that the Hessian and species coordinates are expressed relative to
+     the same Cartesian coordinate system.
+In TS5: Vibrational frequencies (cm-1) were calculated from Hessian:
+  78.8008 155.797 210.383 316.503 401.876 532.348 560.927 656.949 928.231 952.154 
+  977.833 1200.77 1243.63 1249.83 1361.65 1485.15 1520.63 1587.51 3088.36 3195.55 
+  3209.98 3361.1 3759.25 
+In TS5: The default value of me:DOSCMethod was used.
+In TS5: Hindered rotor b1
+In TS5: Hindered rotor b2
+In TS5: Hindered rotor b3
+In R3: --Parse data for RRKM
+In R3: No tunneling method used for R3
+In R4: Parsing reaction...Irreversible unimolecular reaction
+In R4: --Parse data for RRKM
+In R4: No tunneling method used for R4
+In R5: Parsing reaction...Irreversible unimolecular reaction
+In cycCH2OCH2O: Could not find cycCH2OCH2O in ../../librarymols.xml
+In R5: --Parse data for RRKM
+In R5: No tunneling method used for R5
+No pressure and temperature specified.
+The default value of me:ForceMacroDetailedBalance was used.
+Write metadata 20180408_164812
+
+File: "Plog.xml" successfully parsed.
+Main Calculation begins
+Now calculating...
+
+--Execute calcMethod analyticalRepresentation
+
+Bath gas is He
+In FastLaplaceConvolution: 4880 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 4060 values in the FFT convolution routine were replaced by standard convolution
+Association ILT calculation completed
+In FastLaplaceConvolution: 9440 values in the FFT convolution routine were replaced by standard convolution
+
+units(length = 'cm', quantity = 'mole')
+
+pdep_arrhenius('CH3OCH2 + O2 => IM1',
+               [(          0.01, 'atm'),   4.02249e+31,      -7.86473,       248.366],
+               [(           0.1, 'atm'),   5.29782e+44,      -11.3971,       1307.51],
+               [(             1, 'atm'),   4.06784e+37,       -8.6339,       1119.69],
+               [(            10, 'atm'),   4.29109e+27,      -5.15035,       662.517])
+
+pdep_arrhenius('CH3OCH2 + O2 => IM2',
+               [(          0.01, 'atm'),   1.17044e+51,      -14.2607,       1758.97],
+               [(           0.1, 'atm'),    2.3044e+44,        -11.54,       1439.21],
+               [(             1, 'atm'),   1.09259e+35,      -8.07457,       1197.42],
+               [(            10, 'atm'),   1.96735e+24,      -4.42325,       855.743])
+
+pdep_arrhenius('CH3OCH2 + O2 => OH-1 + CH2O + CH2O',
+               [(          0.01, 'atm'),   1.68076e+25,      -4.42856,       522.237],
+               [(           0.1, 'atm'),   8.85243e+27,      -5.22107,       909.949],
+               [(             1, 'atm'),   1.66017e+25,      -4.23523,        1139.3],
+               [(            10, 'atm'),   2.02757e+15,     -0.996699,       1003.39])
+
+pdep_arrhenius('CH3OCH2 + O2 => OH-2 + CH2O + CH2O',
+               [(          0.01, 'atm'),   1.62939e+12,      -1.37657,       651.277],
+               [(           0.1, 'atm'),   1.02303e+15,       -2.2068,       1010.72],
+               [(             1, 'atm'),   3.20175e+15,       -2.2545,       1390.22],
+               [(            10, 'atm'),   4.52371e+09,     -0.266628,       1504.09])
+
+pdep_arrhenius('CH3OCH2 + O2 => OH-3 + cycCH2OCH2O',
+               [(          0.01, 'atm'),   9.07363e+11,      -1.44291,        762.68],
+               [(           0.1, 'atm'),   4.21596e+14,      -2.23603,       1100.13],
+               [(             1, 'atm'),   1.77335e+15,      -2.32822,       1474.93],
+               [(            10, 'atm'),   4.57226e+09,     -0.423683,       1599.11])
+
+pdep_arrhenius('IM1 => CH3OCH2 + O2',
+               [(          0.01, 'atm'),   1.16821e+37,      -8.76394,       9275.22],
+               [(           0.1, 'atm'),   1.53859e+50,      -12.2963,       10334.4],
+               [(             1, 'atm'),   1.18138e+43,       -9.5331,       10146.5],
+               [(            10, 'atm'),   1.24622e+33,      -6.04956,       9689.37])
+
+pdep_arrhenius('IM1 => IM2',
+               [(          0.01, 'atm'),   9.86627e+24,      -5.84285,       4063.87],
+               [(           0.1, 'atm'),   6.19284e+20,      -4.08421,       4031.62],
+               [(             1, 'atm'),   3.02123e+10,      -0.47371,       3567.25],
+               [(            10, 'atm'),       3655.63,        1.8843,       3219.63])
+
+pdep_arrhenius('IM1 => OH-1 + CH2O + CH2O',
+               [(          0.01, 'atm'),   1.03756e+46,      -11.3706,       8359.63],
+               [(           0.1, 'atm'),   2.83854e+42,      -9.91086,        8381.8],
+               [(             1, 'atm'),    3.1971e+36,      -7.71318,       8372.15],
+               [(            10, 'atm'),    2.6615e+24,       -3.6932,       7954.12])
+
+pdep_arrhenius('IM1 => OH-2 + CH2O + CH2O',
+               [(          0.01, 'atm'),   2.06747e+25,      -6.48608,       9005.39],
+               [(           0.1, 'atm'),   6.05146e+46,      -12.8812,       10386.6],
+               [(             1, 'atm'),     -nan(ind),     -nan(ind),     -nan(ind)],
+               [(            10, 'atm'),     -nan(ind),     -nan(ind),     -nan(ind)])
+
+pdep_arrhenius('IM1 => OH-3 + cycCH2OCH2O',
+               [(          0.01, 'atm'),   8.99635e+15,      -3.66173,       8575.43],
+               [(           0.1, 'atm'),    7.9192e+44,      -12.4975,       10364.2],
+               [(             1, 'atm'),     -nan(ind),     -nan(ind),     -nan(ind)],
+               [(            10, 'atm'),     -nan(ind),     -nan(ind),     -nan(ind)])
+
+pdep_arrhenius('IM2 => CH3OCH2 + O2',
+               [(          0.01, 'atm'),   6.77918e+61,       -17.208,       8458.69],
+               [(           0.1, 'atm'),   1.33471e+55,      -14.4873,       8138.93],
+               [(             1, 'atm'),   6.32826e+45,      -11.0218,       7897.14],
+               [(            10, 'atm'),   1.13949e+35,      -7.37053,       7555.46])
+
+pdep_arrhenius('IM2 => IM1',
+               [(          0.01, 'atm'),   1.96768e+30,      -7.89092,       1736.73],
+               [(           0.1, 'atm'),   1.23507e+26,      -6.13228,       1704.48],
+               [(             1, 'atm'),   6.02538e+15,      -2.52178,       1240.11],
+               [(            10, 'atm'),   7.29061e+08,     -0.163771,       892.497])
+
+pdep_arrhenius('IM2 => OH-1 + CH2O + CH2O',
+               [(          0.01, 'atm'),    1.1789e+38,        -9.118,       5619.77],
+               [(           0.1, 'atm'),   6.67409e+29,      -6.29208,       4920.62],
+               [(             1, 'atm'),   4.05451e+36,      -8.23709,       5387.92],
+               [(            10, 'atm'),   1.57893e+33,      -6.83789,       5340.45])
+
+pdep_arrhenius('IM2 => OH-2 + CH2O + CH2O',
+               [(          0.01, 'atm'),   4.22904e+45,      -13.5938,       7946.39],
+               [(           0.1, 'atm'),   1.26336e+39,      -10.6847,       7628.75],
+               [(             1, 'atm'),   1.12539e+35,      -8.99419,       7244.03],
+               [(            10, 'atm'),   9.04845e+47,      -12.6596,          8217])
+
+pdep_arrhenius('IM2 => OH-3 + cycCH2OCH2O',
+               [(          0.01, 'atm'),   2.62936e+43,      -13.1027,       8000.31],
+               [(           0.1, 'atm'),    3.9609e+40,      -11.3493,       7916.39],
+               [(             1, 'atm'),   8.42693e+33,       -8.8018,       7344.87],
+               [(            10, 'atm'),   6.83651e+48,      -13.1039,       8426.02])
+
+
+ -- Total time elapsed: 144 seconds.
+
+System saved to mesmer_out.xml
+Total time elapsed: 144 seconds.

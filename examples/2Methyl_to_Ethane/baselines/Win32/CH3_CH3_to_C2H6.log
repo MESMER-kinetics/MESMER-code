@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.1 compiled: -- Feb 24 2018 -- 14:13:17
+     Mesmer v5.1 compiled: -- Mar 27 2018 -- 20:48:55
 
      Copyright (C) 2009-2018 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sat Feb 24 15:19:17 2018
+                     Execution Date:  Sun Apr  8 12:19:59 2018
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -79,7 +79,8 @@ In R1: Not a unimolecular reaction: look for excess reactant concentration.
 3.2Torr, 715K at d precision with He
 6.2Torr, 715K at d precision with He
 10.2Torr, 715K at d precision with He
-Write metadata 20180224_151917
+The default value of me:ForceMacroDetailedBalance was used.
+Write metadata 20180408_121959
 
 File: "CH3_CH3_to_C2H6.xml" successfully parsed.
 Main Calculation begins
@@ -121,7 +122,7 @@ C2H6:deltaEDown:Ar=342.867  C2H6:deltaEDown:He=334.78  R1:preExponential=5.25185
 Iteration: 2 of Marquardt. ChiSquare = 31.3594, Lambda = 0.01
 Number of cells = 55020, Number of grains = 786
 Association ILT calculation completed
- -- Total time elapsed: 250 seconds.
+ -- Total time elapsed: 229 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
@@ -181,4 +182,4 @@ Number of degrees of Freedom = 25
 Chi^2 probability = 0.177393
 
 System saved to mesmer_out.xml
-Total time elapsed: 250 seconds.
+Total time elapsed: 229 seconds.

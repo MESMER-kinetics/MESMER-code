@@ -41,6 +41,7 @@ namespace mesmer
 		std::string m_ref1;                           // Monitored species.
 		const char* m_Name;                           // Name of trace.
 		double m_excessConc;                          // Concentration of excess reactant.
+		double m_weight;                              // Weight data should be given - as determined by the experimenter.
 		PersistPtr m_pPersistPtr;                     // Location of data.
 	};
 
@@ -224,6 +225,9 @@ namespace mesmer
 
 		// Write calculated data to XML.
 		void WriteDataToXml(PersistPtr pp, const vector<conditionSet> &data) const;
+
+		// Normalize Experimental weights.
+		void NormalizeExptWeights();
 
 		System* m_pSys; //parent System
 

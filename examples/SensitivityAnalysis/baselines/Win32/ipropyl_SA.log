@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.1 compiled: -- Feb 24 2018 -- 14:13:17
+     Mesmer v5.1 compiled: -- Mar 27 2018 -- 20:48:55
 
      Copyright (C) 2009-2018 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sat Feb 24 14:54:51 2018
+                     Execution Date:  Sun Apr  8 11:57:44 2018
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -50,7 +50,8 @@ In propene: propene:ZPE was given a range with 401 steps
 In R1: No tunneling method used for R1
 3e+17PPCC, 720K at d precision with He
 3e+16PPCC, 880K at d precision with He
-Write metadata 20180224_145451
+The default value of me:ForceMacroDetailedBalance was used.
+Write metadata 20180408_115744
 
 File: "ipropyl_SA.xml" successfully parsed.
 Main Calculation begins
@@ -74,7 +75,7 @@ Number of grains requested: 262
 Number of grains requested: 259
 Number of grains requested: 263
 Number of grains requested: 258
- -- Total time elapsed: 22 seconds.
+ -- Total time elapsed: 20 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 22 seconds.
+Total time elapsed: 20 seconds.

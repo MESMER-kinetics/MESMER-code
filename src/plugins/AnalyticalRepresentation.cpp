@@ -5,8 +5,11 @@
 // Author: Struan Robertson
 // Date:   21/Jul/2013
 //
-// This class implements the methods to that determine and analytical representation of a 
-// master equation representation.
+// This class implements the methods to calculate the analytical representation of a 
+// rate coefficients generated from a master equation calculation. 
+//
+// (SHR, 8/Apr/2018: I have altered the impementation to include the plog representation,
+//  but I feel it would be better for each representation to have its own class.)
 //
 //-------------------------------------------------------------------------------------------
 
@@ -643,6 +646,10 @@ namespace mesmer
 	//
 	bool AnalyticalRepresentation::ModArrheniusFit(const vector<double> &Temp, const vector< vector<double> > &RCGrid, vector<vector<vector<double> > > &PlogCoeff) {
 
+		// Gas constant in kcal/mol
+
+		double R = idealGasC/Calorie_in_Joule;
+
 		// Setup regression matrix first as it is the same for all reactions.
 
 		vector<double> x1(m_NTpt, 0.0), x2(m_NTpt, 0.0);
@@ -685,6 +692,11 @@ namespace mesmer
 			tmp.solveLinearEquationSet(&params[0]);
 
 			params[0] = exp(params[0]);
+
+			// SHR, 8/Apr/2018: The units of following parameter are altered to cal/mol as required 
+			// by Chemkin. I assume these are also the units used by Cantera but they are not mentioned
+			// in the documentation I found.
+			params[2] = -params[2]/R;
 
 			ArrheniusParams.push_back(params);
 		}

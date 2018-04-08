@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.1 compiled: -- Feb 24 2018 -- 14:13:17
+     Mesmer v5.1 compiled: -- Mar 27 2018 -- 20:48:55
 
      Copyright (C) 2009-2018 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sat Feb 24 14:33:10 2018
+                     Execution Date:  Sun Apr  8 11:33:11 2018
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -53,7 +53,8 @@ In R2: Reading parameters for Reaction R2 which uses the SimpleBimolecularSink m
 In R2: No tunneling method used for R2
 In R2: Not a unimolecular reaction: look for excess reactant concentration.
 80Torr, 298K at d precision with He
-Write metadata 20180224_143310
+The default value of me:ForceMacroDetailedBalance was used.
+Write metadata 20180408_113311
 
 File: "AcetylPrior.xml" successfully parsed.
 Main Calculation begins
@@ -66,11 +67,11 @@ adding reaction terms to the collision matrix
 In FastLaplaceConvolution: 40 values in the FFT convolution routine were replaced by standard convolution
 In FastLaplaceConvolution: 20 values in the FFT convolution routine were replaced by standard convolution
 In FastLaplaceConvolution: 280 values in the FFT convolution routine were replaced by standard convolution
- -- Total time elapsed: 0 seconds.
+ -- Total time elapsed: 1 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
 
 System saved to out.xml
-Total time elapsed: 0 seconds.
+Total time elapsed: 1 seconds.

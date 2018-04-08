@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.1 compiled: -- Feb 24 2018 -- 14:13:17
+     Mesmer v5.1 compiled: -- Mar 27 2018 -- 20:48:55
 
      Copyright (C) 2009-2018 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sat Feb 24 14:16:01 2018
+                     Execution Date:  Sun Apr  8 17:45:40 2018
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -66,7 +66,7 @@ In R_2_6c: Parsing reaction...Irreversible unimolecular reaction
 In R_2_6c: --Parse data for RRKM
 In R_2_6c: No tunneling method used for R_2_6c
 760Torr, 298K at d precision with N2
-Write metadata 20180224_141601
+Write metadata 20180408_174540
 
 File: "benzene_oxidation_test.xml" successfully parsed.
 Main Calculation begins
@@ -80,11 +80,11 @@ The default value of me:energyTransferModel was used.
 No value of me:deltaEDown was supplied and the default value NEEDS TO BE CHECKED**
 Number of cells = 11400, Number of grains = 228
 In FastLaplaceConvolution: 100 values in the FFT convolution routine were replaced by standard convolution
- -- Total time elapsed: 1 seconds.
+ -- Total time elapsed: 0 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
 
 System saved to out.xml
-Total time elapsed: 1 seconds.
+Total time elapsed: 0 seconds.

@@ -164,6 +164,14 @@ set testName="ChebyshevCK"
 %cmdline% -N %testName%.xml
 copy "./%testName%.test" "./%bline%%testName%.test"
 IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
+set testName="Plog"
+%cmdline% -N %testName%.xml
+copy "./%testName%.test" "./%bline%%testName%.test"
+IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
+set testName="PlogCK"
+%cmdline% -N %testName%.xml
+copy "./%testName%.test" "./%bline%%testName%.test"
+IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
 cd ..
 
 cd "SensitivityAnalysis"
@@ -239,6 +247,13 @@ set testName="H+H2,T+T2"
 copy "./%testName%.test" "./%bline%%testName%.test"
 IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
 cd ..
+
+cd "CoupledRotors"
+set testName="ipropyl_UCR"
+%cmdline% -N %testName%.xml
+IF "%1"=="-o" copy "./mesmer_out.xml" "./%bline%%testName%.xml"
+cd ..
+
 
 :OUT
 

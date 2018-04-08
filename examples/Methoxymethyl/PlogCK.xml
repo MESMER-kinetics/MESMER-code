@@ -1082,10 +1082,10 @@
       <me:plogMinTemp>200</me:plogMinTemp>
       <me:plogConcs units="atm">
         <!--units has a default-->
+        <me:plogConc>0.01</me:plogConc>
+        <me:plogConc>0.1</me:plogConc>
         <me:plogConc>1</me:plogConc>
-        <me:plogConc>2</me:plogConc>
         <me:plogConc>10</me:plogConc>
-        <me:plogConc>100</me:plogConc>
       </me:plogConcs>
       <me:chebDoForAllBathGases/>
     </me:calcMethod>

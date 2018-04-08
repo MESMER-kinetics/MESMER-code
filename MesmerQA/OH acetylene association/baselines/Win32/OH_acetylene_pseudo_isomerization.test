@@ -1635,31 +1635,31 @@ Y_matrix:
 }
 
 Z_matrix: {
--2.181541e-08	4.740480e-16	
-2.172989e-08	1.000000e+00	
+-2.181545e-08	4.740480e-16	
+2.172992e-08	1.000000e+00	
 }
 
 Z_matrix^(-1):
 {
--4.583915e+07	2.172996e-08	
-9.960797e-01	1.000000e+00	
+-4.583908e+07	2.172992e-08	
+9.960798e-01	1.000000e+00	
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	0.000000e+00	
--9.495568e-65	1.000000e+00	
+1.000000e+00	8.012070e-80	
+2.089025e-64	1.000000e+00	
 }
 
 Kr matrix:
 {
 -7.357030e+04	3.487585e-11	
-7.328188e+04	2.933454e-05	
+7.328189e+04	2.933454e-05	
 }
 
 Kp matrix:
 {
-   2.884136e+02,   8.950488e-13,
+   2.884132e+02,   8.950490e-13,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -1670,14 +1670,14 @@ OH_acetylene_adduct loss = 2.933454e-05
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-OH -> OH_acetylene_adduct = 7.328188e+04
+OH -> OH_acetylene_adduct = 7.328189e+04
 OH_acetylene_adduct -> OH = 3.487585e-11
 }
 
 First order & pseudo first order rate coefficients for irreversible rxns:
 {
-OH -> OCHCH2 = 2.884136e+02
-OH_acetylene_adduct -> OCHCH2 = 8.950488e-13
+OH -> OCHCH2 = 2.884132e+02
+OH_acetylene_adduct -> OCHCH2 = 8.950490e-13
 }
 
 }

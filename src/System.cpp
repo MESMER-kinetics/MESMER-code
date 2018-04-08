@@ -310,14 +310,13 @@ namespace mesmer
         m_Flags.bForceMacroDetailedBalance = ppControl->XmlReadBoolean("me:ForceMacroDetailedBalance");
         m_Flags.useOrigFreqForZPECorrection = ppControl->XmlReadBoolean("me:useOrigFreqForZPECorrection");
 
+				// Check to see if me:ForceMacroDetailedBalance is set in defaults.
+				const char* text = ppControl->XmlReadValue("me:ForceMacroDetailedBalance", true);
+				if (text)
+					m_Flags.bForceMacroDetailedBalance = true;
+
         // System configuration information
         if (ppControl->XmlReadBoolean("me:runPlatformDependentPrecisionCheck")) configuration();
-
-
-        //if (m_Flags.grainedProfileEnabled && (m_Flags.speciesProfileEnabled)){
-        //  cinfo << "Turn off grained species profile to prevent disk flooding." << endl;
-        //  m_Flags.grainedProfileEnabled = false;
-        //}
 
         const char* txtPCOP = ppControl->XmlReadValue("me:printCollisionOperatorLevel", false);
         if (txtPCOP) {
@@ -930,7 +929,7 @@ namespace mesmer
 
 			// Taking the residual to be the euclidian distance between functions (represented as vectors).
 			residuals[calPoint] += sqrt(localChi);
-			chiSquare += localChi ;
+			chiSquare += localChi * dataSet.m_weight ;
 
     }
 

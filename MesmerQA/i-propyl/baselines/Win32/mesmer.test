@@ -2018,12 +2018,12 @@ Y_matrix:
 }
 
 Z_matrix: {
--9.999989e-01	
+-1.000000e+00	
 }
 
 Z_matrix^(-1):
 {
--1.000001e+00	
+-1.000000e+00	
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
@@ -2038,7 +2038,7 @@ Kr matrix:
 
 Kp matrix:
 {
-   1.866454e+01,
+   1.866452e+01,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -2048,7 +2048,7 @@ i-propyl loss = -1.866454e+01
 
 First order & pseudo first order rate coefficients for irreversible rxns:
 {
-i-propyl -> propene+H = 1.866454e+01
+i-propyl -> propene+H = 1.866452e+01
 }
 
 }
@@ -2279,12 +2279,12 @@ Y_matrix:
 }
 
 Z_matrix: {
--9.999984e-01	
+-1.000000e+00	
 }
 
 Z_matrix^(-1):
 {
--1.000002e+00	
+-1.000000e+00	
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
@@ -2299,7 +2299,7 @@ Kr matrix:
 
 Kp matrix:
 {
-   2.585722e+01,
+   2.585718e+01,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -2309,7 +2309,7 @@ i-propyl loss = -2.585722e+01
 
 First order & pseudo first order rate coefficients for irreversible rxns:
 {
-i-propyl -> propene+H = 2.585722e+01
+i-propyl -> propene+H = 2.585718e+01
 }
 
 }

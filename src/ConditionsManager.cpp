@@ -354,6 +354,11 @@ namespace mesmer
             cerr << "Missing excessReactantConc on rawData (and not on PTPair)" << endl;
             return false;
           }
+
+					ds.m_weight = ppRawData->XmlReadDouble("weight", optional);
+					if (IsNan(ds.m_weight))
+						ds.m_weight = 1.0; // Assign a default weight of unity.
+
           PersistPtr ppTimes = ppRawData->XmlMoveTo("me:times");
           PersistPtr ppSignals = ppRawData->XmlMoveTo("me:signals");
           if (!(ppTimes && ppSignals))
@@ -407,8 +412,33 @@ namespace mesmer
       }
 
     }
+
+		// Normalize weigths on raw data (if any).
+		NormalizeExptWeights();
+
     return true;
   }
+
+	// Normalize Experimental weights.
+	void ConditionsManager::NormalizeExptWeights()
+	{
+		double sum(0.0);
+		for (size_t i(0); i < PandTs.size(); ++i) {
+			vector<RawDataSet>& data = PandTs[i].m_rawDataSets;
+			for (size_t j(0); j < data.size(); ++j) {
+				sum += data[j].m_weight;
+			}
+		}
+
+		if (sum > 0.0) {
+			for (size_t i(0); i < PandTs.size(); ++i) {
+				vector<RawDataSet>& data = PandTs[i].m_rawDataSets;
+				for (size_t j(0); j < data.size(); ++j) {
+					data[j].m_weight /= sum;
+				}
+			}
+		}
+	}
 
   bool ConditionsManager::ReadRange(const string& name, vector<double>& vals, PersistPtr ppbase, bool MustBeThere)
   {

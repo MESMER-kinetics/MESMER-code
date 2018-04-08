@@ -1,5 +1,17 @@
 2018-April-07 Struan Robertson
 
+		* AnalyticalRepresentation.cpp: Parameter units altered to cal/mol as required.
+
+		* system.cpp, defaults.xml: altered so that me:ForceMacroDetailedBalance is always set.
+
+		* system.cpp, ConditionsManager.cpp/.h: altered so that expt. trace data can be weighted.
+
+		* Linux32 baseline extension (for analytical representation) and update.
+
+		* Documentation updated.
+
+2018-April-07 Struan Robertson
+
 		* AnalyticalRepresentation.cpp: Initial implementation of Plog representation.
 
 		* Linux64 baseline update.

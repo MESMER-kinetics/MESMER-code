@@ -192,6 +192,18 @@ cp ./$testName.test ./$bline$testName.test
 if [ "$1" == "-o" ] ; then
   cp ./$testName.log ./$bline$testName.log
 fi
+testName=Plog
+$cmdline -N $testName.xml
+cp ./$testName.test ./$bline$testName.test
+if [ "$1" == "-o" ] ; then
+  cp ./$testName.log ./$bline$testName.log
+fi
+testName=PlogCK
+$cmdline -N $testName.xml
+cp ./$testName.test ./$bline$testName.test
+if [ "$1" == "-o" ] ; then
+  cp ./$testName.log ./$bline$testName.log
+fi
 cd ..
 
 cd SensitivityAnalysis
@@ -287,6 +299,14 @@ $cmdline -N $testName.xml
 cp ./$testName.test ./$bline$testName.test
 if [ "$1" == "-o" ] ; then
   cp ./$testName.log ./$bline$testName.log
+fi
+cd ..
+
+cd "CoupledRotors"
+testName="ipropyl_UCR"
+$cmdline -N $testName.xml
+if [ "$1" == "-o" ] ; then
+  cp ./mesmer_out.xml ./$bline$testName.xml
 fi
 cd ..
 
