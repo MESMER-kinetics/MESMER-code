@@ -109,8 +109,6 @@ namespace mesmer
 
   void BimolecularSinkReaction::AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega) {
 
-    cinfo << "adding reaction terms to the collision matrix " << endl;
-
     // Get densities of states for detailed balance.
     vector<double> rctDOS;
     m_rct1->getDOS().getGrainDensityOfStates(rctDOS) ;

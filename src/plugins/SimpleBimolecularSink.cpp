@@ -53,8 +53,6 @@ namespace mesmer
 
   bool SimpleBimolecularSink::calculateMicroCnlFlux(Reaction* pReact)
   {
-    cinfo << "calculating cell flux for reaction " << pReact->getName() << " which is a SimpleBimolecularSink method"<<endl;
-
     Molecule* pRct = pReact->get_reactant() ;
     if(!pRct){
       cerr << "can't find reactant for reaction " << pReact->getName() << " for SimpleBimolecularSink" << endl;

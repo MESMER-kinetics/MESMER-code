@@ -1,4 +1,10 @@
-2018-April-07 Struan Robertson
+2018-April-08 Struan Robertson
+
+		* BimolecularSinkReaction.cpp, SimpleBimolecularSink.cpp: altered to reduce verbosity.
+
+		* Missing header files added to VC15 project.
+
+2018-April-08 Struan Robertson
 
 		* AnalyticalRepresentation.cpp: Parameter units altered to cal/mol as required.
 
