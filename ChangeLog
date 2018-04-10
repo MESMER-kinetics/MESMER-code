@@ -1,3 +1,11 @@
+2018-April-10 Struan Robertson
+
+		* ConditionsManager.cpp: Bug fix for incorrect reading of weight data.
+
+		* system.cpp, defaults.xml:  Bug fix for me:ForceMacroDetailedBalance default.
+
+		* Documentation update.
+
 2018-April-08 Struan Robertson
 
 		* BimolecularSinkReaction.cpp, SimpleBimolecularSink.cpp: altered to reduce verbosity.

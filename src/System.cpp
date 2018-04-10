@@ -312,8 +312,12 @@ namespace mesmer
 
 				// Check to see if me:ForceMacroDetailedBalance is set in defaults.
 				const char* text = ppControl->XmlReadValue("me:ForceMacroDetailedBalance", true);
-				if (text)
-					m_Flags.bForceMacroDetailedBalance = true;
+				if (text) {
+					string s(text);
+					if (s == "1" || s == "yes" || s == "true") {
+					  m_Flags.bForceMacroDetailedBalance = true ;
+					}
+				}
 
         // System configuration information
         if (ppControl->XmlReadBoolean("me:runPlatformDependentPrecisionCheck")) configuration();

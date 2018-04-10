@@ -355,7 +355,7 @@ namespace mesmer
             return false;
           }
 
-					ds.m_weight = ppRawData->XmlReadDouble("weight", optional);
+					ds.m_weight = ppPTpair->XmlReadDouble("weight", optional);
 					if (IsNan(ds.m_weight))
 						ds.m_weight = 1.0; // Assign a default weight of unity.
 

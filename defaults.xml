@@ -86,7 +86,7 @@
   <me:GradientDifferenceMagnitude units="a.u./Bohr" default="true">0.1</me:GradientDifferenceMagnitude>
   <me:GradientReducedMass units="a.m.u." default="true">16.0</me:GradientReducedMass>
   <me:AverageSlope units="a.u./Bohr" default="true">0.1</me:AverageSlope>
-  <me:ForceMacroDetailedBalance default="true"/>
+  <me:ForceMacroDetailedBalance default="true">true</me:ForceMacroDetailedBalance>
 
 </defaults>
 
