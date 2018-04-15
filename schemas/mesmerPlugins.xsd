@@ -64,15 +64,16 @@
               <xs:attribute name="ref" use="optional" />
               <xs:attribute name="referenceTemperature" type="xs:decimal" use="optional" />
               <xs:attributeGroup ref="rangeAttributes"/>
+              <xs:attributeGroup ref="me:linkAttributes"/>
             </xs:extension>
           </xs:simpleContent>
         </xs:complexType>
       </xs:element>
-      <xs:element name="deltaEDownActivationParam" minOccurs="0">
+      <xs:element name="deltaEDownTActivation" minOccurs="0">
         <xs:annotation>
           <xs:documentation>
             "Adds a temperature dependence: multiplies deltaEDown
-            by exp(-deltaEDownActivationParam/T). The parameter defaults to 0.
+            by exp(-deltaEDownTActivation/T). The parameter defaults to 0.
             Attributes bathGas and ref are alternatives.
             Omit both if the bathGas is the one specified in the
             &lt;me:conditions> section"
@@ -125,6 +126,7 @@
       <xs:enumeration value="SimpleRRKM"/>
       <xs:enumeration value="RRKM"/>
       <xs:enumeration value="DefinedSumOfStates"/>
+      <xs:enumeration value="SimpleBimolecularSink"/>
     </xs:restriction>
   </xs:simpleType>
 
@@ -187,7 +189,7 @@
           <xs:element name="excessReactantConc" type="xs:float" minOccurs="0">
           </xs:element>
         </xs:all>
-        <xs:attribute name="nameZ" type="xs:string" use="optional" />
+        <xs:attribute name="nameZ" type="xs:string" use="optional" /><!--????-->
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -444,7 +446,14 @@
       <xs:enumeration value="DefinedDensityOfStates">
         <xs:annotation>
           <xs:documentation>
-            &lt;me:DOSCMethod name="DefinedDensityOfStates"> CAN have a sub element &lt;me:States>
+            &lt;me:DOSCMethod name="me:DefinedDensityOfStates"> CAN have a sub element &lt;me:States>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="ClassicalCoupledRotors">
+        <xs:annotation>
+          <xs:documentation>
+            &lt;me:DOSCMethod name="me:ClassicalCoupledRotsrs"> CAN have sub elements &lt;me:MCStates,&lt;me:RotorArray>
         </xs:documentation>
         </xs:annotation>
       </xs:enumeration>
@@ -471,6 +480,7 @@
               <xs:simpleContent>
                 <xs:extension base="analRepFormatType">
                   <xs:attribute name="rateUnits" type="rateConstUnits" use="optional"/>
+                  <xs:attribute name="representation" type="plogOrCheb" use="optional"/>
                 </xs:extension>
               </xs:simpleContent>
             </xs:complexType>
@@ -498,11 +508,22 @@
               </xs:simpleContent>
             </xs:complexType>
           </xs:element>
-          <xs:element name="chebTExSize" type="xs:integer" minOccurs="0"/>
-          <xs:element name="chebPExSize" type="xs:integer" minOccurs="0"/>
-          <xs:element name="chebDoForAllBathGases" minOccurs="0"/>
-          <xs:element name="fittingIterations" type="xs:integer" minOccurs="0"/>
-          <xs:element name="fittingTolerance" type="xs:float" minOccurs="0"/>
+          <xs:element name="chebTExSize" type="xs:integer" minOccurs="0" maxOccurs="1"/>
+          <xs:element name="chebPExSize" type="xs:integer" minOccurs="0" maxOccurs="1"/>
+          <xs:element name="chebDoForAllBathGases" minOccurs="0" maxOccurs="1"/>
+          <xs:element name="fittingIterations" type="xs:integer" minOccurs="0" maxOccurs="1"/>
+          <xs:element name="fittingTolerance" type="xs:float" minOccurs="0" maxOccurs="1"/>
+          <xs:element name="plogNumTemp" type="xs:integer" minOccurs="0" maxOccurs="1"/>
+          <xs:element name="plogMaxTemp" type="xs:float" minOccurs="0" maxOccurs="1"/>
+          <xs:element name="plogMinTemp" type="xs:float" minOccurs="0" maxOccurs="1"/>
+          <xs:element name="plogConcs" minOccurs="0">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="plogConc" type="xs:float" maxOccurs="unbounded"/>
+              </xs:sequence>
+              <xs:attribute name="units" type="me:concUnitsType" use="required"/>
+            </xs:complexType>
+          </xs:element>
           <xs:element name="representation" type="xs:string" minOccurs="0"/>
         </xs:all>
       </xs:extension>

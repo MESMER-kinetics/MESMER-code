@@ -154,7 +154,7 @@
                             </xs:simpleContent>
                           </xs:complexType>
                         </xs:element>
-                        <xs:element name="calcSignals">
+                        <xs:element name="calcSignals" minOccurs="0">
                           <xs:complexType>
                             <xs:simpleContent>
                               <xs:extension base="xs:string">
@@ -345,6 +345,7 @@
       <xs:element name="useTheSameCellNumberForAllConditions" minOccurs="0"/>
       <xs:element name="useOrigFreqForZPECorrection" minOccurs="0"/>
       <xs:element name="useDOSweighedDownWardTransition" minOccurs="0"/>
+      <xs:element name="errorPropagationSamples" minOccurs="0" type="xs:integer"/>
     </xs:all>
     <xs:attribute name="active" type="me:ynboolean" use="optional"/>
   </xs:complexType>
@@ -403,6 +404,12 @@
     <xs:restriction base="xs:string">
       <xs:enumeration value="amuA^2"/>
       <xs:enumeration value="cm-1"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name ="plogOrCheb">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Plog"/>
+      <xs:enumeration value="Chebyshev"/>
     </xs:restriction>
   </xs:simpleType>
 
