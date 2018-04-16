@@ -1,5 +1,10 @@
 2018-April-10 Struan Robertson
 
+		* AnalyticalRepresentation.cpp: Test routine for Plog representation added and 
+		associated baselines updated.
+
+2018-April-10 Struan Robertson
+
 		* ConditionsManager.cpp: Bug fix for incorrect reading of weight data.
 
 		* system.cpp, defaults.xml:  Bug fix for me:ForceMacroDetailedBalance default.
