@@ -179,7 +179,7 @@ if [ "$1" == "-o" ] ; then
 fi
 cd ..
 
-cd "Methoxymethyl"
+cd "AnalyticalRepresentation"
 testName=Chebyshev
 $cmdline -N $testName.xml
 cp ./$testName.test ./$bline$testName.test

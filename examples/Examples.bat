@@ -155,7 +155,7 @@ copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 cd ..
 
-cd "Methoxymethyl"
+cd "AnalyticalRepresentation"
 set testName="Chebyshev"
 %cmdline% -N %testName%.xml
 copy "./%testName%.test" "./%bline%%testName%.test"
