@@ -1420,7 +1420,8 @@ namespace mesmer
 				ss1 << "(last CSE)/(first IERE) ratio = " << CSE_IERE_ratio << ", which is less than an order of magnitude" << endl;
 				ss1 << "\nResults obtained from Bartis Widom eigenvalue-vector analysis may be unreliable" << endl;
 				string s(ss1.str());
-				stest << s; clog << s;
+				//stest << s; clog << s;
+				cerr << s; //writes to console and to log file
 
 				// Replace tabs and line feeds (bad for XML) by spaces.
 				replace(s.begin(), s.end(), '\t', ' ');

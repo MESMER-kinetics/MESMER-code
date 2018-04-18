@@ -511,6 +511,7 @@
           <xs:element name="chebTExSize" type="xs:integer" minOccurs="0" maxOccurs="1"/>
           <xs:element name="chebPExSize" type="xs:integer" minOccurs="0" maxOccurs="1"/>
           <xs:element name="chebDoForAllBathGases" minOccurs="0" maxOccurs="1"/>
+          <xs:element name="doForAllBathGases" minOccurs="0" maxOccurs="1"/>
           <xs:element name="fittingIterations" type="xs:integer" minOccurs="0" maxOccurs="1"/>
           <xs:element name="fittingTolerance" type="xs:float" minOccurs="0" maxOccurs="1"/>
           <xs:element name="plogNumTemp" type="xs:integer" minOccurs="0" maxOccurs="1"/>

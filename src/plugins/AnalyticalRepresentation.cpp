@@ -221,7 +221,7 @@ namespace mesmer
     // Generate a representation for each bath gas mentioned anywhere in data file
     m_AllBathGases = pp->XmlMoveTo("me:chebDoForAllBathGases");
 		if(!m_AllBathGases)
-			m_AllBathGases = pp->XmlMoveTo("me:DoForAllBathGases");
+			m_AllBathGases = pp->XmlMoveTo("me:doForAllBathGases");
 
     return status;
   };

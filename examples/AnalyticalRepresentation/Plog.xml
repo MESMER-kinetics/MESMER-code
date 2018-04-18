@@ -276,7 +276,7 @@
         <me:plogConc>1</me:plogConc>
         <me:plogConc>10</me:plogConc>
       </me:plogConcs>
-      <me:DoForAllBathGases/>
+      <me:doForAllBathGases/>
     </me:calcMethod>
     <me:eigenvalues>6</me:eigenvalues>
     <!--<me:ForceMacroDetailedBalance/>-->
