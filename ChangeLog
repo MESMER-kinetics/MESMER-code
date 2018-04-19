@@ -1,3 +1,11 @@
+2018-April-18 Chris Morley
+
+		* Collision Operator.cpp: ensure the eigenvalue closeness warning is written to both
+		  console and log file.
+		* examples/AnalyticalRepresentation/Plog.xml,
+		schemas/mesmerPlugins.xsd,src/plugins/AnalyticalRepresentation.cpp:
+		Use me:doForAllBathGases (lc d) as the alternative to me:chebDoForAllBathGases
+ 
 2018-April-16 Struan Robertson
 
 		* AnalyticalRepresentation.cpp: Test routine for Plog representation added and 
