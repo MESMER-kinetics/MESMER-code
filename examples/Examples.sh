@@ -306,7 +306,41 @@ cd "CoupledRotors"
 testName="ipropyl_UCR"
 $cmdline -N $testName.xml
 if [ "$1" == "-o" ] ; then
-  cp ./mesmer_out.xml ./$bline$testName.xml
+  cp ./mesmer_out.xml ./$bline$testName_out.xml
+fi
+testName="ipropyl_UQR"
+$cmdline -N $testName.xml
+if [ "$1" == "-o" ] ; then
+  cp ./mesmer_out.xml ./$bline$testName_out.xml
+fi
+testName="ipropyl_CCR"
+$cmdline -N $testName.xml
+if [ "$1" == "-o" ] ; then
+  cp ./mesmer_out.xml ./$bline$testName_out.xml
+fi
+testName="Octyl_H_to_Octane_UCR"
+$cmdline -N $testName.xml
+if [ "$1" == "-o" ] ; then
+  cp ./mesmer_out.xml ./$bline$testName_out.xml
+fi
+testName="Octyl_H_to_Octane_UQR"
+$cmdline -N $testName.xml
+if [ "$1" == "-o" ] ; then
+  cp ./mesmer_out.xml ./$bline$testName_out.xml
+fi
+testName="Octyl_H_to_Octane_CCR"
+$cmdline -N $testName.xml
+if [ "$1" == "-o" ] ; then
+  cp ./mesmer_out.xml ./$bline$testName_out.xml
+fi
+cd ..
+
+cd "OH_Ethene"
+testName="Ethylene_abstraction"
+$cmdline -N $testName.xml
+cp ./$testName.test ./$bline$testName.test
+if [ "$1" == "-o" ] ; then
+  cp ./$testName.log ./$bline$testName.log
 fi
 cd ..
 

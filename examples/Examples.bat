@@ -251,9 +251,30 @@ cd ..
 cd "CoupledRotors"
 set testName="ipropyl_UCR"
 %cmdline% -N %testName%.xml
-IF "%1"=="-o" copy "./mesmer_out.xml" "./%bline%%testName%.xml"
+IF "%1"=="-o" copy "./mesmer_out.xml" "./%bline%%testName%_out.xml"
+set testName="ipropyl_UQR"
+%cmdline% -N %testName%.xml
+IF "%1"=="-o" copy "./mesmer_out.xml" "./%bline%%testName%_out.xml"
+set testName="ipropyl_CCR"
+%cmdline% -N %testName%.xml
+IF "%1"=="-o" copy "./mesmer_out.xml" "./%bline%%testName%_out.xml"
+set testName="Octyl_H_to_Octane_UCR"
+%cmdline% -N %testName%.xml
+IF "%1"=="-o" copy "./mesmer_out.xml" "./%bline%%testName%_out.xml"
+set testName="Octyl_H_to_Octane_UQR"
+%cmdline% -N %testName%.xml
+IF "%1"=="-o" copy "./mesmer_out.xml" "./%bline%%testName%_out.xml"
+set testName="Octyl_H_to_Octane_CCR"
+%cmdline% -N %testName%.xml
+IF "%1"=="-o" copy "./mesmer_out.xml" "./%bline%%testName%_out.xml"
 cd ..
 
+cd "OH_Ethene"
+set testName="Ethylene_abstraction"
+%cmdline% -N %testName%.xml
+copy "./%testName%.test" "./%bline%%testName%.test"
+IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
+cd ..
 
 :OUT
 
