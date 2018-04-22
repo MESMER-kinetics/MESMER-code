@@ -148,7 +148,6 @@ SRCS := \
 	AssignMolTypes.cpp \
 	AssociationReaction.cpp	\
 	BimolecularSinkReaction.cpp \
-	CanonicalRateCoefficient.cpp\
 	CollisionOperator.cpp \
 	ConditionsManager.cpp \
 	DensityOfStates.cpp \
@@ -187,6 +186,7 @@ SRCS := \
 	plugins/AnalyticalRepresentation.cpp \
 	plugins/BeyerSwinehart.cpp \
 	plugins/BoltzmannDistribution.cpp	\
+	plugins/CanonicalRateCoefficient.cpp	\
 	plugins/ClassicalRotor.cpp \
 	plugins/ClassicalCoupledRotors.cpp \
 	plugins/DefinedStatesRotor.cpp \
