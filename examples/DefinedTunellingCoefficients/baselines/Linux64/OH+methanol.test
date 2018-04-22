@@ -969,20 +969,20 @@ Y_matrix:
 }
 
 Z_matrix: {
--2.416897e-11	-5.841414e-22	
-2.416889e-11	-1.000000e+00	
+-2.416906e-11	-5.841414e-22	
+2.416897e-11	-1.000000e+00	
 }
 
 Z_matrix^(-1):
 {
--4.137536e+10	2.416906e-11	
+-4.137521e+10	2.416897e-11	
 -9.999964e-01	-1.000000e+00	
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	0.000000e+00	
--9.495568e-66	1.000000e+00	
+1.000000e+00	6.434447e-86	
+1.572703e-64	1.000000e+00	
 }
 
 Kr matrix:
@@ -993,7 +993,7 @@ Kr matrix:
 
 Kp matrix:
 {
-   2.742256e-04,   4.746165e-34,
+   2.742246e-04,   5.827173e-31,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -1010,8 +1010,8 @@ OH -> Im1a = 7.608609e+01
 
 First order & pseudo first order rate coefficients for irreversible rxns:
 {
-Im1a -> prod = 4.746165e-34
-OH -> prod = 2.742256e-04
+Im1a -> prod = 5.827173e-31
+OH -> prod = 2.742246e-04
 }
 
 }
