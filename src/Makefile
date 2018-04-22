@@ -148,6 +148,7 @@ SRCS := \
 	AssignMolTypes.cpp \
 	AssociationReaction.cpp	\
 	BimolecularSinkReaction.cpp \
+	CanonicalRateCoefficient.cpp\
 	CollisionOperator.cpp \
 	ConditionsManager.cpp \
 	DensityOfStates.cpp \

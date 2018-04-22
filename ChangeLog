@@ -8,6 +8,14 @@
  
 2018-April-16 Struan Robertson
 
+		* main.cpp: Fix for incorrect file changes when run in parallel.
+
+		* Makefile: Corrected for missing source fule.
+
+		* Baseline updates.
+
+2018-April-16 Struan Robertson
+
 		* AnalyticalRepresentation.cpp: Test routine for Plog representation added and 
 		associated baselines updated.
 

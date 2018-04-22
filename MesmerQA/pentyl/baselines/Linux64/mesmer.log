@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.0 compiled: -- May  2 2017 -- 19:09:13
+     Mesmer v5.1 compiled: -- Apr 21 2018 -- 19:37:43
 
-     Copyright (C) 2009-2017 by
+     Copyright (C) 2009-2018 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,10 +27,9 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Wed May  3 18:02:48 2017
-                     Number of ranks: 1
+                     Execution Date:  Sat Apr 21 19:46:14 2018
+                     Number of ranks: 12
 
-Using 1 processes
 defaults.xml, librarymols.xml are in ../..
 
 Parsing input xml file...
@@ -50,11 +49,12 @@ In 2-pentyl: --Parse data for Boltzmann
 In 2-pentyl: --Parse data for ExponentialDown
 In 1-pentyl=TS=2-pentyl: No imaginary vibrational frequency. Check if there is tunneling.
 The default value of me:DOSCMethod was used.
-In R1: --Parse data for SimpleRRKM
+In R1: --Parse data for RRKM
 In R1: No tunneling method used for R1
 The default value of the attribute precision was used.
 1e+08PPCC, 500K at d precision with Ar
-Write metadata 20170503_180248
+The default value of me:ForceMacroDetailedBalance was used.
+Write metadata 20180421_194614
 
 File: "pentyl_isomerization_test.xml" successfully parsed.
 Main Calculation begins
@@ -64,11 +64,11 @@ Now calculating...
 Number of cells = 50000, Number of grains = 107
 In timeEvolution: No population was assigned, and there is no source term.
 In timeEvolution: Initial poupulation set to 1.0  in the first isomer.
- -- Total time elapsed: 1 seconds.
+ -- Total time elapsed: 0 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
 
 System saved to out.xml
-Total time elapsed: 1 seconds.
+Total time elapsed: 0 seconds.

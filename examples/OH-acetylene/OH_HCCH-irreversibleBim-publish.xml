@@ -363,5 +363,6 @@
     <me:printSpeciesProfile />
     <me:testRateConstants />
     <me:eigenvalues>all</me:eigenvalues>
+    <me:ForceMacroDetailedBalance>false</me:ForceMacroDetailedBalance>
   </me:control>
 </me:mesmer>

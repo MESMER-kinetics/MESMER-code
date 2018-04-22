@@ -2131,13 +2131,6 @@ Number of sinks in this system: 2
 
 There should be 3 chemically significant eigenvalues (CSEs)
 
-WARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs).
-
-The last CSE = -5.56519e+08 and the first IERE = -1.21448e+09
-(last CSE)/(first IERE) ratio = 0.458236, which is less than an order of magnitude
-
-Results obtained from Bartis Widom eigenvalue-vector analysis may be unreliable
-
 Y_matrix:
 {
    2.986022e+05,   6.554698e+05,  -1.246028e-03,
@@ -2145,63 +2138,63 @@ Y_matrix:
 }
 
 Z_matrix: {
-1.396767e-19	-3.665190e-17	-1.924235e-08	
--4.091933e-01	2.131474e-01	-4.089633e-10	
-4.098688e-01	7.868523e-01	-1.495783e-09	
+2.363241e-18	-3.665104e-17	-1.924233e-08	
+-3.578969e-01	2.131474e-01	-4.089629e-10	
+3.584541e-01	7.868523e-01	-1.495782e-09	
 }
 
 Z_matrix^(-1):
 {
-3.772314e-04	-1.922260e+00	5.207136e-01	
--9.898751e-02	1.001299e+00	9.996485e-01	
--5.196871e+07	-1.921179e-09	-1.900303e-09	
+4.313075e-04	-2.197816e+00	5.953580e-01	
+-9.898750e-02	1.001225e+00	9.996685e-01	
+-5.196876e+07	-2.176966e-09	-1.830959e-09	
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	-6.852429e-81	6.852429e-81	
--2.967365e-66	1.000000e+00	-3.779036e-67	
-1.483682e-66	-7.953371e-65	1.000000e+00	
+1.000000e+00	1.581330e-81	4.875767e-81	
+0.000000e+00	1.000000e+00	7.148421e-66	
+0.000000e+00	-1.393847e-64	1.000000e+00	
 }
 
 Kr matrix:
 {
--7.863935e+04	1.785820e-10	-1.133821e-11	
-1.026687e+05	-4.379307e+08	1.183927e+08	
--2.410318e+04	4.377784e+08	-1.194619e+08	
+-7.863935e+04	2.919311e-09	-7.537647e-10	
+1.026704e+05	-4.379394e+08	1.183951e+08	
+-2.409685e+04	4.377461e+08	-1.194531e+08	
 }
 
 Kp matrix:
 {
-  -1.622105e+01,   8.233004e+04,   8.107257e+05,
-   1.973795e+01,   9.204422e+05,   2.727515e+04,
+   2.729754e-14,   2.416612e-11,   8.330278e+05,
+   1.199230e-14,   1.021131e+06,  -2.665138e-12,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-CC loss = -4.379307e+08
+CC loss = -4.379394e+08
 OH loss = -7.863935e+04
-TC loss = -1.194619e+08
+TC loss = -1.194531e+08
 }
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-CC -> OH = 1.785820e-10
-CC -> TC = 4.377784e+08
-OH -> CC = 1.026687e+05
-OH -> TC = -2.410318e+04
-TC -> CC = 1.183927e+08
-TC -> OH = -1.133821e-11
+CC -> OH = 2.919311e-09
+CC -> TC = 4.377461e+08
+OH -> CC = 1.026704e+05
+OH -> TC = -2.409685e+04
+TC -> CC = 1.183951e+08
+TC -> OH = -7.537647e-10
 }
 
 First order & pseudo first order rate coefficients for irreversible rxns:
 {
-CC -> TC_O2 = 8.233004e+04
-OH -> TC_O2 = -1.622105e+01
-TC -> TC_O2 = 8.107257e+05
-CC -> CC_O2 = 9.204422e+05
-OH -> CC_O2 = 1.973795e+01
-TC -> CC_O2 = 2.727515e+04
+CC -> TC_O2 = 2.416612e-11
+OH -> TC_O2 = 2.729754e-14
+TC -> TC_O2 = 8.330278e+05
+CC -> CC_O2 = 1.021131e+06
+OH -> CC_O2 = 1.199230e-14
+TC -> CC_O2 = -2.665138e-12
 }
 
 }

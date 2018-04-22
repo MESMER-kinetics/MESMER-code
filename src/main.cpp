@@ -308,13 +308,13 @@ int main(int argc, char **argv)
   string saveTimeStamp = '.' + currentTimeStamp;
   cerr << " -- Total time elapsed: " << timeElapsed << " seconds.\n" << endl;
 
-  //Any existing file with the same name as the one being written is renamed with a _prev suffix
-  //Any old _prev file is not deleted unless the write of the new file is successful
-  if (!usecout)
-    rename(outfilename.c_str(), "temp");
-
   if (parallelManager.Master()) {
-    if (!ppIOPtr->XmlSaveFile(outfilename))
+		//Any existing file with the same name as the one being written is renamed with a _prev suffix
+		//Any old _prev file is not deleted unless the write of the new file is successful
+		if (!usecout)
+			rename(outfilename.c_str(), "temp");
+
+		if (!ppIOPtr->XmlSaveFile(outfilename))
     {
       cerr << "There was an error when writing " << outfilename;
       rename("temp", outfilename.c_str());
