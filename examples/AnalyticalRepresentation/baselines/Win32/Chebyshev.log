@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sun Apr  8 11:45:54 2018
+                     Execution Date:  Sat Apr 21 19:14:57 2018
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -104,7 +104,7 @@ In cycCH2OCH2O: Could not find cycCH2OCH2O in ../../librarymols.xml
 In R5: --Parse data for RRKM
 In R5: No tunneling method used for R5
 No pressure and temperature specified.
-Write metadata 20180408_114554
+Write metadata 20180421_191457
 
 File: "Chebyshev.xml" successfully parsed.
 Main Calculation begins
@@ -117,6 +117,13 @@ In FastLaplaceConvolution: 4880 values in the FFT convolution routine were repla
 In FastLaplaceConvolution: 4060 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
 In FastLaplaceConvolution: 9440 values in the FFT convolution routine were replaced by standard convolution
+
+WARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs).
+
+The last CSE = -1.61523e+08 and the first IERE = -3.02681e+08
+(last CSE)/(first IERE) ratio = 0.533641, which is less than an order of magnitude
+
+Results obtained from Bartis Widom eigenvalue-vector analysis may be unreliable
 units(length = 'cm', quantity = 'molecule')
 
 chebyshev_reaction('CH3OCH2 + O2 => IM1',
@@ -270,7 +277,7 @@ chebyshev_reaction('IM2 => OH-3 + cycCH2OCH2O',
                            [    -0.0283107,    0.00143872,     0.0646827,    -0.0470463]])
 
 
- -- Total time elapsed: 183 seconds.
+ -- Total time elapsed: 218 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 183 seconds.
+Total time elapsed: 218 seconds.

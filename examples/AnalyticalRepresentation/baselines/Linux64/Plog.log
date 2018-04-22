@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.1 compiled: -- Apr  5 2018 -- 22:41:14
+     Mesmer v5.1 compiled: -- Apr 21 2018 -- 19:37:43
 
      Copyright (C) 2009-2018 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -26,9 +26,9 @@
     You should have received a copy of the GNU Public License
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
-                     Platform:        Windows
-                     Execution Date:  Mon Apr 16 23:57:02 2018
-                     Number of ranks: 1
+                     Platform:        Linux
+                     Execution Date:  Sat Apr 21 20:39:36 2018
+                     Number of ranks: 12
 
 defaults.xml, librarymols.xml are in ../..
 
@@ -52,7 +52,7 @@ In R2: No imaginary vibrational frequency. Check if there is tunneling.
 In R2: No tunneling method used for R2
 No pressure and temperature specified.
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20180416_235702
+Write metadata 20180421_203936
 
 File: "Plog.xml" successfully parsed.
 Main Calculation begins
@@ -89,7 +89,7 @@ pdep_arrhenius('trans-But-2-ene => cis-But-2-ene',
                [(            10, 'atm'),   5.28938e+44,      -9.35351,       78091.9])
 
 
- -- Total time elapsed: 59 seconds.
+ -- Total time elapsed: 58 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 59 seconds.
+Total time elapsed: 58 seconds.

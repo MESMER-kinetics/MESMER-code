@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sun Apr  8 11:58:05 2018
+                     Execution Date:  Sat Apr 21 19:24:57 2018
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -55,14 +55,14 @@ In R1: No tunneling method used for R1
 The default value of the attribute precision was used.
 1e+08PPCC, 500K at d precision with Ar
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20180408_115805
+Write metadata 20180421_192457
 
 File: "pentyl_isomerization_SA.xml" successfully parsed.
 Main Calculation begins
 Now calculating...
 
 --Execute calcMethod SensitivityAnalysis
- -- Total time elapsed: 7 seconds.
+ -- Total time elapsed: 8 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 7 seconds.
+Total time elapsed: 8 seconds.

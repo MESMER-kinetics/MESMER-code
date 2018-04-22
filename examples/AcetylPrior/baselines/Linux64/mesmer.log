@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.0 compiled: -- May 24 2017 -- 20:10:44
+     Mesmer v5.1 compiled: -- Apr 21 2018 -- 19:37:43
 
-     Copyright (C) 2009-2017 by
+     Copyright (C) 2009-2018 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,10 +27,9 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Thu May 25 12:54:32 2017
-                     Number of ranks: 4
+                     Execution Date:  Sat Apr 21 20:28:16 2018
+                     Number of ranks: 12
 
-Using 4 processes
 defaults.xml, librarymols.xml are in ../..
 
 Parsing input xml file...
@@ -46,7 +45,7 @@ In AceticAcid: gDensityOfStates initialization failed.
 In acetyl: The default value of me:energyTransferModel was used.
 In acetyl: --Parse data for ExponentialDown
 In TSdecomp: The default value of the attribute spinMultiplicity was used.
-In R1: --Parse data for SimpleRRKM
+In R1: --Parse data for RRKM
 In R1: No tunneling method used for R1
 In R2: Parsing reaction...Bimolecular sink reaction
 In R2: --Parse data for SimpleBimolecularSink
@@ -54,7 +53,8 @@ In R2: Reading parameters for Reaction R2 which uses the SimpleBimolecularSink m
 In R2: No tunneling method used for R2
 In R2: Not a unimolecular reaction: look for excess reactant concentration.
 80Torr, 298K at d precision with He
-Write metadata 20170525_125432
+The default value of me:ForceMacroDetailedBalance was used.
+Write metadata 20180421_202816
 
 File: "AcetylPrior.xml" successfully parsed.
 Main Calculation begins
@@ -62,11 +62,16 @@ Now calculating...
 
 --Execute calcMethod simpleCalc
 Number of cells = 50000, Number of grains = 268
-calculating cell flux for reaction R2 which is a SimpleBimolecularSink method
-adding reaction terms to the collision matrix 
 In FastLaplaceConvolution: 40 values in the FFT convolution routine were replaced by standard convolution
 In FastLaplaceConvolution: 20 values in the FFT convolution routine were replaced by standard convolution
 In FastLaplaceConvolution: 280 values in the FFT convolution routine were replaced by standard convolution
+
+WARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs).
+
+The last CSE = -3.596e+07 and the first IERE = -9.02304e+07
+(last CSE)/(first IERE) ratio = 0.398535, which is less than an order of magnitude
+
+Results obtained from Bartis Widom eigenvalue-vector analysis may be unreliable
  -- Total time elapsed: 0 seconds.
 
 

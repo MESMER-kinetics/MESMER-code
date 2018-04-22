@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sun Apr  8 12:16:56 2018
+                     Execution Date:  Sat Apr 21 19:46:05 2018
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -124,7 +124,7 @@ In R1: Not a unimolecular reaction: look for excess reactant concentration.
 The default value of me:ForceMacroDetailedBalance was used.
 --Parse data for ThermodynamicTable
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20180408_121656
+Write metadata 20180421_194605
 
 File: "CH3O2_NO2_associationEx2.xml" successfully parsed.
 Main Calculation begins
@@ -284,7 +284,7 @@ Chi^2 probability = 0.139509
 In N2: The default value of me:DOSCMethod was used.
 In N2: The default value of the attribute spinMultiplicity was used.
 gDensityOfStates initialization failed.
- -- Total time elapsed: 149 seconds.
+ -- Total time elapsed: 166 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 149 seconds.
+Total time elapsed: 166 seconds.

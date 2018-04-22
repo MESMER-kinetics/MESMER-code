@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sun Apr  8 11:33:33 2018
+                     Execution Date:  Sat Apr 21 18:59:49 2018
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -89,7 +89,7 @@ In R1: No value of me:excessReactantConc was supplied and the default value NEED
 614.5Torr, 601K at dd precision with He
 711Torr, 601K at dd precision with He
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20180408_113333
+Write metadata 20180421_185949
 
 File: "Methyl_H_to_Methane.xml" successfully parsed.
 Main Calculation begins
@@ -285,7 +285,7 @@ Association ILT calculation completed
 Association ILT calculation completed
 Number of cells = 50000, Number of grains = 204
 Association ILT calculation completed
- -- Total time elapsed: 335 seconds.
+ -- Total time elapsed: 429 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
@@ -346,4 +346,4 @@ Number of degrees of Freedom = 35
 Error Factor = 1.89422e-11
 
 System saved to out.xml
-Total time elapsed: 335 seconds.
+Total time elapsed: 429 seconds.

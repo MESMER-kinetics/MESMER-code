@@ -1838,13 +1838,6 @@ Number of sinks in this system: 0
 
 There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
 
-WARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs).
-
-The last CSE = -4.59152e+06 and the first IERE = -1.73186e+07
-(last CSE)/(first IERE) ratio = 0.265121, which is less than an order of magnitude
-
-Results obtained from Bartis Widom eigenvalue-vector analysis may be unreliable
-
 Z_matrix: {
 -3.281295e-03	9.999892e-01	
 3.281295e-03	1.076701e-05	

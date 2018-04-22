@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.0 compiled: -- May 24 2017 -- 20:10:44
+     Mesmer v5.1 compiled: -- Apr 21 2018 -- 19:37:43
 
-     Copyright (C) 2009-2017 by
+     Copyright (C) 2009-2018 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,10 +27,9 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Thu May 25 13:08:57 2017
-                     Number of ranks: 4
+                     Execution Date:  Sat Apr 21 20:32:51 2018
+                     Number of ranks: 12
 
-Using 4 processes
 defaults.xml, librarymols.xml are in ../..
 
 Parsing input xml file...
@@ -55,7 +54,8 @@ The default value of the attribute precision was used.
 200.72Torr, 800K at d precision with He
 The default value of the attribute precision was used.
 250Torr, 1000K at d precision with He
-Write metadata 20170525_130857
+The default value of me:ForceMacroDetailedBalance was used.
+Write metadata 20180421_203251
 
 File: "WKB_test.xml" successfully parsed.
 Main Calculation begins
@@ -64,11 +64,11 @@ Now calculating...
 --Execute calcMethod simpleCalc
 Number of cells = 50000, Number of grains = 120
 In FastLaplaceConvolution: 13360 values in the FFT convolution routine were replaced by standard convolution
- -- Total time elapsed: 1 seconds.
+ -- Total time elapsed: 0 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
 
 System saved to mesmer_out.xml
-Total time elapsed: 1 seconds.
+Total time elapsed: 0 seconds.

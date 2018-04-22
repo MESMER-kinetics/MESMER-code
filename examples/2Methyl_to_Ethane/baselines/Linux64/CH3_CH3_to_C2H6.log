@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.1 compiled: -- Apr  2 2018 -- 23:25:21
+     Mesmer v5.1 compiled: -- Apr 21 2018 -- 19:37:43
 
      Copyright (C) 2009-2018 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Tue Apr  3 23:57:16 2018
+                     Execution Date:  Sat Apr 21 21:00:04 2018
                      Number of ranks: 12
 
 defaults.xml, librarymols.xml are in ../..
@@ -79,7 +79,8 @@ In R1: Not a unimolecular reaction: look for excess reactant concentration.
 3.2Torr, 715K at d precision with He
 6.2Torr, 715K at d precision with He
 10.2Torr, 715K at d precision with He
-Write metadata 20180403_235716
+The default value of me:ForceMacroDetailedBalance was used.
+Write metadata 20180421_210004
 
 File: "CH3_CH3_to_C2H6.xml" successfully parsed.
 Main Calculation begins

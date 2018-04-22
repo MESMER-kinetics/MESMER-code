@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Thu Apr 19 20:58:56 2018
+                     Execution Date:  Sat Apr 21 19:57:28 2018
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -145,7 +145,7 @@ In R3: Not a unimolecular reaction: look for excess reactant concentration.
 57.6torr, 580K at d precision with N2. Excess Reactant Conc = 4.25e+15 particles per cc
 57.6torr, 580K at d precision with N2. Excess Reactant Conc = 6.36e+15 particles per cc
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20180419_205856
+Write metadata 20180421_195729
 
 File: "Ethylene_abstraction.xml" successfully parsed.
 Main Calculation begins
@@ -363,7 +363,7 @@ ethylene_OH:ZPE=-111.139  ethylene_OH:deltaEDown:N2=232.472  ethylene_OH:deltaED
 Iteration: 20 of Marquardt. ChiSquare = 4.61002e-06, Lambda = 1
 Number of cells = 50000, Number of grains = 146
 Association ILT calculation completed
- -- Total time elapsed: 1758 seconds.
+ -- Total time elapsed: 1700 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
@@ -15495,4 +15495,4 @@ Number of degrees of Freedom = 14992
 Error Factor = 1.75356e-05
 
 System saved to mesmer_out.xml
-Total time elapsed: 1758 seconds.
+Total time elapsed: 1700 seconds.

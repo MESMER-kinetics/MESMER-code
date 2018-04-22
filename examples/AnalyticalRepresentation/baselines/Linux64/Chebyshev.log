@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.1 compiled: -- Apr  2 2018 -- 23:25:21
+     Mesmer v5.1 compiled: -- Apr 21 2018 -- 19:37:43
 
      Copyright (C) 2009-2018 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Tue Apr  3 23:34:11 2018
+                     Execution Date:  Sat Apr 21 20:33:20 2018
                      Number of ranks: 12
 
 defaults.xml, librarymols.xml are in ../..
@@ -104,7 +104,7 @@ In cycCH2OCH2O: Could not find cycCH2OCH2O in ../../librarymols.xml
 In R5: --Parse data for RRKM
 In R5: No tunneling method used for R5
 No pressure and temperature specified.
-Write metadata 20180403_233411
+Write metadata 20180421_203320
 
 File: "Chebyshev.xml" successfully parsed.
 Main Calculation begins
@@ -117,6 +117,13 @@ In FastLaplaceConvolution: 4880 values in the FFT convolution routine were repla
 In FastLaplaceConvolution: 4060 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
 In FastLaplaceConvolution: 9460 values in the FFT convolution routine were replaced by standard convolution
+
+WARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs).
+
+The last CSE = -1.61523e+08 and the first IERE = -3.02682e+08
+(last CSE)/(first IERE) ratio = 0.533641, which is less than an order of magnitude
+
+Results obtained from Bartis Widom eigenvalue-vector analysis may be unreliable
 units(length = 'cm', quantity = 'molecule')
 
 chebyshev_reaction('CH3OCH2 + O2 => IM1',
@@ -270,7 +277,7 @@ chebyshev_reaction('IM2 => OH-3 + cycCH2OCH2O',
                            [    -0.0293336,    0.00336075,     0.0630631,     -0.045827]])
 
 
- -- Total time elapsed: 161 seconds.
+ -- Total time elapsed: 187 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 161 seconds.
+Total time elapsed: 187 seconds.

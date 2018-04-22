@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.1 compiled: -- Apr  2 2018 -- 23:25:21
+     Mesmer v5.1 compiled: -- Apr 21 2018 -- 19:37:43
 
      Copyright (C) 2009-2018 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Tue Apr  3 23:29:23 2018
+                     Execution Date:  Sat Apr 21 20:28:32 2018
                      Number of ranks: 12
 
 defaults.xml, librarymols.xml are in ../..
@@ -88,7 +88,8 @@ In R1: No value of me:excessReactantConc was supplied and the default value NEED
 515Torr, 601K at dd precision with He
 614.5Torr, 601K at dd precision with He
 711Torr, 601K at dd precision with He
-Write metadata 20180403_232923
+The default value of me:ForceMacroDetailedBalance was used.
+Write metadata 20180421_202832
 
 File: "Methyl_H_to_Methane.xml" successfully parsed.
 Main Calculation begins
@@ -284,7 +285,7 @@ Association ILT calculation completed
 Association ILT calculation completed
 Number of cells = 50000, Number of grains = 204
 Association ILT calculation completed
- -- Total time elapsed: 125 seconds.
+ -- Total time elapsed: 126 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
@@ -345,4 +346,4 @@ Number of degrees of Freedom = 35
 Error Factor = 1.89422e-11
 
 System saved to out.xml
-Total time elapsed: 125 seconds.
+Total time elapsed: 126 seconds.

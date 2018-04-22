@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sun Apr  8 11:33:11 2018
+                     Execution Date:  Sat Apr 21 18:59:10 2018
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -54,7 +54,7 @@ In R2: No tunneling method used for R2
 In R2: Not a unimolecular reaction: look for excess reactant concentration.
 80Torr, 298K at d precision with He
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20180408_113311
+Write metadata 20180421_185910
 
 File: "AcetylPrior.xml" successfully parsed.
 Main Calculation begins
@@ -62,11 +62,16 @@ Now calculating...
 
 --Execute calcMethod simpleCalc
 Number of cells = 50000, Number of grains = 268
-calculating cell flux for reaction R2 which is a SimpleBimolecularSink method
-adding reaction terms to the collision matrix 
 In FastLaplaceConvolution: 40 values in the FFT convolution routine were replaced by standard convolution
 In FastLaplaceConvolution: 20 values in the FFT convolution routine were replaced by standard convolution
 In FastLaplaceConvolution: 280 values in the FFT convolution routine were replaced by standard convolution
+
+WARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs).
+
+The last CSE = -3.596e+07 and the first IERE = -9.02304e+07
+(last CSE)/(first IERE) ratio = 0.398535, which is less than an order of magnitude
+
+Results obtained from Bartis Widom eigenvalue-vector analysis may be unreliable
  -- Total time elapsed: 1 seconds.
 
 
