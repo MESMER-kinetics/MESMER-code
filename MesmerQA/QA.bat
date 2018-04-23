@@ -27,8 +27,8 @@ SET lfn=mesmer.log
 SET bline=baselines/Win32/
 SET outf=out.xml
 SET mpicommand="C:\Program Files\Microsoft MPI\Bin\mpiexec" -n 4 %executable%
-::SET cmdline=%executable%
-SET cmdline=%mpicommand%
+SET cmdline=%executable%
+::SET cmdline=%mpicommand%
 
 
 :: This compares the "double quote" altogether with the content
@@ -94,7 +94,8 @@ GOTO END
 
 @cd HSO2
 %cmdline% HSO2_test.xml -o %outf% %directive%
-@@IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
+@copy "./%tfn%" "./%bline%%otfn%"
+@IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 
 @set testName="HSO2"
 %cmdline% -N %testName%.xml %directive%
