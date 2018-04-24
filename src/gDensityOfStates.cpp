@@ -386,7 +386,8 @@ namespace mesmer
       ss << ConvertFromWavenumbers(unitsInput, m_ZPE) ;
       PersistPtr ppScalar = ppPropList->XmlWriteProperty("me:ZPE", ss.str(), unitsInput);
       ppScalar->XmlWriteAttribute("source", elName);
-      cinfo << "New me:ZPE element written with data from " << elName << endl;
+			ppScalar->XmlWriteAttribute("convention", m_energyConvention);
+			cinfo << "New me:ZPE element written with data from " << elName << endl;
     }
     return true;
   }

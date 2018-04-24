@@ -1,3 +1,7 @@
+2018-April-24 Struan Robertson
+
+		* gDensityOfStates.cpp: Fix for parse only bug.
+
 2018-April-22 Struan Robertson
 
 		* main.cpp: Fix for incorrect file changes when run in parallel.
