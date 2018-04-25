@@ -654,8 +654,8 @@ Section "Uninstall"
   Delete $INSTDIR\popDiag.xsl
   Delete $INSTDIR\punch.xsl
   Delete $INSTDIR\chemStrucEL.xsl
-  Delete $INSTDIR\chemStrucEL.xsl
   Delete $INSTDIR\rawdataplot.xsl
+  Delete $INSTDIR\switchcontent.xsl
   Delete $INSTDIR\librarymols.xml
   Delete $INSTDIR\defaults.xml
   Delete $INSTDIR\punchout.bat
