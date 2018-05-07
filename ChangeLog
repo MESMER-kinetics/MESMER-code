@@ -1,3 +1,10 @@
+2018-May-07 Struan Robertson
+
+		* CollisionOperator.cpp: Code added to estimate equilibrium populations when the linear 
+		algebra method returns zero because of machine precision.
+
+		* gStructure.cpp: Fix for atomic multiplicity bug and baseline update.
+
 2018-April-24 Struan Robertson
 
 		* gDensityOfStates.cpp: Fix for parse only bug.

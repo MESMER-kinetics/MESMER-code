@@ -748,6 +748,41 @@ namespace mesmer
 
 		Reaction::molMapType::iterator itr1;
 
+		// Check for zero populations and if there are any try to estimate them from the equilibrium constants.
+		size_t count(0);
+		do {
+			count = 0;
+			for (size_t i(0); i < eqFraction.size(); i++) {
+				if (eqFraction[i] > qd_real(0.0)) {
+					count++;
+				}
+				else {
+					Molecule* key;
+					for (itr1 = m_SpeciesSequence.begin(); itr1 != m_SpeciesSequence.end(); ++itr1) {
+						if (itr1->second == i) 
+						  key = itr1->first;
+					}
+					Molecule* rct;
+					Molecule* pdt;
+					double Keq(0.0);
+					for (size_t j(0); j < m_pReactionManager->size(); j++) {
+						if ((*m_pReactionManager)[i]->isEquilibratingReaction(Keq, &rct, &pdt)) {
+							if (rct == key) {
+								int nprd = m_SpeciesSequence[pdt];
+								eqFraction[i] = eqFraction[nprd]/Keq;
+							}
+							else if (pdt == key) {
+								int nrct = m_SpeciesSequence[rct];
+								eqFraction[i] = eqFraction[nrct] * Keq;
+							}
+						}
+						if (eqFraction[i] > qd_real(0.0))
+							continue;
+					}
+				}
+			}
+		} while (count < eqFraction.size());
+
 		// Assign Eq fraction to appropriate Molecule in the Eq. frac map.
 		for (itr1 = m_SpeciesSequence.begin(); itr1 != m_SpeciesSequence.end(); ++itr1) {
 			int seqMatrixLoc = itr1->second;

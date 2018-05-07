@@ -54,11 +54,21 @@ namespace mesmer
 		if (!pDOS1.getCellDensityOfStates(rct1CellDOS) || !pDOS2.getCellDensityOfStates(rct2CellDOS))
 			return false;
 		std::vector<double> rotConsts;
+		// Check to see if one or other fragment is an atom. 
+		// If so multiply by the atomic multiplicity.
 		if (pDOS1.get_rotConsts(rotConsts) == UNDEFINED_TOP) {
 			rctsCellDOS = rct2CellDOS;
+			double multiplicity = rct1CellDOS[0];
+			for (size_t i(0); i < rctsCellDOS.size(); i++) {
+				rctsCellDOS[i] *= multiplicity;
+			}
 		}
 		else if (pDOS2.get_rotConsts(rotConsts) == UNDEFINED_TOP) {
 			rctsCellDOS = rct1CellDOS;
+			double multiplicity = rct2CellDOS[0];
+			for (size_t i(0); i < rctsCellDOS.size(); i++) {
+				rctsCellDOS[i] *= multiplicity;
+			}
 		}
 		else {
 			FastLaplaceConvolution(rct1CellDOS, rct2CellDOS, rctsCellDOS);
