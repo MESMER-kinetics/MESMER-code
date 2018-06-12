@@ -1,3 +1,10 @@
+2018-June-07 Struan Robertson
+
+		* UnitTest.cpp: Added test for normal distribution.
+
+		* Methyl_H_to_Methane_FTST_rev.xml, Methyl_H_to_Methane_FTST_irrer.xml: Updated tests
+		to a larger range of temperatures.
+
 2018-May-07 Struan Robertson
 
 		* CollisionOperator.cpp: Code added to estimate equilibrium populations when the linear 

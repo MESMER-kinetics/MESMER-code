@@ -71,7 +71,7 @@
       </bondArray>
       <propertyList>
         <property dictRef="me:ZPE">
-         <scalar units="kcal/mol" lower="93.0" upper="113.0" stepsize="10">100.631</scalar>
+          <scalar units="kcal/mol" lower="93.0" upper="113.0" stepsize="10">100.631</scalar>
         </property>
         <property dictRef="me:rotConsts">
           <array units="cm-1">4.723 9.471 9.471</array>
@@ -115,6 +115,8 @@
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="kcal/mol" lower="93.0" upper="113.0" stepsize="10">100.631</scalar>
+          <!--<scalar units="kcal/mol" me:derivedFrom="Methyl:ZPE">103.43</scalar>-->
+          <!--<scalar units="kcal/mol" lower="93.0" upper="113.0" stepsize="10">103.43</scalar>-->
         </property>
         <property dictRef="me:MW">
           <scalar units="amu">16</scalar>
@@ -164,9 +166,9 @@
         <molecule ref="TS1" role="transitionState" />
       </transitionState>
 
-      <!--<me:MCRCMethod xsi:type="DefinedSumOfStates">
-        --><!--<Sum of states for the reaction CH3+H <==> CH4 taken from 
-      E.E. Aubanel and D.M. Wardlaw, J. Phys. Chem., p. 3117, Vol. 93 (1989). >--><!--
+      <me:MCRCMethod xsi:type="DefinedSumOfStates">
+        <!--<Sum of states for the reaction CH3+H <==> CH4 taken from 
+      E.E. Aubanel and D.M. Wardlaw, J. Phys. Chem., p. 3117, Vol. 93 (1989). >-->
         <me:SumOfStates units="cm-1" angularMomentum="true" noLogSpline="false">
           <me:SumOfStatesPoint energy="  154.87240" angMomMag=" 0"> 0.12620E+02 </me:SumOfStatesPoint>
           <me:SumOfStatesPoint energy="  247.90776" angMomMag=" 0"> 0.24010E+02 </me:SumOfStatesPoint>
@@ -577,7 +579,7 @@
           <me:SumOfStatesPoint energy="22216.56464" angMomMag="80"> 0.27680E+09 </me:SumOfStatesPoint>
 
         </me:SumOfStates>
-      </me:MCRCMethod>-->
+      </me:MCRCMethod>
 
     </reaction>
 
@@ -586,19 +588,64 @@
   <me:conditions>
     <me:bathGas>He</me:bathGas>
     <me:PTs>
-      <me:PTpair units="PPCC" P="1.0e8" T="400" precision="qd">
+      <me:PTpair units="PPCC" P="1.0e13" T="300" precision="qd">
         <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="1.0e9" T="400" precision="qd">
+      <me:PTpair units="PPCC" P="1.0e14" T="300" precision="qd">
         <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="1.0e10" T="400" precision="qd">
+      <me:PTpair units="PPCC" P="1.0e15" T="300" precision="qd">
         <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="1.0e11" T="400" precision="qd">
+      <me:PTpair units="PPCC" P="1.0e16" T="300" precision="qd">
         <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="1.0e12" T="400" precision="qd">
+      <me:PTpair units="PPCC" P="1.0e17" T="300" precision="qd">
+        <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="1.0e18" T="300" precision="qd">
+        <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="1.0e19" T="300" precision="qd">
+        <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="1.0e20" T="300" precision="qd">
+        <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="1.0e21" T="300" precision="qd">
+        <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="1.0e22" T="300" precision="qd">
+        <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="1.0e13" T="350" precision="qd">
+        <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="1.0e14" T="350" precision="qd">
+        <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="1.0e15" T="350" precision="qd">
+        <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="1.0e16" T="350" precision="qd">
+        <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="1.0e17" T="350" precision="qd">
+        <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="1.0e18" T="350" precision="qd">
+        <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="1.0e19" T="350" precision="qd">
+        <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="1.0e20" T="350" precision="qd">
+        <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="1.0e21" T="350" precision="qd">
+        <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="1.0e22" T="350" precision="qd">
         <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
       </me:PTpair>
       <me:PTpair units="PPCC" P="1.0e13" T="400" precision="qd">
@@ -619,19 +666,16 @@
       <me:PTpair units="PPCC" P="1.0e18" T="400" precision="qd">
         <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="1.0e8" T="500" precision="qd">
+      <me:PTpair units="PPCC" P="1.0e19" T="400" precision="qd">
         <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="1.0e9" T="500" precision="qd">
+      <me:PTpair units="PPCC" P="1.0e20" T="400" precision="qd">
         <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="1.0e10" T="500" precision="qd">
+      <me:PTpair units="PPCC" P="1.0e21" T="400" precision="qd">
         <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="1.0e11" T="500" precision="qd">
-        <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
-      </me:PTpair>
-      <me:PTpair units="PPCC" P="1.0e12" T="500" precision="qd">
+      <me:PTpair units="PPCC" P="1.0e22" T="400" precision="qd">
         <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
       </me:PTpair>
       <me:PTpair units="PPCC" P="1.0e13" T="500" precision="qd">
@@ -652,19 +696,16 @@
       <me:PTpair units="PPCC" P="1.0e18" T="500" precision="qd">
         <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="1.0e8" T="600" precision="qd">
+      <me:PTpair units="PPCC" P="1.0e19" T="500" precision="qd">
         <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="1.0e9" T="600" precision="qd">
+      <me:PTpair units="PPCC" P="1.0e20" T="500" precision="qd">
         <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="1.0e10" T="600" precision="qd">
+      <me:PTpair units="PPCC" P="1.0e21" T="500" precision="qd">
         <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="1.0e11" T="600" precision="qd">
-        <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
-      </me:PTpair>
-      <me:PTpair units="PPCC" P="1.0e12" T="600" precision="qd">
+      <me:PTpair units="PPCC" P="1.0e22" T="500" precision="qd">
         <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
       </me:PTpair>
       <me:PTpair units="PPCC" P="1.0e13" T="600" precision="qd">
@@ -683,6 +724,48 @@
         <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
       </me:PTpair>
       <me:PTpair units="PPCC" P="1.0e18" T="600" precision="qd">
+        <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="1.0e19" T="600" precision="qd">
+        <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="1.0e20" T="600" precision="qd">
+        <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="1.0e21" T="600" precision="qd">
+        <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="1.0e22" T="600" precision="qd">
+        <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="1.0e13" T="1000" precision="qd">
+        <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="1.0e14" T="1000" precision="qd">
+        <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="1.0e15" T="1000" precision="qd">
+        <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="1.0e16" T="1000" precision="qd">
+        <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="1.0e17" T="1000" precision="qd">
+        <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="1.0e18" T="1000" precision="qd">
+        <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="1.0e19" T="1000" precision="qd">
+        <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="1.0e20" T="1000" precision="qd">
+        <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="1.0e21" T="1000" precision="qd">
+        <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="1.0e22" T="1000" precision="qd">
         <me:experimentalRate ref1="Methane" ref2="Methane" error="0.0">0.0</me:experimentalRate>
       </me:PTpair>
     </me:PTs>
