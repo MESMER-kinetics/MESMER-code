@@ -20,6 +20,8 @@ namespace {
 
   // An anonymous namespace to contain methods to be used only within this file.
 
+  // This method  performs a DOS convolution when one of the species is an atom 
+  // and so takes advantage of its sparse density of states.
   bool FastAtomConvolution(vector<double>& atmCellDOS, vector<double>& otherCellDOS, vector<double>& rctsCellDOS) {
 
     rctsCellDOS.clear();

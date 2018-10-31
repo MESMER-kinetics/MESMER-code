@@ -100,7 +100,7 @@ namespace mesmer
     energyMap["kcal per mol"] = kCalPerMol_in_RC;
     energyMap["Hartree"]      = Hartree_In_kJperMol * kJPerMol_in_RC;
     energyMap["au"]           = Hartree_In_kJperMol * kJPerMol_in_RC;
-    energyMap["GHz"]          = SpeedOfLight_in_cm * 1.0e-09;
+    energyMap["GHz"]          = 1.0e+09/ SpeedOfLight_in_cm ;
 
     timeMap["sec"]      = 1.0; //internal time units
     timeMap["msec"]     = 1.0e-3;
