@@ -96,6 +96,27 @@ namespace mesmer
         if (txt)
           this_precision = txtToPrecision(txt);
 
+        string ref1;
+        txt = ppPTset->XmlReadValue("me:ref1", optional);
+        if (!txt)
+          txt = ppPTset->XmlReadValue("ref1", optional);
+        if (txt)
+          ref1 = txt;
+
+        string ref2;
+        txt = ppPTset->XmlReadValue("me:ref2", optional);
+        if (!txt)
+          txt = ppPTset->XmlReadValue("ref2", optional);
+        if (txt)
+          ref2 = txt;
+
+        string refReaction;
+        txt = ppPTset->XmlReadValue("me:refReaction", optional);
+        if (!txt)
+          txt = ppPTset->XmlReadValue("refReaction", optional);
+        if (txt)
+          refReaction = txt;
+
         std::vector<double> Pvals, Tvals;
         if (!ReadRange("me:Prange", Pvals, ppPTset) || !ReadRange("me:Trange", Tvals, ppPTset))
           return false;
@@ -105,6 +126,7 @@ namespace mesmer
           for (size_t j(0); j < Tvals.size(); ++j) {
             CandTpair thisPair(getConvertedP(this_units, Pvals[i], Tvals[j]), Tvals[j],
               this_precision, bathGasName, baseExcessConcs);
+            thisPair.set_experimentalRates(ppPTset, ref1, ref2, refReaction, 0.0, 0.0);
             PandTs.push_back(thisPair);
             m_pSys->getEnv().MaximumTemperature = max(m_pSys->getEnv().MaximumTemperature, thisPair.m_temperature);
           }
@@ -355,9 +377,9 @@ namespace mesmer
             return false;
           }
 
-					ds.m_weight = ppPTpair->XmlReadDouble("weight", optional);
-					if (IsNan(ds.m_weight))
-						ds.m_weight = 1.0; // Assign a default weight of unity.
+          ds.m_weight = ppPTpair->XmlReadDouble("weight", optional);
+          if (IsNan(ds.m_weight))
+            ds.m_weight = 1.0; // Assign a default weight of unity.
 
           PersistPtr ppTimes = ppRawData->XmlMoveTo("me:times");
           PersistPtr ppSignals = ppRawData->XmlMoveTo("me:signals");
@@ -413,32 +435,32 @@ namespace mesmer
 
     }
 
-		// Normalize weigths on raw data (if any).
-		NormalizeExptWeights();
+    // Normalize weigths on raw data (if any).
+    NormalizeExptWeights();
 
     return true;
   }
 
-	// Normalize Experimental weights.
-	void ConditionsManager::NormalizeExptWeights()
-	{
-		double sum(0.0);
-		for (size_t i(0); i < PandTs.size(); ++i) {
-			vector<RawDataSet>& data = PandTs[i].m_rawDataSets;
-			for (size_t j(0); j < data.size(); ++j) {
-				sum += data[j].m_weight;
-			}
-		}
+  // Normalize Experimental weights.
+  void ConditionsManager::NormalizeExptWeights()
+  {
+    double sum(0.0);
+    for (size_t i(0); i < PandTs.size(); ++i) {
+      vector<RawDataSet>& data = PandTs[i].m_rawDataSets;
+      for (size_t j(0); j < data.size(); ++j) {
+        sum += data[j].m_weight;
+      }
+    }
 
-		if (sum > 0.0) {
-			for (size_t i(0); i < PandTs.size(); ++i) {
-				vector<RawDataSet>& data = PandTs[i].m_rawDataSets;
-				for (size_t j(0); j < data.size(); ++j) {
-					data[j].m_weight /= sum;
-				}
-			}
-		}
-	}
+    if (sum > 0.0) {
+      for (size_t i(0); i < PandTs.size(); ++i) {
+        vector<RawDataSet>& data = PandTs[i].m_rawDataSets;
+        for (size_t j(0); j < data.size(); ++j) {
+          data[j].m_weight /= sum;
+        }
+      }
+    }
+  }
 
   bool ConditionsManager::ReadRange(const string& name, vector<double>& vals, PersistPtr ppbase, bool MustBeThere)
   {

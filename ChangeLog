@@ -1,3 +1,12 @@
+2018-October-31 Struan Robertson
+
+		* DensityOfStates.cpp, gStructure.cpp, MolecularComponents.h/.cpp: Generalized the fix
+		for atomic multiplicity made on 07/May/2018.
+
+		* ConditionsManager.cpp: Extended the "PTset" method to specify a reaction interest.
+
+		* UnitConversion.cpp: Added GHz as an energy unit.
+
 2018-June-07 Struan Robertson
 
 		* UnitTest.cpp: Added test for normal distribution.

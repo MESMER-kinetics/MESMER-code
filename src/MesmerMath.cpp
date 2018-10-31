@@ -1026,6 +1026,7 @@ double RationalApproximation(double t)
 	// The absolute value of the error should be less than 4.5 e-4.
 	double c[] = {2.515517, 0.802853, 0.010328};
 	double d[] = {1.432788, 0.189269, 0.001308};
+
 	return t - ((c[2]*t + c[1])*t + c[0]) / 
 		(((d[2]*t + d[1])*t + d[0])*t + 1.0);
 }
@@ -1042,8 +1043,8 @@ double NormalCDFInverse(double p)
 	//	throw std::invalid_argument( os.str() );
 	//}
 
-    p = max(1.e-15, p) ;
-	p = min(1-1.e-15, p) ;
+  p = max(1.e-15, p) ;
+	p = min(1.0-1.e-15, p) ;
 
 	// See article above for explanation of this section.
 	if (p < 0.5)
@@ -1054,6 +1055,6 @@ double NormalCDFInverse(double p)
 	else
 	{
 		// F^-1(p) = G^-1(1-p)
-		return RationalApproximation( sqrt(-2.0*log(1-p)) );
+		return RationalApproximation( sqrt(-2.0*log(1.0-p)) );
 	}
 }

@@ -191,6 +191,32 @@
       </propertyList>
     </molecule>
 
+    <molecule id="O3P">
+      <atom elementType="O"/>
+      <propertyList>
+        <property title="SpinMultiplicity" dictRef="me:spinMultiplicity">
+          <scalar>3.0</scalar>
+        </property>
+        <property dictRef="me:epsilon">
+          <scalar>10.0</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>2.55</scalar>
+        </property>
+        <property dictRef="me:MW">
+          <scalar>16.0</scalar>
+        </property>
+      </propertyList>
+
+      <me:DOSCMethod xsi:type="me:DefinedStatesRotors"/>
+      <me:States units="cm-1">
+        <me:State energy="0.0"   degeneracy="5"/>
+        <me:State energy="158.5" degeneracy="3"/>
+        <me:State energy="226.5" degeneracy="1"/>
+      </me:States>
+
+    </molecule>
+
   </moleculeList>
 
   <me:control>

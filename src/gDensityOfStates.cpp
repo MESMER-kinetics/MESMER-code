@@ -558,7 +558,7 @@ namespace mesmer
     // 3-D rotors may have other attributes, but in ILT they are treated as the same type. 
 
     if ((mmtsInt[0] + mmtsInt[1] + mmtsInt[2]) == 0.)
-      return UNDEFINED_TOP; // not a rotor
+      return ATOMIC; // not a rotor
     else if ((mmtsInt[0] * mmtsInt[1] * mmtsInt[2]) == 0.)
       return LINEAR;        // 2-D linear
     else

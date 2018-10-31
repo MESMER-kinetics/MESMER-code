@@ -34,6 +34,7 @@ namespace mesmer
 {
 
   enum RotationalTop {
+    ATOMIC,
     LINEAR,
     NONLINEAR,
     SPHERICAL,
