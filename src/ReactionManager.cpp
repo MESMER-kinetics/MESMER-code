@@ -73,7 +73,7 @@ namespace mesmer
 
         PersistPtr ppReactant2  = ppReactant1->XmlMoveTo("reactant");
         if(ppReactant2) {
-          readStatus = readStatus && (readStatus && GetMoleculeInfo(ppReactant2, rct2Name, rct2Type)) ;
+          readStatus = readStatus && GetMoleculeInfo(ppReactant2, rct2Name, rct2Type) ;
           bRct2 = true;
         }
       }

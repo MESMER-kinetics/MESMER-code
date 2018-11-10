@@ -98,6 +98,8 @@ namespace mesmer
 		//
 		void diagonalize(T *rr) {
 
+			cout << Eigen::nbThreads() << endl ;
+
 			Eigen::SelfAdjointEigenSolver<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> > eigensolver((*this));
 
 			Eigen::Matrix<T, Eigen::Dynamic, 1> egv = eigensolver.eigenvalues();
