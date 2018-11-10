@@ -932,9 +932,16 @@ namespace mesmer
 			dataSet.m_calcTrace = signal;
 
 			// Taking the residual to be the euclidian distance between functions (represented as vectors).
+      bool useWeights(true);
 			residuals[calPoint] += sqrt(localChi);
-			chiSquare += localChi * dataSet.m_weight ;
-
+      if (useWeights) {
+        chiSquare += localChi * dataSet.m_weight;
+      }
+      else {
+        chiSquare += localChi;
+        dataSet.m_weight = double(signal.size())/localChi;
+      }
+     
     }
 
 		return chiSquare;

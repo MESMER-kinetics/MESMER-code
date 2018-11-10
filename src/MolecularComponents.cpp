@@ -56,19 +56,9 @@ namespace mesmer
     // If so multiply by the atomic multiplicity.
     if (pDOS1.get_rotConsts(rotConsts) == ATOMIC) {
       FastAtomConvolution(rct1CellDOS, rct2CellDOS, rctsCellDOS);
-      //rctsCellDOS = rct2CellDOS;
-      //double multiplicity = rct1CellDOS[0];
-      //for (size_t i(0); i < rctsCellDOS.size(); i++) {
-      //  rctsCellDOS[i] *= multiplicity;
-      //}
     }
     else if (pDOS2.get_rotConsts(rotConsts) == ATOMIC) {
       FastAtomConvolution(rct2CellDOS, rct1CellDOS, rctsCellDOS);
-      //rctsCellDOS = rct1CellDOS;
-      //double multiplicity = rct2CellDOS[0];
-      //for (size_t i(0); i < rctsCellDOS.size(); i++) {
-      //  rctsCellDOS[i] *= multiplicity;
-      //}
     }
     else {
       FastLaplaceConvolution(rct1CellDOS, rct2CellDOS, rctsCellDOS);

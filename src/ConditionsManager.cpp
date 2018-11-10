@@ -377,9 +377,11 @@ namespace mesmer
             return false;
           }
 
-          ds.m_weight = ppPTpair->XmlReadDouble("weight", optional);
-          if (IsNan(ds.m_weight))
+          ds.m_weight = ppRawData->XmlReadDouble("weight", optional);
+          if (IsNan(ds.m_weight)) {
             ds.m_weight = 1.0; // Assign a default weight of unity.
+            ppRawData->XmlWriteAttribute("weight", toString(ds.m_weight));
+          }
 
           PersistPtr ppTimes = ppRawData->XmlMoveTo("me:times");
           PersistPtr ppSignals = ppRawData->XmlMoveTo("me:signals");
@@ -566,6 +568,9 @@ namespace mesmer
           double calc = Trace.m_calcTrace[j];
           rateCoeffTable << setw(30) << " " << formatFloat(time, 6, 15) << "," << formatFloat(expt, 6, 15) << "," << formatFloat(calc, 6, 15) << endl;
         }
+        rateCoeffTable << endl;
+        rateCoeffTable << setw(30) << "Weigth: " << Trace.m_weight << endl;
+        rateCoeffTable << endl;
       }
     }
 
@@ -623,6 +628,9 @@ namespace mesmer
         vector<double> tmp = Trace[i].m_calcTrace;
         m_pParallelManager->broadcastVecDouble(tmp, broadcastRank);
         Trace[i].m_calcTrace = tmp;
+        double tmp2 = Trace[i].m_weight;
+        m_pParallelManager->broadcastDouble(&tmp2, 1, broadcastRank);
+        Trace[i].m_weight = tmp2;
       }
     }
   }
@@ -661,6 +669,7 @@ namespace mesmer
           ss << fixed << tmp << " ";
         }
         PersistPtr pp = dataSet.m_pPersistPtr;
+        pp->XmlWriteAttribute("weight", toString(dataSet.m_weight));
         PersistPtr ppcs = pp->XmlMoveTo("me:calcSignals");
         if (ppcs) {
           ppcs->XmlWrite(ss.str());

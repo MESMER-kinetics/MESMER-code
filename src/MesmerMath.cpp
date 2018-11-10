@@ -200,7 +200,7 @@ void FastLaplaceConvolution(const vector<double> &data1original,
 	const double tolerance(0.01) ;
 	do {
 		ctr = 0;
-		for(int jj(0); jj<chk; ++jj){
+		for(int jj(0); jj<chk && replace < arraySize; ++jj){
 			double conv_value = 0.0;
 			double initial_value = ans[replace];
 			for(int j(0); j <= replace; ++j)
@@ -211,7 +211,7 @@ void FastLaplaceConvolution(const vector<double> &data1original,
 				ctr++ ;
 			++replace;
 		}
-	} while(ctr!=chk);
+	} while(ctr!=chk && replace < arraySize);
 
 	cinfo << replace << " values in the FFT convolution routine were replaced by standard convolution" << once << endl;
 
