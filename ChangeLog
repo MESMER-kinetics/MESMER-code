@@ -1,3 +1,15 @@
+2018-November-10 Struan Robertson
+
+		* ConditionManager.cpp, System.cpp: Changers to allow for the weighting of trace data.
+
+		* MesmserMaths.cpp: Fix for convolution bug.
+
+		* System.h: Version update.
+
+		* MolecularComponent.cpp: Tidy-up.
+
+		* Documentation re-versioning and update.
+
 2018-October-31 Struan Robertson
 
 		* DensityOfStates.cpp, gStructure.cpp, MolecularComponents.h/.cpp: Generalized the fix
