@@ -309,6 +309,7 @@ namespace mesmer
         m_Flags.useDOSweightedDT = ppControl->XmlReadBoolean("me:useDOSweighedDownWardTransition");
         m_Flags.bForceMacroDetailedBalance = ppControl->XmlReadBoolean("me:ForceMacroDetailedBalance");
         m_Flags.useOrigFreqForZPECorrection = ppControl->XmlReadBoolean("me:useOrigFreqForZPECorrection");
+        m_Flags.useTraceWeighting = ppControl->XmlReadBoolean("me:useTraceWeighting");
 
 				// Check to see if me:ForceMacroDetailedBalance is set in defaults.
 				const char* text = ppControl->XmlReadValue("me:ForceMacroDetailedBalance", true);
@@ -934,7 +935,7 @@ namespace mesmer
 			// Taking the residual to be the euclidian distance between functions (represented as vectors).
       bool useWeights(true);
 			residuals[calPoint] += sqrt(localChi);
-      if (useWeights) {
+      if (m_Flags.useTraceWeighting) {
         chiSquare += localChi * dataSet.m_weight;
       }
       else {

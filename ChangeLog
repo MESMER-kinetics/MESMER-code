@@ -1,6 +1,14 @@
+2018-November-13 Struan Robertson
+
+		* CollisionOperator.h/.cpp: Fix for population instability problem.
+
+		* MesmserFlags.h/.cpp: Added trace weighting flag.
+
+		* Baseline updates.
+
 2018-November-10 Struan Robertson
 
-		* ConditionManager.cpp, System.cpp: Changers to allow for the weighting of trace data.
+		* ConditionManager.cpp, System.cpp: Changes to allow for the weighting of trace data.
 
 		* MesmserMaths.cpp: Fix for convolution bug.
 
