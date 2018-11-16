@@ -169,7 +169,7 @@ SRCS := \
 	MesmerTools.cpp \
 	MicroRate.cpp \
 	Molecule.cpp \
-	MoleculeComponents.cpp \
+	MolecularComponents.cpp \
 	MoleculeManager.cpp \
 	PseudoIsomerizationReaction.cpp \
 	Rdouble.cpp \
