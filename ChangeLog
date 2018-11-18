@@ -1,5 +1,12 @@
 2018-November-18 Struan Robertson
 		
+		* HighPressureRateCoefficients.cpp: Initial implementation of 
+		high pressure rate coefficient method.  
+
+		* Examples/Metyl_O_to_Methoxy: New example.
+
+2018-November-18 Struan Robertson
+		
 		* AnalyticalRepresention.cpp, MesmerMath.h/.cpp: Initial implementation toward the 
 		inclusion of species thermodynamic data in Cantera/ChemKin output.  
 

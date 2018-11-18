@@ -479,6 +479,11 @@ examples/Methyl_H_to_Methane/baselines/Linux64/Methyl_H_to_Methane_FTST.log -tex
 examples/Methyl_H_to_Methane/baselines/Linux64/mesmer.log -text
 examples/Methyl_H_to_Methane/baselines/Win32/Methyl_H_to_Methane_FTST.log -text
 examples/Methyl_H_to_Methane/baselines/Win32/mesmer.log -text
+examples/Methyl_O_to_Methoxy/Methyl_O_to_Methoxy.xml -text
+examples/Methyl_O_to_Methoxy/baselines/Linux64/Methyl_O_to_Methoxy.log -text
+examples/Methyl_O_to_Methoxy/baselines/Linux64/Methyl_O_to_Methoxy.test -text
+examples/Methyl_O_to_Methoxy/baselines/Win32/Methyl_O_to_Methoxy.log -text
+examples/Methyl_O_to_Methoxy/baselines/Win32/Methyl_O_to_Methoxy.test -text
 examples/OH-acetylene/OH_HCCH-irreversibleBim-ci-TC-start.xml -text
 examples/OH-acetylene/OH_HCCH-irreversibleBim-publish.xml -text
 examples/OH-acetylene/OH_acetylene_rawdata.xml -text
@@ -794,6 +799,7 @@ src/plugins/FittingUtils.cpp -text
 src/plugins/FittingUtils.h -text
 src/plugins/FourierGrid1D.cpp -text
 src/plugins/GaussianModel.cpp -text
+src/plugins/HighPressureRateCoefficients.cpp -text
 src/plugins/HinderedRotorCM1D.cpp -text
 src/plugins/HinderedRotorUtils.cpp -text
 src/plugins/HinderedRotorUtils.h -text

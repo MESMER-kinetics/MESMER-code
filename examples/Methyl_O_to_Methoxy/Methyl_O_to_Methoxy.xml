@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl'?>
+<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <me:title>Methyl + O association</me:title>
+  <moleculeList>
+    <molecule id="Methoxy">
+      <atomArray>
+        <atom id="a1" elementType="C" x3=" 1.035455427" y3="-0.140506768" z3=" 0.000352942"/>
+        <atom id="a2" elementType="O" x3=" 1.478139375" y3=" 1.135573046" z3="-0.022481466"/>
+        <atom id="a3" elementType="H" x3="-0.071567862" y3="-0.188038569" z3=" 0.004925250"/>
+        <atom id="a4" elementType="H" x3=" 1.391159124" y3="-0.705189736" z3="-0.885574351"/>
+        <atom id="a5" elementType="H" x3=" 1.397623475" y3="-0.675514140" z3=" 0.901849564"/>
+      </atomArray>
+      <bondArray>
+        <bond atomRefs2="a1 a2" order="1"/>
+        <bond atomRefs2="a1 a3" order="1"/>
+        <bond atomRefs2="a1 a4" order="1"/>
+        <bond atomRefs2="a1 a5" order="1"/>
+      </bondArray>
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="cm-1">0.0</scalar>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>3</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">
+            1107.6 1115.9 1118.3 1433.3 1438.8 1439.1 2837.8 2875.3 2887.5
+          </array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar>31</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>2</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>3.79</scalar>
+        </property>
+        <property dictRef="me:epsilon">
+          <scalar>153.0</scalar>
+        </property>
+      </propertyList>
+
+      <me:energyTransferModel xsi:type="me:ExponentialDown">
+        <me:deltaEDown units="cm-1">210.0</me:deltaEDown>
+        <me:deltaEDownTExponent referenceTemperature="298.">0.6</me:deltaEDownTExponent>
+      </me:energyTransferModel>
+
+      <me:DOSCMethod xsi:type="me:QMRotors"/>
+
+	</molecule>
+
+    <molecule id="Methyl" spinMultiplicity="2">
+      <atomArray>
+        <atom id="a1" elementType="C" spinMultiplicity="2"/>
+        <atom id="a2" elementType="H"/>
+        <atom id="a3" elementType="H"/>
+        <atom id="a4" elementType="H"/>
+      </atomArray>
+      <bondArray>
+        <bond atomRefs2="a1 a2" order="1"/>
+        <bond atomRefs2="a1 a3" order="1"/>
+        <bond atomRefs2="a1 a4" order="1"/>
+      </bondArray>
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="cm-1">36600.0</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">4.723 9.471 9.471</array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>6</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">
+            3299. 3299. 3123. 1471. 1471. 392.
+          </array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar>15.0</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>2</scalar>
+        </property>
+      </propertyList>
+
+	  <me:DOSCMethod xsi:type="me:QMRotors"/>
+
+	</molecule>
+
+    <molecule id="O3P">
+      <atomArray>
+        <atom id="a1" elementType="O"/>
+      </atomArray>
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="cm-1">0.0</scalar>
+        </property>
+        <property dictRef="me:epsilon">
+          <scalar>10.0</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>2.55</scalar>
+        </property>
+        <property dictRef="me:MW">
+          <scalar>16.0</scalar>
+        </property>
+      </propertyList>
+
+      <me:DOSCMethod xsi:type="me:DefinedStatesRotors"/>
+      <me:States units="cm-1">
+        <me:State energy="0.0"   degeneracy="5"/>
+        <me:State energy="158.5" degeneracy="3"/>
+        <me:State energy="226.5" degeneracy="1"/>
+      </me:States>
+
+    </molecule>
+
+    <molecule id="He">
+      <atom elementType="He"/>
+      <propertyList>
+        <property dictRef="me:epsilon">
+          <scalar>10.22</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>2.511</scalar>
+        </property>
+        <property dictRef="me:MW">
+          <scalar>4.04</scalar>
+        </property>
+      </propertyList>
+    </molecule>
+
+  </moleculeList>
+
+  <reactionList>
+
+    <reaction id="R1" reversible="true">
+      <reactant>
+        <molecule ref="Methyl"  role="deficientReactant" />
+      </reactant>
+      <reactant>
+        <molecule ref="O3P"  role="excessReactant" />
+      </reactant>
+      <product>
+        <molecule ref="Methoxy"  role="modelled" />
+      </product>
+      <me:MCRCMethod xsi:type="me:MesmerILT">
+        <me:preExponential units="cm3molecule-1s-1" >9.2e-11</me:preExponential>
+        <me:activationEnergy units="kcal/mol">0.1360</me:activationEnergy>
+        <me:TInfinity>1.0</me:TInfinity>
+        <me:nInfinity>0.050</me:nInfinity>
+      </me:MCRCMethod>
+    </reaction>
+
+  </reactionList>
+
+  <me:conditions>
+    <me:bathGas>He</me:bathGas>
+    <me:PTs>
+      <me:PTpair units="Torr" P="25.1" T="301." precision="dd">
+        <me:experimentalRate ref1="Methyl" ref2="Methane" refReaction="R1" error="0.0">1.26e-11</me:experimentalRate>
+      </me:PTpair>
+    </me:PTs>
+  </me:conditions>
+
+  <me:modelParameters>
+    <me:grainSize units="cm-1">200</me:grainSize>
+    <me:energyAboveTheTopHill>10.</me:energyAboveTheTopHill>
+  </me:modelParameters>
+
+  <me:control>
+    <me:calcMethod xsi:type="me:HighPressureRateCoefficients">
+      <me:NumTemp>  20</me:NumTemp>
+      <me:MaxTemp>1400</me:MaxTemp>
+      <me:MinTemp> 600</me:MinTemp>
+    </me:calcMethod>
+    <me:testDOS />
+  </me:control>
+
+</me:mesmer>
