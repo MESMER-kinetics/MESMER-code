@@ -1,5 +1,11 @@
 2018-November-18 Struan Robertson
 		
+		* gDensityOfStates.cpp: Added support for rotational constants being quoted in GHz.  
+
+		* Baseline updated.
+
+2018-November-18 Struan Robertson
+		
 		* HighPressureRateCoefficients.cpp: Initial implementation of 
 		high pressure rate coefficient method.  
 

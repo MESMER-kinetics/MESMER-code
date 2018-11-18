@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.1 compiled: -- Mar 27 2018 -- 20:48:55
+     Mesmer v5.2 compiled: -- Nov 18 2018 -- 19:45:13
 
      Copyright (C) 2009-2018 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sat Apr 21 19:18:37 2018
+                     Execution Date:  Sun Nov 18 20:08:34 2018
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -102,14 +102,40 @@ In R5: Parsing reaction...Irreversible unimolecular reaction
 In R5: --Parse data for RRKM
 In R5: No tunneling method used for R5
 No pressure and temperature specified.
-Write metadata 20180421_191837
+Write metadata 20181118_200834
 
 File: "ChebyshevCK.xml" successfully parsed.
 Main Calculation begins
 Now calculating...
 
 --Execute calcMethod analyticalRepresentation
-
+In CH3OCH2: energy cannot be converted from arbitrary to thermodynamic298K
+enthalpy of formation at 298K:Restricted thermo output for CH3OCH2 because it has arbitrary energy data.
+In He: The default value of me:DOSCMethod was used.
+In He: The default value of the attribute spinMultiplicity was used.
+gDensityOfStates initialization failed.
+Restricted thermo output for He because it has arbitrary energy data.
+In IM1: energy cannot be converted from arbitrary to thermodynamic298K
+enthalpy of formation at 298K:Restricted thermo output for IM1 because it has arbitrary energy data.
+In IM2: energy cannot be converted from arbitrary to thermodynamic298K
+enthalpy of formation at 298K:Restricted thermo output for IM2 because it has arbitrary energy data.
+In O2: To mix thermodynamic and computational energies the molecule needs chemical structure (an atomList at least)
+In O2: Missing thermo data for atoms
+In OH-1: To mix thermodynamic and computational energies the molecule needs chemical structure (an atomList at least)
+In OH-1: Missing thermo data for atoms
+In OH-2: enthalpy of formation at 298K:enthalpy of formation at 298K:Cannot find me:vibFreqs or me:hessian. Assuming an atom or a sink molecule.
+In OH-2: No rotational constants from <me:rotConsts> or structure. Assuming an atom or a sink molecule.
+In OH-2: The default value of me:DOSCMethod was used.
+In OH-2: The default value of the attribute spinMultiplicity was used.
+In OH-2: To mix thermodynamic and computational energies the molecule needs chemical structure (an atomList at least)
+In OH-2: Missing thermo data for atoms
+In OH-3: enthalpy of formation at 298K:Cannot find me:vibFreqs or me:hessian. Assuming an atom or a sink molecule.
+In OH-3: No rotational constants from <me:rotConsts> or structure. Assuming an atom or a sink molecule.
+In OH-3: The default value of me:DOSCMethod was used.
+In OH-3: The default value of the attribute spinMultiplicity was used.
+In OH-3: To mix thermodynamic and computational energies the molecule needs chemical structure (an atomList at least)
+In OH-3: Missing thermo data for atoms
+enthalpy of formation at 298K:
 Bath gas is He
 In FastLaplaceConvolution: 4880 values in the FFT convolution routine were replaced by standard convolution
 In FastLaplaceConvolution: 4060 values in the FFT convolution routine were replaced by standard convolution
@@ -123,10 +149,30 @@ The last CSE = -1.3372e+08 and the first IERE = -2.25809e+08
 
 Results obtained from Bartis Widom eigenvalue-vector analysis may be unreliable
 
+O2                                          G   200.000  1000.000 1000.000    01
+  3.8068565e+00 -2.7938190e-03  7.9013121e-06 -6.8879156e-09  2.0599979e-12    2
+ -1.0679849e+03  3.4638726e+00  3.8068565e+00 -2.7938190e-03  7.9013121e-06    3
+ -6.8879156e-09  2.0599979e-12 -1.0679849e+03  3.4638726e+00  0.0000000e+00    4
+
+OH-1                                        G   200.000  1000.000 1000.000    01
+  3.4593186e+00  3.7692766e-04 -1.1899343e-06  1.4446299e-09 -4.6875646e-13    2
+ -1.0402815e+03  1.6434898e+00  3.4593186e+00  3.7692766e-04 -1.1899343e-06    3
+  1.4446299e-09 -4.6875646e-13 -1.0402815e+03  1.6434898e+00  0.0000000e+00    4
+
+OH-2                                        G   200.000  1000.000 1000.000    01
+  2.5000000e+00  4.4999257e-12 -1.2488820e-14  1.4455790e-17 -5.9479575e-21    2
+ -7.4537500e+02  5.3644694e+00  2.5000000e+00  4.4999257e-12 -1.2488820e-14    3
+  1.4455790e-17 -5.9479575e-21 -7.4537500e+02  5.3644694e+00  0.0000000e+00    4
+
+OH-3                                        G   200.000  1000.000 1000.000    01
+  2.5000000e+00  4.4999257e-12 -1.2488820e-14  1.4455790e-17 -5.9479575e-21    2
+ -7.4537500e+02  5.3644694e+00  2.5000000e+00  4.4999257e-12 -1.2488820e-14    3
+  1.4455790e-17 -5.9479575e-21 -7.4537500e+02  5.3644694e+00  0.0000000e+00    4
+
 REACTIONS MOLES
 
 CH3OCH2 + O2 => IM1 (+M)  1.00  0.0  0.0
-! Data generated by MESMER 5.1 on Sat Apr 21 19:22:12 2018
+! Data generated by MESMER 5.2 on Sun Nov 18 20:14:17 2018
     TCHEB/            200          1000/
     PCHEB/          0.001            10/
     CHEB/     6     4/
@@ -138,7 +184,7 @@ CH3OCH2 + O2 => IM1 (+M)  1.00  0.0  0.0
     CHEB/     0.0392541    -0.0991687    -0.0132609     0.0736152/
 
 CH3OCH2 + O2 => IM2 (+M)  1.00  0.0  0.0
-! Data generated by MESMER 5.1 on Sat Apr 21 19:22:12 2018
+! Data generated by MESMER 5.2 on Sun Nov 18 20:14:17 2018
     TCHEB/            200          1000/
     PCHEB/          0.001            10/
     CHEB/     6     4/
@@ -150,7 +196,7 @@ CH3OCH2 + O2 => IM2 (+M)  1.00  0.0  0.0
     CHEB/    -0.0363906    -0.0148931    0.00789312     0.0334552/
 
 CH3OCH2 + O2 => OH-1 (+M)  1.00  0.0  0.0
-! Data generated by MESMER 5.1 on Sat Apr 21 19:22:12 2018
+! Data generated by MESMER 5.2 on Sun Nov 18 20:14:17 2018
     TCHEB/            200          1000/
     PCHEB/          0.001            10/
     CHEB/     6     4/
@@ -162,7 +208,7 @@ CH3OCH2 + O2 => OH-1 (+M)  1.00  0.0  0.0
     CHEB/    -0.0151988     -0.009801   -0.00526247   0.000391549/
 
 CH3OCH2 + O2 => OH-2 (+M)  1.00  0.0  0.0
-! Data generated by MESMER 5.1 on Sat Apr 21 19:22:12 2018
+! Data generated by MESMER 5.2 on Sun Nov 18 20:14:17 2018
     TCHEB/            200          1000/
     PCHEB/          0.001            10/
     CHEB/     6     4/
@@ -174,7 +220,7 @@ CH3OCH2 + O2 => OH-2 (+M)  1.00  0.0  0.0
     CHEB/   -0.00497973   -0.00640342    -0.0052125   -0.00175974/
 
 CH3OCH2 + O2 => OH-3 (+M)  1.00  0.0  0.0
-! Data generated by MESMER 5.1 on Sat Apr 21 19:22:12 2018
+! Data generated by MESMER 5.2 on Sun Nov 18 20:14:17 2018
     TCHEB/            200          1000/
     PCHEB/          0.001            10/
     CHEB/     6     4/
@@ -186,7 +232,7 @@ CH3OCH2 + O2 => OH-3 (+M)  1.00  0.0  0.0
     CHEB/   -0.00482418    -0.0061145   -0.00505448   -0.00188547/
 
 IM1 => CH3OCH2 + O2 (+M)  1.00  0.0  0.0
-! Data generated by MESMER 5.1 on Sat Apr 21 19:22:12 2018
+! Data generated by MESMER 5.2 on Sun Nov 18 20:14:17 2018
     TCHEB/            200          1000/
     PCHEB/          0.001            10/
     CHEB/     6     4/
@@ -198,7 +244,7 @@ IM1 => CH3OCH2 + O2 (+M)  1.00  0.0  0.0
     CHEB/     0.0360149    -0.0991687    -0.0132609     0.0736152/
 
 IM1 => IM2 (+M)  1.00  0.0  0.0
-! Data generated by MESMER 5.1 on Sat Apr 21 19:22:12 2018
+! Data generated by MESMER 5.2 on Sun Nov 18 20:14:17 2018
     TCHEB/            200          1000/
     PCHEB/          0.001            10/
     CHEB/     6     4/
@@ -210,7 +256,7 @@ IM1 => IM2 (+M)  1.00  0.0  0.0
     CHEB/    -0.0105806    -0.0311263    0.00162682     0.0220767/
 
 IM1 => OH-1 (+M)  1.00  0.0  0.0
-! Data generated by MESMER 5.1 on Sat Apr 21 19:22:12 2018
+! Data generated by MESMER 5.2 on Sun Nov 18 20:14:17 2018
     TCHEB/            200          1000/
     PCHEB/          0.001            10/
     CHEB/     6     4/
@@ -222,7 +268,7 @@ IM1 => OH-1 (+M)  1.00  0.0  0.0
     CHEB/    -0.0325115    0.00878973    -0.0133237     -0.007601/
 
 IM1 => OH-2 (+M)  1.00  0.0  0.0
-! Data generated by MESMER 5.1 on Sat Apr 21 19:22:12 2018
+! Data generated by MESMER 5.2 on Sun Nov 18 20:14:17 2018
     TCHEB/            200          1000/
     PCHEB/          0.001            10/
     CHEB/     6     4/
@@ -234,7 +280,7 @@ IM1 => OH-2 (+M)  1.00  0.0  0.0
     CHEB/    -0.0182181     -0.288566    -0.0362604     0.0618742/
 
 IM1 => OH-3 (+M)  1.00  0.0  0.0
-! Data generated by MESMER 5.1 on Sat Apr 21 19:22:12 2018
+! Data generated by MESMER 5.2 on Sun Nov 18 20:14:17 2018
     TCHEB/            200          1000/
     PCHEB/          0.001            10/
     CHEB/     6     4/
@@ -246,7 +292,7 @@ IM1 => OH-3 (+M)  1.00  0.0  0.0
     CHEB/    -0.0535083     -0.363976    -0.0220973     0.0465616/
 
 IM2 => CH3OCH2 + O2 (+M)  1.00  0.0  0.0
-! Data generated by MESMER 5.1 on Sat Apr 21 19:22:12 2018
+! Data generated by MESMER 5.2 on Sun Nov 18 20:14:17 2018
     TCHEB/            200          1000/
     PCHEB/          0.001            10/
     CHEB/     6     4/
@@ -258,7 +304,7 @@ IM2 => CH3OCH2 + O2 (+M)  1.00  0.0  0.0
     CHEB/    -0.0403025    -0.0148931    0.00789312     0.0334552/
 
 IM2 => IM1 (+M)  1.00  0.0  0.0
-! Data generated by MESMER 5.1 on Sat Apr 21 19:22:12 2018
+! Data generated by MESMER 5.2 on Sun Nov 18 20:14:17 2018
     TCHEB/            200          1000/
     PCHEB/          0.001            10/
     CHEB/     6     4/
@@ -270,7 +316,7 @@ IM2 => IM1 (+M)  1.00  0.0  0.0
     CHEB/    -0.0112533    -0.0311263    0.00162682     0.0220767/
 
 IM2 => OH-1 (+M)  1.00  0.0  0.0
-! Data generated by MESMER 5.1 on Sat Apr 21 19:22:12 2018
+! Data generated by MESMER 5.2 on Sun Nov 18 20:14:17 2018
     TCHEB/            200          1000/
     PCHEB/          0.001            10/
     CHEB/     6     4/
@@ -282,7 +328,7 @@ IM2 => OH-1 (+M)  1.00  0.0  0.0
     CHEB/     0.0153138    -0.0851928     0.0750406     0.0140431/
 
 IM2 => OH-2 (+M)  1.00  0.0  0.0
-! Data generated by MESMER 5.1 on Sat Apr 21 19:22:12 2018
+! Data generated by MESMER 5.2 on Sun Nov 18 20:14:17 2018
     TCHEB/            200          1000/
     PCHEB/          0.001            10/
     CHEB/     6     4/
@@ -294,7 +340,7 @@ IM2 => OH-2 (+M)  1.00  0.0  0.0
     CHEB/    -0.0283357     0.0400512    -0.0246434     0.0761889/
 
 IM2 => OH-3 (+M)  1.00  0.0  0.0
-! Data generated by MESMER 5.1 on Sat Apr 21 19:22:12 2018
+! Data generated by MESMER 5.2 on Sun Nov 18 20:14:17 2018
     TCHEB/            200          1000/
     PCHEB/          0.001            10/
     CHEB/     6     4/
@@ -306,7 +352,7 @@ IM2 => OH-3 (+M)  1.00  0.0  0.0
     CHEB/    -0.0395123      0.058891    -0.0310137     0.0727139/
 
 
- -- Total time elapsed: 215 seconds.
+ -- Total time elapsed: 343 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 215 seconds.
+Total time elapsed: 343 seconds.

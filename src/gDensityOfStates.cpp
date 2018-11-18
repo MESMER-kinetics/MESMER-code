@@ -113,6 +113,11 @@ namespace mesmer
         rCnst[1] = conMntInt2RotCnt / rCnst[1];
         rCnst[2] = conMntInt2RotCnt / rCnst[2];
       }
+      else if (string(txt) == "GHz") {
+        rCnst[0] = getConvertedEnergy("GHz", rCnst[0]);
+        rCnst[1] = getConvertedEnergy("GHz", rCnst[1]);
+        rCnst[2] = getConvertedEnergy("GHz", rCnst[2]);
+      }
       hasRotConst = true;
       m_RC_chk = 0;
     }

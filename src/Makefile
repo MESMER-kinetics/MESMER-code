@@ -201,6 +201,7 @@ SRCS := \
 	plugins/FourierGrid1D.cpp \
 	plugins/GaussianModel.cpp \
 	plugins/gridsearch.cpp \
+	plugins/HighPressureRateCoefficients.cpp \
 	plugins/HinderedRotorUtils.cpp \
 	plugins/HinderedRotorQM1D.cpp \
 	plugins/HinderedRotorCM1D.cpp \
