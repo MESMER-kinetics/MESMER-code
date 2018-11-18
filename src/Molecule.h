@@ -16,12 +16,12 @@
 
 namespace mesmer
 {
-  class MoleculeManager ;
+  class MoleculeManager;
 
   // Because many Molecule properties are not needed in all molecules, they are
   // handled in the following classes, which are derived from MolecularComponent.
-	class gWellProperties ;
-  class gBathProperties ;
+  class gWellProperties;
+  class gBathProperties;
   class gTransitionState;
   class gDensityOfStates;
   class gPopulation;
@@ -44,12 +44,12 @@ namespace mesmer
     unsigned int     m_atomNumber;         // If (m_atomNumber == 0), the atomArray element is missing.
 
     PersistPtr       m_ppPersist;          // Conduit for I/O
-    std::string      m_Name ;              // Molecule name.
+    std::string      m_Name;              // Molecule name.
     std::string      m_Description;        // Longer description for the structure
-	MoleculeManager *m_pMoleculeManager;   // Pointer molecule manager for navigation purposes.
+    MoleculeManager *m_pMoleculeManager;   // Pointer molecule manager for navigation purposes.
     std::map<std::string, bool> m_molTypes;
 
-	// Component pointers
+    // Component pointers
     friend class MolecularComponent; // Provide access privalage of MolecularComponent to private members of Molecule.
     gBathProperties*        g_bath;  // Component pointer for bath gas properties
     gDensityOfStates*       g_dos;   // Component pointer for cell density of state properties
@@ -63,24 +63,24 @@ namespace mesmer
     //
     // Constructor
     //
-    Molecule(const MesmerEnv& Env, MesmerFlags& m_Flags, const string& molType, MoleculeManager *pMoleculeManager) ;
+    Molecule(const MesmerEnv& Env, MesmerFlags& m_Flags, const string& molType, MoleculeManager *pMoleculeManager);
     virtual ~Molecule();
 
     // Initialize Molecule. Returns false if no id attribute
     // or if no description attribute and <molecule> has no child elements. Probably just a placeholder.
     virtual bool InitializeMolecule(PersistPtr pp);
 
-    PersistPtr  get_PersistentPointer() const { return m_ppPersist; } ;
+    PersistPtr  get_PersistentPointer() const { return m_ppPersist; };
 
-    std::string getDescription() const { return m_Description ; } ;
+    std::string getDescription() const { return m_Description; };
 
-    const MesmerEnv& getEnv() const { return m_Env; } ;
+    const MesmerEnv& getEnv() const { return m_Env; };
 
-    std::string getName() const { return m_Name ; } ;
+    std::string getName() const { return m_Name; };
 
-    const MesmerFlags& getFlags() const { return m_Flags;} ;
+    const MesmerFlags& getFlags() const { return m_Flags; };
 
-	MoleculeManager* getMoleculeManager() const { return m_pMoleculeManager; } ;
+    MoleculeManager* getMoleculeManager() const { return m_pMoleculeManager; };
 
     bool checkDegOfFreedom();
 
@@ -94,8 +94,8 @@ namespace mesmer
     gStructure&       getStruc();
 
     bool activateRole(string molType);
-    bool hasDOSProperties(){return g_dos!=NULL;}
-    bool isMolType(const string& molType){
+    bool hasDOSProperties() { return g_dos != NULL; }
+    bool isMolType(const string& molType) {
       return m_molTypes[molType];
     }
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=

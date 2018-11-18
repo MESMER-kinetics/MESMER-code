@@ -1,3 +1,8 @@
+2018-November-18 Struan Robertson
+		
+		* AnalyticalRepresention.cpp, MesmerMath.h/.cpp: Initial implementation toward the 
+		inclusion of species thermodynamic data in Cantera/ChemKin output.  
+
 2018-November-16 Robin Shannon
 		
 		* Documentation update.
@@ -14,7 +19,7 @@
 
 		* ConditionManager.cpp, System.cpp: Changes to allow for the weighting of trace data.
 
-		* MesmserMaths.cpp: Fix for convolution bug.
+		* MesmerMaths.cpp: Fix for convolution bug.
 
 		* System.h: Version update.
 

@@ -43,8 +43,6 @@ namespace mesmer
     // Function to do the work
     virtual bool DoCalculation(System* pSys);
 
-    double SdivR(vector<double>::iterator i, double T)const;
-
   private:
 
     virtual bool ParseData(PersistPtr pp);
@@ -55,15 +53,9 @@ namespace mesmer
 
     const char* m_id;
 
-    string WriteNASAPoly(Molecule* pmol, vector<double> coeffs, double TLo, double TMid, double THi);
+    double SdivR(vector<double>::iterator i, double T)const;
 
-    // TODO This would be better (with T, U random-access iterators) as
-    // U FitPoly(unsigned order, T xstart, T xend, U ystart);
-    // so that it is more like STL algorithms and can be used with arrays, vectors, etc.
-		vector<double> FitPoly(size_t order,
-      vector<double>::const_iterator xstart,
-      vector<double>::const_iterator xend,
-      vector<double>::const_iterator ystart)const;
+    string WriteNASAPoly(Molecule* pmol, vector<double> coeffs, double TLo, double TMid, double THi);
 
     int m_nTemp;
     double m_TempInterval, m_Tmin, m_Tmax, m_Tmid;
@@ -362,45 +354,6 @@ namespace mesmer
     //  val = (val*t + result[i]); //ok
 
     return true;
-  }
-
-  //Return coefficients of x in a polynomial x^0 to x^(order-1) calculated
-  //using a least squares fit data points (xdata,ydata).
-  //Matrix elements from http://www.codecogs.com/library/maths/approximation/regression/discrete.php
-  vector<double> ThermodynamicTable::FitPoly(size_t order,
-    vector<double>::const_iterator xstart,
-    vector<double>::const_iterator xend,
-    vector<double>::const_iterator ystart)const
-  {
-    ddMatrix matrix(order);
-    size_t n = xend - xstart;
-    vector<double> rhs(order, 0.0);
-		vector<dd_real> tmp(order, 0.0);
-		if (order == 0 ||n == 0) //size of ystart not checked
-      return rhs; //empty on error
-    double sum;
-    for (size_t ir = 0; ir < order; ++ir) //each row
-    {
-      for (size_t ic = 0; ic < order; ++ic) //each column
-      {
-        sum = 0.0;
-        for (size_t j = 0; j != n; ++j)
-          sum += pow(*(xstart+j), int(ir+ic));
-        matrix[ir][ic] = sum;
-      }
-      sum=0.0;
-      for (size_t j = 0; j != n; ++j)
-        sum += pow(*(xstart+j), int(ir)) * *(ystart+j);
-      tmp[ir] = sum;
-    }
-
-    matrix.solveLinearEquationSet(&tmp[0]);
-
-    for (size_t i(0); i < rhs.size() ; i++) {
-      rhs[i] = to_double(tmp[i]) ;
-    }
-
-    return rhs;
   }
 
   double ThermodynamicTable::SdivR(vector<double>::iterator i, double T) const

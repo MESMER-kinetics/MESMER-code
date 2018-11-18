@@ -155,4 +155,10 @@ double RationalApproximation(double t) ;
 
 double NormalCDFInverse(double p) ;
 
+// Utility function to fit a polynomial to a suppled data set.
+vector<double> FitPoly(size_t order,
+  vector<double>::const_iterator xstart,
+  vector<double>::const_iterator xend,
+  vector<double>::const_iterator ystart);
+
 #endif // GUARD_MesmerMath_h

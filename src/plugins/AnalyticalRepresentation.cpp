@@ -21,6 +21,8 @@
 #include "../calcmethod.h"
 #include "../dMatrix.h"
 #include "../TimeCounter.h"
+#include "../gDensityOfStates.h"
+#include "../gStructure.h"
 #include "FittingUtils.h"
 
 namespace mesmer
@@ -40,8 +42,9 @@ namespace mesmer
       m_type(CHEBYSHEV),
       m_format(),
       m_precision(DOUBLE),
-			m_AllBathGases(false),
+      m_AllBathGases(false),
       m_TMax(0.0),
+      m_TMid(0.0),
       m_TMin(0.0),
       m_CMax(0.0),
       m_CMin(0.0),
@@ -54,7 +57,8 @@ namespace mesmer
       m_PUnits(),
       m_ExpanSizeT(0),
       m_ExpanSizeC(0),
-      m_reactions()
+      m_reactions(),
+      m_speciesThermo()
     {
       Register();
     }
@@ -70,6 +74,15 @@ namespace mesmer
     virtual bool DoCalculation(System* pSys);
 
   private:
+
+    // Calculate NASA Polynomials.
+    virtual bool NasaPolynomials(System* pSys);
+
+    double SdivR(vector<double>::iterator i, double T) const;
+
+    string WriteChemKinNASAPoly(Molecule* pmol, vector<double> coeffs, double TLo, double TMid, double THi);
+
+    string WriteCanteraNASAPoly(Molecule* pmol, vector<double> coeffs, double TLo, double TMid, double THi);
 
     // Read in specific Chebyshev data.
     virtual bool ParseDataCheb(PersistPtr pp);
@@ -144,6 +157,7 @@ namespace mesmer
     bool m_AllBathGases;
 
     double m_TMax;
+    double m_TMid; // Used in determing the type of NASA polynomial to produce.
     double m_TMin;
     double m_CMax;
     double m_CMin;
@@ -164,6 +178,8 @@ namespace mesmer
     size_t m_ExpanSizeC;
 
     vector<string> m_reactions;
+
+    string m_speciesThermo;
   };
 
   ////////////////////////////////////////////////
@@ -220,8 +236,8 @@ namespace mesmer
 
     // Generate a representation for each bath gas mentioned anywhere in data file
     m_AllBathGases = pp->XmlMoveTo("me:chebDoForAllBathGases");
-		if(!m_AllBathGases)
-			m_AllBathGases = pp->XmlMoveTo("me:doForAllBathGases");
+    if (!m_AllBathGases)
+      m_AllBathGases = pp->XmlMoveTo("me:doForAllBathGases");
 
     return status;
   };
@@ -236,6 +252,10 @@ namespace mesmer
 
     // Warnings and less not sent to console.
     ChangeErrorLevel e(obError);
+
+    //  Calculate and write out the NASA polynomials for each species.
+    if (!NasaPolynomials(pSys))
+      return false;
 
     pSys->getEnv().MaximumTemperature = m_TMax;
 
@@ -278,9 +298,14 @@ namespace mesmer
     m_NCpt = pp->XmlReadInteger("me:chebNumConc");
 
     m_TMax = pp->XmlReadDouble("me:chebMaxTemp");
+    m_TMid = pp->XmlReadDouble("me:chebMidfTemp", optional);
+    if (IsNan(m_TMid))
+      m_TMid = -1.0;
     m_TMin = pp->XmlReadDouble("me:chebMinTemp");
     if (m_TMin > m_TMax)
       throw(std::runtime_error("Analytical Represention: Max. Temp. less than Min. Temp."));
+    if (m_TMid > 0.0 && (m_TMid > m_TMax || m_TMin > m_TMid))
+      throw(std::runtime_error("Analytical Represention: Mid. Temp. falls outside of [TMin, TMax]"));
     m_CMax = pp->XmlReadDouble("me:chebMaxConc");
     m_CMin = pp->XmlReadDouble("me:chebMinConc");
     if (m_CMin > m_CMax)
@@ -362,7 +387,7 @@ namespace mesmer
             // Distinguidh between unimolecular and bimolecular reactions.
             double concExcessReactant = r ? r->get_concExcessReactant() : 0.0;
             double rateCoefficient = r ? r->normalizeRateCoefficient(itr->second) : itr->second;
-            rate.push_back(concExcessReactant > 0 ? rateCoefficient*fctr : rateCoefficient);
+            rate.push_back(concExcessReactant > 0 ? rateCoefficient * fctr : rateCoefficient);
           }
           flag = false;
           RCGrid.push_back(rate);
@@ -442,6 +467,7 @@ namespace mesmer
   void AnalyticalRepresentation::writeCanteraCheb(const vector<vector<vector<double> > > &ChebyshevCoeff, System* pSys) const {
 
     ostringstream sinfo;
+    sinfo << m_speciesThermo;
     sinfo << "units(length = 'cm', quantity = '"
       << ((m_RateUnits == "cm3mole-1s-1") ? "mole')" : "molecule')") << endl;
     string header("chebyshev_reaction(");
@@ -478,6 +504,7 @@ namespace mesmer
   // Write Chebyshev coefficients in Chemkin format.
   void AnalyticalRepresentation::writeChemkinCheb(const vector<vector<vector<double> > > &ChebyshevCoeff, System* pSys) const {
     ostringstream sinfo;
+    sinfo << m_speciesThermo;
     sinfo << endl;
     sinfo << "REACTIONS" << ((m_RateUnits == "cm3mole-1s-1") ? " MOLES" : " MOLECULES") << '\n' << endl;
     for (size_t k = 0; k < m_reactions.size(); ++k) {
@@ -555,7 +582,12 @@ namespace mesmer
 
     m_NTpt = pp->XmlReadInteger("me:plogNumTemp");
     m_TMax = pp->XmlReadDouble("me:plogMaxTemp");
+    m_TMid = pp->XmlReadDouble("me:plogMidTemp", optional);
+    if (IsNan(m_TMid))
+      m_TMid = -1.0;
     m_TMin = pp->XmlReadDouble("me:plogMinTemp");
+    if (m_TMid > 0.0 && (m_TMid > m_TMax || m_TMin > m_TMid))
+      throw(std::runtime_error("Analytical Represention: Mid. Temp. falls outside of [TMin, TMax]"));
     if (m_TMin > m_TMax)
       throw(std::runtime_error("Analytical Represention: Max. Temp. less than Min. Temp."));
 
@@ -619,7 +651,7 @@ namespace mesmer
             // Distinguidh between unimolecular and bimolecular reactions.
             double concExcessReactant = r ? r->get_concExcessReactant() : 0.0;
             double rateCoefficient = r ? r->normalizeRateCoefficient(itr->second) : itr->second;
-            rate.push_back(concExcessReactant > 0 ? rateCoefficient*fctr : rateCoefficient);
+            rate.push_back(concExcessReactant > 0 ? rateCoefficient * fctr : rateCoefficient);
           }
           RCGrid.push_back(rate);
           flag = false;
@@ -719,6 +751,7 @@ namespace mesmer
   // Write Plog coefficients in Cantera format.
   void AnalyticalRepresentation::writeCanteraPlog(const vector<vector<vector<double> > > &PlogCoeff, System* pSys) const {
     ostringstream sinfo;
+    sinfo << m_speciesThermo;
     sinfo << endl << "units(length = 'cm', quantity = '" << ((m_RateUnits == "cm3mole-1s-1") ? "mole')" : "molecule')") << endl;
     string header("pdep_arrhenius(");
     sinfo << endl;
@@ -749,6 +782,7 @@ namespace mesmer
   // Write Plog coefficients in Chemkin format.
   void AnalyticalRepresentation::writeChemkinPlog(const vector<vector<vector<double> > > &PlogCoeff, System* pSys) const {
     ostringstream sinfo;
+    sinfo << m_speciesThermo;
     sinfo << endl;
     sinfo << "REACTIONS" << ((m_RateUnits == "cm3mole-1s-1") ? " MOLES" : " MOLECULES") << '\n' << endl;
     for (size_t k = 0; k < m_reactions.size(); ++k) {
@@ -784,11 +818,11 @@ namespace mesmer
 
     double R = idealGasC / Calorie_in_Joule;
 
-		ctest <<  endl;
+    ctest << endl;
     ostringstream concText;
     string indent = padText(10);
     concText << "Pressure: " << formatFloat(m_PVals[iPres], 6, 15) << "/atm";
-    ctest << underlineText(concText.str()) << endl ;
+    ctest << underlineText(concText.str()) << endl;
 
     for (size_t k(0); k < m_reactions.size(); ++k) {
       ctest << "Comparison of fitted rate coefficients for reaction " << m_reactions[k] << endl;
@@ -799,12 +833,268 @@ namespace mesmer
 
       for (size_t j(0); j < Temperature.size(); ++j) {
         double T = Temperature[j];
-        double kcal = Ainf*pow(T, Ninf)*exp(-Einf / (R*T));
-        ctest << setw(7) << T << " " << setw(14) << kcal << "/" << RCGrid[j][k] << endl ;
+        double kcal = Ainf * pow(T, Ninf)*exp(-Einf / (R*T));
+        ctest << setw(7) << T << " " << setw(14) << kcal << "/" << RCGrid[j][k] << endl;
       }
 
     }
 
+  }
+
+  // Calculate NASA Polynomials.
+  bool AnalyticalRepresentation::NasaPolynomials(System* pSys) {
+
+    // Loop over all molecules producing a NASA polynomial for each molecule
+    // that has an energy specified. A polynomial will also be produced if 7
+    // or more temperatures have been requested in both the upper and lower
+    // polynomials or, if Tmid=0, the single polynomial.
+
+    vector<double> temperature;
+    size_t nTemp = max(size_t(20), m_NTpt);
+    if (m_TMid < 0) { // Single range
+      double dTemp = (m_TMax - m_TMin) / double(nTemp);
+      for (double temp = m_TMin; temp <= m_TMax; temp += dTemp)
+        temperature.push_back(temp);
+    }
+    else {
+      nTemp /= 2;
+      double dTemp = (m_TMid - m_TMin) / double(nTemp);
+      for (double temp = m_TMin; temp < m_TMid; temp += dTemp)
+        temperature.push_back(temp);
+      dTemp = (m_TMax - m_TMid) / double(nTemp);
+      for (double temp = m_TMid; temp <= m_TMax; temp += dTemp)
+        temperature.push_back(temp);
+    }
+
+    double unitFctr = ConvertFromWavenumbers("kJ/mol", 1.0);
+    double RGas = boltzmann_C * AvogadroC; // J/mol/K.
+
+    stringstream ss;
+    MoleculeManager* pMoleculeManager = pSys->getMoleculeManager();
+    MoleculeManager::constMolIter molItr = pMoleculeManager->begin();
+    MoleculeManager::constMolIter molItrEnd = pMoleculeManager->end();
+    for (; molItr != molItrEnd; molItr++)
+    {
+      Molecule *pmol = molItr->second;
+      if (pmol->isMolType("transitionState")) // NASA Polynomials not required for transition states.
+        continue;
+
+      // Restrict output for molecules without a specified energy.
+      double Hf298local = NaN;
+      Hf298local = pmol->getDOS().get_Hf298Thermo();
+      if (IsNan(Hf298local)) {
+        cinfo << "Restricted thermo output for " << pmol->getName()
+          << " because it has arbitrary energy data." << endl;
+        continue;
+      }
+
+      vector<double> Hf; // enthalpy of formation / R 
+      double temp289(298.15);
+      thermoDynFns thermos;
+      pmol->getDOS().thermodynamicsFunctions(temp289, unitFctr, thermos);
+      double H298 = thermos.enthalpy;
+      double S298 = thermos.entropy; // Always calculated. NOTE kJ/mol/K.
+      double Hf0 = Hf298local - H298;
+      for (size_t i(0); i < temperature.size(); i++)
+      {
+        pmol->getDOS().thermodynamicsFunctions(temperature[i], unitFctr, thermos);
+        Hf.push_back((thermos.enthalpy + Hf0) * 1000.0 / RGas);
+      }
+
+      // Fit NASA polynomial to enthalpy data
+      // H/R =a6 + T*a1 + T^2*a2/2 + a3*T^3/3 + a4*T^4/4 + a5*T^5/5
+      vector<double> fits1, fits2; //a1, a2/2, a3/3, etc
+      if (m_TMid < 0.0) // single range (duplicated)
+      {
+        fits1 = FitPoly(6, temperature.begin(), temperature.end(), Hf.begin());
+        fits1[2] *= 2.0; fits1[3] *= 3.0; fits1[4] *= 4.0; fits1[5] *= 5.0;
+        fits2 = fits1;
+      }
+      else // Two ranges.
+      {
+        vector<double>::iterator itermid = find(temperature.begin(), temperature.end(), m_TMid);
+        if (itermid == temperature.end())
+        {
+          cerr << "In NASA polynomial fits the middle temperature"
+            "must be one of the specified temperatures." << endl;
+          return false;
+        }
+        int nlowerrange = itermid - temperature.begin();
+        fits1 = FitPoly(6, itermid, temperature.end(), Hf.begin() + nlowerrange); //upper range
+        fits2 = FitPoly(6, temperature.begin(), itermid + 1, Hf.begin()); //lower range
+        fits1[2] *= 2.0; fits1[3] *= 3.0; fits1[4] *= 4.0; fits1[5] *= 5.0;
+        fits2[2] *= 2.0; fits2[3] *= 3.0; fits2[4] *= 4.0; fits2[5] *= 5.0;
+      }
+      vector<double> coeffs(15);
+      copy(fits1.begin() + 1, fits1.end(), coeffs.begin());
+      copy(fits2.begin() + 1, fits2.end(), coeffs.begin() + 7);
+
+      coeffs[5] = fits1[0];
+      coeffs[12] = fits2[0];
+      coeffs[14] = Hf298local / RGas;
+
+      //Set a14 to match S at 298.15K
+      coeffs[13] = S298 * 1000.0 / RGas - SdivR(coeffs.begin() + 7, temp289);
+
+      //Set a7 to match a) S at 298K for one range; b) S at Tmid for two range;
+      if (m_TMid < 0.0)
+        coeffs[6] = coeffs[13];
+      else
+      {
+        pmol->getDOS().thermodynamicsFunctions(m_TMid, unitFctr, thermos);
+        coeffs[6] = thermos.entropy * 1000 / RGas - SdivR(coeffs.begin(), m_TMid);
+      }
+
+      // Output for .log file.
+
+      if (m_format == "cantera") {
+        string poly = WriteCanteraNASAPoly(pmol, coeffs, temperature[0],
+          (m_TMid > 0.0) ? m_TMid : temperature.back(), temperature.back());
+        ss << poly;
+      }
+      else {
+        string poly = WriteChemKinNASAPoly(pmol, coeffs, temperature[0],
+          (m_TMid > 0.0) ? m_TMid : temperature.back(), temperature.back());
+        ss << poly;
+      }
+
+      // Output to XML using a CML property for Nasa Polynomials
+      // previously used in OpenBabel.
+
+      PersistPtr pp = pmol->get_PersistentPointer();
+      PersistPtr ppProp = pp->XmlMoveTo("propertyList");
+      //ppProp = (ppProp ? ppProp : pp)->XmlWriteMainElement("property","",true);
+      ppProp = (ppProp ? ppProp : pp)->XmlWriteElement("property");
+      ppProp->XmlWriteAttribute("dictRef", "NasaPolynomial");
+
+      stringstream ss;
+      ss << temperature[0];
+      PersistPtr ppScalar = ppProp->XmlWriteValueElement("scalar", ss.str());
+      ppScalar->XmlWriteAttribute("dictRef", "NasaLowT");
+
+      ss.str("");
+      ss << temperature.back();
+      ppScalar = ppProp->XmlWriteValueElement("scalar", ss.str());
+      ppScalar->XmlWriteAttribute("dictRef", "NasaHighT");
+
+      ss.str("");
+      ss << m_TMid ? m_TMid : temperature.back();
+      ppScalar = ppProp->XmlWriteValueElement("scalar", ss.str());
+      ppScalar->XmlWriteAttribute("dictRef", "NasaMidT");
+
+      ppScalar = ppProp->XmlWriteValueElement("scalar", "G");
+      ppScalar->XmlWriteAttribute("dictRef", "Phase");
+
+      stringstream vals;
+      std::copy(coeffs.begin(), coeffs.end(), ostream_iterator<double>(vals, " "));
+      ppScalar = ppProp->XmlWriteValueElement("array", vals.str());
+      ppScalar->XmlWriteAttribute("dictRef", "NasaCoeffs");
+      ppScalar->XmlWriteAttribute("size", "15");
+
+      string poly = WriteChemKinNASAPoly(pmol, coeffs, temperature[0],
+        m_TMid ? m_TMid : temperature.back(), temperature.back());
+      ppScalar = ppProp->XmlWriteValueElement(
+        "scalar", poly, true); //Output polynomial as CDATA
+      ppScalar->XmlWriteAttribute("dictRef", "NasaPolynomial");
+      ctest << poly << endl; // for QA test
+    }
+
+    m_speciesThermo = ss.str();
+
+    return true;
+  }
+
+  double AnalyticalRepresentation::SdivR(vector<double>::iterator i, double T) const
+  {
+    //S/R  = a1 lnT + a2 T + a3 T^2 /2 + a4 T^3 /3 + a5 T^4 /4 + a7
+    //return *i*log(T) + *(i+1)*T + *(i+2)*T*T / 2 + *(i+3)*T*T*T / 3 + *(i+4)*T*T*T*T / 4 + *(i+6);
+    return *i*log(T) + T * (*(i + 1) + T * (*(i + 2) / 2 + T * (*(i + 3) / 3 + T * (*(i + 4) / 4)))) + *(i + 6);
+  }
+
+  string AnalyticalRepresentation::WriteChemKinNASAPoly(Molecule* pmol, vector<double> coeffs, double TLo, double TMid, double THi)
+  {
+    stringstream ss;
+    unsigned int i;
+
+#if _MSC_VER && _MSC_VER<1900
+    unsigned oldf = _set_output_format(_TWO_DIGIT_EXPONENT);
+#endif
+    ss << '\n';
+    ss << left << setw(24) << pmol->getName().substr(0, 24);
+    map<string, int> Comp = pmol->getStruc().GetElementalComposition();
+    int npad = 4 - Comp.size();
+    map<string, int>::const_iterator itr = Comp.begin();
+    for (; itr != Comp.end(); itr++)
+      ss << left << setw(2) << itr->first << right << setw(3) << itr->second;
+    for (; npad; --npad)
+      ss << "     ";
+    ss << right << 'G' << fixed << setprecision(3) << setw(10) << TLo;
+    ss << setw(10) << THi << setw(9) << TMid << "    01" << '\n';
+
+    ss << scientific << setprecision(7);
+    for (i = 0; i < 5; ++i)
+      ss << setw(15) << coeffs[i];
+    ss << "    2\n";
+    for (i = 5; i < 10; ++i)
+      ss << setw(15) << coeffs[i];
+    ss << "    3\n";
+    for (i = 10; i < 15; ++i)
+      ss << setw(15) << coeffs[i];
+    ss << "    4" << endl;
+
+#if _MSC_VER && _MSC_VER<1900
+    _set_output_format(oldf);
+#endif
+
+    return ss.str();
+  }
+
+  string AnalyticalRepresentation::WriteCanteraNASAPoly(Molecule* pmol, vector<double> coeffs, double TLo, double TMid, double THi)
+  {
+    stringstream ss;
+    unsigned int i;
+
+#if _MSC_VER && _MSC_VER<1900
+    unsigned oldf = _set_output_format(_TWO_DIGIT_EXPONENT);
+#endif
+    ss << endl;
+    ss << "species(name = \"" << pmol->getName() << "\"," << endl;
+
+    ss << "        atoms = \"";
+    map<string, int> Comp = pmol->getStruc().GetElementalComposition();
+    map<string, int>::const_iterator itr = Comp.begin();
+    for (; itr != Comp.end(); itr++)
+      ss << right << setw(2) << itr->first << ":" << left << setw(3) << itr->second;
+    ss << "\"," << endl;
+
+    ss << "        thermo = (" << endl;
+    ss << "            NASA( [" << fixed << setprecision(3) << right << setw(10) << TLo << ", " << TMid << "], [";
+
+    ss << scientific << setprecision(7);
+    for (i = 0; i < 2; ++i)
+      ss << setw(15) << coeffs[i] << ", ";
+    ss << endl << setw(21) << " ";
+    for (i = 2; i < 5; ++i)
+      ss << setw(15) << coeffs[i] << ", ";
+    ss << endl << setw(21) << " ";
+    ss << setw(15) << coeffs[5] << ", " << setw(15) << coeffs[6] << "] )," << endl;
+
+    ss << "            NASA( [" << fixed << setprecision(3) << right << setw(10) << TMid << ", " << THi << "], [";
+
+    ss << scientific << setprecision(7);
+    for (i = 7; i < 9; ++i)
+      ss << setw(15) << coeffs[i] << ", ";
+    ss << endl << setw(21) << " ";
+    for (i = 9; i < 12; ++i)
+      ss << setw(15) << coeffs[i] << ", ";
+    ss << endl << setw(21) << " ";
+    ss << setw(15) << coeffs[12] << ", " << setw(15) << coeffs[13] << "] ) ) )" << endl;
+
+#if _MSC_VER && _MSC_VER<1900
+    _set_output_format(oldf);
+#endif
+
+    return ss.str();
   }
 
   //--------------------------------------------------------------------------------------------
