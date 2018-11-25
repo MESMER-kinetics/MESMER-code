@@ -15,14 +15,16 @@
 #include "../calcmethod.h"
 #include "../gDensityOfStates.h"
 #include "../gStructure.h"
+#include "ThermodynamicUtils.h"
 
 namespace mesmer
 {
-  class ThermodynamicTable : public CalcMethod
+  class ThermodynamicTable : public CalcMethod, private ThermodynamicUtils
   {
   public:
 
-    ThermodynamicTable(const char* id) : m_id(id),
+    ThermodynamicTable(const char* id) : ThermodynamicUtils(),
+      m_id(id),
       m_nTemp(20),
       m_TempInterval(50.0),
       m_Unit("kJ/mol"),
@@ -52,10 +54,6 @@ namespace mesmer
     //void writeTableEntry(Molecule *pmol, double temp, double unitFctr, string & header) const;
 
     const char* m_id;
-
-    double SdivR(vector<double>::iterator i, double T)const;
-
-    string WriteNASAPoly(Molecule* pmol, vector<double> coeffs, double TLo, double TMid, double THi);
 
     int m_nTemp;
     double m_TempInterval, m_Tmin, m_Tmax, m_Tmid;
@@ -330,7 +328,7 @@ namespace mesmer
         ppScalar->XmlWriteAttribute("dictRef", "NasaCoeffs");
         ppScalar->XmlWriteAttribute("size", "15");
 
-        string poly = WriteNASAPoly(pmol, coeffs, temperature[0],
+        string poly = WriteChemKinNASAPoly(pmol, coeffs, temperature[0],
           m_Tmid ? m_Tmid : temperature.back(), temperature.back());
         ppScalar = ppProp->XmlWriteValueElement(
           "scalar", poly, true); //Output polynomial as CDATA
@@ -356,50 +354,5 @@ namespace mesmer
     return true;
   }
 
-  double ThermodynamicTable::SdivR(vector<double>::iterator i, double T) const
-  {
-    //S/R  = a1 lnT + a2 T + a3 T^2 /2 + a4 T^3 /3 + a5 T^4 /4 + a7
-    //return *i*log(T) + *(i+1)*T + *(i+2)*T*T / 2 + *(i+3)*T*T*T / 3 + *(i+4)*T*T*T*T / 4 + *(i+6);
-    return *i*log(T) +T*(*(i+1) + T*(*(i+2)/2 + T*(*(i+3)/3 + T*(*(i+4)/4)))) + *(i+6);
-  }
-
-  string ThermodynamicTable::WriteNASAPoly(Molecule* pmol, vector<double> coeffs,
-    double TLo, double TMid, double THi)
-  {
-    stringstream ss;
-    unsigned int i;
-
-#if _MSC_VER && _MSC_VER<1900
-    unsigned oldf = _set_output_format(_TWO_DIGIT_EXPONENT);
-#endif
-    ss << '\n';
-    ss << left << setw(24) << pmol->getName().substr(0, 24);
-    map<string, int> Comp = pmol->getStruc().GetElementalComposition();
-    int npad = 4 - Comp.size();
-    map<string, int>::const_iterator itr = Comp.begin() ;
-    for (;  itr != Comp.end() ; itr++ )
-      ss << left << setw(2) << itr->first << right << setw(3) << itr->second ;
-    for (; npad; --npad)
-      ss << "     ";
-    ss << right << 'G' << fixed << setprecision(3) << setw(10) << TLo;
-    ss << setw(10) << THi << setw(9) << TMid << "    01" << '\n';
-
-    ss << scientific << setprecision(7);
-    for (i = 0; i<5; ++i)
-      ss << setw(15) << coeffs[i];
-    ss << "    2\n";
-    for (i = 5; i<10; ++i)
-      ss << setw(15) << coeffs[i];
-    ss << "    3\n";
-    for (i = 10; i<15; ++i)
-      ss << setw(15) << coeffs[i];
-    ss << "    4" << endl;
-
-#if _MSC_VER && _MSC_VER<1900
-    _set_output_format(oldf);
-#endif
-
-    return ss.str();
-  }
 }//namespace
 

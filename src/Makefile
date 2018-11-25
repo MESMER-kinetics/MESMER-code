@@ -201,7 +201,6 @@ SRCS := \
 	plugins/FourierGrid1D.cpp \
 	plugins/GaussianModel.cpp \
 	plugins/gridsearch.cpp \
-	plugins/HighPressureRateCoefficients.cpp \
 	plugins/HinderedRotorUtils.cpp \
 	plugins/HinderedRotorQM1D.cpp \
 	plugins/HinderedRotorCM1D.cpp \
@@ -218,6 +217,7 @@ SRCS := \
 	plugins/simplecalc.cpp \
 	plugins/SimpleILT.cpp \
 	plugins/ThermodynamicTable.cpp \
+	plugins/ThermodynamicUtils.cpp \
 	plugins/UnitTests.cpp \
 	plugins/WKBCrossing.cpp \
 	plugins/WKBTunnellingCoefficients.cpp \

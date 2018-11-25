@@ -1,5 +1,10 @@
 2018-November-25 Struan Robertson
 		
+		* AnalyticalRepresentation.cpp, ThermodynamicTable.cpp, ThermodynamicUtils.h/.cpp: 
+		Refactoring of thermodynamic table output methods to base class. 
+
+2018-November-25 Struan Robertson
+		
 		* MesmerEnv.h/.cpp, System.cpp, MicroRate.cpp: Added temperature limits to the
 		canonical rate coefficient test function. 
 

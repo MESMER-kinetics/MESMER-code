@@ -799,7 +799,6 @@ src/plugins/FittingUtils.cpp -text
 src/plugins/FittingUtils.h -text
 src/plugins/FourierGrid1D.cpp -text
 src/plugins/GaussianModel.cpp -text
-src/plugins/HighPressureRateCoefficients.cpp -text
 src/plugins/HinderedRotorCM1D.cpp -text
 src/plugins/HinderedRotorUtils.cpp -text
 src/plugins/HinderedRotorUtils.h -text
@@ -816,6 +815,8 @@ src/plugins/SensitivityAnalysis.cpp -text
 src/plugins/SimpleBimolecularSink.cpp -text
 src/plugins/SimpleILT.cpp -text
 src/plugins/ThermodynamicTable.cpp -text
+src/plugins/ThermodynamicUtils.cpp -text
+src/plugins/ThermodynamicUtils.h -text
 src/plugins/UnitTests.cpp -text
 src/plugins/WKBCrossing.cpp -text
 src/plugins/WKBTunnellingCoefficients.cpp -text
