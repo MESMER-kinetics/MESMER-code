@@ -1,3 +1,10 @@
+2018-November-25 Struan Robertson
+		
+		* MesmerEnv.h/.cpp, System.cpp, MicroRate.cpp: Added temperature limits to the
+		canonical rate coefficient test function. 
+
+		* Baseline updated.
+
 2018-November-18 Struan Robertson
 		
 		* gDensityOfStates.cpp: Added support for rotational constants being quoted in GHz.  

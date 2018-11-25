@@ -23,6 +23,9 @@ namespace mesmer
     double MaximumTemperature;  // Maximum temperature for the purposes of setting the energy range
     double EMin, EMax;          // The absolute lowest and highest energies in the system, cm-1
     double EAboveHill;          // Max energy above the highest Hill [in kT]
+    double CRCTMin;             // Canonical rate coefficient test minumum temperature.
+    double CRCTitl;             // Canonical rate coefficient test temperature interval.
+    double CRCTMax;             // Canonical rate coefficient test maximum temperature.
     bool   useBasisSetMethod;   // Use the contracted basis set method.
     size_t nBasisSet;           // Number of basis set functions to use.
 

@@ -35,12 +35,11 @@ namespace mesmer
 
     // Calculate Canonical rate coefficients up to the max. temperature givn by MesmerEnv.
     MesmerEnv &env = const_cast<MesmerEnv&>(pReact->getEnv());
-    double dTemp(100.0); // 100 K intervals.
-    double Temp(0.0);
+    double dTemp = env.CRCTitl;
+    double Temp  = env.CRCTMin;
+    double TMax  = env.CRCTMax;
     vector<double> Coeffs;
-    size_t nTemp(size_t(pReact->getEnv().MaximumTemperature / dTemp) + 1);
-    for (size_t j(0); j < nTemp; j++) {
-      Temp += dTemp;
+    for (int j(0) ; Temp <= TMax; Temp += dTemp, j++) {
       env.beta = 1.0 / (boltzmann_RCpK*Temp);
 
       Coeffs.clear();
