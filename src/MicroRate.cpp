@@ -9,6 +9,12 @@ using namespace Constants;
 namespace mesmer
 {
 
+  // Initialize static variables
+
+  double MicroRateCalculator::m_dTemp = 100.0;
+  double MicroRateCalculator::m_TMin = 100.0;
+  double MicroRateCalculator::m_TMax = 2000.0;
+
   bool MicroRateCalculator::testMicroRateCoeffs(Reaction* pReact, PersistPtr ppbase) const
   {
     string comment("Canonical rate coefficients (calculated from microcanonical rate coefficients)");
@@ -35,9 +41,10 @@ namespace mesmer
 
     // Calculate Canonical rate coefficients up to the max. temperature givn by MesmerEnv.
     MesmerEnv &env = const_cast<MesmerEnv&>(pReact->getEnv());
-    double dTemp = env.CRCTitl;
-    double Temp  = env.CRCTMin;
-    double TMax  = env.CRCTMax;
+    double dTemp;
+    double Temp ;
+    double TMax ;
+    getTestInterval(Temp, TMax, dTemp);
     vector<double> Coeffs;
     for (int j(0) ; Temp <= TMax; Temp += dTemp, j++) {
       env.beta = 1.0 / (boltzmann_RCpK*Temp);

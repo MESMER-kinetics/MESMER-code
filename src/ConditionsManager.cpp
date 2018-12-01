@@ -450,6 +450,7 @@ namespace mesmer
     for (size_t i(0); i < PandTs.size(); ++i) {
       vector<RawDataSet>& data = PandTs[i].m_rawDataSets;
       for (size_t j(0); j < data.size(); ++j) {
+        data[j].m_weight = sqrt(data[j].m_weight);
         sum += data[j].m_weight;
       }
     }
@@ -462,6 +463,25 @@ namespace mesmer
         }
       }
     }
+
+    //double MaxWeight = 0.0;
+    //for (size_t i(0); i < PandTs.size(); ++i) {
+    //  vector<RawDataSet>& data = PandTs[i].m_rawDataSets;
+    //  for (size_t j(0); j < data.size(); ++j) {
+    //    data[j].m_weight = sqrt(data[j].m_weight);
+    //    MaxWeight = max(MaxWeight, data[j].m_weight);
+    //  }
+    //}
+
+    //if (MaxWeight > 0.0) {
+    //  for (size_t i(0); i < PandTs.size(); ++i) {
+    //    vector<RawDataSet>& data = PandTs[i].m_rawDataSets;
+    //    for (size_t j(0); j < data.size(); ++j) {
+    //      data[j].m_weight /= MaxWeight;
+    //    }
+    //  }
+    //}
+
   }
 
   bool ConditionsManager::ReadRange(const string& name, vector<double>& vals, PersistPtr ppbase, bool MustBeThere)

@@ -880,7 +880,6 @@ namespace mesmer
       if (IsNan(Hf298local)) {
         cinfo << "Restricted thermo output for " << pmol->getName()
           << " because it has arbitrary energy data." << endl;
-        continue;
       }
 
       vector<double> Hf; // enthalpy of formation / R 
@@ -889,7 +888,7 @@ namespace mesmer
       pmol->getDOS().thermodynamicsFunctions(temp289, unitFctr, thermos);
       double H298 = thermos.enthalpy;
       double S298 = thermos.entropy; // Always calculated. NOTE kJ/mol/K.
-      double Hf0 = Hf298local - H298;
+      double Hf0  = (IsNan(Hf298local)) ? 0.0 : Hf298local - H298;
       for (size_t i(0); i < temperature.size(); i++)
       {
         pmol->getDOS().thermodynamicsFunctions(temperature[i], unitFctr, thermos);
@@ -986,12 +985,17 @@ namespace mesmer
       ppScalar->XmlWriteAttribute("dictRef", "NasaCoeffs");
       ppScalar->XmlWriteAttribute("size", "15");
 
-      string poly = WriteChemKinNASAPoly(pmol, coeffs, temperature[0],
-        m_TMid ? m_TMid : temperature.back(), temperature.back());
-      ppScalar = ppProp->XmlWriteValueElement(
-        "scalar", poly, true); //Output polynomial as CDATA
+      string poly; 
+      if (m_format == "cantera") {
+        poly = WriteCanteraNASAPoly(pmol, coeffs, temperature[0],
+          m_TMid ? m_TMid : temperature.back(), temperature.back());
+      }
+      else {
+        poly = WriteChemKinNASAPoly(pmol, coeffs, temperature[0],
+          m_TMid ? m_TMid : temperature.back(), temperature.back());
+      }
+      ppScalar = ppProp->XmlWriteValueElement("scalar", poly, true); // Output polynomial as CDATA.
       ppScalar->XmlWriteAttribute("dictRef", "NasaPolynomial");
-      ctest << poly << endl; // for QA test
     }
 
     m_speciesThermo = ss.str();

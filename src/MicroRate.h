@@ -92,8 +92,28 @@ appropriate, and the functions getParent and setParent and should be compatible.
     // Utility function to check for inconsistencies. 
     static bool ILTCheck(Reaction* pReac, PersistPtr ppReac) ;
 
+    static void setTestInterval(double TMin, double TMax, double dTemp) {
+      m_dTemp = dTemp;
+      m_TMin  = TMin;
+      m_TMax  = TMax;
+    };
+
+    static void getTestInterval(double &TMin, double &TMax, double &dTemp) {
+      dTemp = m_dTemp;
+      TMin = m_TMin;
+      TMax = m_TMax;
+    };
+
   protected:
+
     Reaction* m_parent;
+
+    // Temperature range and interval for rate coefficient test.
+
+    static double m_dTemp;
+    static double m_TMin;
+    static double m_TMax;
+
   };
 
 }//namespace

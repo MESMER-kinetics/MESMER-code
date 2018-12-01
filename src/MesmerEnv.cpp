@@ -13,9 +13,6 @@ namespace mesmer{
     EMin(0.0),
     EMax(0.0),
     EAboveHill(20.),
-    CRCTMin(-1.0),
-    CRCTitl(-1.0),
-    CRCTMax(-1.0),
     useBasisSetMethod(false),
     nBasisSet(2){}
 }//namespace

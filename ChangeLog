@@ -1,3 +1,8 @@
+2018-December-01 Struan Robertson
+		
+		* MesmerEnv.h/.cpp, System.cpp, MicroRate.cpp: Changes temperature limits on the
+		canonical rate coefficient test function. 
+
 2018-November-25 Struan Robertson
 		
 		* AnalyticalRepresentation.cpp, ThermodynamicTable.cpp, ThermodynamicUtils.h/.cpp: 

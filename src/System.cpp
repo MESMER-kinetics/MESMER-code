@@ -283,13 +283,16 @@ namespace mesmer
         m_Flags.testRateConstantEnabled = ppControl->XmlReadBoolean("me:testRateConstants");
         m_Flags.microRateEnabled = ppControl->XmlReadBoolean("me:testMicroRates");
         if (m_Flags.microRateEnabled) {
+          double TMin(-1.0), TMax(-1.0), TInt(-1.0);
+          MicroRateCalculator::getTestInterval(TMin, TMax, TInt);
           PersistPtr pptmr = ppControl->XmlMoveTo("me:testMicroRates");
           double CRCTitl = pptmr->XmlReadDouble("TStep", optional);
-          m_Env.CRCTitl = (!(IsNan(CRCTitl))) ? CRCTitl : 100.0 ;
+          CRCTitl = (!(IsNan(CRCTitl))) ? CRCTitl : 100.0;
           double CRCTMin = pptmr->XmlReadDouble("TMin", optional);
-          m_Env.CRCTMin = (!(IsNan(CRCTMin))) ? CRCTMin : 100.0;
+          CRCTMin = (!(IsNan(CRCTMin))) ? CRCTMin : 100.0;
           double CRCTMax = pptmr->XmlReadDouble("TMax", optional);
-          m_Env.CRCTMax = (!(IsNan(CRCTMax))) ? CRCTMax : 2000.0;
+          CRCTMax = (!(IsNan(CRCTMax))) ? CRCTMax : 2000.0;
+          MicroRateCalculator::setTestInterval(CRCTMin, CRCTMax, CRCTitl);
           m_Env.MaximumTemperature = max(m_Env.MaximumTemperature, CRCTMax);
         }
         m_Flags.grainBoltzmannEnabled = ppControl->XmlReadBoolean("me:printGrainBoltzmann");
