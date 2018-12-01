@@ -952,39 +952,6 @@ namespace mesmer
         ss << poly;
       }
 
-      // Output to XML using a CML property for Nasa Polynomials
-      // previously used in OpenBabel.
-
-      PersistPtr pp = pmol->get_PersistentPointer();
-      PersistPtr ppProp = pp->XmlMoveTo("propertyList");
-      //ppProp = (ppProp ? ppProp : pp)->XmlWriteMainElement("property","",true);
-      ppProp = (ppProp ? ppProp : pp)->XmlWriteElement("property");
-      ppProp->XmlWriteAttribute("dictRef", "NasaPolynomial");
-
-      stringstream ss;
-      ss << temperature[0];
-      PersistPtr ppScalar = ppProp->XmlWriteValueElement("scalar", ss.str());
-      ppScalar->XmlWriteAttribute("dictRef", "NasaLowT");
-
-      ss.str("");
-      ss << temperature.back();
-      ppScalar = ppProp->XmlWriteValueElement("scalar", ss.str());
-      ppScalar->XmlWriteAttribute("dictRef", "NasaHighT");
-
-      ss.str("");
-      ss << m_TMid ? m_TMid : temperature.back();
-      ppScalar = ppProp->XmlWriteValueElement("scalar", ss.str());
-      ppScalar->XmlWriteAttribute("dictRef", "NasaMidT");
-
-      ppScalar = ppProp->XmlWriteValueElement("scalar", "G");
-      ppScalar->XmlWriteAttribute("dictRef", "Phase");
-
-      stringstream vals;
-      std::copy(coeffs.begin(), coeffs.end(), ostream_iterator<double>(vals, " "));
-      ppScalar = ppProp->XmlWriteValueElement("array", vals.str());
-      ppScalar->XmlWriteAttribute("dictRef", "NasaCoeffs");
-      ppScalar->XmlWriteAttribute("size", "15");
-
       string poly; 
       if (m_format == "cantera") {
         poly = WriteCanteraNASAPoly(pmol, coeffs, temperature[0],
@@ -994,8 +961,6 @@ namespace mesmer
         poly = WriteChemKinNASAPoly(pmol, coeffs, temperature[0],
           m_TMid ? m_TMid : temperature.back(), temperature.back());
       }
-      ppScalar = ppProp->XmlWriteValueElement("scalar", poly, true); // Output polynomial as CDATA.
-      ppScalar->XmlWriteAttribute("dictRef", "NasaPolynomial");
     }
 
     m_speciesThermo = ss.str();
