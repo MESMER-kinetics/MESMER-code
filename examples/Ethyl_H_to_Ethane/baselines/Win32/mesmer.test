@@ -49,16 +49,16 @@ Test rovibronic density of states for: Ethane
 
 Eq fraction matrix:
 {
- -1.28018e+68  1.00000e+00
+ -6.40088e+67  1.00000e+00
   1.00000e+00  1.00000e+00
 }
 inverse of Eq fraction matrix:
 {
- -7.81143e-69  7.81143e-69
-  7.81143e-69  1.00000e+00
+ -1.56229e-68  1.56229e-68
+  1.56229e-68  1.00000e+00
 }
 Equilibrium Fraction for Ethane = 1
-Equilibrium Fraction for Ethyl = 7.81143e-69
+Equilibrium Fraction for Ethyl = 1.56229e-68
 
 Total number of eigenvalues = 195
 Eigenvalues
@@ -66,8 +66,8 @@ Eigenvalues
   -2.256224e+07
   -2.099527e+07
   -1.792525e+07
-  -7.110730e+06
-   2.147013e-22
+  -7.108449e+06
+   2.513945e-22
 }
 
 Bartis Widom eigenvalue/eigenvector analysis
@@ -77,37 +77,37 @@ Number of sinks in this system: 0
 There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
 
 Z_matrix: {
--4.728744e-35	2.236102e-69	
-4.728744e-35	1.000000e+00	
+1.230178e-34	1.513339e-68	
+-1.230178e-34	1.000000e+00	
 }
 
 Z_matrix^(-1):
 {
--2.114726e+34	4.728744e-35	
+8.128902e+33	-1.230178e-34	
 1.000000e+00	1.000000e+00	
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	-4.705308e-133	
--1.975052e-64	1.000000e+00	
+1.000000e+00	-1.761051e-132	
+3.538573e-65	1.000000e+00	
 }
 
 Kr matrix:
 {
--7.110730e+06	1.590032e-62	
-7.110730e+06	-1.590032e-62	
+-7.108449e+06	1.075749e-61	
+7.108449e+06	-1.075749e-61	
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-Ethane loss = -1.590032e-62
-Ethyl loss = -7.110730e+06
+Ethane loss = -1.075749e-61
+Ethyl loss = -7.108449e+06
 }
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-Ethane -> Ethyl = 1.590032e-62
-Ethyl -> Ethane = 7.110730e+06
+Ethane -> Ethyl = 1.075749e-61
+Ethyl -> Ethane = 7.108449e+06
 }
 }

@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.1 compiled: -- Mar 27 2018 -- 20:48:55
+     Mesmer v5.2 compiled: -- Dec  1 2018 -- 14:26:21
 
      Copyright (C) 2009-2018 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sat Apr 21 19:49:28 2018
+                     Execution Date:  Sat Dec  1 16:43:57 2018
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -80,106 +80,105 @@ In R1: Not a unimolecular reaction: look for excess reactant concentration.
 6.2Torr, 715K at d precision with He
 10.2Torr, 715K at d precision with He
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20180421_194928
+Write metadata 20181201_164357
 
 File: "CH3_CH3_to_C2H6.xml" successfully parsed.
 Main Calculation begins
 Now calculating...
 
 --Execute calcMethod marquardt
-In FastLaplaceConvolution: 1840 values in the FFT convolution routine were replaced by standard convolution
-In FastLaplaceConvolution: 1300 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 2040 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 1660 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
 At present it is not possible to print profiles for systems with a second order term.
 
-Chi^2 = 52.5159 Lambda = 1
+Chi^2 = 52.5724 Lambda = 1
 C2H6:deltaEDown:Ar=302  C2H6:deltaEDown:He=230  R1:preExponential=5.73e-11  R1:nInfinity=-0.26  
 Association ILT calculation completed
 Association ILT calculation completed
 Association ILT calculation completed
+In FastLaplaceConvolution: 1640 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
-In FastLaplaceConvolution: 1220 values in the FFT convolution routine were replaced by standard convolution
-Association ILT calculation completed
-Association ILT calculation completed
-Association ILT calculation completed
-Association ILT calculation completed
-In FastLaplaceConvolution: 1200 values in the FFT convolution routine were replaced by standard convolution
-Association ILT calculation completed
-
-Chi^2 = 41.8176 Lambda = 0.1
-C2H6:deltaEDown:Ar=303.322  C2H6:deltaEDown:He=263.47  R1:preExponential=5.64853e-11  R1:nInfinity=-0.320987  
-Iteration: 1 of Marquardt. ChiSquare = 41.8176, Lambda = 0.1
-In FastLaplaceConvolution: 920 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 1500 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
 Association ILT calculation completed
 Association ILT calculation completed
 Association ILT calculation completed
-In FastLaplaceConvolution: 880 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
 
-Chi^2 = 31.3594 Lambda = 0.01
-C2H6:deltaEDown:Ar=342.867  C2H6:deltaEDown:He=334.78  R1:preExponential=5.25185e-11  R1:nInfinity=-0.56961  
-Iteration: 2 of Marquardt. ChiSquare = 31.3594, Lambda = 0.01
-Number of cells = 55020, Number of grains = 786
+Chi^2 = 41.82 Lambda = 0.1
+C2H6:deltaEDown:Ar=303.305  C2H6:deltaEDown:He=263.574  R1:preExponential=5.64971e-11  R1:nInfinity=-0.321302  
+Iteration: 1 of Marquardt. ChiSquare = 41.82, Lambda = 0.1
+In FastLaplaceConvolution: 1100 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
- -- Total time elapsed: 248 seconds.
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+
+Chi^2 = 31.5255 Lambda = 0.01
+C2H6:deltaEDown:Ar=343.276  C2H6:deltaEDown:He=334.326  R1:preExponential=5.23886e-11  R1:nInfinity=-0.574478  
+Iteration: 2 of Marquardt. ChiSquare = 31.5255, Lambda = 0.01
+Number of cells = 58660, Number of grains = 838
+Association ILT calculation completed
+ -- Total time elapsed: 333 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
-           1177    8.94271e+18        7.5e-12    8.36467e-12
-           1366    1.26538e+19        6.7e-12    5.14886e-12
-           1403    1.27331e+19        6.8e-12    4.54773e-12
-           1412    1.18996e+19        6.1e-12    4.26965e-12
-           1426    1.13088e+19        6.2e-12    3.96596e-12
-           1724    7.33759e+18       1.16e-12    9.97169e-13
-           1734    7.29527e+18        8.6e-13    9.54228e-13
-           1742    7.37264e+18        8.8e-13    9.30165e-13
-           1298    8.10907e+18        5.3e-12    5.34303e-12
-           1306    7.54182e+18        6.2e-12    5.02754e-12
-           1345    7.07185e+18        5.9e-12    4.23807e-12
-           1175    9.77977e+18        5.2e-12    8.70016e-12
-           1215     8.7425e+18        7.2e-12    7.32327e-12
-           1321    7.60238e+18        7.2e-12     4.7825e-12
-           1357    7.54302e+18        4.2e-12    4.18339e-12
-           1394    6.44921e+18        5.2e-12    3.37576e-12
-           1513    5.46967e+18       2.09e-12    1.94633e-12
-           1537    1.00523e+19          4e-12    2.48895e-12
-            305    9.81479e+16       4.81e-11     4.8109e-11
-            305     1.9313e+17       5.12e-11    4.99206e-11
-            305    3.19772e+17       5.27e-11     5.0809e-11
-            515     2.1563e+16       1.29e-11    1.44826e-11
-            515     5.9064e+16       1.99e-11     2.0419e-11
-            515    1.15315e+17        2.4e-11    2.43525e-11
-            515    1.91255e+17       2.64e-11    2.71324e-11
-            715    2.29595e+16        5.8e-12    4.93199e-12
-            715    4.32179e+16        8.2e-12    6.78301e-12
-            715    8.37346e+16       1.02e-11    9.13898e-12
-            715    1.37757e+17       1.28e-11    1.11677e-11
+           1177    8.94271e+18        7.5e-12    8.33327e-12
+           1366    1.26538e+19        6.7e-12    5.13225e-12
+           1403    1.27331e+19        6.8e-12    4.53379e-12
+           1412    1.18996e+19        6.1e-12    4.25702e-12
+           1426    1.13088e+19        6.2e-12    3.95466e-12
+           1724    7.33759e+18       1.16e-12    9.95872e-13
+           1734    7.29527e+18        8.6e-13    9.53025e-13
+           1742    7.37264e+18        8.8e-13     9.2901e-13
+           1298    8.10907e+18        5.3e-12    5.32644e-12
+           1306    7.54182e+18        6.2e-12    5.01246e-12
+           1345    7.07185e+18        5.9e-12    4.22634e-12
+           1175    9.77977e+18        5.2e-12    8.66665e-12
+           1215     8.7425e+18        7.2e-12    7.29723e-12
+           1321    7.60238e+18        7.2e-12    4.76844e-12
+           1357    7.54302e+18        4.2e-12    4.17178e-12
+           1394    6.44921e+18        5.2e-12    3.36742e-12
+           1513    5.46967e+18       2.09e-12    1.94273e-12
+           1537    1.00523e+19          4e-12    2.48331e-12
+            305    9.81479e+16       4.81e-11    4.79974e-11
+            305     1.9313e+17       5.12e-11    4.97986e-11
+            305    3.19772e+17       5.27e-11    5.06813e-11
+            515     2.1563e+16       1.29e-11    1.44448e-11
+            515     5.9064e+16       1.99e-11    2.03572e-11
+            515    1.15315e+17        2.4e-11    2.42716e-11
+            515    1.91255e+17       2.64e-11    2.70361e-11
+            715    2.29595e+16        5.8e-12    4.91791e-12
+            715    4.32179e+16        8.2e-12    6.76209e-12
+            715    8.37346e+16       1.02e-11     9.1082e-12
+            715    1.37757e+17       1.28e-11    1.11274e-11
 
 
-Chi^2 = 31.3594
+Chi^2 = 31.5255
 
 Best fit parameters:
 
-C2H6:deltaEDown:Ar = 342.867 +/- 41.0684
-C2H6:deltaEDown:He = 334.78 +/- 42.6216
-R1:preExponential = 5.25185e-11 +/- 3.02893e-12
-R1:nInfinity = -0.56961 +/- 0.204917
+C2H6:deltaEDown:Ar = 343.276 +/- 41.3246
+C2H6:deltaEDown:He = 334.326 +/- 42.7105
+R1:preExponential = 5.23886e-11 +/- 3.05909e-12
+R1:nInfinity = -0.574478 +/- 0.207613
 
 Correlation coefficients:
 
-C2H6:deltaEDown:He , C2H6:deltaEDown:Ar = 0.483157
-R1:preExponential , C2H6:deltaEDown:Ar = -0.0382639
-R1:preExponential , C2H6:deltaEDown:He = -0.465099
-R1:nInfinity , C2H6:deltaEDown:Ar = -0.845285
-R1:nInfinity , C2H6:deltaEDown:He = -0.412663
-R1:nInfinity , R1:preExponential = -0.225117
+C2H6:deltaEDown:He , C2H6:deltaEDown:Ar = 0.482887
+R1:preExponential , C2H6:deltaEDown:Ar = -0.00212993
+R1:preExponential , C2H6:deltaEDown:He = -0.442872
+R1:nInfinity , C2H6:deltaEDown:Ar = -0.845623
+R1:nInfinity , C2H6:deltaEDown:He = -0.412325
+R1:nInfinity , R1:preExponential = -0.264818
 
 Goodness of Fit:
 
 Number of degrees of Freedom = 25
-Chi^2 probability = 0.177393
+Chi^2 probability = 0.172204
 
 System saved to mesmer_out.xml
-Total time elapsed: 248 seconds.
+Total time elapsed: 333 seconds.

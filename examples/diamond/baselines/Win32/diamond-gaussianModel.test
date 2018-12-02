@@ -231,6 +231,12 @@ Canonical (high pressure) rate coefficients for R1, calculated from microcanonic
    1200         5.80465e+06             273.621           21214.2
    1300         5.68903e+07             2030.83           28013.3
    1400         3.95543e+08             14070.7           28111.2
+   1500         2.04555e+09             89248.2           22919.8
+   1600         8.11258e+09              508628           15949.9
+   1700         2.53057e+10         2.57333e+06           9833.84
+   1800         6.37161e+10         1.15161e+07           5532.79
+   1900         1.33182e+11         4.57232e+07            2912.8
+   2000         2.38035e+11         1.62196e+08           1467.58
 }
 
 Collision operator of FiveAtomActiveSpace before normalization:
