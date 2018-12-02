@@ -344,5 +344,14 @@ if [ "$1" == "-o" ] ; then
 fi
 cd ..
 
+cd "Methyl_O_to_Methoxy"
+testName="Methyl_O_to_Methoxy"
+$cmdline -N $testName.xml
+cp ./$testName.test ./$bline$testName.test
+if [ "$1" == "-o" ] ; then
+  cp ./$testName.log ./$bline$testName.log
+fi
+cd ..
+
 echo Start Time=$starttime - End Time=`date`
 

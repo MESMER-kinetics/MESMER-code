@@ -70,7 +70,8 @@
           <scalar units="cm-1">36600.0</scalar>
         </property>
         <property dictRef="me:rotConsts">
-          <array units="cm-1">4.723 9.471 9.471</array>
+          <array units="GHz">141.6 283.9 283.9</array>
+          <!--<array units="cm-1">4.723 9.471 9.471</array>-->
         </property>
         <property dictRef="me:symmetryNumber">
           <scalar>6</scalar>
@@ -162,9 +163,7 @@
   <me:conditions>
     <me:bathGas>He</me:bathGas>
     <me:PTs>
-      <me:PTpair units="Torr" P="25.1" T="301." precision="dd">
-        <me:experimentalRate ref1="Methyl" ref2="Methane" refReaction="R1" error="0.0">1.26e-11</me:experimentalRate>
-      </me:PTpair>
+      <me:PTpair units="Torr" P="25.1" T="301." precision="dd"/>
     </me:PTs>
   </me:conditions>
 
@@ -174,12 +173,9 @@
   </me:modelParameters>
 
   <me:control>
-    <me:calcMethod xsi:type="me:HighPressureRateCoefficients">
-      <me:NumTemp>  20</me:NumTemp>
-      <me:MaxTemp>1400</me:MaxTemp>
-      <me:MinTemp> 600</me:MinTemp>
-    </me:calcMethod>
+    <me:calcMethod xsi:type="me:simpleCalc"/>
     <me:testDOS />
+    <me:testMicroRates TMin ="150.0" TMax ="1500.0" TStep ="50.0"/>
   </me:control>
 
 </me:mesmer>

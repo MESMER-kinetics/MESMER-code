@@ -276,6 +276,13 @@ copy "./%testName%.test" "./%bline%%testName%.test"
 IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
 cd ..
 
+cd "Methyl_O_to_Methoxy"
+set testName="Methyl_O_to_Methoxy"
+%cmdline% -N %testName%.xml
+copy "./%testName%.test" "./%bline%%testName%.test"
+IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
+cd ..
+
 :OUT
 
 echo Start Time=%starttime% - End Time=%time%

@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.2 compiled: -- Nov 18 2018 -- 16:47:17
+     Mesmer v5.2 compiled: -- Dec  1 2018 -- 14:26:21
 
      Copyright (C) 2009-2018 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,15 +27,15 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sun Nov 18 19:09:45 2018
-                     Number of ranks: 1
+                     Execution Date:  Sun Dec  2 17:53:44 2018
+                     Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
 
 Parsing input xml file...
 Methyl_O_to_Methoxy.xml
 
---Parse data for HighPressureRateCoefficients
+--Parse data for simpleCalc
 Energy convention "" written to <moleculeList>
 In R1: Parsing reaction...Association reaction
 In Methoxy: Rotational constants were calculated from atom coordinates: 0.941928 0.942088 5.22904 cm-1
@@ -49,19 +49,24 @@ In R1: Not a unimolecular reaction: look for excess reactant concentration.
 In R1: No value of me:excessReactantConc was supplied and the default value NEEDS TO BE CHECKED**
 25.1Torr, 301K at dd precision with He
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20181118_190945
+Write metadata 20181202_175344
 
 File: "Methyl_O_to_Methoxy.xml" successfully parsed.
 Main Calculation begins
 Now calculating...
 
---Execute calcMethod HighPressureRateCoefficients
+--Execute calcMethod simpleCalc
+Number of cells = 50000, Number of grains = 194
 Number of grains produced is not equal to that requested
-Number of grains requested: 250
+Number of grains requested: 194
 Number of grains produced : 2
 In FastLaplaceConvolution: 40 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
- -- Total time elapsed: 35 seconds.
+ -- Total time elapsed: 1 seconds.
+
+
+    Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
+
 
 System saved to mesmer_out.xml
-Total time elapsed: 35 seconds.
+Total time elapsed: 1 seconds.
