@@ -12,11 +12,11 @@ Test rovibronic density of states for: Methoxy
 Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
 {
     T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
-    150         7.65516e-11        6.08782e-139      1.25745e+128
-    200         7.60424e-11        1.34623e-100       5.64854e+89
+    150         7.65514e-11        6.08782e-139      1.25745e+128
+    200         7.60423e-11        1.34623e-100       5.64854e+89
     250         7.73339e-11         1.55838e-77       4.96245e+66
     300         7.85994e-11         3.99178e-62       1.96903e+51
-    350         7.90906e-11         4.21434e-51        1.8767e+40
+    350         7.90906e-11         4.21433e-51        1.8767e+40
     400         7.84132e-11         7.93269e-43       9.88481e+31
     450         7.64569e-11         2.16457e-36        3.5322e+25
     500         7.33364e-11         3.01915e-31       2.42904e+20
@@ -33,7 +33,7 @@ Canonical (high pressure) rate coefficients for R1, calculated from microcanonic
    1050         2.50241e-11         2.33011e-07       0.000107395
    1100           2.215e-11         2.07476e-06       1.06759e-05
    1150         1.95847e-11         1.50667e-05       1.29987e-06
-   1200         1.73036e-11         9.15523e-05       1.89002e-07
+   1200         1.73036e-11         9.15522e-05       1.89002e-07
    1250          1.5281e-11         0.000475657       3.21261e-08
    1300         1.34918e-11          0.00215191       6.26968e-09
    1350         1.19117e-11           0.0086103       1.38343e-09
@@ -62,37 +62,37 @@ Number of sinks in this system: 0
 There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
 
 Z_matrix: {
--3.006027e-33	9.036196e-66	
-3.006027e-33	1.000000e+00	
+-4.382139e-34	1.920314e-67	
+4.382139e-34	1.000000e+00	
 }
 
 Z_matrix^(-1):
 {
--3.326650e+32	3.006027e-33	
+-2.281991e+33	4.382139e-34	
 1.000000e+00	1.000000e+00	
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	1.803316e-129	
-1.401642e-64	1.000000e+00	
+1.000000e+00	1.540920e-132	
+2.467707e-65	1.000000e+00	
 }
 
 Kr matrix:
 {
--8.674313e+05	7.838280e-60	
-8.674313e+05	-7.838280e-60	
+-8.674309e+05	1.665740e-61	
+8.674309e+05	-1.665740e-61	
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-Methoxy loss = -7.838280e-60
-Methyl loss = -8.674313e+05
+Methoxy loss = -1.665740e-61
+Methyl loss = -8.674309e+05
 }
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-Methoxy -> Methyl = 7.838280e-60
-Methyl -> Methoxy = 8.674313e+05
+Methoxy -> Methyl = 1.665740e-61
+Methyl -> Methoxy = 8.674309e+05
 }
 }

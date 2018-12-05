@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.1 compiled: -- Apr 21 2018 -- 19:37:43
+     Mesmer v5.2 compiled: -- Dec  4 2018 -- 16:50:21
 
      Copyright (C) 2009-2018 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,8 +27,8 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Sat Apr 21 20:33:20 2018
-                     Number of ranks: 12
+                     Execution Date:  Tue Dec  4 17:40:13 2018
+                     Number of ranks: 1
 
 defaults.xml, librarymols.xml are in ../..
 
@@ -104,13 +104,53 @@ In cycCH2OCH2O: Could not find cycCH2OCH2O in ../../librarymols.xml
 In R5: --Parse data for RRKM
 In R5: No tunneling method used for R5
 No pressure and temperature specified.
-Write metadata 20180421_203320
+Write metadata 20181204_174013
 
 File: "Chebyshev.xml" successfully parsed.
 Main Calculation begins
 Now calculating...
 
 --Execute calcMethod analyticalRepresentation
+In CH2O: Neither chemical structure nor Molecular Weight as an XML property were provided.
+In CH2O: Cannot find me:vibFreqs or me:hessian. Assuming an atom or a sink molecule.
+In CH2O: No rotational constants from <me:rotConsts> or structure. Assuming an atom or a sink molecule.
+In CH2O: The default value of me:DOSCMethod was used.
+In CH2O: The default value of the attribute spinMultiplicity was used.
+gDensityOfStates initialization failed.
+Restricted thermo output for CH2O because it has arbitrary energy data.
+In CH3OCH2: energy cannot be converted from arbitrary to thermodynamic298K
+enthalpy of formation at 298K:Restricted thermo output for CH3OCH2 because it has arbitrary energy data.
+In He: The default value of me:DOSCMethod was used.
+In He: The default value of the attribute spinMultiplicity was used.
+gDensityOfStates initialization failed.
+Restricted thermo output for He because it has arbitrary energy data.
+In IM1: energy cannot be converted from arbitrary to thermodynamic298K
+enthalpy of formation at 298K:Restricted thermo output for IM1 because it has arbitrary energy data.
+In IM2: energy cannot be converted from arbitrary to thermodynamic298K
+enthalpy of formation at 298K:Restricted thermo output for IM2 because it has arbitrary energy data.
+In O2: To mix thermodynamic and computational energies the molecule needs chemical structure (an atomList at least)
+In O2: Missing thermo data for atoms
+In OH-1: To mix thermodynamic and computational energies the molecule needs chemical structure (an atomList at least)
+In OH-1: Missing thermo data for atoms
+In OH-2: enthalpy of formation at 298K:enthalpy of formation at 298K:Cannot find me:vibFreqs or me:hessian. Assuming an atom or a sink molecule.
+In OH-2: No rotational constants from <me:rotConsts> or structure. Assuming an atom or a sink molecule.
+In OH-2: The default value of me:DOSCMethod was used.
+In OH-2: The default value of the attribute spinMultiplicity was used.
+In OH-2: To mix thermodynamic and computational energies the molecule needs chemical structure (an atomList at least)
+In OH-2: Missing thermo data for atoms
+In OH-3: enthalpy of formation at 298K:Cannot find me:vibFreqs or me:hessian. Assuming an atom or a sink molecule.
+In OH-3: No rotational constants from <me:rotConsts> or structure. Assuming an atom or a sink molecule.
+In OH-3: The default value of me:DOSCMethod was used.
+In OH-3: The default value of the attribute spinMultiplicity was used.
+In OH-3: To mix thermodynamic and computational energies the molecule needs chemical structure (an atomList at least)
+In OH-3: Missing thermo data for atoms
+In cycCH2OCH2O: enthalpy of formation at 298K:Neither chemical structure nor Molecular Weight as an XML property were provided.
+In cycCH2OCH2O: Cannot find me:vibFreqs or me:hessian. Assuming an atom or a sink molecule.
+In cycCH2OCH2O: No rotational constants from <me:rotConsts> or structure. Assuming an atom or a sink molecule.
+In cycCH2OCH2O: The default value of me:DOSCMethod was used.
+In cycCH2OCH2O: The default value of the attribute spinMultiplicity was used.
+gDensityOfStates initialization failed.
+Restricted thermo output for cycCH2OCH2O because it has arbitrary energy data.
 
 Bath gas is He
 In FastLaplaceConvolution: 4880 values in the FFT convolution routine were replaced by standard convolution
@@ -124,6 +164,106 @@ The last CSE = -1.61523e+08 and the first IERE = -3.02682e+08
 (last CSE)/(first IERE) ratio = 0.533641, which is less than an order of magnitude
 
 Results obtained from Bartis Widom eigenvalue-vector analysis may be unreliable
+
+species(name = "CH2O",
+        atoms = "",
+        thermo = (
+            NASA( [   200.000, 1000.000], [  2.5000000e+00,  -9.7864122e-29, 
+                       2.7100394e-31,  -3.1306308e-34,   1.2858695e-37, 
+                      -1.1322536e-24,             nan] ),
+            NASA( [  1000.000, 1000.000], [  2.5000000e+00,  -9.7864122e-29, 
+                       2.7100394e-31,  -3.1306308e-34,   1.2858695e-37, 
+                      -1.1322536e-24,             nan] ) ) )
+
+species(name = "CH3OCH2",
+        atoms = " C:2   H:5   O:1  ",
+        thermo = (
+            NASA( [   200.000, 1000.000], [  5.1781791e+00,   3.5340186e-03, 
+                       3.1721297e-05,  -4.0844732e-08,   1.5780449e-11, 
+                      -7.5541097e+01,   3.0938130e+00] ),
+            NASA( [  1000.000, 1000.000], [  5.1781791e+00,   3.5340186e-03, 
+                       3.1721297e-05,  -4.0844732e-08,   1.5780449e-11, 
+                      -7.5541097e+01,   3.0938130e+00] ) ) )
+
+species(name = "He",
+        atoms = "He:1  ",
+        thermo = (
+            NASA( [   200.000, 1000.000], [  2.5000000e+00,  -9.7864122e-29, 
+                       2.7100394e-31,  -3.1306308e-34,   1.2858695e-37, 
+                      -1.1322536e-24,   9.2773791e-01] ),
+            NASA( [  1000.000, 1000.000], [  2.5000000e+00,  -9.7864122e-29, 
+                       2.7100394e-31,  -3.1306308e-34,   1.2858695e-37, 
+                      -1.1322536e-24,   9.2773791e-01] ) ) )
+
+species(name = "IM1",
+        atoms = " C:2   H:5   O:3  ",
+        thermo = (
+            NASA( [   200.000, 1000.000], [  6.9338856e+00,  -1.6948480e-03, 
+                       7.1974608e-05,  -9.6048855e-08,   3.9201876e-11, 
+                      -5.2809407e+01,   2.6729033e-01] ),
+            NASA( [  1000.000, 1000.000], [  6.9338856e+00,  -1.6948480e-03, 
+                       7.1974608e-05,  -9.6048855e-08,   3.9201876e-11, 
+                      -5.2809407e+01,   2.6729033e-01] ) ) )
+
+species(name = "IM2",
+        atoms = " C:2   H:5   O:3  ",
+        thermo = (
+            NASA( [   200.000, 1000.000], [  6.0408352e+00,   2.3759848e-02, 
+                       5.5626062e-06,  -2.8976005e-08,   1.4900912e-11, 
+                      -1.5374788e+02,   1.6399642e+00] ),
+            NASA( [  1000.000, 1000.000], [  6.0408352e+00,   2.3759848e-02, 
+                       5.5626062e-06,  -2.8976005e-08,   1.4900912e-11, 
+                      -1.5374788e+02,   1.6399642e+00] ) ) )
+
+species(name = "O2",
+        atoms = "",
+        thermo = (
+            NASA( [   200.000, 1000.000], [  3.8068565e+00,  -2.7938190e-03, 
+                       7.9013121e-06,  -6.8879156e-09,   2.0599979e-12, 
+                      -1.0679849e+03,   3.4638726e+00] ),
+            NASA( [  1000.000, 1000.000], [  3.8068565e+00,  -2.7938190e-03, 
+                       7.9013121e-06,  -6.8879156e-09,   2.0599979e-12, 
+                      -1.0679849e+03,   3.4638726e+00] ) ) )
+
+species(name = "OH-1",
+        atoms = "",
+        thermo = (
+            NASA( [   200.000, 1000.000], [  3.4593186e+00,   3.7692766e-04, 
+                      -1.1899343e-06,   1.4446299e-09,  -4.6875646e-13, 
+                      -1.0402815e+03,   1.6434898e+00] ),
+            NASA( [  1000.000, 1000.000], [  3.4593186e+00,   3.7692766e-04, 
+                      -1.1899343e-06,   1.4446299e-09,  -4.6875646e-13, 
+                      -1.0402815e+03,   1.6434898e+00] ) ) )
+
+species(name = "OH-2",
+        atoms = "",
+        thermo = (
+            NASA( [   200.000, 1000.000], [  2.5000000e+00,   4.4999257e-12, 
+                      -1.2488820e-14,   1.4455790e-17,  -5.9479575e-21, 
+                      -7.4537500e+02,   5.3644694e+00] ),
+            NASA( [  1000.000, 1000.000], [  2.5000000e+00,   4.4999257e-12, 
+                      -1.2488820e-14,   1.4455790e-17,  -5.9479575e-21, 
+                      -7.4537500e+02,   5.3644694e+00] ) ) )
+
+species(name = "OH-3",
+        atoms = "",
+        thermo = (
+            NASA( [   200.000, 1000.000], [  2.5000000e+00,   4.4999257e-12, 
+                      -1.2488820e-14,   1.4455790e-17,  -5.9479575e-21, 
+                      -7.4537500e+02,   5.3644694e+00] ),
+            NASA( [  1000.000, 1000.000], [  2.5000000e+00,   4.4999257e-12, 
+                      -1.2488820e-14,   1.4455790e-17,  -5.9479575e-21, 
+                      -7.4537500e+02,   5.3644694e+00] ) ) )
+
+species(name = "cycCH2OCH2O",
+        atoms = "",
+        thermo = (
+            NASA( [   200.000, 1000.000], [  2.5000000e+00,  -9.7864122e-29, 
+                       2.7100394e-31,  -3.1306308e-34,   1.2858695e-37, 
+                      -1.1322536e-24,             nan] ),
+            NASA( [  1000.000, 1000.000], [  2.5000000e+00,  -9.7864122e-29, 
+                       2.7100394e-31,  -3.1306308e-34,   1.2858695e-37, 
+                      -1.1322536e-24,             nan] ) ) )
 units(length = 'cm', quantity = 'molecule')
 
 chebyshev_reaction('CH3OCH2 + O2 => IM1',
@@ -277,7 +417,7 @@ chebyshev_reaction('IM2 => OH-3 + cycCH2OCH2O',
                            [    -0.0293336,    0.00336075,     0.0630631,     -0.045827]])
 
 
- -- Total time elapsed: 187 seconds.
+ -- Total time elapsed: 210 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 187 seconds.
+Total time elapsed: 210 seconds.
