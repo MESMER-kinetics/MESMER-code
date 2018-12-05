@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.1 compiled: -- Apr 21 2018 -- 19:37:43
+     Mesmer v5.2 compiled: -- Dec  4 2018 -- 16:50:21
 
      Copyright (C) 2009-2018 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,8 +27,8 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Sat Apr 21 19:46:16 2018
-                     Number of ranks: 12
+                     Execution Date:  Tue Dec  4 16:52:15 2018
+                     Number of ranks: 1
 
 defaults.xml, librarymols.xml are in ../..
 
@@ -52,7 +52,7 @@ In R1: Not a unimolecular reaction: look for excess reactant concentration.
 1e+08Torr, 200K at dd precision with Ar
 1e+08Torr, 200K at qd precision with Ar
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20180421_194616
+Write metadata 20181204_165215
 
 File: "HSO2_test.xml" successfully parsed.
 Main Calculation begins
@@ -63,11 +63,11 @@ Number of cells = 50000, Number of grains = 92
 Number of grains produced is not equal to that requested
 Number of grains requested: 92
 Number of grains produced : 1
- -- Total time elapsed: 2 seconds.
+ -- Total time elapsed: 3 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
 
 System saved to out.xml
-Total time elapsed: 2 seconds.
+Total time elapsed: 3 seconds.

@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.1 compiled: -- Apr 21 2018 -- 19:37:43
+     Mesmer v5.2 compiled: -- Dec  4 2018 -- 16:50:21
 
      Copyright (C) 2009-2018 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,8 +27,8 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Sat Apr 21 19:46:32 2018
-                     Number of ranks: 12
+                     Execution Date:  Tue Dec  4 16:52:45 2018
+                     Number of ranks: 1
 
 defaults.xml, librarymols.xml are in ../..
 
@@ -53,7 +53,7 @@ In R2: No tunneling method used for R2
 The default value of the attribute precision was used.
 1000torr, 298K at d precision with N2
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20180421_194632
+Write metadata 20181204_165245
 
 File: "OH_acetylene_association_test.xml" successfully parsed.
 Main Calculation begins
@@ -66,11 +66,11 @@ In FastLaplaceConvolution: 240 values in the FFT convolution routine were replac
 Association ILT calculation completed
 In OCHCH2: The default value of me:DOSCMethod was used.
 In timeEvolution: No population was assigned. Initialize the first source term to 1.0.
- -- Total time elapsed: 0 seconds.
+ -- Total time elapsed: 4 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
 
 System saved to out.xml
-Total time elapsed: 0 seconds.
+Total time elapsed: 4 seconds.

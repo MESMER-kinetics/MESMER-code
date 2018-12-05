@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.1 compiled: -- Apr 21 2018 -- 19:37:43
+     Mesmer v5.2 compiled: -- Dec  4 2018 -- 16:50:21
 
      Copyright (C) 2009-2018 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,8 +27,8 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Sat Apr 21 19:46:36 2018
-                     Number of ranks: 12
+                     Execution Date:  Tue Dec  4 16:52:59 2018
+                     Number of ranks: 1
 
 defaults.xml, librarymols.xml are in ../..
 
@@ -62,7 +62,7 @@ In ThermodynamicTable: The default value of me:Tmin was used.
 In ThermodynamicTable: The default value of me:Tmax was used.
 In ThermodynamicTable: The default value of me:Tmid was used.
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20180421_194636
+Write metadata 20181204_165259
 
 File: "ipropyl_test.xml" successfully parsed.
 Main Calculation begins
@@ -76,6 +76,8 @@ Number of grains produced : 1
 In FastLaplaceConvolution: 5920 values in the FFT convolution routine were replaced by standard convolution
 In timeEvolution: No population was assigned, and there is no source term.
 In timeEvolution: Initial poupulation set to 1.0  in the first isomer.
+Number of cells = 50000, Number of grains = 187
+Number of grains requested: 187
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
@@ -87,7 +89,7 @@ In timeEvolution: Initial poupulation set to 1.0  in the first isomer.
 Too few data points to fit NASA polynomials.
 In He: The default value of me:DOSCMethod was used.
 In He: The default value of the attribute spinMultiplicity was used.
- -- Total time elapsed: 1 seconds.
+ -- Total time elapsed: 3 seconds.
 
 System saved to out.xml
-Total time elapsed: 1 seconds.
+Total time elapsed: 3 seconds.

@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.1 compiled: -- Apr 21 2018 -- 19:37:43
+     Mesmer v5.2 compiled: -- Dec  4 2018 -- 16:50:21
 
      Copyright (C) 2009-2018 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,8 +27,8 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Sat Apr 21 19:46:41 2018
-                     Number of ranks: 12
+                     Execution Date:  Tue Dec  4 16:53:05 2018
+                     Number of ranks: 1
 
 defaults.xml, librarymols.xml are in ../..
 
@@ -36,7 +36,7 @@ Parsing input xml file...
 UnitTests.xml
 
 --Parse data for UnitTests
-Write metadata 20180421_194641
+Write metadata 20181204_165305
 
 File: "UnitTests.xml" successfully parsed.
 Main Calculation begins
