@@ -2,7 +2,7 @@
 <?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
 <me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <me:title>Isoprene + OH</me:title>
+  <me:title>Ethylene + OH</me:title>
   <moleculeList convention="">
     <molecule id="H2O">
       <metadataList>
@@ -101,8 +101,8 @@
           <scalar calculated="20171218_210806" units="cm-1">198.047 286.661 416.548 457.441 876.006 970.659 1077.19 1150.53 1236.77 1274.54 1425.6 1472.8 1503.81 2949.76 3007.61 3179.75 3293.7 3935.6 </scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>QMRotors</me:DOSCMethod>
-      <me:ExtraDOSCMethod name="HinderedRotorQM1D">
+      <me:DOSCMethod xsi:type="me:QMRotors"/>
+      <me:ExtraDOSCMethod xsi:type="HinderedRotorQM1D">
         <me:bondRef>b4</me:bondRef>
         <me:HinderedRotorPotential format="numerical" expansionSize="15" units="Hartree" useSineTerms="yes" scale="1">
           <me:PotentialPoint angle="-165.908" potential="-154.350510" />
@@ -132,7 +132,7 @@
           <me:PotentialPoint angle="-165.908" potential="-154.350500" />
         </me:HinderedRotorPotential>
       </me:ExtraDOSCMethod>
-      <me:ExtraDOSCMethod name="HinderedRotorQM1D">
+      <me:ExtraDOSCMethod xsi:type="HinderedRotorQM1D">
         <me:bondRef>b5</me:bondRef>
         <me:HinderedRotorPotential format="numerical" expansionSize="15" units="Hartree" useSineTerms="yes" scale="1">
           <me:PotentialPoint angle="-174.207" potential="-154.350510" />
@@ -254,7 +254,7 @@
           <array units="cm-1">139.7</array>
         </property>
       </propertyList>
-      <me:DOSCMethod>QMRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="me:QMRotors"/>
     </molecule>
     <molecule xmlns="http://www.xml-cml.org/schema" id="ethylene">
       <atomArray>
@@ -301,7 +301,7 @@
           <scalar>1</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="me:ClassicalRotors"/>
     </molecule>
     <molecule id="Butyl" spinMultiplicity="2">
       <atomArray>
@@ -473,7 +473,7 @@
     </molecule>
 
     <molecule id="H2O"/>
-    <molecule id="isoprenyl" />
+    <molecule id="Ethenyl" />
     <molecule id="N2">
       <atom elementType="N" />
       <propertyList>
@@ -550,7 +550,7 @@
         <molecule ref="H2O" role="sink" />
       </product>
       <product>
-        <molecule ref="isoprenyl" role="sink" />
+        <molecule ref="Ethenyl" role="sink" />
       </product>
       <me:excessReactantConc>1e13</me:excessReactantConc>
       <me:MCRCMethod xsi:type="me:CanonicalRateCoefficient">
@@ -1125,7 +1125,7 @@
     </me:calcMethod>
   </me:control>
   <metadataList xmlns:dc="http://purl.org/dc/elements/1.1/">
-    <dc:title>Isoprene + OH</dc:title>
+    <dc:title>Ethylene + OH</dc:title>
     <dc:source>mesmer_out - Copy.xml</dc:source>
     <dc:creator>Mesmer v5.1</dc:creator>
     <dc:date>20171218_210806</dc:date>
