@@ -308,11 +308,11 @@ MesmerQA/benzene_oxidation/baselines/Win32/mesmer.test -text
 MesmerQA/benzene_oxidation/benzene_oxidation_test.xml -text
 MesmerQA/cyclopropene[!!-~]isomerization[!!-~]reservoir[!!-~]state/Cyclopropene_isomerization_reservoir_state_test.xml -text
 MesmerQA/cyclopropene[!!-~]isomerization[!!-~]reservoir[!!-~]state/baselines/Linux64/mesmer.log -text
-MesmerQA/cyclopropene[!!-~]isomerization[!!-~]reservoir[!!-~]state/baselines/Linux64/mesmer.test -text
+MesmerQA/cyclopropene[!!-~]isomerization[!!-~]reservoir[!!-~]state/baselines/Linux64/mesmer.test -text svneol=unset#unset
 MesmerQA/cyclopropene[!!-~]isomerization[!!-~]reservoir[!!-~]state/baselines/Win32/mesmer.log -text
 MesmerQA/cyclopropene[!!-~]isomerization[!!-~]reservoir[!!-~]state/baselines/Win32/mesmer.test -text
 MesmerQA/cyclopropene[!!-~]isomerization/Cyclopropene_isomerization_test.xml -text
-MesmerQA/cyclopropene[!!-~]isomerization/baselines/Linux64/mesmer.log -text
+MesmerQA/cyclopropene[!!-~]isomerization/baselines/Linux64/mesmer.log -text svneol=unset#unset
 MesmerQA/cyclopropene[!!-~]isomerization/baselines/Linux64/mesmer.test -text
 MesmerQA/cyclopropene[!!-~]isomerization/baselines/Win32/mesmer.log -text
 MesmerQA/cyclopropene[!!-~]isomerization/baselines/Win32/mesmer.test -text

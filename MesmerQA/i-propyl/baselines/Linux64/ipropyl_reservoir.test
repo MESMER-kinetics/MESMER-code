@@ -1902,6 +1902,18 @@ i-propyl -> propene+H = 1.866452e+01
 PT Grid 1 Condition: conc = 3.01e+17, temp = 730, diagonalization precision: double
 {
 
+Test rovibronic density of states for: i-propyl
+{
+      T           qtot           sumc           sumg
+    200        16789.5        16750.5        16407.4
+    300        64317.7        64227.2        63624.6
+    400         223557         223333         222141
+    500         736396         735825         733300
+    600    2.32996e+06    2.32851e+06    2.32295e+06
+    700    7.10883e+06    7.10514e+06    7.09267e+06
+    800    2.09479e+07    2.09388e+07    2.09105e+07
+}
+
 Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
 {
     T/K              kf/s-1 kb/cm3molecule-1s-1  Keq/moleculecm-3

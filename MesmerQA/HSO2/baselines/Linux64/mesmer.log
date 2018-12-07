@@ -27,8 +27,8 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Tue Dec  4 16:52:15 2018
-                     Number of ranks: 1
+                     Execution Date:  Thu Dec  6 21:39:24 2018
+                     Number of ranks: 12
 
 defaults.xml, librarymols.xml are in ../..
 
@@ -52,7 +52,7 @@ In R1: Not a unimolecular reaction: look for excess reactant concentration.
 1e+08Torr, 200K at dd precision with Ar
 1e+08Torr, 200K at qd precision with Ar
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20181204_165215
+Write metadata 20181206_213924
 
 File: "HSO2_test.xml" successfully parsed.
 Main Calculation begins
@@ -63,11 +63,11 @@ Number of cells = 50000, Number of grains = 92
 Number of grains produced is not equal to that requested
 Number of grains requested: 92
 Number of grains produced : 1
- -- Total time elapsed: 3 seconds.
+ -- Total time elapsed: 4 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
 
 System saved to out.xml
-Total time elapsed: 3 seconds.
+Total time elapsed: 4 seconds.
