@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.1 compiled: -- Apr 21 2018 -- 19:37:43
+     Mesmer v5.2 compiled: -- Dec  6 2018 -- 21:24:20
 
      Copyright (C) 2009-2018 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Sat Apr 21 20:59:48 2018
+                     Execution Date:  Thu Dec  6 22:52:53 2018
                      Number of ranks: 12
 
 defaults.xml, librarymols.xml are in ../..
@@ -199,7 +199,7 @@ The default value of me:errorPropagationSamples was used.
 3e+17PPCC, 1000K at d precision with He
 3e+16PPCC, 1000K at d precision with He
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20180421_205949
+Write metadata 20181206_225253
 
 File: "ipropyl_EP.xml" successfully parsed.
 Main Calculation begins
@@ -329,7 +329,7 @@ Chi^2 probability = 1
 --Execute calcMethod ErrorPropagation using second conditions block 
 Number of grains requested: 272
 Number of grains requested: 271
- -- Total time elapsed: 14 seconds.
+ -- Total time elapsed: 23 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 14 seconds.
+Total time elapsed: 23 seconds.

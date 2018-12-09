@@ -28,7 +28,7 @@
 
                      Platform:        Linux
                      Execution Date:  Tue Dec  4 19:09:22 2018
-                     Number of ranks: 1
+                     Number of ranks: 12
 
 defaults.xml, librarymols.xml are in ../..
 
@@ -80,7 +80,7 @@ In R1: Not a unimolecular reaction: look for excess reactant concentration.
 6.2Torr, 715K at d precision with He
 10.2Torr, 715K at d precision with He
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20181204_190922
+Write metadata 20181206_225317
 
 File: "CH3_CH3_to_C2H6.xml" successfully parsed.
 Main Calculation begins
@@ -91,13 +91,6 @@ In FastLaplaceConvolution: 2040 values in the FFT convolution routine were repla
 In FastLaplaceConvolution: 1600 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
 At present it is not possible to print profiles for systems with a second order term.
-
-WARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs).
-
-The last CSE = -48198 and the first IERE = -461068
-(last CSE)/(first IERE) ratio = 0.104536, which is less than an order of magnitude
-
-Results obtained from Bartis Widom eigenvalue-vector analysis may be unreliable
 
 Chi^2 = 52.5673 Lambda = 1
 C2H6:deltaEDown:Ar=302  C2H6:deltaEDown:He=230  R1:preExponential=5.73e-11  R1:nInfinity=-0.26  
@@ -130,7 +123,7 @@ C2H6:deltaEDown:Ar=342.905  C2H6:deltaEDown:He=334.748  R1:preExponential=5.2494
 Iteration: 2 of Marquardt. ChiSquare = 31.4147, Lambda = 0.01
 Number of cells = 58660, Number of grains = 838
 Association ILT calculation completed
- -- Total time elapsed: 750 seconds.
+ -- Total time elapsed: 171 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
@@ -190,4 +183,4 @@ Number of degrees of Freedom = 25
 Chi^2 probability = 0.175651
 
 System saved to mesmer_out.xml
-Total time elapsed: 750 seconds.
+Total time elapsed: 171 seconds.
