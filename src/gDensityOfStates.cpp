@@ -266,10 +266,10 @@ namespace mesmer
     }
 
     /*     X(298K)  =>    ElemsStdStates(298K)      Hf(298K)
-    H298(X)  |                  |    H298 for elems
-    X(0K)    =>    ElemsStdStates(0K)        Hf(0K)
-    compE    |                  |    Hf0 for atoms
-    nuclei,electrons =>  Atoms(0K)               compEatoms
+           H298(X)  |                  |    H298 for elems
+           X(0K)    =>    ElemsStdStates(0K)        Hf(0K)
+           compE    |                  |    Hf0 for atoms
+           nuclei,electrons =>  Atoms(0K)               compEatoms
 
     Hf(298K)  +  H298els  -  Hf(0K)  -  H298 = 0     
     compE -compEatoms - Hf(0K) + Hfatoms(0K) = 0   */

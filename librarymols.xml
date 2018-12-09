@@ -94,7 +94,7 @@
   <molecule id="OH">
     <metadataList>
       <metadata name="dc:description" content="Listing of experimental data for OH (Hydroxyl radical)"/>
-      <metadata name="dc:source" content="http://cccbdb.nist.gov/. Energy levels see 'Documentation/OH energy levels.docx'"/>/>
+      <metadata name="dc:source" content="http://cccbdb.nist.gov/. Energy levels see 'Documentation/OH energy levels.docx'"/>
       <metadata name="dc:contributor" content="Mike Pilling/Struan Robertson"/>
       <metadata name="dc:date" content="Thurs Aug 18 16:00:36 GMT Daylight Time 2011"/>
     </metadataList>

@@ -324,14 +324,14 @@ namespace mesmer
         m_Flags.useOrigFreqForZPECorrection = ppControl->XmlReadBoolean("me:useOrigFreqForZPECorrection");
         m_Flags.useTraceWeighting = ppControl->XmlReadBoolean("me:useTraceWeighting");
 
-				// Check to see if me:ForceMacroDetailedBalance is set in defaults.
-				const char* text = ppControl->XmlReadValue("me:ForceMacroDetailedBalance", true);
-				if (text) {
-					string s(text);
-					if (s == "1" || s == "yes" || s == "true") {
-					  m_Flags.bForceMacroDetailedBalance = true ;
-					}
-				}
+        // Check to see if me:ForceMacroDetailedBalance is set in defaults.
+        const char* text = ppControl->XmlReadValue("me:ForceMacroDetailedBalance", true);
+        if (text) {
+          string s(text);
+          if (s == "1" || s == "yes" || s == "true") {
+            m_Flags.bForceMacroDetailedBalance = true;
+          }
+        }
 
         // System configuration information
         if (ppControl->XmlReadBoolean("me:runPlatformDependentPrecisionCheck")) configuration();
@@ -461,7 +461,7 @@ namespace mesmer
     int nRanks = m_pParallelManager->size();
     size_t nPoint = m_pConditionsManager->getNumPTPoints();
     size_t addand = (nPoint % nRanks > 0) ? 1 : 0;
-    size_t nLoop = nRanks*(nPoint / nRanks + addand);
+    size_t nLoop = nRanks * (nPoint / nRanks + addand);
 
     for (size_t calPoint(rank); calPoint < nLoop; calPoint += nRanks) {
 
@@ -470,8 +470,8 @@ namespace mesmer
       // need to commumicate this. 
       if (calPoint < nPoint) {
 
-				m_pConditionsManager->get_analysisData(calPoint)->clear();
-				m_pConditionsManager->set_currentData(int(calPoint)) ;
+        m_pConditionsManager->get_analysisData(calPoint)->clear();
+        m_pConditionsManager->set_currentData(int(calPoint));
 
         m_Env.beta = 1.0 / (boltzmann_RCpK * m_pConditionsManager->PTPointTemp(calPoint));
         m_Env.conc = m_pConditionsManager->PTPointConc(calPoint); // unit of conc: particles per cubic centimeter
@@ -707,25 +707,25 @@ namespace mesmer
     return true;
   }
 
-	// Wrapper for single calculation.
-	bool System::calculate(size_t nCond, map<string, double> &phenRates) {
+  // Wrapper for single calculation.
+  bool System::calculate(size_t nCond, map<string, double> &phenRates) {
 
-		//
-		// Reset microcanonical rate re-calculation flag as parameters, such
-		// as reaction threshold may have been altered between invocations of
-		// this method.
-		//
-		for (size_t i(0); i < m_pReactionManager->size(); ++i) {
-			(*m_pReactionManager)[i]->resetCalcFlag();
-		}
+    //
+    // Reset microcanonical rate re-calculation flag as parameters, such
+    // as reaction threshold may have been altered between invocations of
+    // this method.
+    //
+    for (size_t i(0); i < m_pReactionManager->size(); ++i) {
+      (*m_pReactionManager)[i]->resetCalcFlag();
+    }
 
-		double temp = m_pConditionsManager->PTPointTemp(nCond);
-		double conc = m_pConditionsManager->PTPointConc(nCond);
-		Precision precision = m_pConditionsManager->PTPointPrecision(nCond);
-		string bathGas(m_pConditionsManager->PTPointBathGas(nCond));
-		double MaxT(2.0*temp);
-		return calculate(temp, conc, precision, phenRates, MaxT, bathGas);
-	};
+    double temp = m_pConditionsManager->PTPointTemp(nCond);
+    double conc = m_pConditionsManager->PTPointConc(nCond);
+    Precision precision = m_pConditionsManager->PTPointPrecision(nCond);
+    string bathGas(m_pConditionsManager->PTPointBathGas(nCond));
+    double MaxT(2.0*temp);
+    return calculate(temp, conc, precision, phenRates, MaxT, bathGas);
+  };
 
   double System::calcChiSqRateCoefficients(const qdMatrix& mesmerRates, const unsigned calPoint, vector<double> &residuals) {
 
@@ -930,35 +930,34 @@ namespace mesmer
 
       // Alter the amplitude of the calculated signal by a linear least squares shift.
 
-			double sumef(0.0), sumf2(0.0);
-			for (size_t j(0); j < signal.size(); ++j) {
-			  sumef += expSignal[j] * signal[j];
-			  sumf2 += signal[j] * signal[j];
-			}
+      double sumef(0.0), sumf2(0.0);
+      for (size_t j(0); j < signal.size(); ++j) {
+        sumef += expSignal[j] * signal[j];
+        sumf2 += signal[j] * signal[j];
+      }
 
-			double alpha = sumef / sumf2;
-			double diff(0.0), localChi(0.0);
+      double alpha = sumef / sumf2;
+      double diff(0.0), localChi(0.0);
       for (size_t j(0); j < signal.size(); ++j) {
         signal[j] *= alpha;
         diff = (signal[j] - expSignal[j]);
-				localChi += (diff*diff);
+        localChi += (diff*diff);
       }
-			dataSet.m_calcTrace = signal;
+      dataSet.m_calcTrace = signal;
 
-			// Taking the residual to be the euclidian distance between functions (represented as vectors).
-      bool useWeights(true);
-			residuals[calPoint] += sqrt(localChi);
+      // Taking the residual to be the euclidian distance between functions (represented as vectors).
+      residuals[calPoint] += sqrt(localChi);
       if (m_Flags.useTraceWeighting) {
         chiSquare += localChi * dataSet.m_weight;
       }
       else {
         chiSquare += localChi;
-        dataSet.m_weight = double(signal.size())/localChi;
+        dataSet.m_weight = double(signal.size()) / localChi;
       }
-     
+
     }
 
-		return chiSquare;
+    return chiSquare;
   }
 
   void System::WriteMetadata(const string& infilename)
