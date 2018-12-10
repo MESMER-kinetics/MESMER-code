@@ -195,6 +195,7 @@
     <ClCompile Include="..\..\src\plugins\RRKM.cpp" />
     <ClCompile Include="..\..\src\plugins\SensitivityAnalysis.cpp" />
     <ClCompile Include="..\..\src\plugins\SimpleBimolecularSink.cpp" />
+    <ClCompile Include="..\..\src\plugins\ThermodynamicUtils.cpp" />
     <ClCompile Include="..\..\src\plugins\UnitTests.cpp" />
     <ClCompile Include="..\..\src\plugins\ZhuNakamuraCrossing.cpp" />
     <ClCompile Include="..\..\src\PseudoIsomerizationReaction.cpp" />
@@ -258,6 +259,7 @@
     <ClInclude Include="..\..\src\Persistence.h" />
     <ClInclude Include="..\..\src\plugins\HinderedRotorUtils.h" />
     <ClInclude Include="..\..\src\plugins\Potential1D.h" />
+    <ClInclude Include="..\..\src\plugins\ThermodynamicUtils.h" />
     <ClInclude Include="..\..\src\PseudoIsomerizationReaction.h" />
     <ClInclude Include="..\..\src\qd_test.h" />
     <ClInclude Include="..\..\src\Rdouble.h" />

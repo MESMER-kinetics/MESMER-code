@@ -757,9 +757,9 @@ namespace mesmer
           count++;
         }
         else {
-          Molecule* key;
+          Molecule* key(NULL);
           for (itr1 = m_SpeciesSequence.begin(); itr1 != m_SpeciesSequence.end(); ++itr1) {
-            if (itr1->second == i)
+            if (itr1->second == int(i))
               key = itr1->first;
           }
           Molecule* rct;
