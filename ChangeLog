@@ -1,3 +1,7 @@
+2018-December-15 Struan Robertson
+		
+		* System.cpp, defaults.xml, mesmer.xsd: Updated schema to include new keywords. 
+
 2018-December-01 Struan Robertson
 		
 		* AnalyticalRepresentation.cpp: Tidying up of analytical representation method. 

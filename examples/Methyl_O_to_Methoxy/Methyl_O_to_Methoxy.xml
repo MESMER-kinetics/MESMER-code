@@ -175,7 +175,7 @@
   <me:control>
     <me:calcMethod xsi:type="me:simpleCalc"/>
     <me:testDOS />
-    <me:testMicroRates TMin ="150.0" TMax ="1500.0" TStep ="50.0"/>
+    <me:testMicroRates Tmin ="150.0" Tmax ="1500.0" Tstep ="50.0"/>
   </me:control>
 
 </me:mesmer>

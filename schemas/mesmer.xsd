@@ -339,7 +339,14 @@
       <xs:element name="printTunnellingCoefficients" minOccurs="0"/>
       <xs:element name="shortestTimeOfInterest" type="xs:float" minOccurs="0"/>
       <xs:element name="testDOS" minOccurs="0" />
-      <xs:element name="testMicroRates" minOccurs="0" />
+      <xs:element name="testMicroRates" minOccurs="0">
+        <xs:complexType>
+          <xs:attribute name="Tmin" use="optional"/>
+          <xs:attribute name="Tmax" use="optional"/>
+          <xs:attribute name="Tstep" use="optional"/>
+          <xs:attribute name="default" use="optional"/>
+        </xs:complexType>
+      </xs:element>    
       <xs:element name="testRateConstant" minOccurs="0" />
       <xs:element name="testRateConstants" minOccurs="0"/>
       <xs:element name="useTheSameCellNumberForAllConditions" minOccurs="0"/>
@@ -404,6 +411,7 @@
     <xs:restriction base="xs:string">
       <xs:enumeration value="amuA^2"/>
       <xs:enumeration value="cm-1"/>
+      <xs:enumeration value="GHz"/>
     </xs:restriction>
   </xs:simpleType>
   <xs:simpleType name ="plogOrCheb">
