@@ -948,7 +948,7 @@ namespace mesmer
       }
       else {
         chiSquare += localChi;
-        dataSet.m_weight = double(signal.size()) / localChi;
+        dataSet.m_weight = sqrt(localChi/double(signal.size()));
       }
 
     }
