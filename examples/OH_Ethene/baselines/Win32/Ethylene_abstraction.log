@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.1 compiled: -- Mar 27 2018 -- 20:48:55
+     Mesmer v5.2 compiled: -- Dec  1 2018 -- 14:26:21
 
      Copyright (C) 2009-2018 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sat Apr 21 19:57:28 2018
+                     Execution Date:  Sat Dec  1 16:53:35 2018
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -145,7 +145,7 @@ In R3: Not a unimolecular reaction: look for excess reactant concentration.
 57.6torr, 580K at d precision with N2. Excess Reactant Conc = 4.25e+15 particles per cc
 57.6torr, 580K at d precision with N2. Excess Reactant Conc = 6.36e+15 particles per cc
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20180421_195729
+Write metadata 20181201_165335
 
 File: "Ethylene_abstraction.xml" successfully parsed.
 Main Calculation begins
@@ -160,7 +160,7 @@ In FastLaplaceConvolution: 280 values in the FFT convolution routine were replac
 Association ILT calculation completed
 No population was assigned. Initialize the first source term to 1.0.
 
-Chi^2 = 4.9906e-06 Lambda = 1
+Chi^2 = 0.000374295 Lambda = 1
 ethylene_OH:ZPE=-111.754  ethylene_OH:deltaEDown:N2=219.31  ethylene_OH:deltaEDownTExponent:N2=0.318352  R1:preExponential=5.93332e-12  R1:nInfinity=-1.07253  H-Abstraction:activationEnergy=24.2186  H-Abstraction:preExponential=2.80673e-11  R3:BimolecularLossRateCoefficient=3.348e-16  
 Number of grains requested: 148
 Number of grains produced : 134
@@ -174,9 +174,9 @@ Association ILT calculation completed
 Association ILT calculation completed
 Association ILT calculation completed
 
-Chi^2 = 4.9906e-06 Lambda = 10
+Chi^2 = 0.000374295 Lambda = 10
 ethylene_OH:ZPE=-111.754  ethylene_OH:deltaEDown:N2=219.31  ethylene_OH:deltaEDownTExponent:N2=0.318352  R1:preExponential=5.93332e-12  R1:nInfinity=-1.07253  H-Abstraction:activationEnergy=24.2186  H-Abstraction:preExponential=2.80673e-11  R3:BimolecularLossRateCoefficient=3.348e-16  
-Iteration: 1 of Marquardt. ChiSquare = 4.9906e-06, Lambda = 10
+Iteration: 1 of Marquardt. ChiSquare = 0.000374295, Lambda = 10
 Number of grains requested: 146
 Number of grains produced : 132
 In FastLaplaceConvolution: 300 values in the FFT convolution routine were replaced by standard convolution
@@ -190,13 +190,13 @@ Association ILT calculation completed
 Association ILT calculation completed
 Association ILT calculation completed
 
-Chi^2 = 4.88435e-06 Lambda = 1
+Chi^2 = 0.000366326 Lambda = 1
 ethylene_OH:ZPE=-111.563  ethylene_OH:deltaEDown:N2=222.699  ethylene_OH:deltaEDownTExponent:N2=0.336924  R1:preExponential=6.05751e-12  R1:nInfinity=-1.02657  H-Abstraction:activationEnergy=23.9954  H-Abstraction:preExponential=2.81781e-11  R3:BimolecularLossRateCoefficient=4.38031e-13  
-Iteration: 2 of Marquardt. ChiSquare = 4.88435e-06, Lambda = 1
+Iteration: 2 of Marquardt. ChiSquare = 0.000366326, Lambda = 1
 
-Chi^2 = 4.88435e-06 Lambda = 10
+Chi^2 = 0.000366326 Lambda = 10
 ethylene_OH:ZPE=-111.563  ethylene_OH:deltaEDown:N2=222.699  ethylene_OH:deltaEDownTExponent:N2=0.336924  R1:preExponential=6.05751e-12  R1:nInfinity=-1.02657  H-Abstraction:activationEnergy=23.9954  H-Abstraction:preExponential=2.81781e-11  R3:BimolecularLossRateCoefficient=4.38031e-13  
-Iteration: 3 of Marquardt. ChiSquare = 4.88435e-06, Lambda = 10
+Iteration: 3 of Marquardt. ChiSquare = 0.000366326, Lambda = 10
 Number of grains produced : 130
 In FastLaplaceConvolution: 360 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
@@ -211,15 +211,15 @@ Association ILT calculation completed
 Association ILT calculation completed
 Association ILT calculation completed
 
-Chi^2 = 4.81976e-06 Lambda = 1
+Chi^2 = 0.000361482 Lambda = 1
 ethylene_OH:ZPE=-111.408  ethylene_OH:deltaEDown:N2=230.776  ethylene_OH:deltaEDownTExponent:N2=0.392994  R1:preExponential=6.22753e-12  R1:nInfinity=-0.959295  H-Abstraction:activationEnergy=23.9127  H-Abstraction:preExponential=2.74341e-11  R3:BimolecularLossRateCoefficient=8.28491e-13  
-Iteration: 4 of Marquardt. ChiSquare = 4.81976e-06, Lambda = 1
+Iteration: 4 of Marquardt. ChiSquare = 0.000361482, Lambda = 1
 In FastLaplaceConvolution: 220 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
 
-Chi^2 = 4.81976e-06 Lambda = 10
+Chi^2 = 0.000361482 Lambda = 10
 ethylene_OH:ZPE=-111.408  ethylene_OH:deltaEDown:N2=230.776  ethylene_OH:deltaEDownTExponent:N2=0.392994  R1:preExponential=6.22753e-12  R1:nInfinity=-0.959295  H-Abstraction:activationEnergy=23.9127  H-Abstraction:preExponential=2.74341e-11  R3:BimolecularLossRateCoefficient=8.28491e-13  
-Iteration: 5 of Marquardt. ChiSquare = 4.81976e-06, Lambda = 10
+Iteration: 5 of Marquardt. ChiSquare = 0.000361482, Lambda = 10
 Association ILT calculation completed
 Association ILT calculation completed
 Association ILT calculation completed
@@ -230,13 +230,13 @@ Association ILT calculation completed
 Association ILT calculation completed
 Association ILT calculation completed
 
-Chi^2 = 4.81479e-06 Lambda = 1
+Chi^2 = 0.000361109 Lambda = 1
 ethylene_OH:ZPE=-111.363  ethylene_OH:deltaEDown:N2=218.522  ethylene_OH:deltaEDownTExponent:N2=0.331533  R1:preExponential=5.87359e-12  R1:nInfinity=-1.06452  H-Abstraction:activationEnergy=23.8131  H-Abstraction:preExponential=2.67853e-11  R3:BimolecularLossRateCoefficient=1.21273e-12  
-Iteration: 6 of Marquardt. ChiSquare = 4.81479e-06, Lambda = 1
+Iteration: 6 of Marquardt. ChiSquare = 0.000361109, Lambda = 1
 
-Chi^2 = 4.81479e-06 Lambda = 10
+Chi^2 = 0.000361109 Lambda = 10
 ethylene_OH:ZPE=-111.363  ethylene_OH:deltaEDown:N2=218.522  ethylene_OH:deltaEDownTExponent:N2=0.331533  R1:preExponential=5.87359e-12  R1:nInfinity=-1.06452  H-Abstraction:activationEnergy=23.8131  H-Abstraction:preExponential=2.67853e-11  R3:BimolecularLossRateCoefficient=1.21273e-12  
-Iteration: 7 of Marquardt. ChiSquare = 4.81479e-06, Lambda = 10
+Iteration: 7 of Marquardt. ChiSquare = 0.000361109, Lambda = 10
 In FastLaplaceConvolution: 420 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
 Association ILT calculation completed
@@ -249,19 +249,19 @@ Association ILT calculation completed
 Association ILT calculation completed
 Association ILT calculation completed
 
-Chi^2 = 4.75021e-06 Lambda = 1
+Chi^2 = 0.000356266 Lambda = 1
 ethylene_OH:ZPE=-111.222  ethylene_OH:deltaEDown:N2=236.489  ethylene_OH:deltaEDownTExponent:N2=0.458746  R1:preExponential=6.24436e-12  R1:nInfinity=-0.902184  H-Abstraction:activationEnergy=23.8029  H-Abstraction:preExponential=2.57967e-11  R3:BimolecularLossRateCoefficient=1.52362e-12  
-Iteration: 8 of Marquardt. ChiSquare = 4.75021e-06, Lambda = 1
+Iteration: 8 of Marquardt. ChiSquare = 0.000356266, Lambda = 1
 
-Chi^2 = 4.75021e-06 Lambda = 10
+Chi^2 = 0.000356266 Lambda = 10
 ethylene_OH:ZPE=-111.222  ethylene_OH:deltaEDown:N2=236.489  ethylene_OH:deltaEDownTExponent:N2=0.458746  R1:preExponential=6.24436e-12  R1:nInfinity=-0.902184  H-Abstraction:activationEnergy=23.8029  H-Abstraction:preExponential=2.57967e-11  R3:BimolecularLossRateCoefficient=1.52362e-12  
-Iteration: 9 of Marquardt. ChiSquare = 4.75021e-06, Lambda = 10
+Iteration: 9 of Marquardt. ChiSquare = 0.000356266, Lambda = 10
 In FastLaplaceConvolution: 200 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
 
-Chi^2 = 4.75021e-06 Lambda = 100
+Chi^2 = 0.000356266 Lambda = 100
 ethylene_OH:ZPE=-111.222  ethylene_OH:deltaEDown:N2=236.489  ethylene_OH:deltaEDownTExponent:N2=0.458746  R1:preExponential=6.24436e-12  R1:nInfinity=-0.902184  H-Abstraction:activationEnergy=23.8029  H-Abstraction:preExponential=2.57967e-11  R3:BimolecularLossRateCoefficient=1.52362e-12  
-Iteration: 10 of Marquardt. ChiSquare = 4.75021e-06, Lambda = 100
+Iteration: 10 of Marquardt. ChiSquare = 0.000356266, Lambda = 100
 In FastLaplaceConvolution: 380 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
 Association ILT calculation completed
@@ -273,14 +273,14 @@ Association ILT calculation completed
 Association ILT calculation completed
 Association ILT calculation completed
 
-Chi^2 = 4.70199e-06 Lambda = 10
+Chi^2 = 0.000352649 Lambda = 10
 ethylene_OH:ZPE=-111.237  ethylene_OH:deltaEDown:N2=232.457  ethylene_OH:deltaEDownTExponent:N2=0.43827  R1:preExponential=6.11845e-12  R1:nInfinity=-0.942527  H-Abstraction:activationEnergy=23.7823  H-Abstraction:preExponential=2.57878e-11  R3:BimolecularLossRateCoefficient=1.57646e-12  
-Iteration: 11 of Marquardt. ChiSquare = 4.70199e-06, Lambda = 10
+Iteration: 11 of Marquardt. ChiSquare = 0.000352649, Lambda = 10
 Association ILT calculation completed
 
-Chi^2 = 4.70199e-06 Lambda = 100
+Chi^2 = 0.000352649 Lambda = 100
 ethylene_OH:ZPE=-111.237  ethylene_OH:deltaEDown:N2=232.457  ethylene_OH:deltaEDownTExponent:N2=0.43827  R1:preExponential=6.11845e-12  R1:nInfinity=-0.942527  H-Abstraction:activationEnergy=23.7823  H-Abstraction:preExponential=2.57878e-11  R3:BimolecularLossRateCoefficient=1.57646e-12  
-Iteration: 12 of Marquardt. ChiSquare = 4.70199e-06, Lambda = 100
+Iteration: 12 of Marquardt. ChiSquare = 0.000352649, Lambda = 100
 Association ILT calculation completed
 Association ILT calculation completed
 Association ILT calculation completed
@@ -291,9 +291,9 @@ Association ILT calculation completed
 Association ILT calculation completed
 Association ILT calculation completed
 
-Chi^2 = 4.68433e-06 Lambda = 10
+Chi^2 = 0.000351324 Lambda = 10
 ethylene_OH:ZPE=-111.245  ethylene_OH:deltaEDown:N2=230.265  ethylene_OH:deltaEDownTExponent:N2=0.426356  R1:preExponential=6.06735e-12  R1:nInfinity=-0.958216  H-Abstraction:activationEnergy=23.7647  H-Abstraction:preExponential=2.57542e-11  R3:BimolecularLossRateCoefficient=1.62621e-12  
-Iteration: 13 of Marquardt. ChiSquare = 4.68433e-06, Lambda = 10
+Iteration: 13 of Marquardt. ChiSquare = 0.000351324, Lambda = 10
 Association ILT calculation completed
 Association ILT calculation completed
 Association ILT calculation completed
@@ -304,18 +304,18 @@ Association ILT calculation completed
 Association ILT calculation completed
 Association ILT calculation completed
 
-Chi^2 = 4.63969e-06 Lambda = 1
+Chi^2 = 0.000347977 Lambda = 1
 ethylene_OH:ZPE=-111.28  ethylene_OH:deltaEDown:N2=223.469  ethylene_OH:deltaEDownTExponent:N2=0.385036  R1:preExponential=5.98847e-12  R1:nInfinity=-0.975881  H-Abstraction:activationEnergy=23.6284  H-Abstraction:preExponential=2.52087e-11  R3:BimolecularLossRateCoefficient=2.05039e-12  
-Iteration: 14 of Marquardt. ChiSquare = 4.63969e-06, Lambda = 1
+Iteration: 14 of Marquardt. ChiSquare = 0.000347977, Lambda = 1
 
-Chi^2 = 4.63969e-06 Lambda = 10
+Chi^2 = 0.000347977 Lambda = 10
 ethylene_OH:ZPE=-111.28  ethylene_OH:deltaEDown:N2=223.469  ethylene_OH:deltaEDownTExponent:N2=0.385036  R1:preExponential=5.98847e-12  R1:nInfinity=-0.975881  H-Abstraction:activationEnergy=23.6284  H-Abstraction:preExponential=2.52087e-11  R3:BimolecularLossRateCoefficient=2.05039e-12  
-Iteration: 15 of Marquardt. ChiSquare = 4.63969e-06, Lambda = 10
+Iteration: 15 of Marquardt. ChiSquare = 0.000347977, Lambda = 10
 Association ILT calculation completed
 
-Chi^2 = 4.63969e-06 Lambda = 100
+Chi^2 = 0.000347977 Lambda = 100
 ethylene_OH:ZPE=-111.28  ethylene_OH:deltaEDown:N2=223.469  ethylene_OH:deltaEDownTExponent:N2=0.385036  R1:preExponential=5.98847e-12  R1:nInfinity=-0.975881  H-Abstraction:activationEnergy=23.6284  H-Abstraction:preExponential=2.52087e-11  R3:BimolecularLossRateCoefficient=2.05039e-12  
-Iteration: 16 of Marquardt. ChiSquare = 4.63969e-06, Lambda = 100
+Iteration: 16 of Marquardt. ChiSquare = 0.000347977, Lambda = 100
 Association ILT calculation completed
 Association ILT calculation completed
 Association ILT calculation completed
@@ -326,14 +326,14 @@ Association ILT calculation completed
 Association ILT calculation completed
 Association ILT calculation completed
 
-Chi^2 = 4.62481e-06 Lambda = 10
+Chi^2 = 0.000346861 Lambda = 10
 ethylene_OH:ZPE=-111.265  ethylene_OH:deltaEDown:N2=225.396  ethylene_OH:deltaEDownTExponent:N2=0.397566  R1:preExponential=6.0339e-12  R1:nInfinity=-0.957343  H-Abstraction:activationEnergy=23.6247  H-Abstraction:preExponential=2.51086e-11  R3:BimolecularLossRateCoefficient=2.07655e-12  
-Iteration: 17 of Marquardt. ChiSquare = 4.62481e-06, Lambda = 10
+Iteration: 17 of Marquardt. ChiSquare = 0.000346861, Lambda = 10
 Association ILT calculation completed
 
-Chi^2 = 4.62481e-06 Lambda = 100
+Chi^2 = 0.000346861 Lambda = 100
 ethylene_OH:ZPE=-111.265  ethylene_OH:deltaEDown:N2=225.396  ethylene_OH:deltaEDownTExponent:N2=0.397566  R1:preExponential=6.0339e-12  R1:nInfinity=-0.957343  H-Abstraction:activationEnergy=23.6247  H-Abstraction:preExponential=2.51086e-11  R3:BimolecularLossRateCoefficient=2.07655e-12  
-Iteration: 18 of Marquardt. ChiSquare = 4.62481e-06, Lambda = 100
+Iteration: 18 of Marquardt. ChiSquare = 0.000346861, Lambda = 100
 Association ILT calculation completed
 Association ILT calculation completed
 Association ILT calculation completed
@@ -344,9 +344,9 @@ Association ILT calculation completed
 Association ILT calculation completed
 Association ILT calculation completed
 
-Chi^2 = 4.61671e-06 Lambda = 10
+Chi^2 = 0.000346253 Lambda = 10
 ethylene_OH:ZPE=-111.253  ethylene_OH:deltaEDown:N2=226.741  ethylene_OH:deltaEDownTExponent:N2=0.405875  R1:preExponential=6.06978e-12  R1:nInfinity=-0.943119  H-Abstraction:activationEnergy=23.6182  H-Abstraction:preExponential=2.5018e-11  R3:BimolecularLossRateCoefficient=2.10789e-12  
-Iteration: 19 of Marquardt. ChiSquare = 4.61671e-06, Lambda = 10
+Iteration: 19 of Marquardt. ChiSquare = 0.000346253, Lambda = 10
 In FastLaplaceConvolution: 440 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
 Association ILT calculation completed
@@ -358,12 +358,12 @@ Association ILT calculation completed
 Association ILT calculation completed
 Association ILT calculation completed
 
-Chi^2 = 4.61002e-06 Lambda = 1
+Chi^2 = 0.000345751 Lambda = 1
 ethylene_OH:ZPE=-111.139  ethylene_OH:deltaEDown:N2=232.472  ethylene_OH:deltaEDownTExponent:N2=0.439594  R1:preExponential=6.27269e-12  R1:nInfinity=-0.861267  H-Abstraction:activationEnergy=23.5312  H-Abstraction:preExponential=2.42092e-11  R3:BimolecularLossRateCoefficient=2.44699e-12  
-Iteration: 20 of Marquardt. ChiSquare = 4.61002e-06, Lambda = 1
+Iteration: 20 of Marquardt. ChiSquare = 0.000345751, Lambda = 1
 Number of cells = 50000, Number of grains = 146
 Association ILT calculation completed
- -- Total time elapsed: 1700 seconds.
+ -- Total time elapsed: 1736 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
@@ -569,6 +569,9 @@ Association ILT calculation completed
                                      0.001188,        2.1e-05,    7.57847e-05
                                      0.001194,       0.000101,    7.47347e-05
                                        0.0012,       0.000141,    7.36993e-05
+
+                      Weigth: 2.45013e+08
+
             723    1.52527e+18           Time           Expt.           Calc.
                                       7.5e-06,       0.004684,     0.00456733
                                       1.5e-05,       0.004125,      0.0043023
@@ -770,6 +773,9 @@ Association ILT calculation completed
                                      0.001485,        9.1e-05,    0.000142044
                                     0.0014925,        6.4e-05,    0.000139791
                                        0.0015,       0.000149,    0.000137573
+
+                      Weigth: 2.37913e+07
+
             723    1.52527e+18           Time           Expt.           Calc.
                                         1e-05,       0.004205,     0.00458681
                                         2e-05,       0.003411,     0.00429447
@@ -971,6 +977,9 @@ Association ILT calculation completed
                                       0.00198,       0.000216,    7.90102e-05
                                       0.00199,       -4.5e-05,    7.75018e-05
                                         0.002,        9.3e-05,    7.60222e-05
+
+                      Weigth: 1.32846e+07
+
             723    1.52527e+18           Time           Expt.           Calc.
                                         1e-05,       0.004861,     0.00479914
                                         2e-05,       0.004983,     0.00454212
@@ -1172,6 +1181,9 @@ Association ILT calculation completed
                                       0.00198,         -9e-05,    0.000137706
                                       0.00199,       0.000116,    0.000135397
                                         0.002,         -2e-06,    0.000133127
+
+                      Weigth: 1.3048e+07
+
             723    1.52527e+18           Time           Expt.           Calc.
                                         1e-05,       0.004725,     0.00447664
                                         2e-05,       0.004194,     0.00428257
@@ -1373,6 +1385,9 @@ Association ILT calculation completed
                                       0.00198,        0.00032,     0.00022344
                                       0.00199,      -0.000159,    0.000220262
                                         0.002,        0.00065,     0.00021713
+
+                      Weigth: 1.20789e+07
+
             723    1.52527e+18           Time           Expt.           Calc.
                                      1.25e-05,       0.005804,     0.00497494
                                       2.5e-05,       0.004061,     0.00477878
@@ -1574,6 +1589,9 @@ Association ILT calculation completed
                                      0.002475,       0.000614,    0.000260946
                                     0.0024875,       0.000288,    0.000257235
                                        0.0025,       0.000183,    0.000253577
+
+                      Weigth: 1.39295e+07
+
             676    3.57833e+18           Time           Expt.           Calc.
                                       7.5e-06,       0.004329,     0.00377739
                                       1.5e-05,       0.003558,     0.00335259
@@ -1775,6 +1793,9 @@ Association ILT calculation completed
                                      0.001485,       0.000102,    0.000228107
                                     0.0014925,       0.000104,    0.000226072
                                        0.0015,         -8e-05,    0.000224056
+
+                      Weigth: 1.98788e+07
+
             676    3.57833e+18           Time           Expt.           Calc.
                                       7.5e-06,       0.003517,     0.00363779
                                       1.5e-05,       0.002779,      0.0032753
@@ -1976,6 +1997,9 @@ Association ILT calculation completed
                                      0.001485,       0.000406,    0.000254661
                                     0.0014925,       0.000266,    0.000252476
                                        0.0015,       0.000484,     0.00025031
+
+                      Weigth: 1.4401e+07
+
             676    3.57833e+18           Time           Expt.           Calc.
                                       7.5e-06,       0.003565,     0.00334423
                                       1.5e-05,       0.002942,     0.00305592
@@ -2177,6 +2201,9 @@ Association ILT calculation completed
                                      0.001485,       0.000198,    0.000279374
                                     0.0014925,       0.000363,    0.000277096
                                        0.0015,       0.000341,    0.000274836
+
+                      Weigth: 1.13617e+07
+
             676    3.57833e+18           Time           Expt.           Calc.
                                       7.5e-06,       0.003264,     0.00275727
                                       1.5e-05,       0.002483,     0.00255685
@@ -2378,6 +2405,9 @@ Association ILT calculation completed
                                      0.001485,       -3.8e-05,    0.000283122
                                     0.0014925,       0.000135,     0.00028096
                                        0.0015,       0.000637,    0.000278815
+
+                      Weigth: 1.50368e+07
+
             676    3.58547e+18           Time           Expt.           Calc.
                                       7.5e-06,       0.005002,     0.00452805
                                       1.5e-05,       0.004186,     0.00426172
@@ -2579,6 +2609,9 @@ Association ILT calculation completed
                                      0.001485,       0.000483,    0.000597119
                                     0.0014925,       0.000766,     0.00059296
                                        0.0015,       0.000662,    0.000588829
+
+                      Weigth: 2.09645e+07
+
             676    3.57833e+18           Time           Expt.           Calc.
                                       7.5e-06,       0.003544,     0.00277022
                                       1.5e-05,       0.002607,     0.00265045
@@ -2780,6 +2813,9 @@ Association ILT calculation completed
                                      0.001485,       0.000284,    0.000514053
                                     0.0014925,       0.000498,    0.000510974
                                        0.0015,       0.000236,    0.000507914
+
+                      Weigth: 1.49742e+07
+
             696    8.01933e+17           Time           Expt.           Calc.
                                       7.5e-06,        0.00595,     0.00652315
                                       1.5e-05,        0.00581,      0.0061049
@@ -2981,6 +3017,9 @@ Association ILT calculation completed
                                      0.001485,       0.000522,    0.000261496
                                     0.0014925,       0.000227,    0.000258274
                                        0.0015,       0.000417,    0.000255092
+
+                      Weigth: 4.1346e+07
+
             696    8.01933e+17           Time           Expt.           Calc.
                                         1e-05,        0.00692,     0.00691177
                                         2e-05,        0.00647,      0.0064042
@@ -3182,6 +3221,9 @@ Association ILT calculation completed
                                       0.00198,       0.000162,    0.000158001
                                       0.00199,       0.000204,    0.000155535
                                         0.002,       0.000319,    0.000153107
+
+                      Weigth: 5.03959e+07
+
             696    8.01933e+17           Time           Expt.           Calc.
                                      1.25e-05,         0.0071,     0.00728564
                                       2.5e-05,        0.00696,     0.00671903
@@ -3383,6 +3425,9 @@ Association ILT calculation completed
                                      0.002475,       0.000249,    0.000106072
                                     0.0024875,          5e-05,    0.000104128
                                        0.0025,       0.000254,    0.000102219
+
+                      Weigth: 3.16357e+07
+
             696    8.01933e+17           Time           Expt.           Calc.
                                       1.5e-05,        0.00701,     0.00715392
                                         3e-05,        0.00631,     0.00660131
@@ -3584,6 +3629,9 @@ Association ILT calculation completed
                                       0.00297,       0.000385,    7.70331e-05
                                      0.002985,        8.9e-05,    7.54686e-05
                                         0.003,         0.0001,    7.39358e-05
+
+                      Weigth: 2.77259e+07
+
             696    8.01933e+17           Time           Expt.           Calc.
                                       1.5e-05,        0.00737,      0.0074903
                                         3e-05,          0.007,     0.00701557
@@ -3785,6 +3833,9 @@ Association ILT calculation completed
                                       0.00297,       0.000246,    0.000131327
                                      0.002985,       0.000142,     0.00012892
                                         0.003,       0.000188,    0.000126557
+
+                      Weigth: 4.48443e+07
+
             696    8.01933e+17           Time           Expt.           Calc.
                                         3e-05,         0.0067,     0.00791829
                                         6e-05,        0.00562,     0.00723219
@@ -3986,6 +4037,9 @@ Association ILT calculation completed
                                       0.00594,        6.7e-05,    1.10292e-05
                                       0.00597,        1.6e-05,    1.06817e-05
                                         0.006,        6.9e-05,    1.03452e-05
+
+                      Weigth: 7.83634e+06
+
             696    8.01933e+17           Time           Expt.           Calc.
                                         5e-05,        0.00598,     0.00685388
                                        0.0001,        0.00648,     0.00648216
@@ -4187,6 +4241,9 @@ Association ILT calculation completed
                                        0.0099,       0.000364,    1.50077e-05
                                       0.00995,          5e-06,    1.45542e-05
                                          0.01,         -1e-06,    1.41144e-05
+
+                      Weigth: 1.76439e+07
+
             694    1.65023e+18           Time           Expt.           Calc.
                                         5e-05,       0.003446,     0.00309373
                                        0.0001,       0.002972,     0.00294195
@@ -4388,6 +4445,9 @@ Association ILT calculation completed
                                        0.0099,        7.8e-05,    3.85257e-05
                                       0.00995,        7.9e-05,    3.76909e-05
                                          0.01,        6.3e-05,    3.68742e-05
+
+                      Weigth: 5.84518e+07
+
             694    1.65023e+18           Time           Expt.           Calc.
                                      3.75e-05,       0.002665,     0.00288646
                                       7.5e-05,       0.002597,     0.00266247
@@ -4589,6 +4649,9 @@ Association ILT calculation completed
                                      0.007425,         -5e-06,    1.16413e-05
                                     0.0074625,        3.1e-05,    1.13292e-05
                                        0.0075,         -1e-05,    1.10254e-05
+
+                      Weigth: 6.97845e+07
+
             694    1.65023e+18           Time           Expt.           Calc.
                                      3.75e-05,       0.001833,     0.00239209
                                       7.5e-05,       0.001758,     0.00213191
@@ -4790,6 +4853,9 @@ Association ILT calculation completed
                                      0.007425,        9.9e-05,    1.89226e-06
                                     0.0074625,        3.7e-05,    1.82699e-06
                                        0.0075,         -2e-06,    1.76397e-06
+
+                      Weigth: 8.64956e+07
+
             694    1.65023e+18           Time           Expt.           Calc.
                                      3.75e-05,       0.002325,     0.00224524
                                       7.5e-05,       0.001861,     0.00193185
@@ -4991,6 +5057,9 @@ Association ILT calculation completed
                                      0.007425,       -2.9e-05,    4.31636e-07
                                     0.0074625,         -7e-06,    4.13902e-07
                                        0.0075,          1e-06,    3.96897e-07
+
+                      Weigth: 4.17529e+08
+
             694    1.65023e+18           Time           Expt.           Calc.
                                       1.5e-05,        0.00251,     0.00234415
                                         3e-05,       0.002086,     0.00212808
@@ -5192,6 +5261,9 @@ Association ILT calculation completed
                                       0.00297,        4.1e-05,    3.50829e-05
                                      0.002985,        6.2e-05,    3.44231e-05
                                         0.003,          9e-06,    3.37756e-05
+
+                      Weigth: 1.20612e+08
+
             694    1.65023e+18           Time           Expt.           Calc.
                                         5e-06,       0.002637,     0.00240773
                                         1e-05,       0.002225,     0.00230569
@@ -5393,6 +5465,9 @@ Association ILT calculation completed
                                       0.00099,        0.00034,    0.000333481
                                      0.000995,       0.000347,    0.000331171
                                         0.001,        0.00041,    0.000328878
+
+                      Weigth: 5.72579e+07
+
             694    1.65023e+18           Time           Expt.           Calc.
                                         3e-06,        0.00245,     0.00223709
                                         6e-06,       0.002257,     0.00216912
@@ -5594,6 +5669,9 @@ Association ILT calculation completed
                                      0.000594,       0.000349,    0.000457278
                                      0.000597,       0.000371,    0.000455235
                                        0.0006,       0.000385,    0.000453201
+
+                      Weigth: 7.26674e+07
+
             694    1.65023e+18           Time           Expt.           Calc.
                                         3e-06,       0.002026,     0.00210243
                                         6e-06,       0.002127,     0.00202956
@@ -5795,6 +5873,9 @@ Association ILT calculation completed
                                      0.000594,       0.000298,    0.000376054
                                      0.000597,       0.000301,    0.000374273
                                        0.0006,       0.000353,      0.0003725
+
+                      Weigth: 1.35135e+08
+
             672    8.30573e+17           Time           Expt.           Calc.
                                       7.5e-06,        0.00543,     0.00532204
                                       1.5e-05,        0.00492,      0.0049529
@@ -5996,6 +6077,9 @@ Association ILT calculation completed
                                      0.001485,        0.00035,     0.00034559
                                     0.0014925,       0.000366,    0.000342905
                                        0.0015,       0.000345,     0.00034024
+
+                      Weigth: 1.73005e+08
+
             672    8.30573e+17           Time           Expt.           Calc.
                                         1e-05,        0.00551,     0.00511475
                                         2e-05,        0.00485,     0.00470461
@@ -6197,6 +6281,9 @@ Association ILT calculation completed
                                       0.00198,       0.000268,    0.000236927
                                       0.00199,       0.000305,     0.00023455
                                         0.002,       0.000335,    0.000232196
+
+                      Weigth: 1.20874e+08
+
             672    8.30573e+17           Time           Expt.           Calc.
                                         1e-05,         0.0053,     0.00527256
                                         2e-05,         0.0051,     0.00490673
@@ -6398,6 +6485,9 @@ Association ILT calculation completed
                                       0.00198,       0.000151,    0.000294842
                                       0.00199,       0.000393,    0.000292004
                                         0.002,       0.000487,    0.000289194
+
+                      Weigth: 4.69409e+07
+
             672    8.30573e+17           Time           Expt.           Calc.
                                       1.5e-05,         0.0054,     0.00494545
                                         3e-05,        0.00472,     0.00452772
@@ -6599,6 +6689,9 @@ Association ILT calculation completed
                                       0.00297,       0.000187,    0.000143554
                                      0.002985,        0.00015,    0.000141595
                                         0.003,       0.000163,    0.000139664
+
+                      Weigth: 4.63289e+07
+
             672    8.30573e+17           Time           Expt.           Calc.
                                      1.75e-05,        0.00515,     0.00502831
                                       3.5e-05,        0.00471,     0.00463029
@@ -6800,6 +6893,9 @@ Association ILT calculation completed
                                      0.003465,       0.000114,    0.000133814
                                     0.0034825,        9.9e-05,    0.000131838
                                        0.0035,       0.000255,    0.000129891
+
+                      Weigth: 3.09268e+07
+
             672    8.30573e+17           Time           Expt.           Calc.
                                      1.75e-05,        0.00539,      0.0051686
                                       3.5e-05,        0.00474,     0.00485399
@@ -7001,6 +7097,9 @@ Association ILT calculation completed
                                      0.003465,       0.000208,    0.000216878
                                     0.0034825,       0.000103,    0.000214012
                                        0.0035,       0.000299,    0.000211183
+
+                      Weigth: 2.17594e+07
+
             672    8.30573e+17           Time           Expt.           Calc.
                                       2.5e-05,        0.00449,     0.00505829
                                         5e-05,        0.00488,     0.00476482
@@ -7202,6 +7301,9 @@ Association ILT calculation completed
                                       0.00495,       0.000222,     0.00015107
                                      0.004975,       0.000148,    0.000148681
                                         0.005,       0.000231,     0.00014633
+
+                      Weigth: 3.72889e+07
+
             672    8.30573e+17           Time           Expt.           Calc.
                                      3.75e-05,        0.00483,     0.00514564
                                       7.5e-05,        0.00519,     0.00491034
@@ -7403,6 +7505,9 @@ Association ILT calculation completed
                                      0.007425,       0.000116,     0.00014232
                                     0.0074625,        0.00012,    0.000139882
                                        0.0075,       0.000201,    0.000137485
+
+                      Weigth: 4.41542e+07
+
             614    3.43954e+18           Time           Expt.           Calc.
                                       4.5e-06,       0.003417,      0.0027838
                                         9e-06,       0.003259,     0.00258321
@@ -7604,6 +7709,9 @@ Association ILT calculation completed
                                      0.000891,       0.000138,    0.000160537
                                     0.0008955,       0.000157,    0.000160271
                                        0.0009,        9.2e-05,    0.000160005
+
+                      Weigth: 6.5828e+07
+
             614    3.43954e+18           Time           Expt.           Calc.
                                       4.5e-06,       0.003245,     0.00293387
                                         9e-06,       0.003413,     0.00275179
@@ -7805,6 +7913,9 @@ Association ILT calculation completed
                                      0.000891,        3.6e-05,    0.000194469
                                     0.0008955,        6.3e-05,     0.00019415
                                        0.0009,        5.4e-05,     0.00019383
+
+                      Weigth: 4.75081e+07
+
             614    3.43954e+18           Time           Expt.           Calc.
                                       4.5e-06,       0.003598,     0.00265334
                                         9e-06,       0.002419,     0.00248839
@@ -8006,6 +8117,9 @@ Association ILT calculation completed
                                      0.000891,       0.000193,    0.000175604
                                     0.0008955,       0.000256,    0.000175315
                                        0.0009,       0.000114,    0.000175027
+
+                      Weigth: 3.50494e+07
+
             614    3.43954e+18           Time           Expt.           Calc.
                                       4.5e-06,       0.002657,     0.00222642
                                         9e-06,       0.001854,     0.00211028
@@ -8207,6 +8321,9 @@ Association ILT calculation completed
                                      0.000891,          5e-05,     0.00017352
                                     0.0008955,       0.000233,    0.000173237
                                        0.0009,       0.000105,    0.000172955
+
+                      Weigth: 3.70344e+07
+
             614    3.43954e+18           Time           Expt.           Calc.
                                       7.5e-06,       0.002973,     0.00297967
                                       1.5e-05,       0.002955,     0.00277497
@@ -8408,6 +8525,9 @@ Association ILT calculation completed
                                      0.001485,       0.000278,    0.000236154
                                     0.0014925,       0.000338,    0.000235523
                                        0.0015,       0.000173,    0.000234895
+
+                      Weigth: 6.64633e+07
+
             614    3.43954e+18           Time           Expt.           Calc.
                                         1e-05,       0.003628,     0.00324305
                                         2e-05,       0.003046,     0.00301971
@@ -8609,6 +8729,9 @@ Association ILT calculation completed
                                       0.00198,       0.000237,    0.000282985
                                       0.00199,       0.000119,    0.000282002
                                         0.002,        4.6e-05,    0.000281023
+
+                      Weigth: 2.75167e+07
+
             614    3.43954e+18           Time           Expt.           Calc.
                                       1.5e-05,       0.003956,     0.00292699
                                         3e-05,       0.003159,     0.00272444
@@ -8810,6 +8933,9 @@ Association ILT calculation completed
                                       0.00297,        0.00014,    0.000266631
                                      0.002985,       0.000183,    0.000265304
                                         0.003,       0.000123,    0.000263984
+
+                      Weigth: 2.20714e+07
+
             614    3.43954e+18           Time           Expt.           Calc.
                                         2e-05,       0.003533,     0.00294777
                                         4e-05,       0.003052,     0.00280459
@@ -9011,6 +9137,9 @@ Association ILT calculation completed
                                       0.00396,       0.000515,    0.000359386
                                       0.00398,       0.000411,    0.000357249
                                         0.004,       0.000301,    0.000355125
+
+                      Weigth: 1.56508e+07
+
             614    3.43954e+18           Time           Expt.           Calc.
                                         5e-06,       0.002624,     0.00278919
                                         1e-05,       0.002324,     0.00256889
@@ -9212,6 +9341,9 @@ Association ILT calculation completed
                                       0.00099,       0.000282,    0.000157617
                                      0.000995,       -4.2e-05,    0.000157327
                                         0.001,       -2.8e-05,    0.000157038
+
+                      Weigth: 4.1393e+07
+
             634    8.80355e+17           Time           Expt.           Calc.
                                         6e-06,       0.002011,     0.00199071
                                       1.2e-05,       0.001721,     0.00185015
@@ -9413,6 +9545,9 @@ Association ILT calculation completed
                                      0.001188,        5.4e-05,    0.000124152
                                      0.001194,        5.8e-05,     0.00012378
                                        0.0012,       0.000112,    0.000123409
+
+                      Weigth: 3.30555e+08
+
             634    8.80355e+17           Time           Expt.           Calc.
                                         9e-06,       0.002065,     0.00199985
                                       1.8e-05,       0.001777,      0.0018178
@@ -9614,6 +9749,9 @@ Association ILT calculation completed
                                      0.001782,        4.8e-05,    0.000108574
                                      0.001791,       0.000157,    0.000108091
                                        0.0018,       0.000117,     0.00010761
+
+                      Weigth: 3.75453e+08
+
             634    8.80355e+17           Time           Expt.           Calc.
                                       1.1e-05,       0.001735,     0.00198911
                                       2.2e-05,       0.001738,     0.00179949
@@ -9815,6 +9953,9 @@ Association ILT calculation completed
                                      0.002178,        7.1e-05,    0.000103881
                                      0.002189,        8.5e-05,    0.000103323
                                        0.0022,       0.000101,    0.000102768
+
+                      Weigth: 4.0727e+08
+
             634    8.80355e+17           Time           Expt.           Calc.
                                      1.75e-05,        0.00189,     0.00181208
                                       3.5e-05,       0.001505,     0.00158963
@@ -10016,6 +10157,9 @@ Association ILT calculation completed
                                      0.003465,         -8e-06,    6.34972e-05
                                     0.0034825,        4.6e-05,    6.29652e-05
                                        0.0035,        9.9e-05,    6.24376e-05
+
+                      Weigth: 5.83734e+08
+
             634    8.80355e+17           Time           Expt.           Calc.
                                      2.25e-05,       0.001738,     0.00178208
                                       4.5e-05,        0.00154,     0.00155741
@@ -10217,6 +10361,9 @@ Association ILT calculation completed
                                      0.004455,        8.5e-05,    4.97987e-05
                                     0.0044775,        3.3e-05,     4.9276e-05
                                        0.0045,        2.8e-05,    4.87587e-05
+
+                      Weigth: 3.84094e+08
+
             634    8.80355e+17           Time           Expt.           Calc.
                                         3e-05,       0.001829,     0.00173744
                                         6e-05,       0.001552,     0.00151921
@@ -10418,6 +10565,9 @@ Association ILT calculation completed
                                       0.00594,        1.3e-05,    3.43675e-05
                                       0.00597,       0.000129,    3.39059e-05
                                         0.006,         -4e-06,    3.34505e-05
+
+                      Weigth: 3.72908e+08
+
             634    8.80355e+17           Time           Expt.           Calc.
                                         4e-05,       0.002036,     0.00215017
                                         8e-05,       0.002022,     0.00190634
@@ -10619,6 +10769,9 @@ Association ILT calculation completed
                                       0.00792,         -4e-06,    2.98443e-05
                                       0.00796,       0.000103,    2.93469e-05
                                         0.008,        1.7e-05,    2.88579e-05
+
+                      Weigth: 5.60966e+08
+
             634    8.80355e+17           Time           Expt.           Calc.
                                       5.5e-05,        0.00216,     0.00222256
                                       0.00011,        0.00219,     0.00204123
@@ -10820,6 +10973,9 @@ Association ILT calculation completed
                                       0.01089,       -1.1e-05,    2.68834e-05
                                      0.010945,       -3.1e-05,    2.63629e-05
                                         0.011,        7.3e-05,    2.58524e-05
+
+                      Weigth: 3.14839e+08
+
             647    1.73877e+18           Time           Expt.           Calc.
                                         5e-05,       0.001582,     0.00160815
                                        0.0001,       0.001325,     0.00148388
@@ -11021,6 +11177,9 @@ Association ILT calculation completed
                                        0.0099,        6.5e-05,     4.0977e-05
                                       0.00995,        7.2e-05,    4.02937e-05
                                          0.01,         -5e-06,    3.96218e-05
+
+                      Weigth: 2.22665e+08
+
             647    1.73877e+18           Time           Expt.           Calc.
                                         3e-05,       0.001612,     0.00146105
                                         6e-05,        0.00135,     0.00132135
@@ -11222,6 +11381,9 @@ Association ILT calculation completed
                                       0.00594,        5.8e-05,    5.08025e-05
                                       0.00597,        6.6e-05,    5.01152e-05
                                         0.006,        5.4e-05,    4.94372e-05
+
+                      Weigth: 2.73406e+08
+
             647    1.73877e+18           Time           Expt.           Calc.
                                       1.5e-05,       0.001477,     0.00146616
                                         3e-05,       0.001278,     0.00135449
@@ -11423,6 +11585,9 @@ Association ILT calculation completed
                                       0.00297,       0.000109,    0.000120461
                                      0.002985,       0.000202,    0.000119525
                                         0.003,       0.000183,    0.000118596
+
+                      Weigth: 3.79984e+08
+
             647    1.73877e+18           Time           Expt.           Calc.
                                         1e-05,       0.001301,      0.0014061
                                         2e-05,       0.001154,     0.00130936
@@ -11624,6 +11789,9 @@ Association ILT calculation completed
                                       0.00198,       0.000127,    0.000142591
                                       0.00199,       0.000138,    0.000141793
                                         0.002,        9.5e-05,    0.000140999
+
+                      Weigth: 2.45277e+08
+
             647    1.73877e+18           Time           Expt.           Calc.
                                      6.25e-06,       0.001262,     0.00129928
                                      1.25e-05,       0.001092,     0.00122819
@@ -11825,6 +11993,9 @@ Association ILT calculation completed
                                     0.0012375,       0.000138,    0.000158963
                                    0.00124375,       0.000102,    0.000158377
                                       0.00125,       0.000147,    0.000157794
+
+                      Weigth: 3.52368e+08
+
             647    1.73877e+18           Time           Expt.           Calc.
                                       4.5e-06,       0.001162,     0.00125732
                                         9e-06,       0.001058,     0.00119772
@@ -12026,6 +12197,9 @@ Association ILT calculation completed
                                      0.000891,       0.000157,    0.000158601
                                     0.0008955,       0.000161,    0.000158166
                                        0.0009,        0.00019,    0.000157731
+
+                      Weigth: 3.56324e+08
+
             647    1.73877e+18           Time           Expt.           Calc.
                                       4.5e-06,       0.001281,     0.00120953
                                         9e-06,       0.000901,     0.00113374
@@ -12227,6 +12401,9 @@ Association ILT calculation completed
                                      0.000891,       0.000112,    0.000117284
                                     0.0008955,       0.000162,    0.000116947
                                        0.0009,       0.000128,    0.000116611
+
+                      Weigth: 3.18118e+08
+
             563    1.98447e+18           Time           Expt.           Calc.
                                      3.75e-06,       0.002621,      0.0024098
                                       7.5e-06,       0.002444,     0.00221963
@@ -12428,6 +12605,9 @@ Association ILT calculation completed
                                     0.0007425,        5.8e-05,    1.99028e-05
                                    0.00074625,        3.2e-05,    1.98836e-05
                                       0.00075,       -1.1e-05,    1.98644e-05
+
+                      Weigth: 3.00058e+08
+
             563    1.98447e+18           Time           Expt.           Calc.
                                      4.25e-06,       0.002277,     0.00235652
                                       8.5e-06,       0.002222,     0.00217225
@@ -12629,6 +12809,9 @@ Association ILT calculation completed
                                     0.0008415,         -2e-06,    2.17229e-05
                                    0.00084575,       -1.7e-05,    2.16992e-05
                                       0.00085,        7.7e-05,    2.16755e-05
+
+                      Weigth: 4.08411e+08
+
             563    1.98447e+18           Time           Expt.           Calc.
                                         5e-06,       0.002539,     0.00247991
                                         1e-05,        0.00239,      0.0022839
@@ -12830,6 +13013,9 @@ Association ILT calculation completed
                                       0.00099,        2.3e-05,    2.56677e-05
                                      0.000995,       -2.1e-05,    2.56348e-05
                                         0.001,        2.8e-05,    2.56019e-05
+
+                      Weigth: 4.29796e+08
+
             563    1.98447e+18           Time           Expt.           Calc.
                                      6.25e-06,       0.002733,     0.00247262
                                      1.25e-05,       0.002389,     0.00226967
@@ -13031,6 +13217,9 @@ Association ILT calculation completed
                                     0.0012375,       -5.8e-05,    2.90328e-05
                                    0.00124375,       -3.3e-05,    2.89863e-05
                                       0.00125,       -5.4e-05,      2.894e-05
+
+                      Weigth: 2.15265e+08
+
             563    1.98447e+18           Time           Expt.           Calc.
                                       7.5e-06,       0.002502,      0.0023364
                                       1.5e-05,       0.002054,     0.00215156
@@ -13232,6 +13421,9 @@ Association ILT calculation completed
                                      0.001485,       0.000133,    3.21309e-05
                                     0.0014925,        5.6e-05,    3.20693e-05
                                        0.0015,        6.3e-05,    3.20078e-05
+
+                      Weigth: 3.54153e+08
+
             563    1.98447e+18           Time           Expt.           Calc.
                                         1e-05,       0.002238,      0.0022793
                                         2e-05,         0.0023,     0.00209828
@@ -13433,6 +13625,9 @@ Association ILT calculation completed
                                       0.00198,          7e-06,    3.69457e-05
                                       0.00199,        1.7e-05,    3.68517e-05
                                         0.002,          5e-05,    3.67579e-05
+
+                      Weigth: 4.15912e+08
+
             563    1.98447e+18           Time           Expt.           Calc.
                                       1.5e-05,       0.002183,     0.00221426
                                         3e-05,       0.002204,     0.00203633
@@ -13634,6 +13829,9 @@ Association ILT calculation completed
                                       0.00297,        3.4e-05,    4.19858e-05
                                      0.002985,        7.4e-05,    4.18268e-05
                                         0.003,        1.7e-05,    4.16683e-05
+
+                      Weigth: 2.66693e+08
+
             563    1.98447e+18           Time           Expt.           Calc.
                                         3e-05,       0.002454,     0.00214778
                                         6e-05,       0.001967,     0.00197063
@@ -13835,6 +14033,9 @@ Association ILT calculation completed
                                       0.00594,       -1.1e-05,    3.96267e-05
                                       0.00597,       -7.1e-05,    3.93332e-05
                                         0.006,        4.3e-05,    3.90418e-05
+
+                      Weigth: 2.41612e+08
+
             580    9.58989e+17           Time           Expt.           Calc.
                                         1e-05,       0.004426,     0.00451022
                                         2e-05,       0.004327,     0.00424073
@@ -14036,6 +14237,9 @@ Association ILT calculation completed
                                       0.00198,        4.6e-05,    0.000132674
                                       0.00199,        7.7e-05,    0.000132317
                                         0.002,          7e-05,    0.000131962
+
+                      Weigth: 2.25758e+08
+
             580    9.58989e+17           Time           Expt.           Calc.
                                      6.25e-06,       0.003471,     0.00387593
                                      1.25e-05,       0.003481,     0.00363749
@@ -14237,6 +14441,9 @@ Association ILT calculation completed
                                     0.0012375,          6e-06,    8.37734e-05
                                    0.00124375,        4.3e-05,     8.3631e-05
                                       0.00125,        4.1e-05,    8.34889e-05
+
+                      Weigth: 1.94058e+08
+
             580    9.58989e+17           Time           Expt.           Calc.
                                      3.75e-06,       0.003386,      0.0034341
                                       7.5e-06,       0.003384,     0.00325695
@@ -14438,6 +14645,9 @@ Association ILT calculation completed
                                     0.0007425,          8e-05,    6.02863e-05
                                    0.00074625,        9.2e-05,    6.02207e-05
                                       0.00075,       0.000104,    6.01554e-05
+
+                      Weigth: 3.8931e+08
+
             580    9.58989e+17           Time           Expt.           Calc.
                                      3.75e-06,       0.003458,      0.0036202
                                       7.5e-06,       0.003619,     0.00340748
@@ -14639,6 +14849,9 @@ Association ILT calculation completed
                                     0.0007425,        2.5e-05,    5.58766e-05
                                    0.00074625,        6.1e-05,    5.58184e-05
                                       0.00075,        4.5e-05,    5.57603e-05
+
+                      Weigth: 3.83528e+08
+
             580    9.58989e+17           Time           Expt.           Calc.
                                       2.5e-05,       0.004379,     0.00420161
                                         5e-05,        0.00424,     0.00398015
@@ -14840,6 +15053,9 @@ Association ILT calculation completed
                                       0.00495,        5.6e-05,    0.000170465
                                      0.004975,        5.8e-05,    0.000169378
                                         0.005,        4.6e-05,    0.000168297
+
+                      Weigth: 6.86463e+07
+
             580    9.58989e+17           Time           Expt.           Calc.
                                       1.5e-05,        0.00389,     0.00364181
                                         3e-05,       0.003479,     0.00342096
@@ -15041,6 +15257,9 @@ Association ILT calculation completed
                                       0.00297,        8.1e-05,    0.000123359
                                      0.002985,        6.6e-05,    0.000122869
                                         0.003,        5.1e-05,    0.000122381
+
+                      Weigth: 1.92853e+08
+
             580    9.58989e+17           Time           Expt.           Calc.
                                       7.5e-06,       0.003665,     0.00384135
                                       1.5e-05,       0.004046,     0.00361355
@@ -15242,6 +15461,9 @@ Association ILT calculation completed
                                      0.001485,       0.000156,    9.69174e-05
                                     0.0014925,       0.000118,    9.67205e-05
                                        0.0015,         -6e-06,     9.6524e-05
+
+                      Weigth: 1.71999e+08
+
             580    9.58989e+17           Time           Expt.           Calc.
                                         5e-06,       0.003702,     0.00378494
                                         1e-05,       0.003845,     0.00356186
@@ -15444,19 +15666,22 @@ Association ILT calculation completed
                                      0.000995,       0.000123,    7.26986e-05
                                         0.001,        6.3e-05,    7.25989e-05
 
+                      Weigth: 1.77313e+08
 
-Chi^2 = 4.61002e-06
+
+
+Chi^2 = 0.000345751
 
 Best fit parameters:
 
-ethylene_OH:ZPE = -111.139 +/- 0.0372374
-ethylene_OH:deltaEDown:N2 = 232.472 +/- 69.9718
-ethylene_OH:deltaEDownTExponent:N2 = 0.439594 +/- 0.317382
-R1:preExponential = 6.27269e-12 +/- 9.30523e-13
-R1:nInfinity = -0.861267 +/- 0.207761
-H-Abstraction:activationEnergy = 23.5312 +/- 0.0200069
-H-Abstraction:preExponential = 2.42092e-11 +/- 6.81674e-14
-R3:BimolecularLossRateCoefficient = 2.44699e-12 +/- 3.79237e-14
+ethylene_OH:ZPE = -111.139 +/- 0.322485
+ethylene_OH:deltaEDown:N2 = 232.472 +/- 605.974
+ethylene_OH:deltaEDownTExponent:N2 = 0.439594 +/- 2.74861
+R1:preExponential = 6.27269e-12 +/- 8.05857e-12
+R1:nInfinity = -0.861267 +/- 1.79926
+H-Abstraction:activationEnergy = 23.5312 +/- 0.173264
+H-Abstraction:preExponential = 2.42092e-11 +/- 5.90347e-13
+R3:BimolecularLossRateCoefficient = 2.44699e-12 +/- 3.28429e-13
 
 Correlation coefficients:
 
@@ -15492,7 +15717,7 @@ R3:BimolecularLossRateCoefficient , H-Abstraction:preExponential = -0.272501
 No independent experimenal error estimates available, therefore Chi^2 test not applicable.
 
 Number of degrees of Freedom = 14992
-Error Factor = 1.75356e-05
+Error Factor = 0.000151863
 
 System saved to mesmer_out.xml
-Total time elapsed: 1700 seconds.
+Total time elapsed: 1736 seconds.
