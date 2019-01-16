@@ -14,6 +14,7 @@
 #include "../System.h"
 #include "../AssociationReaction.h"
 #include "../IrreversibleExchangeReaction.h"
+#include "../PseudoIsomerizationReaction.h"
 #include "../gDensityOfStates.h"
 
 using namespace Constants;
@@ -52,6 +53,10 @@ namespace mesmer
       AssociationReaction* asso = static_cast<AssociationReaction*>(pReact);
       rctClassicalEnergy += asso->get_excessReactant()->getDOS().getClassicalEnergy();
     }
+    else if (pReact->getReactionType() == PSEUDOISOMERIZATION) {
+          AssociationReaction* pseudo = static_cast<PseudoIsomerizationReaction*>(pReact);
+          rctClassicalEnergy += pseudo->get_excessReactant()->getDOS().getClassicalEnergy();
+      }
 
     pReact->setUsesProductProperties();
     std::vector<Molecule *> pdt_temp;
