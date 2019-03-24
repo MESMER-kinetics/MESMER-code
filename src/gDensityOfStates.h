@@ -113,8 +113,10 @@ namespace mesmer
     double get_Hf298Thermo(); //kJ/mol
 
     RotationalTop get_rotConsts(std::vector<double> &mmtsInt);
+    RotationalTop get_rotType();
     void get_VibFreq(std::vector<double>& vibFreq);
     bool removeVibFreq(double freq); 
+    size_t get_NoVibFreq() { return m_VibFreq.size(); }
 
     int get_cellOffset(void);
 

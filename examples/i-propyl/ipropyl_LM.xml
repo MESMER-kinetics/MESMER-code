@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
-<me:mesmer xmlns="http://www.xml-cml.org/schema" 
+<me:mesmer xmlns="http://www.xml-cml.org/schema"
            xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <me:title>isopropyl decomposition</me:title>
@@ -17,7 +17,7 @@
         <atom id="a7"  elementType="H" x3="-1.674932213"  y3=" 0.132014494" z3=" 0.000000000"/>
         <atom id="a8"  elementType="H" x3=" 0.543790894"  y3=" 0.980514186" z3=" 1.532163133"/>
         <atom id="a9"  elementType="H" x3=" 0.988539511"  y3="-0.709839764" z3=" 1.304715599"/>
-        <atom id="a10" elementType="H" x3="-0.523177009"  y3="-0.290316406" z3=" 2.146336256"/> 
+        <atom id="a10" elementType="H" x3="-0.523177009"  y3="-0.290316406" z3=" 2.146336256"/>
       </atomArray>
       <bondArray>
         <bond id="b1"  atomRefs2="a1 a2" order="1"/>
@@ -45,7 +45,7 @@
           <array units="cm-1">
             3052.0 2968.2 2968.2 2967.7 2920.0 2887.0 2850.0 1468.0 1464.0 1462.0
             1440.0 1378.0 1338.0 1292.0 1200.0 1165.0 1053.8  921.7  879.0  748.1
-             369.2  364.0
+            369.2  364.0
           </array>
         </property>
         <property dictRef="me:MW">
@@ -77,7 +77,7 @@
         <me:periodicity>3</me:periodicity>
       </me:ExtraDOSCMethod>
 
-        <me:ExtraDOSCMethod xsi:type="HinderedRotorQM1D">
+      <me:ExtraDOSCMethod xsi:type="HinderedRotorQM1D">
         <me:bondRef>b2</me:bondRef>
         <me:HinderedRotorPotential format="analytical" units="kJ/mol">
           <me:PotentialPoint index="0"  coefficient="6.2"/>
@@ -139,7 +139,7 @@
 
       <me:DOSCMethod xsi:type="QMRotors"/>
 
-        <me:ExtraDOSCMethod xsi:type="HinderedRotorQM1D">
+      <me:ExtraDOSCMethod xsi:type="HinderedRotorQM1D">
         <me:bondRef>b1</me:bondRef>
         <me:HinderedRotorPotential format="analytical" units="kJ/mol">
           <me:PotentialPoint index="0"  coefficient="6.2"/>
@@ -198,7 +198,7 @@
       </product>
 
       <me:MCRCMethod xsi:type="MesmerILT">
-      <me:preExponential>6.00e-12</me:preExponential>
+        <me:preExponential>6.00e-12</me:preExponential>
         <me:activationEnergy  units="cm-1" reverse="true">546.0</me:activationEnergy>
         <me:TInfinity>1.0</me:TInfinity>
         <me:nInfinity>0.0</me:nInfinity>

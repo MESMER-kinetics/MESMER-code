@@ -109,6 +109,8 @@ namespace mesmer
     timeMap["microsec"] = 1.0e-6;
     timeMap["nsec"]     = 1.0e-9;
     timeMap["nanosec"]  = 1.0e-9;
+
+    lengthMap["Ang"] = 1.0; //internal length units
   }
 
   // Returns particles per cubic centimeter no matter what unit the user has provided.

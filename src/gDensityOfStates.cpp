@@ -562,12 +562,20 @@ namespace mesmer
     // The classification of rotors is simplified to only three following types.
     // 3-D rotors may have other attributes, but in ILT they are treated as the same type. 
 
-    if ((mmtsInt[0] + mmtsInt[1] + mmtsInt[2]) == 0.)
-      return ATOMIC; // not a rotor
-    else if ((mmtsInt[0] * mmtsInt[1] * mmtsInt[2]) == 0.)
-      return LINEAR;        // 2-D linear
+    return get_rotType();
+  }
+
+  RotationalTop gDensityOfStates::get_rotType()
+  {
+    // The classification of rotors is simplified to only three following types.
+    // 3-D rotors may have other attributes, but in ILT they are treated as the same type. 
+
+    if ((m_RotCstA * m_RotCstB * m_RotCstC) > 0.0)
+      return NONLINEAR; // 3-D symmetric/asymmetric/spherical top
+    else if ((m_RotCstA + m_RotCstB + m_RotCstC) > 0.0)
+      return LINEAR;    // 2-D linear
     else
-      return NONLINEAR;     // 3-D symmetric/asymmetric/spherical top
+      return ATOMIC;    // not a rotor
   }
 
 

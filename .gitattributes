@@ -806,6 +806,7 @@ src/plugins/LandauZenerCrossing.cpp -text
 src/plugins/Marquardt.cpp -text
 src/plugins/MesmerILT.cpp -text
 src/plugins/Morse.cpp -text
+src/plugins/PhaseIntergrals.h -text
 src/plugins/Potential1D.cpp -text
 src/plugins/Potential1D.h -text
 src/plugins/PriorDistribution.cpp -text
@@ -821,6 +822,7 @@ src/plugins/UnitTests.cpp -text
 src/plugins/WKBCrossing.cpp -text
 src/plugins/WKBTunnellingCoefficients.cpp -text
 src/plugins/ZhuNakamuraCrossing.cpp -text
+src/plugins/uFTST.cpp -text
 src/qd_test.h -text
 src/source.ps -text
 src/unitsConversion.cpp -text

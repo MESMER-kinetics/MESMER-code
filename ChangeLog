@@ -1,6 +1,15 @@
+2019-March-24 Struan Robertson
+		
+		* uTST.cpp, PhaseIntegrals.h: Initial class structure for uTST. 
+
+		* UnitConversion.cpp/.h: Add a map for length.
+
+		*DensityOfStates.cpp/.h: Add a helper function to return the rotational type.
+
 2019-January-16 Robin Shannon
 
-		* EckartCoefficients.cpp, Documentation: Fix to treat PseudoIsomerisation correctly with tunnelling. Minor Eckart correction to documentation.
+		* EckartCoefficients.cpp, Documentation: Fix to treat PseudoIsomerisation correctly 
+		with tunnelling. Minor Eckart correction to documentation.
 
 2018-December-24 Struan Robertson
 		

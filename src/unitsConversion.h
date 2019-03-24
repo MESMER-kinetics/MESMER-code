@@ -38,6 +38,9 @@ namespace mesmer
   // mapping the conversion of time
   static std::map<std::string, double> timeMap;
 
+  // mapping the conversion of length
+  static std::map<std::string, double> lengthMap;
+
   void initializeConversionMaps();
   double getConvertedP(const string& unitInput, const double concentrationInput, const double temperatureInp);
   double getConvertedEnergy(const string& unitInput, const double energyInput);

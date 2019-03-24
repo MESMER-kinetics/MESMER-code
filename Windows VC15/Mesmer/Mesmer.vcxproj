@@ -155,6 +155,7 @@
     <ClCompile Include="..\..\src\plugins\BeyerSwinehart.cpp" />
     <ClCompile Include="..\..\src\plugins\BoltzmannDistribution.cpp" />
     <ClCompile Include="..\..\src\plugins\CanonicalRateCoefficient.cpp" />
+    <ClCompile Include="..\..\src\plugins\uFTST.cpp" />
     <ClCompile Include="..\..\src\plugins\ClassicalCoupledRotors.cpp" />
     <ClCompile Include="..\..\src\plugins\ClassicalRotor.cpp" />
     <ClCompile Include="..\..\src\CollisionOperator.cpp" />
@@ -258,6 +259,7 @@
     <ClInclude Include="..\..\src\MoleculeManager.h" />
     <ClInclude Include="..\..\src\Persistence.h" />
     <ClInclude Include="..\..\src\plugins\HinderedRotorUtils.h" />
+    <ClInclude Include="..\..\src\plugins\PhaseIntergrals.h" />
     <ClInclude Include="..\..\src\plugins\Potential1D.h" />
     <ClInclude Include="..\..\src\plugins\ThermodynamicUtils.h" />
     <ClInclude Include="..\..\src\PseudoIsomerizationReaction.h" />
