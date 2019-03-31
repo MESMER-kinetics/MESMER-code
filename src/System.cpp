@@ -318,7 +318,12 @@ namespace mesmer
         m_Flags.useDOSweightedDT = ppControl->XmlReadBoolean("me:useDOSweighedDownWardTransition");
         m_Flags.bForceMacroDetailedBalance = ppControl->XmlReadBoolean("me:ForceMacroDetailedBalance");
         m_Flags.useOrigFreqForZPECorrection = ppControl->XmlReadBoolean("me:useOrigFreqForZPECorrection");
+
         m_Flags.useTraceWeighting = ppControl->XmlReadBoolean("me:useTraceWeighting");
+        if (m_Flags.useTraceWeighting) {
+          PersistPtr ppTraceWeights = ppControl->XmlMoveTo("me:useTraceWeighting");
+          m_Flags.updateTraceWeights = ppTraceWeights->XmlReadBoolean("updateTraceWeights");
+        }
 
         // Check to see if me:ForceMacroDetailedBalance is set in defaults.
         const char* text = ppControl->XmlReadValue("me:ForceMacroDetailedBalance", true);
@@ -947,8 +952,13 @@ namespace mesmer
         chiSquare += localChi * dataSet.m_weight;
       }
       else {
-        chiSquare += localChi;
-        dataSet.m_weight = sqrt(localChi/double(signal.size()));
+        if (m_Flags.updateTraceWeights) {
+          chiSquare += localChi * dataSet.m_weight;
+        }
+        else {
+          chiSquare += localChi;
+        }
+        dataSet.m_weight = localChi/double(signal.size());
       }
 
     }

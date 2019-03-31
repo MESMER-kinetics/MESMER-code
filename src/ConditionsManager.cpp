@@ -455,6 +455,8 @@ namespace mesmer
       }
     }
 
+    sum /= double(PandTs.size());
+
     if (sum > 0.0) {
       for (size_t i(0); i < PandTs.size(); ++i) {
         vector<RawDataSet>& data = PandTs[i].m_rawDataSets;
@@ -463,24 +465,6 @@ namespace mesmer
         }
       }
     }
-
-    //double MaxWeight = 0.0;
-    //for (size_t i(0); i < PandTs.size(); ++i) {
-    //  vector<RawDataSet>& data = PandTs[i].m_rawDataSets;
-    //  for (size_t j(0); j < data.size(); ++j) {
-    //    data[j].m_weight = 1.0/data[j].m_weight;
-    //    MaxWeight = max(MaxWeight, data[j].m_weight);
-    //  }
-    //}
-
-    //if (MaxWeight > 0.0) {
-    //  for (size_t i(0); i < PandTs.size(); ++i) {
-    //    vector<RawDataSet>& data = PandTs[i].m_rawDataSets;
-    //    for (size_t j(0); j < data.size(); ++j) {
-    //      data[j].m_weight /= MaxWeight;
-    //    }
-    //  }
-    //}
 
   }
 
@@ -589,7 +573,7 @@ namespace mesmer
           rateCoeffTable << setw(30) << " " << formatFloat(time, 6, 15) << "," << formatFloat(expt, 6, 15) << "," << formatFloat(calc, 6, 15) << endl;
         }
         rateCoeffTable << endl;
-        rateCoeffTable << setw(30) << "Weigth: " << Trace.m_weight << endl;
+        rateCoeffTable << setw(30) << "Weight: " << Trace.m_weight << endl;
         rateCoeffTable << endl;
       }
     }

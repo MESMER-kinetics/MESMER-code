@@ -121,7 +121,12 @@ namespace mesmer
 
     double chiSquare(0.0);
     vector<double> residuals;
+    bool useTraceWeights = pSys->m_Flags.useTraceWeighting;
+    if (pSys->m_Flags.updateTraceWeights) {
+      pSys->m_Flags.useTraceWeighting = false;
+    }
     pSys->calculate(chiSquare, residuals, true);
+    pSys->m_Flags.useTraceWeighting = useTraceWeights;
 
 		bool bIndependentErrors(pSys->m_Flags.bIndependentErrors);
 

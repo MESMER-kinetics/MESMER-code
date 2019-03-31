@@ -1,10 +1,15 @@
+2019-March-31 Struan Robertson
+		
+		* MesmerFlags.h/.cpp, ConditionsManager.cpp, FittingUtils.cpp, System.cpp: 
+		Modifications to allow for the updated of trace weights.
+
 2019-March-24 Struan Robertson
 		
 		* uTST.cpp, PhaseIntegrals.h: Initial class structure for uTST. 
 
 		* UnitConversion.cpp/.h: Add a map for length.
 
-		*DensityOfStates.cpp/.h: Add a helper function to return the rotational type.
+		* DensityOfStates.cpp/.h: Add a helper function to return the rotational type.
 
 2019-January-16 Robin Shannon
 
