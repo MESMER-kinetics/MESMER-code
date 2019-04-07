@@ -44,18 +44,19 @@ namespace mesmer
 
   bool EckartCoefficients::calculateCellTunnelingCoeffs(Reaction* pReact, vector<double>& TunnelingProbability) {
 
+    // First determine if V0 and V1 are measured from the classical well or zero point energy.
+    PersistPtr ppEckart = pReact->get_PersistentPointer();
+    ppEckart = ppEckart->XmlMoveTo("me:tunneling");
+    bool useZPE = ppEckart->XmlReadBoolean("useZPE");
+
     double rctClassicalEnergy(pReact->get_reactant()->getDOS().getClassicalEnergy());
     if (pReact->getReactionType() == IRREVERSIBLE_EXCHANGE) {
       IrreversibleExchangeReaction* irex = static_cast<IrreversibleExchangeReaction*>(pReact);
       rctClassicalEnergy += irex->get_excessReactant()->getDOS().getClassicalEnergy();
     }
-    else if (pReact->getReactionType() == ASSOCIATION) {
+    else if (pReact->getReactionType() == ASSOCIATION || pReact->getReactionType() == PSEUDOISOMERIZATION) {
       AssociationReaction* asso = static_cast<AssociationReaction*>(pReact);
       rctClassicalEnergy += asso->get_excessReactant()->getDOS().getClassicalEnergy();
-    }
-    else if (pReact->getReactionType() == PSEUDOISOMERIZATION) {
-      AssociationReaction* pseudo = static_cast<PseudoIsomerizationReaction*>(pReact);
-      rctClassicalEnergy += pseudo->get_excessReactant()->getDOS().getClassicalEnergy();
     }
 
     pReact->setUsesProductProperties();
@@ -73,9 +74,20 @@ namespace mesmer
     if (rctClassicalEnergy > TC || pdtClassicalEnergy > TC) {
       throw std::runtime_error("Eckart tunnelling barrier is negative. Check classical energy correction.");
     }
-    //V0 & V1 are the classical barrier heights in the forward/reverse directions
-    const double V0 = TC - rctClassicalEnergy;
-    const double V1 = TC - pdtClassicalEnergy;
+
+    double V0(0.0), V1(0.0);
+    if (useZPE) {
+      //TZ is the zpe of the TS
+      double TZ = pReact->get_relative_TSZPE();
+      //barrier0 & barrier1 are the zpe corrected barrier heights in the forward/reverse directions
+      V0 = TZ - pReact->get_relative_rctZPE();
+      V1 = TZ - pReact->get_relative_pdtZPE();
+    }
+    else {
+      // V0 & V1 are the classical barrier heights in the forward/reverse directions.
+      V0 = TC - rctClassicalEnergy;
+      V1 = TC - pdtClassicalEnergy;
+    }
 
     //TZ is the zpe of the TS
     const double TZ = pReact->get_relative_TSZPE();

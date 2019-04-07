@@ -1,3 +1,8 @@
+2019-April-07 Struan Robertson
+		
+		* Eckart.cpp: Added bool flag to control barrier height definitions (i.e. classical 
+		or QM).
+
 2019-March-31 Struan Robertson
 		
 		* MesmerFlags.h/.cpp, ConditionsManager.cpp, FittingUtils.cpp, System.cpp: 
