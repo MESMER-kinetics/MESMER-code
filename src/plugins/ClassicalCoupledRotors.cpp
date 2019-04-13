@@ -210,7 +210,7 @@ namespace mesmer
     Sobol sobol;
 
     // Configuration loop.
-    long long seed(1);
+    long long seed(17);
     double twoPi = 2.0*M_PI;
     m_knmtcFctr.resize(m_MCPnts, 0.0);
     m_potential.resize(m_MCPnts, 0.0);
@@ -350,7 +350,7 @@ namespace mesmer
         ptnl += cosCoeff[k] * cos(double(k)*theta);
       }
       for (size_t k(0); k < sinCoeff.size(); ++k) {
-        ptnl += sinCoeff[k] * cos(double(k)*theta);
+        ptnl += sinCoeff[k] * sin(double(k)*theta);
       }
     }
 

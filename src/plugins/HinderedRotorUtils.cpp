@@ -182,7 +182,7 @@ namespace mesmer
 			angle[i] *= M_PI / 180.;
 		}
 
-		// Update the potential and and configuration phase difference.
+		// Update the potential and configuration phase difference.
 
 		m_phase += amin;
 

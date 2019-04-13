@@ -1,3 +1,7 @@
+2019-April-13 Struan Robertson
+		
+		* ClassicalCoupledRotors.cpp: Fix for sin potential bug in coupled rotors.
+
 2019-April-07 Struan Robertson
 		
 		* Eckart.cpp: Added bool flag to control barrier height definitions (i.e. classical 
