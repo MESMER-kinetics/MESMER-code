@@ -164,9 +164,9 @@
       </product>
 
       <me:MCRCMethod xsi:type="uFTST">
-        <me:MCPoints>100000</me:MCPoints>
-        <me:SymmetryNumber>3</me:SymmetryNumber>
-        <me:RxnCoordMin units="Ang">0.5</me:RxnCoordMin>
+        <me:MCPoints>4000</me:MCPoints>
+        <me:SymmetryNumber>6</me:SymmetryNumber>
+        <me:RxnCoordMin units="Ang">2.5</me:RxnCoordMin>
         <me:RxnCoordMax units="Ang">4.5</me:RxnCoordMax>
         <me:RxnCoordSteps>40</me:RxnCoordSteps>
         <me:MorseRxnCoordPotential>
@@ -175,12 +175,12 @@
           <me:ReciprocalBeta units="Ang">1.0</me:ReciprocalBeta>
         </me:MorseRxnCoordPotential>
         <me:ConservedModeMap alpha ="1.10">
-          <me:FrequencyMapping adduct="3293.0"  Fragments="3299.0"/>
-          <me:FrequencyMapping adduct="3293.0"  Fragments="3299.0"/>
-          <me:FrequencyMapping adduct="3293.0"  Fragments="3123.0"/>
-          <me:FrequencyMapping adduct="3103.0"  Fragments="1471.0"/>
-          <me:FrequencyMapping adduct="1595.0"  Fragments="1471.0"/>
-          <me:FrequencyMapping adduct="1595.0"  Fragments="392.0"/>
+          <me:FrequencyMapping adduct="3162.0"  Fragments="3162.0"/>
+          <me:FrequencyMapping adduct="3162.0"  Fragments="3162.0"/>
+          <me:FrequencyMapping adduct="3044.0"  Fragments="3044.0"/>
+          <me:FrequencyMapping adduct="1396.0"  Fragments="1396.0"/>
+          <me:FrequencyMapping adduct="1396.0"  Fragments="1396.0"/>
+          <me:FrequencyMapping adduct="1432.0"  Fragments=" 606."/>
         </me:ConservedModeMap>
       </me:MCRCMethod>
 
@@ -313,11 +313,11 @@
 
   <me:control>
     <me:allowSmallerDeltaEDown/>
-    <me:calcMethod xsi:type="me:marquardt">
+    <!--<me:calcMethod xsi:type="me:marquardt">
       <me:MarquardtIterations>30</me:MarquardtIterations>
       <me:MarquardtTolerance>0.01</me:MarquardtTolerance>
       <me:MarquardtDerivDelta>1.e-03</me:MarquardtDerivDelta>
-    </me:calcMethod>
+    </me:calcMethod>-->
     <me:testDOS />
     <me:eigenvalues>5</me:eigenvalues>
   </me:control>

@@ -807,6 +807,7 @@ src/plugins/LandauZenerCrossing.cpp -text
 src/plugins/Marquardt.cpp -text
 src/plugins/MesmerILT.cpp -text
 src/plugins/Morse.cpp -text
+src/plugins/PhaseIntegrals.cpp -text
 src/plugins/PhaseIntergrals.h -text
 src/plugins/Potential1D.cpp -text
 src/plugins/Potential1D.h -text

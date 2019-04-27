@@ -1,3 +1,7 @@
+2019-April-27 Struan Robertson
+
+		* uTST.cpp, PhaseIntegrals.h/.cpp: uTST method added for non-linear top and atom. 
+
 2019-April-13 Struan Robertson
 		
 		* ClassicalCoupledRotors.cpp: Fix for sin potential bug in coupled rotors.

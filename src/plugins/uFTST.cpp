@@ -212,7 +212,9 @@ namespace mesmer
     const double cellSize = pReact->getEnv().CellSize;
 
     // Allocate space to hold transition state flux and initialize elements to zero.
-    vector<double> rxnFlux(MaximumCell, 1.e10);
+    vector<double>& rxnFlux = pReact->get_CellFlux();
+    rxnFlux.clear();
+    rxnFlux.resize(MaximumCell, 0.0);
     vector<double> OptRxnCrd(MaximumCell, m_rxnCrdMin);
 
     // Determine the combination tops and therefore the number of transitional modes.
@@ -245,6 +247,7 @@ namespace mesmer
         for (size_t j(0), jj(imep); jj < wrk.size(); j++, jj++) {
           if (wrk[jj] > 0.0)
             rxnFlux[j] = wrk[jj];
+          OptRxnCrd[j] = rxnCrd;
         }
       }
       else {
@@ -261,6 +264,32 @@ namespace mesmer
       rxnCrd += drxnCrd;
     }
 
+    ctest << endl;
+    ctest << "  115 " << formatFloat(rxnFlux[154],  6, 14) << formatFloat(OptRxnCrd[154],  6, 14) << endl;
+    ctest << "  248 " << formatFloat(rxnFlux[247],  6, 14) << formatFloat(OptRxnCrd[247],  6, 14) << endl;
+    ctest << "  413 " << formatFloat(rxnFlux[412],  6, 14) << formatFloat(OptRxnCrd[412],  6, 14) << endl;
+    ctest << "  624 " << formatFloat(rxnFlux[623],  6, 14) << formatFloat(OptRxnCrd[623],  6, 14) << endl;
+    ctest << " 1040 " << formatFloat(rxnFlux[1039], 6, 14) << formatFloat(OptRxnCrd[1039], 6, 14) << endl;
+    ctest << " 1248 " << formatFloat(rxnFlux[1247], 6, 14) << formatFloat(OptRxnCrd[1247], 6, 14) << endl;
+    ctest << " 2007 " << formatFloat(rxnFlux[2006], 6, 14) << formatFloat(OptRxnCrd[2006], 6, 14) << endl;
+    ctest << " 2080 " << formatFloat(rxnFlux[2079], 6, 14) << formatFloat(OptRxnCrd[2079], 6, 14) << endl;
+    ctest << " 2600 " << formatFloat(rxnFlux[2599], 6, 14) << formatFloat(OptRxnCrd[2599], 6, 14) << endl;
+    ctest << " 3120 " << formatFloat(rxnFlux[3119], 6, 14) << formatFloat(OptRxnCrd[3119], 6, 14) << endl;
+    ctest << " 3419 " << formatFloat(rxnFlux[3418], 6, 14) << formatFloat(OptRxnCrd[3418], 6, 14) << endl;
+    ctest << " 4015 " << formatFloat(rxnFlux[4014], 6, 14) << formatFloat(OptRxnCrd[4014], 6, 14) << endl;
+    ctest << " 4445 " << formatFloat(rxnFlux[4444], 6, 14) << formatFloat(OptRxnCrd[4444], 6, 14) << endl;
+    ctest << " 5554 " << formatFloat(rxnFlux[5553], 6, 14) << formatFloat(OptRxnCrd[5553], 6, 14) << endl;
+    ctest << endl;
+
+
+    // Calculate the flux.
+    for (size_t i(0); i < MaximumCell; ++i) {
+      rxnFlux[i] *= SpeedOfLight_in_cm;
+    }
+
+    // The flux bottom energy is equal to the ZPE of the transition state
+    pReact->setCellFluxBottom(pReact->get_relative_rctZPE() + pReact->get_ThresholdEnergy());
+
     return true;
   }
 
@@ -269,12 +298,12 @@ namespace mesmer
 
     double potential(0.0);
 
-    double A3    = -1.017234e-03; // Hirst Surface parameters as fit by Hase et al.
-    double A2    = 7.7738886e-02; // A3, A2, A1, AO parameters of the variable
-    double A1    = 7.703640e-02;  // beta of the Modified Morse function.
-    double A0    = 1.686690e0;    // 
+    double A3    = -1.017234e-03;  // Hirst Surface parameters as fit by Hase et al.
+    double A2    =  7.7738886e-02; // A3, A2, A1, AO parameters of the variable
+    double A1    =  7.703640e-02;  // beta of the Modified Morse function.
+    double A0    =  1.686690e0;    // 
 
-    double delR  = rxnCrd - m_R0 ;
+    double delR  = rxnCrd - 1.0015;
     double delR2 = delR * delR ;
     double delR3 = delR * delR2;
 
@@ -292,7 +321,7 @@ namespace mesmer
     //First calculate freqencies.
     vector<double> Freq;
     for (size_t j(0); j < m_addFrq.size(); j++) {
-      double frq = m_frgFrq[j] + (m_addFrq[j] - m_frgFrq[j])*exp(-m_alpha * (rxnCrd - m_R0));
+      double frq = m_frgFrq[j] + (m_addFrq[j] - m_frgFrq[j])*exp(-m_alpha * (rxnCrd - 1.09));
       Freq.push_back(frq);
     }
 
