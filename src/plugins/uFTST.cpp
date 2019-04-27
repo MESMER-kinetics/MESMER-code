@@ -52,6 +52,8 @@ namespace mesmer
 
     virtual bool calculateMicroCnlFlux(Reaction* pReact);
 
+    virtual double get_ThresholdEnergy(Reaction* pReact);
+
   private:
 
     // This function returns the minimum energy potential for a given reaction coordinate value.
@@ -288,7 +290,7 @@ namespace mesmer
     }
 
     // The flux bottom energy is equal to the ZPE of the transition state
-    pReact->setCellFluxBottom(pReact->get_relative_rctZPE() + pReact->get_ThresholdEnergy());
+    pReact->setCellFluxBottom(pReact->get_relative_rctZPE());
 
     return true;
   }
@@ -371,6 +373,10 @@ namespace mesmer
     return true;
   }
 
+  double uFTST::get_ThresholdEnergy(Reaction* pReac) {
 
+    return (pReac->get_relative_rctZPE() - pReac->get_relative_pdtZPE());
+
+  }
 
 }//namespace

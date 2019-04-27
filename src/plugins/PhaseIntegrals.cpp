@@ -48,7 +48,7 @@ namespace mesmer
 
   };
 
-  void PhaseIntegral::convolveExcessEnergy(size_t TDOF, vector<double> &cellSOS) {
+  void PhaseIntegral::convolveExcessEnergy(size_t TDOF, vector<double> &cellSOS) const {
 
     vector<double> tmpCellSOS(cellSOS);
     vector<double> ene(cellSOS.size(), 0.0);
@@ -61,6 +61,21 @@ namespace mesmer
 
   }
 
+  void NLnrNLnrTops::integrate(double rxnCrd, vector<double> &cellSOS) {
+
+    const size_t TDOF = m_nIDOF + 3;
+  
+    // Convolve with remaining energy contributions.
+    convolveExcessEnergy(TDOF, cellSOS);
+  }
+
+  void NLnrLnrTops::integrate(double rxnCrd, vector<double> &cellSOS) {
+
+    const size_t TDOF = m_nIDOF + 3;
+
+    // Convolve with remaining energy contributions.
+    convolveExcessEnergy(TDOF, cellSOS);
+  }
 
   void NLnrAtmTops::integrate(double rxnCrd, vector<double> &cellSOS) {
 
@@ -127,44 +142,61 @@ namespace mesmer
     // The following is a specific test for the CH3 + H system taken from JPC 101, 9974 (1997).
 
     vector<double> ene(cellSOS.size(), 0.0);
-    cellSOS = ene;
+    vector<double> wrk = ene;
+    vector<double> tmpCellSOS = ene;
     getCellEnergies(MaximumCell, cellSize, ene);
     size_t jj = size_t(m_V0);
     for (size_t j(0); j < jj; ++j) {
-      cellSOS[j] = 1.0 / (2.0*sqrt(m_V0*m_V0 - m_V0 * ene[j]));
+      wrk[j] = 1.0 / (2.0*sqrt(m_V0*m_V0 - m_V0 * ene[j]));
     }
 
     // Convolve with remaining energy contributions.
-    pwr = 0.5*double(TDOF);
+    double pwr = 0.5*double(TDOF);
     cnt = 4.0*RotCnt / (15.0*m_Sym);
     for (size_t j(0); j < ene.size(); ++j) {
       ene[j] += 2.0*cnt * pow(ene[j], pwr);
     }
-    FastLaplaceConvolution(cellSOS, ene, tmpCellDOS);
+    FastLaplaceConvolution(wrk, ene, tmpCellSOS);
 
 
     ctest << endl;
-    ctest << "  115 " << formatFloat(wrk[154], 6, 14) << formatFloat(tmpCellDOS[154], 6, 14) << endl;
-    ctest << "  248 " << formatFloat(wrk[247], 6, 14) << formatFloat(tmpCellDOS[247], 6, 14) << endl;
-    ctest << "  413 " << formatFloat(wrk[412], 6, 14) << formatFloat(tmpCellDOS[412], 6, 14) << endl;
-    ctest << "  624 " << formatFloat(wrk[623], 6, 14) << formatFloat(tmpCellDOS[623], 6, 14) << endl;
-    ctest << " 1040 " << formatFloat(wrk[1039], 6, 14) << formatFloat(tmpCellDOS[1039], 6, 14) << endl;
-    ctest << " 1248 " << formatFloat(wrk[1247], 6, 14) << formatFloat(tmpCellDOS[1247], 6, 14) << endl;
-    ctest << " 2007 " << formatFloat(wrk[2006], 6, 14) << formatFloat(tmpCellDOS[2006], 6, 14) << endl;
-    ctest << " 2080 " << formatFloat(wrk[2079], 6, 14) << formatFloat(tmpCellDOS[2079], 6, 14) << endl;
-    ctest << " 2600 " << formatFloat(wrk[2599], 6, 14) << formatFloat(tmpCellDOS[2599], 6, 14) << endl;
-    ctest << " 3120 " << formatFloat(wrk[3119], 6, 14) << formatFloat(tmpCellDOS[3119], 6, 14) << endl;
-    ctest << " 3419 " << formatFloat(wrk[3418], 6, 14) << formatFloat(tmpCellDOS[3418], 6, 14) << endl;
-    ctest << " 4015 " << formatFloat(wrk[4014], 6, 14) << formatFloat(tmpCellDOS[4014], 6, 14) << endl;
-    ctest << " 4445 " << formatFloat(wrk[4444], 6, 14) << formatFloat(tmpCellDOS[4444], 6, 14) << endl;
-    ctest << " 5554 " << formatFloat(wrk[5553], 6, 14) << formatFloat(tmpCellDOS[5553], 6, 14) << endl;
+    ctest << "  115 " << formatFloat(wrk[154], 6, 14) << formatFloat(tmpCellSOS[154], 6, 14) << endl;
+    ctest << "  248 " << formatFloat(wrk[247], 6, 14) << formatFloat(tmpCellSOS[247], 6, 14) << endl;
+    ctest << "  413 " << formatFloat(wrk[412], 6, 14) << formatFloat(tmpCellSOS[412], 6, 14) << endl;
+    ctest << "  624 " << formatFloat(wrk[623], 6, 14) << formatFloat(tmpCellSOS[623], 6, 14) << endl;
+    ctest << " 1040 " << formatFloat(wrk[1039], 6, 14) << formatFloat(tmpCellSOS[1039], 6, 14) << endl;
+    ctest << " 1248 " << formatFloat(wrk[1247], 6, 14) << formatFloat(tmpCellSOS[1247], 6, 14) << endl;
+    ctest << " 2007 " << formatFloat(wrk[2006], 6, 14) << formatFloat(tmpCellSOS[2006], 6, 14) << endl;
+    ctest << " 2080 " << formatFloat(wrk[2079], 6, 14) << formatFloat(tmpCellSOS[2079], 6, 14) << endl;
+    ctest << " 2600 " << formatFloat(wrk[2599], 6, 14) << formatFloat(tmpCellSOS[2599], 6, 14) << endl;
+    ctest << " 3120 " << formatFloat(wrk[3119], 6, 14) << formatFloat(tmpCellSOS[3119], 6, 14) << endl;
+    ctest << " 3419 " << formatFloat(wrk[3418], 6, 14) << formatFloat(tmpCellSOS[3418], 6, 14) << endl;
+    ctest << " 4015 " << formatFloat(wrk[4014], 6, 14) << formatFloat(tmpCellSOS[4014], 6, 14) << endl;
+    ctest << " 4445 " << formatFloat(wrk[4444], 6, 14) << formatFloat(tmpCellSOS[4444], 6, 14) << endl;
+    ctest << " 5554 " << formatFloat(wrk[5553], 6, 14) << formatFloat(tmpCellSOS[5553], 6, 14) << endl;
     ctest << endl;
 
-    wrk = tmpCellDOS;
+    // wrk = tmpCellDOS;
 
 #endif
 
   }
 
+  void LnrLnrTops::integrate(double rxnCrd, vector<double> &cellSOS) {
+
+    const size_t TDOF = m_nIDOF + 3;
+
+    // Convolve with remaining energy contributions.
+    convolveExcessEnergy(TDOF, cellSOS);
+  }
+
+
+  void LnrAtmTops::integrate(double rxnCrd, vector<double> &cellSOS) {
+
+    const size_t TDOF = m_nIDOF + 3;
+
+    // Convolve with remaining energy contributions.
+    convolveExcessEnergy(TDOF, cellSOS);
+  }
 
 }

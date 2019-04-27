@@ -1,5 +1,9 @@
 2019-April-27 Struan Robertson
 
+		* uTST.cpp, PhaseIntegrals.h/.cpp: Potential interface class added for uFTST. 
+
+2019-April-27 Struan Robertson
+
 		* uTST.cpp, PhaseIntegrals.h/.cpp: uTST method added for non-linear top and atom. 
 
 2019-April-13 Struan Robertson

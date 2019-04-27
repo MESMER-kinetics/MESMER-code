@@ -319,7 +319,11 @@
       <me:MarquardtDerivDelta>1.e-03</me:MarquardtDerivDelta>
     </me:calcMethod>-->
     <me:testDOS />
-    <me:eigenvalues>5</me:eigenvalues>
+    <me:useTheSameCellNumberForAllConditions/>
+    <me:testRateConstants/>
+    <me:testMicroRates/>
+    <me:calculateRateCoefficientsOnly/>
+    <!--<me:eigenvalues>5</me:eigenvalues>-->
   </me:control>
 
 </me:mesmer>
