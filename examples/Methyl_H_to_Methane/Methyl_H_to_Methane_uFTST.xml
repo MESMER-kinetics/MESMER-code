@@ -169,6 +169,7 @@
         <me:RxnCoordMin units="Ang">2.5</me:RxnCoordMin>
         <me:RxnCoordMax units="Ang">4.5</me:RxnCoordMax>
         <me:RxnCoordSteps>40</me:RxnCoordSteps>
+        <me:FTSTPotential xsi:type="HirstWardlawPotential"/>
         <me:MorseRxnCoordPotential>
           <me:Threshold units ="kcal/mol">103.432</me:Threshold>
           <me:EquilibriumLength units ="Ang">1.0015</me:EquilibriumLength>

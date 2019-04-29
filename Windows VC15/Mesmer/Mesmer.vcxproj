@@ -155,6 +155,7 @@
     <ClCompile Include="..\..\src\plugins\BeyerSwinehart.cpp" />
     <ClCompile Include="..\..\src\plugins\BoltzmannDistribution.cpp" />
     <ClCompile Include="..\..\src\plugins\CanonicalRateCoefficient.cpp" />
+    <ClCompile Include="..\..\src\plugins\HirstWardlawPotential.cpp" />
     <ClCompile Include="..\..\src\plugins\PhaseIntegrals.cpp" />
     <ClCompile Include="..\..\src\plugins\uFTST.cpp" />
     <ClCompile Include="..\..\src\plugins\ClassicalCoupledRotors.cpp" />
@@ -232,6 +233,7 @@
     <ClInclude Include="..\..\src\dMatrix.h" />
     <ClInclude Include="..\..\src\EnergyTransferModel.h" />
     <ClInclude Include="..\..\src\error.h" />
+    <ClInclude Include="..\..\src\FTSTPotential.h" />
     <ClInclude Include="..\..\src\gBathProperties.h" />
     <ClInclude Include="..\..\src\gDensityOfStates.h" />
     <ClInclude Include="..\..\src\gPopulation.h" />

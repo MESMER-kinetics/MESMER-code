@@ -712,6 +712,7 @@ src/DensityOfStates.cpp -text
 src/DensityOfStates.h -text
 src/Distribution.h -text
 src/EnergyTransferModel.h -text
+src/FTSTPotential.h -text
 src/IrreversibleExchangeReaction.cpp -text
 src/IrreversibleExchangeReaction.h -text
 src/IrreversibleUnimolecularReaction.cpp -text
@@ -803,6 +804,7 @@ src/plugins/GaussianModel.cpp -text
 src/plugins/HinderedRotorCM1D.cpp -text
 src/plugins/HinderedRotorUtils.cpp -text
 src/plugins/HinderedRotorUtils.h -text
+src/plugins/HirstWardlawPotential.cpp -text
 src/plugins/LandauZenerCrossing.cpp -text
 src/plugins/Marquardt.cpp -text
 src/plugins/MesmerILT.cpp -text

@@ -1,5 +1,10 @@
 2019-April-27 Struan Robertson
 
+		* uTST.cpp, FTSTPotential.h, HirstWardlawPotential.cpp: Plugin Potential interface 
+		class and example potential (based on Hirst-Wardlaw) added for uFTST. 
+
+2019-April-27 Struan Robertson
+
 		* uTST.cpp, PhaseIntegrals.h/.cpp: Potential interface class added for uFTST. 
 
 2019-April-27 Struan Robertson

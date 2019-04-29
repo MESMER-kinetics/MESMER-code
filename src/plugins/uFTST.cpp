@@ -13,7 +13,9 @@
 #include "../MesmerMath.h"
 #include "../System.h"
 #include "../gDensityOfStates.h"
+#include "ParseForPlugin.h"
 #include "PhaseIntergrals.h"
+#include "FTSTPotential.h"
 
 using namespace std;
 using namespace Constants;
@@ -37,7 +39,8 @@ namespace mesmer
       m_addFrq(),
       m_frgFrq(),
       m_alpha(1.0),
-      m_pPhaseIntegral(NULL)
+      m_pPhaseIntegral(NULL),
+      m_pFTSTPotential(NULL)
     {
       Register();
     }
@@ -85,6 +88,7 @@ namespace mesmer
     double m_alpha;
 
     PhaseIntegral *m_pPhaseIntegral;
+    FTSTPotential *m_pFTSTPotential;
 
   };
 
@@ -202,6 +206,7 @@ namespace mesmer
       return false;
     }
 
+    m_pFTSTPotential = ParseForPlugin<FTSTPotential>(this, "me:FTSTPotential", pp);
 
     return true;
   }
@@ -243,7 +248,8 @@ namespace mesmer
       // Adjust the sum of states to account for the reaction coordinate.
 
       double cellSize = m_parent->getEnv().CellSize;
-      size_t imep = size_t((m_threshold - MinimumEnergyPotential(rxnCrd)) / cellSize);
+      size_t imep = size_t((m_threshold - m_pFTSTPotential->MEPPotential(rxnCrd)) / cellSize);
+      //size_t imep = size_t((m_threshold - MinimumEnergyPotential(rxnCrd)) / cellSize);
 
       if (i == 0) {
         for (size_t j(0), jj(imep); jj < wrk.size(); j++, jj++) {
