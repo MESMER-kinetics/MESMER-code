@@ -25,7 +25,8 @@ namespace mesmer
 
     HirstWardlawPotential(const char* id) : m_id(id), 
       m_V0(0.0),
-      m_currentRxnCrd(-1.0),
+      m_ant(0.0),
+      m_bnt(0.0),
       m_threshold(0.0) { Register(); }
 
     virtual ~HirstWardlawPotential() {}
@@ -34,11 +35,16 @@ namespace mesmer
 
     virtual HirstWardlawPotential* Clone() { return new HirstWardlawPotential(*this); }
 
-    void initialize(double rxnCrd) {
-      double ant = getConvertedEnergy("kcal/mol", 164.0);
-      double bnt = 0.43;
-      m_V0 = ant * exp(-bnt * rxnCrd*rxnCrd);
+    void Initialize() {
+      m_threshold = getConvertedEnergy("kcal/mol", 103.432);
+      m_ant = getConvertedEnergy("kcal/mol", 164.0);
+      m_bnt = 0.43;
     }
+
+    virtual void RxnCrdInitialize(double rxnCrd) {
+      m_V0 = m_ant * exp(-m_bnt * rxnCrd*rxnCrd);
+    }
+
 
     virtual double MEPPotential(double rxnCrd) {
       double potential(0.0);
@@ -61,8 +67,6 @@ namespace mesmer
     }
 
     virtual double HinderingPotential(double rxnCrd, const vector<double>& angles) {
-      if (rxnCrd != m_currentRxnCrd)
-        initialize(rxnCrd);
       double tmp = sin(angles[0]);
       return  m_V0 * tmp * tmp;
     }
@@ -72,7 +76,8 @@ namespace mesmer
     const char* m_id;
 
     double m_V0;
-    double m_currentRxnCrd;
+    double m_ant;
+    double m_bnt;
     double m_threshold;
 
   };

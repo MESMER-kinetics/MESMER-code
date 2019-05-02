@@ -1,6 +1,11 @@
+2019-May-02 Struan Robertson
+
+		* uTST.cpp, FTSTPotential.h, HirstWardlawPotential.cpp: Example potential (based on 
+		Hirst-Wardlaw) invoked from uFTST. 
+
 2019-April-27 Struan Robertson
 
-		* uTST.cpp, FTSTPotential.h, HirstWardlawPotential.cpp: Plugin Potential interface 
+		* uTST.cpp, FTSTPotential.h, HirstWardlawPotential.cpp: Plugin potential interface 
 		class and example potential (based on Hirst-Wardlaw) added for uFTST. 
 
 2019-April-27 Struan Robertson
@@ -9,7 +14,7 @@
 
 2019-April-27 Struan Robertson
 
-		* uTST.cpp, PhaseIntegrals.h/.cpp: uTST method added for non-linear top and atom. 
+		* uTST.cpp, PhaseIntegrals.h/.cpp: uFTST method added for non-linear top and atom. 
 
 2019-April-13 Struan Robertson
 		

@@ -59,9 +59,6 @@ namespace mesmer
 
   private:
 
-    // This function returns the minimum energy potential for a given reaction coordinate value.
-    double MinimumEnergyPotential(double rxnCrd) const;
-
     // Convolve the conserved modes into the sum of states.
     bool ConvolveConservedModes(double rxnCrd, vector<double> &wrk) const;
 
@@ -208,9 +205,10 @@ namespace mesmer
 
     m_pFTSTPotential = ParseForPlugin<FTSTPotential>(this, "me:FTSTPotential", pp);
 
+    m_pFTSTPotential->Initialize();
+
     return true;
   }
-
 
   bool uFTST::calculateMicroCnlFlux(Reaction* pReact)
   {
@@ -227,7 +225,7 @@ namespace mesmer
     // Determine the combination tops and therefore the number of transitional modes.
     TopCombination();
 
-    m_pPhaseIntegral->initialize(m_Frag1, m_Frag2, pReact);
+    m_pPhaseIntegral->initialize(m_Frag1, m_Frag2, m_pFTSTPotential, pReact);
 
     // Main loop over the reaction coordinate in Angrstroms.
     double rxnCrd(m_rxnCrdMin);
@@ -249,7 +247,6 @@ namespace mesmer
 
       double cellSize = m_parent->getEnv().CellSize;
       size_t imep = size_t((m_threshold - m_pFTSTPotential->MEPPotential(rxnCrd)) / cellSize);
-      //size_t imep = size_t((m_threshold - MinimumEnergyPotential(rxnCrd)) / cellSize);
 
       if (i == 0) {
         for (size_t j(0), jj(imep); jj < wrk.size(); j++, jj++) {
@@ -300,28 +297,6 @@ namespace mesmer
 
     return true;
   }
-
-  // This function returns the minimum energy potential for a given reaction coordinate value.
-  double uFTST::MinimumEnergyPotential(double rxnCrd) const {
-
-    double potential(0.0);
-
-    double A3    = -1.017234e-03;  // Hirst Surface parameters as fit by Hase et al.
-    double A2    =  7.7738886e-02; // A3, A2, A1, AO parameters of the variable
-    double A1    =  7.703640e-02;  // beta of the Modified Morse function.
-    double A0    =  1.686690e0;    // 
-
-    double delR  = rxnCrd - 1.0015;
-    double delR2 = delR * delR ;
-    double delR3 = delR * delR2;
-
-    double bb  = A3 * delR3 + A2 * delR2 + A1 * delR + A0;
-    double tmp = 1.0 - exp(-bb * delR);
-    potential  = m_threshold * tmp*tmp;
-
-    return potential;
-  }
-
 
   // Convolve the conserved modes into the sum of states.
   bool uFTST::ConvolveConservedModes(double rxnCrd, vector<double> &wrk) const {

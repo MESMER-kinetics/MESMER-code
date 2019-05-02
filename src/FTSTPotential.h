@@ -41,10 +41,18 @@ namespace mesmer
     uFTST* getParent() { return m_parent; }
     void setParent(uFTST* parent) { m_parent = parent; }
 
-    virtual void initialize(double rxnCrd) = 0;
+    // Initialize any general PES parameters.
+    virtual void Initialize() = 0;
 
+    // Set up parameters associated wth a value of the reaction coordinate.
+    // This is usually called at the beginning of a phase integral calculation.
+    virtual void RxnCrdInitialize(double rxnCrd) = 0;
+
+    // The potential energy along the reaction coordinate.
     virtual double MEPPotential(double rxnCrd) = 0;
 
+    // The hindering potential of the transitional modes perpendicular to 
+    // the reaction coordinate.
     virtual double HinderingPotential(double rxnCrd, const std::vector<double>& angles) = 0;
 
   private:

@@ -16,6 +16,7 @@
 
 namespace mesmer
 {
+  class FTSTPotential;
 
   class PhaseIntegral {
 
@@ -31,10 +32,11 @@ namespace mesmer
       m_Sym(1),
       m_top1(UNDEFINED_TOP),
       m_top2(UNDEFINED_TOP),
+      m_pFTSTPotential(NULL),
       m_mu(0.0) {}
     virtual ~PhaseIntegral() {}
 
-    virtual void initialize(Molecule* Frag1, Molecule* Frag2, Reaction* pReact);
+    virtual void initialize(Molecule* Frag1, Molecule* Frag2, FTSTPotential *pFTSTPotential, Reaction* pReact);
 
     virtual void integrate(double rxnCrd, vector<double> &wrk) = 0;
 
@@ -55,6 +57,8 @@ namespace mesmer
 
     RotationalTop m_top1;
     RotationalTop m_top2;
+
+    FTSTPotential *m_pFTSTPotential;
 
     double m_mu;
   };

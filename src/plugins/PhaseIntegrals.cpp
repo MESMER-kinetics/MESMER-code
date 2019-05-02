@@ -14,6 +14,7 @@
 #include "../gDensityOfStates.h"
 #include "../Reaction.h"
 #include "../Sobol.h"
+#include "../FTSTPotential.h"
 
 using namespace std;
 using namespace Constants;
@@ -21,11 +22,13 @@ using namespace Constants;
 namespace mesmer
 {
 
-  void PhaseIntegral::initialize(Molecule* Frag1, Molecule* Frag2, Reaction* pReact) {
+  void PhaseIntegral::initialize(Molecule* Frag1, Molecule* Frag2, FTSTPotential *pFTSTPotential, Reaction* pReact) {
     m_Frag1 = Frag1;
     m_Frag2 = Frag2;
 
-    m_MaxCell = pReact->getEnv().MaxCell;;
+    m_pFTSTPotential = pFTSTPotential;
+
+    m_MaxCell  = pReact->getEnv().MaxCell;;
     m_cellSize = pReact->getEnv().CellSize;;
 
     // Calculate the reduced mass.
@@ -79,9 +82,7 @@ namespace mesmer
 
   void NLnrAtmTops::integrate(double rxnCrd, vector<double> &cellSOS) {
 
-    double ant = getConvertedEnergy("kcal/mol", 164.0);
-    double bnt = 0.43;
-    m_V0 = ant * exp(-bnt * rxnCrd*rxnCrd);
+    m_pFTSTPotential->RxnCrdInitialize(rxnCrd);
 
     Molecule *top = (m_top1 == NONLINEAR) ? m_Frag1 : m_Frag2;
 
@@ -101,14 +102,14 @@ namespace mesmer
       // Select angular coordinates.
       vector<double> angles(m_nIDOF, 0.0);
       sobol.sobol(angles.size(), &seed, angles);
-      double gamma = M_PI * angles[0];
-      double phi = 2.0 *  M_PI * angles[1];
+      angles[0] *= M_PI ;
+      angles[1] *= 2.0 *  M_PI ;
 
       // Calculate the determinant of the Wilson G Matrix.
-      m_knmtcFctr[i] = sin(gamma);
+      m_knmtcFctr[i] = sin(angles[0]);
 
       // Calculate potential energy.
-      m_potential[i] = ptnl(rxnCrd, gamma, phi);
+      m_potential[i] = m_pFTSTPotential->HinderingPotential(rxnCrd, angles) ;
     }
 
     //// Restore rotatable bond IDs.
