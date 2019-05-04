@@ -245,10 +245,10 @@ namespace mesmer
     // Conversion, spin and symmetry number factor.
     double ndof = double(m_bondIDs.size() + 3);
     double cnt = pow(M_PI, (0.5*ndof - 1.0))*size_t(m_SpinMultiplicity) / (pow(conMntInt2RotCnt, 0.5*ndof));
-    size_t SymNo = size_t(m_Sym);
+    double SymNo(m_Sym);
     for (size_t j(0); j < m_bondIDs.size(); ++j)
-      SymNo *= m_periodicities[j];
-    cnt /= double(SymNo);
+      SymNo *= double(m_periodicities[j]);
+    cnt /= SymNo;
     cnt /= double(m_MCPnts);
     cnt /= ((m_bondIDs.size() > 1) ? MesmerGamma(0.5*double(m_bondIDs.size() + 1)) : 1.0);
     for (size_t j(0); j < cellDOS.size(); ++j) {
@@ -288,10 +288,10 @@ namespace mesmer
     // Conversion, spin and symmetry number factor.
     double ndof = double(m_bondIDs.size() + 3);
     double cnt = pow(M_PI, (0.5*ndof - 1.0))*size_t(m_SpinMultiplicity) / (pow(conMntInt2RotCnt, 0.5*ndof));
-    size_t SymNo = size_t(m_Sym);
+    double SymNo(m_Sym);
     for (size_t j(0); j < m_bondIDs.size(); ++j)
-      SymNo *= m_periodicities[j];
-    cnt /= double(SymNo);
+      SymNo *= double(m_periodicities[j]);
+    cnt /= SymNo;
     cnt /= double(m_MCPnts);
 
     // Heavyside function integration.
