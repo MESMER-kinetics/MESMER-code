@@ -106,6 +106,20 @@ namespace mesmer
     }
   }
 
+  bool Rdouble::PrintDerivedVariables(stringstream& derivedValues)
+  {
+    bool flag(false);
+    labelmap::iterator itrlabel = withLabel().begin();
+    for (; itrlabel != withLabel().end(); itrlabel++) {
+      if (itrlabel->second->link) {
+        derivedValues << itrlabel->second->varname << " (" << itrlabel->second->linkedname << ") = " << itrlabel->second->originalUnits() << endl;
+        flag = true;
+      }
+    }
+
+    return flag;
+  }
+
   // This static method updates the value of all the derivedFrom variables in an XML file
   // with their current Rdouble value.
   void Rdouble::UpdateXMLDerivedVariables()

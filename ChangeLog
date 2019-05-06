@@ -1,5 +1,10 @@
 2019-May-04 Struan Robertson
 
+		* Rdouble.h/.cpp, FittingUtils.cpp: Added methods to print derived variables to 
+		Rdouble class. 
+
+2019-May-04 Struan Robertson
+
 		* ClassicalCoupledRotors.cpp: Fix for optical isomers bug in coupled classical rotors 
 		method. 
 

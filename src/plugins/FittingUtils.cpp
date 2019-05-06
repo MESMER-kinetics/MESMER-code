@@ -165,6 +165,16 @@ namespace mesmer
 
     }
 
+    // Derived parameter values.
+
+    stringstream derivedValues;
+
+    derivedValues << endl << "Derived parameter values:" << endl << endl;
+    bool write = Rdouble::PrintDerivedVariables(derivedValues);
+
+    if (write)
+      line << string(derivedValues.str());
+
     // Goodness of fit.
 
 		if (bIndependentErrors) {

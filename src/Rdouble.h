@@ -109,6 +109,7 @@ namespace mesmer
     }
 
     static void UpdateDerivedVariables();
+    static bool PrintDerivedVariables(std::stringstream& derivedValues);
     static void UpdateXMLDerivedVariables() ;
 
     //Returns true if the value is the same as when setUnchanged was last called.
