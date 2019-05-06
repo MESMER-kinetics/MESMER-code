@@ -75,25 +75,34 @@ namespace mesmer
       throw std::runtime_error("Eckart tunnelling barrier is negative. Check classical energy correction.");
     }
 
-    double V0(0.0), V1(0.0);
-    if (useZPE) {
-      //TZ is the zpe of the TS
-      double TZ = pReact->get_relative_TSZPE();
-      //barrier0 & barrier1 are the zpe corrected barrier heights in the forward/reverse directions
-      V0 = TZ - pReact->get_relative_rctZPE();
-      V1 = TZ - pReact->get_relative_pdtZPE();
-    }
-    else {
-      // V0 & V1 are the classical barrier heights in the forward/reverse directions.
-      V0 = TC - rctClassicalEnergy;
-      V1 = TC - pdtClassicalEnergy;
-    }
-
-    //TZ is the zpe of the TS
+    // TZ is the zpe of the TS
     const double TZ = pReact->get_relative_TSZPE();
-    //barrier0 & barrier1 are the zpe corrected barrier heights in the forward/reverse directions
+    // barrier0 & barrier1 are the zpe corrected barrier heights in the forward/reverse directions.
     const int barrier0 = int(TZ - pReact->get_relative_rctZPE());
     const int barrier1 = int(TZ - pReact->get_relative_pdtZPE());
+
+    double V0(0.0), V1(0.0);
+    V0 = ppEckart->XmlReadDouble("V0", optional);
+    V1 = ppEckart->XmlReadDouble("V1", optional);
+    if (IsNan(V0) || IsNan(V1)) {
+      if (useZPE) {
+        // The zpe corrected barrier heights in the forward/reverse directions
+        V0 = TZ - pReact->get_relative_rctZPE();
+        V1 = TZ - pReact->get_relative_pdtZPE();
+      }
+      else {
+        // V0 & V1 are the classical barrier heights in the forward/reverse directions.
+        V0 = TC - rctClassicalEnergy;
+        V1 = TC - pdtClassicalEnergy;
+      }
+    }
+    else {
+      const char* p = ppEckart->XmlReadValue("units", optional);
+      string units = p ? p : "kJ/mol";
+
+      V0 = getConvertedEnergy(units, V0);
+      V1 = getConvertedEnergy(units, V1);
+    }
 
     //imFreq is the imaginary frequency of the TS
     const double imFreq = pReact->get_TSImFreq();
@@ -101,12 +110,12 @@ namespace mesmer
     //get properties of vectors in which to include transmission coefficients
     const int MaximumCell = pReact->get_reactant()->getEnv().MaxCell;
     TunnelingProbability.clear();
-    TunnelingProbability.resize(MaximumCell);
+    TunnelingProbability.resize(MaximumCell,0.0);
 
     // Set transmission coefficients to 0 where no tunneling is possible;
-    // where tunneling may occur, the transmission coefficients are calculated using
-    // a 1d eckart barrier as described by W.H. Miller, JACS, 101(23), 1979.
-    // Note: the parameters a, b, and c defined below must be unitless.
+    // where tunneling may occur, the transmission coefficients are calculated
+    // using a 1d eckart barrier as described by W.H. Miller, JACS, 101(23),
+    // 1979. Note: the parameters a, b, and c defined below must be unitless.
 
     double tmp = (4.0 * M_PI / imFreq) / (1.0 / sqrt(V0) + 1.0 / sqrt(V1));
     double c = 2.0 * M_PI * sqrt(V0 * V1 / (imFreq*imFreq) - 1.0 / 16.0);
@@ -121,7 +130,8 @@ namespace mesmer
         double b = tmp * sqrt(E + V1);
         TunnelingProbability[i] = (sinh(a) * sinh(b)) / (pow(sinh((a + b) / 2.0), 2.0) + csh2c);
         // following if statement to avoid nan at small values of E
-        if (IsNan(TunnelingProbability[i])) TunnelingProbability[i] = 0.0;
+        if (IsNan(TunnelingProbability[i])) 
+          TunnelingProbability[i] = 0.0;
       }
     }
 

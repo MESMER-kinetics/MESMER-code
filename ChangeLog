@@ -1,4 +1,8 @@
-2019-May-04 Struan Robertson
+2019-May-06 Struan Robertson
+
+		* Eckart.cpp: ALtered Eckart method to allow barriers to be read in.
+ 
+2019-May-06 Struan Robertson
 
 		* Rdouble.h/.cpp, FittingUtils.cpp: Added methods to print derived variables to 
 		Rdouble class. 
