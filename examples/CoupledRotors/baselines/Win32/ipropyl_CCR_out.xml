@@ -78,95 +78,95 @@
       </me:DOSCMethod>
       <me:DistributionCalcMethod default="true" name="Boltzmann" />
       <me:thermoTable unitsT="K" unitsH="kJ/mol" unitsS="J/mol/K" unitsG="kJ/mol" unitsCp="J/mol/K">
-        <me:thermoValue T="200.00" H="11.1071" S="257.8555" G="-40.4640" Cp="64.6548" cellS="257.8582" cellH="11.0955" cellG="-40.4761" cellCp="64.6570" />
-        <me:thermoValue T="250.00" H="14.4626" S="272.8099" G="-53.7398" Cp="69.7297" cellS="272.8129" cellH="14.4512" cellG="-53.7521" cellCp="69.7305" />
-        <me:thermoValue T="298.15" H="17.9585" S="285.5828" G="-67.1880" Cp="75.6469" cellS="285.5859" cellH="17.9471" cellG="-67.2004" cellCp="75.6468" />
-        <me:thermoValue T="300.00" H="18.0987" S="286.0515" G="-67.7167" Cp="75.8934" cellS="286.0546" cellH="18.0872" cellG="-67.7291" cellCp="75.8932" />
-        <me:thermoValue T="350.00" H="22.0667" S="298.2710" G="-82.3281" Cp="82.9346" cellS="298.2740" cellH="22.0552" cellG="-82.3407" cellCp="82.9338" />
-        <me:thermoValue T="400.00" H="26.3989" S="309.8295" G="-97.5329" Cp="90.3814" cellS="309.8324" cellH="26.3873" cellG="-97.5456" cellCp="90.3803" />
-        <me:thermoValue T="450.00" H="31.1050" S="320.9069" G="-113.3031" Cp="97.8411" cellS="320.9096" cellH="31.0934" cellG="-113.3159" cellCp="97.8397" />
-        <me:thermoValue T="500.00" H="36.1792" S="331.5925" G="-129.6171" Cp="105.0759" cellS="331.5951" cellH="36.1675" cellG="-129.6301" cellCp="105.0745" />
-        <me:thermoValue T="550.00" H="41.6069" S="341.9337" G="-146.4566" Cp="111.9728" cellS="341.9362" cellH="41.5952" cellG="-146.4697" cellCp="111.9714" />
-        <me:thermoValue T="600.00" H="47.3701" S="351.9589" G="-163.8052" Cp="118.4928" cellS="351.9613" cellH="47.3583" cellG="-163.8184" cellCp="118.4915" />
-        <me:thermoValue T="650.00" H="53.4499" S="361.6884" G="-181.6476" Cp="124.6341" cellS="361.6906" cellH="53.4380" cellG="-181.6609" cellCp="124.6329" />
-        <me:thermoValue T="700.00" H="59.8275" S="371.1384" G="-199.9694" Cp="130.4101" cellS="371.1405" cellH="59.8155" cellG="-199.9828" cellCp="130.4090" />
-        <me:thermoValue T="750.00" H="66.4851" S="380.3228" G="-218.7570" Cp="135.8383" cellS="380.3249" cellH="66.4731" cellG="-218.7705" cellCp="135.8373" />
-        <me:thermoValue T="800.00" H="73.4058" S="389.2541" G="-237.9975" Cp="140.9364" cellS="389.2561" cellH="73.3938" cellG="-238.0111" cellCp="140.9355" />
-        <me:thermoValue T="850.00" H="80.5735" S="397.9434" G="-257.6784" Cp="145.7210" cellS="397.9454" cellH="80.5614" cellG="-257.6921" cellCp="145.7202" />
-        <me:thermoValue T="900.00" H="87.9729" S="406.4010" G="-277.7879" Cp="150.2077" cellS="406.4029" cellH="87.9608" cellG="-277.8018" cellCp="150.2069" />
-        <me:thermoValue T="950.00" H="95.5895" S="414.6361" G="-298.3148" Cp="154.4112" cellS="414.6380" cellH="95.5774" cellG="-298.3287" cellCp="154.4105" />
-        <me:thermoValue T="1000.00" H="103.4096" S="422.6576" G="-319.2480" Cp="158.3461" cellS="422.6594" cellH="103.3974" cellG="-319.2620" cellCp="158.3455" />
-        <me:thermoValue T="1050.00" H="111.4199" S="430.4734" G="-340.5771" Cp="162.0268" cellS="430.4752" cellH="111.4077" cellG="-340.5912" cellCp="162.0263" />
-        <me:thermoValue T="1100.00" H="119.6082" S="438.0912" G="-362.2920" Cp="165.4675" cellS="438.0930" cellH="119.5960" cellG="-362.3062" cellCp="165.4670" />
-        <me:thermoValue T="1150.00" H="127.9629" S="445.5182" G="-384.3830" Cp="168.6823" cellS="445.5200" cellH="127.9506" cellG="-384.3973" cellCp="168.6818" />
-        <me:thermoValue T="1200.00" H="136.4729" S="452.7614" G="-406.8408" Cp="171.6850" cellS="452.7632" cellH="136.4607" cellG="-406.8552" cellCp="171.6846" />
-        <me:thermoValue T="1250.00" H="145.1281" S="459.8275" G="-429.6562" Cp="174.4892" cellS="459.8292" cellH="145.1158" cellG="-429.6707" cellCp="174.4888" />
-        <me:thermoValue T="1300.00" H="153.9188" S="466.7227" G="-452.8207" Cp="177.1079" cellS="466.7244" cellH="153.9065" cellG="-452.8352" cellCp="177.1076" />
-        <me:thermoValue T="1350.00" H="162.8360" S="473.4532" G="-476.3258" Cp="179.5538" cellS="473.4549" cellH="162.8237" cellG="-476.3404" cellCp="179.5535" />
-        <me:thermoValue T="1400.00" H="171.8715" S="480.0249" G="-500.1634" Cp="181.8387" cellS="480.0266" cellH="171.8591" cellG="-500.1781" cellCp="181.8385" />
-        <me:thermoValue T="1450.00" H="181.0174" S="486.4435" G="-524.3257" Cp="183.9741" cellS="486.4452" cellH="181.0050" cellG="-524.3405" cellCp="183.9738" />
-        <me:thermoValue T="1500.00" H="190.2666" S="492.7145" G="-548.8052" Cp="185.9706" cellS="492.7162" cellH="190.2542" cellG="-548.8201" cellCp="185.9700" />
+        <me:thermoValue T="200.00" H="11.1046" S="257.8569" G="-40.4668" Cp="64.6418" cellS="257.8596" cellH="11.0930" cellG="-40.4789" cellCp="64.6439" />
+        <me:thermoValue T="250.00" H="14.4596" S="272.8091" G="-53.7426" Cp="69.7227" cellS="272.8122" cellH="14.4482" cellG="-53.7549" cellCp="69.7236" />
+        <me:thermoValue T="298.15" H="17.9553" S="285.5812" G="-67.1907" Cp="75.6439" cellS="285.5843" cellH="17.9439" cellG="-67.2031" cellCp="75.6438" />
+        <me:thermoValue T="300.00" H="18.0955" S="286.0499" G="-67.7195" Cp="75.8905" cellS="286.0530" cellH="18.0840" cellG="-67.7319" cellCp="75.8903" />
+        <me:thermoValue T="350.00" H="22.0634" S="298.2691" G="-82.3308" Cp="82.9341" cellS="298.2721" cellH="22.0519" cellG="-82.3433" cellCp="82.9332" />
+        <me:thermoValue T="400.00" H="26.3956" S="309.8276" G="-97.5355" Cp="90.3822" cellS="309.8305" cellH="26.3840" cellG="-97.5482" cellCp="90.3810" />
+        <me:thermoValue T="450.00" H="31.1017" S="320.9051" G="-113.3056" Cp="97.8424" cellS="320.9078" cellH="31.0901" cellG="-113.3184" cellCp="97.8410" />
+        <me:thermoValue T="500.00" H="36.1760" S="331.5909" G="-129.6195" Cp="105.0776" cellS="331.5935" cellH="36.1643" cellG="-129.6324" cellCp="105.0762" />
+        <me:thermoValue T="550.00" H="41.6038" S="341.9323" G="-146.4589" Cp="111.9745" cellS="341.9347" cellH="41.5921" cellG="-146.4720" cellCp="111.9731" />
+        <me:thermoValue T="600.00" H="47.3671" S="351.9576" G="-163.8075" Cp="118.4945" cellS="351.9600" cellH="47.3553" cellG="-163.8207" cellCp="118.4932" />
+        <me:thermoValue T="650.00" H="53.4469" S="361.6872" G="-181.6498" Cp="124.6358" cellS="361.6895" cellH="53.4351" cellG="-181.6631" cellCp="124.6346" />
+        <me:thermoValue T="700.00" H="59.8246" S="371.1373" G="-199.9715" Cp="130.4117" cellS="371.1395" cellH="59.8127" cellG="-199.9849" cellCp="130.4106" />
+        <me:thermoValue T="750.00" H="66.4823" S="380.3219" G="-218.7591" Cp="135.8398" cellS="380.3239" cellH="66.4703" cellG="-218.7726" cellCp="135.8388" />
+        <me:thermoValue T="800.00" H="73.4031" S="389.2532" G="-237.9995" Cp="140.9378" cellS="389.2552" cellH="73.3911" cellG="-238.0131" cellCp="140.9369" />
+        <me:thermoValue T="850.00" H="80.5709" S="397.9426" G="-257.6804" Cp="145.7223" cellS="397.9446" cellH="80.5588" cellG="-257.6941" cellCp="145.7215" />
+        <me:thermoValue T="900.00" H="87.9704" S="406.4003" G="-277.7899" Cp="150.2088" cellS="406.4022" cellH="87.9582" cellG="-277.8037" cellCp="150.2081" />
+        <me:thermoValue T="950.00" H="95.5870" S="414.6355" G="-298.3167" Cp="154.4123" cellS="414.6374" cellH="95.5749" cellG="-298.3306" cellCp="154.4116" />
+        <me:thermoValue T="1000.00" H="103.4071" S="422.6570" G="-319.2499" Cp="158.3471" cellS="422.6588" cellH="103.3949" cellG="-319.2639" cellCp="158.3465" />
+        <me:thermoValue T="1050.00" H="111.4175" S="430.4728" G="-340.5790" Cp="162.0277" cellS="430.4746" cellH="111.4053" cellG="-340.5931" cellCp="162.0272" />
+        <me:thermoValue T="1100.00" H="119.6059" S="438.0907" G="-362.2939" Cp="165.4684" cellS="438.0925" cellH="119.5937" cellG="-362.3081" cellCp="165.4679" />
+        <me:thermoValue T="1150.00" H="127.9606" S="445.5178" G="-384.3848" Cp="168.6831" cellS="445.5195" cellH="127.9483" cellG="-384.3991" cellCp="168.6826" />
+        <me:thermoValue T="1200.00" H="136.4707" S="452.7610" G="-406.8426" Cp="171.6857" cellS="452.7628" cellH="136.4584" cellG="-406.8569" cellCp="171.6854" />
+        <me:thermoValue T="1250.00" H="145.1258" S="459.8271" G="-429.6580" Cp="174.4899" cellS="459.8288" cellH="145.1136" cellG="-429.6725" cellCp="174.4895" />
+        <me:thermoValue T="1300.00" H="153.9166" S="466.7223" G="-452.8224" Cp="177.1086" cellS="466.7240" cellH="153.9042" cellG="-452.8370" cellCp="177.1083" />
+        <me:thermoValue T="1350.00" H="162.8338" S="473.4528" G="-476.3275" Cp="179.5544" cellS="473.4545" cellH="162.8215" cellG="-476.3421" cellCp="179.5541" />
+        <me:thermoValue T="1400.00" H="171.8693" S="480.0246" G="-500.1651" Cp="181.8393" cellS="480.0263" cellH="171.8570" cellG="-500.1798" cellCp="181.8390" />
+        <me:thermoValue T="1450.00" H="181.0153" S="486.4432" G="-524.3274" Cp="183.9747" cellS="486.4449" cellH="181.0029" cellG="-524.3422" cellCp="183.9743" />
+        <me:thermoValue T="1500.00" H="190.2645" S="492.7143" G="-548.8069" Cp="185.9711" cellS="492.7159" cellH="190.2521" cellG="-548.8218" cellCp="185.9706" />
       </me:thermoTable>
-      <me:densityOfStatesList calculated="20180318_195838">
+      <me:densityOfStatesList calculated="20190506_221059">
         <me:description>Rovibronic partition function calculation at various temperatures. qtot : product of QM partition functions for vibrations (1-D harmonic oscillator) and classical partition functions for rotations.  sumc : cell based partition function. sumg : grain based partition function </me:description>
         <me:densityOfStates>
           <me:T>200</me:T>
-          <me:qtot>8933.93</me:qtot>
-          <me:sumc>8999.13</me:sumc>
+          <me:qtot>8948.95</me:qtot>
+          <me:sumc>9014.22</me:sumc>
           <me:sumg>0</me:sumg>
         </me:densityOfStates>
         <me:densityOfStates>
           <me:T>300</me:T>
-          <me:qtot>54101.4</me:qtot>
-          <me:sumc>54370.9</me:sumc>
+          <me:qtot>54160.9</me:qtot>
+          <me:sumc>54430.4</me:sumc>
           <me:sumg>0</me:sumg>
         </me:densityOfStates>
         <me:densityOfStates>
           <me:T>400</me:T>
-          <me:qtot>232704</me:qtot>
-          <me:sumc>233594</me:sumc>
+          <me:qtot>232883</me:qtot>
+          <me:sumc>233772</me:sumc>
           <me:sumg>0</me:sumg>
         </me:densityOfStates>
         <me:densityOfStates>
           <me:T>500</me:T>
-          <me:qtot>849230</me:qtot>
-          <me:sumc>851882</me:sumc>
+          <me:qtot>849715</me:qtot>
+          <me:sumc>852368</me:sumc>
           <me:sumg>0</me:sumg>
         </me:densityOfStates>
         <me:densityOfStates>
           <me:T>600</me:T>
-          <me:qtot>2.82204e+06</me:qtot>
-          <me:sumc>2.82952e+06</me:sumc>
+          <me:qtot>2.8233e+06</me:qtot>
+          <me:sumc>2.83078e+06</me:sumc>
           <me:sumg>0</me:sumg>
         </me:densityOfStates>
         <me:densityOfStates>
           <me:T>700</me:T>
-          <me:qtot>8.8018e+06</me:qtot>
-          <me:sumc>8.82213e+06</me:sumc>
+          <me:qtot>8.805e+06</me:qtot>
+          <me:sumc>8.82533e+06</me:sumc>
           <me:sumg>0</me:sumg>
         </me:densityOfStates>
         <me:densityOfStates>
           <me:T>800</me:T>
-          <me:qtot>2.61408e+07</me:qtot>
-          <me:sumc>2.61945e+07</me:sumc>
+          <me:qtot>2.61488e+07</me:qtot>
+          <me:sumc>2.62024e+07</me:sumc>
           <me:sumg>0</me:sumg>
         </me:densityOfStates>
         <me:densityOfStates>
           <me:T>900</me:T>
-          <me:qtot>7.45039e+07</me:qtot>
-          <me:sumc>7.46418e+07</me:sumc>
+          <me:qtot>7.45233e+07</me:qtot>
+          <me:sumc>7.46611e+07</me:sumc>
           <me:sumg>0</me:sumg>
         </me:densityOfStates>
         <me:densityOfStates>
           <me:T>1000</me:T>
-          <me:qtot>2.04732e+08</me:qtot>
-          <me:sumc>2.05078e+08</me:sumc>
+          <me:qtot>2.04778e+08</me:qtot>
+          <me:sumc>2.05124e+08</me:sumc>
           <me:sumg>0</me:sumg>
         </me:densityOfStates>
         <me:densityOfStates>
           <me:T>1100</me:T>
-          <me:qtot>5.4413e+08</me:qtot>
-          <me:sumc>5.44975e+08</me:sumc>
+          <me:qtot>5.44238e+08</me:qtot>
+          <me:sumc>5.45084e+08</me:sumc>
           <me:sumg>0</me:sumg>
         </me:densityOfStates>
       </me:densityOfStatesList>
@@ -227,34 +227,34 @@
         </me:RotorArray>
       </me:DOSCMethod>
       <me:thermoTable unitsT="K" unitsH="kJ/mol" unitsS="J/mol/K" unitsG="kJ/mol" unitsCp="J/mol/K">
-        <me:thermoValue T="200.00" H="8.7994" S="239.6157" G="-39.1237" Cp="50.9465" cellS="239.6165" cellH="8.7874" cellG="-39.1359" cellCp="50.9452" />
-        <me:thermoValue T="250.00" H="11.5119" S="251.6928" G="-51.4113" Cp="57.8078" cellS="251.6931" cellH="11.4998" cellG="-51.4235" cellCp="57.8046" />
-        <me:thermoValue T="298.15" H="14.4784" S="262.5245" G="-63.7933" Cp="65.5392" cellS="262.5240" cellH="14.4661" cellG="-63.8055" cellCp="65.5337" />
-        <me:thermoValue T="300.00" H="14.6000" S="262.9309" G="-64.2793" Cp="65.8491" cellS="262.9304" cellH="14.5876" cellG="-64.2915" cellCp="65.8435" />
-        <me:thermoValue T="350.00" H="18.1043" S="273.7181" G="-77.6970" Cp="74.3473" cellS="273.7166" cellH="18.0916" cellG="-77.7092" cellCp="74.3397" />
-        <me:thermoValue T="400.00" H="22.0326" S="284.1966" G="-91.6460" Cp="82.7290" cellS="284.1939" cellH="22.0195" cellG="-91.6581" cellCp="82.7201" />
-        <me:thermoValue T="450.00" H="26.3697" S="294.4041" G="-106.1121" Cp="90.6632" cellS="294.4003" cellH="26.3561" cellG="-106.1241" cellCp="90.6535" />
-        <me:thermoValue T="500.00" H="31.0892" S="304.3422" G="-121.0819" Cp="98.0153" cellS="304.3374" cellH="31.0751" cellG="-121.0936" cellCp="98.0053" />
-        <me:thermoValue T="550.00" H="36.1612" S="314.0055" G="-136.5418" Cp="104.7696" cellS="313.9997" cellH="36.1466" cellG="-136.5532" cellCp="104.7596" />
-        <me:thermoValue T="600.00" H="41.5568" S="323.3911" G="-152.4779" Cp="110.9671" cellS="323.3845" cellH="41.5417" cellG="-152.4890" cellCp="110.9573" />
-        <me:thermoValue T="650.00" H="47.2496" S="332.5014" G="-168.8763" Cp="116.6667" cellS="332.4941" cellH="47.2341" cellG="-168.8871" cellCp="116.6572" />
-        <me:thermoValue T="700.00" H="53.2162" S="341.3424" G="-185.7235" Cp="121.9269" cellS="341.3344" cellH="53.2002" cellG="-185.7339" cellCp="121.9179" />
-        <me:thermoValue T="750.00" H="59.4358" S="349.9227" G="-203.0062" Cp="126.7985" cellS="349.9141" cellH="59.4194" cellG="-203.0162" cellCp="126.7899" />
-        <me:thermoValue T="800.00" H="65.8902" S="358.2523" G="-220.7116" Cp="131.3225" cellS="358.2431" cellH="65.8734" cellG="-220.7211" cellCp="131.3144" />
-        <me:thermoValue T="850.00" H="72.5629" S="366.3415" G="-238.8274" Cp="135.5323" cellS="366.3318" cellH="72.5456" cellG="-238.8365" cellCp="135.5247" />
-        <me:thermoValue T="900.00" H="79.4387" S="374.2007" G="-257.3419" Cp="139.4549" cellS="374.1906" cellH="79.4210" cellG="-257.3505" cellCp="139.4478" />
-        <me:thermoValue T="950.00" H="86.5039" S="381.8398" G="-276.2438" Cp="143.1127" cellS="381.8293" cellH="86.4859" cellG="-276.2519" cellCp="143.1060" />
-        <me:thermoValue T="1000.00" H="93.7459" S="389.2683" G="-295.5224" Cp="146.5250" cellS="389.2574" cellH="93.7275" cellG="-295.5299" cellCp="146.5187" />
-        <me:thermoValue T="1050.00" H="101.1526" S="396.4952" G="-315.1673" Cp="149.7089" cellS="396.4841" cellH="101.1340" cellG="-315.1743" cellCp="149.7029" />
-        <me:thermoValue T="1100.00" H="108.7132" S="403.5290" G="-335.1687" Cp="152.6800" cellS="403.5176" cellH="108.6943" cellG="-335.1751" cellCp="152.6744" />
-        <me:thermoValue T="1150.00" H="116.4173" S="410.3778" G="-355.5171" Cp="155.4527" cellS="410.3661" cellH="116.3981" cellG="-355.5229" cellCp="155.4474" />
-        <me:thermoValue T="1200.00" H="124.2554" S="417.0491" G="-376.2035" Cp="158.0405" cellS="417.0372" cellH="124.2360" cellG="-376.2087" cellCp="158.0355" />
-        <me:thermoValue T="1250.00" H="132.2185" S="423.5502" G="-397.2192" Cp="160.4561" cellS="423.5381" cellH="132.1988" cellG="-397.2238" cellCp="160.4514" />
-        <me:thermoValue T="1300.00" H="140.2983" S="429.8878" G="-418.5558" Cp="162.7114" cellS="429.8756" cellH="140.2784" cellG="-418.5598" cellCp="162.7069" />
-        <me:thermoValue T="1350.00" H="148.4872" S="436.0685" G="-440.2053" Cp="164.8176" cellS="436.0561" cellH="148.4670" cellG="-440.2088" cellCp="164.8134" />
-        <me:thermoValue T="1400.00" H="156.7778" S="442.0985" G="-462.1601" Cp="166.7854" cellS="442.0860" cellH="156.7575" cellG="-462.1629" cellCp="166.7814" />
-        <me:thermoValue T="1450.00" H="165.1636" S="447.9837" G="-484.4128" Cp="168.6246" cellS="447.9710" cellH="165.1430" cellG="-484.4149" cellCp="168.6209" />
-        <me:thermoValue T="1500.00" H="173.6383" S="453.7296" G="-506.9562" Cp="170.3446" cellS="453.7168" cellH="173.6176" cellG="-506.9577" cellCp="170.3410" />
+        <me:thermoValue T="200.00" H="8.7948" S="239.6378" G="-39.1327" Cp="50.9227" cellS="239.6386" cellH="8.7828" cellG="-39.1449" cellCp="50.9213" />
+        <me:thermoValue T="250.00" H="11.5062" S="251.7097" G="-51.4213" Cp="57.7854" cellS="251.7100" cellH="11.4940" cellG="-51.4335" cellCp="57.7822" />
+        <me:thermoValue T="298.15" H="14.4716" S="262.5375" G="-63.8039" Cp="65.5170" cellS="262.5370" cellH="14.4593" cellG="-63.8162" cellCp="65.5115" />
+        <me:thermoValue T="300.00" H="14.5931" S="262.9437" G="-64.2900" Cp="65.8270" cellS="262.9432" cellH="14.5807" cellG="-64.3022" cellCp="65.8214" />
+        <me:thermoValue T="350.00" H="18.0964" S="273.7276" G="-77.7083" Cp="74.3260" cellS="273.7261" cellH="18.0837" cellG="-77.7204" cellCp="74.3184" />
+        <me:thermoValue T="400.00" H="22.0236" S="284.2033" G="-91.6577" Cp="82.7094" cellS="284.2007" cellH="22.0105" cellG="-91.6697" cellCp="82.7005" />
+        <me:thermoValue T="450.00" H="26.3598" S="294.4086" G="-106.1241" Cp="90.6459" cellS="294.4049" cellH="26.3462" cellG="-106.1360" cellCp="90.6362" />
+        <me:thermoValue T="500.00" H="31.0785" S="304.3451" G="-121.0941" Cp="98.0006" cellS="304.3403" cellH="31.0644" cellG="-121.1058" cellCp="97.9905" />
+        <me:thermoValue T="550.00" H="36.1498" S="314.0070" G="-136.5540" Cp="104.7575" cellS="314.0013" cellH="36.1353" cellG="-136.5654" cellCp="104.7474" />
+        <me:thermoValue T="600.00" H="41.5449" S="323.3918" G="-152.4902" Cp="110.9572" cellS="323.3852" cellH="41.5298" cellG="-152.5013" cellCp="110.9474" />
+        <me:thermoValue T="650.00" H="47.2373" S="332.5014" G="-168.8886" Cp="116.6589" cellS="332.4940" cellH="47.2217" cellG="-168.8994" cellCp="116.6494" />
+        <me:thermoValue T="700.00" H="53.2035" S="341.3418" G="-185.7358" Cp="121.9209" cellS="341.3338" cellH="53.1875" cellG="-185.7462" cellCp="121.9119" />
+        <me:thermoValue T="750.00" H="59.4229" S="349.9218" G="-203.0185" Cp="126.7939" cellS="349.9131" cellH="59.4064" cellG="-203.0284" cellCp="126.7853" />
+        <me:thermoValue T="800.00" H="65.8771" S="358.2511" G="-220.7238" Cp="131.3192" cellS="358.2419" cellH="65.8602" cellG="-220.7333" cellCp="131.3111" />
+        <me:thermoValue T="850.00" H="72.5496" S="366.3401" G="-238.8396" Cp="135.5300" cellS="366.3305" cellH="72.5323" cellG="-238.8486" cellCp="135.5224" />
+        <me:thermoValue T="900.00" H="79.4253" S="374.1992" G="-257.3540" Cp="139.4534" cellS="374.1891" cellH="79.4077" cellG="-257.3625" cellCp="139.4462" />
+        <me:thermoValue T="950.00" H="86.4905" S="381.8382" G="-276.2558" Cp="143.1118" cellS="381.8277" cellH="86.4725" cellG="-276.2638" cellCp="143.1051" />
+        <me:thermoValue T="1000.00" H="93.7324" S="389.2667" G="-295.5343" Cp="146.5246" cellS="389.2559" cellH="93.7141" cellG="-295.5418" cellCp="146.5183" />
+        <me:thermoValue T="1050.00" H="101.1391" S="396.4936" G="-315.1791" Cp="149.7090" cellS="396.4825" cellH="101.1205" cellG="-315.1861" cellCp="149.7030" />
+        <me:thermoValue T="1100.00" H="108.6997" S="403.5274" G="-335.1804" Cp="152.6804" cellS="403.5160" cellH="108.6808" cellG="-335.1868" cellCp="152.6748" />
+        <me:thermoValue T="1150.00" H="116.4039" S="410.3762" G="-355.5288" Cp="155.4534" cellS="410.3646" cellH="116.3847" cellG="-355.5346" cellCp="155.4481" />
+        <me:thermoValue T="1200.00" H="124.2420" S="417.0476" G="-376.2151" Cp="158.0414" cellS="417.0357" cellH="124.2225" cellG="-376.2203" cellCp="158.0364" />
+        <me:thermoValue T="1250.00" H="132.2051" S="423.5487" G="-397.2307" Cp="160.4571" cellS="423.5366" cellH="132.1855" cellG="-397.2353" cellCp="160.4524" />
+        <me:thermoValue T="1300.00" H="140.2850" S="429.8864" G="-418.5672" Cp="162.7125" cellS="429.8741" cellH="140.2651" cellG="-418.5713" cellCp="162.7081" />
+        <me:thermoValue T="1350.00" H="148.4739" S="436.0671" G="-440.2167" Cp="164.8188" cellS="436.0547" cellH="148.4538" cellG="-440.2201" cellCp="164.8146" />
+        <me:thermoValue T="1400.00" H="156.7646" S="442.0972" G="-462.1714" Cp="166.7867" cellS="442.0846" cellH="156.7443" cellG="-462.1742" cellCp="166.7827" />
+        <me:thermoValue T="1450.00" H="165.1504" S="447.9824" G="-484.4240" Cp="168.6260" cellS="447.9697" cellH="165.1299" cellG="-484.4262" cellCp="168.6222" />
+        <me:thermoValue T="1500.00" H="173.6252" S="453.7284" G="-506.9674" Cp="170.3460" cellS="453.7156" cellH="173.6045" cellG="-506.9689" cellCp="170.3424" />
       </me:thermoTable>
     </molecule>
     <molecule id="H" spinMultiplicity="1" default="true">
@@ -618,12 +618,13 @@
     </me:calcMethod>
     <me:testDOS />
     <me:eigenvalues>1</me:eigenvalues>
+    <me:ForceMacroDetailedBalance default="true">true</me:ForceMacroDetailedBalance>
   </me:control>
   <metadataList xmlns:dc="http://purl.org/dc/elements/1.1/">
     <dc:title>isopropyl decomposition</dc:title>
     <dc:source>ipropyl_CCR.xml</dc:source>
-    <dc:creator>Mesmer v5.1</dc:creator>
-    <dc:date>20180318_195837</dc:date>
+    <dc:creator>Mesmer v5.2</dc:creator>
+    <dc:date>20190506_221058</dc:date>
     <dc:contributor>strua</dc:contributor>
   </metadataList>
 </me:mesmer>
