@@ -34,10 +34,9 @@ namespace mesmer
 
     for (size_t iVar(0); iVar < loc.size(); iVar++) {
       *Rdouble::withRange()[iVar] = loc[iVar];
-      Rdouble::UpdateDerivedVariables();
       //	  Rdouble::withRange()[iVar]->XmlWriteValue();  CM leave writing XML to the end of calculation
     }
-
+    Rdouble::UpdateDerivedVariables();
   }
 
   //
@@ -56,6 +55,9 @@ namespace mesmer
       check = ((var > lower) && (var < upper));
 
     }
+
+    if (!check)
+      cinfo << "Failed bounds check." << endl ;
 
     return check;
 

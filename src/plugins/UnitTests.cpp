@@ -776,7 +776,7 @@ namespace mesmer
 
     pMol->getDOS().getCellDensityOfStates(cellDOS, false);
 
-    calcGrainAverages(env.MaxGrn, env.cellPerGrain(), 0, cellDOS, cellEne, grainDOS, grainEne);
+    calcGrainAverages(env.MaxGrn, env.cellPerGrain(), 0, cellDOS, cellEne, grainDOS, grainEne, pMol->getName());
 
     // Calculate cell and grain sums of states.
 

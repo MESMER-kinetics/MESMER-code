@@ -50,7 +50,7 @@ namespace mesmer
   //
   // Calculate the average grain energy and then number of states per grain.
   //
-  void calcGrainAverages(const size_t &MaximumGrain, const size_t &cellPerGrain, const size_t &cellOffset, const vector<double>& CellDOS, const vector<double>& CellEne, vector<double>& grainDOS, vector<double>& grainEne)
+  void calcGrainAverages(const size_t &MaximumGrain, const size_t &cellPerGrain, const size_t &cellOffset, const vector<double>& CellDOS, const vector<double>& CellEne, vector<double>& grainDOS, vector<double>& grainEne, string name)
   {
     grainEne.clear() ;
     grainDOS.clear() ;
@@ -95,7 +95,7 @@ namespace mesmer
     // Issue warning if number of grains produced is less that requested.
 
     if ( idx2 != MaximumGrain ) {
-      cinfo << "Number of grains produced is not equal to that requested" << once << endl
+      cinfo << "Number of grains produced is not equal to that requested for: " << name  << once << endl
         << "Number of grains requested: " << MaximumGrain << once << endl
         << "Number of grains produced : " << idx2 << once << endl;
     }

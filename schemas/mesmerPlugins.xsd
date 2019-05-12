@@ -351,6 +351,7 @@
               <xs:attribute name="format" type="hinderedRotorFormatType" use="required" />
               <xs:attribute name="units" type="xs:string" use="required" />
               <xs:attribute name="expansionSize" type="xs:unsignedInt" use="optional" />
+                <xs:attribute name="UseSineTerms" type="me:ynboolean" use="optional" />
             </xs:complexType>
           </xs:element>
           <xs:element name="periodicity" type="xs:unsignedInt" minOccurs="0"/>

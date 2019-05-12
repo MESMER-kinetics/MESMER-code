@@ -62,9 +62,6 @@ namespace mesmer
 
   private:
 
-    // Shift potential to origin.
-    void ShiftPotential();
-
     // Provide data for plotting states against potential.
     void outputPlotData() const;
 

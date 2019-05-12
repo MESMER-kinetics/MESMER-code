@@ -1,6 +1,23 @@
 2019-May-06 Struan Robertson
 
-		* Eckart.cpp: ALtered Eckart method to allow barriers to be read in.
+		* MesmerTools.h/.cpp, AssociationReaction.cpp, DensityOfStates.cpp, UnitTest.cpp: Better
+		warning message when grain average does not return the number of grains requested.
+
+		* memserPlugins.xsd: Schema update.
+
+		* FittingUtils.cpp: Adding warning message when bounds check fails
+
+		* main.cpp: Version update.
+
+		* HinderedRotorQM1D.cpp: Minor tidy of commented out code.
+
+		* Documentation: version update.
+
+		* Makefile: Updated to include uTST.
+ 
+2019-May-06 Struan Robertson
+
+		* Eckart.cpp: Altered Eckart method to allow barriers to be read in.
  
 2019-May-06 Struan Robertson
 

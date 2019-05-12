@@ -204,6 +204,7 @@ SRCS := \
 	plugins/HinderedRotorUtils.cpp \
 	plugins/HinderedRotorQM1D.cpp \
 	plugins/HinderedRotorCM1D.cpp \
+	plugins/HirstWardlawPotential.cpp \
 	plugins/LandauZenerCrossing.cpp \
 	plugins/Marquardt.cpp \
 	plugins/MesmerILT.cpp \
@@ -219,6 +220,7 @@ SRCS := \
 	plugins/ThermodynamicTable.cpp \
 	plugins/ThermodynamicUtils.cpp \
 	plugins/UnitTests.cpp \
+	plugins/uFTST.cpp \
 	plugins/WKBCrossing.cpp \
 	plugins/WKBTunnellingCoefficients.cpp \
 	plugins/ZhuNakamuraCrossing.cpp \

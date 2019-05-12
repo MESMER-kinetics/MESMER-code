@@ -25,7 +25,7 @@ namespace mesmer
 
   // Calculate the average grain energy and then number of states per grain.
   void calcGrainAverages(const size_t &MaximumGrain, const size_t &cellPerGrain, const size_t &cellOffset, const std::vector<double>& shiftedCellDOS,
-    const std::vector<double>& shiftedCellEne, vector<double>& grainDOS, vector<double>& grainEne) ;
+    const std::vector<double>& shiftedCellEne, vector<double>& grainDOS, vector<double>& grainEne, std::string name = "Unknown") ;
 
   template<class T>
   void quickSort(vector<T> &v, vector<size_t> &index, size_t lo0, size_t hi0)

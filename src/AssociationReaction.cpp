@@ -400,7 +400,7 @@ namespace mesmer
 	  getFlags().cyclePrintCellDOS = false;
 	}
 
-	calcGrainAverages(getEnv().MaxGrn, getEnv().cellPerGrain(), cellOffset, rctsCellDOS, rctsCellEne, grainDOS, grainEne) ;
+	calcGrainAverages(getEnv().MaxGrn, getEnv().cellPerGrain(), cellOffset, rctsCellDOS, rctsCellEne, grainDOS, grainEne, m_rct1->getName()) ;
 
 	if (getFlags().cyclePrintGrainDOS){
 	  stest << endl << "Grain rovibronic density of states of " << catName << endl << "{" << endl;
