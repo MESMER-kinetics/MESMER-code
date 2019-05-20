@@ -209,6 +209,7 @@ SRCS := \
 	plugins/Marquardt.cpp \
 	plugins/MesmerILT.cpp \
 	plugins/Morse.cpp \
+	plugins/PhaseIntegrals.cpp \
 	plugins/PriorDistribution.cpp \
 	plugins/Potential1D.cpp \
 	plugins/QMRotor.cpp \

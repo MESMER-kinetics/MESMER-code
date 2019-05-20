@@ -10,7 +10,7 @@
 //
 //-------------------------------------------------------------------------------------------
 
-#include "PhaseIntergrals.h"
+#include "PhaseIntegrals.h"
 #include "../gDensityOfStates.h"
 #include "../Reaction.h"
 #include "../Sobol.h"

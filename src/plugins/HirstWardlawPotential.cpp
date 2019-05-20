@@ -11,7 +11,7 @@
 #include "../FTSTPotential.h"
 #include "../MesmerMath.h"
 #include "../Constants.h"
-#include "unitsConversion.h"
+#include "../unitsConversion.h"
 
 using namespace std;
 using namespace Constants;

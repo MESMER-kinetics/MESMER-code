@@ -13,9 +13,9 @@
 #include "../MesmerMath.h"
 #include "../System.h"
 #include "../gDensityOfStates.h"
-#include "ParseForPlugin.h"
-#include "PhaseIntergrals.h"
-#include "FTSTPotential.h"
+#include "../ParseForPlugin.h"
+#include "PhaseIntegrals.h"
+#include "../FTSTPotential.h"
 
 using namespace std;
 using namespace Constants;
@@ -214,7 +214,6 @@ namespace mesmer
   {
     // get MaxCell from MesmerEnv structure via Reaction class
     const size_t MaximumCell = pReact->getEnv().MaxCell;
-    const double cellSize = pReact->getEnv().CellSize;
 
     // Allocate space to hold transition state flux and initialize elements to zero.
     vector<double>& rxnFlux = pReact->get_CellFlux();
