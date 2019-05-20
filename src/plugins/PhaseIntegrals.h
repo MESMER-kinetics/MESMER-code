@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------------------
-// PhaseIntergrals.h
+// PhaseIntegrals.h
 //
 // Author: Struan Robertson
 // Date:   Feb/2019
@@ -8,11 +8,11 @@
 // microcanonical (NOT J resolved) flexible transition state theory.
 //-------------------------------------------------------------------------------------------
 
-#ifndef GUARD_PhaseIntergrals_h
-#define GUARD_PhaseIntergrals_h
+#ifndef GUARD_PhaseIntegrals_h
+#define GUARD_PhaseIntegrals_h
 
 #include "../Molecule.h"
-#include "gStructure.h"
+#include "../gStructure.h"
 
 namespace mesmer
 {
@@ -153,4 +153,4 @@ namespace mesmer
 
 }//namespace
 
-#endif // GUARD_PhaseIntergrals_h
+#endif // GUARD_PhaseIntegrals_h
