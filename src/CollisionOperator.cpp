@@ -354,7 +354,7 @@ namespace mesmer
       species.push_back(pseudoIsomeritr->first);
     }
 
-    mEnv.MaxCell = int(mEnv.EMax - mEnv.EMin);
+    mEnv.MaxCell = max(mEnv.MaxCell, size_t(mEnv.EMax - mEnv.EMin));
     const double populationThreshold(mFlags.popThreshold);
     double HighCell(0.0);
     for (size_t i(0); i < species.size(); ++i) {

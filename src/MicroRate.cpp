@@ -45,6 +45,10 @@ namespace mesmer
     double Temp ;
     double TMax ;
     getTestInterval(Temp, TMax, dTemp);
+
+    // Update the Max temperature if required.
+    env.MaximumTemperature = max(TMax, env.MaximumTemperature);
+
     vector<double> Coeffs;
     for (int j(0) ; Temp <= TMax; Temp += dTemp, j++) {
       env.beta = 1.0 / (boltzmann_RCpK*Temp);

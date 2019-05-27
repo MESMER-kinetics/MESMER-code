@@ -1,5 +1,9 @@
 2019-May-27 Struan Robertson
 
+		* CollisionOperator.cpp: Fix for incorrect cell number update for automated cut-off checker.
+
+2019-May-27 Struan Robertson
+
 		* unitsConversion.h/.cpp, Constants.cpp, gDensityOfStates.cpp: Pressure unit "bar" added.
 
 		* ConditionsManager.cpp: "factor" added to PTSet definition to allow logarithmic specification 
