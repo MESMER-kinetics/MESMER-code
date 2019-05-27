@@ -451,7 +451,8 @@
   <xs:attributeGroup name="PTRangeAttributes">
     <xs:attribute name="initial" type="xs:float" use="required" />
     <xs:attribute name="final" type="xs:float" use="required" />
-    <xs:attribute name="increment" type="xs:float" use="required" />
+    <xs:attribute name="increment" type="xs:float" use="optional" />
+    <xs:attribute name="factor" type="xs:float" use="optional" />
   </xs:attributeGroup>
 
   <xs:attributeGroup name="PTcommonAttributes">

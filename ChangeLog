@@ -1,3 +1,10 @@
+2019-May-27 Struan Robertson
+
+		* unitsConversion.h/.cpp, Constants.cpp, gDensityOfStates.cpp: Pressure unit "bar" added.
+
+		* ConditionsManager.cpp: "factor" added to PTSet definition to allow logarithmic specification 
+		of pressure and easier fall-off curve calculation and manipulation.
+
 2019-May-06 Struan Robertson
 
 		* MesmerTools.h/.cpp, AssociationReaction.cpp, DensityOfStates.cpp, UnitTest.cpp: Better

@@ -35,7 +35,8 @@ namespace Constants {
   static const double Calorie_in_Joule               = 4.184;
   static const double Atm_in_Torr                    = 760.0/1.01325 ;   // The divison by 1.01325 is to account for the change in definition of 1 atom to be 1 bar.
   static const double mbar_in_pascal                 = 100.;
-	static const double atm_in_pascal                  = 1.e+05;           //Pascal: N*m^-2
+  static const double bar_in_pascal                  = 1.e+05;
+  static const double atm_in_pascal                  = 1.e+05;           //Pascal: N*m^-2
   static const double Hartree_In_kJperMol            = 2625.478;
   static const double psi_in_pascal                  = 6894.76;
   static const double bohr_in_angstrom               = 0.529177;

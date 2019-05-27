@@ -90,6 +90,7 @@ namespace mesmer
     concentrationMap["atm"] = 3;
     concentrationMap["psi"] = 4;
     concentrationMap["moles/cc"] =5;
+    concentrationMap["bar"] = 6;
 
     // define rule of conversion for energy
     energyMap["wavenumber"]   = 1.0; //internal energy units
@@ -135,6 +136,8 @@ namespace mesmer
         return (concentrationInput * psi_in_pascal * AvogadroC / (idealGasC * temperatureInput * 1.0e6));
       case 5: //moles/cc
         return concentrationInput * AvogadroC;
+      case 6: // bar
+        return (concentrationInput * bar_in_pascal * AvogadroC / (idealGasC * temperatureInput * 1.0e6));
     }
     return 0.;
 

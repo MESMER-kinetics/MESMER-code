@@ -122,9 +122,9 @@ namespace mesmer
           return false;
 
         const char* bathGasName = m_pSys->getMoleculeManager()->get_BathGasName().c_str();
-        for (size_t i(0); i < Pvals.size(); ++i) {
           for (size_t j(0); j < Tvals.size(); ++j) {
-            CandTpair thisPair(getConvertedP(this_units, Pvals[i], Tvals[j]), Tvals[j],
+            for (size_t i(0); i < Pvals.size(); ++i) {
+              CandTpair thisPair(getConvertedP(this_units, Pvals[i], Tvals[j]), Tvals[j],
               this_precision, bathGasName, baseExcessConcs);
             thisPair.set_experimentalRates(ppPTset, ref1, ref2, refReaction, 0.0, 0.0);
             PandTs.push_back(thisPair);
@@ -493,7 +493,16 @@ namespace mesmer
           return false;
         for (double val = vals.back() + incr; val <= atof(txt); val += incr)
           vals.push_back(val);
+      } else if ((txt = pp->XmlReadValue("factor", false)))//optional attribute
+      {
+        double fctr = atof(txt);
+        txt = pp->XmlReadValue("final"); //if have "factor" must have "final"
+        if (!txt)
+          return false;
+        for (double val = vals.back() * fctr; val <= atof(txt); val *= fctr)
+          vals.push_back(val);
       }
+
     }
     if (MustBeThere && vals.size() == 0)
     {
