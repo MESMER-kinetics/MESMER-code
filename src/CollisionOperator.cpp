@@ -581,7 +581,7 @@ namespace mesmer
 
   }
 
-  bool CollisionOperator::calculateEquilibriumFractions()
+  bool CollisionOperator::calculateEquilibriumFractions(MesmerEnv &mEnv)
   { /* Consider a three well system: e.g., A <-> B <-> C where A <-> B has Keq = K1 & B <-> C has Keq = K2.
     This routine uses the fact that the normalized equilibrated system may be described
     by a 3x3 matrix and a vector which satisfy the following:
@@ -617,9 +617,9 @@ namespace mesmer
     // Counters to keep track of how many elements are in m_SpeciesSequence and reactions examined.
     size_t reactionCount(0), counter(0);
 
-    // The followong vector keeps track of how isomers/pseudoisomers are connected. The
+    // The followong vector keeps track of how isomers/pseudoisomers are connected.  The
     // ordering of the vector is the same as m_SpeciesSequence and each set contains the
-    // isomers a give isomer is connected to, either direactly or indireactly. This object
+    // isomers a give isomer is connected to, either directly or indirectly. This object
     // is used to determine if a reaction is redundant or not.
     vector<set<Molecule*> > Connections(nTotalNumSpecies);
 
@@ -704,47 +704,55 @@ namespace mesmer
       }
     }
 
-    if (reactionCount < nIndependRxns)
-      throw(std::runtime_error(string(__FUNCTION__)
-        + string(":\n The total number of independent species is greater than the number of unique reactions - the system is under specified.")
-        + string("\n This may be because two independent sets of reactions are being defined in one system.\n")));
-
-    // If counter==0 after the for loop above, then there are no equilibrating reactions
-    // (i.e., all the reactions are irreversible).  In that case, the lone isomer has an
-    // equilibrium fraction of 1. Thus, we increment counter so that the 1 is added to
-    // the eqMatrix in the for loop immediately following.
-    if (counter == 0) {
-      if (m_isomers.size()) {
-        Molecule* rct = (m_isomers.begin())->first;
-        m_SpeciesSequence[rct] = counter;
-      }
-      else if (m_sources.size()) {
-        Molecule* rct = (m_sources.begin())->first;
-        m_SpeciesSequence[rct] = counter;
-      }
-      else {
-        return false;
-      }
-      ++counter;
-    }
-
-    qdMatrix backup(eqMatrix);  //backup EqMatrix for error reporting
-
-    stest << endl << "Eq fraction matrix:" << endl;
-    backup.showFinalBits(counter);
+    vector<qd_real> testEqFraction(eqMatrix.size(), 0.0);
+    thermodynamicFractions(mEnv, testEqFraction);
 
     vector<qd_real> eqFraction(eqMatrix.size(), 0.0);
-    if (bSecondOrderFlag) {
-      iterativeEquiSln(eqMatrix, eqFraction, idxr, idxs);
+    if (reactionCount < nIndependRxns) {
+      //throw(std::runtime_error(string(__FUNCTION__)
+      //  + string(":\n The total number of independent species is greater than the number of unique reactions - the system is under specified.")
+      //  + string("\n This may be because two independent sets of reactions are being defined in one system.\n")));
+
+      thermodynamicFractions(mEnv, eqFraction);
     }
     else {
-      eqFraction.back() = qd_real(1.0);
-      eqMatrix.invertLUdecomposition();
-      eqFraction *= eqMatrix;
-    }
 
-    stest << "inverse of Eq fraction matrix:" << endl;
-    eqMatrix.showFinalBits(counter);
+      // If counter==0 after the for loop above, then there are no equilibrating reactions
+      // (i.e., all the reactions are irreversible).  In that case, the lone isomer has an
+      // equilibrium fraction of 1. Thus, we increment counter so that the 1 is added to
+      // the eqMatrix in the for loop immediately following.
+      if (counter == 0) {
+        if (m_isomers.size()) {
+          Molecule* rct = (m_isomers.begin())->first;
+          m_SpeciesSequence[rct] = counter;
+        }
+        else if (m_sources.size()) {
+          Molecule* rct = (m_sources.begin())->first;
+          m_SpeciesSequence[rct] = counter;
+        }
+        else {
+          return false;
+        }
+        ++counter;
+      }
+
+      qdMatrix backup(eqMatrix);  //backup EqMatrix for error reporting
+
+      stest << endl << "Eq fraction matrix:" << endl;
+      backup.showFinalBits(counter);
+
+      if (bSecondOrderFlag) {
+        iterativeEquiSln(eqMatrix, eqFraction, idxr, idxs);
+      }
+      else {
+        eqFraction.back() = qd_real(1.0);
+        eqMatrix.invertLUdecomposition();
+        eqFraction *= eqMatrix;
+      }
+
+      stest << "inverse of Eq fraction matrix:" << endl;
+      eqMatrix.showFinalBits(counter);
+    }
 
     Reaction::molMapType::iterator itr1;
 
@@ -852,6 +860,60 @@ namespace mesmer
     eqMatrix = jacobian;
 
     return true;
+  }
+
+  // Calculate the equilibrium fraction for system based on statistical mechanics.
+  bool CollisionOperator::thermodynamicFractions(MesmerEnv &mEnv, vector<qd_real> &eqFraction) {
+    bool status(false);
+
+    const qd_real beta = mEnv.beta;
+
+    // Locate any association reactions and calculate the 
+    // Boltzman factor associated with the excess species. 
+
+    std::map<Molecule*, qd_real> factorMap;
+    for (size_t i(0); i < m_pReactionManager->size(); ++i) {
+      if ((*m_pReactionManager)[i]->getReactionType() == ASSOCIATION || 
+          (*m_pReactionManager)[i]->getReactionType() == PSEUDOISOMERIZATION) {
+        Molecule* rct   = (*m_pReactionManager)[i]->get_reactant();
+        Molecule* exRct = (*m_pReactionManager)[i]->getExcessReactant();
+        qd_real CanPrtnFn = rct->getDOS().rovibronicGrnCanPrtnFn();
+        CanPrtnFn *= translationalContribution(rct->getStruc().getMass(), exRct->getStruc().getMass(), to_double(beta));
+        CanPrtnFn /= (*m_pReactionManager)[i]->get_concExcessReactant();
+        qd_real HeatOfFrm = exRct->getDOS().get_zpe();
+        CanPrtnFn *= exp(-beta * HeatOfFrm);
+        factorMap[rct] = CanPrtnFn;
+      }
+    }
+
+    Reaction::molMapType::iterator itr;
+    Molecule* key(NULL);
+    for (itr = m_SpeciesSequence.begin(); itr != m_SpeciesSequence.end(); ++itr) {
+      key = itr->first;
+      qd_real CanPrtnFn = key->getDOS().rovibronicGrnCanPrtnFn();
+      qd_real HeatOfFrm = key->getDOS().get_zpe();
+      CanPrtnFn *= exp(-beta* HeatOfFrm);
+
+      // Check for association factors.
+      std::map<Molecule*, qd_real>::const_iterator fctritr = factorMap.find(key);
+      if (fctritr != factorMap.end()) {
+        CanPrtnFn *= fctritr->second;
+      }
+
+      eqFraction[itr->second] = CanPrtnFn;
+    }
+
+    // Normalize equilibrium vector.
+    qd_real sm(qd_real(0.0));
+    for (size_t i(0) ; i < eqFraction.size() ; i++) {
+      sm += eqFraction[i];
+    }
+
+    for (size_t i(0); i < eqFraction.size(); i++) {
+      eqFraction[i] /= sm;
+    }
+
+    return status;
   }
 
   void CollisionOperator::diagReactionOperator(const MesmerFlags &mFlags, const MesmerEnv &mEnv,

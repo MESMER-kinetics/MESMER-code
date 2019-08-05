@@ -41,7 +41,7 @@ namespace mesmer
     void setPrecision(Precision precision) { m_precision = precision; }
 
     // Calculate the equilibrium fraction of each species in the system.
-    bool calculateEquilibriumFractions();
+    bool calculateEquilibriumFractions(MesmerEnv &mEnv);
 
     // Build reaction operator for system.
     bool BuildReactionOperator(MesmerEnv &mEnv, MesmerFlags& mFlags, bool writeReport = false);
@@ -113,6 +113,9 @@ namespace mesmer
     // Calculate the equilibrium fraction for systems with second order terms
     // using an iterative approach.
     bool iterativeEquiSln(qdMatrix &eqMatrix, vector<qd_real> &eqFraction, size_t idxr, size_t idxs);
+
+    // Calculate the equilibrium fraction for system based on statistical mechanics.
+    bool thermodynamicFractions(MesmerEnv &mEnv, vector<qd_real> &eqFraction);
 
     // Method to calculate points of interest on the time axis.
     bool timeAxisPoints(MesmerFlags& mFlags, vector<double>& timePoints);

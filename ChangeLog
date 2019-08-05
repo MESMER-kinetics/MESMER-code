@@ -1,6 +1,12 @@
+2019-August-05 Struan Robertson
+
+		* CollisionOperator.h/.cpp, System.cpp: Provisional check-in of revised equilibrium fraction
+		method.
+
 2019-May-27 Struan Robertson
 
-		* CollisionOperator.cpp: Fix for incorrect cell number update for automated cut-off checker.
+		* CollisionOperator.cpp, MesmerTools.cpp, MicroRates.cpp: Fix for incorrect cell number 
+		update in automated cut-off checker.
 
 2019-May-27 Struan Robertson
 

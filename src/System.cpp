@@ -515,7 +515,7 @@ namespace mesmer
 
         if (!m_Flags.rateCoefficientsOnly) {
 
-          if (!m_collisionOperator.calculateEquilibriumFractions())
+          if (!m_collisionOperator.calculateEquilibriumFractions(m_Env))
             throw (std::runtime_error("Failed calculating equilibrium fractions."));
 
           // Diagonalise the collision operator.
@@ -641,7 +641,7 @@ namespace mesmer
     if (!m_collisionOperator.BuildReactionOperator(m_Env, m_Flags))
       throw (std::runtime_error("Failed building system collison operator."));
 
-    if (!m_collisionOperator.calculateEquilibriumFractions())
+    if (!m_collisionOperator.calculateEquilibriumFractions(m_Env))
       throw (std::runtime_error("Failed calculating equilibrium fractions."));
 
     // Diagonalise the collision operator.
@@ -691,7 +691,7 @@ namespace mesmer
     if (!m_collisionOperator.BuildReactionOperator(m_Env, m_Flags))
       throw (std::runtime_error("Failed building system collison operator."));
 
-    if (!m_collisionOperator.calculateEquilibriumFractions())
+    if (!m_collisionOperator.calculateEquilibriumFractions(m_Env))
       throw (std::runtime_error("Failed calculating equilibrium fractions."));
 
     // Diagonalise the collision operator.
