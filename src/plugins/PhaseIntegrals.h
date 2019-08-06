@@ -12,7 +12,7 @@
 #define GUARD_PhaseIntegrals_h
 
 #include "../Molecule.h"
-#include "gStructure.h"
+#include "../gStructure.h"
 
 namespace mesmer
 {
