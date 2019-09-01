@@ -152,6 +152,7 @@ SRCS := \
 	ConditionsManager.cpp \
 	DensityOfStates.cpp \
 	error.cpp \
+	ExchangeReaction.cpp \
 	formatfloat.cpp \
 	gBathProperties.cpp \
 	gDensityOfStates.cpp \
@@ -190,6 +191,7 @@ SRCS := \
 	plugins/CanonicalRateCoefficient.cpp	\
 	plugins/ClassicalRotor.cpp \
 	plugins/ClassicalCoupledRotors.cpp \
+	plugins/CompoundMicroRate.cpp \
 	plugins/DefinedStatesRotor.cpp \
 	plugins/DefinedSumOfStates.cpp \
 	plugins/DefinedDensityOfStates.cpp \

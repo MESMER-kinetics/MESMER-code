@@ -709,9 +709,9 @@ namespace mesmer
 
     vector<qd_real> eqFraction(eqMatrix.size(), 0.0);
     if (reactionCount < nIndependRxns) {
-      //throw(std::runtime_error(string(__FUNCTION__)
-      //  + string(":\n The total number of independent species is greater than the number of unique reactions - the system is under specified.")
-      //  + string("\n This may be because two independent sets of reactions are being defined in one system.\n")));
+      cerr << string(__FUNCTION__)
+        + string(":\n The total number of independent species is greater than the number of unique reactions - the system is under specified.")
+        + string("\n This may be because two independent sets of reactions are being defined in one system.\n") ;
 
       thermodynamicFractions(mEnv, eqFraction);
     }

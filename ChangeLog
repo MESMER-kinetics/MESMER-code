@@ -1,3 +1,13 @@
+2019-September-01 Struan Robertson
+
+		* Addition of VC 16 project files.
+
+		* CompoundMicroRate.cpp: Initial class definition of compound microcanonical rate coefficient calculator.
+
+		* ExchangeReaction.h/.cpp: Initial class definition of reversible exchange reaction.
+
+		* CollisionOperator.h/.cpp: Tidying of revised equilibrium fraction method.
+
 2019-August-05 Struan Robertson
 
 		* CollisionOperator.h/.cpp, System.cpp: Provisional check-in of revised equilibrium fraction

@@ -350,6 +350,9 @@ Windows[!!-~]VC15/distribution/ReadMe.txt -text
 Windows[!!-~]VC15/qd/config.h -text
 Windows[!!-~]VC15/qd/qd.vcxproj -text
 Windows[!!-~]VC15/qd/qd_config.h -text
+Windows[!!-~]VC16/Mesmer/Mesmer.vcxproj -text
+Windows[!!-~]VC16/TinyXML/TinyXML.vcxproj -text
+Windows[!!-~]VC16/qd/qd.vcxproj -text
 /chemStrucEL.xsl -text
 /defaults.xml -text
 examples/2Methyl_to_Ethane/CH3_CH3_to_C2H6.xml -text
@@ -712,6 +715,8 @@ src/DensityOfStates.cpp -text
 src/DensityOfStates.h -text
 src/Distribution.h -text
 src/EnergyTransferModel.h -text
+src/ExchangeReaction.cpp -text
+src/ExchangeReaction.h -text
 src/FTSTPotential.h -text
 src/IrreversibleExchangeReaction.cpp -text
 src/IrreversibleExchangeReaction.h -text
@@ -790,6 +795,7 @@ src/plugins/BoltzmannDistribution.cpp -text
 src/plugins/CanonicalRateCoefficient.cpp -text
 src/plugins/ClassicalCoupledRotors.cpp -text
 src/plugins/ClassicalRotor.cpp -text
+src/plugins/CompoundMicroRate.cpp -text
 src/plugins/DefinedDensityOfStates.cpp -text
 src/plugins/DefinedStatesRotor.cpp -text
 src/plugins/DefinedSumOfStates.cpp -text
