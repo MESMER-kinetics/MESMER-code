@@ -1,8 +1,13 @@
+2019-September-08 Struan Robertson
+
+		* MesmerILT.cpp: Initial changes to ILT method to allow for multiple Arrhenius expressions.
+
 2019-September-01 Struan Robertson
 
 		* Addition of VC 16 project files.
 
-		* CompoundMicroRate.cpp: Initial class definition of compound microcanonical rate coefficient calculator.
+		* CompoundMicroRate.cpp: Initial class definition of compound microcanonical rate coefficient 
+		calculator.
 
 		* ExchangeReaction.h/.cpp: Initial class definition of reversible exchange reaction.
 

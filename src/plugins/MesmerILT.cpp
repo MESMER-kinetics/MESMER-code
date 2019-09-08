@@ -9,18 +9,29 @@ namespace mesmer
 {
   class MesmerILT : public MicroRateCalculator
   {
+
   public:
 
     /********************************************************************************
-    Constructor which registers this class with the list of plugins, initializes the ID
-    and also does some initialization specific to this class.
+    Constructor which registers this class with the list of plugins, initializes the
+    ID and also does some initialization specific to this class.
     ********************************************************************************/
     MesmerILT(const char* id) : m_id(id),
+      m_pfnptr(NULL),
       m_PreExp(0.0),
       m_NInf(0.0),
       m_TInf(298.0),
       m_EInf(0.0),
-      m_isRvsILTpara(false)
+      m_PreExp1(0.0),
+      m_NInf1(0.0),
+      m_TInf1(298.0),
+      m_EInf1(0.0),
+      m_isRvsILTpara(false),
+      m_PreExp2(0.0),
+      m_NInf2(0.0),
+      m_TInf2(0.0),
+      m_EInf2(0.0),
+      m_Secondary(false)
     {
       Register();
     }
@@ -66,22 +77,32 @@ namespace mesmer
 
     bool calculateAssociationMicroRates(Reaction* pReact);
     bool calculateUnimolecularMicroRates(Reaction* pReact);
+    bool (MesmerILT::*m_pfnptr)(Reaction* pReact);
 
     bool UnimolecularConvolution(Reaction* pReact);
     bool BimolecularConvolution(Reaction* pReact, vector<double>& ConvolvedCellDOS, double ma, double mb) const;
 
-  private:
     const char* m_id;
 
     // All the parameters that follow are for an Arrhenius expression of the type:
     // k(T) = Ainf*(T/Tinf)^ninf * exp(-Einf/(RT))
 
-    Rdouble m_PreExp;           // Pre-exponential factor
-    Rdouble m_NInf;             // Modified Arrhenius parameter
-    double  m_TInf;             // T infinity
-    Rdouble m_EInf;             // E infinity
-    bool    m_isRvsILTpara;      // The ILT parameters provided are for reverse direction.
+    Rdouble m_PreExp;       // Pre-exponential factor
+    Rdouble m_NInf;         // Modified Arrhenius parameter
+    double  m_TInf;         // T infinity
+    Rdouble m_EInf;         // E infinity
 
+    Rdouble m_PreExp1;      // Pre-exponential factor
+    Rdouble m_NInf1;        // Modified Arrhenius parameter
+    double  m_TInf1;        // T infinity
+    Rdouble m_EInf1;        // E infinity
+    bool    m_isRvsILTpara; // The ILT parameters provided are for reverse direction.
+
+    Rdouble m_PreExp2;      // Pre-exponential factor
+    Rdouble m_NInf2;        // Modified Arrhenius parameter
+    double  m_TInf2;        // T infinity
+    Rdouble m_EInf2;        // E infinity
+    bool    m_Secondary;    // There is a secondary set of Arrhenius paramaters.
   };
 
   /*********************************************************************************
@@ -116,7 +137,7 @@ namespace mesmer
     Attempt to read these first, and if not present read the mesmer version.
     ***************************************************************************/
     PersistPtr ppActEne, ppPreExponential;//@, pp;
-    const char* pActEnetxt = NULL, *pPreExptxt = NULL;
+    const char* pActEnetxt = NULL, * pPreExptxt = NULL;
     bool rangeSet(false);
     PersistPtr ppRateParams = ppReac->XmlMoveTo("rateParameters");
     if (ppRateParams) {
@@ -251,6 +272,86 @@ namespace mesmer
       // that even irreversible reactions may use these.
       pReact->setUsesProductProperties();
 
+    // Save primary Arrhenius parameters.
+
+    m_PreExp1 = m_PreExp;
+    m_NInf1   = m_NInf;
+    m_TInf1   = m_TInf;
+    m_EInf1   = m_EInf;
+
+    // Determine if a second set of Arrhenius parameters are available for an
+    // extended Arrhenius expression and read in their values.
+    const char* pActEne2txt = pp->XmlReadValue("me:secondaryActivationEnergy", optional);
+    const char* pPreExp2txt = pp->XmlReadValue("me:secondaryPreExponential", optional);
+    const char* pNInf2txt = pp->XmlReadValue("me:secondaryNInfinity", optional);
+
+    m_Secondary = (pActEne2txt || pPreExp2txt || pNInf2txt);
+
+    // Secondary activation energy.
+
+    if (m_Secondary && pActEne2txt)
+    {
+      PersistPtr ppActEne2 = pp->XmlMoveTo("me:secondaryActivationEnergy");
+      istringstream s2(pActEne2txt); s2 >> m_EInf2;
+      const char* unitsTxt = ppActEne->XmlReadValue("units", optional);
+      string unitsInput = (unitsTxt) ? unitsTxt : "kJ/mol";
+      m_EInf2 = getConvertedEnergy(unitsInput, m_EInf2);
+      if (m_EInf2 < 0.0) {
+        cerr << "Activation energy should not be negative when used with ILT." << endl;
+        return false;
+      }
+      ReadRdoubleRange(string(pReact->getName() + ":secondaryActivationEnergy"), ppActEne2, m_EInf2, rangeSet);
+      if (rangeSet) {
+        double valueL, valueU, stepsize;
+        m_PreExp2.get_range(valueL, valueU, stepsize);
+        if (valueL < 0.0) {
+          cerr << "Lower bound of secondary activation energy should not be negative when used with ILT.";
+          return false;
+        }
+      }
+    }
+    else {
+      m_EInf2 = m_EInf;
+    }
+
+    // Secondary pre-exponential factor.
+
+    if (m_Secondary && pPreExp2txt)
+    {
+      PersistPtr ppPreExp2 = pp->XmlMoveTo("me:secondaryPreExponential");
+      istringstream s2(pPreExp2txt); s2 >> m_PreExp2;
+      if (m_PreExp < 0.0) {
+        cerr << "Pre-exponential factor should not be negative when used with ILT." << endl;
+        return false;
+      }
+      ReadRdoubleRange(string(pReact->getName() + ":secondaryPreExponential"), ppPreExp2, m_PreExp2, rangeSet);
+      if (rangeSet) {
+        double valueL, valueU, stepsize;
+        m_PreExp2.get_range(valueL, valueU, stepsize);
+        if (valueL < 0.0) {
+          cerr << "Lower bound of secondary pre-exponential factor should not be negative when used with ILT.";
+          return false;
+        }
+      }
+    }
+    else {
+      m_PreExp2 = m_PreExp;
+    }
+
+    // Secondary exponent.
+
+    if (m_Secondary && pNInf2txt)
+    {
+      PersistPtr ppNInf2 = pp->XmlMoveTo("me:secondaryNInfinity");
+      istringstream s2(pNInf2txt); s2 >> m_NInf2;
+      ReadRdoubleRange(string(pReact->getName() + ":secondaryNInfinity"), ppNInf2, m_NInf2, rangeSet);
+    }
+    else {
+      m_NInf2 = m_NInf;
+    }
+
+    m_TInf2 = m_TInf;
+
     // Read <me:excessReactantConc> as a child of <me:MCRCMethod>.
     // If it is not found m_ERConc is set to NaN. This causes
     // <me:excessReactantConc> to be read a child of <Reaction> in Reaction.cpp.
@@ -262,17 +363,35 @@ namespace mesmer
 
   bool MesmerILT::calculateMicroCnlFlux(Reaction* pReact)
   {
+    //
+    // Initialize reaction flux vector.
+    //
+    size_t MaximumCell = pReact->getEnv().MaxCell;
+    vector<double>& rxnFlux = pReact->get_CellFlux();
+    rxnFlux.clear();
+    rxnFlux.resize(MaximumCell, 0.0);
+
     // Check to see what type of reaction we have
-    if (pReact->getReactionType() == ISOMERIZATION ||
-      pReact->getReactionType() == IRREVERSIBLE_ISOMERIZATION ||
-      pReact->getReactionType() == DISSOCIATION) {// if it's unimolecular 
-      if (!calculateUnimolecularMicroRates(pReact))  // and the microrate calculation is unsuccessful return false
+    ReactionType reactionType = pReact->getReactionType();
+    m_pfnptr = (reactionType == ISOMERIZATION || reactionType == IRREVERSIBLE_ISOMERIZATION || reactionType == DISSOCIATION) ?
+      &MesmerILT::calculateUnimolecularMicroRates :  &MesmerILT::calculateAssociationMicroRates;
+    if (!(this->*m_pfnptr)(pReact))
+      return false;
+    if (m_Secondary) { // If there is a second Arrhenius term add its contribution.
+      // Set Secondary parameters.
+      m_PreExp = m_PreExp2;
+      m_NInf   = m_NInf2;
+      m_TInf   = m_TInf2;
+      m_EInf   = m_EInf2;
+      if (!(this->*m_pfnptr)(pReact))
         return false;
+      // Restore primary parameters.
+      m_PreExp = m_PreExp1;
+      m_NInf   = m_NInf1;
+      m_TInf   = m_TInf1;
+      m_EInf   = m_EInf1;
     }
-    else {            // if it's not unimolecular
-      if (!calculateAssociationMicroRates(pReact))  // and the microrate calculation is unsuccessful return false
-        return false;
-    }
+
     return true;
   }
 
@@ -284,7 +403,7 @@ namespace mesmer
     //
     double relative_ZPE(0.0);
     if (m_isRvsILTpara) {
-      vector<Molecule *> products;
+      vector<Molecule*> products;
       int numberOfProducts = pReact->get_products(products);
 
       if (numberOfProducts != 2)
@@ -321,17 +440,17 @@ namespace mesmer
 
   bool MesmerILT::calculateAssociationMicroRates(Reaction* pReact)
   {
-    AssociationReaction *pAssocReaction = dynamic_cast<AssociationReaction*>(pReact);
+    AssociationReaction* pAssocReaction = dynamic_cast<AssociationReaction*>(pReact);
     if (!pAssocReaction) {
       cerr << "The MesmerILT method is not available for Irreversible Exchange Reactions" << endl;
       return false;
     }
 
-    vector<Molecule *> unimolecularspecies;
+    vector<Molecule*> unimolecularspecies;
     pAssocReaction->get_unimolecularspecies(unimolecularspecies);
 
-    Molecule*  p_rct1 = pAssocReaction->get_pseudoIsomer();
-    Molecule*  p_rct2 = pAssocReaction->get_excessReactant();
+    Molecule* p_rct1 = pAssocReaction->get_pseudoIsomer();
+    Molecule* p_rct2 = pAssocReaction->get_excessReactant();
 
     const double ma = p_rct1->getStruc().getMass();
     const double mb = p_rct2->getStruc().getMass();
@@ -348,8 +467,6 @@ namespace mesmer
     // the flux bottom energy is equal to the well bottom of the reactant
     pAssocReaction->setCellFluxBottom(pReact->get_relative_rctZPE() + m_EInf);
 
-    cinfo << "Association ILT calculation completed" << endl;
-
     return true;
   }
 
@@ -358,13 +475,12 @@ namespace mesmer
     //
     // Obtain Arrhenius parameters. Note constraint: Ninf >= 0.0
     //
-    const double Ninf  = m_NInf;
-    const double Tinf  = m_TInf;
-    const double Ainf  = m_PreExp;
-		const double limit = 1.e-14; // The limit on m_Ninf below which the regular Arrhenius expression is used (machie precision?).
+    const double Ninf = m_NInf;
+    const double Tinf = m_TInf;
+    const double Ainf = m_PreExp;
+    const double limit = 1.e-14; // The limit on m_Ninf below which the regular Arrhenius expression is used (machie precision?).
 
     Molecule* p_rct = pReact->get_reactant();
-    size_t MaximumCell = pReact->getEnv().MaxCell;
 
     // Allocate some work space for density of states and extract densities of states from reactant.
     vector<double> rctCellDOS;
@@ -375,8 +491,6 @@ namespace mesmer
     // Initialize reaction flux vector.
     //
     vector<double>& rxnFlux = pReact->get_CellFlux();
-    rxnFlux.clear();
-    rxnFlux.resize(MaximumCell, 0.0);
 
     double constant(0.0);
     vector<double> conv;
@@ -386,28 +500,28 @@ namespace mesmer
       // simple mean to analytic integral_x_to_y{E^(Ninf-1)dE}, where x and y are lower and
       // upper energy limits of the cell respectively.
       //
-			const double gammaValue = MesmerGamma(Ninf);
-			const double beta0 = 1.0 / (boltzmann_RCpK*Tinf);
-			constant = Ainf * pow(beta0, Ninf) / gammaValue;
+      const double gammaValue = MesmerGamma(Ninf);
+      const double beta0 = 1.0 / (boltzmann_RCpK * Tinf);
+      constant = Ainf * pow(beta0, Ninf) / gammaValue;
 
-			vector<double> work(MaximumCell, 0.0);
+      vector<double> work(rxnFlux.size(), 0.0);
       double cellSize = pReact->getEnv().CellSize;
-      for (size_t i(0); i < MaximumCell; ++i) {
-        double ene = double(i)*cellSize;
+      for (size_t i(0); i < work.size(); ++i) {
+        double ene = double(i) * cellSize;
         work[i] = (pow((ene + cellSize), Ninf) - pow(ene, Ninf)) / Ninf;
       }
       FastLaplaceConvolution(work, rctCellDOS, conv);  // FFT convolution replaces the standard convolution
     }
-		else if (Ninf >= 0.0 && Ninf < limit) {
-			constant = Ainf ;
-			conv = rctCellDOS;
-		}
+    else if (Ninf >= 0.0 && Ninf < limit) {
+      constant = Ainf;
+      conv = rctCellDOS;
+    }
     else {
-			throw(std::runtime_error(string("Reaction ") + pReact->getName() + string(": nInfinity for unimolecular ILT must be >= zero.")));
+      throw(std::runtime_error(string("Reaction ") + pReact->getName() + string(": nInfinity for unimolecular ILT must be >= zero.")));
     }
 
-    for (size_t i(0); i < MaximumCell; ++i)
-      rxnFlux[i] = constant * conv[i];
+    for (size_t i(0); i < rxnFlux.size(); ++i)
+      rxnFlux[i] += constant * conv[i];
 
     return true;
   }
@@ -417,15 +531,12 @@ namespace mesmer
     //
     // Initialize reaction flux vector.
     //
-    size_t MaximumCell = pReact->getEnv().MaxCell;
     vector<double>& rxnFlux = pReact->get_CellFlux();
-    rxnFlux.clear();
-    rxnFlux.resize(MaximumCell, 0.0);
 
-		if(m_NInf + 1.5 <= 0.0)
-		  throw(std::runtime_error(string("Reaction ") + pReact->getName() + string(": nInfinity for association ILT must be > 1.5.")));
-		
-		const double gammaValue = MesmerGamma(m_NInf + 1.5);
+    if (m_NInf + 1.5 <= 0.0)
+      throw(std::runtime_error(string("Reaction ") + pReact->getName() + string(": nInfinity for association ILT must be > 1.5.")));
+
+    const double gammaValue = MesmerGamma(m_NInf + 1.5);
 
     // Note electronic degeneracies were already accounted for in DOS calculations.
     // tp_C = 3.24331e+20: defined in Constant.h, constant used in the translational
@@ -441,18 +552,18 @@ namespace mesmer
     // constraint: Ninf > -1.5
     //
     const double NinfTrans = m_NInf + 1.5;
-    vector<double> work(MaximumCell, 0.0);
+    vector<double> work(rxnFlux.size(), 0.0);
     double cellSize = pReact->getEnv().CellSize;
-    for (size_t i(0); i < MaximumCell; ++i) {
-      double ene = double(i)*cellSize;
+    for (size_t i(0); i < work.size(); ++i) {
+      double ene = double(i) * cellSize;
       work[i] = (pow((ene + cellSize), NinfTrans) - pow(ene, NinfTrans)) / NinfTrans;
     }
 
     vector<double> conv;
     FastLaplaceConvolution(work, ConvolvedCellDOS, conv);
 
-    for (size_t i(0); i < MaximumCell; ++i)
-      rxnFlux[i] = _ant * conv[i];
+    for (size_t i(0); i < rxnFlux.size(); ++i)
+      rxnFlux[i] += _ant * conv[i];
 
     return true;
   }
@@ -498,24 +609,24 @@ namespace mesmer
   //   A-B:                 complex formed by association of molecules A and B
   //            |
   //           /|\          TS
-  //            |         *****       -\ barri_hgt                        -\
-  //  potential |  A+B ***     *      -/               -\         activation\
-  //   energy   |  (+)          *                        \          Energy   \
-  //            |                *                        \                  /
-  //            |                 *                       /                 /
-  //            |               _  *                     / zpe_react       /
-  //            |              /   **** A-B            /                -/
-  //            |   zpe_prodt  |         (-)           /
-  //           O|              \_                    -/
-  //              ------------------------------------------------------------->
-  //                             reaction coordinate
-  //  PES
-  //
-  //   Definition of a REVERSIBLE association reaction in Mesmer:
-  //
-  //   1. A REVERSIBLE association reaction is going forward when the reaction is going from left to right in this
-  //      potential energy surface.
-  //   2. A reaction PES can change in different temperature, caused by rotational contribution to the total energy.
-  //-------------------------------------------------
+  //            |         *****           -\ barri_hgt                        -\
+      //  potential |  A+B ***     *      -/               -\         activation\
+      //   energy   |  (+)          *                        \          Energy   \
+      //            |                *                        \                  /
+      //            |                 *                       /                 /
+      //            |               _  *                     / zpe_react       /
+      //            |              /   **** A-B             /                -/
+      //            |   zpe_prodt  |         (-)           /
+      //           O|              \_                    -/
+      //              ------------------------------------------------------------->
+      //                             reaction coordinate
+      //  PES
+      //
+      //   Definition of a REVERSIBLE association reaction in Mesmer:
+      //
+      //   1. A REVERSIBLE association reaction is going forward when the reaction is going from left to right in this
+      //      potential energy surface.
+      //   2. A reaction PES can change in different temperature, caused by rotational contribution to the total energy.
+      //-------------------------------------------------
 
 }//namespace
