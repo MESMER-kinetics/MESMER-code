@@ -373,8 +373,8 @@ namespace mesmer
 
     // Check to see what type of reaction we have
     ReactionType reactionType = pReact->getReactionType();
-    m_pfnptr = (reactionType == ISOMERIZATION || reactionType == IRREVERSIBLE_ISOMERIZATION || reactionType == DISSOCIATION) ?
-      &MesmerILT::calculateUnimolecularMicroRates :  &MesmerILT::calculateAssociationMicroRates;
+    bool isUnimolecular = (reactionType == ISOMERIZATION || reactionType == IRREVERSIBLE_ISOMERIZATION || reactionType == DISSOCIATION);
+    m_pfnptr = (isUnimolecular) ? &MesmerILT::calculateUnimolecularMicroRates :  &MesmerILT::calculateAssociationMicroRates;
     if (!(this->*m_pfnptr)(pReact))
       return false;
     if (m_Secondary) { // If there is a second Arrhenius term add its contribution.
@@ -392,6 +392,10 @@ namespace mesmer
       m_EInf   = m_EInf1;
     }
 
+    // Locate micro rates at correct point on grain scale.
+    double relative_ZPE = (isUnimolecular && m_isRvsILTpara) ? pReact->get_relative_pdtZPE() : pReact->get_relative_rctZPE();
+    pReact->setCellFluxBottom(relative_ZPE + m_EInf);
+
     return true;
   }
 
@@ -401,7 +405,6 @@ namespace mesmer
     // Need to determine if the supplied Arrhenius parameters are for the association 
     // or dissociation direction and then invoke the appropriate algorithm.
     //
-    double relative_ZPE(0.0);
     if (m_isRvsILTpara) {
       vector<Molecule*> products;
       int numberOfProducts = pReact->get_products(products);
@@ -422,18 +425,10 @@ namespace mesmer
         return false;
 
       BimolecularConvolution(pReact, pdtsCellDOS, ma, mb);
-
-      relative_ZPE = pReact->get_relative_pdtZPE();
-
     }
     else {
-
       UnimolecularConvolution(pReact);
-
-      relative_ZPE = pReact->get_relative_rctZPE();
-
     }
-    pReact->setCellFluxBottom(relative_ZPE + m_EInf);
 
     return true;
   }
@@ -465,7 +460,6 @@ namespace mesmer
     BimolecularConvolution(pReact, rctsCellDOS, ma, mb);
 
     // the flux bottom energy is equal to the well bottom of the reactant
-    pAssocReaction->setCellFluxBottom(pReact->get_relative_rctZPE() + m_EInf);
 
     return true;
   }
