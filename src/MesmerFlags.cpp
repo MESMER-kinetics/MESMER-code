@@ -23,8 +23,8 @@ namespace mesmer{
     speciesProfileEnabled(false),
 	  printPhenomenologicalEvolution(false),
     viewEvents(false),
-    shortestTimeOfInterest(1.0e100),
-    maxEvolutionTime(0.),
+    shortestTimeOfInterest(1.0e-11),
+    maxEvolutionTime(1.0e+05),
     printEigenValuesNum(0),
 	  printEigenVectors(false),
     printReactionOperatorNum(0),
@@ -38,7 +38,7 @@ namespace mesmer{
     punchFileName(),
 	  overwriteXmlAnalysis(false),
 	  autoSetMaxEne(false),
-	  //default poulation threshold for automatic calculation of energy above the top barrier
+	  // Default poulation threshold for automatic calculation of energy above the top barrier.
 	  popThreshold(1.0e-5),
     bForceMacroDetailedBalance(false),
 	  bIsSystemSecondOrder(false),

@@ -31,7 +31,8 @@ namespace mesmer
       m_NInf2(0.0),
       m_TInf2(0.0),
       m_EInf2(0.0),
-      m_Secondary(false)
+      m_Secondary(false),
+      m_OffSet(0)
     {
       Register();
     }
@@ -103,6 +104,7 @@ namespace mesmer
     double  m_TInf2;        // T infinity
     Rdouble m_EInf2;        // E infinity
     bool    m_Secondary;    // There is a secondary set of Arrhenius paramaters.
+    size_t  m_OffSet;       // The relative location of the secondary set to the first.
   };
 
   /*********************************************************************************
@@ -292,7 +294,7 @@ namespace mesmer
     if (m_Secondary && pActEne2txt)
     {
       PersistPtr ppActEne2 = pp->XmlMoveTo("me:secondaryActivationEnergy");
-      istringstream s2(pActEne2txt); s2 >> m_EInf2;
+      ReadRdoubleRange(string(pReact->getName() + ":secondaryActivationEnergy"), ppActEne2, m_EInf2, rangeSet);
       const char* unitsTxt = ppActEne->XmlReadValue("units", optional);
       string unitsInput = (unitsTxt) ? unitsTxt : "kJ/mol";
       m_EInf2 = getConvertedEnergy(unitsInput, m_EInf2);
@@ -300,7 +302,6 @@ namespace mesmer
         cerr << "Activation energy should not be negative when used with ILT." << endl;
         return false;
       }
-      ReadRdoubleRange(string(pReact->getName() + ":secondaryActivationEnergy"), ppActEne2, m_EInf2, rangeSet);
       if (rangeSet) {
         double valueL, valueU, stepsize;
         m_PreExp2.get_range(valueL, valueU, stepsize);
@@ -319,12 +320,11 @@ namespace mesmer
     if (m_Secondary && pPreExp2txt)
     {
       PersistPtr ppPreExp2 = pp->XmlMoveTo("me:secondaryPreExponential");
-      istringstream s2(pPreExp2txt); s2 >> m_PreExp2;
+      ReadRdoubleRange(string(pReact->getName() + ":secondaryPreExponential"), ppPreExp2, m_PreExp2, rangeSet);
       if (m_PreExp < 0.0) {
         cerr << "Pre-exponential factor should not be negative when used with ILT." << endl;
         return false;
       }
-      ReadRdoubleRange(string(pReact->getName() + ":secondaryPreExponential"), ppPreExp2, m_PreExp2, rangeSet);
       if (rangeSet) {
         double valueL, valueU, stepsize;
         m_PreExp2.get_range(valueL, valueU, stepsize);
@@ -343,7 +343,6 @@ namespace mesmer
     if (m_Secondary && pNInf2txt)
     {
       PersistPtr ppNInf2 = pp->XmlMoveTo("me:secondaryNInfinity");
-      istringstream s2(pNInf2txt); s2 >> m_NInf2;
       ReadRdoubleRange(string(pReact->getName() + ":secondaryNInfinity"), ppNInf2, m_NInf2, rangeSet);
     }
     else {
@@ -383,6 +382,7 @@ namespace mesmer
       m_NInf   = m_NInf2;
       m_TInf   = m_TInf2;
       m_EInf   = m_EInf2;
+      m_OffSet = size_t(m_EInf2 - m_EInf1);
       if (!(this->*m_pfnptr)(pReact))
         return false;
       // Restore primary parameters.
@@ -390,10 +390,12 @@ namespace mesmer
       m_NInf   = m_NInf1;
       m_TInf   = m_TInf1;
       m_EInf   = m_EInf1;
+      m_OffSet = 0;
     }
 
     // Locate micro rates at correct point on grain scale.
     double relative_ZPE = (isUnimolecular && m_isRvsILTpara) ? pReact->get_relative_pdtZPE() : pReact->get_relative_rctZPE();
+    m_EInf = (m_Secondary) ? min(m_EInf1, m_EInf2) : m_EInf1;
     pReact->setCellFluxBottom(relative_ZPE + m_EInf);
 
     return true;
@@ -514,8 +516,8 @@ namespace mesmer
       throw(std::runtime_error(string("Reaction ") + pReact->getName() + string(": nInfinity for unimolecular ILT must be >= zero.")));
     }
 
-    for (size_t i(0); i < rxnFlux.size(); ++i)
-      rxnFlux[i] += constant * conv[i];
+    for (size_t i(0), j(m_OffSet); j < rxnFlux.size(); ++i, ++j)
+      rxnFlux[j] += constant * conv[i];
 
     return true;
   }
@@ -556,8 +558,8 @@ namespace mesmer
     vector<double> conv;
     FastLaplaceConvolution(work, ConvolvedCellDOS, conv);
 
-    for (size_t i(0); i < rxnFlux.size(); ++i)
-      rxnFlux[i] += _ant * conv[i];
+    for (size_t i(0), j(m_OffSet); j < rxnFlux.size(); ++i, ++j)
+      rxnFlux[j] += _ant * conv[i];
 
     return true;
   }

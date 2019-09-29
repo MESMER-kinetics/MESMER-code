@@ -1,3 +1,12 @@
+2019-September-29 Struan Robertson
+
+		* MesmerILT.cpp: ILT method updated following QA tests.
+
+		* MesmerFlags.cpp, CollisionOperator.cpp, defaults.xml: Allowed for more flexible definitions 
+		of the start and end times of a species profile.
+
+		* ReactionManager.cpp: Minor update of error message.
+
 2019-September-08 Struan Robertson
 
 		* MesmerILT.cpp: ILT method altered to allow for multiple Arrhenius expressions.

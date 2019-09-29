@@ -1294,19 +1294,13 @@ namespace mesmer
 
   // Method to calculate points of interest on the time axis.
   bool CollisionOperator::timeAxisPoints(MesmerFlags& mFlags, vector<double>& timePoints) {
-    double shortestTime = 0.;
+    double shortestTime(0.0) ;
     // set the default maximum evolution time
-    if (mFlags.shortestTimeOfInterest < 1.0e-20 || mFlags.shortestTimeOfInterest > 1.0)
-      shortestTime = 1.0e-11;
-    else
-      shortestTime = mFlags.shortestTimeOfInterest;
+    shortestTime = max(mFlags.shortestTimeOfInterest, 1.0e-20) ;
 
-    double maxEvoTime = 0.;
+    double maxEvoTime(0.0) ;
     // set the default maximum evolution time
-    if (mFlags.maxEvolutionTime <= 0.001 || mFlags.maxEvolutionTime > 1.0e8)
-      maxEvoTime = 1.2e5;
-    else
-      maxEvoTime = mFlags.maxEvolutionTime;
+    maxEvoTime = min(mFlags.maxEvolutionTime, 1.0e+20) ;
 
     // Calculates the time points
     for (int i = 0; i <= 300; ++i) {

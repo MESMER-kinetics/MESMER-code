@@ -71,6 +71,8 @@
   <me:Tmax default="true">1500</me:Tmax>
   <me:Tstep default="true">50</me:Tstep>
   <me:Tmid default="true">1000</me:Tmid>
+  <me:shortestTimeOfInterest default="true">1.0e-11</me:shortestTimeOfInterest>
+  <me:MaximumEvolutionTime default="true">1.0e+05</me:MaximumEvolutionTime>
   <me:errorPropagationSamples default="true">300</me:errorPropagationSamples>
   <property dictRef="me:Hf298">
     <scalar units="kJ/mol" default="true"/>

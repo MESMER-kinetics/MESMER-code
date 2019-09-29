@@ -122,7 +122,7 @@ namespace mesmer
         preaction = new IrreversibleExchangeReaction(m_pMoleculeManager, mEnv, mFlags, id, (rct1Type == "deficientReactant"));
       }
       else {
-        cinfo << "Unknown reaction type.\n";
+        cinfo << "Reaction " << string(id) << ": Unknown reaction type.\n";
         return false;
       }
 
