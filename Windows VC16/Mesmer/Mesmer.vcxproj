@@ -156,7 +156,6 @@
     <ClCompile Include="..\..\src\plugins\BeyerSwinehart.cpp" />
     <ClCompile Include="..\..\src\plugins\BoltzmannDistribution.cpp" />
     <ClCompile Include="..\..\src\plugins\CanonicalRateCoefficient.cpp" />
-    <ClCompile Include="..\..\src\plugins\CompoundMicroRate.cpp" />
     <ClCompile Include="..\..\src\plugins\HirstWardlawPotential.cpp" />
     <ClCompile Include="..\..\src\plugins\PhaseIntegrals.cpp" />
     <ClCompile Include="..\..\src\plugins\uFTST.cpp" />

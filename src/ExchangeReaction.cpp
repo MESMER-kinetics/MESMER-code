@@ -11,6 +11,7 @@
 #include <limits>
 #include "ExchangeReaction.h"
 #include "gStructure.h"
+#include "gWellProperties.h"
 
 using namespace Constants;
 using namespace std;
@@ -133,16 +134,41 @@ namespace mesmer
   // Add exchange reaction terms to collision matrix.
   void ExchangeReaction::AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega)
   {
+    // Locate isomers in system matrix.
+    const size_t rctLocation = (*m_sourceMap)[m_rct1];
+    const size_t pdtLocation = isomermap[m_pdt1];
+
+    // Get equilibrium constant.
+    const qd_real Keq = qd_real(calcEquilibriumConstant());
+
+    // Get Boltzmann distribution for detailed balance.
+    vector<double> TStPopFrac; // Population fraction of the transition state.
+    const int pShiftedGrains(m_pdt1->getColl().reservoirShift());
+    m_pdt1->getColl().normalizedGrnBoltzmannDistribution(TStPopFrac);
+
     // Call high pressure rate method because exchange reaction rate coefficients
     // do not depend on pressure. The extra logic is to control output. 
     bool writeStatus = getFlags().testRateConstantEnabled;
     getFlags().testRateConstantEnabled = false;
-
     HighPresRateCoeffs(NULL);
-    const int jj = (*m_sourceMap)[get_pseudoIsomer()];
-    (*CollOptr)[jj][jj] -= qd_real(rMeanOmega) * qd_real(m_MtxGrnKf[0]);
-
     getFlags().testRateConstantEnabled = writeStatus;
+
+    qd_real AssocRateCoeff(m_MtxGrnKf[0]), qdMeanOmega(rMeanOmega);
+
+    const int pdtRxnOptPos(pdtLocation - pShiftedGrains);
+    const int colloptrsize = m_pdt1->getColl().get_colloptrsize() + pShiftedGrains;
+    // Note: reverseThreshE will always be greater than pShiftedGrains here.
+
+    const size_t jj = rctLocation;
+    (*CollOptr)[jj][jj] -= qdMeanOmega * AssocRateCoeff;
+    for (int i = 0, j = 0; i < colloptrsize; ++i, ++j) {
+      int ii(pdtRxnOptPos + i);
+      //int kk(i - pShiftedGrains);
+      //qd_real Flux(m_GrainFlux[j]), dos(pdtDOS[i]), addPop(adductPopFrac[kk]);
+      (*CollOptr)[ii][ii] -= qdMeanOmega * AssocRateCoeff/Keq;                  // Loss of the adduct to the source
+      (*CollOptr)[jj][ii] = qdMeanOmega * AssocRateCoeff / sqrt(qd_real(Keq));  // Reactive gain of the source
+      (*CollOptr)[ii][jj] = (*CollOptr)[jj][ii];                                // Reactive gain (symmetrization)
+    }
   }
 
   // Calculate high pressure rate coefficients at current T.
@@ -153,39 +179,7 @@ namespace mesmer
 
     string mrcID = string(m_pMicroRateCalculator->getID());
 
-    if (mrcID == "RRKM" || mrcID == "SimpleRRKM") {
-      // Check to see if there is a transition state defined.
-      if (m_TransitionState) {
-
-        // Energies of cells. 
-        std::vector<double> cellEne;
-        getCellEnergies(m_rct1->getEnv().MaxCell, m_rct1->getEnv().CellSize, cellEne);
-
-        // Calculate ro-vibrational canonical partition function of reactants.
-        vector<double> tmpDOS;
-        m_rct1->getDOS().getCellDensityOfStates(tmpDOS);
-        double prtfn = canonicalPartitionFunction(tmpDOS, cellEne, beta);
-        tmpDOS.clear();
-        m_rct2->getDOS().getCellDensityOfStates(tmpDOS);
-        prtfn *= canonicalPartitionFunction(tmpDOS, cellEne, beta);
-
-        // Calculate ro-vibrational canonical partition function of transitions state.
-        tmpDOS.clear();
-        m_TransitionState->getDOS().getCellDensityOfStates(tmpDOS);
-        k_forward = canonicalPartitionFunction(tmpDOS, cellEne, beta);
-        k_forward /= prtfn;
-
-        // Calculate the translational partition function ratio and thence the rate coefficient.
-        const double trans = translationalContribution(m_rct1->getStruc().getMass(), m_rct2->getStruc().getMass(), beta);
-        k_forward /= trans;
-        k_forward *= exp(-beta*get_ThresholdEnergy());
-        k_forward *= SpeedOfLight_in_cm / beta;
-      }
-      else {
-        throw(std::runtime_error(string("The exchange reaction" + getName() + "is defined without a transition state.\n")));
-      }
-    }
-    else if (mrcID == "CanonicalRateCoefficient") {
+    if (mrcID == "CanonicalRateCoefficient") {
       m_pMicroRateCalculator->calculateMicroCnlFlux(this);
       k_forward = m_CellFlux[0];
     }

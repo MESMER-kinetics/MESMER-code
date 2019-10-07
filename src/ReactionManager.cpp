@@ -18,13 +18,14 @@
 #include "IrreversibleExchangeReaction.h"
 #include "BimolecularSinkReaction.h"
 #include "PseudoIsomerizationReaction.h"
+#include "ExchangeReaction.h"
 
 using namespace Constants;
 using namespace std;
 
 namespace mesmer
 {
-  ReactionManager::ReactionManager(MoleculeManager *pMoleculeManager)
+  ReactionManager::ReactionManager(MoleculeManager* pMoleculeManager)
     :m_reactions(),
     m_pMoleculeManager(pMoleculeManager)
   {};
@@ -97,38 +98,45 @@ namespace mesmer
       // Create a new Reaction.  For association & exchange reactions, if rct1Type == reactant,
       // bool is true and rct1 is the pseudoisomer. If not, bool is false, and rct1 is the excess
       //
-      Reaction *preaction;
-      if (!bRct2 && bPdt1 && pdt1Type == "modelled" && !bPdt2) {
-				preaction = new IsomerizationReaction(m_pMoleculeManager, mEnv, mFlags, id);
-      }
-      else if (bRct2 && (rct1Type == "modelled" || rct2Type == "modelled") && bPdt1 && (pdt1Type == "sink")) {
-        preaction = new BimolecularSinkReaction(m_pMoleculeManager, mEnv, mFlags, id, (rct1Type == "excessReactant"));
-      }
-      else if (bRct2 && (rct1Type == "deficientReactant" || rct2Type == "deficientReactant") && bPdt1 && !bPdt2) {
-        if (rct1Name == rct2Name) {
-          preaction = new SecondOrderAssocReaction(m_pMoleculeManager, mEnv, mFlags, id, (rct1Type != "deficientReactant"));
+      Reaction* preaction(NULL);
+      if (!bRct2 && bPdt1) {
+        if (pdt1Type == "modelled" && !bPdt2) {
+          preaction = new IsomerizationReaction(m_pMoleculeManager, mEnv, mFlags, id);
         }
-        else {
-          preaction = new AssociationReaction(m_pMoleculeManager, mEnv, mFlags, id, (rct1Type != "deficientReactant"));
+        else if (pdt1Type == "sink" || pdt2Type == "sink") {
+          preaction = new IrreversibleUnimolecularReaction(m_pMoleculeManager, mEnv, mFlags, id);
         }
       }
-      else if (bRct2 && (rct1Type == "modelled" || rct2Type == "modelled") && bPdt1 && (pdt1Type == "modelled") && !bPdt2) {
-        preaction = new PseudoIsomerizationReaction(m_pMoleculeManager, mEnv, mFlags, id, (rct1Type != "modelled"));
+      else if (bRct2) {
+        if ((rct1Type == "modelled" || rct2Type == "modelled") && bPdt1 && (pdt1Type == "sink")) {
+          preaction = new BimolecularSinkReaction(m_pMoleculeManager, mEnv, mFlags, id, (rct1Type == "excessReactant"));
+        }
+        else if ((rct1Type == "deficientReactant" || rct2Type == "deficientReactant") && bPdt1 && !bPdt2) {
+          if (rct1Name == rct2Name) {
+            preaction = new SecondOrderAssocReaction(m_pMoleculeManager, mEnv, mFlags, id, (rct1Type != "deficientReactant"));
+          }
+          else {
+            preaction = new AssociationReaction(m_pMoleculeManager, mEnv, mFlags, id, (rct1Type != "deficientReactant"));
+          }
+        }
+        else if ((rct1Type == "modelled" || rct2Type == "modelled") && bPdt1 && (pdt1Type == "modelled") && !bPdt2) {
+          preaction = new PseudoIsomerizationReaction(m_pMoleculeManager, mEnv, mFlags, id, (rct1Type != "modelled"));
+        }
+        else if (bPdt1 && (pdt1Type == "sink" || pdt2Type == "sink")) {
+          preaction = new IrreversibleExchangeReaction(m_pMoleculeManager, mEnv, mFlags, id, (rct1Type == "deficientReactant"));
+        }
+        else if ((rct1Type == "deficientReactant" || rct2Type == "deficientReactant") && bPdt1 && (pdt1Type == "modelled")) {
+          preaction = new ExchangeReaction(m_pMoleculeManager, mEnv, mFlags, id, (rct1Type == "deficientReactant"));
+        }
       }
-      else if (!bRct2 && bPdt1 && (pdt1Type == "sink" || pdt2Type == "sink")) {
-        preaction = new IrreversibleUnimolecularReaction(m_pMoleculeManager, mEnv, mFlags, id);
-      }
-      else if (bRct2 && bPdt1 && (pdt1Type == "sink" || pdt2Type == "sink")) {
-        preaction = new IrreversibleExchangeReaction(m_pMoleculeManager, mEnv, mFlags, id, (rct1Type == "deficientReactant"));
-      }
-      else {
+
+      if (preaction == NULL) {
         cinfo << "Reaction " << string(id) << ": Unknown reaction type.\n";
         return false;
       }
 
-      const char* rtypes[] = { "Isomerization","Association", "Dissociation",
-        "Irreversible unimolecular","Irreversible exchange",
-        "Bimolecular sink","Pseudoisomerization","Second Order Association", "Diffusive Loss", "Undefined" };
+      const char* rtypes[] = { "Isomerization","Association", "Dissociation", "Irreversible unimolecular","Irreversible exchange",
+        "Bimolecular sink","Bimolecular exchange","Pseudoisomerization","Second Order Association", "Diffusive Loss", "Undefined" };
       cinfo << rtypes[preaction->getReactionType()] << " reaction" << endl;
 
       // The information of the products of a dissociation reaction is necessary, as in
@@ -162,8 +170,8 @@ namespace mesmer
       cerr << "Ill formed molecule tag." << endl;
       return false;
     }
-    const char *pmoltype(NULL);
-    const char *pmolname = ppmol->XmlReadValue("ref", false);
+    const char* pmoltype(NULL);
+    const char* pmolname = ppmol->XmlReadValue("ref", false);
     if (pmolname) {
       ErrorContext c(pmolname);
       MolName = pmolname;

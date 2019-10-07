@@ -191,7 +191,6 @@ SRCS := \
 	plugins/CanonicalRateCoefficient.cpp	\
 	plugins/ClassicalRotor.cpp \
 	plugins/ClassicalCoupledRotors.cpp \
-	plugins/CompoundMicroRate.cpp \
 	plugins/DefinedStatesRotor.cpp \
 	plugins/DefinedSumOfStates.cpp \
 	plugins/DefinedDensityOfStates.cpp \

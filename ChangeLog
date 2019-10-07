@@ -1,3 +1,13 @@
+2019-October-07 Struan Robertson
+
+		* ExchangeReaction.cpp/.h, Reaction.h, System.cpp: Initial implementation of Bimolecular 
+		reversible source term.
+
+		* Makefile, Mesmer.vcproj: Updated project files to account for file changes.
+
+		* ReactionManager.cpp: Rearranged main reaction decision tree to better group similar reaction 
+		types.
+
 2019-September-29 Struan Robertson
 
 		* MesmerILT.cpp: ILT method updated following QA tests.

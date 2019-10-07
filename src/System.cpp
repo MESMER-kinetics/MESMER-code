@@ -763,7 +763,10 @@ namespace mesmer
       ReactionType reactionType = UNDEFINED_REACTION;
       if (reaction)
         reactionType = reaction->getReactionType();
-      if (reactionType == ASSOCIATION || reactionType == PSEUDOISOMERIZATION || reactionType == SECONDORDERASSOCIATION) {
+      if (reactionType == ASSOCIATION || 
+        reactionType == PSEUDOISOMERIZATION || 
+        reactionType == SECONDORDERASSOCIATION || 
+        reactionType == BIMOLECULAR_EXCHANGE) {
         double concExcessReactant = reaction->get_concExcessReactant();
 
         // Test concentration and reaction sense.

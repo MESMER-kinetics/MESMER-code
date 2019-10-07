@@ -55,21 +55,18 @@ namespace mesmer
     virtual Molecule *get_excessReactant(void) const { return m_rct2; };
 
     // Return products
-    virtual int get_products(std::vector<Molecule *> &product) const
+    virtual int get_products(std::vector<Molecule *> &products) const
     {
-      product.push_back(m_pdt1);
-      if (m_pdt2) {
-        product.push_back(m_pdt2);
-        return 2;
-      }
-      return 1;
+      products.push_back(m_pdt1);
+      products.push_back(m_pdt2);
+      return products.size();
     };
 
     virtual int get_reactants(std::vector<Molecule *> &reactants) const
     {
       reactants.push_back(m_rct1);
       reactants.push_back(m_rct2);
-      return 2;
+      return reactants.size();
     };
 
     // Initialize reaction.
@@ -90,7 +87,7 @@ namespace mesmer
     virtual double calcEquilibriumConstant();
 
     // returns the reaction type
-    virtual ReactionType getReactionType() { return IRREVERSIBLE_EXCHANGE; };
+    virtual ReactionType getReactionType() { return BIMOLECULAR_EXCHANGE; };
 
     // get the reactant, which reacts in a first order or pseudo first order process
     virtual Molecule *get_reactant(void) const { return m_rct1; };
@@ -123,11 +120,13 @@ namespace mesmer
     molMapType *m_sourceMap;
 
     Molecule    *m_rct1; // Reactant Molecule.
-    Molecule    *m_rct2; // Subsidiary reactant molecule. 
+    Molecule    *m_rct2; // Subsidiary reactant molecule, in excess. 
     Molecule    *m_pdt1; // Product Molecule.
-    Molecule    *m_pdt2; // Subsidiary product molecule.
+    Molecule    *m_pdt2; // Subsidiary product molecule, in excess.
 
     bool deficientReactantLocation; // true if 1st rct in XML file is deficient false if 2nd reactant is deficient
+
+    // FragDist* m_fragDist;
   };
 
 }//namespace
