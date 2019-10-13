@@ -1000,36 +1000,20 @@
         <molecule ref="Glyoxal" role="excessReactant"/>
       </reactant>
       <product>
-        <molecule ref="C1" role="modelled"/>
+        <molecule ref="HC(O)CO" role="modelled"/>
       </product>
-      <me:MCRCMethod xsi:type="me:MesmerILT">
-        <me:preExponential units="cm3molecule-1s-1">2.0e-11</me:preExponential>
-        <me:activationEnergy units="kJ/mol">0</me:activationEnergy>
-        <me:nInfinity>0</me:nInfinity>
-      </me:MCRCMethod>
-    </reaction>
-    <reaction id="R2_2">
-      <reactant>
-        <molecule ref="C1" role="modelled"/>
-      </reactant>
       <product>
-        <molecule ref="C2" role="modelled"/>
+        <molecule ref="H2O" role="excessReactant"/>
       </product>
       <transitionState>
         <molecule ref="TS1" role="transitionState"/>
       </transitionState>
-      <me:MCRCMethod name="RRKM"/>
-    </reaction>
-    <reaction id="R3">
-      <product>
-        <molecule ref="C2" role="modelled"/>
-      </product>
-      <reactant>
-        <molecule ref="HC(O)CO" role="modelled"/>
-      </reactant>
-      <reactant>
-        <molecule ref="H2O" role="excessReactant"/>
-      </reactant>
+      <me:MCRCMethod xsi:type="me:CanonicalRateCoefficient">
+        <me:preExponential units="cm3molecule-1s-1" >2.0e-11</me:preExponential>
+        <me:activationEnergy units="kJ/mol">24.2186</me:activationEnergy>
+        <me:TInfinity>1.0</me:TInfinity>
+        <me:nInfinity>0.0</me:nInfinity>
+      </me:MCRCMethod>
       <me:FragmentDist xsi:type="me:modPrior">
         <!--<me:modPriorOrder lower="0.1" upper="1.0" stepsize="0.01">0.256437</me:modPriorOrder>-->
         <me:modPriorOrder>0.256437</me:modPriorOrder>
@@ -1038,11 +1022,6 @@
         <me:modPriorTref>298</me:modPriorTref>
       </me:FragmentDist>
       <me:excessReactantConc>1E14</me:excessReactantConc>
-      <me:MCRCMethod xsi:type="me:MesmerILT">
-        <me:preExponential units="cm3molecule-1s-1">2.0e-12</me:preExponential>
-        <me:activationEnergy units="kJ/mol">0</me:activationEnergy>
-        <me:nInfinity>0.0</me:nInfinity>
-      </me:MCRCMethod>
     </reaction>
 
     <reaction id="R4">
@@ -1073,7 +1052,6 @@
       <me:MCRCMethod xsi:type="MesmerILT">
         <me:preExponential lower="1.0e-14" upper="1.0e-11" stepsize="1.0e-14">1.50278e-12</me:preExponential>
         <me:activationEnergy units="kJ/mol" lower="0.0" upper="10.0" stepsize="1.0e-01">3.0715</me:activationEnergy>
-        <!--<me:activationEnergy units="kJ/mol">3.0715</me:activationEnergy>-->
         <me:nInfinity>0.0</me:nInfinity>
       </me:MCRCMethod>
     </reaction>
@@ -1119,7 +1097,7 @@
       <me:PTpair units="Torr" P="80" T="295" refReactionExcess="R2" excessReactantConc="9.24E+17" precision="dd" >
         <me:experimentalYield ref="QOOH" error="0.036" yieldTime="1.e-02">0.21629</me:experimentalYield>
       </me:PTpair>
-      <!--<me:PTpair units="Torr" P="80" T="295" refReactionExcess="R2" excessReactantConc="13.2E+17" precision="dd" >
+      <me:PTpair units="Torr" P="80" T="295" refReactionExcess="R2" excessReactantConc="13.2E+17" precision="dd" >
         <me:experimentalYield ref="QOOH" error="0.041" yieldTime="1.e-02">0.2378</me:experimentalYield>
       </me:PTpair>
       <me:PTpair units="Torr" P="40" T="295" refReactionExcess="R2" excessReactantConc="0.2636E+17" precision="dd" >
@@ -1370,7 +1348,7 @@
       </me:PTpair>
       <me:PTpair units="Torr" P="5" T="212" refReactionExcess="R2" excessReactantConc="0.0113E+17" precision="qd" >
         <me:experimentalYield ref="QOOH" error="0.034" yieldTime="1.e-02">0.116</me:experimentalYield>
-      </me:PTpair>-->
+      </me:PTpair>
       <me:PTpair units="Torr" P="5" T="212" refReactionExcess="R2" excessReactantConc="0.0356E+17" precision="qd" >
         <me:experimentalYield ref="QOOH" error="0.03812" yieldTime="1.e-02">0.181</me:experimentalYield>
       </me:PTpair>

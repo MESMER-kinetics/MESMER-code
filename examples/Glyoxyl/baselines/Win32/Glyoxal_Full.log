@@ -1,0 +1,384 @@
+
+            /|      /|                        \   
+           / |     / | ________________________\  
+          /  |    /  |  _   _             _   _   
+         /   |   /   | / \ / \ |\     /| / \ / \  
+        /    |  /    | \_/ \_  | \   / | \_/ |_/  
+       /     | /     | /     \ |  \ /  | /   | \  
+    \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
+
+     Mesmer: Master Equation Solver for Multi-Energy well Reactions
+     Mesmer v5.0 compiled: -- Apr 28 2017 -- 22:56:46
+
+     Copyright (C) 2009-2017 by
+     Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
+     David R. Glowacki, Michael J. Pilling and contributors
+
+     Mesmer is free software: you can redistribute it and/or modify
+     it under the terms of the GNU Public License as published by
+     the Free Software Foundation, either version 2 of the License,
+     or (at your option) any later version.
+
+     But WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU Public License for more details.
+
+    You should have received a copy of the GNU Public License
+    along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
+
+                     Platform:        Windows
+                     Execution Date:  Wed May  3 23:49:20 2017
+                     Number of ranks: 4
+
+Using 4 processes
+defaults.xml, librarymols.xml are in ../..
+
+Parsing input xml file...
+Glyoxal.xml
+
+--Parse data for marquardt
+Energy convention "" written to <moleculeList>
+In R1: Parsing reaction...Association reaction
+In Glyoxal: The default value of me:DOSCMethod was used.
+In Glyoxal: The default value of the attribute spinMultiplicity was used.
+In C1: The default value of me:DOSCMethod was used.
+In C1: The default value of me:DistributionCalcMethod was used.
+In C1: --Parse data for Boltzmann
+In C1: The default value of me:energyTransferModel was used.
+In C1: --Parse data for ExponentialDown
+In R1: --Parse data for MesmerILT
+In R1: The default value of me:TInfinity was used.
+In R1: No tunneling method used for R1
+In R1: Not a unimolecular reaction: look for excess reactant concentration.
+In R1: No value of me:excessReactantConc was supplied and the default value NEEDS TO BE CHECKED**
+In R2_2: Parsing reaction...Isomerization reaction
+In C2: The default value of me:DOSCMethod was used.
+In C2: The default value of me:DistributionCalcMethod was used.
+In C2: --Parse data for Boltzmann
+In C2: The default value of me:energyTransferModel was used.
+In C2: --Parse data for ExponentialDown
+In TS1: The default value of me:DOSCMethod was used.
+In R2_2: --Parse data for SimpleRRKM
+In R2_2: No tunneling method used for R2_2
+In R3: Parsing reaction...Pseudoisomerization reaction
+In HC(O)CO: The default value of me:DistributionCalcMethod was used.
+In HC(O)CO: --Parse data for Boltzmann
+In HC(O)CO: The default value of me:energyTransferModel was used.
+In HC(O)CO: --Parse data for ExponentialDown
+In HC(O)CO: HC(O)CO:deltaEDown was given a range with 31 steps 
+In R3: --Parse data for MesmerILT
+In R3: The default value of me:TInfinity was used.
+In R3: No tunneling method used for R3
+In R3: Not a unimolecular reaction: look for excess reactant concentration.
+In R4: Parsing reaction...Irreversible unimolecular reaction
+In TS2: Vibrational frequencies (cm-1) were calculated from Hessian:
+  35.8068 52.934 206.898 542.376 1170.12 1879.19 2030.89 2885.69 
+In TS2: Hindered rotor b1
+In R4: --Parse data for SimpleRRKM
+In R4: No tunneling method used for R4
+In R2: Parsing reaction...Pseudoisomerization reaction
+In O2: The default value of me:DOSCMethod was used.
+In R02: Vibrational frequencies (cm-1) were calculated from Hessian:
+  -1.41081e-13 -3.38083e-14 9.28926e-06 1.20038e-05 2.97151e-05 9.5985 137.721 168.004 465.594 654.238 
+  1041.91 1242.6 1850.32 2283.32 3256.88 
+In R02: The default value of me:DOSCMethod was used.
+In R02: Hindered rotor b1
+In R02: Hindered rotor b2
+In R02: The default value of me:DistributionCalcMethod was used.
+In R02: --Parse data for Boltzmann
+In R02: The default value of me:energyTransferModel was used.
+In R02: --Parse data for ExponentialDown
+In R2: --Parse data for MesmerILT
+In R2: R2:activationEnergy was given a range with 101 steps 
+In R2: R2:preExponential was given a range with 1000 steps 
+In R2: The default value of me:TInfinity was used.
+In R2: No tunneling method used for R2
+In R2: Not a unimolecular reaction: look for excess reactant concentration.
+In R2: No value of me:excessReactantConc was supplied and the default value NEEDS TO BE CHECKED**
+In R6: Parsing reaction...Irreversible unimolecular reaction
+In TS4: Vibrational frequencies (cm-1) were calculated from Hessian:
+  47.2897 164.506 302.975 492.787 520.938 630.682 655.536 797.905 1018.26 1039.45 
+  1129.77 1911.18 2011.35 2061.7 
+In TS4: The default value of me:DOSCMethod was used.
+In TS4: Hindered rotor b1
+In R6: --Parse data for SimpleRRKM
+In R6: No tunneling method used for R6
+80Torr, 295K at dd precision with N2. Excess Reactant Conc = 1.547e+17 particles per cc
+80Torr, 295K at dd precision with N2. Excess Reactant Conc = 3.265e+17 particles per cc
+80Torr, 295K at dd precision with N2. Excess Reactant Conc = 5.866e+17 particles per cc
+80Torr, 295K at dd precision with N2. Excess Reactant Conc = 9.24e+17 particles per cc
+80Torr, 295K at dd precision with N2. Excess Reactant Conc = 1.32e+18 particles per cc
+40Torr, 295K at dd precision with N2. Excess Reactant Conc = 2.636e+16 particles per cc
+40Torr, 295K at dd precision with N2. Excess Reactant Conc = 1.129e+17 particles per cc
+40Torr, 295K at dd precision with N2. Excess Reactant Conc = 2.13259e+17 particles per cc
+40Torr, 295K at dd precision with N2. Excess Reactant Conc = 2.174e+17 particles per cc
+40Torr, 295K at dd precision with N2. Excess Reactant Conc = 4.056e+17 particles per cc
+40Torr, 295K at dd precision with N2. Excess Reactant Conc = 4.93e+17 particles per cc
+40Torr, 295K at dd precision with N2. Excess Reactant Conc = 6.93e+17 particles per cc
+40Torr, 295K at dd precision with N2. Excess Reactant Conc = 9.31e+17 particles per cc
+40Torr, 295K at dd precision with N2. Excess Reactant Conc = 1.288e+18 particles per cc
+20Torr, 295K at dd precision with N2. Excess Reactant Conc = 5.6298e+16 particles per cc
+20Torr, 295K at dd precision with N2. Excess Reactant Conc = 9.39e+16 particles per cc
+20Torr, 295K at dd precision with N2. Excess Reactant Conc = 2.509e+17 particles per cc
+20Torr, 295K at dd precision with N2. Excess Reactant Conc = 3.72e+17 particles per cc
+20Torr, 295K at dd precision with N2. Excess Reactant Conc = 4.12e+17 particles per cc
+20Torr, 295K at dd precision with N2. Excess Reactant Conc = 6.39e+17 particles per cc
+10Torr, 295K at dd precision with N2. Excess Reactant Conc = 4.067e+16 particles per cc
+10Torr, 295K at dd precision with N2. Excess Reactant Conc = 5.7057e+16 particles per cc
+10Torr, 295K at dd precision with N2. Excess Reactant Conc = 1.4129e+17 particles per cc
+10Torr, 295K at dd precision with N2. Excess Reactant Conc = 2.4672e+17 particles per cc
+10Torr, 295K at dd precision with N2. Excess Reactant Conc = 3.029e+17 particles per cc
+5Torr, 295K at dd precision with N2. Excess Reactant Conc = 1.507e+17 particles per cc
+5Torr, 295K at dd precision with N2. Excess Reactant Conc = 1.49e+17 particles per cc
+5Torr, 295K at dd precision with N2. Excess Reactant Conc = 1e+17 particles per cc
+5Torr, 295K at dd precision with N2. Excess Reactant Conc = 5.8e+16 particles per cc
+5Torr, 295K at dd precision with N2. Excess Reactant Conc = 5.714e+16 particles per cc
+5Torr, 295K at dd precision with N2. Excess Reactant Conc = 1.91e+16 particles per cc
+80Torr, 250K at dd precision with N2. Excess Reactant Conc = 1.3905e+16 particles per cc
+80Torr, 250K at dd precision with N2. Excess Reactant Conc = 2.94e+16 particles per cc
+80Torr, 250K at dd precision with N2. Excess Reactant Conc = 4.4823e+16 particles per cc
+80Torr, 250K at dd precision with N2. Excess Reactant Conc = 8.46e+16 particles per cc
+80Torr, 250K at dd precision with N2. Excess Reactant Conc = 1.71e+17 particles per cc
+80Torr, 250K at dd precision with N2. Excess Reactant Conc = 2.8136e+17 particles per cc
+80Torr, 250K at dd precision with N2. Excess Reactant Conc = 3.21e+17 particles per cc
+40Torr, 250K at dd precision with N2. Excess Reactant Conc = 2e+16 particles per cc
+40Torr, 250K at dd precision with N2. Excess Reactant Conc = 4.4e+16 particles per cc
+40Torr, 250K at dd precision with N2. Excess Reactant Conc = 8.1e+16 particles per cc
+40Torr, 250K at dd precision with N2. Excess Reactant Conc = 1.95e+17 particles per cc
+40Torr, 250K at dd precision with N2. Excess Reactant Conc = 2.77e+17 particles per cc
+20Torr, 250K at dd precision with N2. Excess Reactant Conc = 2.01e+16 particles per cc
+20Torr, 250K at dd precision with N2. Excess Reactant Conc = 4.14e+16 particles per cc
+20Torr, 250K at dd precision with N2. Excess Reactant Conc = 1.07e+17 particles per cc
+20Torr, 250K at dd precision with N2. Excess Reactant Conc = 1.64e+17 particles per cc
+20Torr, 250K at dd precision with N2. Excess Reactant Conc = 2.49e+17 particles per cc
+20Torr, 250K at dd precision with N2. Excess Reactant Conc = 3.18e+17 particles per cc
+10Torr, 250K at dd precision with N2. Excess Reactant Conc = 1.3e+16 particles per cc
+10Torr, 250K at dd precision with N2. Excess Reactant Conc = 5.4e+16 particles per cc
+10Torr, 250K at dd precision with N2. Excess Reactant Conc = 1.19e+17 particles per cc
+10Torr, 250K at dd precision with N2. Excess Reactant Conc = 2.55e+17 particles per cc
+5Torr, 250K at dd precision with N2. Excess Reactant Conc = 8e+15 particles per cc
+5Torr, 250K at dd precision with N2. Excess Reactant Conc = 1.5857e+16 particles per cc
+5Torr, 250K at dd precision with N2. Excess Reactant Conc = 3.59e+16 particles per cc
+5Torr, 250K at dd precision with N2. Excess Reactant Conc = 7.074e+16 particles per cc
+5Torr, 250K at dd precision with N2. Excess Reactant Conc = 1.93e+17 particles per cc
+80Torr, 212K at qd precision with N2. Excess Reactant Conc = 1.83e+15 particles per cc
+80Torr, 212K at qd precision with N2. Excess Reactant Conc = 5.17e+15 particles per cc
+80Torr, 212K at qd precision with N2. Excess Reactant Conc = 1.3e+16 particles per cc
+80Torr, 212K at qd precision with N2. Excess Reactant Conc = 3.04e+16 particles per cc
+80Torr, 212K at qd precision with N2. Excess Reactant Conc = 6.13e+16 particles per cc
+80Torr, 212K at qd precision with N2. Excess Reactant Conc = 1.08e+17 particles per cc
+80Torr, 212K at qd precision with N2. Excess Reactant Conc = 1.28e+17 particles per cc
+40Torr, 212K at qd precision with N2. Excess Reactant Conc = 5.69e+15 particles per cc
+40Torr, 212K at qd precision with N2. Excess Reactant Conc = 5.75e+15 particles per cc
+40Torr, 212K at qd precision with N2. Excess Reactant Conc = 1.3e+16 particles per cc
+40Torr, 212K at qd precision with N2. Excess Reactant Conc = 1.3e+16 particles per cc
+40Torr, 212K at qd precision with N2. Excess Reactant Conc = 3.96e+16 particles per cc
+40Torr, 212K at qd precision with N2. Excess Reactant Conc = 7.62e+16 particles per cc
+40Torr, 212K at qd precision with N2. Excess Reactant Conc = 1.42e+17 particles per cc
+20Torr, 212K at qd precision with N2. Excess Reactant Conc = 6.92e+15 particles per cc
+20Torr, 212K at qd precision with N2. Excess Reactant Conc = 2.48e+16 particles per cc
+20Torr, 212K at qd precision with N2. Excess Reactant Conc = 5.02e+16 particles per cc
+20Torr, 212K at qd precision with N2. Excess Reactant Conc = 5.45e+16 particles per cc
+20Torr, 212K at qd precision with N2. Excess Reactant Conc = 5.45e+16 particles per cc
+20Torr, 212K at qd precision with N2. Excess Reactant Conc = 8.69e+16 particles per cc
+20Torr, 212K at qd precision with N2. Excess Reactant Conc = 8.69e+16 particles per cc
+20Torr, 212K at qd precision with N2. Excess Reactant Conc = 1.23e+17 particles per cc
+10Torr, 212K at qd precision with N2. Excess Reactant Conc = 7.67e+14 particles per cc
+10Torr, 212K at qd precision with N2. Excess Reactant Conc = 5.02e+15 particles per cc
+10Torr, 212K at qd precision with N2. Excess Reactant Conc = 8.02e+15 particles per cc
+10Torr, 212K at qd precision with N2. Excess Reactant Conc = 1.05e+16 particles per cc
+10Torr, 212K at qd precision with N2. Excess Reactant Conc = 2.47e+16 particles per cc
+10Torr, 212K at qd precision with N2. Excess Reactant Conc = 7.45e+16 particles per cc
+10Torr, 212K at qd precision with N2. Excess Reactant Conc = 1.07e+17 particles per cc
+5Torr, 212K at qd precision with N2. Excess Reactant Conc = 1.13e+15 particles per cc
+5Torr, 212K at qd precision with N2. Excess Reactant Conc = 3.56e+15 particles per cc
+5Torr, 212K at qd precision with N2. Excess Reactant Conc = 1.56e+16 particles per cc
+5Torr, 212K at qd precision with N2. Excess Reactant Conc = 3.68e+16 particles per cc
+5Torr, 212K at qd precision with N2. Excess Reactant Conc = 1.01e+17 particles per cc
+Write metadata 20170503_234920
+
+File: "Glyoxal.xml" successfully parsed.
+Main Calculation begins
+Now calculating...
+
+--Execute calcMethod marquardt
+In FastLaplaceConvolution: 1460 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 2920 values in the FFT convolution routine were replaced by standard convolution
+Association ILT calculation completed
+In FastLaplaceConvolution: 2240 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 2740 values in the FFT convolution routine were replaced by standard convolution
+Association ILT calculation completed
+In FastLaplaceConvolution: 660 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 1680 values in the FFT convolution routine were replaced by standard convolution
+Association ILT calculation completed
+In FastLaplaceConvolution: 20 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 100 values in the FFT convolution routine were replaced by standard convolution
+No population was assigned. Initialize the first source term to 1.0.
+
+Chi^2 = 145.499 Lambda = 1
+HC(O)CO:deltaEDown=278.947  R2:activationEnergy=3.0715  R2:preExponential=1.50278e-12  
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+
+Chi^2 = 139.506 Lambda = 0.1
+HC(O)CO:deltaEDown=276.802  R2:activationEnergy=2.94258  R2:preExponential=1.57157e-12  
+Iteration: 1 of Marquardt. ChiSquare = 139.506, Lambda = 0.1
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+
+Chi^2 = 133.728 Lambda = 0.01
+HC(O)CO:deltaEDown=358.654  R2:activationEnergy=2.51389  R2:preExponential=1.67075e-12  
+Iteration: 2 of Marquardt. ChiSquare = 133.728, Lambda = 0.01
+Number of cells = 50000, Number of grains = 224
+Association ILT calculation completed
+Association ILT calculation completed
+Association ILT calculation completed
+ -- Total time elapsed: 15203 seconds.
+
+
+    Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
+
+            295    2.61871e+18         0.0508      0.0758559
+            295    2.61871e+18          0.135       0.125632
+            295    2.61871e+18        0.18893       0.170237
+            295    2.61871e+18        0.21629       0.203331
+            295    2.61871e+18         0.2378       0.226282
+            295    1.30935e+18        0.03818      0.0290903
+            295    1.30935e+18        0.06349      0.0949145
+            295    1.30935e+18          0.155       0.140481
+            295    1.30935e+18        0.17117       0.141941
+            295    1.30935e+18        0.20193       0.188851
+            295    1.30935e+18        0.22995       0.202563
+            295    1.30935e+18         0.2238       0.224387
+            295    1.30935e+18         0.2675       0.240737
+            295    1.30935e+18        0.26005       0.255791
+            295    6.54677e+17          0.105      0.0911484
+            295    6.54677e+17          0.166       0.126614
+            295    6.54677e+17          0.215       0.199257
+            295    6.54677e+17          0.188       0.224324
+            295    6.54677e+17        0.23972        0.23015
+            295    6.54677e+17        0.25785       0.251762
+            295    3.27339e+17        0.06035       0.113474
+            295    3.27339e+17        0.11838       0.138249
+            295    3.27339e+17        0.18617       0.204235
+            295    3.27339e+17         0.1974       0.236994
+            295    3.27339e+17        0.24264       0.246843
+            295    1.63669e+17          0.214       0.245083
+            295    1.63669e+17          0.218       0.244564
+            295    1.63669e+17          0.176       0.223988
+            295    1.63669e+17        0.12917       0.188996
+            295    1.63669e+17        0.13369       0.187944
+            295    1.63669e+17           0.06        0.10755
+            250    3.09008e+18         0.0786      0.0404457
+            250    3.09008e+18          0.166      0.0748935
+            250    3.09008e+18          0.185       0.101618
+            250    3.09008e+18          0.236       0.149398
+            250    3.09008e+18          0.249       0.204016
+            250    3.09008e+18          0.294       0.237342
+            250    3.09008e+18          0.272       0.245001
+            250    1.54504e+18           0.07      0.0889085
+            250    1.54504e+18           0.16       0.146449
+            250    1.54504e+18           0.23       0.194323
+            250    1.54504e+18           0.24       0.251477
+            250    1.54504e+18           0.27       0.268062
+            250    7.72519e+17           0.11       0.133839
+            250    7.72519e+17          0.148       0.190265
+            250    7.72519e+17          0.241       0.251648
+            250    7.72519e+17          0.275       0.270815
+            250    7.72519e+17          0.265       0.284715
+            250    7.72519e+17          0.294        0.29097
+            250     3.8626e+17           0.13       0.150042
+            250     3.8626e+17           0.22       0.248749
+            250     3.8626e+17           0.27       0.280744
+            250     3.8626e+17           0.28       0.297727
+            250     1.9313e+17         0.0731       0.163956
+            250     1.9313e+17          0.136       0.214645
+            250     1.9313e+17          0.194       0.260416
+            250     1.9313e+17          0.223       0.284022
+            250     1.9313e+17          0.281       0.301917
+            212    3.64396e+18            0.1      0.0413676
+            212    3.64396e+18          0.125      0.0948236
+            212    3.64396e+18          0.216       0.165325
+            212    3.64396e+18          0.296       0.229933
+            212    3.64396e+18          0.352       0.269615
+            212    3.64396e+18         0.3339       0.290979
+            212    3.64396e+18        0.36635       0.295786
+            212    1.82198e+18          0.159       0.148361
+            212    1.82198e+18          0.223       0.149215
+            212    1.82198e+18          0.327       0.214537
+            212    1.82198e+18          0.314       0.214537
+            212    1.82198e+18           0.38        0.27979
+            212    1.82198e+18          0.367       0.301303
+            212    1.82198e+18          0.392       0.313385
+            212     9.1099e+17          0.188       0.212611
+            212     9.1099e+17          0.318       0.284561
+            212     9.1099e+17          0.319       0.304758
+            212     9.1099e+17          0.355       0.306434
+            212     9.1099e+17          0.389       0.306434
+            212     9.1099e+17          0.379       0.313947
+            212     9.1099e+17          0.411       0.313947
+            212     9.1099e+17          0.361       0.317795
+            212    4.55495e+17         0.0825      0.0912803
+            212    4.55495e+17          0.158       0.233936
+            212    4.55495e+17          0.199       0.261505
+            212    4.55495e+17          0.212       0.274281
+            212    4.55495e+17          0.296       0.301682
+            212    4.55495e+17          0.345       0.317357
+            212    4.55495e+17           0.33       0.319862
+            212    2.27747e+17          0.116       0.170835
+            212    2.27747e+17          0.181       0.252473
+            212    2.27747e+17          0.282       0.304712
+            212    2.27747e+17          0.367       0.315847
+            212    2.27747e+17          0.377       0.321348
+
+
+Chi^2 = 133.728
+
+Best fit parameters:
+
+HC(O)CO:deltaEDown = 358.654 +/- 409.323
+R2:activationEnergy = 2.51389 +/- 1.874
+R2:preExponential = 1.67075e-12 +/- 2.67026e-12
+
+Correlation coefficients:
+
+R2:activationEnergy , HC(O)CO:deltaEDown = 0.795621
+R2:preExponential , HC(O)CO:deltaEDown = 0.946549
+R2:preExponential , R2:activationEnergy = 0.946699
+
+Goodness of Fit:
+
+Number of degrees of Freedom = 89
+Chi^2 probability = 0.00152887
+
+System saved to mesmer_out.xml
+Total time elapsed: 15203 seconds.

@@ -471,8 +471,11 @@ examples/Ethyl_H_to_Ethane/baselines/Win32/mesmer.test -text
 examples/Examples.bat -text
 examples/Examples.sh -text
 examples/Glyoxyl/Glyoxal.xml -text
+examples/Glyoxyl/Glyoxal_Exchange.xml -text
 examples/Glyoxyl/baselines/Linux64/Glyoxal.log -text
+examples/Glyoxyl/baselines/Linux64/Glyoxal_Full.log -text
 examples/Glyoxyl/baselines/Win32/Glyoxal.log -text
+examples/Glyoxyl/baselines/Win32/Glyoxal_Full.log -text
 examples/H2Ominimal/H2Ominimal.xml -text
 examples/MesmerTemplate.text -text
 examples/Methyl_H_to_Methane/Methyl_H_to_Methane.xml -text
