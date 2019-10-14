@@ -138,7 +138,17 @@ namespace mesmer
 				deltaLocation[iVar] = qd_real(gradient[iVar]) ;
 			}
 
-			invHessian.solveLinearEquationSet(&deltaLocation[0]) ;
+      try {
+        invHessian.solveLinearEquationSet(&deltaLocation[0]);
+      }
+      catch (std::runtime_error& e)
+      {
+        hessian.print(string("Marquardt Hessian Matrix: "), cerr);
+        cinfo.flush();
+        clog.flush();
+        cerr.flush();
+        throw(e);
+      }
 
 			for (size_t iVar(0) ; iVar < m_nVar ; iVar++) {
 				newLocation[iVar] += to_double(deltaLocation[iVar]) ;

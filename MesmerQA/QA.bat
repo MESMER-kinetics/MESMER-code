@@ -6,19 +6,28 @@ set starttime=%time%
 SET directive=
 SET otfn=mesmer.test
 
+IF EXIST "../Windows VC16/Mesmer/Mesmer.exe" GOTO VC16
 IF EXIST "../Windows VC15/Mesmer/Mesmer.exe" GOTO VC15
 IF EXIST "../Windows VC14/Mesmer/Mesmer.exe" GOTO VC14
 
 ::For installed version
 SET executable= "..\..\Mesmer.exe"
+SET version= "..\Mesmer.exe"
 GOTO SETTINGS
 
 :VC14
 SET executable= "..\..\Windows VC14\Mesmer\Mesmer.exe"
+SET version= "..\Windows VC14"
 GOTO SETTINGS
 
 :VC15
 SET executable= "..\..\Windows VC15\Mesmer\Mesmer.exe"
+SET version= "..\Windows VC15"
+GOTO SETTINGS
+
+:VC16
+SET executable= "..\..\Windows VC16\Mesmer\Mesmer.exe"
+SET version= "..\Windows VC16"
 GOTO SETTINGS
 
 :SETTINGS
@@ -27,8 +36,8 @@ SET lfn=mesmer.log
 SET bline=baselines/Win32/
 SET outf=out.xml
 SET mpicommand="C:\Program Files\Microsoft MPI\Bin\mpiexec" -n 4 %executable%
-SET cmdline=%executable%
-::SET cmdline=%mpicommand%
+:: SET cmdline=%executable%
+SET cmdline=%mpicommand%
 
 
 :: This compares the "double quote" altogether with the content
@@ -77,6 +86,11 @@ echo.
 GOTO END
 
 :RUNNING
+@echo --------------------------------------------------------------------
+set printversion= %version%"\Mesmer\Mesmer.exe" -V
+%printversion%
+@echo --------------------------------------------------------------------
+
 @echo on
 @cd pentyl
 %cmdline% pentyl_isomerization_test.xml -o %outf% %directive%

@@ -1,3 +1,16 @@
+2019-October-14 Struan Robertson
+
+		* Fragmentation.h, PriorDistFragmentation.h.cpp, PseudoIsomerizationReaction.h/.cpp, 
+		Association.h/.cpp: Extraction fragmentation into a separate class.
+
+		* MesmerILT.cpp: Fixed bug related to extended treatment.
+
+		* Marquardt.cpp: Improved error reporting.
+
+		* TMatrix.h: Improved error reporting.
+
+		* Makefile, Mesmer.vcproj: Updated project files to account for file changes for fragmentation.
+
 2019-October-07 Struan Robertson
 
 		* ExchangeReaction.cpp/.h, Reaction.h, System.cpp: Initial implementation of Bimolecular 

@@ -38,6 +38,8 @@ namespace mesmer
       m_rct1(NULL),
       m_rct2(NULL),
       m_pdt1(NULL),
+      m_SavedZPE1(0.0), 
+      m_SavedZPE2(0.0),
       m_sourceMap(NULL),
       m_deficientReactantLocation(isReactant),
       m_GrainKbmc() {} ;

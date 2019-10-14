@@ -84,7 +84,7 @@ namespace mesmer
       vector<size_t> indx(size, 0);
 
       if (ludcmp(this->m_matrix, size, indx)) {
-        throw(std::runtime_error("Error encountered in LU decompostion invoked from solveLinearEquationSet."));
+        throw(std::runtime_error("Error encountered in LU decompostion invoked from solveLinearEquationSet.\n"));
       }
 
       lubksb(this->m_matrix, size, indx, rr);
@@ -695,7 +695,7 @@ namespace mesmer
         }
       }
       if (big == T(0.0)) {
-        cerr << "Singular Matrix in routine ludcmp";
+        cerr << "Singular Matrix in routine ludcmp\n";
         return 1;
       }
       work[i] = T(1.0) / big;

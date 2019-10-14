@@ -722,6 +722,7 @@ src/EnergyTransferModel.h -text
 src/ExchangeReaction.cpp -text
 src/ExchangeReaction.h -text
 src/FTSTPotential.h -text
+src/Fragmentation.h -text
 src/IrreversibleExchangeReaction.cpp -text
 src/IrreversibleExchangeReaction.h -text
 src/IrreversibleUnimolecularReaction.cpp -text
@@ -799,7 +800,6 @@ src/plugins/BoltzmannDistribution.cpp -text
 src/plugins/CanonicalRateCoefficient.cpp -text
 src/plugins/ClassicalCoupledRotors.cpp -text
 src/plugins/ClassicalRotor.cpp -text
-src/plugins/CompoundMicroRate.cpp -text
 src/plugins/DefinedDensityOfStates.cpp -text
 src/plugins/DefinedStatesRotor.cpp -text
 src/plugins/DefinedSumOfStates.cpp -text
@@ -823,6 +823,8 @@ src/plugins/PhaseIntegrals.cpp -text
 src/plugins/PhaseIntegrals.h -text
 src/plugins/Potential1D.cpp -text
 src/plugins/Potential1D.h -text
+src/plugins/PriorDistFragmentation.cpp -text
+src/plugins/PriorDistFragmentation.h -text
 src/plugins/PriorDistribution.cpp -text
 src/plugins/QMRotor.cpp -text
 src/plugins/RRKM.cpp -text

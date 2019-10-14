@@ -158,6 +158,7 @@
     <ClCompile Include="..\..\src\plugins\CanonicalRateCoefficient.cpp" />
     <ClCompile Include="..\..\src\plugins\HirstWardlawPotential.cpp" />
     <ClCompile Include="..\..\src\plugins\PhaseIntegrals.cpp" />
+    <ClCompile Include="..\..\src\plugins\PriorDistFragmentation.cpp" />
     <ClCompile Include="..\..\src\plugins\uFTST.cpp" />
     <ClCompile Include="..\..\src\plugins\ClassicalCoupledRotors.cpp" />
     <ClCompile Include="..\..\src\plugins\ClassicalRotor.cpp" />
@@ -235,6 +236,7 @@
     <ClInclude Include="..\..\src\EnergyTransferModel.h" />
     <ClInclude Include="..\..\src\error.h" />
     <ClInclude Include="..\..\src\ExchangeReaction.h" />
+    <ClInclude Include="..\..\src\Fragmentation.h" />
     <ClInclude Include="..\..\src\FTSTPotential.h" />
     <ClInclude Include="..\..\src\gBathProperties.h" />
     <ClInclude Include="..\..\src\gDensityOfStates.h" />
@@ -266,6 +268,7 @@
     <ClInclude Include="..\..\src\plugins\HinderedRotorUtils.h" />
     <ClInclude Include="..\..\src\plugins\PhaseIntegrals.h" />
     <ClInclude Include="..\..\src\plugins\Potential1D.h" />
+    <ClInclude Include="..\..\src\plugins\PriorDistFragmentation.h" />
     <ClInclude Include="..\..\src\plugins\ThermodynamicUtils.h" />
     <ClInclude Include="..\..\src\PseudoIsomerizationReaction.h" />
     <ClInclude Include="..\..\src\qd_test.h" />

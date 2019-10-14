@@ -22,10 +22,6 @@ namespace mesmer
       m_NInf(0.0),
       m_TInf(298.0),
       m_EInf(0.0),
-      m_PreExp1(0.0),
-      m_NInf1(0.0),
-      m_TInf1(298.0),
-      m_EInf1(0.0),
       m_isRvsILTpara(false),
       m_PreExp2(0.0),
       m_NInf2(0.0),
@@ -92,11 +88,6 @@ namespace mesmer
     Rdouble m_NInf;         // Modified Arrhenius parameter
     double  m_TInf;         // T infinity
     Rdouble m_EInf;         // E infinity
-
-    Rdouble m_PreExp1;      // Pre-exponential factor
-    Rdouble m_NInf1;        // Modified Arrhenius parameter
-    double  m_TInf1;        // T infinity
-    Rdouble m_EInf1;        // E infinity
     bool    m_isRvsILTpara; // The ILT parameters provided are for reverse direction.
 
     Rdouble m_PreExp2;      // Pre-exponential factor
@@ -186,7 +177,7 @@ namespace mesmer
 
       // The output streams cerr, cwarn and cinfo are for progressively less
       // important messages. cerr and cwarn probably appear on the command line
-      // and all arewritten to the log file (usually mesmer.log).
+      // and all are written to the log file (usually mesmer.log).
       // All messages should have a std::endl.
       if (value < 0.0) {
         cerr << "Activation energy should not be negative when used with ILT." << endl;
@@ -273,13 +264,6 @@ namespace mesmer
       // Read product properties and set flag in Reaction to indicate
       // that even irreversible reactions may use these.
       pReact->setUsesProductProperties();
-
-    // Save primary Arrhenius parameters.
-
-    m_PreExp1 = m_PreExp;
-    m_NInf1   = m_NInf;
-    m_TInf1   = m_TInf;
-    m_EInf1   = m_EInf;
 
     // Determine if a second set of Arrhenius parameters are available for an
     // extended Arrhenius expression and read in their values.
@@ -370,6 +354,11 @@ namespace mesmer
     rxnFlux.clear();
     rxnFlux.resize(MaximumCell, 0.0);
 
+    double PreExp1 = m_PreExp;
+    double NInf1 = m_NInf;
+    double TInf1 = m_TInf;
+    double EInf1 = m_EInf;
+
     // Check to see what type of reaction we have
     ReactionType reactionType = pReact->getReactionType();
     bool isUnimolecular = (reactionType == ISOMERIZATION || reactionType == IRREVERSIBLE_ISOMERIZATION || reactionType == DISSOCIATION);
@@ -382,20 +371,19 @@ namespace mesmer
       m_NInf   = m_NInf2;
       m_TInf   = m_TInf2;
       m_EInf   = m_EInf2;
-      m_OffSet = size_t(m_EInf2 - m_EInf1);
+      m_OffSet = size_t(m_EInf2 - EInf1);
       if (!(this->*m_pfnptr)(pReact))
         return false;
       // Restore primary parameters.
-      m_PreExp = m_PreExp1;
-      m_NInf   = m_NInf1;
-      m_TInf   = m_TInf1;
-      m_EInf   = m_EInf1;
+      m_PreExp = PreExp1;
+      m_NInf   = NInf1;
+      m_TInf   = TInf1;
+      m_EInf   = min(EInf1, double(m_EInf2));
       m_OffSet = 0;
     }
 
     // Locate micro rates at correct point on grain scale.
     double relative_ZPE = (isUnimolecular && m_isRvsILTpara) ? pReact->get_relative_pdtZPE() : pReact->get_relative_rctZPE();
-    m_EInf = (m_Secondary) ? min(m_EInf1, m_EInf2) : m_EInf1;
     pReact->setCellFluxBottom(relative_ZPE + m_EInf);
 
     return true;
