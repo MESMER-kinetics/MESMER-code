@@ -11,6 +11,7 @@
 #include <limits>
 #include "PseudoIsomerizationReaction.h"
 #include "gWellProperties.h"
+#include "PriorDistFragmentation.h"
 #include <math.h>
 
 using namespace Constants ;
@@ -18,6 +19,25 @@ using namespace std;
 
 namespace mesmer
 {
+
+  // Initialize reaction.
+  bool PseudoIsomerizationReaction::InitializeReaction(PersistPtr ppReac) {
+
+    // Determine fragmentation model.
+    PersistPtr ppDstbn = ppReac->XmlMoveTo("me:FragmentDist");
+    if (ppDstbn) {
+      const char* ptxt = ppDstbn->XmlReadValue("xsi:type", optional); ;
+      string fragMod(ptxt);
+      if (fragMod == "me:modPrior")
+        m_fragDist = new modPriorDist(ppDstbn, this->getName());
+      else
+        m_fragDist = new priorDist();
+    }
+    else {
+      m_fragDist = new priorDist();
+    }
+    return AssociationReaction::InitializeReaction(ppReac);
+  };
 
   void PseudoIsomerizationReaction::AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega)
   {

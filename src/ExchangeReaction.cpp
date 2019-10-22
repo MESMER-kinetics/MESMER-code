@@ -12,6 +12,7 @@
 #include "ExchangeReaction.h"
 #include "gStructure.h"
 #include "gWellProperties.h"
+#include "PriorDistFragmentation.h"
 
 using namespace Constants;
 using namespace std;
@@ -92,8 +93,29 @@ namespace mesmer
       }
     }
 
-    return ReadRateCoeffParameters(ppReac);       // Read heat of reaction and rate parameters.
+    // Determine fragmentation model.
+    PersistPtr ppDstbn = ppReac->XmlMoveTo("me:FragmentDist");
+    if (ppDstbn) {
+      const char* ptxt = ppDstbn->XmlReadValue("xsi:type", optional); ;
+      string fragMod(ptxt);
+      if (fragMod == "me:modPrior")
+        m_fragDist = new modPriorDist(ppDstbn, this->getName());
+      else
+        m_fragDist = new priorDist();
+    }
+    else {
+      m_fragDist = new priorDist();
+    }
 
+    // Read heat of reaction and rate parameters.
+    if (!ReadRateCoeffParameters(ppReac)) 
+      return false;
+
+    // Check the transistion state is defined. 
+    if (!m_TransitionState)
+      return false;
+
+    return true;
   }
 
   double ExchangeReaction::calcEquilibriumConstant() {   // Calculate reaction equilibrium constant.
@@ -138,13 +160,18 @@ namespace mesmer
     const size_t rctLocation = (*m_sourceMap)[m_rct1];
     const size_t pdtLocation = isomermap[m_pdt1];
 
+    // Need to know the number of grouped grains in product.
+    const size_t pShiftedGrains(m_pdt1->getColl().reservoirShift());
+
+    const size_t pColloptrsize = m_pdt1->getColl().get_colloptrsize() + pShiftedGrains;
+
     // Get equilibrium constant.
     const qd_real Keq = qd_real(calcEquilibriumConstant());
 
-    // Get Boltzmann distribution for detailed balance.
+    // Get TS Boltzmann distribution for partition of rate.
     vector<double> TStPopFrac; // Population fraction of the transition state.
-    const int pShiftedGrains(m_pdt1->getColl().reservoirShift());
-    m_pdt1->getColl().normalizedGrnBoltzmannDistribution(TStPopFrac);
+    m_TransitionState->getColl().set_colloptrsize(pColloptrsize);
+    m_TransitionState->getColl().normalizedGrnBoltzmannDistribution(TStPopFrac);
 
     // Call high pressure rate method because exchange reaction rate coefficients
     // do not depend on pressure. The extra logic is to control output. 
@@ -155,20 +182,29 @@ namespace mesmer
 
     qd_real AssocRateCoeff(m_MtxGrnKf[0]), qdMeanOmega(rMeanOmega);
 
+    // Calculate the weighted sum of the energy partition distribution.
+    m_fragDist->initialize(this);
+    vector<double> fragRate;
+    for (size_t i(0); i < pColloptrsize; ++i) {
+
+    }
+
     const int pdtRxnOptPos(pdtLocation - pShiftedGrains);
-    const int colloptrsize = m_pdt1->getColl().get_colloptrsize() + pShiftedGrains;
-    // Note: reverseThreshE will always be greater than pShiftedGrains here.
 
     const size_t jj = rctLocation;
     (*CollOptr)[jj][jj] -= qdMeanOmega * AssocRateCoeff;
-    for (int i = 0, j = 0; i < colloptrsize; ++i, ++j) {
-      int ii(pdtRxnOptPos + i);
+    for (size_t i(0), j(0); i < pColloptrsize; ++i, ++j) {
+      size_t ii(pdtRxnOptPos + i);
       //int kk(i - pShiftedGrains);
       //qd_real Flux(m_GrainFlux[j]), dos(pdtDOS[i]), addPop(adductPopFrac[kk]);
       (*CollOptr)[ii][ii] -= qdMeanOmega * AssocRateCoeff/Keq;                  // Loss of the adduct to the source
       (*CollOptr)[jj][ii] = qdMeanOmega * AssocRateCoeff / sqrt(qd_real(Keq));  // Reactive gain of the source
       (*CollOptr)[ii][jj] = (*CollOptr)[jj][ii];                                // Reactive gain (symmetrization)
     }
+
+    // Return any resources used.
+    m_fragDist->clear();
+
   }
 
   // Calculate high pressure rate coefficients at current T.

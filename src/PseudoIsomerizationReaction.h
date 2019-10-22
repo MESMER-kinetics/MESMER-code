@@ -19,13 +19,16 @@
 //
 //-------------------------------------------------------------------------------------------
 #include "AssociationReaction.h"
-#include "PriorDistFragmentation.h"
 
 using namespace Constants ;
 using namespace mesmer;
 
 namespace mesmer
 {
+
+  // Forward declarations.
+
+  class FragDist;
 
   class PseudoIsomerizationReaction : public AssociationReaction
   {
@@ -49,22 +52,7 @@ namespace mesmer
     } ;
 
     // Initialize reaction.
-    virtual bool InitializeReaction(PersistPtr ppReac) {
-
-      // Determine fragmentation model.
-      PersistPtr ppDstbn = ppReac->XmlMoveTo("me:FragmentDist");
-      if (ppDstbn) {
-        const char* ptxt = ppDstbn->XmlReadValue("xsi:type",optional); ;
-        string fragMod(ptxt) ;
-        if (fragMod == "me:modPrior") 
-          m_fragDist = new modPriorDist(ppDstbn, this->getName()) ;
-        else 
-          m_fragDist = new priorDist() ;
-      } else {
-        m_fragDist = new priorDist() ;
-      }
-      return AssociationReaction::InitializeReaction(ppReac) ;
-    };
+    virtual bool InitializeReaction(PersistPtr ppReac) ;
 
     // returns the reaction type
     virtual ReactionType getReactionType(){return PSEUDOISOMERIZATION;};

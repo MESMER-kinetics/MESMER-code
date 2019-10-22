@@ -18,7 +18,7 @@ namespace mesmer
 	using OpenBabel::vector3;
 
 	// Read potential parameters
-	void HinderedRotorUtils::ReadPotentialParameters(PersistPtr ppHR, const string& bondID, vector<double>& ptnlCosCoeff, vector<double>& ptnlSinCoeff) {
+	void HinderedRotorUtils::ReadPotentialParameters(PersistPtr ppHR, const string& SpeciesID, const string& bondID, vector<double>& ptnlCosCoeff, vector<double>& ptnlSinCoeff) {
 
 		PersistPtr pp = ppHR->XmlMoveTo("me:HinderedRotorPotential");
 
@@ -94,7 +94,15 @@ namespace mesmer
 
 				// Test potential
 
-				ctest << "          Angle         Potential          Series\n";
+        double ptnl = CalculatePotential(0.0, ptnlCosCoeff, ptnlSinCoeff);
+        if (fabs(ptnl) > 20.0) {
+          clog << "WARNING: The Fourier expansion for the internal rotor potential for bond " << bondID << " of " << endl;
+          clog << "species " << SpeciesID << ", differs at the minimum from the value entered by more than 20 cm-1." << endl;
+          clog << "More terms in the Fourier expansion may be needed." << endl;
+        }
+
+        ctest << "Internal rotor " << bondID << " of species " << SpeciesID << endl;
+        ctest << "          Angle         Potential          Series\n";
 				for (size_t i(0); i < angle.size(); ++i) {
 					double clcPtnl = CalculatePotential(angle[i], ptnlCosCoeff, ptnlSinCoeff);
 					ctest << formatFloat(angle[i], 6, 15) << ", " << formatFloat(potential[i], 6, 15) << ", " << formatFloat(clcPtnl, 6, 15) << '\n';
@@ -168,22 +176,29 @@ namespace mesmer
 
 		// Locate the potential minimum and shift to that minimum.
 
+    size_t ii(0);
 		double vmin(potential[0]), amin(angle[0]);
 		for (size_t i(1); i < ndata; ++i) {
 			if (potential[i] < vmin) {
 				vmin = potential[i];
 				amin = angle[i];
+        ii = i;
 			}
 		}
 
-		for (size_t i(0); i < ndata; ++i) {
-			potential[i] -= vmin;
-			angle[i] -= amin;
-			angle[i] *= M_PI / 180.;
+    vector<double> tangle(ndata, 0.0), tpotential(ndata, 0.0);
+		for (size_t i(0), j(ii); i < ndata; ++i, ++j) {
+      size_t jj = j % ndata;
+      tangle[i] = angle[jj] - amin;
+      if (tangle[i] < 0.0)
+        tangle[i] += 360;
+			tpotential[i] = potential[jj] - vmin;
+			tangle[i] *= M_PI / 180.;
 		}
 
 		// Update the potential and configuration phase difference.
-
+    angle = tangle;
+    potential = tpotential;
 		m_phase += amin;
 
 		FourierCosCoeffs(angle, potential, ptnlCosCoeff, m_expansion);

@@ -231,7 +231,9 @@ namespace mesmer
 			return sumMoment;
 		}
 		else {
-			string errorMsg = "Problem with calculation of reduced moment of inertia. Either there is something wrong with the atom co-ordinates or the atomic symbol is not present in unitsConversion.cpp ";
+      string SpeciesID = getHost()->getName();
+			string errorMsg = "Problem with calculation of reduced moment of inertia for " + SpeciesID + ".\n" 
+                      + "Either there is something wrong with the atom co-ordinates or the atomic symbol is not present in unitsConversion.cpp ";
 			throw (std::runtime_error(errorMsg));
 		}
 	}

@@ -19,6 +19,9 @@
 
 namespace mesmer
 {
+  // Forward declarations.
+
+  class FragDist;
 
   class ExchangeReaction : public Reaction
   {
@@ -32,7 +35,8 @@ namespace mesmer
       m_rct2(NULL),
       m_pdt1(NULL),
       m_pdt2(NULL),
-      deficientReactantLocation(isReactant)
+      deficientReactantLocation(isReactant),
+      m_fragDist(NULL)
     {
       m_UsesProductProperties = false;
     }
@@ -126,7 +130,7 @@ namespace mesmer
 
     bool deficientReactantLocation; // true if 1st rct in XML file is deficient false if 2nd reactant is deficient
 
-    // FragDist* m_fragDist;
+    FragDist* m_fragDist;
   };
 
 }//namespace

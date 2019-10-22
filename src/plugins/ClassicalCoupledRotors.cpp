@@ -96,6 +96,7 @@ namespace mesmer
   bool ClassicalCoupledRotors::ReadParameters(gDensityOfStates* gdos, PersistPtr ppDOSC)
   {
     PersistPtr pp = gdos->getHost()->get_PersistentPointer();
+    string SpeciesID = gdos->getHost()->getName();
 
     PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
     if (!ppPropList)
@@ -158,7 +159,7 @@ namespace mesmer
       // Read in potential parameters. 
       vector<double> potentialCosCoeff;
       vector<double> potentialSinCoeff;
-      ReadPotentialParameters(ppRotor, string(bondID), potentialCosCoeff, potentialSinCoeff);
+      ReadPotentialParameters(ppRotor, SpeciesID, string(bondID), potentialCosCoeff, potentialSinCoeff);
       m_potentialCosCoeffs.push_back(potentialCosCoeff);
       m_potentialSinCoeffs.push_back(potentialSinCoeff);
 
@@ -210,7 +211,7 @@ namespace mesmer
     Sobol sobol;
 
     // Configuration loop.
-    long long seed(17);
+    long long seed(0);
     double twoPi = 2.0*M_PI;
     m_knmtcFctr.resize(m_MCPnts, 0.0);
     m_potential.resize(m_MCPnts, 0.0);

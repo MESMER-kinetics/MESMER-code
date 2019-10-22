@@ -226,7 +226,7 @@ IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
 cd ..
 
 cd "Glyoxyl"
-set testName="Glyoxyl"
+set testName="Glyoxal"
 %cmdline% -N %testName%.xml
 copy "./%testName%.test" "./%bline%%testName%.test"
 IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"

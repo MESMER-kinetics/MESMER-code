@@ -232,15 +232,14 @@ namespace mesmer
 
     m_pMicroRateCalculator = ParseForPlugin<MicroRateCalculator>(this, "me:MCRCMethod", ppReac);
 
-    // Determine the method of estimating tunneling coefficients.
-    m_pTunnelingCalculator = ParseForPlugin<TunnelingCalculator>(this, "me:tunneling", ppReac,
-          optional); //data may be in TS
+    // Determine the method of estimating tunneling coefficients. Note data may be in TS.
+    m_pTunnelingCalculator = ParseForPlugin<TunnelingCalculator>(this, "me:tunneling", ppReac, optional);
     if(!m_pTunnelingCalculator)
       cinfo << "No tunneling method used for " << getName() << endl;
 
     if ((getReactionType() == ASSOCIATION || getReactionType() == IRREVERSIBLE_EXCHANGE 
       || getReactionType() == BIMOLECULAR_SINK || getReactionType() == PSEUDOISOMERIZATION
-	  || getReactionType() == SECONDORDERASSOCIATION)
+	    || getReactionType() == SECONDORDERASSOCIATION || getReactionType() == BIMOLECULAR_EXCHANGE)
       && (m_ERConc==0.0 || IsNan(m_ERConc)))
     {
       // If not already read in the MicroRateCalculator

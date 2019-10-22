@@ -70,6 +70,7 @@ namespace mesmer
   //Read data from XML and store in this instance.
   bool HinderedRotorCM1D::ReadParameters(gDensityOfStates* gdos, PersistPtr ppDOSC)
   {
+    string SpeciesID = gdos->getHost()->getName();
     gStructure& gs = gdos->getHost()->getStruc();
     if(!gs.ReadStructure())
     {
@@ -119,7 +120,7 @@ namespace mesmer
 
     m_periodicity = max(m_periodicity, ppDOSC->XmlReadInteger("me:periodicity",optional));
 
-		ReadPotentialParameters(ppDOSC, string(bondID), m_potentialCosCoeff, m_potentialSinCoeff);
+		ReadPotentialParameters(ppDOSC, SpeciesID, string(bondID), m_potentialCosCoeff, m_potentialSinCoeff);
 
 		// Check if there is a Hessian and knock out the frequency
 		// associated with this internal rotation.

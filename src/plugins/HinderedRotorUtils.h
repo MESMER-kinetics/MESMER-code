@@ -51,7 +51,7 @@ namespace mesmer
 		double get_Phase() const { return m_phase; };
 
 		// Read potential parameters
-		void ReadPotentialParameters(PersistPtr ppHR, const string& bondID, vector<double>& ptnlCosCoeff, vector<double>& ptnlSinCoeff);
+		void ReadPotentialParameters(PersistPtr ppHR, const string& SpeciesID, const string& bondID, vector<double>& ptnlCosCoeff, vector<double>& ptnlSinCoeff);
 
 		// Calculate the Fourier coefficients from potential data points.
 		void PotentialFourierCoeffs(vector<double> &angle, vector<double> &potential, vector<double> &ptnlCosCoeff, vector<double> &ptnlSinCoeff);
