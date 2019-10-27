@@ -1,5 +1,6 @@
 //MesmerTools.cpp
 #include "MesmerTools.h"
+#include "error.h"
 
 using namespace Constants;
 

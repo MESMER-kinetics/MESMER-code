@@ -96,8 +96,7 @@ namespace mesmer
     // get the reactant, which reacts in a first order or pseudo first order process
     virtual Molecule *get_reactant(void) const { return m_rct1; };
 
-    // calculate the effective threshold energy for utilizing in k(E) calculations, necessary for cases
-    // with a negative threshold energy
+    // calculate the effective threshold energy for utilizing in k(E) calculations.
     void calcEffGrnThresholds(void);
 
     // Wrapper function to calculate and grain average microcanoincal rate coeffcients.

@@ -143,7 +143,8 @@ namespace mesmer
       }
       catch (std::runtime_error& e)
       {
-        hessian.print(string("Marquardt Hessian Matrix: "), cerr);
+        string MtrxTitle("Marquardt Hessian Matrix: ");
+        hessian.print(MtrxTitle, cerr);
         cinfo.flush();
         clog.flush();
         cerr.flush();

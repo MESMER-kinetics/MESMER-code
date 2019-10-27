@@ -41,7 +41,7 @@ namespace mesmer
     virtual void initialize(Reaction* pReaction);
 
     // Calculate distribution
-    virtual void calculate(double excessEnergy, std::vector<double>& dist, size_t size);
+    virtual void calculate(double excessEnergy, std::vector<double>& dist);
 
     // Return resources
     virtual void clear() {

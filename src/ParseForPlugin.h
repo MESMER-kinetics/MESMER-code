@@ -2,6 +2,9 @@
 #define GUARD_ParseForPlugin_h
 
 #include "plugin.h"
+#include "Persistence.h"
+
+using namespace mesmer;
 
 // This function is intended to be used to set up all types of plugin, both
 // parsing the XML input file for a specified plugin type, making an instance

@@ -5,10 +5,9 @@
 #include <cmath>
 #include <limits>
 #include <vector>
-#include "Matrix.h"
 #include "MesmerPrecision.h"
 
-using namespace mesmer;
+using namespace std;
 
 //
 // Some basic utility functions:
@@ -114,9 +113,9 @@ void FastLaplaceConvolution(const std::vector<double> &data, const std::vector<d
 
 void getCellEnergies(const size_t &cellNumber, const double &cellSize, std::vector<double>& cellEne);
 
-bool convertToFourierCoefficients(const size_t expansion, vector<double>& ak, vector<double>& bk, double& a0, vector<double> pesEnes);
+bool convertToFourierCoefficients(const size_t expansion, std::vector<double>& ak, std::vector<double>& bk, double& a0, std::vector<double> pesEnes);
 
-double getEnergyFromFourierCoefficients(double theta, const vector<double> ak, const vector<double> bk, const double a0);
+double getEnergyFromFourierCoefficients(double theta, const std::vector<double> ak, const std::vector<double> bk, const double a0);
 
 // airy function used for WKB transmission probabilities, which is approximate for deep tunnelling
 // but accurate in the shallow tunnelling regime
@@ -145,10 +144,10 @@ void nrerror(std::string message);
 // end airy2 functions
 
 // Calculate the Cosine Fourier coefficients for general data.
-void FourierCosCoeffs(vector<double> &angle, vector<double> &value, vector<double> &cosCoeff, size_t expansion) ;
+void FourierCosCoeffs(std::vector<double> &angle, std::vector<double> &value, std::vector<double> &cosCoeff, size_t expansion) ;
 
 // Calculate the Sine Fourier coefficients for general data.
-void FourierSinCoeffs(vector<double> &angle, vector<double> &value, vector<double> &sinCoeff, size_t expansion) ;
+void FourierSinCoeffs(std::vector<double> &angle, std::vector<double> &value, std::vector<double> &sinCoeff, size_t expansion) ;
 
 // cumulative distribution function and its inverse
 double RationalApproximation(double t) ;
@@ -160,5 +159,23 @@ vector<double> FitPoly(size_t order,
   vector<double>::const_iterator xstart,
   vector<double>::const_iterator xend,
   vector<double>::const_iterator ystart);
+
+// Utility function to normalize a distribution vector to unity.
+template<class T>
+bool normalizeDist(std::vector<T>& Dist) {
+  T sum(T(0.0));
+  for (size_t i(0); i < Dist.size(); i++) {
+    sum += Dist[i];
+  }
+  
+  if (sum > T(0.0)) {
+    T rsum = T(1.0) / sum;
+    for (size_t i(0); i < Dist.size(); i++) {
+      Dist[i] *= rsum;
+    }
+    return true;
+  }
+  return false;
+};
 
 #endif // GUARD_MesmerMath_h

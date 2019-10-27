@@ -108,7 +108,7 @@ namespace mesmer
     }
 
     // Read heat of reaction and rate parameters.
-    if (!ReadRateCoeffParameters(ppReac)) 
+    if (!ReadRateCoeffParameters(ppReac))
       return false;
 
     // Check the transistion state is defined. 
@@ -154,24 +154,59 @@ namespace mesmer
   }
 
   // Add exchange reaction terms to collision matrix.
-  void ExchangeReaction::AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega)
+  void ExchangeReaction::AddReactionTerms(qdMatrix* CollOptr, molMapType& isomermap, const double rMeanOmega)
   {
     // Locate isomers in system matrix.
     const size_t rctLocation = (*m_sourceMap)[m_rct1];
     const size_t pdtLocation = isomermap[m_pdt1];
 
+    // Get densities of states for detailed balance.
+    vector<double> pdtEne;
+    vector<double> pdtBltz;
+    m_pdt1->getDOS().getGrainEnergies(pdtEne);
+    m_pdt1->getColl().normalizedGrnBoltzmannDistribution(pdtBltz);
+
     // Need to know the number of grouped grains in product.
     const size_t pShiftedGrains(m_pdt1->getColl().reservoirShift());
 
-    const size_t pColloptrsize = m_pdt1->getColl().get_colloptrsize() + pShiftedGrains;
+    const size_t pColloptrsize = m_pdt1->getColl().get_colloptrsize();
 
-    // Get equilibrium constant.
-    const qd_real Keq = qd_real(calcEquilibriumConstant());
+    if (pColloptrsize != pdtBltz.size()) {
+      string msg = __FUNCTION__ + string(": Error: collison operator and distribution have different sizes.\n") ;
+      throw(runtime_error(msg));
+    }
 
     // Get TS Boltzmann distribution for partition of rate.
     vector<double> TStPopFrac; // Population fraction of the transition state.
     m_TransitionState->getColl().set_colloptrsize(pColloptrsize);
     m_TransitionState->getColl().normalizedGrnBoltzmannDistribution(TStPopFrac);
+
+    // Calculate the weighted sum of the energy partition distribution.
+
+    // 1. First need to find the isoenergetic grains for the product and TS.
+    
+    calcEffGrnThresholds();
+    size_t nRvrThresh = get_EffGrnRvsThreshold();
+
+    // 2. Form the weighted sum of distributions.
+    m_fragDist->initialize(this);
+    vector<double> totalFragDist(pdtBltz.size(), 0.0);
+    for (size_t i(nRvrThresh), idx(0); i < pdtBltz.size(); ++i, ++idx) {
+
+      vector<double> fragDist(pdtBltz.size(), 0.0);
+      m_fragDist->calculate(pdtEne[i], fragDist);
+
+      double weight = TStPopFrac[idx];
+      for (size_t j(0); j < pdtBltz.size(); ++j) {
+        totalFragDist[j] += weight * fragDist[j];
+      }
+    }
+
+    // 3. Re-normalize the fragmentation distribution.
+    normalizeDist(totalFragDist);
+
+    // Get equilibrium constant.
+    const qd_real Keq = qd_real(calcEquilibriumConstant());
 
     // Call high pressure rate method because exchange reaction rate coefficients
     // do not depend on pressure. The extra logic is to control output. 
@@ -182,24 +217,19 @@ namespace mesmer
 
     qd_real AssocRateCoeff(m_MtxGrnKf[0]), qdMeanOmega(rMeanOmega);
 
-    // Calculate the weighted sum of the energy partition distribution.
-    m_fragDist->initialize(this);
-    vector<double> fragRate;
-    for (size_t i(0); i < pColloptrsize; ++i) {
+    qd_real diag(qdMeanOmega * AssocRateCoeff / Keq);
+    qd_real offDiag(qdMeanOmega * AssocRateCoeff / sqrt(Keq));
 
-    }
-
-    const int pdtRxnOptPos(pdtLocation - pShiftedGrains);
+    // Note: reverseThreshE will always be greater than pShiftedGrains here.
 
     const size_t jj = rctLocation;
     (*CollOptr)[jj][jj] -= qdMeanOmega * AssocRateCoeff;
     for (size_t i(0), j(0); i < pColloptrsize; ++i, ++j) {
-      size_t ii(pdtRxnOptPos + i);
-      //int kk(i - pShiftedGrains);
-      //qd_real Flux(m_GrainFlux[j]), dos(pdtDOS[i]), addPop(adductPopFrac[kk]);
-      (*CollOptr)[ii][ii] -= qdMeanOmega * AssocRateCoeff/Keq;                  // Loss of the adduct to the source
-      (*CollOptr)[jj][ii] = qdMeanOmega * AssocRateCoeff / sqrt(qd_real(Keq));  // Reactive gain of the source
-      (*CollOptr)[ii][jj] = (*CollOptr)[jj][ii];                                // Reactive gain (symmetrization)
+      size_t ii(pdtLocation + i);
+      qd_real dist(totalFragDist[i]), bltz(pdtBltz[i]);
+      (*CollOptr)[ii][ii] -= diag * dist / bltz;          // Loss of the adduct to the source
+      (*CollOptr)[jj][ii]  = offDiag * dist /sqrt(bltz);  // Reactive gain of the source
+      (*CollOptr)[ii][jj]  = (*CollOptr)[jj][ii];         // Reactive gain (symmetrization)
     }
 
     // Return any resources used.
@@ -208,7 +238,7 @@ namespace mesmer
   }
 
   // Calculate high pressure rate coefficients at current T.
-  void ExchangeReaction::HighPresRateCoeffs(vector<double> *pCoeffs) {
+  void ExchangeReaction::HighPresRateCoeffs(vector<double>* pCoeffs) {
 
     double k_forward(0.0);
     const double beta = getEnv().beta;
@@ -225,7 +255,7 @@ namespace mesmer
 
     // Save high pressure rate coefficient for use in the construction of the collision operator.
     m_MtxGrnKf.clear();
-    m_MtxGrnKf.push_back(k_forward*m_ERConc);
+    m_MtxGrnKf.push_back(k_forward * m_ERConc);
 
     if (pCoeffs) {
       pCoeffs->push_back(k_forward);
@@ -238,7 +268,7 @@ namespace mesmer
     else if (getFlags().testRateConstantEnabled) {
       const double temperature = 1. / (boltzmann_RCpK * beta);
       stest << endl << "Canonical pseudo first order rate constant of irreversible reaction "
-        << getName() << " = " << k_forward*m_ERConc << " s-1 (" << temperature << " K)" << endl;
+        << getName() << " = " << k_forward * m_ERConc << " s-1 (" << temperature << " K)" << endl;
       stest << "Canonical bimolecular rate constant of irreversible reaction "
         << getName() << " = " << k_forward << " cm^3/molec/s (" << temperature << " K)" << endl;
     }
@@ -253,15 +283,18 @@ namespace mesmer
   }
 
   void ExchangeReaction::calcEffGrnThresholds(void) {
-    int TS_en = get_fluxGrnZPE();// see the comments in calcEffGrnThresholds under AssociationReaction.cpp  
-    int rct_en = get_rctsGrnZPE();
 
-    double thresh = get_ThresholdEnergy();
-    if (thresh < 0.0) {
-      set_EffGrnFwdThreshold(0 / getEnv().GrainSize);
+    const double rctsEne = m_rct1->getDOS().get_zpe() + m_rct2->getDOS().get_zpe();
+    const double pdtsEne = m_pdt1->getDOS().get_zpe() + m_pdt2->getDOS().get_zpe();
+    const double tsEne = m_TransitionState->getDOS().get_zpe();
+
+    if (tsEne < rctsEne) {
+      string msg = "Reaction " + getName() + " cannot have a negative threshold.";
+      throw(std::runtime_error(msg));
     }
     else {
-      set_EffGrnFwdThreshold((TS_en - rct_en) / getEnv().GrainSize);
+      set_EffGrnFwdThreshold(int(tsEne - rctsEne) / getEnv().GrainSize);
+      set_EffGrnRvsThreshold(int(tsEne - pdtsEne) / getEnv().GrainSize);
     }
   }
 

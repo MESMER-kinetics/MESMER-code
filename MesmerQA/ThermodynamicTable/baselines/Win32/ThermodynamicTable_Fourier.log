@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.1 compiled: -- Mar 27 2018 -- 20:48:55
+     Mesmer v6.0 compiled: -- Oct 25 2019 -- 22:13:05
 
-     Copyright (C) 2009-2018 by
+     Copyright (C) 2009-2020 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sun Apr  8 17:46:11 2018
+                     Execution Date:  Sun Oct 27 13:16:17 2019
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -61,7 +61,7 @@ In ThermodynamicTable. Own default: Number of cells 100000
 In ThermodynamicTable. Own default: The default value of me:grainSize was used.
 Energy convention "thermodynamic" written to <moleculeList>
 No conditions specified
-Write metadata 20180408_174611
+Write metadata 20191027_131617
 
 File: "ThermodynamicTable_Fourier.xml" successfully parsed.
 Main Calculation begins
@@ -73,7 +73,7 @@ In NO: enthalpy of formation at 298K:energy converted from thermodynamic to ther
 In O2: enthalpy of formation at 298K:energy converted from thermodynamic to thermodynamic298K
 In O2_Numerical: enthalpy of formation at 298K:energy converted from thermodynamic to thermodynamic298K
 In OH: enthalpy of formation at 298K:energy converted from thermodynamic to thermodynamic298K
- -- Total time elapsed: 1 seconds.
+ -- Total time elapsed: 2 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 1 seconds.
+Total time elapsed: 2 seconds.

@@ -16,6 +16,7 @@
 #include <iostream>
 #include <iomanip>
 #include <qd/qd_real.h>
+#include "../error.h"
 
 using std::cerr;
 using std::endl;
@@ -24,6 +25,8 @@ using std::abs;
 using std::sqrt;
 using std::strcmp;
 using std::exit;
+
+using mesmer::ctest;
 
 // Global flags passed to the main program.
 static bool flag_test_dd = false;

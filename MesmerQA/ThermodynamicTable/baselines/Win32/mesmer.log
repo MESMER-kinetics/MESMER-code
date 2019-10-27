@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.1 compiled: -- Mar 27 2018 -- 20:48:55
+     Mesmer v6.0 compiled: -- Oct 25 2019 -- 22:13:05
 
-     Copyright (C) 2009-2018 by
+     Copyright (C) 2009-2020 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sun Apr  8 17:46:09 2018
+                     Execution Date:  Sun Oct 27 13:16:16 2019
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -49,12 +49,13 @@ In NO: New me:ZPE element written with data from me:Hf298
 In He: The default value of me:DOSCMethod was used.
 In He: The default value of the attribute spinMultiplicity was used.
 In He: gDensityOfStates initialization failed.
+In O3P: gDensityOfStates initialization failed.
 In ThermodynamicTable. Own default: Cell size 1 cm-1
 In ThermodynamicTable. Own default: Number of cells 100000
 In ThermodynamicTable. Own default: The default value of me:grainSize was used.
 Energy convention "thermodynamic" written to <moleculeList>
 No conditions specified
-Write metadata 20180408_174609
+Write metadata 20191027_131616
 
 File: "ThermodynamicTable.xml" successfully parsed.
 Main Calculation begins
@@ -62,8 +63,9 @@ Now calculating...
 In HNO2: enthalpy of formation at 298K:energy converted from thermodynamic to thermodynamic298K
 Restricted thermo output for He because it has no non-arbitrary energy data.
 In NO: enthalpy of formation at 298K:energy converted from thermodynamic to thermodynamic298K
+Restricted thermo output for O3P because it has no non-arbitrary energy data.
 In OH: enthalpy of formation at 298K:energy converted from thermodynamic to thermodynamic298K
- -- Total time elapsed: 0 seconds.
+ -- Total time elapsed: 1 seconds.
 
 System saved to out.xml
-Total time elapsed: 0 seconds.
+Total time elapsed: 1 seconds.

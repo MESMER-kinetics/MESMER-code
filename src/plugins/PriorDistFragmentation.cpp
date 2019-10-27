@@ -50,7 +50,7 @@ namespace mesmer
 
   // Calculate dissociation distribution
 
-  void priorDist::calculate(double Energy, std::vector<double>& dist, size_t size) {
+  void priorDist::calculate(double Energy, std::vector<double>& dist) {
 
     // Get the difference in zero point energies between the well and the adduct.
     const double DeltaH = m_pReaction->getHeatOfReaction();
@@ -65,8 +65,6 @@ namespace mesmer
 
     const size_t cellOffSet = m_pReaction->getFluxCellOffset();
 
-    dist.clear();
-    dist.resize(size, 0.0);
     if (excessEnergy > 0) {
 
       // Calculate cell distribution vector. The distribution is shifted by the cell-to-grain
@@ -103,20 +101,31 @@ namespace mesmer
 
     m_pReaction = pReaction;
 
-    Molecule* pXsRct = m_pReaction->getExcessReactant();
-    Molecule* pRct = m_pReaction->get_reactant();
+    ReactionType reactionType = m_pReaction->getReactionType();
+
+    Molecule *pXsSpcs(NULL), *pSpcs(NULL);
+    if (reactionType == PSEUDOISOMERIZATION) {
+      pXsSpcs = m_pReaction->getExcessReactant();
+      pSpcs = m_pReaction->get_reactant();
+    }
+    else if (reactionType == BIMOLECULAR_EXCHANGE) {
+      vector<Molecule*> products;
+      m_pReaction->get_products(products);
+      pSpcs = products[0];
+      pXsSpcs = products[1];
+    }
 
     vector<double> xsDOS;
-    pXsRct->getDOS().getCellDensityOfStates(xsDOS);
+    pXsSpcs->getDOS().getCellDensityOfStates(xsDOS);
 
-    pRct->getDOS().getCellDensityOfStates(m_rctDOS);
+    pSpcs->getDOS().getCellDensityOfStates(m_rctDOS);
 
     // The (classical) translational density of states. Prefactors are not included 
     // because they cancel on normalization.
 
     size_t Size = xsDOS.size();
     vector<double> Trans_DOS;
-    getCellEnergies(Size, pRct->getEnv().CellSize, Trans_DOS);
+    getCellEnergies(Size, pSpcs->getEnv().CellSize, Trans_DOS);
     for (size_t i(0); i < Trans_DOS.size(); i++) {
       Trans_DOS[i] = sqrt(Trans_DOS[i]);
     }

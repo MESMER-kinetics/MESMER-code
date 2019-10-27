@@ -77,8 +77,8 @@ namespace mesmer
       qd_real disMicroRateCoeff = qd_real(rMeanOmega) * qd_real(m_GrainFlux[j]) / qd_real(pdtDOS[i]) ;
       (*CollOptr)[ii][ii] -= disMicroRateCoeff ;   // Loss from adduct to pseudoisomer.
 
-      vector<double> fragDist ;
-      m_fragDist->calculate(pdtEne[i], fragDist, rColloptrsize) ;
+      vector<double> fragDist(rColloptrsize, 0.0) ;
+      m_fragDist->calculate(pdtEne[i], fragDist) ;
 
       // Distribute adduct loss rate according to fragmentation loss rate.
       // Use detailed balance to determine gain from association reaction.

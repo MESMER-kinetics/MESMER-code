@@ -22,6 +22,8 @@
 #include <string>
 #include <cctype>
 
+using namespace mesmer;
+
 namespace {
 
   void ToUpper(std::string &str) {
