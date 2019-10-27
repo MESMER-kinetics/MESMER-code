@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.2 compiled: -- Dec  1 2018 -- 14:26:21
+     Mesmer v6.0 compiled: -- Oct 25 2019 -- 22:13:05
 
-     Copyright (C) 2009-2018 by
+     Copyright (C) 2009-2020 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sat Dec  1 16:43:57 2018
+                     Execution Date:  Sun Oct 27 15:06:17 2019
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -79,8 +79,11 @@ In R1: Not a unimolecular reaction: look for excess reactant concentration.
 3.2Torr, 715K at d precision with He
 6.2Torr, 715K at d precision with He
 10.2Torr, 715K at d precision with He
+The default value of the attribute Tstep was used.
+The default value of the attribute Tmin was used.
+The default value of the attribute Tmax was used.
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20181201_164357
+Write metadata 20191027_150617
 
 File: "CH3_CH3_to_C2H6.xml" successfully parsed.
 Main Calculation begins
@@ -89,39 +92,23 @@ Now calculating...
 --Execute calcMethod marquardt
 In FastLaplaceConvolution: 2040 values in the FFT convolution routine were replaced by standard convolution
 In FastLaplaceConvolution: 1660 values in the FFT convolution routine were replaced by standard convolution
-Association ILT calculation completed
 At present it is not possible to print profiles for systems with a second order term.
 
 Chi^2 = 52.5724 Lambda = 1
 C2H6:deltaEDown:Ar=302  C2H6:deltaEDown:He=230  R1:preExponential=5.73e-11  R1:nInfinity=-0.26  
-Association ILT calculation completed
-Association ILT calculation completed
-Association ILT calculation completed
 In FastLaplaceConvolution: 1640 values in the FFT convolution routine were replaced by standard convolution
-Association ILT calculation completed
 In FastLaplaceConvolution: 1500 values in the FFT convolution routine were replaced by standard convolution
-Association ILT calculation completed
-Association ILT calculation completed
-Association ILT calculation completed
-Association ILT calculation completed
-Association ILT calculation completed
 
 Chi^2 = 41.82 Lambda = 0.1
 C2H6:deltaEDown:Ar=303.305  C2H6:deltaEDown:He=263.574  R1:preExponential=5.64971e-11  R1:nInfinity=-0.321302  
 Iteration: 1 of Marquardt. ChiSquare = 41.82, Lambda = 0.1
 In FastLaplaceConvolution: 1100 values in the FFT convolution routine were replaced by standard convolution
-Association ILT calculation completed
-Association ILT calculation completed
-Association ILT calculation completed
-Association ILT calculation completed
-Association ILT calculation completed
 
 Chi^2 = 31.5255 Lambda = 0.01
 C2H6:deltaEDown:Ar=343.276  C2H6:deltaEDown:He=334.326  R1:preExponential=5.23886e-11  R1:nInfinity=-0.574478  
 Iteration: 2 of Marquardt. ChiSquare = 31.5255, Lambda = 0.01
 Number of cells = 58660, Number of grains = 838
-Association ILT calculation completed
- -- Total time elapsed: 333 seconds.
+ -- Total time elapsed: 442 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
@@ -181,4 +168,4 @@ Number of degrees of Freedom = 25
 Chi^2 probability = 0.172204
 
 System saved to mesmer_out.xml
-Total time elapsed: 333 seconds.
+Total time elapsed: 442 seconds.

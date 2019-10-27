@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.1 compiled: -- Mar 27 2018 -- 20:48:55
+     Mesmer v6.0 compiled: -- Oct 25 2019 -- 22:13:05
 
-     Copyright (C) 2009-2018 by
+     Copyright (C) 2009-2020 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sat Apr 21 19:53:39 2018
+                     Execution Date:  Sun Oct 27 15:51:34 2019
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -49,8 +49,11 @@ In R1: The default value of me:TInfinity was used.
 In R1: No tunneling method used for R1
 The default value of the attribute precision was used.
 5e+07Torr, 1300K at d precision with N2
+The default value of the attribute Tstep was used.
+The default value of the attribute Tmin was used.
+The default value of the attribute Tmax was used.
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20180421_195339
+Write metadata 20191027_155134
 
 File: "diamond-gaussianModel.xml" successfully parsed.
 Main Calculation begins
@@ -65,14 +68,15 @@ In activeSpaceRadical: No rotational constants from <me:rotConsts> or structure.
 In activeSpaceRadical: The default value of the attribute spinMultiplicity was used.
 Number of cells = 65800, Number of grains = 188
 In FastLaplaceConvolution: 24420 values in the FFT convolution routine were replaced by standard convolution
-Number of grains produced is not equal to that requested
+Number of grains produced is not equal to that requested for: CH3
 Number of grains requested: 188
 Number of grains produced : 1
- -- Total time elapsed: 1 seconds.
+Number of grains produced is not equal to that requested for: activeSpaceRadical
+ -- Total time elapsed: 3 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
 
 System saved to mesmer_out.xml
-Total time elapsed: 1 seconds.
+Total time elapsed: 3 seconds.

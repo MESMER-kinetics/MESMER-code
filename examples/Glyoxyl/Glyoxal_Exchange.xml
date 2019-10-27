@@ -354,7 +354,7 @@
       <me:DOSCMethod xsi:type="ClassicalRotors"/>
       <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
         <me:bondRef>b1</me:bondRef>
-        <me:HinderedRotorPotential format="numerical" units="kJ/mol" expansionSize="7">
+        <me:HinderedRotorPotential format="numerical" units="kJ/mol" expansionSize="20">
           <me:PotentialPoint angle="  10  " potential=" 0 "/>
           <me:PotentialPoint angle="  20  " potential=" 0.027533619 "/>
           <me:PotentialPoint angle="  30  " potential=" 0.385489037 "/>
@@ -517,7 +517,7 @@
       </propertyList>
       <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
         <me:bondRef> b1   </me:bondRef>
-        <me:HinderedRotorPotential format="numerical" expansionSize="15" units="kJ/mol" useSineTerms="yes">
+        <me:HinderedRotorPotential format="numerical" expansionSize="20" units="kJ/mol" useSineTerms="yes">
           <me:PotentialPoint angle= "0" potential = "0.0" />
           <me:PotentialPoint angle= "10" potential = "2.15536484244" />
           <me:PotentialPoint angle= "20" potential = "4.87058605393" />
@@ -559,7 +559,7 @@
       </me:ExtraDOSCMethod>
       <me:ExtraDOSCMethod xsi:type="HinderedRotorQM1D">
         <me:bondRef>  b2  </me:bondRef>
-        <me:HinderedRotorPotential format="numerical" expansionSize="15" units="kJ/mol" useSineTerms="yes">
+        <me:HinderedRotorPotential format="numerical" expansionSize="20" units="kJ/mol" useSineTerms="yes">
           <me:PotentialPoint angle= "0" potential = "0.0" />
           <me:PotentialPoint angle= "10" potential = "-0.538004332606" />
           <me:PotentialPoint angle= "20" potential = "0.547135821447" />
@@ -648,7 +648,7 @@
       <me:deltaEDownTExponent >0.0</me:deltaEDownTExponent>
       <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
         <me:bondRef>b1</me:bondRef>
-        <me:HinderedRotorPotential format="numerical" units="kJ/mol" expansionSize="7">
+        <me:HinderedRotorPotential format="numerical" units="kJ/mol" expansionSize="9">
           <me:PotentialPoint	angle="	0	"	 potential="	0	"/>
           <me:PotentialPoint	angle="	36	"	 potential="	3.520259898	"/>
           <me:PotentialPoint	angle="	72	"	 potential="	12.40227126	"/>
@@ -664,7 +664,7 @@
       </me:ExtraDOSCMethod>
       <me:ExtraDOSCMethod xsi:type="HinderedRotorQM1D">
         <me:bondRef>b2</me:bondRef>
-        <me:HinderedRotorPotential format="numerical" units="kJ/mol" expansionSize="7">
+        <me:HinderedRotorPotential format="numerical" units="kJ/mol" expansionSize="9">
           <me:PotentialPoint	angle="	0	"	 potential="	0	"/>
           <me:PotentialPoint	angle="	36	"	 potential="	9.401965384	"/>
           <me:PotentialPoint	angle="	72	"	 potential="	24.38858456	"/>
@@ -732,7 +732,7 @@
       </propertyList>
       <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
         <me:bondRef>b1</me:bondRef>
-        <me:HinderedRotorPotential format="numerical" units="kJ/mol" expansionSize="7">
+        <me:HinderedRotorPotential format="numerical" units="kJ/mol" expansionSize="9">
           <me:PotentialPoint	angle="	0	"	 potential="	0	"/>
           <me:PotentialPoint	angle="	36	"	 potential="	1.944781364	"/>
           <me:PotentialPoint	angle="	72	"	 potential="	7.963327911	"/>
@@ -800,7 +800,7 @@
       <me:deltaEDownTExponent >0.0</me:deltaEDownTExponent>
       <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
         <me:bondRef>b3</me:bondRef>
-        <me:HinderedRotorPotential format="numerical" units="kJ/mol" expansionSize="7">
+        <me:HinderedRotorPotential format="numerical" units="kJ/mol" expansionSize="9">
           <me:PotentialPoint	angle="	0	"	 potential="	0	"/>
           <me:PotentialPoint	angle="	36	"	 potential="	16.03976499	"/>
           <me:PotentialPoint	angle="	72	"	 potential="	41.11543502	"/>
@@ -817,7 +817,7 @@
       </me:ExtraDOSCMethod>
       <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
         <me:bondRef>b1</me:bondRef>
-        <me:HinderedRotorPotential format="numerical" units="kJ/mol" expansionSize="7">
+        <me:HinderedRotorPotential format="numerical" units="kJ/mol" expansionSize="9">
           <me:PotentialPoint	angle="	0	"	 potential="	0	"/>
           <me:PotentialPoint	angle="	36	"	 potential="	8.378083397	"/>
           <me:PotentialPoint	angle="	72	"	 potential="	25.09082179	"/>
@@ -834,7 +834,7 @@
       </me:ExtraDOSCMethod>
       <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
         <me:bondRef>b2</me:bondRef>
-        <me:HinderedRotorPotential format="numerical" units="kJ/mol" expansionSize="7">
+        <me:HinderedRotorPotential format="numerical" units="kJ/mol" expansionSize="9">
           <me:PotentialPoint	angle="	0	"	 potential="	0	"/>
           <me:PotentialPoint	angle="	36	"	 potential="	5.658574744	"/>
           <me:PotentialPoint	angle="	72	"	 potential="	22.00540771	"/>
@@ -909,7 +909,7 @@
       </propertyList>
       <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
         <me:bondRef>b1</me:bondRef>
-        <me:HinderedRotorPotential format="numerical" units="kJ/mol" expansionSize="7">
+        <me:HinderedRotorPotential format="numerical" units="kJ/mol" expansionSize="9">
           <me:PotentialPoint	angle="	0	"	 potential="	0	"/>
           <me:PotentialPoint	angle="	36	"	 potential="	2.553012571	"/>
           <me:PotentialPoint	angle="	72	"	 potential="	9.836847953	"/>
@@ -926,7 +926,7 @@
       </me:ExtraDOSCMethod>
       <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
         <me:bondRef>b2</me:bondRef>
-        <me:HinderedRotorPotential format="numerical" units="kJ/mol" expansionSize="7">
+        <me:HinderedRotorPotential format="numerical" units="kJ/mol" expansionSize="9">
           <me:PotentialPoint	angle="	0	"	 potential="	0	"/>
           <me:PotentialPoint	angle="	36	"	 potential="	3.162758691	"/>
           <me:PotentialPoint	angle="	72	"	 potential="	9.856187386	"/>
@@ -1366,7 +1366,8 @@
 
   <me:modelParameters>
     <me:grainSize units="cm-1">100</me:grainSize>
-    <me:energyAboveTheTopHill>10.0</me:energyAboveTheTopHill>
+    <me:energyAboveTheTopHill>3
+    0.0</me:energyAboveTheTopHill>
   </me:modelParameters>
 
   <me:control>

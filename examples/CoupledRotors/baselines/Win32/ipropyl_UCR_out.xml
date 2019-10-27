@@ -106,7 +106,7 @@
         <me:thermoValue T="1450.00" H="181.0173" S="487.5626" G="-525.9485" Cp="183.9739" cellS="487.4440" cellH="180.7582" cellG="-526.0355" cellCp="183.9245" />
         <me:thermoValue T="1500.00" H="190.2664" S="493.8336" G="-550.4840" Cp="185.9704" cellS="493.7133" cellH="190.0049" cellG="-550.5651" cellCp="185.9193" />
       </me:thermoTable>
-      <me:densityOfStatesList calculated="20180318_195736">
+      <me:densityOfStatesList calculated="20191027_155147">
         <me:description>Rovibronic partition function calculation at various temperatures. qtot : product of QM partition functions for vibrations (1-D harmonic oscillator) and classical partition functions for rotations.  sumc : cell based partition function. sumg : grain based partition function </me:description>
         <me:densityOfStates>
           <me:T>200</me:T>
@@ -614,12 +614,13 @@
     </me:calcMethod>
     <me:testDOS />
     <me:eigenvalues>1</me:eigenvalues>
+    <me:ForceMacroDetailedBalance default="true">true</me:ForceMacroDetailedBalance>
   </me:control>
   <metadataList xmlns:dc="http://purl.org/dc/elements/1.1/">
     <dc:title>isopropyl decomposition</dc:title>
     <dc:source>ipropyl_UCR.xml</dc:source>
-    <dc:creator>Mesmer v5.1</dc:creator>
-    <dc:date>20180318_195734</dc:date>
+    <dc:creator>Mesmer v6.0</dc:creator>
+    <dc:date>20191027_155144</dc:date>
     <dc:contributor>strua</dc:contributor>
   </metadataList>
 </me:mesmer>

@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.1 compiled: -- Mar 27 2018 -- 20:48:55
+     Mesmer v6.0 compiled: -- Oct 25 2019 -- 22:13:05
 
-     Copyright (C) 2009-2018 by
+     Copyright (C) 2009-2020 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sat Apr 21 19:24:57 2018
+                     Execution Date:  Sun Oct 27 14:15:10 2019
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -55,14 +55,14 @@ In R1: No tunneling method used for R1
 The default value of the attribute precision was used.
 1e+08PPCC, 500K at d precision with Ar
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20180421_192457
+Write metadata 20191027_141510
 
 File: "pentyl_isomerization_SA.xml" successfully parsed.
 Main Calculation begins
 Now calculating...
 
 --Execute calcMethod SensitivityAnalysis
- -- Total time elapsed: 8 seconds.
+ -- Total time elapsed: 11 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 8 seconds.
+Total time elapsed: 11 seconds.

@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.0 compiled: -- Oct 11 2019 -- 00:02:34
+     Mesmer v6.0 compiled: -- Oct 25 2019 -- 22:13:05
 
      Copyright (C) 2009-2020 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sun Oct 13 18:02:02 2019
+                     Execution Date:  Sun Oct 27 15:13:39 2019
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -120,7 +120,7 @@ In R6: No tunneling method used for R6
 5Torr, 212K at qd precision with N2. Excess Reactant Conc = 3.68e+16 particles per cc
 5Torr, 212K at qd precision with N2. Excess Reactant Conc = 1.01e+17 particles per cc
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20191013_180202
+Write metadata 20191027_151339
 
 File: "Glyoxal.xml" successfully parsed.
 Main Calculation begins
@@ -155,7 +155,7 @@ Chi^2 = 6.57165 Lambda = 0.01
 HC(O)CO:deltaEDown=238.432  R2:activationEnergy=3.65238  R2:preExponential=1.73273e-12  
 Iteration: 2 of Marquardt. ChiSquare = 6.57165, Lambda = 0.01
 Number of cells = 50000, Number of grains = 224
- -- Total time elapsed: 2046 seconds.
+ -- Total time elapsed: 2273 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
@@ -190,4 +190,4 @@ Number of degrees of Freedom = 5
 Chi^2 probability = 0.254495
 
 System saved to mesmer_out.xml
-Total time elapsed: 2046 seconds.
+Total time elapsed: 2273 seconds.

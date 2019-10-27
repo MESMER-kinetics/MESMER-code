@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.1 compiled: -- Mar 27 2018 -- 20:48:55
+     Mesmer v6.0 compiled: -- Oct 25 2019 -- 22:13:05
 
-     Copyright (C) 2009-2018 by
+     Copyright (C) 2009-2020 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sat Apr 21 18:59:49 2018
+                     Execution Date:  Sun Oct 27 13:36:33 2019
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -89,18 +89,17 @@ In R1: No value of me:excessReactantConc was supplied and the default value NEED
 614.5Torr, 601K at dd precision with He
 711Torr, 601K at dd precision with He
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20180421_185949
+Write metadata 20191027_133633
 
 File: "Methyl_H_to_Methane.xml" successfully parsed.
 Main Calculation begins
 Now calculating...
 
 --Execute calcMethod fitting
-Number of grains produced is not equal to that requested
+Number of grains produced is not equal to that requested for: H
 Number of grains requested: 204
 Number of grains produced : 1
 In FastLaplaceConvolution: 100 values in the FFT convolution routine were replaced by standard convolution
-Association ILT calculation completed
 
 Chi^2 = 5.9896e-20
 R1:preExponential=3e-10  R1:nInfinity=0.8  
@@ -108,16 +107,12 @@ Iteration: 1 of fitting. chiSquare = 5.9896e-20
 Direction sweep:0 of fitting. chiSquare = 5.9896e-20
 
 Begin line search
-Association ILT calculation completed
-Association ILT calculation completed
      6.6786e-20     5.9896e-20    4.95312e-20
 In FastLaplaceConvolution: 120 values in the FFT convolution routine were replaced by standard convolution
-Association ILT calculation completed
      5.9896e-20    4.95312e-20    3.50094e-20
-Association ILT calculation completed
     4.95312e-20    3.50094e-20    1.84185e-20
-Association ILT calculation completed
     3.50094e-20    1.84185e-20    1.58671e-20
+Failed bounds check.
 
 Bound check failed in bracket search.
 
@@ -126,18 +121,15 @@ R1:preExponential=1.46738e-10  R1:nInfinity=0.8
 Direction sweep:1 of fitting. chiSquare = 1.84185e-20
 
 Begin line search
-Association ILT calculation completed
-Association ILT calculation completed
     1.84185e-20    1.59346e-20    1.60456e-20
-Association ILT calculation completed
     1.84185e-20    1.59346e-20    1.59768e-20    1.60456e-20
-Association ILT calculation completed
     1.84185e-20    1.59083e-20    1.59346e-20    1.59768e-20
 
 Chi^2 = 1.59083e-20
 R1:preExponential=1.46738e-10  R1:nInfinity=0.80618  
 
 Begin line search
+Failed bounds check.
 
 Chi^2 = 1.59083e-20
 R1:preExponential=1.46738e-10  R1:nInfinity=0.80618  
@@ -145,18 +137,13 @@ Iteration: 2 of fitting. chiSquare = 1.59083e-20
 Direction sweep:0 of fitting. chiSquare = 1.59083e-20
 
 Begin line search
-Association ILT calculation completed
-Association ILT calculation completed
     1.59768e-20    1.59083e-20    1.58005e-20
-Association ILT calculation completed
     1.59083e-20    1.58005e-20    1.56331e-20
-Association ILT calculation completed
     1.58005e-20    1.56331e-20    1.53786e-20
 In FastLaplaceConvolution: 80 values in the FFT convolution routine were replaced by standard convolution
-Association ILT calculation completed
     1.56331e-20    1.53786e-20    1.50119e-20
-Association ILT calculation completed
     1.53786e-20    1.50119e-20    1.45373e-20
+Failed bounds check.
 
 Bound check failed in bracket search.
 
@@ -165,11 +152,13 @@ R1:preExponential=1.46738e-10  R1:nInfinity=0.542016
 Direction sweep:1 of fitting. chiSquare = 1.50119e-20
 
 Begin line search
+Failed bounds check.
 
 Chi^2 = 1.50119e-20
 R1:preExponential=1.46738e-10  R1:nInfinity=0.542016  
 
 Begin line search
+Failed bounds check.
 
 Chi^2 = 1.50119e-20
 R1:preExponential=1.46738e-10  R1:nInfinity=0.542016  
@@ -179,14 +168,9 @@ Iteration: 3 of fitting. chiSquare = 1.50119e-20
 Direction sweep:0 of fitting. chiSquare = 1.50119e-20
 
 Begin line search
-Association ILT calculation completed
-Association ILT calculation completed
     1.50119e-20    1.30955e-20     1.2854e-20
-Association ILT calculation completed
     1.30955e-20     1.2854e-20    1.72811e-20
-Association ILT calculation completed
     1.30955e-20     1.2854e-20    1.38852e-20    1.72811e-20
-Association ILT calculation completed
     1.30955e-20    1.26564e-20     1.2854e-20    1.38852e-20
 
 Chi^2 = 1.26564e-20
@@ -194,24 +178,18 @@ R1:preExponential=1.66738e-10  R1:nInfinity=0.542016
 Direction sweep:1 of fitting. chiSquare = 1.26564e-20
 
 Begin line search
-Association ILT calculation completed
-Association ILT calculation completed
     1.26564e-20    1.26459e-20    1.26315e-20
-Association ILT calculation completed
     1.26459e-20    1.26315e-20    1.26157e-20
-Association ILT calculation completed
     1.26315e-20    1.26157e-20    1.26094e-20
-Association ILT calculation completed
     1.26157e-20    1.26094e-20    1.26495e-20
-Association ILT calculation completed
     1.26157e-20    1.26094e-20    1.26174e-20    1.26495e-20
-Association ILT calculation completed
     1.26157e-20     1.2609e-20    1.26094e-20    1.26174e-20
 
 Chi^2 = 1.2609e-20
 R1:preExponential=1.66738e-10  R1:nInfinity=0.620557  
 
 Begin line search
+Failed bounds check.
 
 Chi^2 = 1.2609e-20
 R1:preExponential=1.66738e-10  R1:nInfinity=0.620557  
@@ -219,12 +197,8 @@ Iteration: 4 of fitting. chiSquare = 1.2609e-20
 Direction sweep:0 of fitting. chiSquare = 1.2609e-20
 
 Begin line search
-Association ILT calculation completed
-Association ILT calculation completed
      1.2609e-20    1.26088e-20    1.26114e-20
-Association ILT calculation completed
      1.2609e-20    1.26088e-20    1.26094e-20    1.26114e-20
-Association ILT calculation completed
      1.2609e-20    1.26087e-20    1.26088e-20    1.26094e-20
 
 Chi^2 = 1.26087e-20
@@ -232,11 +206,13 @@ R1:preExponential=1.66738e-10  R1:nInfinity=0.626738
 Direction sweep:1 of fitting. chiSquare = 1.26087e-20
 
 Begin line search
+Failed bounds check.
 
 Chi^2 = 1.26087e-20
 R1:preExponential=1.66738e-10  R1:nInfinity=0.626738  
 
 Begin line search
+Failed bounds check.
 
 Chi^2 = 1.26087e-20
 R1:preExponential=1.66738e-10  R1:nInfinity=0.626738  
@@ -246,12 +222,8 @@ Iteration: 5 of fitting. chiSquare = 1.26087e-20
 Direction sweep:0 of fitting. chiSquare = 1.26087e-20
 
 Begin line search
-Association ILT calculation completed
-Association ILT calculation completed
     1.28522e-20    1.26087e-20    1.41468e-20
-Association ILT calculation completed
     1.28522e-20    1.26087e-20    1.29026e-20    1.41468e-20
-Association ILT calculation completed
     1.28522e-20    1.25995e-20    1.26087e-20    1.29026e-20
 
 Chi^2 = 1.25995e-20
@@ -259,33 +231,23 @@ R1:preExponential=1.70557e-10  R1:nInfinity=0.626738
 Direction sweep:1 of fitting. chiSquare = 1.25995e-20
 
 Begin line search
-Association ILT calculation completed
-Association ILT calculation completed
     1.25995e-20    1.25896e-20    1.25764e-20
-Association ILT calculation completed
     1.25896e-20    1.25764e-20    1.25627e-20
-Association ILT calculation completed
     1.25764e-20    1.25627e-20    1.25602e-20
-Association ILT calculation completed
     1.25627e-20    1.25602e-20     1.2608e-20
-Association ILT calculation completed
     1.25627e-20    1.25602e-20    1.25709e-20     1.2608e-20
-Association ILT calculation completed
     1.25627e-20    1.25583e-20    1.25602e-20    1.25709e-20
 
 Chi^2 = 1.25583e-20
 R1:preExponential=1.70557e-10  R1:nInfinity=0.705279  
 
 Begin line search
+Failed bounds check.
 
 Chi^2 = 1.25583e-20
 R1:preExponential=1.70557e-10  R1:nInfinity=0.705279  
-Association ILT calculation completed
-Association ILT calculation completed
-Association ILT calculation completed
 Number of cells = 50000, Number of grains = 204
-Association ILT calculation completed
- -- Total time elapsed: 429 seconds.
+ -- Total time elapsed: 479 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
@@ -346,4 +308,4 @@ Number of degrees of Freedom = 35
 Error Factor = 1.89422e-11
 
 System saved to out.xml
-Total time elapsed: 429 seconds.
+Total time elapsed: 479 seconds.
