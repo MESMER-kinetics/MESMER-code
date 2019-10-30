@@ -96,9 +96,9 @@ namespace mesmer
 
         double ptnl = CalculatePotential(0.0, ptnlCosCoeff, ptnlSinCoeff);
         if (fabs(ptnl) > 20.0) {
-          clog << "WARNING: The Fourier expansion for the internal rotor potential for bond " << bondID << " of " << endl;
-          clog << "species " << SpeciesID << ", differs at the minimum from the value entered by more than 20 cm-1." << endl;
-          clog << "More terms in the Fourier expansion may be needed." << endl;
+          cwarn << "WARNING: The Fourier expansion for the internal rotor potential for bond " << bondID << " of " << endl;
+          cwarn << "species " << SpeciesID << ", differs at the minimum from the value entered by more than 20 cm-1." << endl;
+          cwarn << "More terms in the Fourier expansion may be needed." << endl;
         }
 
         ctest << "Internal rotor " << bondID << " of species " << SpeciesID << endl;

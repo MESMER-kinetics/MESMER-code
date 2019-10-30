@@ -78,55 +78,6 @@
       </propertyList>
     </molecule>
 
-    <molecule xmlns="http://www.xml-cml.org/schema" id="C1" spinMultiplicity="2">
-      <atomArray>
-        <atom id="a1" elementType="C" spinMultiplicity="3" x3="0.202227" y3="0.619571" z3="-0.001308"/>
-        <atom id="a2" elementType="H" x3="-2.543369" y3="-0.875411" z3="0.811111"/>
-        <atom id="a3" elementType="C" x3="0.892783" y3="-0.594844" z3="-0.023778"/>
-        <atom id="a4" elementType="H" x3="0.260186" y3="-1.480395" z3="-0.074860"/>
-        <atom id="a5" elementType="O" x3="2.135271" y3="-0.577513" z3="0.011170"/>
-        <atom id="a6" elementType="O" spinMultiplicity="2" x3="-0.252284" y3="1.670770" z3="0.015351"/>
-        <atom id="a7" elementType="O" x3="-2.079583" y3="-0.771427" z3="-0.022468"/>
-        <atom id="a8" elementType="H" x3="-2.714112" y3="-0.367193" z3="-0.618167"/>
-      </atomArray>
-      <bondArray>
-        <bond atomRefs2="a8 a7" order="1"/>
-        <bond atomRefs2="a4 a3" order="1"/>
-        <bond atomRefs2="a3 a1" order="1"/>
-        <bond atomRefs2="a3 a5" order="2"/>
-        <bond atomRefs2="a7 a2" order="1"/>
-        <bond atomRefs2="a1 a6" order="1"/>
-      </bondArray>
-      <propertyList>
-        <property title="program">
-          <scalar>Gaussian 09, Revision D.01</scalar>
-        </property>
-        <property title="basis">
-          <scalar>6-311+G(3df,2pd) (5D, 7F)</scalar>
-        </property>
-        <property title="File Format">
-          <scalar>g03</scalar>
-        </property>
-        <property title="Energy" dictRef="me:ZPE">
-          <scalar units="kJ/mol" >104.5</scalar>
-        </property>
-        <property title="SpinMultiplicity" dictRef="me:spinMultiplicity">
-          <scalar>2.00 </scalar>
-        </property>
-        <property title="Vibrational Frequencies" dictRef="me:vibFreqs">
-          <array units="cm-1">1.87 103.66 128.65 141.60 216.10 220.04 242.13 319.02 689.69 821.49 998.26 1347.91 1518.56 1625.07 2220.76 3121.91 3882.16 3980.71 </array>
-        </property>
-        <property title="Rotational Constants" dictRef="me:rotConsts">
-          <array units="cm-1">0.233 0.100 0.071 </array>
-        </property>
-        <property title="Symmetry Number" dictRef="me:symmetryNumber">
-          <scalar>1 </scalar>
-        </property>
-      </propertyList>
-      <me:deltaEDown units="cm-1"  >250.0</me:deltaEDown>
-      <me:deltaEDownTExponent  >0.4</me:deltaEDownTExponent>
-    </molecule>
-    
     <molecule xmlns="http://www.xml-cml.org/schema" id="TS1" spinMultiplicity="2">
       <atomArray>
         <atom id="a1" elementType="C" x3="-1.408077" y3="0.001881" z3="0.000017"/>
@@ -175,55 +126,6 @@
           <scalar>1 </scalar>
         </property>
       </propertyList>
-
-    </molecule>
-    
-    <molecule xmlns="http://www.xml-cml.org/schema" id="C2" spinMultiplicity="2">
-      <atomArray>
-        <atom id="a1" elementType="C" spinMultiplicity="3" x3="0.202227" y3="0.619571" z3="-0.001308"/>
-        <atom id="a2" elementType="H" x3="-2.543369" y3="-0.875411" z3="0.811111"/>
-        <atom id="a3" elementType="C" x3="0.892783" y3="-0.594844" z3="-0.023778"/>
-        <atom id="a4" elementType="H" x3="0.260186" y3="-1.480395" z3="-0.074860"/>
-        <atom id="a5" elementType="O" x3="2.135271" y3="-0.577513" z3="0.011170"/>
-        <atom id="a6" elementType="O" spinMultiplicity="2" x3="-0.252284" y3="1.670770" z3="0.015351"/>
-        <atom id="a7" elementType="O" x3="-2.079583" y3="-0.771427" z3="-0.022468"/>
-        <atom id="a8" elementType="H" x3="-2.714112" y3="-0.367193" z3="-0.618167"/>
-      </atomArray>
-      <bondArray>
-        <bond atomRefs2="a8 a7" order="1"/>
-        <bond atomRefs2="a4 a3" order="1"/>
-        <bond atomRefs2="a3 a1" order="1"/>
-        <bond atomRefs2="a3 a5" order="2"/>
-        <bond atomRefs2="a7 a2" order="1"/>
-        <bond atomRefs2="a1 a6" order="1"/>
-      </bondArray>
-      <propertyList>
-        <property title="program">
-          <scalar>Gaussian 09, Revision D.01</scalar>
-        </property>
-        <property title="basis">
-          <scalar>6-311+G(3df,2pd) (5D, 7F)</scalar>
-        </property>
-        <property title="File Format">
-          <scalar>g03</scalar>
-        </property>
-        <property title="Energy" dictRef="me:ZPE">
-          <scalar units="kJ/mol">-18.7 </scalar>
-        </property>
-        <property title="SpinMultiplicity" dictRef="me:spinMultiplicity">
-          <scalar>2.00 </scalar>
-        </property>
-        <property title="Vibrational Frequencies" dictRef="me:vibFreqs">
-          <array units="cm-1">80.87 103.66 128.65 141.60 216.10 220.04 242.13 319.02 689.69 821.49 998.26 1347.91 1518.56 1625.07 2220.76 3121.91 3882.16 3980.71 </array>
-        </property>
-        <property title="Rotational Constants" dictRef="me:rotConsts">
-          <array units="cm-1">0.233 0.100 0.071 </array>
-        </property>
-        <property title="Symmetry Number" dictRef="me:symmetryNumber">
-          <scalar>1 </scalar>
-        </property>
-      </propertyList>
-      <me:deltaEDown units="cm-1" >250.0</me:deltaEDown>
 
     </molecule>
     
@@ -648,7 +550,7 @@
       <me:deltaEDownTExponent >0.0</me:deltaEDownTExponent>
       <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
         <me:bondRef>b1</me:bondRef>
-        <me:HinderedRotorPotential format="numerical" units="kJ/mol" expansionSize="9">
+        <me:HinderedRotorPotential format="numerical" units="kJ/mol" expansionSize="10">
           <me:PotentialPoint	angle="	0	"	 potential="	0	"/>
           <me:PotentialPoint	angle="	36	"	 potential="	3.520259898	"/>
           <me:PotentialPoint	angle="	72	"	 potential="	12.40227126	"/>
@@ -1010,7 +912,7 @@
       </transitionState>
       <me:MCRCMethod xsi:type="me:CanonicalRateCoefficient">
         <me:preExponential units="cm3molecule-1s-1" >2.0e-11</me:preExponential>
-        <me:activationEnergy units="kJ/mol">24.2186</me:activationEnergy>
+        <me:activationEnergy units="kJ/mol">1.2</me:activationEnergy>
         <me:TInfinity>1.0</me:TInfinity>
         <me:nInfinity>0.0</me:nInfinity>
       </me:MCRCMethod>
@@ -1024,7 +926,7 @@
       <me:excessReactantConc>1E14</me:excessReactantConc>
     </reaction>
 
-    <reaction id="R4">
+    <!--<reaction id="R4">
       <reactant>
         <molecule ref="HC(O)CO" role="modelled"/>
       </reactant>
@@ -1038,8 +940,8 @@
         <molecule ref="TS2" role="transitionState"/>
       </transitionState>
       <me:MCRCMethod name="RRKM"/>
-    </reaction>
-    <reaction id="R2">
+    </reaction>-->
+    <!--<reaction id="R2">
       <reactant>
         <molecule ref="HC(O)CO" role="modelled"/>
       </reactant>
@@ -1054,20 +956,21 @@
         <me:activationEnergy units="kJ/mol" lower="0.0" upper="10.0" stepsize="1.0e-01">3.0715</me:activationEnergy>
         <me:nInfinity>0.0</me:nInfinity>
       </me:MCRCMethod>
-    </reaction>
-    <reaction id="R6">
+    </reaction>-->
+    
+    <!--<reaction id="R6">
       <reactant>
         <molecule ref="R02" role="modelled"/>
       </reactant>
       <product>
-        <!--<molecule ref="QOOH" role="modelled"/>-->
+        --><!--<molecule ref="QOOH" role="modelled"/>--><!--
         <molecule ref="QOOH" role="sink"/>
       </product>
       <transitionState>
         <molecule ref="TS4" role="transitionState"/>
       </transitionState>
       <me:MCRCMethod name="RRKM"/>
-    </reaction>
+    </reaction>-->
     <!--<reaction id="R7">
       <reactant>
         <molecule ref="QOOH" role="modelled"/>
@@ -1088,7 +991,7 @@
       <me:PTpair units="Torr" P="80" T="295" refReactionExcess="R2" excessReactantConc="1.547E+17" precision="dd" >
         <me:experimentalYield ref="QOOH" error="0.032" yieldTime="1.e-02">0.0508</me:experimentalYield>
       </me:PTpair>
-      <me:PTpair units="Torr" P="80" T="295" refReactionExcess="R2" excessReactantConc="3.265E+17" precision="dd" >
+      <!--<me:PTpair units="Torr" P="80" T="295" refReactionExcess="R2" excessReactantConc="3.265E+17" precision="dd" >
         <me:experimentalYield ref="QOOH" error="0.034" yieldTime="1.e-02">0.135</me:experimentalYield>
       </me:PTpair>
       <me:PTpair units="Torr" P="80" T="295" refReactionExcess="R2" excessReactantConc="5.866E+17" precision="dd" >
@@ -1360,24 +1263,23 @@
       </me:PTpair>
       <me:PTpair units="Torr" P="5" T="212" refReactionExcess="R2" excessReactantConc="1.01E+17" precision="qd" >
         <me:experimentalYield ref="QOOH" error="0.0482" yieldTime="1.e-02">0.377</me:experimentalYield>
-      </me:PTpair>
+      </me:PTpair>-->
     </me:PTs>
   </me:conditions>
 
   <me:modelParameters>
     <me:grainSize units="cm-1">100</me:grainSize>
-    <me:energyAboveTheTopHill>3
-    0.0</me:energyAboveTheTopHill>
+    <me:energyAboveTheTopHill>20.0</me:energyAboveTheTopHill>
   </me:modelParameters>
 
   <me:control>
-    <me:calcMethod xsi:type="me:marquardt">
+    <!--<me:calcMethod xsi:type="me:marquardt">
       <me:MarquardtIterations>2</me:MarquardtIterations>
       <me:MarquardtTolerance>0.0001</me:MarquardtTolerance>
       <me:MarquardtDerivDelta>1.e-02</me:MarquardtDerivDelta>
-    </me:calcMethod>
+    </me:calcMethod>-->
     <me:testDOS/>
-    <me:eigenvalues>1</me:eigenvalues>
+    <me:eigenvalues>5</me:eigenvalues>
   </me:control>
 
 </me:mesmer>

@@ -1,3 +1,27 @@
+2019-October-30 Struan Robertson
+
+		* CollisionOperator.cpp: Changes related to the Exchange reaction method.
+
+		* ExchangeReaction.cpp/.h, Fragmentation.h: Further updates to implementation of the 
+		micro-rate method.
+
+		* Marquardt.cpp, HinderedRotorUtilis.cpp: Corrected warning output channel.
+
+2019-October-27 Struan Robertson
+
+		* PseudoIsomerizationReaction.cpp, PriorDistFragmentation.cpp/.h: Updated following 
+		interface change.
+
+		* ExchangeReaction.cpp/.h, Fragmentation.h: Updated implementation of the micro-rate 
+		method.
+
+		* MesmerMath.h: Added normalization method.
+
+		* MesmerMath.h, MesmerTools.cpp, ParseForPlugin.cpp, SensitivityAnalysis.cpp, qd_test.h: 
+		Header file rationalization. 
+
+		* Marquardt.cpp: Fix for Linux64 build break.
+
 2019-October-22 Struan Robertson
 
 		* PseudoIsomerizationReaction.h/.cpp: Header file re-arrangement.

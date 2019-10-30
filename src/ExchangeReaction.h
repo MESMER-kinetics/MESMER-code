@@ -52,7 +52,10 @@ namespace mesmer
     };
 
     // Get unimolecular species information:
-    virtual int get_unimolecularspecies(std::vector<Molecule *> &unimolecularspecies) const { return 0; }
+    virtual int get_unimolecularspecies(std::vector<Molecule *> &unimolecularspecies) const { 
+      unimolecularspecies.push_back(m_pdt1);
+      return unimolecularspecies.size();
+    }
 
     // Get the principal source reactant (i.e. reactant not in excess).
     virtual Molecule *get_pseudoIsomer(void) const { return m_rct1; };
@@ -89,6 +92,10 @@ namespace mesmer
 
     // Calculate reaction equilibrium constant.
     virtual double calcEquilibriumConstant();
+
+    // Is reaction equilibrating and therefore contributes
+    // to the calculation of equilibrium fractions.
+    virtual bool isEquilibratingReaction(double& Keq, Molecule** rct, Molecule** pdt);
 
     // returns the reaction type
     virtual ReactionType getReactionType() { return BIMOLECULAR_EXCHANGE; };

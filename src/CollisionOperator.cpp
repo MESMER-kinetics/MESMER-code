@@ -19,6 +19,8 @@
 #include "IsomerizationReaction.h"
 #include "IrreversibleExchangeReaction.h"
 #include "BimolecularSinkReaction.h"
+#include "ExchangeReaction.h"
+
 #include "gWellProperties.h"
 #include "gPopulation.h"
 
@@ -130,7 +132,7 @@ namespace mesmer
         minEnergy = min(minEnergy, sourceTermZPE);
         maxEnergy = max(maxEnergy, sourceTermZPE);
 
-        // Calculate the lowest barrier associated with this well(species)
+        // Calculate the lowest barrier associated with this well(species).
         // For association reaction, it is assumed that the barrier height is close to the source term energy
         // and in a sense, it is preferable to set this variable to the source term energy even there is an explicit
         // transition state.
@@ -139,6 +141,19 @@ namespace mesmer
         if (barrierHeight < unimolecules[0]->getColl().getLowestBarrier()) {
           unimolecules[0]->getColl().setLowestBarrier(barrierHeight);
         }
+      }
+
+      //
+      // For irreversible exchange reactions determine zero point energy location of the
+      // associating pair.
+      //
+      ExchangeReaction* pEReaction = dynamic_cast<ExchangeReaction*>(pReaction);
+      if (pEReaction) {
+        double pseudoIsomerZPE = pEReaction->get_pseudoIsomer()->getDOS().get_zpe();
+        double excessReactantZPE = pEReaction->get_excessReactant()->getDOS().get_zpe();
+        double sourceTermZPE = pseudoIsomerZPE + excessReactantZPE;
+        minEnergy = min(minEnergy, sourceTermZPE);
+        maxEnergy = max(maxEnergy, sourceTermZPE);
       }
 
       //

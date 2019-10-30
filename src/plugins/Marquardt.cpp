@@ -146,7 +146,7 @@ namespace mesmer
         string MtrxTitle("Marquardt Hessian Matrix: ");
         hessian.print(MtrxTitle, cerr);
         cinfo.flush();
-        clog.flush();
+        cwarn.flush();
         cerr.flush();
         throw(e);
       }

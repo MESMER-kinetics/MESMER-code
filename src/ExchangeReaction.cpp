@@ -153,6 +153,18 @@ namespace mesmer
     return Keq;
   }
 
+  // Is reaction equilibrating and therefore contributes
+  // to the calculation of equilibrium fractions.
+  bool ExchangeReaction::isEquilibratingReaction(double& Keq, Molecule** rct, Molecule** pdt) {
+
+    Keq = calcEquilibriumConstant();
+
+    *rct = m_rct1;
+    *pdt = m_pdt1;
+
+    return true;
+  }
+
   // Add exchange reaction terms to collision matrix.
   void ExchangeReaction::AddReactionTerms(qdMatrix* CollOptr, molMapType& isomermap, const double rMeanOmega)
   {
@@ -172,7 +184,7 @@ namespace mesmer
     const size_t pColloptrsize = m_pdt1->getColl().get_colloptrsize();
 
     if (pColloptrsize != pdtBltz.size()) {
-      string msg = __FUNCTION__ + string(": Error: collison operator and distribution have different sizes.\n") ;
+      string msg = __FUNCTION__ + string(": Error: collison operator and distribution have different sizes.\n");
       throw(runtime_error(msg));
     }
 
@@ -184,7 +196,7 @@ namespace mesmer
     // Calculate the weighted sum of the energy partition distribution.
 
     // 1. First need to find the isoenergetic grains for the product and TS.
-    
+
     calcEffGrnThresholds();
     size_t nRvrThresh = get_EffGrnRvsThreshold();
 
@@ -228,8 +240,8 @@ namespace mesmer
       size_t ii(pdtLocation + i);
       qd_real dist(totalFragDist[i]), bltz(pdtBltz[i]);
       (*CollOptr)[ii][ii] -= diag * dist / bltz;          // Loss of the adduct to the source
-      (*CollOptr)[jj][ii]  = offDiag * dist /sqrt(bltz);  // Reactive gain of the source
-      (*CollOptr)[ii][jj]  = (*CollOptr)[jj][ii];         // Reactive gain (symmetrization)
+      (*CollOptr)[jj][ii] = offDiag * dist / sqrt(bltz);  // Reactive gain of the source
+      (*CollOptr)[ii][jj] = (*CollOptr)[jj][ii];         // Reactive gain (symmetrization)
     }
 
     // Return any resources used.
