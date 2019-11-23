@@ -824,7 +824,6 @@ src/plugins/PhaseIntegrals.h -text
 src/plugins/Potential1D.cpp -text
 src/plugins/Potential1D.h -text
 src/plugins/PriorDistFragmentation.cpp -text
-src/plugins/PriorDistFragmentation.h -text
 src/plugins/PriorDistribution.cpp -text
 src/plugins/QMRotor.cpp -text
 src/plugins/RRKM.cpp -text

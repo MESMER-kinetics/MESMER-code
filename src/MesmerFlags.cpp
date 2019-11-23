@@ -18,7 +18,7 @@ namespace mesmer{
     cellFluxEnabled(false),
     grainFluxEnabled(false),
     rateCoefficientsOnly(false),
-    useTheSameCellNumber(false),
+    useTheSameCellNumber(true),
     grainedProfileEnabled(false),
     speciesProfileEnabled(false),
 	  printPhenomenologicalEvolution(false),

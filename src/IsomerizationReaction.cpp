@@ -66,6 +66,11 @@ namespace mesmer
       return false;
     }
 
+    // Sanity check.
+    if (m_rct1 == m_pdt1) {
+      throw(std::runtime_error(string("The isomerization reaction " + getName() + " has the same species for reactant and product.\n")));
+    }
+
     // Read heat of reaction and rate parameters.
     return ReadRateCoeffParameters(ppReac);
 

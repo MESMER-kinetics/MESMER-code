@@ -11,7 +11,8 @@
 #include <limits>
 #include "PseudoIsomerizationReaction.h"
 #include "gWellProperties.h"
-#include "PriorDistFragmentation.h"
+#include "../Fragmentation.h"
+#include "ParseForPlugin.h"
 #include <math.h>
 
 using namespace Constants ;
@@ -25,17 +26,12 @@ namespace mesmer
 
     // Determine fragmentation model.
     PersistPtr ppDstbn = ppReac->XmlMoveTo("me:FragmentDist");
-    if (ppDstbn) {
-      const char* ptxt = ppDstbn->XmlReadValue("xsi:type", optional); ;
-      string fragMod(ptxt);
-      if (fragMod == "me:modPrior")
-        m_fragDist = new modPriorDist(ppDstbn, this->getName());
-      else
-        m_fragDist = new priorDist();
-    }
-    else {
-      m_fragDist = new priorDist();
-    }
+    m_fragDist = ParseForPlugin<FragDist>(this, "me:FragmentDist", ppReac);
+    if (!m_fragDist)
+      return false;
+
+    m_fragDist->ReadParameters(ppDstbn, this->getName());
+
     return AssociationReaction::InitializeReaction(ppReac);
   };
 

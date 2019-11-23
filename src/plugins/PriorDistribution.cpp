@@ -14,7 +14,6 @@
 #include <stdexcept>
 
 #include "../Distribution.h"
-//#include "../MolecularComponents.h"
 #include "../Molecule.h"
 #include "../MoleculeManager.h"
 #include "../gDensityOfStates.h"

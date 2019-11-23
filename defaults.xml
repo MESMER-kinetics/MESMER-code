@@ -40,7 +40,7 @@
   <property dictRef="me:MW" default="IS UNSATISFACTORY. A VALUE NEEDS TO BE PROVIDED**">
     <scalar>0.0</scalar>
   </property>
-  <me:MCRCMethod default="NEEDS TO BE CHECKED. COULD BE** " name="SimpleRRKM"/>
+  <me:MCRCMethod default="NEEDS TO BE CHECKED. COULD BE** " name="RRKM"/>
   <me:DOSCMethod default="true" name="ClassicalRotors"/>
   <me:DOSCType default="true">external</me:DOSCType>
   <!--<me:DistributionCalcMethod default="true">Boltzmann</me:DistributionCalcMethod>-->
@@ -57,8 +57,8 @@
   <me:calcMethod default="true" name="simpleCalc"/>
   <me:fittingTolerance default="true">0.01</me:fittingTolerance>
   <me:fittingIterations default="true">10</me:fittingIterations>
-  <!--<me:energyTransferModel default="true">ExponentialDown</me:energyTransferModel>-->
   <me:energyTransferModel name="ExponentialDown" default="true"/>
+  <me:FragmentDist name="Prior" default="true"/>
   <me:MarquardtDerivDelta default="true">1.e-03</me:MarquardtDerivDelta>
   <me:MarquardtTolerance default="true">1.e-03</me:MarquardtTolerance>
   <me:ConstraintFactor default="true">1.0</me:ConstraintFactor>

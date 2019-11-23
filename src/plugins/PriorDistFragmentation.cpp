@@ -10,8 +10,9 @@
 //
 //-------------------------------------------------------------------------------------------
 
-#include "PriorDistFragmentation.h"
+#include "../Fragmentation.h"
 #include "../gWellProperties.h"
+#include "../Reaction.h"
 
 using namespace Constants;
 using namespace std;
@@ -19,25 +20,94 @@ using namespace std;
 namespace mesmer
 {
 
+  //
+  // Implementation class for the calculation of fragment distribution on dissocistion
+  // for the prior model.
+  //
+  class priorDist : public FragDist
+  {
+  public:
+
+    ///Constructor which registers with the list of DistributionCalculators in the base class
+    priorDist(const char* id) : m_id(id),
+      m_pReaction(NULL),
+      m_rctDOS(),
+      m_upperConv(),
+      m_lowerConv()
+    {
+      Register();
+    };
+
+    // Destructor.
+    virtual ~priorDist() {};
+
+    virtual const char* getID() { return m_id; }
+    virtual priorDist* Clone() { return new priorDist(*this); }
+
+    // Initialize the fragment distribution.
+    virtual void initialize(Reaction* pReaction);
+
+    // Calculate distribution
+    virtual void calculate(double excessEnergy, std::vector<double>& dist);
+
+    // Return resources
+    virtual void clear() {
+      m_rctDOS.clear();
+      m_upperConv.clear();
+      m_lowerConv.clear();
+    };
+
+  protected:
+
+    Reaction* m_pReaction;
+
+    vector<double> m_rctDOS;
+
+    vector<double> m_upperConv;
+
+    vector<double> m_lowerConv;
+
+  private:
+
+    const char* m_id;
+
+  };
+
+  //************************************************************
+  //Global instance, defining its id
+  priorDist thePriorDist("Prior");
+  //************************************************************
+
   // Initialize the fragment distribution.
   void priorDist::initialize(Reaction* pReaction) {
 
     m_pReaction = pReaction;
 
-    Molecule* pXsRct = m_pReaction->getExcessReactant();
-    Molecule* pRct = m_pReaction->get_reactant();
+    ReactionType reactionType = m_pReaction->getReactionType();
+
+    Molecule* pXsSpcs(NULL), * pSpcs(NULL);
+    if (reactionType == PSEUDOISOMERIZATION) {
+      pXsSpcs = m_pReaction->getExcessReactant();
+      pSpcs = m_pReaction->get_reactant();
+    }
+    else if (reactionType == BIMOLECULAR_EXCHANGE) {
+      vector<Molecule*> products;
+      m_pReaction->get_products(products);
+      pSpcs = products[0];
+      pXsSpcs = products[1];
+    }
 
     vector<double> xsDOS;
-    pXsRct->getDOS().getCellDensityOfStates(xsDOS);
+    pXsSpcs->getDOS().getCellDensityOfStates(xsDOS);
 
-    pRct->getDOS().getCellDensityOfStates(m_rctDOS);
+    pSpcs->getDOS().getCellDensityOfStates(m_rctDOS);
 
     // The (classical) translational density of states. Prefactors are not included 
     // because they cancel on normalization.
 
     size_t Size = xsDOS.size();
     vector<double> Trans_DOS;
-    getCellEnergies(Size, pRct->getEnv().CellSize, Trans_DOS);
+    getCellEnergies(Size, pSpcs->getEnv().CellSize, Trans_DOS);
     for (size_t i(0); i < Trans_DOS.size(); i++) {
       Trans_DOS[i] = sqrt(Trans_DOS[i]);
     }
@@ -97,13 +167,60 @@ namespace mesmer
     return;
   }
 
+
+  class modPriorDist : public priorDist
+  {
+  public:
+
+    ///Constructor which registers with the list of DistributionCalculators in the base class
+    modPriorDist(const char* id) : priorDist(id),
+      m_order(),
+      m_nexp(),
+      m_Tref(0.0)
+    {};
+
+    // Destructor.
+    virtual ~modPriorDist() {};
+
+    virtual modPriorDist* Clone() { return new modPriorDist(*this); }
+
+    // Read any data from XML and store in this instance. Default is do nothing.
+    virtual bool ReadParameters(PersistPtr ppFragDist, std::string name) {
+      m_order = ppFragDist->XmlReadDouble("me:modPriorOrder");
+      m_nexp = ppFragDist->XmlReadDouble("me:modPriorNexp");
+      m_Tref = ppFragDist->XmlReadDouble("me:modPriorTref");
+      bool rangeSet(false);
+      PersistPtr ppOrder = ppFragDist->XmlMoveTo("me:modPriorOrder");
+      ReadRdoubleRange(name + std::string(":modPriorOrder"), ppOrder, m_order, rangeSet);
+      PersistPtr ppNexp = ppFragDist->XmlMoveTo("me:modPriorNexp");
+      ReadRdoubleRange(name + std::string(":modPriorNexp"), ppNexp, m_nexp, rangeSet);
+
+      return true;
+    };
+
+    // Initialize the fragment distribution.
+    virtual void initialize(Reaction* pReaction);
+
+  private:
+
+    Rdouble m_order;
+    Rdouble m_nexp;
+    double m_Tref;
+
+  };
+
+  //************************************************************
+  // Global instance, defining its id
+  modPriorDist theModPriorDist("modPrior");
+  //************************************************************
+
   void modPriorDist::initialize(Reaction* pReaction) {
 
     m_pReaction = pReaction;
 
     ReactionType reactionType = m_pReaction->getReactionType();
 
-    Molecule *pXsSpcs(NULL), *pSpcs(NULL);
+    Molecule* pXsSpcs(NULL), * pSpcs(NULL);
     if (reactionType == PSEUDOISOMERIZATION) {
       pXsSpcs = m_pReaction->getExcessReactant();
       pSpcs = m_pReaction->get_reactant();

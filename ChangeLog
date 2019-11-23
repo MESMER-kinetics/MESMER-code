@@ -1,3 +1,15 @@
+2019-November-23 Struan Robertson
+
+		* Fragmentation.h, PriorDistFragmentation.cpp, ExchangeReaction.cpp, Defaults.xml 
+		PseudoIsomerizationReaction.cpp: Introduction of fragmentation plugin class.
+
+		* IsomerizationReaction.cpp: Added check for the error that react and product are 
+		the same.
+
+		* MesmerFlag.cpp: Set default for useTheSameCellNumber flag to true.
+
+		* EthyleneAbstraction.xml: Updated with correct rate data.
+
 2019-October-30 Struan Robertson
 
 		* CollisionOperator.cpp: Changes related to the Exchange reaction method.
