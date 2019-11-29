@@ -1,3 +1,9 @@
+2019-November-29 Struan Robertson
+
+		* ExchangeReaction.h/.cpp: Added bimolecular rate coefficient calculator.
+
+		* VC15 Mesmer.vcxproj: Updated VC15 project.
+
 2019-November-23 Struan Robertson
 
 		* Fragmentation.h, PriorDistFragmentation.cpp, ExchangeReaction.cpp, Defaults.xml 

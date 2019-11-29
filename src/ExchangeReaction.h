@@ -36,6 +36,7 @@ namespace mesmer
       m_pdt1(NULL),
       m_pdt2(NULL),
       deficientReactantLocation(isReactant),
+      m_EPConc(0.0),
       m_fragDist(NULL)
     {
       m_UsesProductProperties = false;
@@ -135,6 +136,8 @@ namespace mesmer
     Molecule    *m_pdt2; // Subsidiary product molecule, in excess.
 
     bool deficientReactantLocation; // true if 1st rct in XML file is deficient false if 2nd reactant is deficient
+
+    double    m_EPConc;  // Concentration of the excess product.
 
     FragDist* m_fragDist;
   };

@@ -107,8 +107,21 @@ namespace mesmer
       return false;
 
     // Check the transistion state is defined. 
-    if (!m_TransitionState)
-      return false;
+    if (!m_TransitionState) {
+      throw(std::runtime_error(string("The irreversible exchange reaction " + getName() + " is defined without a transition state.\n")));
+    }
+
+    // Read excess product concentration.
+    const char* pEPConctxt = ppReac->XmlReadValue("me:excessProductConc", optional);
+    if (!pEPConctxt) {
+      cinfo << "No excess product concentration specified for reaction " << getName() << "." << endl
+         << "Assume excess product concentration the same as excess reactant concentration." << endl;
+      m_EPConc = m_ERConc;
+    }
+    else {
+      stringstream s3(pEPConctxt);
+      s3 >> m_EPConc;
+    }
 
     return true;
   }
@@ -144,6 +157,13 @@ namespace mesmer
     // Heat of reaction: use heat of reaction to calculate the zpe weighing of different wells.
     const double HeatOfReaction = getHeatOfReaction();
     Keq *= exp(-beta * HeatOfReaction);
+
+    Keq *= m_ERConc / m_EPConc;
+    //
+    // K_eq = ( [C][D]/[A][B] ) * [A]/[D] = [C]/[B]
+    //
+    // where [A] is the reactant what is in excess (seen as constant) and [D] is the produt in excess.
+    // Therefore, the K_eq here is essentially the pseudo-first-order equilibrium constant.
 
     return Keq;
   }
@@ -257,7 +277,32 @@ namespace mesmer
       k_forward = m_CellFlux[0];
     }
     else {
-      throw(std::runtime_error(string("The irreversible exchange reaction " + getName() + " is defined without either a transition state or Arrhenius parameters.\n")));
+
+      // Calculate rate coefficient using standard TST theory.
+
+      const double rctsEne = m_rct1->getDOS().get_zpe() + m_rct2->getDOS().get_zpe();
+      const double tsEne   = m_TransitionState->getDOS().get_zpe();
+      const double Ethresh = tsEne - rctsEne;
+
+      vector<double> cellEne, tmpDOS;
+      getCellEnergies(m_rct1->getEnv().MaxCell, m_rct1->getEnv().CellSize, cellEne);
+
+      // Rovibronic partition function for the transition state.
+      m_TransitionState->getDOS().getCellDensityOfStates(tmpDOS);
+      double Qtst = canonicalPartitionFunction(tmpDOS, cellEne, beta);
+      tmpDOS.clear();
+
+      // Rovibronic partition function for reactants.
+      m_rct1->getDOS().getCellDensityOfStates(tmpDOS);
+      double Qrcts = canonicalPartitionFunction(tmpDOS, cellEne, beta);
+      tmpDOS.clear();
+      m_rct2->getDOS().getCellDensityOfStates(tmpDOS);
+      Qrcts *= canonicalPartitionFunction(tmpDOS, cellEne, beta);
+
+      // Rovibronic partition function for reactants/products multiplied by translation contribution.
+      Qrcts *= translationalContribution(m_rct1->getStruc().getMass(), m_rct2->getStruc().getMass(), beta);
+
+      k_forward = SpeedOfLight_in_cm * Qtst *exp(-beta* Ethresh)/ (beta*Qrcts);
     }
 
     // Save high pressure rate coefficient for use in the construction of the collision operator.
