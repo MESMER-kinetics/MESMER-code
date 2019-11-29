@@ -10,6 +10,7 @@
 //
 //-------------------------------------------------------------------------------------------
 
+#include "../Molecule.h"
 #include "../Fragmentation.h"
 #include "../gWellProperties.h"
 #include "../Reaction.h"
@@ -57,6 +58,10 @@ namespace mesmer
       m_lowerConv.clear();
     };
 
+  private:
+
+    const char* m_id;
+
   protected:
 
     Reaction* m_pReaction;
@@ -66,10 +71,6 @@ namespace mesmer
     vector<double> m_upperConv;
 
     vector<double> m_lowerConv;
-
-  private:
-
-    const char* m_id;
 
   };
 

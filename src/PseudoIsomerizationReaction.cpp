@@ -11,7 +11,7 @@
 #include <limits>
 #include "PseudoIsomerizationReaction.h"
 #include "gWellProperties.h"
-#include "../Fragmentation.h"
+#include "Fragmentation.h"
 #include "ParseForPlugin.h"
 #include <math.h>
 

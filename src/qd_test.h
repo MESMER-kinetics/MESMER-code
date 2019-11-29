@@ -16,7 +16,7 @@
 #include <iostream>
 #include <iomanip>
 #include <qd/qd_real.h>
-#include "../error.h"
+#include "error.h"
 
 using std::cerr;
 using std::endl;

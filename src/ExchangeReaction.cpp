@@ -12,7 +12,7 @@
 #include "ExchangeReaction.h"
 #include "gStructure.h"
 #include "gWellProperties.h"
-#include "../Fragmentation.h"
+#include "Fragmentation.h"
 #include "ParseForPlugin.h"
 
 using namespace Constants;

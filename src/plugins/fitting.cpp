@@ -159,16 +159,14 @@ namespace mesmer
 
     GetLocation(initialLocation) ;
 
-	// Invoke SetLocation to catch any constrained parameters.
+	  // Invoke SetLocation to catch any constrained parameters.
     SetLocation(initialLocation) ;
 
     pSys->calculate(chiSquare) ;
 
-    double oldChiSquare = chiSquare ;
-
     WriteVarVals(chiSquare) ;
 
-	//
+	  //
     // The following implementation is loosely based on the Powell method. An initial
     // sweep is performed over all directions and from these a new direction for 
     // search is calculated and is substituted for the last vector in the direction 
@@ -200,7 +198,6 @@ namespace mesmer
           direction[i] = directions[i][isweep] ;
         }
 
-        oldChiSquare = chiSquare ;
         LineSearch(pSys, direction, chiSquare, m_tol);
 
         WriteVarVals(chiSquare) ;
@@ -215,7 +212,6 @@ namespace mesmer
       direction = VectorAdd(1.0, currentLocation, -1.0, initialLocation) ;
       VectorNormalize(direction) ;
 
-      oldChiSquare = chiSquare ;
       LineSearch(pSys, direction, chiSquare, m_tol);
 
       WriteVarVals(chiSquare) ;

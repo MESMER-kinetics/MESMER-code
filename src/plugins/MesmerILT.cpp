@@ -17,7 +17,6 @@ namespace mesmer
     ID and also does some initialization specific to this class.
     ********************************************************************************/
     MesmerILT(const char* id) : m_id(id),
-      m_pfnptr(NULL),
       m_PreExp(0.0),
       m_NInf(0.0),
       m_TInf(298.0),
@@ -28,7 +27,8 @@ namespace mesmer
       m_TInf2(0.0),
       m_EInf2(0.0),
       m_Secondary(false),
-      m_OffSet(0)
+      m_OffSet(0),
+      m_pfnptr(NULL)
     {
       Register();
     }
@@ -74,7 +74,6 @@ namespace mesmer
 
     bool calculateAssociationMicroRates(Reaction* pReact);
     bool calculateUnimolecularMicroRates(Reaction* pReact);
-    bool (MesmerILT::*m_pfnptr)(Reaction* pReact);
 
     bool UnimolecularConvolution(Reaction* pReact);
     bool BimolecularConvolution(Reaction* pReact, vector<double>& ConvolvedCellDOS, double ma, double mb) const;
@@ -96,6 +95,8 @@ namespace mesmer
     Rdouble m_EInf2;        // E infinity
     bool    m_Secondary;    // There is a secondary set of Arrhenius paramaters.
     size_t  m_OffSet;       // The relative location of the secondary set to the first.
+
+    bool (MesmerILT::*m_pfnptr)(Reaction* pReact);
   };
 
   /*********************************************************************************

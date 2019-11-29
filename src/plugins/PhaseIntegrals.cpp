@@ -86,7 +86,6 @@ namespace mesmer
 
     Molecule *top = (m_top1 == NONLINEAR) ? m_Frag1 : m_Frag2;
 
-    const size_t MaximumCell = cellSOS.size();
     const double cellSize = m_cellSize;
     const size_t TDOF = m_nIDOF + 3;
 
@@ -142,6 +141,7 @@ namespace mesmer
 
     // The following is a specific test for the CH3 + H system taken from JPC 101, 9974 (1997).
 
+    const size_t MaximumCell = cellSOS.size();
     vector<double> ene(cellSOS.size(), 0.0);
     vector<double> wrk = ene;
     vector<double> tmpCellSOS = ene;
