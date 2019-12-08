@@ -1,0 +1,116 @@
+
+            /|      /|                        \   
+           / |     / | ________________________\  
+          /  |    /  |  _   _             _   _   
+         /   |   /   | / \ / \ |\     /| / \ / \  
+        /    |  /    | \_/ \_  | \   / | \_/ |_/  
+       /     | /     | /     \ |  \ /  | /   | \  
+    \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
+
+     Mesmer: Master Equation Solver for Multi-Energy well Reactions
+     Mesmer v6.0 compiled: -- Nov 29 2019 -- 22:32:32
+
+     Copyright (C) 2009-2020 by
+     Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
+     David R. Glowacki, Michael J. Pilling and contributors
+
+     Mesmer is free software: you can redistribute it and/or modify
+     it under the terms of the GNU Public License as published by
+     the Free Software Foundation, either version 2 of the License,
+     or (at your option) any later version.
+
+     But WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU Public License for more details.
+
+    You should have received a copy of the GNU Public License
+    along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
+
+                     Platform:        Windows
+                     Execution Date:  Sun Dec  8 22:39:23 2019
+                     Number of ranks: 4
+
+defaults.xml, librarymols.xml are in ../..
+
+Parsing input xml file...
+PO+O2.xml
+
+The default value of me:calcMethod was used.
+--Parse data for simpleCalc
+Energy convention "" written to <moleculeList>
+In R1: Parsing reaction...Association reaction
+In cis-OPO2: The default value of me:DistributionCalcMethod was used.
+In cis-OPO2: --Parse data for Boltzmann
+In cis-OPO2: --Parse data for ExponentialDown
+In R1: --Parse data for MesmerILT
+In R1: The default value of me:TInfinity was used.
+In R1: No tunneling method used for R1
+In R1: Not a unimolecular reaction: look for excess reactant concentration.
+In R2: Parsing reaction...Isomerization reaction
+In trans-OPO2: The default value of me:DistributionCalcMethod was used.
+In trans-OPO2: --Parse data for Boltzmann
+In trans-OPO2: --Parse data for ExponentialDown
+In R2: --Parse data for RRKM
+In R2: No tunneling method used for R2
+In R3: Parsing reaction...Isomerization reaction
+In PO3: The default value of me:DistributionCalcMethod was used.
+In PO3: --Parse data for Boltzmann
+In PO3: --Parse data for ExponentialDown
+In R3: --Parse data for RRKM
+In R3: No tunneling method used for R3
+In R4: Parsing reaction...Irreversible unimolecular reaction
+In R4: --Parse data for MesmerILT
+In R4: The default value of me:TInfinity was used.
+In O: Cannot find me:vibFreqs or me:hessian. Assuming an atom or a sink molecule.
+In O: No rotational constants from <me:rotConsts> or structure. Assuming an atom or a sink molecule.
+In R4: No tunneling method used for R4
+In R5: Parsing reaction...Irreversible unimolecular reaction
+In R5: --Parse data for RRKM
+In R5: No tunneling method used for R5
+0.01Torr, 294K at qd precision with N2
+10Torr, 294K at qd precision with N2
+20Torr, 294K at qd precision with N2
+30Torr, 294K at qd precision with N2
+40Torr, 294K at qd precision with N2
+50Torr, 294K at qd precision with N2
+The default value of the attribute Tstep was used.
+The default value of the attribute Tmin was used.
+The default value of the attribute Tmax was used.
+The default value of me:ForceMacroDetailedBalance was used.
+Write metadata 20191208_223923
+
+File: "PO+O2.xml" successfully parsed.
+Main Calculation begins
+Now calculating...
+
+--Execute calcMethod simpleCalc
+The default value of me:DistributionCalcMethod was used.
+--Parse data for Boltzmann
+The default value of me:energyTransferModel was used.
+--Parse data for ExponentialDown
+No value of me:deltaEDown was supplied and the default value NEEDS TO BE CHECKED**
+Number of cells = 50000, Number of grains = 226
+In FastLaplaceConvolution: 20 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 40 values in the FFT convolution routine were replaced by standard convolution
+Number of grains produced is not equal to that requested for: O
+Number of grains requested: 226
+Number of grains produced : 1
+In O_a: Cannot find me:vibFreqs or me:hessian. Assuming an atom or a sink molecule.
+In O_a: No rotational constants from <me:rotConsts> or structure. Assuming an atom or a sink molecule.
+Number of grains produced is not equal to that requested for: O_a
+In mesmer::CollisionOperator::timeEvolution: No population was assigned. Initialize the first source term to 1.0.
+
+WARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs).
+
+The last CSE = -6583.11 and the first IERE = -8431.45
+(last CSE)/(first IERE) ratio = 0.78078, which is less than an order of magnitude
+
+Results obtained from Bartis Widom eigenvalue-vector analysis may be unreliable
+ -- Total time elapsed: 138 seconds.
+
+
+    Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
+
+
+System saved to mesmer_out.xml
+Total time elapsed: 138 seconds.

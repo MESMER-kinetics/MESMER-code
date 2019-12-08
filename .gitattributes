@@ -504,6 +504,13 @@ examples/OH_NO_to[!!-~]HONO/OH_NO_HONO.xml -text
 examples/OH_NO_to[!!-~]HONO/OH_NO_HONO_3Blks.xml -text
 examples/OH_NO_to[!!-~]HONO/baselines/Linux64/mesmer.log -text
 examples/OH_NO_to[!!-~]HONO/baselines/Win32/mesmer.log -text
+examples/POandO2/PO+O2.xml -text
+examples/POandO2/baselines/Linux64/PO+O2.log -text
+examples/POandO2/baselines/Linux64/PO+O2.test -text
+examples/POandO2/baselines/Linux64/mesmer_out.xml -text
+examples/POandO2/baselines/Win32/PO+O2.log -text
+examples/POandO2/baselines/Win32/PO+O2.test -text
+examples/POandO2/baselines/Win32/mesmer_out.xml -text
 examples/SensitivityAnalysis/baselines/Linux64/ipropyl_SA.log -text
 examples/SensitivityAnalysis/baselines/Linux64/ipropyl_SA.test -text
 examples/SensitivityAnalysis/baselines/Linux64/pentyl_isomerization_SA.log -text

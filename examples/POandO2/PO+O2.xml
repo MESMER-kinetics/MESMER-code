@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
+<?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
+<me:mesmer xmlns="http://www.xml-cml.org/schema"
+           xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <me:title>PO + O2 kinetics</me:title>
+  <me:description>
+    PO + O2 using cbs-qb3 energies
+  </me:description>
+  <!-- Model developed by J.M.C. Plane and co-workers, School of Chemistry University of Leeds, Leeds, UK. (2019)-->
+
+  <moleculeList>
+    <molecule id="PO">
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kJ/mol">0.0</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">0.729299333</array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:frequenciesScaleFactor">
+          <scalar>1.00</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">1255.3</array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">47.0</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>2</scalar>
+        </property>
+      </propertyList>
+      <me:DOSCMethod xsi:type="ClassicalRotors" />
+    </molecule>
+
+    <molecule id="O2">
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kJ/mol">415.73</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">1.442747333 </array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>2</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">1629.4</array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">32.0</scalar>
+        </property>
+        <property dictRef="me:epsilon">
+          <scalar>250.0</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>3.0</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>3</scalar>
+        </property>
+      </propertyList>
+      <me:DOSCMethod xsi:type="QMRotors" />
+    </molecule>
+
+    <molecule id="cis-OPO2">
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kJ/mol">297.5</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">0.543727333	0.168016667	0.12835 </array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">163.7204  216.9590  499.5150  540.0637 1071.2161  1300.5132</array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">79.</scalar>
+        </property>
+        <property dictRef="me:epsilon">
+          <scalar>250.0</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>3.0</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>2</scalar>
+        </property>
+      </propertyList>
+      <me:energyTransferModel xsi:type="me:ExponentialDown">
+        <me:deltaEDown units="cm-1">300.0</me:deltaEDown>
+        <me:deltaEDownTExponent bathGas="N2">0.25</me:deltaEDownTExponent>
+      </me:energyTransferModel>
+      <me:DOSCMethod xsi:type="ClassicalRotors" />
+    </molecule>
+
+    <molecule id="TS_cis-OPO2_to_trans-OPO2">
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kJ/mol">308.56</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1"> 0.56587	0.160380667	0.13589366  </array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1"> 194.9466 369.1003  522.7153 1113.5520  1302.3987</array>
+        </property>
+        <property dictRef="me:imFreqs">
+          <scalar units="cm-1"> -227.3213</scalar>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">79.0</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>2</scalar>
+        </property>
+      </propertyList>
+      <me:DOSCMethod xsi:type="ClassicalRotors" />
+    </molecule>
+
+    <molecule id="trans-OPO2">
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kJ/mol">286.19</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">1.091877	0.131572667	0.117423333 </array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">105.0825  245.8101  370.1159 637.5932 1104.6703 1300.0231</array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">79.</scalar>
+        </property>
+        <property dictRef="me:epsilon">
+          <scalar>250.0</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>3.0</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>2</scalar>
+        </property>
+      </propertyList>
+      <me:energyTransferModel xsi:type="me:ExponentialDown">
+        <me:deltaEDown units="cm-1">300.0</me:deltaEDown>
+        <me:deltaEDownTExponent bathGas="N2">0.25</me:deltaEDownTExponent>
+      </me:energyTransferModel>
+      <me:DOSCMethod xsi:type="ClassicalRotors" />
+    </molecule>
+
+    <molecule id="TS_trans-OPO2_to_PO3">
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kJ/mol">332.19</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1"> 0.613233	0.187875	0.175205667 </array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1"> 236.4153  354.3550  479.6471  929.9708  1175.5208</array>
+        </property>
+        <property dictRef="me:imFreqs">
+          <scalar units="cm-1">-1505.5664 </scalar>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">79.</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>2</scalar>
+        </property>
+      </propertyList>
+      <me:DOSCMethod xsi:type="ClassicalRotors" />
+    </molecule>
+
+    <molecule id="PO3">
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kJ/mol">0.0</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1"> 0.322637333	0.320300667	0.16073233  </array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>2</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">191.7198 193.9216 433.7803 1015.2017 1116.2443 1130.5187</array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">79.</scalar>
+        </property>
+        <property dictRef="me:epsilon">
+          <scalar>250.0</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>3.0</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>2</scalar>
+        </property>
+      </propertyList>
+      <me:energyTransferModel xsi:type="me:ExponentialDown">
+        <me:deltaEDown units="cm-1">300.0</me:deltaEDown>
+        <me:deltaEDownTExponent bathGas="N2">0.25</me:deltaEDownTExponent>
+      </me:energyTransferModel>
+      <me:DOSCMethod xsi:type="ClassicalRotors" />
+    </molecule>
+
+    <molecule id="TS_cis-OPO2_to_OPO+O">
+        <propertyList>
+          <property dictRef="me:ZPE">
+            <scalar units="kJ/mol">418.42</scalar>
+          </property>
+          <property dictRef="me:rotConsts">
+            <array units="cm-1"> 1.157085333	0.338733	0.262025667 </array>
+          </property>
+          <property dictRef="me:symmetryNumber">
+            <scalar>1</scalar>
+          </property>
+          <property dictRef="me:vibFreqs">
+            <array units="cm-1">392.4 1102.8</array>
+          </property>
+          <property dictRef="me:imFreqs">
+            <scalar units="cm-1">-342.0 </scalar>
+          </property>
+          <property dictRef="me:MW">
+            <scalar units="amu">79.</scalar>
+          </property>
+          <property dictRef="me:spinMultiplicity">
+            <scalar>2</scalar>
+          </property>
+        </propertyList>
+      <me:DOSCMethod xsi:type="ClassicalRotors" />
+    </molecule>
+
+      <molecule id="OPO">
+        <propertyList>
+          <property dictRef="me:ZPE">
+            <scalar units="kJ/mol">403.7</scalar>
+          </property>
+          <property dictRef="me:rotConsts">
+            <array units="cm-1"> 3.270043	0.285685667	0.262732  </array>
+          </property>
+          <property dictRef="me:symmetryNumber">
+            <scalar>2</scalar>
+          </property>
+          <property dictRef="me:vibFreqs">
+            <array units="cm-1">387.8736  1067.6601  1313.9512</array>
+          </property>
+          <property dictRef="me:MW">
+            <scalar units="amu">63.</scalar>
+          </property>
+          <property dictRef="me:epsilon">
+            <scalar>250.0</scalar>
+          </property>
+          <property dictRef="me:sigma">
+            <scalar>3.0</scalar>
+          </property>
+          <property dictRef="me:spinMultiplicity">
+            <scalar>2</scalar>
+          </property>
+        </propertyList>
+        <me:energyTransferModel xsi:type="me:ExponentialDown">
+          <me:deltaEDown units="cm-1">300.0</me:deltaEDown>
+          <me:deltaEDownTExponent bathGas="N2">0.25</me:deltaEDownTExponent>
+        </me:energyTransferModel>
+        <me:DOSCMethod xsi:type="ClassicalRotors" />
+      </molecule>
+
+      <molecule id="OPO_a">
+        <propertyList>
+          <property dictRef="me:ZPE">
+            <scalar units="kJ/mol">403.92</scalar>
+          </property>
+          <property dictRef="me:rotConsts">
+            <array units="cm-1"> 3.270043	0.285685667	0.262732  </array>
+          </property>
+          <property dictRef="me:symmetryNumber">
+            <scalar>2</scalar>
+          </property>
+          <property dictRef="me:vibFreqs">
+            <array units="cm-1">387.8736  1067.6601  1313.9512</array>
+          </property>
+          <property dictRef="me:MW">
+            <scalar units="amu">63.</scalar>
+          </property>
+          <property dictRef="me:epsilon">
+            <scalar>250.0</scalar>
+          </property>
+          <property dictRef="me:sigma">
+            <scalar>3.0</scalar>
+          </property>
+          <property dictRef="me:spinMultiplicity">
+            <scalar>2</scalar>
+          </property>
+        </propertyList>
+        <me:energyTransferModel xsi:type="me:ExponentialDown">
+          <me:deltaEDown units="cm-1">300.0</me:deltaEDown>
+          <me:deltaEDownTExponent bathGas="N2">0.25</me:deltaEDownTExponent>
+        </me:energyTransferModel>
+        <me:DOSCMethod xsi:type="ClassicalRotors" />
+      </molecule>    
+    
+      <molecule id="O">
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kJ/mol">0.0</scalar>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">16.0</scalar>
+        </property>
+        <property dictRef="me:epsilon">
+          <scalar>250.0</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>3.0</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>3</scalar>
+        </property>
+      </propertyList>
+      <me:DOSCMethod xsi:type="me:ClassicalRotors"/>
+    </molecule>
+
+      <molecule id="O_a">
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kJ/mol">0.0</scalar>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">16.0</scalar>
+        </property>
+        <property dictRef="me:epsilon">
+          <scalar>250.0</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>3.0</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>3</scalar>
+        </property>
+      </propertyList>
+      <me:DOSCMethod xsi:type="me:ClassicalRotors"/>
+    </molecule>
+  
+    <molecule id="N2">
+      <propertyList>
+        <property dictRef="me:epsilon">
+          <scalar>200.0</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>3.0</scalar>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">28.0</scalar>
+        </property>
+        <property dictRef="me:deltaEDown">
+          <scalar units="cm-1">300.0</scalar>
+        </property>
+      </propertyList>
+    </molecule>
+
+    <molecule id="He">
+      <atom elementType="He" />
+      <propertyList>
+        <property dictRef="me:epsilon">
+          <scalar>10.2</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>2.55</scalar>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">4.0</scalar>
+        </property>
+      </propertyList>
+    </molecule>
+  </moleculeList>
+
+  <reactionList>
+    <reaction id="R1">
+      <reactant>
+        <molecule ref="PO" role="deficientReactant" />
+      </reactant>
+      <reactant>
+        <molecule ref="O2" role="excessReactant" />
+      </reactant>
+      <product>
+        <molecule ref="cis-OPO2" role="modelled" />
+      </product>
+      <me:excessReactantConc>1.00e13</me:excessReactantConc>
+      <me:MCRCMethod xsi:type="me:MesmerILT">
+        <me:preExponential units="cm3molecule-1s-1">3.5e-11</me:preExponential>
+        <me:activationEnergy units="kJ/mol">1.4</me:activationEnergy>
+        <me:nInfinity>0.0</me:nInfinity>
+      </me:MCRCMethod>
+    </reaction>
+    
+    <reaction id="R2">
+      <reactant>
+        <molecule ref="cis-OPO2" role="modelled" />
+      </reactant>
+      <product>
+        <molecule ref="trans-OPO2" role="modelled" />
+      </product>
+      <me:transitionState>
+        <molecule ref="TS_cis-OPO2_to_trans-OPO2" role="transitionState" />
+      </me:transitionState>
+      <me:MCRCMethod name="RRKM" />
+    </reaction>
+
+    <reaction id="R3">
+      <reactant>
+        <molecule ref="trans-OPO2" role="modelled" />
+      </reactant>
+      <product>
+        <molecule ref="PO3" role="modelled" />
+      </product>
+      <me:transitionState>
+        <molecule ref="TS_trans-OPO2_to_PO3" role="transitionState" />
+      </me:transitionState>
+      <me:MCRCMethod name="RRKM" />
+    </reaction>
+
+    <reaction id="R4">
+      <reactant>
+        <molecule ref="PO3" role="modelled" />
+      </reactant>
+      <product>
+        <molecule ref="OPO" role="sink" />
+      </product>
+      <product>
+        <molecule ref="O" role="sink" />
+      </product>
+      <me:MCRCMethod name="MesmerILT" xsi:type="MesmerILT">
+        <me:preExponential>2.4e-11</me:preExponential>
+        <me:activationEnergy units="kJ/mol" reverse="true">0.21</me:activationEnergy>
+        <me:TInfinity>298.0</me:TInfinity>
+        <me:nInfinity>0.01</me:nInfinity>
+    </me:MCRCMethod>
+    </reaction>
+
+    <reaction id="R5">
+      <reactant>
+        <molecule ref="cis-OPO2" role="modelled" />
+      </reactant>
+      <product>
+        <molecule ref="OPO_a" role="sink" />
+      </product>
+      <product>
+        <molecule ref="O_a" role="sink" />
+      </product>
+      <me:transitionState>
+        <molecule ref="TS_cis-OPO2_to_OPO+O" role="transitionState" />
+      </me:transitionState>
+      <me:MCRCMethod name="RRKM" />
+    </reaction>
+  </reactionList>
+  
+  <me:conditions>
+    <me:bathGas>N2</me:bathGas>
+    <me:PTs>
+      <me:PTpair units="Torr" P="0.01" T="294.0" precision="qd"/>
+      <me:PTpair units="Torr" P="10." T="294.0" precision="qd"/>
+      <me:PTpair units="Torr" P="20." T="294.0" precision="qd"/>
+      <me:PTpair units="Torr" P="30." T="294.0" precision="qd"/>
+      <me:PTpair units="Torr" P="40." T="294.0" precision="qd"/>
+      <me:PTpair units="Torr" P="50." T="294.0" precision="qd"/>
+    </me:PTs>
+  </me:conditions>
+
+  <me:modelParameters>
+    <me:grainSize units="cm-1">200.</me:grainSize>
+    <me:energyAboveTheTopHill>50.</me:energyAboveTheTopHill>
+    <me:automaticallySetMaxEne>1e-15</me:automaticallySetMaxEne>
+  </me:modelParameters>
+  <me:control>
+    <me:testDOS />
+    <me:testMicroRates />
+    <me:printSpeciesProfile />
+    <me:testRateConstants />
+    <me:eigenvalues>5</me:eigenvalues>
+    <me:MaximumEvolutionTime>1.</me:MaximumEvolutionTime>
+  </me:control>
+</me:mesmer>
