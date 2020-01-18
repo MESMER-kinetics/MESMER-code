@@ -64,6 +64,27 @@ namespace mesmer
   }
 
   //
+  // Check that the a point falls within the limits defined by the user.
+  //
+  bool FittingUtils::CheckBounds(vector<double>& A, const vector<double>& B) const {
+
+    bool check(true);
+    for (size_t iVar(0); iVar < A.size() && check; iVar++) {
+
+      double var = A[iVar];
+      double lower(0.0), upper(0.0), stepsize(0.0);
+
+      Rdouble::withRange()[iVar]->get_range(lower, upper, stepsize);
+
+      if ((var < lower) || (var > upper))
+        A[iVar] = B[iVar];
+
+    }
+
+    return check;
+  }
+
+  //
   // The following methods calculates the numnerical derivatives and hessian of the 
   // Chi^2 surface. More specifically it calculates the -1/2 of the derivative and 
   // the 1/2 of the hessian as it these quantities can be used directly in the 

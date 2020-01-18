@@ -151,7 +151,30 @@
               </xs:simpleContent>
             </xs:complexType>
           </xs:element>
+          <xs:element name="secondaryPreExponential" minOccurs="0">
+            <xs:complexType>
+              <xs:simpleContent>
+                <xs:extension base="xs:float">
+                  <xs:attribute name="units" type="rateConstUnits" use="required" />
+                  <xs:attributeGroup ref="rangeAttributes"/>
+                  <xs:attributeGroup ref="linkAttributes"/>
+                </xs:extension>
+              </xs:simpleContent>
+            </xs:complexType>
+          </xs:element>
           <xs:element name="activationEnergy">
+            <xs:complexType>
+              <xs:simpleContent>
+                <xs:extension base="xs:float">
+                  <xs:attribute name="units" type="energyUnitsType" use="required" />
+                  <xs:attribute name="reverse" type="me:ynboolean" use="optional" />
+                  <xs:attributeGroup ref="rangeAttributes"/>
+                  <xs:attributeGroup ref="linkAttributes"/>
+                </xs:extension>
+              </xs:simpleContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="secondaryActivationEnergy" minOccurs="0">
             <xs:complexType>
               <xs:simpleContent>
                 <xs:extension base="xs:float">
@@ -177,7 +200,21 @@
                 </xs:extension>
               </xs:simpleContent>
             </xs:complexType>
-
+          </xs:element>
+          <xs:element name="secondaryNInfinity" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>
+                The temperature exponent of (T/Tinf)
+              </xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:simpleContent>
+                <xs:extension base="xs:float">
+                  <xs:attributeGroup ref="rangeAttributes"/>
+                  <xs:attributeGroup ref="linkAttributes"/>
+                </xs:extension>
+              </xs:simpleContent>
+            </xs:complexType>
           </xs:element>
           <xs:element name="TInfinity" type="xs:decimal" minOccurs="0">
             <xs:annotation>

@@ -61,6 +61,8 @@
   <me:FragmentDist name="Prior" default="true"/>
   <me:MarquardtDerivDelta default="true">1.e-03</me:MarquardtDerivDelta>
   <me:MarquardtTolerance default="true">1.e-03</me:MarquardtTolerance>
+  <me:MarquardtLambda default="true">1.0</me:MarquardtLambda>
+  <me:MarquardtLambdaScale default="true">10.0</me:MarquardtLambdaScale>
   <me:ConstraintFactor default="true">1.0</me:ConstraintFactor>
   <me:ConstraintAddand default="true">0.0</me:ConstraintAddand>
   <me:sensitivityAnalysisSamples default="true">256</me:sensitivityAnalysisSamples>

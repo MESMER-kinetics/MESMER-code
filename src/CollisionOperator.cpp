@@ -769,6 +769,8 @@ namespace mesmer
       eqMatrix.showFinalBits(counter);
     }
 
+    //eqFraction = testEqFraction;
+
     Reaction::molMapType::iterator itr1;
 
     // Check for zero populations and if there are any try to estimate them from the equilibrium constants.

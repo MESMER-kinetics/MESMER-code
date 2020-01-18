@@ -1,3 +1,16 @@
+2020-January-18 Struan Robertson
+
+		* Marquardt.cpp, FittingUtils.h/.cpp: Altered to give better control over Marquardt 
+		lambda parameter.
+
+		* Schemas .xsd: Updated to with new elements and attributes. 
+
+		* Reaction.h: Linux warning changes.
+
+		* Documentation update.
+
+		* VC15 Mesmer.vcxproj: Updated VC15 project.
+
 2019-November-29 Struan Robertson
 
 		* ExchangeReaction.h/.cpp: Added bimolecular rate coefficient calculator.

@@ -168,6 +168,7 @@
                       <xs:attribute name="startTime" type="xs:float" />
                       <xs:attribute name="excessReactantConc" type="xs:float" use="optional"/>
                       <xs:attribute name="diffusiveLoss" type="xs:float" use="optional"/>
+                      <xs:attribute name="weight" type="xs:float" use="optional"/>
                     </xs:complexType>
                   </xs:element>
                 </xs:sequence>
@@ -353,6 +354,11 @@
       <xs:element name="useOrigFreqForZPECorrection" minOccurs="0"/>
       <xs:element name="useDOSweighedDownWardTransition" minOccurs="0"/>
       <xs:element name="errorPropagationSamples" minOccurs="0" type="xs:integer"/>
+      <xs:element name="useTraceWeighting" minOccurs="0">
+        <xs:complexType>
+          <xs:attribute name="updateTraceWeights" use="optional"/>
+        </xs:complexType>
+      </xs:element>
     </xs:all>
     <xs:attribute name="active" type="me:ynboolean" use="optional"/>
   </xs:complexType>

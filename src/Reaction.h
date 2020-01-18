@@ -138,19 +138,19 @@ namespace mesmer
 
     // get the grain in flux vector which corresponds to the threshold energy
     // normally this is the first grain, except for cases where the threshold energy is negative
-    const int get_fluxFirstNonZeroIdx(void) { return int(m_GrnFluxFirstNonZeroIdx); };
+    int get_fluxFirstNonZeroIdx(void) { return int(m_GrnFluxFirstNonZeroIdx); };
 
     // set & get flux Start Idx for calculating k(e)s from flux
     void set_EffGrnFwdThreshold(int idx) { m_EffGrainedFwdThreshold = idx; };
-    const int get_EffGrnFwdThreshold(void) { return int(m_EffGrainedFwdThreshold); };
+    int get_EffGrnFwdThreshold(void) { return int(m_EffGrainedFwdThreshold); };
 
     // set & get the forward threshold energy for calculating backward k(e)s from flux
     void set_EffGrnRvsThreshold(int idx) { m_EffGrainedRvsThreshold = idx; };
-    const int get_EffGrnRvsThreshold(void) { return int(m_EffGrainedRvsThreshold); };
+    int get_EffGrnRvsThreshold(void) { return int(m_EffGrainedRvsThreshold); };
 
     // get the backward threshold energy for calculating backward k(e)s from flux
-    const int get_fluxGrnZPE(void) { return int(m_FluxGrainZPE); };
-    const int get_fluxZPE(void) { return int(m_FluxCellZPE); };
+    int get_fluxGrnZPE(void) { return int(m_FluxGrainZPE); };
+    int get_fluxZPE(void) { return int(m_FluxCellZPE); };
 
     // calculate the effective threshold energy for utilizing in k(E) calculations, necessary for cases
     // with a negative threshold energy

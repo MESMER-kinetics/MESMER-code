@@ -15,29 +15,32 @@
 namespace mesmer
 {
 
-	class FittingUtils
-	{
-	public:
+  class FittingUtils
+  {
+  public:
 
-		~FittingUtils() {};
+    ~FittingUtils() {};
 
-	protected:
+  protected:
 
-		// Get the current location.
-		void GetLocation(vector<double> &loc) const;
+    // Get the current location.
+    void GetLocation(vector<double>& loc) const;
 
-		// Set the current location.
-		void SetLocation(vector<double> &loc) const;
+    // Set the current location.
+    void SetLocation(vector<double>& loc) const;
 
-		// Check that the a point falls within the limits defined by the user.
-		bool CheckBounds(const vector<double> &A) const;
+    // Check that the a point falls within the limits defined by the user.
+    bool CheckBounds(const vector<double>& A) const;
 
-		// Numerical derivatives.
-		void NumericalDerivatives(System* pSys, vector<double> &residuals, double delta, vector<double> &gradient, qdMatrix &hessian) const;
+    // Check bounds and update those variables that are within them.
+    bool CheckBounds(vector<double>& A, const vector<double>& B) const;
 
-		// Write out the results and statistics of the fit. 
-		void ResultsAndStatistics(System* pSys, qdMatrix &hessian) const;
-	};
+    // Numerical derivatives.
+    void NumericalDerivatives(System* pSys, vector<double>& residuals, double delta, vector<double>& gradient, qdMatrix& hessian) const;
+
+    // Write out the results and statistics of the fit. 
+    void ResultsAndStatistics(System* pSys, qdMatrix& hessian) const;
+  };
 
 }  //namespace
 
