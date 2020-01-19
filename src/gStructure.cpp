@@ -913,6 +913,119 @@ namespace mesmer
 				ppB->XmlWriteAttribute("color", "pink");
 		}
 	}
+
+	// Reduced mass methods:
+	double gStructure::bondStretchReducedMass(vector<string>& bondIDs) {
+
+		pair<string, string> bondats = GetAtomsOfBond(bondIDs[0]);
+
+		vector<string> atomset1;
+		findRotorConnectedAtoms(atomset1, bondats.first, bondats.second);
+		vector<string> atomset2;
+		findRotorConnectedAtoms(atomset2, bondats.second, bondats.first);
+
+		double m1(0.0);
+		for (size_t i(0); i < atomset1.size(); i++) {
+			m1 += atomMass((Atoms.find(atomset1[i]))->second.element);
+		}
+
+		double m2(0.0);
+		for (size_t i(0); i < atomset2.size(); i++) {
+			m2 += atomMass((Atoms.find(atomset2[i]))->second.element);
+		}
+
+		return m1*m2/(m1 + m2);
+	}
+
+	double gStructure::angleBendReducedMass(vector<string>& bondIDs) {
+
+		// Find the hinge atom.
+
+		pair<string, string> bond1ats = GetAtomsOfBond(bondIDs[0]);
+		pair<string, string> bond2ats = GetAtomsOfBond(bondIDs[1]);
+
+		string hinge = bond1ats.first;
+		bool foundHinge = (hinge == bond2ats.first || hinge == bond2ats.second);
+		if (!foundHinge) {
+			hinge = bond1ats.second;
+			if (hinge == bond2ats.first || hinge == bond2ats.second) {
+				foundHinge = true;
+			}
+		}
+
+		if (!foundHinge) {
+			string errorMsg = "Inversion centre incorrectly defined for " + getHost()->getName() + ".\n";
+			throw (std::runtime_error(errorMsg));
+		}
+
+		// Construct vectors from the honge atom to the connected atoms.
+
+		vector3 point1 = setVectorDirection(bond1ats, hinge);
+		vector3 point2 = setVectorDirection(bond2ats, hinge);
+
+		// Get atom groups.
+
+		vector<string> atomset1;
+		findRotorConnectedAtoms(atomset1, bond1ats.first, bond1ats.second);
+		vector<string> atomset2;
+		findRotorConnectedAtoms(atomset2, bond1ats.second, bond1ats.first);
+
+		double reducedMass(0.0);
+
+		return reducedMass;
+	}
+
+	double gStructure::inversionReducedMass(vector<string>& bondIDs) {
+
+		// Find the inversion centre.
+
+		pair<string, string> bond1ats = GetAtomsOfBond(bondIDs[0]);
+		pair<string, string> bond2ats = GetAtomsOfBond(bondIDs[1]);
+		pair<string, string> bond3ats = GetAtomsOfBond(bondIDs[2]);
+
+		string invrCentre = bond1ats.first;
+		bool foundInvCentre = (invrCentre == bond2ats.first || invrCentre == bond2ats.second);
+		if (!foundInvCentre) {
+			invrCentre = bond1ats.second;
+			if (invrCentre == bond2ats.first || invrCentre == bond2ats.second) {
+				foundInvCentre = true;
+			}
+		}
+
+		if (!foundInvCentre || (invrCentre != bond3ats.first && invrCentre != bond3ats.second)) {
+			string errorMsg = "Inversion centre incorrectly defined for " + getHost()->getName() + ".\n";
+			throw (std::runtime_error(errorMsg));
+		}
+
+		// Construct vectors from the centre of inversion to three connected atoms.
+
+		vector3 point  = setVectorDirection(bond1ats, invrCentre);
+		vector3 plane1 = setVectorDirection(bond2ats, invrCentre);
+		vector3 plane2 = setVectorDirection(bond3ats, invrCentre);
+
+		point.normalize();
+		vector3 plane = cross(plane1, plane2);
+
+		// Get atom groups.
+
+		vector<string> atomset1;
+		findRotorConnectedAtoms(atomset1, bond1ats.first, bond1ats.second);
+		vector<string> atomset2;
+		findRotorConnectedAtoms(atomset2, bond1ats.second, bond1ats.first);
+
+		double reducedMass(0.0);
+
+		return reducedMass;
+	}
+
+	vector3 gStructure::setVectorDirection(pair<string, string> &bondats, string& centre) {
+
+		vector3 coords1 = GetAtomCoords(bondats.first);
+		vector3 coords2 = GetAtomCoords(bondats.second);
+
+		return (bondats.first == centre) ? coords2 - coords1 : coords2 - coords1;
+	}
+
 }//namespace
 
 //XML written as text; not used.

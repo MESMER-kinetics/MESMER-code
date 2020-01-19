@@ -151,23 +151,55 @@ namespace mesmer
 		m_nGridPoints  = ppDOSC->XmlReadInteger("me:NumGridPnts", optional);
 		m_nGridPoints += (m_nGridPoints % 2) ? 1 : 0;
 
-    // Determine reduced moment mass. These can either be read 
-    // in or calculated if the coordinates are available.
+    // Determine reduced moment mass. These can either be read in or 
+    // calculated if the coordinates are available. Always take the 
+    // user defined reduced mass if present, if not then calculate. 
 
-		PersistPtr pp = ppDOSC->XmlMoveTo("me:reducedMass");
-		if (pp) {
-      const char* p = pp->XmlReadValue("units", optional);
+		PersistPtr ppRM = ppDOSC->XmlMoveTo("me:reducedMass");
+    if (!ppRM)
+      ppRM = ppDOSC->XmlMoveTo("reducedMass");
+    const char* bondref = ppDOSC->XmlReadValue("bondRef", optional);
+    if (!bondref)
+      bondref = ppDOSC->XmlReadValue("me:bondRef", optional);
+
+    if (ppRM) {
+      const char* p = ppRM->XmlReadValue("units", optional);
       string units = p ? p : "amu";
       m_reducedMass = ppDOSC->XmlReadDouble("me:reducedMass", optional);
     }
+    else if (bondref && *bondref != '\0') {
+      // Read bond IDs
+      stringstream iss(bondref);
+      vector<string> bondIDs((istream_iterator<std::string>(iss)), istream_iterator<std::string>());
+
+      size_t nBonds = bondIDs.size();
+
+      // Determine type of interaction
+
+      switch (nBonds) {
+      case 1:
+        m_reducedMass = gs.bondStretchReducedMass(bondIDs);
+        break;
+      case 2:
+        m_reducedMass = gs.angleBendReducedMass(bondIDs);
+        break;
+      case 3:
+        m_reducedMass = gs.inversionReducedMass(bondIDs);
+        break;
+      default:
+        cerr << "Bond definition for FGH term in " << gdos->getHost()->getName() << " incorrectly defined." << endl;
+        return false;
+      }
+
+    }
     else {
-      cerr << "No reduced mass found." << endl;
+      cerr << "No reduced mass found or means to calculate it." << endl;
       return false;
     }
 
     // Read in potential information.
 
-    pp = ppDOSC->XmlMoveTo("me:vibrationalPotential");
+    PersistPtr pp = ppDOSC->XmlMoveTo("me:vibrationalPotential");
 
     if (pp) {
 

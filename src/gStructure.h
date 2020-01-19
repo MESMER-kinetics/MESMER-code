@@ -72,7 +72,10 @@ namespace mesmer
 		// a given bond for a given configuration.
 		double getReciprocalMOI(std::string bondID);
 	
-	public:
+    // Helper functions for reduced mass methods:
+    OpenBabel::vector3 setVectorDirection(std::pair<std::string, std::string>& bondats, std::string& centre);
+
+  public:
 
     gStructure(Molecule* pMol);
 
@@ -178,6 +181,14 @@ namespace mesmer
     // Export to xmol and CML format.
     void exportToXYZ(const char* txt = NULL, bool last = false, PersistPtr ppConfigData = NULL);
     void exportToCML(const char* txt = NULL, bool last = false, PersistPtr ppConfigData = NULL);
+
+    // Reduced mass methods:
+    double bondStretchReducedMass(vector<string>& bondIDs);
+
+    double angleBendReducedMass(vector<string>& bondIDs);
+
+    double inversionReducedMass(vector<string>& bondIDs);
+
   };
 
 } //namespace
