@@ -553,10 +553,15 @@ namespace mesmer
 		double mm2 = CalcMomentAboutAxis(atomset2, coords1, coords2);
 		CalcInternalRotVec(atomset2, coords2, coords1, mode, ApplyMWeight);
 
-		// In the following weights are applied to relative rotation of each 
-		// fragment with respect to each other. In the limit that one fragment
-		// is infinitely massive the rotation will be confined to the other 
-		// fragment. 
+		// The following, slightly confusing code, is placed here for the
+		// benefit of coupled rotors code, and does not apply when a vector 
+		// for use use in Hessian analysis is being constructed. The code is 
+		// here at present because the monments of inertia about the rotating 
+		// bind are needed, which are applied as weights for the relative
+		// rotation of each fragment with respect to each other. In the limit
+		// that one fragment is infinitely massive the rotation will be confined
+		// to the other fragment. (SHR, 4/Feb/2020: this code should be moved 
+		// to a more appropriate place.)
 
 		if (!ApplyMWeight) {
 			double fctr1 = mm2 / (mm1 + mm2);
@@ -1012,6 +1017,10 @@ namespace mesmer
 		findRotorConnectedAtoms(atomset1, bond1ats.first, bond1ats.second);
 		vector<string> atomset2;
 		findRotorConnectedAtoms(atomset2, bond1ats.second, bond1ats.first);
+
+		vector<double> mode(3 * NumAtoms(), 0.0);
+
+
 
 		double reducedMass(0.0);
 

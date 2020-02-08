@@ -53,7 +53,7 @@ namespace mesmer
     return true;
   }
 
-  bool ConditionsManager::getConditions(vector<double> &Temperature, vector<double> &Concentration)
+  bool ConditionsManager::getConditions(vector<double>& Temperature, vector<double>& Concentration)
   {
     bool status(true);
 
@@ -122,9 +122,9 @@ namespace mesmer
           return false;
 
         const char* bathGasName = m_pSys->getMoleculeManager()->get_BathGasName().c_str();
-          for (size_t j(0); j < Tvals.size(); ++j) {
-            for (size_t i(0); i < Pvals.size(); ++i) {
-              CandTpair thisPair(getConvertedP(this_units, Pvals[i], Tvals[j]), Tvals[j],
+        for (size_t j(0); j < Tvals.size(); ++j) {
+          for (size_t i(0); i < Pvals.size(); ++i) {
+            CandTpair thisPair(getConvertedP(this_units, Pvals[i], Tvals[j]), Tvals[j],
               this_precision, bathGasName, baseExcessConcs);
             thisPair.set_experimentalRates(ppPTset, ref1, ref2, refReaction, 0.0, 0.0);
             PandTs.push_back(thisPair);
@@ -450,7 +450,7 @@ namespace mesmer
     for (size_t i(0); i < PandTs.size(); ++i) {
       vector<RawDataSet>& data = PandTs[i].m_rawDataSets;
       for (size_t j(0); j < data.size(); ++j) {
-        data[j].m_weight = 1.0/data[j].m_weight;
+        data[j].m_weight = 1.0 / data[j].m_weight;
         sum += data[j].m_weight;
       }
     }
@@ -493,7 +493,8 @@ namespace mesmer
           return false;
         for (double val = vals.back() + incr; val <= atof(txt); val += incr)
           vals.push_back(val);
-      } else if ((txt = pp->XmlReadValue("factor", false)))//optional attribute
+      }
+      else if ((txt = pp->XmlReadValue("factor", false)))//optional attribute
       {
         double fctr = atof(txt);
         txt = pp->XmlReadValue("final"); //if have "factor" must have "final"
@@ -574,7 +575,7 @@ namespace mesmer
       const vector<RawDataSet>& Traces = PandTs[calPoint].m_rawDataSets;
       for (size_t i(0); i < Traces.size(); ++i) {
         rateCoeffTable << conditions.str() << setw(15) << "Time" << setw(16) << "Expt." << setw(16) << "Calc." << endl;
-        const RawDataSet &Trace = Traces[i];
+        const RawDataSet& Trace = Traces[i];
         for (size_t j(0); j < Trace.data.size(); ++j) {
           double time = Trace.data[j].first;
           double expt = Trace.data[j].second;
@@ -598,7 +599,7 @@ namespace mesmer
       for (size_t i(0); i < Traces.size(); ++i) //each rawdataset
       {
         calcsignals.str() = "";
-        const RawDataSet &Trace = Traces[i];
+        const RawDataSet& Trace = Traces[i];
         for (size_t j(0); j < Trace.data.size(); ++j)
           calcsignals << fixed << Trace.m_calcTrace[j] << ' ';
         calcsignals << endl;
@@ -695,7 +696,7 @@ namespace mesmer
   }
 
   // Write calculated data to XML.
-  void ConditionsManager::WriteDataToXml(PersistPtr pp, const vector<conditionSet> &data) const {
+  void ConditionsManager::WriteDataToXml(PersistPtr pp, const vector<conditionSet>& data) const {
 
     for (size_t k(0); k < data.size(); k++) {
       stringstream ss;
@@ -721,7 +722,7 @@ namespace mesmer
 
       // Eigenvalue data.
 
-      int *itmp = &analysisData.m_number;
+      int* itmp = &analysisData.m_number;
       m_pParallelManager->broadcastInteger(itmp, 1, broadcastRank);
 
       string stmp = analysisData.m_selection;
@@ -786,7 +787,7 @@ namespace mesmer
           if (grnDists.size() == 0)
             grnDists.resize(analysisData.m_grnTimes.size());
           for (size_t j(0); j < grnDists.size(); j++) {
-            vector<double> &dtmp = grnDists[j];
+            vector<double>& dtmp = grnDists[j];
             m_pParallelManager->broadcastVecDouble(dtmp, broadcastRank);
           }
           if (rank != broadcastRank)

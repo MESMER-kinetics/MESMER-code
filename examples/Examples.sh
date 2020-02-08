@@ -5,6 +5,7 @@
 #
 # Created by Chi-Hsiu Liang on 13/05/2010.
 
+# module switch intel gnu/7.2.0
 
 starttime=`date`
 directive=
@@ -79,7 +80,7 @@ esac
 pwd
 $executable -V
 mpicommand="mpirun -n 12 $executable" 
-cmdline=mpicommand
+cmdline=$mpicommand
 
 cd AcetylO2
 $cmdline Acetyl_O2_associationEx.xml -o $outf $directive
@@ -266,14 +267,14 @@ if [ "$1" == "-o" ] ; then
 fi
 cd ..
 
-# cd "Glyoxyl"
-# testName=Glyoxyl
-# $cmdline -N $testName.xml
-# cp ./$testName.test ./$bline$testName.test
-# if [ "$1" == "-o" ] ; then
-#   cp ./$testName.log ./$bline$testName.log
-# fi
-# cd ..
+cd "Glyoxyl"
+testName=Glyoxyl
+$cmdline -N $testName.xml
+cp ./$testName.test ./$bline$testName.test
+if [ "$1" == "-o" ] ; then
+  cp ./$testName.log ./$bline$testName.log
+fi
+cd ..
 
 cd "DefinedTunellingCoefficients"
 testName=OH+methanol
