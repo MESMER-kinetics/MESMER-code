@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl'?>
+<me:mesmer xmlns="http://www.xml-cml.org/schema"
+           xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <me:title>Ethyl + H association</me:title>
+
+  <me:description>
+    This example is based on data from the Methyl + H example and its main purpose is to test internal rotor treatments.
+  </me:description>
+
+  <moleculeList>
+    <molecule id="Ethane">
+      <atomArray>
+        <atom id="a1" elementType="C" x3=" 0.0000"  y3=" 0.0000"     z3=" 0.0000"/>
+        <atom id="a2" elementType="C" x3=" 1.5267"  y3=" 0.0000"     z3=" 0.0000"/>
+        <atom id="a3" elementType="H" x3="-0.3848"  y3=" 1.0254"     z3=" 0.0000"/>
+        <atom id="a4" elementType="H" x3="-0.3848"  y3="-0.5127"     z3="-0.5774"/>
+        <atom id="a5" elementType="H" x3="-0.2826"  y3="-0.5229"     z3=" 0.9719"/>
+        <atom id="a6" elementType="H" x3=" 1.7625"  y3=" 0.6046"     z3="-1.0500"/>
+        <atom id="a7" elementType="H" x3=" 1.9546"  y3="-0.9276"     z3="-0.1724"/>
+        <atom id="a8" elementType="H" x3=" 1.9563"  y3=" 0.61064"    z3=" 0.7155"/>
+      </atomArray>
+      <bondArray>
+        <bond id="b1" atomRefs2="a1 a2" order="1"/>
+        <bond id="b2" atomRefs2="a1 a3" order="1"/>
+        <bond id="b3" atomRefs2="a1 a4" order="1"/>
+        <bond id="b4" atomRefs2="a1 a5" order="1"/>
+        <bond id="b5" atomRefs2="a2 a6" order="1"/>
+        <bond id="b6" atomRefs2="a2 a7" order="1"/>
+        <bond id="b7" atomRefs2="a2 a8" order="1"/>
+      </bondArray>
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="cm-1">0.0</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1"> 2.6710 0.6631 0.6631 </array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>6</scalar>
+        </property>
+        <!--  Frequency 289. has been eliminated in favour of a 1 Dimensional rotor. -->
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">
+             821.   821.   995. 1206.
+            1206.  1379.  1388. 1469. 1469.
+            1472.  1472.  2896. 2954. 2969.
+            2969.  2985.  2985.
+          </array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar>30.0</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>3.79</scalar>
+        </property>
+        <property dictRef="me:epsilon">
+          <scalar>153.0</scalar>
+        </property>
+      </propertyList>
+      <me:energyTransferModel xsi:type="me:ExponentialDown">
+        <me:deltaEDown units="cm-1">210.0</me:deltaEDown>
+        <me:deltaEDownTExponent referenceTemperature="298.">0.6</me:deltaEDownTExponent>
+      </me:energyTransferModel>
+
+    <me:DOSCMethod xsi:type="me:QMRotors"/>
+
+    <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
+      <me:bondRef>b1</me:bondRef>
+      <me:HinderedRotorPotential format="numerical" units="kcal/mol" expansionSize="7">
+        <me:PotentialPoint angle="10"  potential="-878.99179655"/>
+        <me:PotentialPoint angle="20"  potential="-879.36121138"/>
+        <me:PotentialPoint angle="30"  potential="-879.96042017"/>
+        <me:PotentialPoint angle="40"  potential="-880.71719659"/>
+        <me:PotentialPoint angle="50"  potential="-881.48878223"/>
+        <me:PotentialPoint angle="60"  potential="-882.12865364"/>
+        <me:PotentialPoint angle="70"  potential="-882.59884648"/>
+        <me:PotentialPoint angle="80"  potential="-882.86967957"/>
+        <me:PotentialPoint angle="90"  potential="-882.95276183"/>
+        <me:PotentialPoint angle="100"  potential="-882.89936077"/>
+        <me:PotentialPoint angle="110"  potential="-882.75854765"/>
+        <me:PotentialPoint angle="120"  potential="-882.68682331"/>
+        <me:PotentialPoint angle="130"  potential="-882.70006376"/>
+        <me:PotentialPoint angle="140"  potential="-882.82016908"/>
+        <me:PotentialPoint angle="150"  potential="-883.01262623"/>
+        <me:PotentialPoint angle="160"  potential="-883.19937305"/>
+        <me:PotentialPoint angle="170"  potential="-883.35417963"/>
+        <me:PotentialPoint angle="180"  potential="-883.44096419"/>
+        <me:PotentialPoint angle="190"  potential="-883.41686783"/>
+        <me:PotentialPoint angle="200"  potential="-883.23570585"/>
+        <me:PotentialPoint angle="210"  potential="-883.01036720"/>
+        <me:PotentialPoint angle="220"  potential="-882.83158975"/>
+        <me:PotentialPoint angle="230"  potential="-882.71286496"/>
+        <me:PotentialPoint angle="240"  potential="-882.71945381"/>
+        <me:PotentialPoint angle="250"  potential="-882.82362038"/>
+        <me:PotentialPoint angle="260"  potential="-882.91724479"/>
+        <me:PotentialPoint angle="270"  potential="-882.98150176"/>
+        <me:PotentialPoint angle="280"  potential="-882.92408464"/>
+        <me:PotentialPoint angle="290"  potential="-882.65111802"/>
+        <me:PotentialPoint angle="300"  potential="-882.20470779"/>
+        <me:PotentialPoint angle="310"  potential="-881.53710046"/>
+        <me:PotentialPoint angle="320"  potential="-880.77448820"/>
+        <me:PotentialPoint angle="330"  potential="-880.01463699"/>
+        <me:PotentialPoint angle="340"  potential="-879.40488603"/>
+        <me:PotentialPoint angle="350"  potential="-879.02059923"/>
+        <me:PotentialPoint angle="360"  potential="-878.88480619"/>
+      </me:HinderedRotorPotential>
+    </me:ExtraDOSCMethod>
+
+    </molecule>
+
+    <molecule id="Ethyl" spinMultiplicity="2">
+
+      <atomArray>
+        <atom id="a1" elementType="C" x3=" 0.0000"  y3=" 0.0000"     z3=" 0.0000"/>
+        <atom id="a2" elementType="C" x3=" 1.5267"  y3=" 0.0000"     z3=" 0.0000"/>
+        <atom id="a3" elementType="H" x3="-0.3848"  y3=" 1.0254"     z3=" 0.0000"/>
+        <atom id="a4" elementType="H" x3="-0.3848"  y3="-0.5127"     z3="-0.5774"/>
+        <atom id="a5" elementType="H" x3="-0.2826"  y3="-0.5229"     z3=" 0.9719"/>
+        <atom id="a6" elementType="H" x3=" 1.7625"  y3=" 0.6046"     z3="-1.0500"/>
+        <atom id="a7" elementType="H" x3=" 1.9546"  y3="-0.9276"     z3="-0.1724"/>
+      </atomArray>
+      <bondArray>
+        <bond id="b1" atomRefs2="a1 a2" order="1"/>
+        <bond id="b2" atomRefs2="a1 a3" order="1"/>
+        <bond id="b3" atomRefs2="a1 a4" order="1"/>
+        <bond id="b4" atomRefs2="a1 a5" order="1"/>
+        <bond id="b5" atomRefs2="a2 a6" order="1"/>
+        <bond id="b6" atomRefs2="a2 a7" order="1"/>
+      </bondArray>
+
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="cm-1">36600.0</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1"> 3.900 0.7712 0.7128 </array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>2</scalar>
+        </property>
+        <!--  Frequency 186. has been eliminated in favour of a 1 Dimensional rotor. -->
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">
+             540.   802.  1138.  1175.
+            1186.  1366.  1439.  1440.  1440.
+            2842.  2920.  2987.  3033.  3112.
+          </array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar>29.0</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>2</scalar>
+        </property>
+      </propertyList>
+
+      <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
+        <me:bondRef>b1</me:bondRef>
+        <me:HinderedRotorPotential format="analytical" units="kJ/mol">
+          <me:PotentialPoint index="0"  coefficient="6.2"/>
+          <me:PotentialPoint index="3"  coefficient="-6.2"/>
+        </me:HinderedRotorPotential>
+        <me:periodicity>3</me:periodicity>
+      </me:ExtraDOSCMethod>
+
+      <me:ExtraDOSCMethod xsi:type="me:FourierGrid1D">
+        <me:NumGridPnts>100</me:NumGridPnts>
+        <me:replaceVibFreq>540.</me:replaceVibFreq>
+        <!--<me:reducedMass>7.9997</me:reducedMass>-->
+        <me:bondRef>b1 b5 b6</me:bondRef>
+        <me:vibrationalPotential format="numerical" units="kJ/mol" minx="0.6" maxx="1.8">
+          <me:PotentialPoint coordinate="	0.1	"  potential="	4709.9496	"/>
+          <me:PotentialPoint coordinate="	0.2	"  potential="	3894.8204	"/>
+          <me:PotentialPoint coordinate="	0.3	"  potential="	3157.0824	"/>
+          <me:PotentialPoint coordinate="	0.4	"  potential="	2496.7356	"/>
+          <me:PotentialPoint coordinate="	0.5	"  potential="	1913.78	"/>
+          <me:PotentialPoint coordinate="	0.6	"  potential="	1408.2156	"/>
+          <me:PotentialPoint coordinate="	0.7	"  potential="	980.0424	"/>
+          <me:PotentialPoint coordinate="	0.8	"  potential="	629.2604	"/>
+          <me:PotentialPoint coordinate="	0.9	"  potential="	355.8696	"/>
+          <me:PotentialPoint coordinate="	1.0	"  potential="	159.87	"/>
+          <me:PotentialPoint coordinate="	1.1	"  potential="	41.2616	"/>
+          <me:PotentialPoint coordinate="	1.2	"  potential="	0.0444	"/>
+          <me:PotentialPoint coordinate="	1.3	"  potential="	36.2184	"/>
+          <me:PotentialPoint coordinate="	1.4	"  potential="	149.7836	"/>
+          <me:PotentialPoint coordinate="	1.5	"  potential="	340.74	"/>
+          <me:PotentialPoint coordinate="	1.6	"  potential="	609.0876	"/>
+          <me:PotentialPoint coordinate="	1.7	"  potential="	954.8264	"/>
+          <me:PotentialPoint coordinate="	1.8	"  potential="	1377.9564	"/>
+          <me:PotentialPoint coordinate="	1.9	"  potential="	1878.4776	"/>
+          <me:PotentialPoint coordinate="	2.0	"  potential="	2456.39	"/>
+          <me:PotentialPoint coordinate="	2.1	"  potential="	3111.6936	"/>
+          <me:PotentialPoint coordinate="	2.2	"  potential="	3844.3884	"/>
+          <me:PotentialPoint coordinate="	2.3	"  potential="	4654.4744	"/>
+        </me:vibrationalPotential>
+      </me:ExtraDOSCMethod>
+
+    </molecule>
+
+    <molecule id="H">
+      <atom elementType="H"/>
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="cm-1">0.0</scalar>
+        </property>
+        <property dictRef="me:MW">
+          <scalar>1.0</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>2</scalar>
+        </property>
+      </propertyList>
+    </molecule>
+
+    <molecule id="He">
+      <atom elementType="He"/>
+      <propertyList>
+        <property dictRef="me:epsilon">
+          <scalar>10.22</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>2.511</scalar>
+        </property>
+        <property dictRef="me:MW">
+          <scalar>4.04</scalar>
+        </property>
+      </propertyList>
+    </molecule>
+
+  </moleculeList>
+
+  <reactionList>
+
+    <reaction id="R1" reversible="true">
+      <reactant>
+        <molecule ref="Ethyl"  role="deficientReactant" />
+      </reactant>
+
+      <reactant>
+        <molecule ref="H"  role="excessReactant" />
+      </reactant>
+
+      <product>
+        <molecule ref="Ethane"  role="modelled" />
+      </product>
+
+      <me:MCRCMethod xsi:type="me:MesmerILT">
+        <me:preExponential units="cm3molecule-1s-1">3.e-10</me:preExponential>
+        <me:activationEnergy units="cm-1">0.0</me:activationEnergy>
+        <me:TInfinity>300.0</me:TInfinity>
+        <me:nInfinity>0.8</me:nInfinity>
+      </me:MCRCMethod>
+    </reaction>
+
+  </reactionList>
+
+  <me:conditions>
+    <me:bathGas>He</me:bathGas>
+    <me:PTs>
+      <me:PTpair units="Torr" P="25.1" T="301." precision="dd">
+      </me:PTpair>
+    </me:PTs>
+  </me:conditions>
+
+  <me:modelParameters>
+    <me:grainSize units="cm-1">200</me:grainSize>
+    <me:energyAboveTheTopHill>10.</me:energyAboveTheTopHill>
+  </me:modelParameters>
+
+  <me:control>
+    <!--<me:calcMethod name="simpleCalc"/>-->
+    <!--Use the default: simpleCalc-->
+    <me:testDOS />
+    <me:eigenvalues>5</me:eigenvalues>
+  </me:control>
+
+</me:mesmer>

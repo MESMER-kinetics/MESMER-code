@@ -466,6 +466,7 @@ examples/ErrorPropagation/baselines/Win32/ipropyl_EP.log -text
 examples/ErrorPropagation/baselines/Win32/ipropyl_EP.test -text
 examples/ErrorPropagation/ipropyl_EP.xml -text
 examples/Ethyl_H_to_Ethane/Ethyl_H_to_Ethane.xml -text
+examples/Ethyl_H_to_Ethane/Ethyl_H_to_Ethane_inversion.xml -text
 examples/Ethyl_H_to_Ethane/baselines/Linux64/mesmer.test -text
 examples/Ethyl_H_to_Ethane/baselines/Win32/mesmer.test -text
 examples/Examples.bat -text

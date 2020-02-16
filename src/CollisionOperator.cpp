@@ -1322,7 +1322,7 @@ namespace mesmer
     // set the default maximum evolution time
     maxEvoTime = min(mFlags.maxEvolutionTime, pow(10., logMaxTime)) ;
 
-    const size_t itvl = 10.;
+    const double itvl = 10.;
     const size_t n    = 2 * size_t(itvl*logMaxTime);
 
     // Calculates the time points

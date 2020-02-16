@@ -51,6 +51,9 @@ namespace mesmer
     // Calculates internal rotation eigenvector about an axis define by at1 and at2.
     bool CalcInternalRotVec(std::vector<string> atomset, OpenBabel::vector3 at1, OpenBabel::vector3 at2, vector<double> &mode, bool ApplyMWeight);
 
+    // Calculates bend eigenvector about an axis define by at1 and at2.
+    bool CalcBendVec(std::vector<string> atomset, OpenBabel::vector3 at1, OpenBabel::vector3 at2, vector<double>& mode);
+
     // Returns in atomset the IDs of all the atoms attached to atomID via bonds, but
     // does not include any atoms already in atomset or atoms beyond them.
     void GetAttachedAtoms(std::vector<std::string>& atomset, const std::string& atomID);
@@ -73,7 +76,15 @@ namespace mesmer
 		double getReciprocalMOI(std::string bondID);
 	
     // Helper functions for reduced mass methods:
+
+    // Calculate vectors relative to the center of motion.
     OpenBabel::vector3 setVectorDirection(std::pair<std::string, std::string>& bondats, std::string& centre);
+
+    // Orthogonalize a mode against the translationl and rotational modes.
+    bool OrthogonalizeMode(vector<double>& mode);
+
+    // Applies Gram-Schmit projection to remove component of second vector from the first.
+    bool ProjectOutMode(vector<double>& mode, vector<double>& tmode);
 
   public:
 

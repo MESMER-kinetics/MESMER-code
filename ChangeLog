@@ -1,3 +1,10 @@
+2020-February-16 Struan Robertson
+
+		* gDensityOfStates.h, gStrucuture.h/.cpp: Implementation update of reduced mass calculators 
+		for bend and inversion modes.
+
+		* QA.bat, Examples.bat: Changes related to VS 2015 (VC14) removal.
+
 2020-February-08 Struan Robertson
 
 		* CollisionOperator.cpp: Fixed bug relating to population time steps.

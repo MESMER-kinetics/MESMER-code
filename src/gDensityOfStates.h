@@ -158,6 +158,12 @@ namespace mesmer
 
     bool IsHeavyTop(size_t n) ;
 
+    // Helper function to shift translation projection vector.
+    static void ShiftTransVector(vector<double>& eigenvector);
+
+    // Function to calculate the rotational mode vectors.
+    static void RotationVector(vector<double>& aa, size_t loca, double sgna, vector<double>& bb, size_t locb, double sgnb, vector<double>& massWeights, vector<double>& mode);
+
   private:
 
     bool initialization() ;
@@ -196,12 +202,6 @@ namespace mesmer
 
     // Helper function to create projector.
     void UpdateProjector(vector<double> &eigenvector) ;
-
-    // Helper function to shift translation projection vector.
-    void ShiftTransVector(vector<double> &eigenvector) ;
-
-    // Function to calculate the rotational mode vectors.
-    void RotationVector(vector<double> &aa, size_t loca, double sgna, vector<double> &bb, size_t locb, double sgnb, vector<double> &massWeights, vector<double> &mode) ;
 
     // Function to calculate the vibrational frequencies from a projected Hessian matrix.
     bool calculateFreqs(vector<double> &freqs, bool projectTransStateMode = false) ;
