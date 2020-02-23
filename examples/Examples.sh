@@ -268,7 +268,7 @@ fi
 cd ..
 
 cd "Glyoxyl"
-testName=Glyoxyl
+testName=Glyoxal
 $cmdline -N $testName.xml
 cp ./$testName.test ./$bline$testName.test
 if [ "$1" == "-o" ] ; then

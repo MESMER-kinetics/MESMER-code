@@ -429,6 +429,7 @@
           <xs:element name="replaceVibFreq" type="xs:decimal" minOccurs="0"/>
           <xs:element name="NumGridPnts" type="xs:decimal" minOccurs="0"/>
           <xs:element name="reducedMass" type="xs:float" minOccurs="0"/>
+          <xs:element name="bondRef" type="xs:string" minOccurs="0"/>
           <!--needs units-->
           
           <xs:element name="vibrationalPotential">

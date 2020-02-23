@@ -581,37 +581,38 @@ namespace mesmer
 
   }
 
-  //-------------------------------------------------
-  //   Short note for variables & abbreviations in Mesmer: (REVERSIBLE association reaction)
-  //
-  //   zpe_react:           zero-point energy of the reactant
-  //   zpe_prodt:           zero-point energy of the product
-  //   barri_hgt:           Barrier height (equals to theoretical calculated threshold energy)
-  //   Einf:           activation energy (experimental value)
-  //   TS:                  transition state
-  //   PES:                 potential energy surface
-  //   A+B:                 molecules A and B
-  //   A-B:                 complex formed by association of molecules A and B
-  //            |
-  //           /|\          TS
-  //            |         *****           -\ barri_hgt                        -\
-      //  potential |  A+B ***     *      -/               -\         activation\
-      //   energy   |  (+)          *                        \          Energy   \
-      //            |                *                        \                  /
-      //            |                 *                       /                 /
-      //            |               _  *                     / zpe_react       /
-      //            |              /   **** A-B             /                -/
-      //            |   zpe_prodt  |         (-)           /
-      //           O|              \_                    -/
-      //              ------------------------------------------------------------->
-      //                             reaction coordinate
-      //  PES
-      //
-      //   Definition of a REVERSIBLE association reaction in Mesmer:
-      //
-      //   1. A REVERSIBLE association reaction is going forward when the reaction is going from left to right in this
-      //      potential energy surface.
-      //   2. A reaction PES can change in different temperature, caused by rotational contribution to the total energy.
-      //-------------------------------------------------
+  /* -------------------------------------------------
+     Short note for variables & abbreviations in Mesmer: (REVERSIBLE association reaction)
+  
+     zpe_react:      zero-point energy of the reactant
+     zpe_prodt:      zero-point energy of the product
+     barri_hgt:      Barrier height (equals to theoretical calculated threshold energy)
+     Einf:           activation energy (experimental value)
+     TS:             transition state
+     PES:            potential energy surface
+     A+B:            molecules A and B
+     A-B:            complex formed by association of molecules A and B
+
+                  |
+                 /|\          TS
+                  |         *****       -\ barri_hgt                        -\
+        potential |  A+B ***     *      -/               -\         activation\
+         energy   |  (+)          *                        \          Energy   \
+                  |                *                        \                  /
+                  |                 *                       /                 /
+                  |               _  *                     / zpe_react       /
+                  |              /   **** A-B             /                -/
+                  |   zpe_prodt  |         (-)           /
+                 O|              \_                    -/
+                    ------------------------------------------------------------->
+                                   reaction coordinate
+        PES
+      
+         Definition of a REVERSIBLE association reaction in Mesmer:
+      
+         1. A REVERSIBLE association reaction is going forward when the reaction is going from left to right in this
+            potential energy surface.
+         2. A reaction PES can change in different temperature, caused by rotational contribution to the total energy.
+      -------------------------------------------------*/
 
 }//namespace

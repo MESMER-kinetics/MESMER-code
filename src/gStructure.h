@@ -52,7 +52,7 @@ namespace mesmer
     bool CalcInternalRotVec(std::vector<string> atomset, OpenBabel::vector3 at1, OpenBabel::vector3 at2, vector<double> &mode, bool ApplyMWeight);
 
     // Calculates bend eigenvector about an axis define by at1 and at2.
-    bool CalcBendVec(std::vector<string> atomset, OpenBabel::vector3 at1, OpenBabel::vector3 at2, vector<double>& mode);
+    double CalcBendVec(std::vector<string> atomset, OpenBabel::vector3 at1, OpenBabel::vector3 at2, vector<double>& mode);
 
     // Returns in atomset the IDs of all the atoms attached to atomID via bonds, but
     // does not include any atoms already in atomset or atoms beyond them.

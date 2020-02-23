@@ -981,13 +981,27 @@ namespace mesmer
 
     vector<string> atomset1;
     findRotorConnectedAtoms(atomset1, bond1ats.first, bond1ats.second);
-    CalcBendVec(atomset1, axis, coordsHinge, mode);
+    double moi1 = CalcBendVec(atomset1, axis, coordsHinge, mode);
     vector<string> atomset2;
     findRotorConnectedAtoms(atomset2, bond1ats.second, bond1ats.first);
     axis *= -1.0;
-    CalcBendVec(atomset2, axis, coordsHinge, mode);
+    double moi2 = CalcBendVec(atomset2, axis, coordsHinge, mode);
+
+    // Apply inertia weighting, i.e. in the limit that one fragment is
+    // infinitely heavy the motion will be confined to the other. 
+
+    double fctr1 = moi2 / (moi1 + moi2);
+    ApplyInertiaWeighting(atomset1, mode, fctr1);
+
+    double fctr2 = moi1 / (moi1 + moi2);
+    ApplyInertiaWeighting(atomset2, mode, fctr2);
+
+    OrthogonalizeMode(mode);
 
     double reducedMass(0.0);
+    for (size_t i(0); i < mode.size(); i++) {
+      reducedMass += mode[i] * mode[i];
+    }
 
     return reducedMass;
   }
@@ -1034,11 +1048,20 @@ namespace mesmer
 
     vector<string> atomset1;
     findRotorConnectedAtoms(atomset1, bond1ats.first, bond1ats.second);
-    CalcBendVec(atomset1, axis, coordsInvCentre, mode);
+    double moi1 = CalcBendVec(atomset1, axis, coordsInvCentre, mode);
     vector<string> atomset2;
     findRotorConnectedAtoms(atomset2, bond1ats.second, bond1ats.first);
     axis *= -1.0;
-    CalcBendVec(atomset2, axis, coordsInvCentre, mode);
+    double moi2 = CalcBendVec(atomset2, axis, coordsInvCentre, mode);
+
+    // Apply inertia weighting, i.e. in the limit that one fragment is
+    // infinitely heavy the motion will be confined to the other. 
+
+    double fctr1 = moi2 / (moi1 + moi2);
+    ApplyInertiaWeighting(atomset1, mode, fctr1);
+
+    double fctr2 = moi1 / (moi1 + moi2);
+    ApplyInertiaWeighting(atomset2, mode, fctr2);
 
     OrthogonalizeMode(mode);
 
@@ -1060,8 +1083,9 @@ namespace mesmer
   }
 
   // Calculates bend eigenvector about an axis define by at1 and at2.
-  bool gStructure::CalcBendVec(vector<string> atomset, vector3 axis, vector3 centre, vector<double>& mode)
+  double gStructure::CalcBendVec(vector<string> atomset, vector3 axis, vector3 centre, vector<double>& mode)
   {
+    double moi(0.0);
     vector<string>::iterator iter;
     for (iter = atomset.begin(); iter != atomset.end(); ++iter)
     {
@@ -1071,9 +1095,12 @@ namespace mesmer
       int atomicOrder = getAtomicOrder(*iter);
       if (atomicOrder >= 0) {
         size_t location = 3 * size_t(atomicOrder);
+        double sum(0.0);
         for (size_t i(location), j(0); j < 3; i++, j++) {
           mode[i] = massWeight * b[j];
+          sum = mode[i]*mode[i];
         }
+        moi += sum;
       }
       else {
         string errorMsg = "Problem with calculation of the bend eigenvector. Atomic order is not correactly defined.";
@@ -1081,7 +1108,7 @@ namespace mesmer
       }
     }
 
-    return true;
+    return moi;
   }
 
   // Orthogonalize a mode against the translationl and rotational modes.
@@ -1110,7 +1137,7 @@ namespace mesmer
 
     vector<double> tmode(mode.size(), 0.0);
     for (i = 0; i < tmode.size(); i += 3)
-      mode[i] = massWeights[i];
+      tmode[i] = massWeights[i];
 
     ProjectOutMode(mode, tmode);
 

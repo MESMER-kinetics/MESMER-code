@@ -43,7 +43,7 @@
         <!--  Frequency 289. has been eliminated in favour of a 1 Dimensional rotor. -->
         <property dictRef="me:vibFreqs">
           <array units="cm-1">
-             821.   821.   995. 1206.
+            821.   821.   995. 1206.
             1206.  1379.  1388. 1469. 1469.
             1472.  1472.  2896. 2954. 2969.
             2969.  2985.  2985.
@@ -67,49 +67,49 @@
         <me:deltaEDownTExponent referenceTemperature="298.">0.6</me:deltaEDownTExponent>
       </me:energyTransferModel>
 
-    <me:DOSCMethod xsi:type="me:QMRotors"/>
+      <me:DOSCMethod xsi:type="me:QMRotors"/>
 
-    <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
-      <me:bondRef>b1</me:bondRef>
-      <me:HinderedRotorPotential format="numerical" units="kcal/mol" expansionSize="7">
-        <me:PotentialPoint angle="10"  potential="-878.99179655"/>
-        <me:PotentialPoint angle="20"  potential="-879.36121138"/>
-        <me:PotentialPoint angle="30"  potential="-879.96042017"/>
-        <me:PotentialPoint angle="40"  potential="-880.71719659"/>
-        <me:PotentialPoint angle="50"  potential="-881.48878223"/>
-        <me:PotentialPoint angle="60"  potential="-882.12865364"/>
-        <me:PotentialPoint angle="70"  potential="-882.59884648"/>
-        <me:PotentialPoint angle="80"  potential="-882.86967957"/>
-        <me:PotentialPoint angle="90"  potential="-882.95276183"/>
-        <me:PotentialPoint angle="100"  potential="-882.89936077"/>
-        <me:PotentialPoint angle="110"  potential="-882.75854765"/>
-        <me:PotentialPoint angle="120"  potential="-882.68682331"/>
-        <me:PotentialPoint angle="130"  potential="-882.70006376"/>
-        <me:PotentialPoint angle="140"  potential="-882.82016908"/>
-        <me:PotentialPoint angle="150"  potential="-883.01262623"/>
-        <me:PotentialPoint angle="160"  potential="-883.19937305"/>
-        <me:PotentialPoint angle="170"  potential="-883.35417963"/>
-        <me:PotentialPoint angle="180"  potential="-883.44096419"/>
-        <me:PotentialPoint angle="190"  potential="-883.41686783"/>
-        <me:PotentialPoint angle="200"  potential="-883.23570585"/>
-        <me:PotentialPoint angle="210"  potential="-883.01036720"/>
-        <me:PotentialPoint angle="220"  potential="-882.83158975"/>
-        <me:PotentialPoint angle="230"  potential="-882.71286496"/>
-        <me:PotentialPoint angle="240"  potential="-882.71945381"/>
-        <me:PotentialPoint angle="250"  potential="-882.82362038"/>
-        <me:PotentialPoint angle="260"  potential="-882.91724479"/>
-        <me:PotentialPoint angle="270"  potential="-882.98150176"/>
-        <me:PotentialPoint angle="280"  potential="-882.92408464"/>
-        <me:PotentialPoint angle="290"  potential="-882.65111802"/>
-        <me:PotentialPoint angle="300"  potential="-882.20470779"/>
-        <me:PotentialPoint angle="310"  potential="-881.53710046"/>
-        <me:PotentialPoint angle="320"  potential="-880.77448820"/>
-        <me:PotentialPoint angle="330"  potential="-880.01463699"/>
-        <me:PotentialPoint angle="340"  potential="-879.40488603"/>
-        <me:PotentialPoint angle="350"  potential="-879.02059923"/>
-        <me:PotentialPoint angle="360"  potential="-878.88480619"/>
-      </me:HinderedRotorPotential>
-    </me:ExtraDOSCMethod>
+      <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
+        <me:bondRef>b1</me:bondRef>
+        <me:HinderedRotorPotential format="numerical" units="kcal/mol" expansionSize="7">
+          <me:PotentialPoint angle="10"  potential="-878.99179655"/>
+          <me:PotentialPoint angle="20"  potential="-879.36121138"/>
+          <me:PotentialPoint angle="30"  potential="-879.96042017"/>
+          <me:PotentialPoint angle="40"  potential="-880.71719659"/>
+          <me:PotentialPoint angle="50"  potential="-881.48878223"/>
+          <me:PotentialPoint angle="60"  potential="-882.12865364"/>
+          <me:PotentialPoint angle="70"  potential="-882.59884648"/>
+          <me:PotentialPoint angle="80"  potential="-882.86967957"/>
+          <me:PotentialPoint angle="90"  potential="-882.95276183"/>
+          <me:PotentialPoint angle="100"  potential="-882.89936077"/>
+          <me:PotentialPoint angle="110"  potential="-882.75854765"/>
+          <me:PotentialPoint angle="120"  potential="-882.68682331"/>
+          <me:PotentialPoint angle="130"  potential="-882.70006376"/>
+          <me:PotentialPoint angle="140"  potential="-882.82016908"/>
+          <me:PotentialPoint angle="150"  potential="-883.01262623"/>
+          <me:PotentialPoint angle="160"  potential="-883.19937305"/>
+          <me:PotentialPoint angle="170"  potential="-883.35417963"/>
+          <me:PotentialPoint angle="180"  potential="-883.44096419"/>
+          <me:PotentialPoint angle="190"  potential="-883.41686783"/>
+          <me:PotentialPoint angle="200"  potential="-883.23570585"/>
+          <me:PotentialPoint angle="210"  potential="-883.01036720"/>
+          <me:PotentialPoint angle="220"  potential="-882.83158975"/>
+          <me:PotentialPoint angle="230"  potential="-882.71286496"/>
+          <me:PotentialPoint angle="240"  potential="-882.71945381"/>
+          <me:PotentialPoint angle="250"  potential="-882.82362038"/>
+          <me:PotentialPoint angle="260"  potential="-882.91724479"/>
+          <me:PotentialPoint angle="270"  potential="-882.98150176"/>
+          <me:PotentialPoint angle="280"  potential="-882.92408464"/>
+          <me:PotentialPoint angle="290"  potential="-882.65111802"/>
+          <me:PotentialPoint angle="300"  potential="-882.20470779"/>
+          <me:PotentialPoint angle="310"  potential="-881.53710046"/>
+          <me:PotentialPoint angle="320"  potential="-880.77448820"/>
+          <me:PotentialPoint angle="330"  potential="-880.01463699"/>
+          <me:PotentialPoint angle="340"  potential="-879.40488603"/>
+          <me:PotentialPoint angle="350"  potential="-879.02059923"/>
+          <me:PotentialPoint angle="360"  potential="-878.88480619"/>
+        </me:HinderedRotorPotential>
+      </me:ExtraDOSCMethod>
 
     </molecule>
 
@@ -146,7 +146,7 @@
         <!--  Frequency 186. has been eliminated in favour of a 1 Dimensional rotor. -->
         <property dictRef="me:vibFreqs">
           <array units="cm-1">
-             540.   802.  1138.  1175.
+            540.   802.  1138.  1175.
             1186.  1366.  1439.  1440.  1440.
             2842.  2920.  2987.  3033.  3112.
           </array>
@@ -169,34 +169,371 @@
       </me:ExtraDOSCMethod>
 
       <me:ExtraDOSCMethod xsi:type="me:FourierGrid1D">
-        <me:NumGridPnts>100</me:NumGridPnts>
+        <me:NumGridPnts>360</me:NumGridPnts>
         <me:replaceVibFreq>540.</me:replaceVibFreq>
         <!--<me:reducedMass>7.9997</me:reducedMass>-->
         <me:bondRef>b1 b5 b6</me:bondRef>
-        <me:vibrationalPotential format="numerical" units="kJ/mol" minx="0.6" maxx="1.8">
-          <me:PotentialPoint coordinate="	0.1	"  potential="	4709.9496	"/>
-          <me:PotentialPoint coordinate="	0.2	"  potential="	3894.8204	"/>
-          <me:PotentialPoint coordinate="	0.3	"  potential="	3157.0824	"/>
-          <me:PotentialPoint coordinate="	0.4	"  potential="	2496.7356	"/>
-          <me:PotentialPoint coordinate="	0.5	"  potential="	1913.78	"/>
-          <me:PotentialPoint coordinate="	0.6	"  potential="	1408.2156	"/>
-          <me:PotentialPoint coordinate="	0.7	"  potential="	980.0424	"/>
-          <me:PotentialPoint coordinate="	0.8	"  potential="	629.2604	"/>
-          <me:PotentialPoint coordinate="	0.9	"  potential="	355.8696	"/>
-          <me:PotentialPoint coordinate="	1.0	"  potential="	159.87	"/>
-          <me:PotentialPoint coordinate="	1.1	"  potential="	41.2616	"/>
-          <me:PotentialPoint coordinate="	1.2	"  potential="	0.0444	"/>
-          <me:PotentialPoint coordinate="	1.3	"  potential="	36.2184	"/>
-          <me:PotentialPoint coordinate="	1.4	"  potential="	149.7836	"/>
-          <me:PotentialPoint coordinate="	1.5	"  potential="	340.74	"/>
-          <me:PotentialPoint coordinate="	1.6	"  potential="	609.0876	"/>
-          <me:PotentialPoint coordinate="	1.7	"  potential="	954.8264	"/>
-          <me:PotentialPoint coordinate="	1.8	"  potential="	1377.9564	"/>
-          <me:PotentialPoint coordinate="	1.9	"  potential="	1878.4776	"/>
-          <me:PotentialPoint coordinate="	2.0	"  potential="	2456.39	"/>
-          <me:PotentialPoint coordinate="	2.1	"  potential="	3111.6936	"/>
-          <me:PotentialPoint coordinate="	2.2	"  potential="	3844.3884	"/>
-          <me:PotentialPoint coordinate="	2.3	"  potential="	4654.4744	"/>
+        <me:vibrationalPotential format="numerical" units="kcal/mol" minx="-2.0" maxx="2.0">
+          <me:PotentialPoint coordinate="-2.999240117	"  potential="-52566.58	"/>
+          <me:PotentialPoint coordinate="-2.981786817	"  potential="-52566.89	"/>
+          <me:PotentialPoint coordinate="-2.964333527	"  potential="-52567.24	"/>
+          <me:PotentialPoint coordinate="-2.946880237	"  potential="-52567.65	"/>
+          <me:PotentialPoint coordinate="-2.929426947	"  potential="-52568.11 "/>
+          <me:PotentialPoint coordinate="-2.911973647	"  potential="-52568.62	"/>
+          <me:PotentialPoint coordinate="-2.894520357	"  potential="-52569.18 "/>
+          <me:PotentialPoint coordinate="-2.877067067	"  potential="-52569.79 "/>
+          <me:PotentialPoint coordinate="-2.859613777	"  potential="-52570.45 "/>
+          <me:PotentialPoint coordinate="-2.842160477	"  potential="-52571.15 "/>
+          <me:PotentialPoint coordinate="-2.824707187	"  potential="-52571.91	"/>
+          <me:PotentialPoint coordinate="-2.807253897	"  potential="-52572.71 "/>
+          <me:PotentialPoint coordinate="-2.789800607	"  potential="-52573.56 "/>
+          <me:PotentialPoint coordinate="-2.772347307	"  potential="-52574.45 "/>
+          <me:PotentialPoint coordinate="-2.754894017	"  potential="-52575.38 "/>
+          <me:PotentialPoint coordinate="-2.737440727	"  potential="-52576.36 "/>
+          <me:PotentialPoint coordinate="-2.719987437	"  potential="-52577.38 "/>
+          <me:PotentialPoint coordinate="-2.702534137	"  potential="-52578.43	"/>
+          <me:PotentialPoint coordinate="-2.685080847	"  potential="-52579.53	"/>
+          <me:PotentialPoint coordinate="-2.667627557	"  potential="-52580.66 "/>
+          <me:PotentialPoint coordinate="-2.650174267	"  potential="-52581.83	"/>
+          <me:PotentialPoint coordinate="-2.632720967	"  potential="-52583.03	"/>
+          <me:PotentialPoint coordinate="-2.615267677	"  potential="-52584.27	"/>
+          <me:PotentialPoint coordinate="-2.597814387	"  potential="-52585.53	"/>
+          <me:PotentialPoint coordinate="-2.580361097	"  potential="-52586.84	"/>
+          <me:PotentialPoint coordinate="-2.562907797	"  potential="-52588.17	"/>
+          <me:PotentialPoint coordinate="-2.545454507	"  potential="-52589.52	"/>
+          <me:PotentialPoint coordinate="-2.528001217	"  potential="-52590.91 "/>
+          <me:PotentialPoint coordinate="-2.510547927	"  potential="-52592.32	"/>
+          <me:PotentialPoint coordinate="-2.493094627	"  potential="-52593.75 "/>
+          <me:PotentialPoint coordinate="-2.475641337	"  potential="-52595.21 "/>
+          <me:PotentialPoint coordinate="-2.458188047	"  potential="-52596.69 "/>
+          <me:PotentialPoint coordinate="-2.440734757	"  potential="-52598.19 "/>
+          <me:PotentialPoint coordinate="-2.423281457	"  potential="-52599.71	"/>
+          <me:PotentialPoint coordinate="-2.405828167	"  potential="-52601.25 "/>
+          <me:PotentialPoint coordinate="-2.388374877	"  potential="-52602.81 "/>
+          <me:PotentialPoint coordinate="-2.370921587	"  potential="-52604.38 "/>
+          <me:PotentialPoint coordinate="-2.353468287	"  potential="-52605.97 "/>
+          <me:PotentialPoint coordinate="-2.336014997	"  potential="-52607.57 "/>
+          <me:PotentialPoint coordinate="-2.318561707	"  potential="-52609.19 "/>
+          <me:PotentialPoint coordinate="-2.301108417	"  potential="-52610.82	"/>
+          <me:PotentialPoint coordinate="-2.283655117	"  potential="-52612.45	"/>
+          <me:PotentialPoint coordinate="-2.266201827	"  potential="-52614.10 "/>
+          <me:PotentialPoint coordinate="-2.248748537	"  potential="-52615.75	"/>
+          <me:PotentialPoint coordinate="-2.231295247	"  potential="-52617.41	"/>
+          <me:PotentialPoint coordinate="-2.213841947	"  potential="-52619.08	"/>
+          <me:PotentialPoint coordinate="-2.196388657	"  potential="-52620.75	"/>
+          <me:PotentialPoint coordinate="-2.178935367	"  potential="-52622.43	"/>
+          <me:PotentialPoint coordinate="-2.161482067	"  potential="-52624.11	"/>
+          <me:PotentialPoint coordinate="-2.144028777	"  potential="-52625.79	"/>
+          <me:PotentialPoint coordinate="-2.126575487	"  potential="-52627.48 "/>
+          <me:PotentialPoint coordinate="-2.109122197	"  potential="-52629.16	"/>
+          <me:PotentialPoint coordinate="-2.091668897	"  potential="-52630.85 "/>
+          <me:PotentialPoint coordinate="-2.074215607	"  potential="-52632.53 "/>
+          <me:PotentialPoint coordinate="-2.056762317	"  potential="-52634.21 "/>
+          <me:PotentialPoint coordinate="-2.039309027	"  potential="-52635.89 "/>
+          <me:PotentialPoint coordinate="-2.021855727	"  potential="-52637.56	"/>
+          <me:PotentialPoint coordinate="-2.004402437	"  potential="-52639.23 "/>
+          <me:PotentialPoint coordinate="-1.986949147	"  potential="-52640.89 "/>
+          <me:PotentialPoint coordinate="-1.969495857	"  potential="-52642.54 "/>
+          <me:PotentialPoint coordinate="-1.952042557	"  potential="-52644.18 "/>
+          <me:PotentialPoint coordinate="-1.934589267	"  potential="-52645.81 "/>
+          <me:PotentialPoint coordinate="-1.917135977	"  potential="-52647.43 "/>
+          <me:PotentialPoint coordinate="-1.899682687	"  potential="-52649.04	"/>
+          <me:PotentialPoint coordinate="-1.882229387	"  potential="-52650.64	"/>
+          <me:PotentialPoint coordinate="-1.864776097	"  potential="-52652.22 "/>
+          <me:PotentialPoint coordinate="-1.847322807	"  potential="-52653.79	"/>
+          <me:PotentialPoint coordinate="-1.829869517	"  potential="-52655.34	"/>
+          <me:PotentialPoint coordinate="-1.812416217	"  potential="-52656.88	"/>
+          <me:PotentialPoint coordinate="-1.794962927	"  potential="-52658.40	"/>
+          <me:PotentialPoint coordinate="-1.777509637	"  potential="-52659.90	"/>
+          <me:PotentialPoint coordinate="-1.760056347	"  potential="-52661.38	"/>
+          <me:PotentialPoint coordinate="-1.742603047	"  potential="-52662.85	"/>
+          <me:PotentialPoint coordinate="-1.725149757	"  potential="-52664.29 "/>
+          <me:PotentialPoint coordinate="-1.707696467	"  potential="-52665.72	"/>
+          <me:PotentialPoint coordinate="-1.690243177	"  potential="-52667.12 "/>
+          <me:PotentialPoint coordinate="-1.672789877	"  potential="-52668.50 "/>
+          <me:PotentialPoint coordinate="-1.655336587	"  potential="-52669.86 "/>
+          <me:PotentialPoint coordinate="-1.637883297	"  potential="-52671.20 "/>
+          <me:PotentialPoint coordinate="-1.620430007	"  potential="-52672.51	"/>
+          <me:PotentialPoint coordinate="-1.602976707	"  potential="-52673.80 "/>
+          <me:PotentialPoint coordinate="-1.585523417	"  potential="-52675.07 "/>
+          <me:PotentialPoint coordinate="-1.568070127	"  potential="-52676.31 "/>
+          <me:PotentialPoint coordinate="-1.550616837	"  potential="-52677.53 "/>
+          <me:PotentialPoint coordinate="-1.533163537	"  potential="-52678.73 "/>
+          <me:PotentialPoint coordinate="-1.515710247	"  potential="-52679.91 "/>
+          <me:PotentialPoint coordinate="-1.498256957	"  potential="-52681.06	"/>
+          <me:PotentialPoint coordinate="-1.480803667	"  potential="-52682.18	"/>
+          <me:PotentialPoint coordinate="-1.463350367	"  potential="-52683.28 "/>
+          <me:PotentialPoint coordinate="-1.445897077	"  potential="-52684.36	"/>
+          <me:PotentialPoint coordinate="-1.428443787	"  potential="-52685.42	"/>
+          <me:PotentialPoint coordinate="-1.410990497	"  potential="-52686.45	"/>
+          <me:PotentialPoint coordinate="-1.393537197	"  potential="-52687.46	"/>
+          <me:PotentialPoint coordinate="-1.376083907	"  potential="-52688.44	"/>
+          <me:PotentialPoint coordinate="-1.358630617	"  potential="-52689.41	"/>
+          <me:PotentialPoint coordinate="-1.341177327	"  potential="-52690.35	"/>
+          <me:PotentialPoint coordinate="-1.323724027	"  potential="-52691.27 "/>
+          <me:PotentialPoint coordinate="-1.306270737	"  potential="-52692.16	"/>
+          <me:PotentialPoint coordinate="-1.288817447	"  potential="-52693.04 "/>
+          <me:PotentialPoint coordinate="-1.271364157	"  potential="-52693.89 "/>
+          <me:PotentialPoint coordinate="-1.253910857	"  potential="-52694.72 "/>
+          <me:PotentialPoint coordinate="-1.236457567	"  potential="-52695.53 "/>
+          <me:PotentialPoint coordinate="-1.219004277	"  potential="-52696.31	"/>
+          <me:PotentialPoint coordinate="-1.201550987	"  potential="-52697.08 "/>
+          <me:PotentialPoint coordinate="-1.184097687	"  potential="-52697.82 "/>
+          <me:PotentialPoint coordinate="-1.166644397	"  potential="-52698.55 "/>
+          <me:PotentialPoint coordinate="-1.149191107	"  potential="-52699.25 "/>
+          <me:PotentialPoint coordinate="-1.131737817	"  potential="-52699.94 "/>
+          <me:PotentialPoint coordinate="-1.114284517	"  potential="-52700.60 "/>
+          <me:PotentialPoint coordinate="-1.096831227	"  potential="-52701.25	"/>
+          <me:PotentialPoint coordinate="-1.079377937	"  potential="-52701.87	"/>
+          <me:PotentialPoint coordinate="-1.061924647	"  potential="-52702.48 "/>
+          <me:PotentialPoint coordinate="-1.044471347	"  potential="-52703.07	"/>
+          <me:PotentialPoint coordinate="-1.027018057	"  potential="-52703.64	"/>
+          <me:PotentialPoint coordinate="-1.009564767	"  potential="-52704.19	"/>
+          <me:PotentialPoint coordinate="-0.992111477	"  potential="-52704.72	"/>
+          <me:PotentialPoint coordinate="-0.974658177	"  potential="-52705.23	"/>
+          <me:PotentialPoint coordinate="-0.957204887	"  potential="-52705.73	"/>
+          <me:PotentialPoint coordinate="-0.939751597	"  potential="-52706.21	"/>
+          <me:PotentialPoint coordinate="-0.922298307	"  potential="-52706.67 "/>
+          <me:PotentialPoint coordinate="-0.904845007	"  potential="-52707.11	"/>
+          <me:PotentialPoint coordinate="-0.887391717	"  potential="-52707.53 "/>
+          <me:PotentialPoint coordinate="-0.869938427	"  potential="-52707.94 "/>
+          <me:PotentialPoint coordinate="-0.852485137	"  potential="-52708.33 "/>
+          <me:PotentialPoint coordinate="-0.835031837	"  potential="-52708.70 "/>
+          <me:PotentialPoint coordinate="-0.817578547	"  potential="-52709.06	"/>
+          <me:PotentialPoint coordinate="-0.800125257	"  potential="-52709.40 "/>
+          <me:PotentialPoint coordinate="-0.782671967	"  potential="-52709.73 "/>
+          <me:PotentialPoint coordinate="-0.765218667	"  potential="-52710.04 "/>
+          <me:PotentialPoint coordinate="-0.747765377	"  potential="-52710.34 "/>
+          <me:PotentialPoint coordinate="-0.730312087	"  potential="-52710.63 "/>
+          <me:PotentialPoint coordinate="-0.712858797	"  potential="-52710.90 "/>
+          <me:PotentialPoint coordinate="-0.695405497	"  potential="-52711.16	"/>
+          <me:PotentialPoint coordinate="-0.677952207	"  potential="-52711.40	"/>
+          <me:PotentialPoint coordinate="-0.660498917	"  potential="-52711.63 "/>
+          <me:PotentialPoint coordinate="-0.643045627	"  potential="-52711.85	"/>
+          <me:PotentialPoint coordinate="-0.625592327	"  potential="-52712.06	"/>
+          <me:PotentialPoint coordinate="-0.608139037	"  potential="-52712.26	"/>
+          <me:PotentialPoint coordinate="-0.590685747	"  potential="-52712.45	"/>
+          <me:PotentialPoint coordinate="-0.573232457	"  potential="-52712.62	"/>
+          <me:PotentialPoint coordinate="-0.555779157	"  potential="-52712.79	"/>
+          <me:PotentialPoint coordinate="-0.538325867	"  potential="-52712.95	"/>
+          <me:PotentialPoint coordinate="-0.520872577	"  potential="-52713.10 "/>
+          <me:PotentialPoint coordinate="-0.503419287	"  potential="-52713.24	"/>
+          <me:PotentialPoint coordinate="-0.485965987	"  potential="-52713.37 "/>
+          <me:PotentialPoint coordinate="-0.468512697	"  potential="-52713.50 "/>
+          <me:PotentialPoint coordinate="-0.451059407	"  potential="-52713.62 "/>
+          <me:PotentialPoint coordinate="-0.433606117	"  potential="-52713.73 "/>
+          <me:PotentialPoint coordinate="-0.416152817	"  potential="-52713.84	"/>
+          <me:PotentialPoint coordinate="-0.398699527	"  potential="-52713.94 "/>
+          <me:PotentialPoint coordinate="-0.381246237	"  potential="-52714.03 "/>
+          <me:PotentialPoint coordinate="-0.363792947	"  potential="-52714.12 "/>
+          <me:PotentialPoint coordinate="-0.346339647	"  potential="-52714.21 "/>
+          <me:PotentialPoint coordinate="-0.328886357	"  potential="-52714.29 "/>
+          <me:PotentialPoint coordinate="-0.311433067	"  potential="-52714.37 "/>
+          <me:PotentialPoint coordinate="-0.293979777	"  potential="-52714.44	"/>
+          <me:PotentialPoint coordinate="-0.276526477	"  potential="-52714.50	"/>
+          <me:PotentialPoint coordinate="-0.259073187	"  potential="-52714.57 "/>
+          <me:PotentialPoint coordinate="-0.241619897	"  potential="-52714.63	"/>
+          <me:PotentialPoint coordinate="-0.224166607	"  potential="-52714.69	"/>
+          <me:PotentialPoint coordinate="-0.206713307	"  potential="-52714.74	"/>
+          <me:PotentialPoint coordinate="-0.189260017	"  potential="-52714.79	"/>
+          <me:PotentialPoint coordinate="-0.171806727	"  potential="-52714.84	"/>
+          <me:PotentialPoint coordinate="-0.154353437	"  potential="-52714.88	"/>
+          <me:PotentialPoint coordinate="-0.136900137	"  potential="-52714.93	"/>
+          <me:PotentialPoint coordinate="-0.119446847	"  potential="-52714.96 "/>
+          <me:PotentialPoint coordinate="-0.101993557	"  potential="-52715.00	"/>
+          <me:PotentialPoint coordinate="-0.084540267	"  potential="-52715.03 "/>
+          <me:PotentialPoint coordinate="-0.067086967	"  potential="-52715.06 "/>
+          <me:PotentialPoint coordinate="-0.049633677	"  potential="-52715.09 "/>
+          <me:PotentialPoint coordinate="-0.032180387	"  potential="-52715.11 "/>
+          <me:PotentialPoint coordinate="-0.014727097	"  potential="-52715.13	"/>
+          <me:PotentialPoint coordinate=" 0.002726203	"  potential="-52715.15 "/>
+          <me:PotentialPoint coordinate=" 0.020179493	"  potential="-52715.16 "/>
+          <me:PotentialPoint coordinate=" 0.037632783	"  potential="-52715.17 "/>
+          <me:PotentialPoint coordinate=" 0.055086083	"  potential="-52715.18 "/>
+          <me:PotentialPoint coordinate=" 0.072539373	"  potential="-52715.19 "/>
+          <me:PotentialPoint coordinate=" 0.089992663	"  potential="-52715.19 "/>
+          <me:PotentialPoint coordinate=" 0.107445953	"  potential="-52715.19	"/>
+          <me:PotentialPoint coordinate=" 0.124899253	"  potential="-52715.18	"/>
+          <me:PotentialPoint coordinate=" 0.142352543	"  potential="-52715.17 "/>
+          <me:PotentialPoint coordinate=" 0.15980583	"  potential="-52715.16 "/>
+          <me:PotentialPoint coordinate=" 0.17725913	"  potential="-52715.15 "/>
+          <me:PotentialPoint coordinate=" 0.19471242	"  potential="-52715.13 "/>
+          <me:PotentialPoint coordinate=" 0.21216571	"  potential="-52715.11	"/>
+          <me:PotentialPoint coordinate=" 0.229619		"  potential="-52715.09 "/>
+          <me:PotentialPoint coordinate=" 0.2470723		"  potential="-52715.06	"/>
+          <me:PotentialPoint coordinate=" 0.26452559	"  potential="-52715.03	"/>
+          <me:PotentialPoint coordinate=" 0.28197888	"  potential="-52715.00 "/>
+          <me:PotentialPoint coordinate=" 0.29943217	"  potential="-52714.96	"/>
+          <me:PotentialPoint coordinate=" 0.31688547	"  potential="-52714.91 "/>
+          <me:PotentialPoint coordinate=" 0.33433876	"  potential="-52714.87 "/>
+          <me:PotentialPoint coordinate=" 0.35179205	"  potential="-52714.81 "/>
+          <me:PotentialPoint coordinate=" 0.36924534	"  potential="-52714.75 "/>
+          <me:PotentialPoint coordinate=" 0.38669864	"  potential="-52714.69	"/>
+          <me:PotentialPoint coordinate=" 0.40415193	"  potential="-52714.62 "/>
+          <me:PotentialPoint coordinate=" 0.42160522	"  potential="-52714.54 "/>
+          <me:PotentialPoint coordinate=" 0.43905851	"  potential="-52714.46 "/>
+          <me:PotentialPoint coordinate=" 0.45651181	"  potential="-52714.37 "/>
+          <me:PotentialPoint coordinate=" 0.4739651		"  potential="-52714.28 "/>
+          <me:PotentialPoint coordinate=" 0.49141839	"  potential="-52714.17 "/>
+          <me:PotentialPoint coordinate=" 0.50887168	"  potential="-52714.06	"/>
+          <me:PotentialPoint coordinate=" 0.52632498	"  potential="-52713.94	"/>
+          <me:PotentialPoint coordinate=" 0.54377827	"  potential="-52713.81 "/>
+          <me:PotentialPoint coordinate=" 0.56123156	"  potential="-52713.67	"/>
+          <me:PotentialPoint coordinate=" 0.57868485	"  potential="-52713.52	"/>
+          <me:PotentialPoint coordinate=" 0.59613815	"  potential="-52713.36	"/>
+          <me:PotentialPoint coordinate=" 0.61359144	"  potential="-52713.19	"/>
+          <me:PotentialPoint coordinate=" 0.63104473	"  potential="-52713.01	"/>
+          <me:PotentialPoint coordinate=" 0.64849802	"  potential="-52712.81	"/>
+          <me:PotentialPoint coordinate=" 0.66595132	"  potential="-52712.61	"/>
+          <me:PotentialPoint coordinate=" 0.68340461	"  potential="-52712.39 "/>
+          <me:PotentialPoint coordinate=" 0.7008579		"  potential="-52712.16	"/>
+          <me:PotentialPoint coordinate=" 0.71831119	"  potential="-52711.91 "/>
+          <me:PotentialPoint coordinate=" 0.73576449	"  potential="-52711.65 "/>
+          <me:PotentialPoint coordinate=" 0.75321778	"  potential="-52711.38 "/>
+          <me:PotentialPoint coordinate=" 0.77067107	"  potential="-52711.09 "/>
+          <me:PotentialPoint coordinate=" 0.78812436	"  potential="-52710.79	"/>
+          <me:PotentialPoint coordinate=" 0.80557766	"  potential="-52710.47 "/>
+          <me:PotentialPoint coordinate=" 0.82303095	"  potential="-52710.14 "/>
+          <me:PotentialPoint coordinate=" 0.84048424	"  potential="-52709.79 "/>
+          <me:PotentialPoint coordinate=" 0.85793753	"  potential="-52709.43 "/>
+          <me:PotentialPoint coordinate=" 0.87539083	"  potential="-52709.05 "/>
+          <me:PotentialPoint coordinate=" 0.89284412	"  potential="-52708.65 "/>
+          <me:PotentialPoint coordinate=" 0.91029741	"  potential="-52708.24	"/>
+          <me:PotentialPoint coordinate=" 0.9277507		"  potential="-52707.81	"/>
+          <me:PotentialPoint coordinate=" 0.945204		"  potential="-52707.36   "/>
+          <me:PotentialPoint coordinate=" 0.96265729	"  potential="-52706.89	"/>
+          <me:PotentialPoint coordinate=" 0.98011058	"  potential="-52706.41	"/>
+          <me:PotentialPoint coordinate=" 0.99756387	"  potential="-52705.91	"/>
+          <me:PotentialPoint coordinate=" 1.01501717	"  potential="-52705.39	"/>
+          <me:PotentialPoint coordinate=" 1.03247046	"  potential="-52704.85	"/>
+          <me:PotentialPoint coordinate=" 1.04992375	"  potential="-52704.30	"/>
+          <me:PotentialPoint coordinate=" 1.06737704	"  potential="-52703.73	"/>
+          <me:PotentialPoint coordinate=" 1.08483034	"  potential="-52703.14 "/>
+          <me:PotentialPoint coordinate=" 1.10228363	"  potential="-52702.53	"/>
+          <me:PotentialPoint coordinate=" 1.11973692	"  potential="-52701.90 "/>
+          <me:PotentialPoint coordinate=" 1.13719021	"  potential="-52701.25 "/>
+          <me:PotentialPoint coordinate=" 1.15464351	"  potential="-52700.59 "/>
+          <me:PotentialPoint coordinate=" 1.17209680	"  potential="-52699.90 "/>
+          <me:PotentialPoint coordinate=" 1.18955009	"  potential="-52699.19	"/>
+          <me:PotentialPoint coordinate=" 1.20700338	"  potential="-52698.47 "/>
+          <me:PotentialPoint coordinate=" 1.22445668	"  potential="-52697.72 "/>
+          <me:PotentialPoint coordinate=" 1.24190997	"  potential="-52696.96 "/>
+          <me:PotentialPoint coordinate=" 1.25936326	"  potential="-52696.17 "/>
+          <me:PotentialPoint coordinate=" 1.27681655	"  potential="-52695.37 "/>
+          <me:PotentialPoint coordinate=" 1.29426985	"  potential="-52694.54 "/>
+          <me:PotentialPoint coordinate=" 1.31172314	"  potential="-52693.69	"/>
+          <me:PotentialPoint coordinate=" 1.32917643	"  potential="-52692.82	"/>
+          <me:PotentialPoint coordinate=" 1.34662972	"  potential="-52691.93 "/>
+          <me:PotentialPoint coordinate=" 1.36408302	"  potential="-52691.02	"/>
+          <me:PotentialPoint coordinate=" 1.38153631	"  potential="-52690.09	"/>
+          <me:PotentialPoint coordinate=" 1.39898960	"  potential="-52689.13	"/>
+          <me:PotentialPoint coordinate=" 1.41644289	"  potential="-52688.16	"/>
+          <me:PotentialPoint coordinate=" 1.43389619	"  potential="-52687.16	"/>
+          <me:PotentialPoint coordinate=" 1.45134948	"  potential="-52686.14	"/>
+          <me:PotentialPoint coordinate=" 1.46880277	"  potential="-52685.09	"/>
+          <me:PotentialPoint coordinate=" 1.48625606	"  potential="-52684.03 "/>
+          <me:PotentialPoint coordinate=" 1.50370936	"  potential="-52682.94	"/>
+          <me:PotentialPoint coordinate=" 1.52116265	"  potential="-52681.83 "/>
+          <me:PotentialPoint coordinate=" 1.53861594	"  potential="-52680.69 "/>
+          <me:PotentialPoint coordinate=" 1.55606923	"  potential="-52679.54 "/>
+          <me:PotentialPoint coordinate=" 1.57352253	"  potential="-52678.36 "/>
+          <me:PotentialPoint coordinate=" 1.59097582	"  potential="-52677.16	"/>
+          <me:PotentialPoint coordinate=" 1.60842911	"  potential="-52675.94 "/>
+          <me:PotentialPoint coordinate=" 1.62588240	"  potential="-52674.70 "/>
+          <me:PotentialPoint coordinate=" 1.64333570	"  potential="-52673.44 "/>
+          <me:PotentialPoint coordinate=" 1.66078899	"  potential="-52672.15 "/>
+          <me:PotentialPoint coordinate=" 1.67824228	"  potential="-52670.85 "/>
+          <me:PotentialPoint coordinate=" 1.69569557	"  potential="-52669.53 "/>
+          <me:PotentialPoint coordinate=" 1.71314887	"  potential="-52668.18	"/>
+          <me:PotentialPoint coordinate=" 1.73060216	"  potential="-52666.82	"/>
+          <me:PotentialPoint coordinate=" 1.74805545	"  potential="-52665.44 "/>
+          <me:PotentialPoint coordinate=" 1.76550874	"  potential="-52664.05	"/>
+          <me:PotentialPoint coordinate=" 1.78296204	"  potential="-52662.63	"/>
+          <me:PotentialPoint coordinate=" 1.80041533	"  potential="-52661.20	"/>
+          <me:PotentialPoint coordinate=" 1.81786862	"  potential="-52659.76	"/>
+          <me:PotentialPoint coordinate=" 1.83532191	"  potential="-52658.30	"/>
+          <me:PotentialPoint coordinate=" 1.85277521	"  potential="-52656.82	"/>
+          <me:PotentialPoint coordinate=" 1.87022850	"  potential="-52655.33	"/>
+          <me:PotentialPoint coordinate=" 1.88768179	"  potential="-52653.83 "/>
+          <me:PotentialPoint coordinate=" 1.90513508	"  potential="-52652.32	"/>
+          <me:PotentialPoint coordinate=" 1.92258838	"  potential="-52650.80 "/>
+          <me:PotentialPoint coordinate=" 1.94004167	"  potential="-52649.26 "/>
+          <me:PotentialPoint coordinate=" 1.95749496	"  potential="-52647.72 "/>
+          <me:PotentialPoint coordinate=" 1.97494826	"  potential="-52646.17 "/>
+          <me:PotentialPoint coordinate=" 1.99240155	"  potential="-52644.61	"/>
+          <me:PotentialPoint coordinate=" 2.00985484	"  potential="-52643.04 "/>
+          <me:PotentialPoint coordinate=" 2.02730813	"  potential="-52641.47 "/>
+          <me:PotentialPoint coordinate=" 2.04476143	"  potential="-52639.89 "/>
+          <me:PotentialPoint coordinate=" 2.06221472	"  potential="-52638.31 "/>
+          <me:PotentialPoint coordinate=" 2.07966801	"  potential="-52636.72 "/>
+          <me:PotentialPoint coordinate=" 2.09712130	"  potential="-52635.13 "/>
+          <me:PotentialPoint coordinate=" 2.11457460	"  potential="-52633.54	"/>
+          <me:PotentialPoint coordinate=" 2.13202789	"  potential="-52631.95	"/>
+          <me:PotentialPoint coordinate=" 2.14948118	"  potential="-52630.36 "/>
+          <me:PotentialPoint coordinate=" 2.16693447	"  potential="-52628.77	"/>
+          <me:PotentialPoint coordinate=" 2.18438777	"  potential="-52627.18	"/>
+          <me:PotentialPoint coordinate=" 2.20184106	"  potential="-52625.59	"/>
+          <me:PotentialPoint coordinate=" 2.21929435	"  potential="-52624.01	"/>
+          <me:PotentialPoint coordinate=" 2.23674764	"  potential="-52622.42	"/>
+          <me:PotentialPoint coordinate=" 2.25420094	"  potential="-52620.84	"/>
+          <me:PotentialPoint coordinate=" 2.27165423	"  potential="-52619.27	"/>
+          <me:PotentialPoint coordinate=" 2.28910752	"  potential="-52617.70 "/>
+          <me:PotentialPoint coordinate=" 2.30656081	"  potential="-52616.14	"/>
+          <me:PotentialPoint coordinate=" 2.32401411	"  potential="-52614.58 "/>
+          <me:PotentialPoint coordinate=" 2.34146740	"  potential="-52613.03 "/>
+          <me:PotentialPoint coordinate=" 2.35892069	"  potential="-52611.49 "/>
+          <me:PotentialPoint coordinate=" 2.37637398	"  potential="-52609.96 "/>
+          <me:PotentialPoint coordinate=" 2.39382728	"  potential="-52608.44	"/>
+          <me:PotentialPoint coordinate=" 2.41128057	"  potential="-52606.93 "/>
+          <me:PotentialPoint coordinate=" 2.42873386	"  potential="-52605.43 "/>
+          <me:PotentialPoint coordinate=" 2.44618715	"  potential="-52603.95 "/>
+          <me:PotentialPoint coordinate=" 2.46364045	"  potential="-52602.48 "/>
+          <me:PotentialPoint coordinate=" 2.48109374	"  potential="-52601.02 "/>
+          <me:PotentialPoint coordinate=" 2.49854703	"  potential="-52599.58 "/>
+          <me:PotentialPoint coordinate=" 2.51600032	"  potential="-52598.15	"/>
+          <me:PotentialPoint coordinate=" 2.53345362	"  potential="-52596.74	"/>
+          <me:PotentialPoint coordinate=" 2.55090691	"  potential="-52595.34 "/>
+          <me:PotentialPoint coordinate=" 2.56836020	"  potential="-52593.97	"/>
+          <me:PotentialPoint coordinate=" 2.58581349	"  potential="-52592.62	"/>
+          <me:PotentialPoint coordinate=" 2.60326679	"  potential="-52591.28	"/>
+          <me:PotentialPoint coordinate=" 2.62072008	"  potential="-52589.97	"/>
+          <me:PotentialPoint coordinate=" 2.63817337	"  potential="-52588.68	"/>
+          <me:PotentialPoint coordinate=" 2.65562666	"  potential="-52587.42	"/>
+          <me:PotentialPoint coordinate=" 2.67307996	"  potential="-52586.18	"/>
+          <me:PotentialPoint coordinate=" 2.69053325	"  potential="-52584.97 "/>
+          <me:PotentialPoint coordinate=" 2.70798654	"  potential="-52583.78	"/>
+          <me:PotentialPoint coordinate=" 2.72543983	"  potential="-52582.62 "/>
+          <me:PotentialPoint coordinate=" 2.74289313	"  potential="-52581.49 "/>
+          <me:PotentialPoint coordinate=" 2.76034642	"  potential="-52580.39 "/>
+          <me:PotentialPoint coordinate=" 2.77779971	"  potential="-52579.32 "/>
+          <me:PotentialPoint coordinate=" 2.79525300	"  potential="-52578.28	"/>
+          <me:PotentialPoint coordinate=" 2.81270630	"  potential="-52577.28 "/>
+          <me:PotentialPoint coordinate=" 2.83015959	"  potential="-52576.31 "/>
+          <me:PotentialPoint coordinate=" 2.84761288	"  potential="-52575.38 "/>
+          <me:PotentialPoint coordinate=" 2.86506617	"  potential="-52574.48 "/>
+          <me:PotentialPoint coordinate=" 2.88251947	"  potential="-52573.63 "/>
+          <me:PotentialPoint coordinate=" 2.89997276	"  potential="-52572.81 "/>
+          <me:PotentialPoint coordinate=" 2.91742605	"  potential="-52572.03	"/>
+          <me:PotentialPoint coordinate=" 2.93487934	"  potential="-52571.30	"/>
+          <me:PotentialPoint coordinate=" 2.95233264	"  potential="-52570.61 "/>
+          <me:PotentialPoint coordinate=" 2.96978593	"  potential="-52569.96	"/>
+          <me:PotentialPoint coordinate=" 2.98723922	"  potential="-52569.36	"/>
+          <me:PotentialPoint coordinate=" 3.00469251	"  potential="-52568.80	"/>
+          <me:PotentialPoint coordinate=" 3.02214581	"  potential="-52568.29 "/>
+          <me:PotentialPoint coordinate=" 3.03959910	"  potential="-52567.82 "/>
+          <me:PotentialPoint coordinate=" 3.05705239	"  potential="-52567.40 "/>
+          <me:PotentialPoint coordinate=" 3.07450568	"  potential="-52567.03	"/>
+          <me:PotentialPoint coordinate=" 3.09195898	"  potential="-52566.72 "/>
+          <me:PotentialPoint coordinate=" 3.10941227	"  potential="-52566.45 "/>
+          <me:PotentialPoint coordinate=" 3.12686556	"  potential="-52566.23 "/>
+          <me:PotentialPoint coordinate=" 3.14431885	"  potential="-52566.06 "/>
+          <me:PotentialPoint coordinate=" 3.16177215	"  potential="-52565.94 "/>
+          <me:PotentialPoint coordinate=" 3.17922544	"  potential="-52565.88 "/>
+          <me:PotentialPoint coordinate=" 3.19667873	"  potential="-52565.86	"/>
+          <me:PotentialPoint coordinate=" 3.21413202	"  potential="-52565.90	"/>
+          <me:PotentialPoint coordinate=" 3.23158532	"  potential="-52565.99 "/>
+          <me:PotentialPoint coordinate=" 3.24903861	"  potential="-52566.14	"/>
+          <me:PotentialPoint coordinate=" 3.26649190	"  potential="-52566.33	"/>
         </me:vibrationalPotential>
       </me:ExtraDOSCMethod>
 

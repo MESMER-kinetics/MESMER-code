@@ -1,3 +1,14 @@
+2020-February-23 Struan Robertson
+
+		* gStrucuture.h/.cpp: Implementation update of reduced mass calculators for bend and 
+		inversion modes.
+
+		* Examples update.
+
+		* Documentation update.
+
+		* Schema update.
+
 2020-February-16 Struan Robertson
 
 		* gDensityOfStates.h, gStrucuture.h/.cpp: Implementation update of reduced mass calculators 
