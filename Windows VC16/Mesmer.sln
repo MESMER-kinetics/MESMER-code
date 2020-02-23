@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29709.97
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Mesmer", "Mesmer\Mesmer.vcxproj", "{2BCC6B10-A435-4738-985B-3B3E405D568E}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TinyXML", "TinyXML\TinyXML.vcxproj", "{772A61A8-365D-4C72-8B17-33B30767E2F8}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "qd", "qd\qd.vcxproj", "{71A7FD85-66B8-4235-91AC-914AC894D6E1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		MPIRelease|x86 = MPIRelease|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2BCC6B10-A435-4738-985B-3B3E405D568E}.Debug|x86.ActiveCfg = Debug|Win32
+		{2BCC6B10-A435-4738-985B-3B3E405D568E}.Debug|x86.Build.0 = Debug|Win32
+		{2BCC6B10-A435-4738-985B-3B3E405D568E}.MPIRelease|x86.ActiveCfg = MPIRelease|Win32
+		{2BCC6B10-A435-4738-985B-3B3E405D568E}.MPIRelease|x86.Build.0 = MPIRelease|Win32
+		{2BCC6B10-A435-4738-985B-3B3E405D568E}.Release|x86.ActiveCfg = Release|Win32
+		{2BCC6B10-A435-4738-985B-3B3E405D568E}.Release|x86.Build.0 = Release|Win32
+		{772A61A8-365D-4C72-8B17-33B30767E2F8}.Debug|x86.ActiveCfg = Debug|Win32
+		{772A61A8-365D-4C72-8B17-33B30767E2F8}.Debug|x86.Build.0 = Debug|Win32
+		{772A61A8-365D-4C72-8B17-33B30767E2F8}.MPIRelease|x86.ActiveCfg = Release|Win32
+		{772A61A8-365D-4C72-8B17-33B30767E2F8}.MPIRelease|x86.Build.0 = Release|Win32
+		{772A61A8-365D-4C72-8B17-33B30767E2F8}.Release|x86.ActiveCfg = Release|Win32
+		{772A61A8-365D-4C72-8B17-33B30767E2F8}.Release|x86.Build.0 = Release|Win32
+		{71A7FD85-66B8-4235-91AC-914AC894D6E1}.Debug|x86.ActiveCfg = Debug|Win32
+		{71A7FD85-66B8-4235-91AC-914AC894D6E1}.Debug|x86.Build.0 = Debug|Win32
+		{71A7FD85-66B8-4235-91AC-914AC894D6E1}.MPIRelease|x86.ActiveCfg = Release|Win32
+		{71A7FD85-66B8-4235-91AC-914AC894D6E1}.MPIRelease|x86.Build.0 = Release|Win32
+		{71A7FD85-66B8-4235-91AC-914AC894D6E1}.Release|x86.ActiveCfg = Release|Win32
+		{71A7FD85-66B8-4235-91AC-914AC894D6E1}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CA7EAA98-FF6C-425E-AF24-9B2EEFC24C2E}
+	EndGlobalSection
+EndGlobal
