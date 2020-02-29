@@ -74,7 +74,7 @@ int main(int argc, char **argv)
   // process command line arguments
   string infilename, outfilename, testfilename, logfilename, punchfilename;
   vector<string> extraInfilenames;
-  bool nocalc = false, usecout = false, updatemols = true, overwriteinput = false,
+  bool nocalc = false, usecout = false, overwriteinput = false,
     qatest = false, nologging = false, changetestname = false;
 
   for (int iarg = 1; iarg < argc; ++iarg)
@@ -91,9 +91,6 @@ int main(int argc, char **argv)
       case 'g':
         nologging = true;
         cerr << "Logging is turned off: no info or test output" << endl;
-        break;
-      case 'l':
-        updatemols = false;
         break;
       case 'n':
         overwriteinput = true;

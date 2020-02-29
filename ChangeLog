@@ -1,3 +1,12 @@
+2020-February-29 Struan Robertson
+
+		* gStrucuture.h/.cpp: Implementation update of reduced mass calculators for bend and 
+		inversion modes.
+
+		* Linux64: Compilation fixes.
+
+		* Examples update.
+
 2020-February-23 Struan Robertson
 
 		* gStrucuture.h/.cpp: Implementation update of reduced mass calculators for bend and 

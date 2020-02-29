@@ -1079,7 +1079,7 @@ namespace mesmer
     vector3 coords1 = GetAtomCoords(bondats.first);
     vector3 coords2 = GetAtomCoords(bondats.second);
 
-    return (bondats.first == centre) ? coords2 - coords1 : coords2 - coords1;
+    return (bondats.first == centre) ? coords2 - coords1 : coords1 - coords2;
   }
 
   // Calculates bend eigenvector about an axis define by at1 and at2.
@@ -1098,7 +1098,7 @@ namespace mesmer
         double sum(0.0);
         for (size_t i(location), j(0); j < 3; i++, j++) {
           mode[i] = massWeight * b[j];
-          sum = mode[i]*mode[i];
+          sum += mode[i]*mode[i];
         }
         moi += sum;
       }

@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.0 compiled: -- Oct 25 2019 -- 22:13:05
+     Mesmer v6.0 compiled: -- Jan 18 2020 -- 18:33:11
 
      Copyright (C) 2009-2020 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sun Oct 27 15:13:39 2019
+                     Execution Date:  Sat Jan 18 20:26:51 2020
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -36,6 +36,8 @@ Parsing input xml file...
 Glyoxal.xml
 
 --Parse data for marquardt
+The default value of me:MarquardtLambda was used.
+The default value of me:MarquardtLambdaScale was used.
 Energy convention "" written to <moleculeList>
 In R1: Parsing reaction...Association reaction
 In Glyoxal: The default value of me:DOSCMethod was used.
@@ -60,6 +62,7 @@ In TS1: The default value of me:DOSCMethod was used.
 In R2_2: --Parse data for RRKM
 In R2_2: No tunneling method used for R2_2
 In R3: Parsing reaction...Pseudoisomerization reaction
+In R3: --Parse data for modPrior
 In HC(O)CO: The default value of me:DistributionCalcMethod was used.
 In HC(O)CO: --Parse data for Boltzmann
 In HC(O)CO: The default value of me:energyTransferModel was used.
@@ -79,6 +82,8 @@ In TS2: Hindered rotor b1
 In R4: --Parse data for RRKM
 In R4: No tunneling method used for R4
 In R2: Parsing reaction...Pseudoisomerization reaction
+In R2: The default value of me:FragmentDist was used.
+In R2: --Parse data for Prior
 In O2: The default value of me:DOSCMethod was used.
 In R02: WARNING: When calculating frequencies from a Hessian it is critical
      that the Hessian and species coordinates are expressed relative to
@@ -88,7 +93,13 @@ In R02: Vibrational frequencies (cm-1) were calculated from Hessian:
   668.07 1241.7 1851.8 2276.52 3246 
 In R02: The default value of me:DOSCMethod was used.
 In R02: Hindered rotor b1
+In R02: WARNING: The Fourier expansion for the internal rotor potential for bond b1 of 
+In R02: species R02, differs at the minimum from the value entered by more than 20 cm-1.
+In R02: More terms in the Fourier expansion may be needed.
 In R02: Hindered rotor b2
+In R02: WARNING: The Fourier expansion for the internal rotor potential for bond b2 of 
+In R02: species R02, differs at the minimum from the value entered by more than 20 cm-1.
+In R02: More terms in the Fourier expansion may be needed.
 In R02: The default value of me:DistributionCalcMethod was used.
 In R02: --Parse data for Boltzmann
 In R02: The default value of me:energyTransferModel was used.
@@ -109,6 +120,9 @@ In TS4: Vibrational frequencies (cm-1) were calculated from Hessian:
   1129.77 1911.18 2011.35 2061.7 
 In TS4: The default value of me:DOSCMethod was used.
 In TS4: Hindered rotor b1
+In TS4: WARNING: The Fourier expansion for the internal rotor potential for bond b1 of 
+In TS4: species TS4, differs at the minimum from the value entered by more than 20 cm-1.
+In TS4: More terms in the Fourier expansion may be needed.
 In R6: --Parse data for RRKM
 In R6: No tunneling method used for R6
 80Torr, 295K at dd precision with N2. Excess Reactant Conc = 1.547e+17 particles per cc
@@ -120,7 +134,7 @@ In R6: No tunneling method used for R6
 5Torr, 212K at qd precision with N2. Excess Reactant Conc = 3.68e+16 particles per cc
 5Torr, 212K at qd precision with N2. Excess Reactant Conc = 1.01e+17 particles per cc
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20191027_151339
+Write metadata 20200118_202651
 
 File: "Glyoxal.xml" successfully parsed.
 Main Calculation begins
@@ -155,7 +169,7 @@ Chi^2 = 6.57165 Lambda = 0.01
 HC(O)CO:deltaEDown=238.432  R2:activationEnergy=3.65238  R2:preExponential=1.73273e-12  
 Iteration: 2 of Marquardt. ChiSquare = 6.57165, Lambda = 0.01
 Number of cells = 50000, Number of grains = 224
- -- Total time elapsed: 2273 seconds.
+ -- Total time elapsed: 2011 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
@@ -190,4 +204,4 @@ Number of degrees of Freedom = 5
 Chi^2 probability = 0.254495
 
 System saved to mesmer_out.xml
-Total time elapsed: 2273 seconds.
+Total time elapsed: 2011 seconds.

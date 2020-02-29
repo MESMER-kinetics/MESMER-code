@@ -1,0 +1,83 @@
+
+            /|      /|                        \   
+           / |     / | ________________________\  
+          /  |    /  |  _   _             _   _   
+         /   |   /   | / \ / \ |\     /| / \ / \  
+        /    |  /    | \_/ \_  | \   / | \_/ |_/  
+       /     | /     | /     \ |  \ /  | /   | \  
+    \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
+
+     Mesmer: Master Equation Solver for Multi-Energy well Reactions
+     Mesmer v6.0 compiled: -- Jan 19 2020 -- 12:23:54
+
+     Copyright (C) 2009-2020 by
+     Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
+     David R. Glowacki, Michael J. Pilling and contributors
+
+     Mesmer is free software: you can redistribute it and/or modify
+     it under the terms of the GNU Public License as published by
+     the Free Software Foundation, either version 2 of the License,
+     or (at your option) any later version.
+
+     But WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU Public License for more details.
+
+    You should have received a copy of the GNU Public License
+    along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
+
+                     Platform:        Windows
+                     Execution Date:  Sun Feb 23 17:26:54 2020
+                     Number of ranks: 1
+
+defaults.xml, librarymols.xml are in ../..
+
+Parsing input xml file...
+Ethyl_H_to_Ethane_inversion.xml
+
+The default value of me:calcMethod was used.
+--Parse data for simpleCalc
+Energy convention "" written to <moleculeList>
+In R1: Parsing reaction...Association reaction
+In Ethyl: The default value of me:DOSCMethod was used.
+In Ethyl: Hindered rotor b1
+In Ethyl:  replacing vib freq 540.
+In H: The default value of me:DOSCMethod was used.
+In Ethane: Hindered rotor b1
+In Ethane: The default value of me:DistributionCalcMethod was used.
+In Ethane: --Parse data for Boltzmann
+In Ethane: --Parse data for ExponentialDown
+In R1: --Parse data for MesmerILT
+In R1: The default value of me:TInfinity was used.
+In R1: No tunneling method used for R1
+In R1: Not a unimolecular reaction: look for excess reactant concentration.
+In R1: No value of me:excessReactantConc was supplied and the default value NEEDS TO BE CHECKED**
+25.1Torr, 301K at dd precision with He
+The default value of me:ForceMacroDetailedBalance was used.
+Write metadata 20200223_173230
+
+File: "Ethyl_H_to_Ethane_inversion.xml" successfully parsed.
+Main Calculation begins
+Now calculating...
+
+--Execute calcMethod simpleCalc
+Number of cells = 50000, Number of grains = 194
+Number of grains produced is not equal to that requested for: H
+Number of grains requested: 194
+Number of grains produced : 1
+In FastLaplaceConvolution: 3600 values in the FFT convolution routine were replaced by standard convolution
+
+WARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs).
+
+The last CSE = -7.09637e+06 and the first IERE = -1.79252e+07
+(last CSE)/(first IERE) ratio = 0.395887, which is less than an order of magnitude
+
+Results obtained from Bartis Widom eigenvalue-vector analysis may be unreliable
+ -- Total time elapsed: 459 seconds.
+
+
+    Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
+
+
+System saved to mesmer_out.xml
+Total time elapsed: 459 seconds.

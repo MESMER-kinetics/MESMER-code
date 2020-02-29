@@ -344,7 +344,10 @@ namespace mesmer
       bcalGrainNum = true;
     }
 
+    // Determine if DOS and reaction fluxes need to be recalculated.
+    size_t oldMaxCell = mEnv.MaxCell;
     mEnv.MaxCell = max(mEnv.MaxCell, (mEnv.MaxGrn * size_t(double(mEnv.GrainSize) / mEnv.CellSize)));
+    // Reaction::resetCalcFlag((oldMaxCell < mEnv.MaxCell)) ;
 
     if (writeReport) cinfo << "Number of cells = " << mEnv.MaxCell << ", Number of grains = " << mEnv.MaxGrn << once << endl;
 
@@ -1326,7 +1329,7 @@ namespace mesmer
     const size_t n    = 2 * size_t(itvl*logMaxTime);
 
     // Calculates the time points
-    for (int i = 0; i <= n; ++i) {
+    for (size_t i = 0; i <= n; ++i) {
       double thetime = pow(10., static_cast<double>(i) / itvl - logMaxTime);
       if (thetime < shortestTime) continue;
       if (thetime > maxEvoTime) break;

@@ -1460,11 +1460,11 @@ float *Sobol::i4_sobol_generate ( int m, int n, int skip )
 {
   int j;
   float *r;
-  int seed;
+//  int seed;
 
   r = new float[m*n];
 
-  seed = skip;
+//  seed = skip;
 
   for ( j = 0; j < n; j++ )
   {
@@ -1606,11 +1606,11 @@ double *Sobol::i8_sobol_generate ( int m, int n, int skip )
 {
   int j;
   double *r;
-  long long int seed;
+//  long long int seed;
 
   r = new double[m*n];
 
-  seed = ( long long ) skip;
+//  seed = ( long long ) skip;
 
   for ( j = 0; j < n; j++ )
   {
@@ -2178,7 +2178,8 @@ void Sobol::timestamp ( )
 
   len = strftime ( time_buffer, TIME_SIZE, "%d %B %Y %I:%M:%S %p", tm );
 
-  cout << time_buffer << "\n";
+  if (len > 0) 
+    cout << time_buffer << "\n";
 
   return;
 # undef TIME_SIZE
