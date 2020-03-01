@@ -293,7 +293,7 @@ namespace mesmer
 
     hamiltonian[0][0] = m_potentialCosCoeff[0];
     for (int k(1), i(1); k <= kmax; k++) {
-      double energy = bint*double(k*k) + m_potentialCosCoeff[0];
+      double energy = bint*double(k)*double(k) + m_potentialCosCoeff[0];
       hamiltonian[i][i] = energy;
       stateIndicies[i] = -k;
       i++;                         // Need to account for the two directions of rotation.

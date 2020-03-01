@@ -492,7 +492,7 @@ namespace mesmer
     Molecule* pMol = m_pMoleculeManager->find(ref1);
     if (!pMol) {
       stringstream msg;
-      msg << "Failed to located diffusing species referred to in diffusive loss reaction" << pMol->getName() << ".";
+      msg << "Failed to located diffusing species referred to in diffusive loss reaction" << ref1 << ".";
       throw(std::runtime_error(msg.str()));
     }
 

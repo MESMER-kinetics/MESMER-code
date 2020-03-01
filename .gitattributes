@@ -476,9 +476,14 @@ examples/Glyoxyl/baselines/Linux64/Glyoxal.log -text
 examples/Glyoxyl/baselines/Linux64/Glyoxal_Full.log -text
 examples/Glyoxyl/baselines/Win32/Glyoxal.log -text
 examples/Glyoxyl/baselines/Win32/Glyoxal_Full.log -text
+examples/H2Ominimal/H2OBend.xml -text
 examples/H2Ominimal/H2Ominimal.xml -text
+examples/H2Ominimal/baselines/Linux64/H2OBend.log -text
+examples/H2Ominimal/baselines/Linux64/H2OBend.test -text
 examples/H2Ominimal/baselines/Linux64/H2Ominimal.log -text
 examples/H2Ominimal/baselines/Linux64/H2Ominimal.test -text
+examples/H2Ominimal/baselines/Win32/H2OBend.log -text
+examples/H2Ominimal/baselines/Win32/H2OBend.test -text
 examples/H2Ominimal/baselines/Win32/H2Ominimal.log -text
 examples/H2Ominimal/baselines/Win32/H2Ominimal.test -text
 examples/MesmerTemplate.text -text

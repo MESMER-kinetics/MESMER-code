@@ -124,7 +124,7 @@ namespace mesmer
       MPI_Barrier(MPI_COMM_WORLD);
     }
 
-    // Gathers QA output from across ranks ans writes to ctest.
+    // Gathers QA output from across ranks and writes to ctest.
 
     void writeCtest() {
       ctest << stest.str();

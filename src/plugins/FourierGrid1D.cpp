@@ -285,7 +285,7 @@ namespace mesmer
 		const double cfctr = M_PI / double(m_nGridPoints);
 		const double chlen = m_ppotential->get_characteristicLength();
 		const double tfctr = PlancksConstant_in_JouleSecond * AvogadroC *1.e+23 / (4.0*SpeedOfLight_in_cm*m_reducedMass*chlen*chlen);
-		const double dgnEl = tfctr*(double(m_nGridPoints*m_nGridPoints + 2) / 6.0);
+		const double dgnEl = tfctr*((double(m_nGridPoints)*double(m_nGridPoints) + 2.0) / 6.0);
 		for (int i(0) ; i < int(m_nGridPoints) ; i++) {
 			hamiltonian[i][i] = dgnEl;
       for (int j(i+1) ; j < int(m_nGridPoints) ; j++) {

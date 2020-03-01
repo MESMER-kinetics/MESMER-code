@@ -28,7 +28,15 @@ namespace mesmer
   public:
     virtual bool ParseData(PersistPtr pp);
     // Constructor which registers with the list of CrossingCalculators in the base class
-    ZhuNakamuraCrossing(const char* id) : m_id(id), dataIsInTS(false) { Register(); }
+    ZhuNakamuraCrossing(const char* id) : m_id(id), dataIsInTS(false), 
+      m_H12(0.0), 
+      m_ReducedMass(0.0), 
+      m_harmonicX0(0.0), 
+      m_harmonicDE(0.0), 
+      m_harmonicFC(0.0), 
+      m_exponentialA(0.0), 
+      m_exponentialB(0.0), 
+      m_exponentialDE(0.0) { Register(); }
 
     virtual ~ZhuNakamuraCrossing() {};
     virtual const char* getID() { return m_id; };

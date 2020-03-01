@@ -506,7 +506,7 @@ namespace mesmer
 
         if (writeReport && debugOutput) {
           string thisEvent = "Build Collison Operator";
-          events.setTimeStamp(thisEvent, timeElapsed);
+          string mytime = events.setTimeStamp(thisEvent, timeElapsed);
           cinfo << thisEvent;
           if (timeElapsed > 0)
             cinfo << " -- Time elapsed: " << timeElapsed << " seconds.";
@@ -523,7 +523,7 @@ namespace mesmer
 
           if (writeReport && debugOutput) {
             string thisEvent = "Diagonalize the Reaction Operator";
-            events.setTimeStamp(thisEvent, timeElapsed);
+            string mytime = events.setTimeStamp(thisEvent, timeElapsed);
             cinfo << thisEvent;
             if (timeElapsed > 0)
               cinfo << " -- Time elapsed: " << timeElapsed << " seconds.";
@@ -594,7 +594,7 @@ namespace mesmer
 
     stringstream line;
     string thisEvent = "Finish Calculation of P-T case";
-    events.setTimeStamp(thisEvent, timeElapsed);
+    string mytime = events.setTimeStamp(thisEvent, timeElapsed);
     line << thisEvent;
     if (timeElapsed > 0)
       line << " -- Time elapsed: " << timeElapsed << " seconds.";

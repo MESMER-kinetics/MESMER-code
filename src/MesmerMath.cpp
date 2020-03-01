@@ -652,10 +652,10 @@ void bessik(const double x, const double xnu, double &ri, double &rk, double &ri
     d = x2 * x2;
     sum1 = p;
     for (i = 1; i <= MAXIT; i++) {
-      ff = (i*ff + p + q) / (i*i - xmu2);
-      c *= (d / i);
-      p /= (i - xmu);
-      q /= (i + xmu);
+      ff = (double(i)*ff + p + q) / (double(i) * double(i) - xmu2);
+      c *= (d / double(i));
+      p /= (double(i) - xmu);
+      q /= (double(i) + xmu);
       del = c * ff;
       sum += del;
       del1 = c * (p - i * ff);
@@ -677,7 +677,7 @@ void bessik(const double x, const double xnu, double &ri, double &rk, double &ri
     a = -a1;
     s = 1.0 + q * delh;
     for (i = 1; i < MAXIT; i++) {
-      a -= 2 * i;
+      a -= 2.0 * double(i);
       c = -a * c / (i + 1.0);
       qnew = (q1 - b * q2) / a;
       q1 = q2;
@@ -817,7 +817,7 @@ void bessjy(const double x, const double xnu, double &rj, double &ry, double &rj
     q = p * dli + q * dlr;
     p = temp;
     for (i = 1; i < MAXIT; i++) {
-      a += 2 * i;
+      a += 2.0 * double(i);
       bi += 2.0;
       dr = a * dr + br;
       di = a * di + bi;

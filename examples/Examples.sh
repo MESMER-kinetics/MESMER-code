@@ -162,6 +162,12 @@ cp ./WKB_test.test ./$bline/WKB_test.test
 if [ "$1" == "-o" ] ; then
   cp ./WKB_test.log ./$bline/WKB_test.log
 fi
+
+$cmdline -N ZNtest.xml $directive
+cp ./ZNtest.test ./$bline/ZNtest.test
+if [ "$1" == "-o" ] ; then
+  cp ./ZNtest.log ./$bline/ZNtest.log
+fi
 cd ..
 
 cd OH_NO_to\ HONO
@@ -356,6 +362,22 @@ cd ..
 
 cd "POandO2"
 testName="PO+O2"
+$cmdline -N $testName.xml
+cp ./$testName.test ./$bline$testName.test
+if [ "$1" == "-o" ] ; then
+  cp ./$testName.log ./$bline$testName.log
+fi
+cd ..
+
+cd "H2Ominimal"
+testName="H2Ominimal"
+$cmdline -N $testName.xml
+cp ./$testName.test ./$bline$testName.test
+if [ "$1" == "-o" ] ; then
+  cp ./$testName.log ./$bline$testName.log
+fi
+
+testName="H2OBend"
 $cmdline -N $testName.xml
 cp ./$testName.test ./$bline$testName.test
 if [ "$1" == "-o" ] ; then

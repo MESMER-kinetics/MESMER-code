@@ -1,3 +1,9 @@
+2020-March-01 Struan Robertson
+
+		* Minor code updates to fix compiler warnings.
+
+		* Examples: Example.sh script updated.
+
 2020-February-29 Struan Robertson
 
 		* gStrucuture.h/.cpp: Implementation update of reduced mass calculators for bend and 
@@ -5,7 +11,7 @@
 
 		* Linux64: Compilation fixes.
 
-		* Examples update.
+		* Examples: H2Ominimal baselines added.
 
 2020-February-23 Struan Robertson
 

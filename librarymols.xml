@@ -240,7 +240,7 @@
         <array units="cm-1">27.877 14.512 9.285 </array>
       </property>
       <property title="Symmetry Number" dictRef="me:symmetryNumber">
-        <scalar>1 </scalar>
+        <scalar>2</scalar>
       </property>
     </propertyList>
   </molecule>

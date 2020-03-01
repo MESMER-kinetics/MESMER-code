@@ -690,10 +690,10 @@ namespace mesmer
 
         //Add to XML document
         PersistPtr ppItem = ppList->XmlWriteElement("me:densityOfStates");
-        ppItem->XmlWriteValueElement("me:T", temp, 6);
-        ppItem->XmlWriteValueElement("me:qtot", qtot, 6);
-        ppItem->XmlWriteValueElement("me:sumc", cellCanPrtnFn, 6);
-        ppItem->XmlWriteValueElement("me:sumg", grainCanPrtnFn, 6);
+        PersistPtr ppTemp = ppItem->XmlWriteValueElement("me:T", temp, 6);
+        ppTemp = ppItem->XmlWriteValueElement("me:qtot", qtot, 6);
+        ppTemp = ppItem->XmlWriteValueElement("me:sumc", cellCanPrtnFn, 6);
+        ppTemp = ppItem->XmlWriteValueElement("me:sumg", grainCanPrtnFn, 6);
       }
       if (m_host->getFlags().testDOSEnabled) stest << "}" << endl;
     }
