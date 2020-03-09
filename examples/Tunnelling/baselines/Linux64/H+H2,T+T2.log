@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.2 compiled: -- Dec  4 2018 -- 16:50:21
+     Mesmer v6.0 compiled: -- Mar  5 2020 -- 23:15:47
 
-     Copyright (C) 2009-2018 by
+     Copyright (C) 2009-2020 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,8 +27,8 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Tue Dec  4 19:21:56 2018
-                     Number of ranks: 1
+                     Execution Date:  Fri Mar  6 01:17:32 2020
+                     Number of ranks: 12
 
 defaults.xml, librarymols.xml are in ../..
 
@@ -55,7 +55,7 @@ In R2: 194 PotentialPoints read for WKB tunneling
 750Torr, 600K at d precision with N_2
 750Torr, 1000K at d precision with N_2
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20181204_192156
+Write metadata 20200306_011732
 
 File: "H+H2,T+T2.xml" successfully parsed.
 Main Calculation begins
@@ -67,21 +67,11 @@ In ProdCl2-H: The default value of the attribute spinMultiplicity was used.
 In FastLaplaceConvolution: 200 values in the FFT convolution routine were replaced by standard convolution
 In timeEvolution: No population was assigned, and there is no source term.
 In timeEvolution: Initial poupulation set to 1.0  in the first isomer.
-Number of cells = 50000, Number of grains = 179
-Number of cells = 50000, Number of grains = 304
-Number of cells = 50000, Number of grains = 471
-
-WARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs).
-
-The last CSE = -1.69072e+08 and the first IERE = -9.40611e+08
-(last CSE)/(first IERE) ratio = 0.179747, which is less than an order of magnitude
-
-Results obtained from Bartis Widom eigenvalue-vector analysis may be unreliable
- -- Total time elapsed: 11 seconds.
+ -- Total time elapsed: 1 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
 
 System saved to mesmer_out.xml
-Total time elapsed: 11 seconds.
+Total time elapsed: 1 seconds.

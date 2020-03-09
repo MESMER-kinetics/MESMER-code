@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.0 compiled: -- Oct 11 2019 -- 00:02:34
+     Mesmer v6.0 compiled: -- Feb 26 2020 -- 23:58:29
 
      Copyright (C) 2009-2020 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -26,9 +26,9 @@
     You should have received a copy of the GNU Public License
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
-                     Platform:        Windows
-                     Execution Date:  Sun Oct 13 18:02:02 2019
-                     Number of ranks: 4
+                     Platform:        Linux
+                     Execution Date:  Thu Feb 27 04:29:50 2020
+                     Number of ranks: 12
 
 defaults.xml, librarymols.xml are in ../..
 
@@ -36,6 +36,8 @@ Parsing input xml file...
 Glyoxal.xml
 
 --Parse data for marquardt
+The default value of me:MarquardtLambda was used.
+The default value of me:MarquardtLambdaScale was used.
 Energy convention "" written to <moleculeList>
 In R1: Parsing reaction...Association reaction
 In Glyoxal: The default value of me:DOSCMethod was used.
@@ -60,6 +62,7 @@ In TS1: The default value of me:DOSCMethod was used.
 In R2_2: --Parse data for RRKM
 In R2_2: No tunneling method used for R2_2
 In R3: Parsing reaction...Pseudoisomerization reaction
+In R3: --Parse data for modPrior
 In HC(O)CO: The default value of me:DistributionCalcMethod was used.
 In HC(O)CO: --Parse data for Boltzmann
 In HC(O)CO: The default value of me:energyTransferModel was used.
@@ -79,6 +82,8 @@ In TS2: Hindered rotor b1
 In R4: --Parse data for RRKM
 In R4: No tunneling method used for R4
 In R2: Parsing reaction...Pseudoisomerization reaction
+In R2: The default value of me:FragmentDist was used.
+In R2: --Parse data for Prior
 In O2: The default value of me:DOSCMethod was used.
 In R02: WARNING: When calculating frequencies from a Hessian it is critical
      that the Hessian and species coordinates are expressed relative to
@@ -88,7 +93,13 @@ In R02: Vibrational frequencies (cm-1) were calculated from Hessian:
   668.07 1241.7 1851.8 2276.52 3246 
 In R02: The default value of me:DOSCMethod was used.
 In R02: Hindered rotor b1
+In R02: WARNING: The Fourier expansion for the internal rotor potential for bond b1 of 
+In R02: species R02, differs at the minimum from the value entered by more than 20 cm-1.
+In R02: More terms in the Fourier expansion may be needed.
 In R02: Hindered rotor b2
+In R02: WARNING: The Fourier expansion for the internal rotor potential for bond b2 of 
+In R02: species R02, differs at the minimum from the value entered by more than 20 cm-1.
+In R02: More terms in the Fourier expansion may be needed.
 In R02: The default value of me:DistributionCalcMethod was used.
 In R02: --Parse data for Boltzmann
 In R02: The default value of me:energyTransferModel was used.
@@ -109,6 +120,9 @@ In TS4: Vibrational frequencies (cm-1) were calculated from Hessian:
   1129.77 1911.18 2011.35 2061.7 
 In TS4: The default value of me:DOSCMethod was used.
 In TS4: Hindered rotor b1
+In TS4: WARNING: The Fourier expansion for the internal rotor potential for bond b1 of 
+In TS4: species TS4, differs at the minimum from the value entered by more than 20 cm-1.
+In TS4: More terms in the Fourier expansion may be needed.
 In R6: --Parse data for RRKM
 In R6: No tunneling method used for R6
 80Torr, 295K at dd precision with N2. Excess Reactant Conc = 1.547e+17 particles per cc
@@ -120,7 +134,7 @@ In R6: No tunneling method used for R6
 5Torr, 212K at qd precision with N2. Excess Reactant Conc = 3.68e+16 particles per cc
 5Torr, 212K at qd precision with N2. Excess Reactant Conc = 1.01e+17 particles per cc
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20191013_180202
+Write metadata 20200227_042950
 
 File: "Glyoxal.xml" successfully parsed.
 Main Calculation begins
@@ -128,11 +142,11 @@ Now calculating...
 
 --Execute calcMethod marquardt
 In FastLaplaceConvolution: 1460 values in the FFT convolution routine were replaced by standard convolution
-In FastLaplaceConvolution: 2920 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 2880 values in the FFT convolution routine were replaced by standard convolution
 In FastLaplaceConvolution: 2240 values in the FFT convolution routine were replaced by standard convolution
 In FastLaplaceConvolution: 2740 values in the FFT convolution routine were replaced by standard convolution
 In FastLaplaceConvolution: 660 values in the FFT convolution routine were replaced by standard convolution
-In FastLaplaceConvolution: 1680 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 1660 values in the FFT convolution routine were replaced by standard convolution
 In FastLaplaceConvolution: 20 values in the FFT convolution routine were replaced by standard convolution
 In FastLaplaceConvolution: 100 values in the FFT convolution routine were replaced by standard convolution
 
@@ -144,50 +158,50 @@ The last CSE = -3.85748e+07 and the first IERE = -7.8195e+07
 Results obtained from Bartis Widom eigenvalue-vector analysis may be unreliable
 No population was assigned. Initialize the first source term to 1.0.
 
-Chi^2 = 6.97012 Lambda = 1
+Chi^2 = 6.97 Lambda = 1
 HC(O)CO:deltaEDown=278.947  R2:activationEnergy=3.0715  R2:preExponential=1.50278e-12  
 
-Chi^2 = 6.91931 Lambda = 0.1
-HC(O)CO:deltaEDown=273.428  R2:activationEnergy=3.13227  R2:preExponential=1.52546e-12  
-Iteration: 1 of Marquardt. ChiSquare = 6.91931, Lambda = 0.1
+Chi^2 = 6.9192 Lambda = 0.1
+HC(O)CO:deltaEDown=273.43  R2:activationEnergy=3.13229  R2:preExponential=1.52545e-12  
+Iteration: 1 of Marquardt. ChiSquare = 6.9192, Lambda = 0.1
 
-Chi^2 = 6.57165 Lambda = 0.01
-HC(O)CO:deltaEDown=238.432  R2:activationEnergy=3.65238  R2:preExponential=1.73273e-12  
-Iteration: 2 of Marquardt. ChiSquare = 6.57165, Lambda = 0.01
+Chi^2 = 6.57156 Lambda = 0.01
+HC(O)CO:deltaEDown=238.435  R2:activationEnergy=3.65246  R2:preExponential=1.73273e-12  
+Iteration: 2 of Marquardt. ChiSquare = 6.57156, Lambda = 0.01
 Number of cells = 50000, Number of grains = 224
- -- Total time elapsed: 2046 seconds.
+ -- Total time elapsed: 1329 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
-            295    2.61871e+18         0.0508      0.0742728
-            295    2.61871e+18          0.135         0.1232
-            295    2.61871e+18        0.18893       0.167171
-            295    2.61871e+18        0.21629       0.199875
-            212    2.27747e+17          0.181       0.234162
+            295    2.61871e+18         0.0508      0.0742741
+            295    2.61871e+18          0.135       0.123201
+            295    2.61871e+18        0.18893       0.167173
+            295    2.61871e+18        0.21629       0.199876
+            212    2.27747e+17          0.181       0.234163
             212    2.27747e+17          0.282       0.296286
-            212    2.27747e+17          0.367        0.31031
+            212    2.27747e+17          0.367       0.310311
             212    2.27747e+17          0.377       0.317344
 
 
-Chi^2 = 6.57165
+Chi^2 = 6.57156
 
 Best fit parameters:
 
-HC(O)CO:deltaEDown = 238.432 +/- 954.061
-R2:activationEnergy = 3.65238 +/- 6.63196
-R2:preExponential = 1.73273e-12 +/- 1.13933e-11
+HC(O)CO:deltaEDown = 238.435 +/- 954.077
+R2:activationEnergy = 3.65246 +/- 6.6342
+R2:preExponential = 1.73273e-12 +/- 1.13954e-11
 
 Correlation coefficients:
 
-R2:activationEnergy , HC(O)CO:deltaEDown = 0.819097
-R2:preExponential , HC(O)CO:deltaEDown = 0.967923
-R2:preExponential , R2:activationEnergy = 0.93551
+R2:activationEnergy , HC(O)CO:deltaEDown = 0.819099
+R2:preExponential , HC(O)CO:deltaEDown = 0.967906
+R2:preExponential , R2:activationEnergy = 0.935536
 
 Goodness of Fit:
 
 Number of degrees of Freedom = 5
-Chi^2 probability = 0.254495
+Chi^2 probability = 0.254502
 
 System saved to mesmer_out.xml
-Total time elapsed: 2046 seconds.
+Total time elapsed: 1329 seconds.

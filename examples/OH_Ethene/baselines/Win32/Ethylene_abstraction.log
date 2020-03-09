@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.0 compiled: -- Nov 14 2019 -- 20:37:20
+     Mesmer v6.0 compiled: -- Mar  5 2020 -- 21:03:29
 
      Copyright (C) 2009-2020 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sat Nov 23 11:43:14 2019
+                     Execution Date:  Mon Mar  9 01:07:18 2020
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -36,6 +36,8 @@ Parsing input xml file...
 Ethylene_abstraction.xml
 
 --Parse data for marquardt
+The default value of me:MarquardtLambda was used.
+The default value of me:MarquardtLambdaScale was used.
 Energy convention "" written to <moleculeList>
 In R1: Parsing reaction...Association reaction
 In ethylene_OH: WARNING: When calculating frequencies from a Hessian it is critical
@@ -168,7 +170,7 @@ In R3: Not a unimolecular reaction: look for excess reactant concentration.
 210.5torr, 577.8K at d precision with N2. Excess Reactant Conc = 3.158e+15 particles per cc
 210.5torr, 577.8K at d precision with N2. Excess Reactant Conc = 2.139e+15 particles per cc
 210.5torr, 577.8K at d precision with N2. Excess Reactant Conc = 1.087e+15 particles per cc
-Write metadata 20191123_114314
+Write metadata 20200309_010718
 
 File: "Ethylene_abstraction.xml" successfully parsed.
 Main Calculation begins
@@ -265,7 +267,7 @@ Chi^2 = 0.000155733 Lambda = 10000
 ethylene_OH:ZPE=-111.748  ethylene_OH:deltaEDown:N2=226.862  ethylene_OH:deltaEDownTExponent:N2=0.418131  R1:preExponential=6.44392e-12  R1:nInfinity=-0.652733  H-Abstraction:activationEnergy=23.5167  H-Abstraction:preExponential=2.49951e-11  R3:BimolecularLossRateCoefficient=3.35104e-12  
 Iteration: 16 of Marquardt. ChiSquare = 0.000155733, Lambda = 10000
 Number of cells = 50000, Number of grains = 147
- -- Total time elapsed: 1760 seconds.
+ -- Total time elapsed: 1723 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
@@ -20646,4 +20648,4 @@ Number of degrees of Freedom = 19932
 Error Factor = 8.83923e-05
 
 System saved to mesmer_out.xml
-Total time elapsed: 1760 seconds.
+Total time elapsed: 1723 seconds.

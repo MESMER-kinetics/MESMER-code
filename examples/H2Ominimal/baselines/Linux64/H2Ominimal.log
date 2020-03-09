@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.0 compiled: -- Feb 26 2020 -- 20:50:50
+     Mesmer v6.0 compiled: -- Mar  5 2020 -- 23:15:47
 
      Copyright (C) 2009-2020 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -26,9 +26,9 @@
     You should have received a copy of the GNU Public License
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
-                     Platform:        Windows
-                     Execution Date:  Wed Feb 26 21:35:41 2020
-                     Number of ranks: 4
+                     Platform:        Linux
+                     Execution Date:  Fri Mar  6 01:28:56 2020
+                     Number of ranks: 12
 
 defaults.xml, librarymols.xml are in ../..
 
@@ -63,7 +63,7 @@ In R1: Not a unimolecular reaction: look for excess reactant concentration.
 The default value of the attribute precision was used.
 7600Torr, 560K at d precision with H2O
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20200226_213541
+Write metadata 20200306_012856
 
 File: "H2Ominimal.xml" successfully parsed.
 Main Calculation begins
@@ -79,11 +79,11 @@ Number of grains produced is not equal to that requested for: oh
 Number of grains produced : 291
 In FastLaplaceConvolution: 20 values in the FFT convolution routine were replaced by standard convolution
 Number of grains produced : 294
- -- Total time elapsed: 0 seconds.
+ -- Total time elapsed: 1 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
 
 System saved to mesmer_out.xml
-Total time elapsed: 0 seconds.
+Total time elapsed: 1 seconds.

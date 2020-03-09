@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.0 compiled: -- Oct 25 2019 -- 22:13:05
+     Mesmer v6.0 compiled: -- Mar  5 2020 -- 21:03:29
 
      Copyright (C) 2009-2020 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sun Oct 27 14:15:26 2019
+                     Execution Date:  Sun Mar  8 23:54:10 2020
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -36,6 +36,8 @@ Parsing input xml file...
 C4H9O2_NO2_association.xml
 
 --Parse data for marquardt
+The default value of me:MarquardtLambda was used.
+The default value of me:MarquardtLambdaScale was used.
 Energy convention "" written to <moleculeList>
 In R1: Parsing reaction...Association reaction
 In C4H9OONO2: WARNING: When calculating frequencies from a Hessian it is critical
@@ -73,7 +75,7 @@ In R1: Not a unimolecular reaction: look for excess reactant concentration.
 The default value of me:ForceMacroDetailedBalance was used.
 --Parse data for analyticalRepresentation
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20191027_141526
+Write metadata 20200308_235410
 
 File: "C4H9O2_NO2_association.xml" successfully parsed.
 Main Calculation begins
@@ -342,7 +344,7 @@ chebyshev_reaction(' => C4H9OO + NO2',
                            [   9.03246e-06,  -1.79034e-05,   1.14981e-05,  -6.36983e-07,  -3.87938e-06,   5.67978e-07,   1.24804e-06,   4.07624e-07]])
 
 
- -- Total time elapsed: 2740 seconds.
+ -- Total time elapsed: 1508 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 2740 seconds.
+Total time elapsed: 1508 seconds.

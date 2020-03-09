@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.1 compiled: -- Apr 21 2018 -- 19:37:43
+     Mesmer v6.0 compiled: -- Mar  5 2020 -- 23:15:47
 
-     Copyright (C) 2009-2018 by
+     Copyright (C) 2009-2020 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Sat Apr 21 20:30:38 2018
+                     Execution Date:  Fri Mar  6 00:23:08 2020
                      Number of ranks: 12
 
 defaults.xml, librarymols.xml are in ../..
@@ -36,6 +36,8 @@ Parsing input xml file...
 Methyl_H_to_Methane_FTST.xml
 
 --Parse data for marquardt
+The default value of me:MarquardtLambda was used.
+The default value of me:MarquardtLambdaScale was used.
 Energy convention "" written to <moleculeList>
 In R1: Parsing reaction...Association reaction
 In Methyl: Methyl:ZPE was given a range with 3 steps 
@@ -93,19 +95,20 @@ In R1: No value of me:excessReactantConc was supplied and the default value NEED
 711Torr, 601K at dd precision with He
 The default value of me:ForceMacroDetailedBalance was used.
 TS1:ZPE is derived from Methyl:ZPE
-Write metadata 20180421_203038
+Write metadata 20200306_002308
 
 File: "Methyl_H_to_Methane_FTST.xml" successfully parsed.
 Main Calculation begins
 Now calculating...
 
 --Execute calcMethod marquardt
-Number of grains produced is not equal to that requested
+Number of grains produced is not equal to that requested for: H
 Number of grains requested: 270
 Number of grains produced : 1
 
 Chi^2 = 1.52137e-19 Lambda = 1
 Methyl:ZPE=103.43  Methane:deltaEDown=190  
+Failed bounds check.
 
 Chi^2 = 1.52137e-19 Lambda = 10
 Methyl:ZPE=103.43  Methane:deltaEDown=190  
@@ -115,6 +118,7 @@ Number of grains requested: 268
 Chi^2 = 1.21725e-19 Lambda = 1
 Methyl:ZPE=102.884  Methane:deltaEDown=180.504  
 Iteration: 2 of Marquardt. ChiSquare = 1.21725e-19, Lambda = 1
+Failed bounds check.
 
 Chi^2 = 1.21725e-19 Lambda = 10
 Methyl:ZPE=102.884  Methane:deltaEDown=180.504  
@@ -124,6 +128,7 @@ Number of grains requested: 266
 Chi^2 = 9.22293e-20 Lambda = 1
 Methyl:ZPE=101.918  Methane:deltaEDown=172.451  
 Iteration: 4 of Marquardt. ChiSquare = 9.22293e-20, Lambda = 1
+Failed bounds check.
 
 Chi^2 = 9.22293e-20 Lambda = 10
 Methyl:ZPE=101.918  Methane:deltaEDown=172.451  
@@ -133,6 +138,7 @@ Number of grains requested: 265
 Chi^2 = 7.30772e-20 Lambda = 1
 Methyl:ZPE=101.296  Methane:deltaEDown=165.755  
 Iteration: 6 of Marquardt. ChiSquare = 7.30772e-20, Lambda = 1
+Failed bounds check.
 
 Chi^2 = 7.30772e-20 Lambda = 10
 Methyl:ZPE=101.296  Methane:deltaEDown=165.755  
@@ -142,14 +148,17 @@ Number of grains requested: 263
 Chi^2 = 5.79429e-20 Lambda = 1
 Methyl:ZPE=100.638  Methane:deltaEDown=160.129  
 Iteration: 8 of Marquardt. ChiSquare = 5.79429e-20, Lambda = 1
+Failed bounds check.
 
 Chi^2 = 5.79429e-20 Lambda = 10
 Methyl:ZPE=100.638  Methane:deltaEDown=160.129  
 Iteration: 9 of Marquardt. ChiSquare = 5.79429e-20, Lambda = 10
+Failed bounds check.
 
 Chi^2 = 5.79429e-20 Lambda = 100
 Methyl:ZPE=100.638  Methane:deltaEDown=160.129  
 Iteration: 10 of Marquardt. ChiSquare = 5.79429e-20, Lambda = 100
+Failed bounds check.
 
 Chi^2 = 5.79429e-20 Lambda = 1000
 Methyl:ZPE=100.638  Methane:deltaEDown=160.129  
@@ -158,6 +167,7 @@ Iteration: 11 of Marquardt. ChiSquare = 5.79429e-20, Lambda = 1000
 Chi^2 = 5.69247e-20 Lambda = 100
 Methyl:ZPE=100.631  Methane:deltaEDown=160.072  
 Iteration: 12 of Marquardt. ChiSquare = 5.69247e-20, Lambda = 100
+Failed bounds check.
 
 Chi^2 = 5.69247e-20 Lambda = 1000
 Methyl:ZPE=100.631  Methane:deltaEDown=160.072  
@@ -171,7 +181,7 @@ Chi^2 = 5.6503e-20 Lambda = 1000
 Methyl:ZPE=100.631  Methane:deltaEDown=160.066  
 Iteration: 15 of Marquardt. ChiSquare = 5.6503e-20, Lambda = 1000
 Number of cells = 50000, Number of grains = 263
- -- Total time elapsed: 129 seconds.
+ -- Total time elapsed: 114 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
@@ -226,10 +236,14 @@ Correlation coefficients:
 
 Methane:deltaEDown , Methyl:ZPE = -0.934207
 
+Derived parameter values:
+
+TS1:ZPE (Methyl:ZPE) = 100.631
+
 No independent experimenal error estimates available, therefore Chi^2 test not applicable.
 
 Number of degrees of Freedom = 35
 Error Factor = 4.01792e-11
 
 System saved to mesmer_out.xml
-Total time elapsed: 129 seconds.
+Total time elapsed: 114 seconds.

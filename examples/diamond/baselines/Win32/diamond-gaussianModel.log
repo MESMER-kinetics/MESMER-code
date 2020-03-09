@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.0 compiled: -- Oct 25 2019 -- 22:13:05
+     Mesmer v6.0 compiled: -- Mar  5 2020 -- 21:03:29
 
      Copyright (C) 2009-2020 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sun Oct 27 15:51:34 2019
+                     Execution Date:  Mon Mar  9 01:02:59 2020
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -53,7 +53,7 @@ The default value of the attribute Tstep was used.
 The default value of the attribute Tmin was used.
 The default value of the attribute Tmax was used.
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20191027_155134
+Write metadata 20200309_010259
 
 File: "diamond-gaussianModel.xml" successfully parsed.
 Main Calculation begins
@@ -72,11 +72,11 @@ Number of grains produced is not equal to that requested for: CH3
 Number of grains requested: 188
 Number of grains produced : 1
 Number of grains produced is not equal to that requested for: activeSpaceRadical
- -- Total time elapsed: 3 seconds.
+ -- Total time elapsed: 1 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
 
 System saved to mesmer_out.xml
-Total time elapsed: 3 seconds.
+Total time elapsed: 1 seconds.

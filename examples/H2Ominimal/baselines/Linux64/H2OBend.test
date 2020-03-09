@@ -21,37 +21,37 @@ Number of sinks in this system: 0
 There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
 
 Z_matrix: {
-4.640850e-20	2.153748e-39	
--4.640850e-20	1.000000e+00	
+8.699328e-20	7.567831e-39	
+-8.699328e-20	1.000000e+00	
 }
 
 Z_matrix^(-1):
 {
-2.154778e+19	-4.640850e-20	
+1.149514e+19	-8.699328e-20	
 1.000000e+00	1.000000e+00	
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	5.580993e-104	
-5.914725e-65	1.000000e+00	
+1.000000e+00	1.897538e-102	
+5.929315e-65	1.000000e+00	
 }
 
 Kr matrix:
 {
--6.625972e+02	1.427068e-36	
-6.625972e+02	-1.427068e-36	
+-6.625928e+02	5.014390e-36	
+6.625928e+02	-5.014390e-36	
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-H loss = -6.625972e+02
-H2O loss = -1.427068e-36
+H loss = -6.625928e+02
+H2O loss = -5.014390e-36
 }
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-H -> H2O = 6.625972e+02
-H2O -> H = 1.427068e-36
+H -> H2O = 6.625928e+02
+H2O -> H = 5.014390e-36
 }
 }

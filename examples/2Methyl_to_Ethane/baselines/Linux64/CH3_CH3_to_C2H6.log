@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.2 compiled: -- Dec  4 2018 -- 16:50:21
+     Mesmer v6.0 compiled: -- Mar  5 2020 -- 23:15:47
 
-     Copyright (C) 2009-2018 by
+     Copyright (C) 2009-2020 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Tue Dec  4 19:09:22 2018
+                     Execution Date:  Fri Mar  6 00:53:30 2020
                      Number of ranks: 12
 
 defaults.xml, librarymols.xml are in ../..
@@ -36,9 +36,14 @@ Parsing input xml file...
 CH3_CH3_to_C2H6.xml
 
 --Parse data for marquardt
+The default value of me:MarquardtLambda was used.
+The default value of me:MarquardtLambdaScale was used.
 Energy convention "" written to <moleculeList>
 In R1: Parsing reaction...Second Order Association reaction
 In C2H6: Hindered rotor b1
+In C2H6: WARNING: The Fourier expansion for the internal rotor potential for bond b1 of 
+In C2H6: species C2H6, differs at the minimum from the value entered by more than 20 cm-1.
+In C2H6: More terms in the Fourier expansion may be needed.
 In C2H6: The default value of me:DistributionCalcMethod was used.
 In C2H6: --Parse data for Boltzmann
 In C2H6: --Parse data for ExponentialDown
@@ -79,8 +84,11 @@ In R1: Not a unimolecular reaction: look for excess reactant concentration.
 3.2Torr, 715K at d precision with He
 6.2Torr, 715K at d precision with He
 10.2Torr, 715K at d precision with He
+The default value of the attribute Tstep was used.
+The default value of the attribute Tmin was used.
+The default value of the attribute Tmax was used.
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20181206_225317
+Write metadata 20200306_005330
 
 File: "CH3_CH3_to_C2H6.xml" successfully parsed.
 Main Calculation begins
@@ -89,41 +97,25 @@ Now calculating...
 --Execute calcMethod marquardt
 In FastLaplaceConvolution: 2040 values in the FFT convolution routine were replaced by standard convolution
 In FastLaplaceConvolution: 1600 values in the FFT convolution routine were replaced by standard convolution
-Association ILT calculation completed
 At present it is not possible to print profiles for systems with a second order term.
 
 Chi^2 = 52.5673 Lambda = 1
 C2H6:deltaEDown:Ar=302  C2H6:deltaEDown:He=230  R1:preExponential=5.73e-11  R1:nInfinity=-0.26  
-Association ILT calculation completed
-Association ILT calculation completed
-Association ILT calculation completed
 In FastLaplaceConvolution: 1640 values in the FFT convolution routine were replaced by standard convolution
-Association ILT calculation completed
 In FastLaplaceConvolution: 1460 values in the FFT convolution routine were replaced by standard convolution
-Association ILT calculation completed
-Association ILT calculation completed
-Association ILT calculation completed
-Association ILT calculation completed
 In FastLaplaceConvolution: 1480 values in the FFT convolution routine were replaced by standard convolution
-Association ILT calculation completed
 
 Chi^2 = 41.8152 Lambda = 0.1
 C2H6:deltaEDown:Ar=303.226  C2H6:deltaEDown:He=263.631  R1:preExponential=5.65054e-11  R1:nInfinity=-0.320245  
 Iteration: 1 of Marquardt. ChiSquare = 41.8152, Lambda = 0.1
 In FastLaplaceConvolution: 1140 values in the FFT convolution routine were replaced by standard convolution
-Association ILT calculation completed
-Association ILT calculation completed
-Association ILT calculation completed
-Association ILT calculation completed
 In FastLaplaceConvolution: 1080 values in the FFT convolution routine were replaced by standard convolution
-Association ILT calculation completed
 
 Chi^2 = 31.4147 Lambda = 0.01
 C2H6:deltaEDown:Ar=342.905  C2H6:deltaEDown:He=334.748  R1:preExponential=5.24947e-11  R1:nInfinity=-0.572053  
 Iteration: 2 of Marquardt. ChiSquare = 31.4147, Lambda = 0.01
 Number of cells = 58660, Number of grains = 838
-Association ILT calculation completed
- -- Total time elapsed: 171 seconds.
+ -- Total time elapsed: 109 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
@@ -183,4 +175,4 @@ Number of degrees of Freedom = 25
 Chi^2 probability = 0.175651
 
 System saved to mesmer_out.xml
-Total time elapsed: 171 seconds.
+Total time elapsed: 109 seconds.

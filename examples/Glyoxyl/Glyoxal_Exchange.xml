@@ -910,12 +910,12 @@
       <transitionState>
         <molecule ref="TS1" role="transitionState"/>
       </transitionState>
-      <me:MCRCMethod xsi:type="me:CanonicalRateCoefficient">
+      <!--<me:MCRCMethod xsi:type="me:CanonicalRateCoefficient">
         <me:preExponential units="cm3molecule-1s-1" >2.0e-11</me:preExponential>
         <me:activationEnergy units="kJ/mol">1.2</me:activationEnergy>
         <me:TInfinity>1.0</me:TInfinity>
         <me:nInfinity>0.0</me:nInfinity>
-      </me:MCRCMethod>
+      </me:MCRCMethod>-->
       <me:FragmentDist xsi:type="me:modPrior">
         <!--<me:modPriorOrder lower="0.1" upper="1.0" stepsize="0.01">0.256437</me:modPriorOrder>-->
         <me:modPriorOrder>0.256437</me:modPriorOrder>
@@ -926,7 +926,7 @@
       <me:excessReactantConc>1E14</me:excessReactantConc>
     </reaction>
 
-    <!--<reaction id="R4">
+    <reaction id="R4">
       <reactant>
         <molecule ref="HC(O)CO" role="modelled"/>
       </reactant>
@@ -940,8 +940,9 @@
         <molecule ref="TS2" role="transitionState"/>
       </transitionState>
       <me:MCRCMethod name="RRKM"/>
-    </reaction>-->
-    <!--<reaction id="R2">
+    </reaction>
+    
+    <reaction id="R2">
       <reactant>
         <molecule ref="HC(O)CO" role="modelled"/>
       </reactant>
@@ -956,21 +957,21 @@
         <me:activationEnergy units="kJ/mol" lower="0.0" upper="10.0" stepsize="1.0e-01">3.0715</me:activationEnergy>
         <me:nInfinity>0.0</me:nInfinity>
       </me:MCRCMethod>
-    </reaction>-->
+    </reaction>
     
-    <!--<reaction id="R6">
+    <reaction id="R6">
       <reactant>
         <molecule ref="R02" role="modelled"/>
       </reactant>
       <product>
-        --><!--<molecule ref="QOOH" role="modelled"/>--><!--
+        <!--<molecule ref="QOOH" role="modelled"/>-->
         <molecule ref="QOOH" role="sink"/>
       </product>
       <transitionState>
         <molecule ref="TS4" role="transitionState"/>
       </transitionState>
       <me:MCRCMethod name="RRKM"/>
-    </reaction>-->
+    </reaction>
     <!--<reaction id="R7">
       <reactant>
         <molecule ref="QOOH" role="modelled"/>
@@ -991,7 +992,7 @@
       <me:PTpair units="Torr" P="80" T="295" refReactionExcess="R2" excessReactantConc="1.547E+17" precision="dd" >
         <me:experimentalYield ref="QOOH" error="0.032" yieldTime="1.e-02">0.0508</me:experimentalYield>
       </me:PTpair>
-      <!--<me:PTpair units="Torr" P="80" T="295" refReactionExcess="R2" excessReactantConc="3.265E+17" precision="dd" >
+      <me:PTpair units="Torr" P="80" T="295" refReactionExcess="R2" excessReactantConc="3.265E+17" precision="dd" >
         <me:experimentalYield ref="QOOH" error="0.034" yieldTime="1.e-02">0.135</me:experimentalYield>
       </me:PTpair>
       <me:PTpair units="Torr" P="80" T="295" refReactionExcess="R2" excessReactantConc="5.866E+17" precision="dd" >
@@ -1263,7 +1264,7 @@
       </me:PTpair>
       <me:PTpair units="Torr" P="5" T="212" refReactionExcess="R2" excessReactantConc="1.01E+17" precision="qd" >
         <me:experimentalYield ref="QOOH" error="0.0482" yieldTime="1.e-02">0.377</me:experimentalYield>
-      </me:PTpair>-->
+      </me:PTpair>
     </me:PTs>
   </me:conditions>
 

@@ -107,10 +107,18 @@ fi
 cd ..
 
 cd Ethyl_H_to_Ethane
-$cmdline Ethyl_H_to_Ethane.xml -o $outf $directive
-cp ./$tfn ./$bline$otfn
+testName="Ethyl_H_to_Ethane"
+$cmdline -N $testName.xml
+cp ./$testName.test ./$bline$testName.test
 if [ "$1" == "-o" ] ; then
-  cp ./$lfn ./$bline$lfn
+  cp ./$testName.log ./$bline$testName.log
+fi
+
+testName="Ethyl_H_to_Ethane_inversion"
+$cmdline -N $testName.xml
+cp ./$testName.test ./$bline$testName.test
+if [ "$1" == "-o" ] ; then
+  cp ./$testName.log ./$bline$testName.log
 fi
 cd ..
 

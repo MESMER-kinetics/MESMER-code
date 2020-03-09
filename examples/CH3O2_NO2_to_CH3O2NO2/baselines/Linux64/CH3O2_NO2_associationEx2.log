@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.2 compiled: -- Dec  6 2018 -- 21:24:20
+     Mesmer v6.0 compiled: -- Mar  5 2020 -- 23:15:47
 
-     Copyright (C) 2009-2018 by
+     Copyright (C) 2009-2020 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Thu Dec  6 22:50:26 2018
+                     Execution Date:  Fri Mar  6 00:51:44 2020
                      Number of ranks: 12
 
 defaults.xml, librarymols.xml are in ../..
@@ -36,6 +36,8 @@ Parsing input xml file...
 CH3O2_NO2_associationEx2.xml
 
 --Parse data for marquardt
+The default value of me:MarquardtLambda was used.
+The default value of me:MarquardtLambdaScale was used.
 Energy convention "" written to <moleculeList>
 In R1: Parsing reaction...Association reaction
 In CH3OONO2: WARNING: When calculating frequencies from a Hessian it is critical
@@ -124,7 +126,7 @@ In R1: Not a unimolecular reaction: look for excess reactant concentration.
 The default value of me:ForceMacroDetailedBalance was used.
 --Parse data for ThermodynamicTable
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20181206_225026
+Write metadata 20200306_005144
 
 File: "CH3O2_NO2_associationEx2.xml" successfully parsed.
 Main Calculation begins
@@ -133,55 +135,39 @@ Now calculating...
 --Execute calcMethod marquardt
 In FastLaplaceConvolution: 5280 values in the FFT convolution routine were replaced by standard convolution
 In FastLaplaceConvolution: 2780 values in the FFT convolution routine were replaced by standard convolution
-Association ILT calculation completed
 Warning: CH3OONO2 is an asymmetric top containing five or more non-hydrogen
 atoms. The asymmetric top rotation states may be expensive to calculate. You may 
 wish to consider using a classical treatment.
 
 Chi^2 = 114.758 Lambda = 1
 CH3OONO2:ZPE=-44.91  CH3OONO2:deltaEDown:N2=419  CH3OONO2:deltaEDownTExponent:N2=0.339  R1:preExponential=8.84e-12  R1:nInfinity=-0.87  
-Association ILT calculation completed
-Association ILT calculation completed
-Association ILT calculation completed
-Association ILT calculation completed
-Association ILT calculation completed
 In FastLaplaceConvolution: 2880 values in the FFT convolution routine were replaced by standard convolution
-Association ILT calculation completed
-Association ILT calculation completed
-Association ILT calculation completed
-Association ILT calculation completed
-Association ILT calculation completed
 In FastLaplaceConvolution: 2820 values in the FFT convolution routine were replaced by standard convolution
-Association ILT calculation completed
 
 Chi^2 = 69.921 Lambda = 0.1
 CH3OONO2:ZPE=-44.9353  CH3OONO2:deltaEDown:N2=394.511  CH3OONO2:deltaEDownTExponent:N2=-0.0652586  R1:preExponential=8.50996e-12  R1:nInfinity=-0.823152  
 Iteration: 1 of Marquardt. ChiSquare = 69.921, Lambda = 0.1
+Failed bounds check.
 
 Chi^2 = 69.921 Lambda = 1
 CH3OONO2:ZPE=-44.9353  CH3OONO2:deltaEDown:N2=394.511  CH3OONO2:deltaEDownTExponent:N2=-0.0652586  R1:preExponential=8.50996e-12  R1:nInfinity=-0.823152  
 Iteration: 2 of Marquardt. ChiSquare = 69.921, Lambda = 1
+Failed bounds check.
 
 Chi^2 = 69.921 Lambda = 10
 CH3OONO2:ZPE=-44.9353  CH3OONO2:deltaEDown:N2=394.511  CH3OONO2:deltaEDownTExponent:N2=-0.0652586  R1:preExponential=8.50996e-12  R1:nInfinity=-0.823152  
 Iteration: 3 of Marquardt. ChiSquare = 69.921, Lambda = 10
+Failed bounds check.
 
 Chi^2 = 69.921 Lambda = 100
 CH3OONO2:ZPE=-44.9353  CH3OONO2:deltaEDown:N2=394.511  CH3OONO2:deltaEDownTExponent:N2=-0.0652586  R1:preExponential=8.50996e-12  R1:nInfinity=-0.823152  
 Iteration: 4 of Marquardt. ChiSquare = 69.921, Lambda = 100
 In FastLaplaceConvolution: 2840 values in the FFT convolution routine were replaced by standard convolution
-Association ILT calculation completed
-Association ILT calculation completed
-Association ILT calculation completed
-Association ILT calculation completed
-Association ILT calculation completed
-Association ILT calculation completed
 
 Chi^2 = 69.7124 Lambda = 10
 CH3OONO2:ZPE=-44.9355  CH3OONO2:deltaEDown:N2=394.278  CH3OONO2:deltaEDownTExponent:N2=-0.0696401  R1:preExponential=8.50693e-12  R1:nInfinity=-0.822709  
 Iteration: 5 of Marquardt. ChiSquare = 69.7124, Lambda = 10
 Number of cells = 50000, Number of grains = 374
-Association ILT calculation completed
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
@@ -283,7 +269,7 @@ Chi^2 probability = 0.139446
 In N2: The default value of me:DOSCMethod was used.
 In N2: The default value of the attribute spinMultiplicity was used.
 gDensityOfStates initialization failed.
- -- Total time elapsed: 146 seconds.
+ -- Total time elapsed: 87 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 146 seconds.
+Total time elapsed: 87 seconds.

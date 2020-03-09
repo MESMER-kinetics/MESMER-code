@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.0 compiled: -- Feb 26 2020 -- 20:50:50
+     Mesmer v6.0 compiled: -- Mar  5 2020 -- 21:03:29
 
      Copyright (C) 2009-2020 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Wed Feb 26 21:35:41 2020
+                     Execution Date:  Mon Mar  9 01:38:14 2020
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -63,7 +63,7 @@ In R1: Not a unimolecular reaction: look for excess reactant concentration.
 The default value of the attribute precision was used.
 7600Torr, 560K at d precision with H2O
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20200226_213541
+Write metadata 20200309_013814
 
 File: "H2Ominimal.xml" successfully parsed.
 Main Calculation begins

@@ -102,9 +102,15 @@ IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 cd ..
 
 cd Ethyl_H_to_Ethane
-%cmdline% Ethyl_H_to_Ethane.xml -o %outf% %directive%
-copy "./%tfn%" "./%bline%%otfn%"
-IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
+set testName="Ethyl_H_to_Ethane"
+%cmdline% -N %testName%.xml
+copy "./%testName%.test" "./%bline%%testName%.test"
+IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
+
+set testName="Ethyl_H_to_Ethane_inversion"
+%cmdline% -N %testName%.xml
+copy "./%testName%.test" "./%bline%%testName%.test"
+IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
 cd ..
 
 cd i-propyl
@@ -141,6 +147,10 @@ IF "%1"=="-o" copy "./LZ_test.log" "./%bline%LZ_test.log"
 %cmdline% -N WKB_test.xml %directive%
 copy "./WKB_test.test" "./%bline%WKB_test.test"
 IF "%1"=="-o" copy "./WKB_test.log" "./%bline%WKB_test.log"
+
+%cmdline% -N WKB_test.xml %directive%
+copy "./ZNtest.test" "./%bline%ZNtest.test"
+IF "%1"=="-o" copy "./ZNtest.log" "./%bline%ZNtest.log"
 cd ..
 
 cd "OH_NO_to HONO"
@@ -285,6 +295,18 @@ cd ..
 
 cd "POandO2"
 set testName="PO+O2"
+%cmdline% -N %testName%.xml
+copy "./%testName%.test" "./%bline%%testName%.test"
+IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
+cd ..
+
+cd "H2Ominimal"
+set testName="H2Ominimal"
+%cmdline% -N %testName%.xml
+copy "./%testName%.test" "./%bline%%testName%.test"
+IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
+
+set testName="H2OBend"
 %cmdline% -N %testName%.xml
 copy "./%testName%.test" "./%bline%%testName%.test"
 IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
