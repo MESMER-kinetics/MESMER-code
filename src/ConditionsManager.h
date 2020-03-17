@@ -34,7 +34,7 @@ namespace mesmer
 
 	struct RawDataSet
 	{
-		RawDataSet() : data(), m_calcTrace(), m_ref1(""), m_Name(NULL), m_excessConc(0.0), m_pPersistPtr(NULL) {}
+		RawDataSet() : data(), m_calcTrace(), m_ref1(""), m_Name(NULL), m_excessConc(0.0), m_weight(0.0), m_pPersistPtr(NULL) {}
 	public:
 		std::vector<std::pair<double, double> > data; // Time series data.
 		std::vector<double> m_calcTrace;              // Calculated trace. 

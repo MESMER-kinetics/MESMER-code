@@ -22,7 +22,7 @@ namespace mesmer
   class DensityOfStatesCalculator : public TopPlugin
   {
   public:
-    DensityOfStatesCalculator(){}
+    DensityOfStatesCalculator() : m_parent(NULL) {}
     virtual ~DensityOfStatesCalculator(){}
     static const char* typeID() { return "Cell Density of States Calculators"; }
     virtual const char* getTypeID()  {return typeID();}

@@ -29,6 +29,7 @@ namespace mesmer
 
   CollisionOperator::CollisionOperator() : m_pMoleculeManager(0),
     m_pReactionManager(0),
+    m_pConditionManager(0),
     m_isomers(),
     m_sources(),
     m_sinkRxns(),
@@ -49,7 +50,7 @@ namespace mesmer
   }
 
   // Initialize the collision operator object.
-  bool CollisionOperator::initialize(MoleculeManager *pMoleculeManager, ReactionManager *pReactionManager, ConditionsManager *pConditionManager) {
+  bool CollisionOperator::initialize(MoleculeManager* pMoleculeManager, ReactionManager* pReactionManager, ConditionsManager* pConditionManager) {
 
     if ((m_pMoleculeManager = pMoleculeManager) &&
       (m_pReactionManager = pReactionManager) &&
@@ -61,7 +62,7 @@ namespace mesmer
   //
   // Main methods for constructing the Collision operator.
   //
-  bool CollisionOperator::BuildReactionOperator(MesmerEnv &mEnv, MesmerFlags& mFlags, bool writeReport)
+  bool CollisionOperator::BuildReactionOperator(MesmerEnv& mEnv, MesmerFlags& mFlags, bool writeReport)
   {
     const double SUPREMUM = 9e23;
     const double INFIMUM = -SUPREMUM;
@@ -74,7 +75,7 @@ namespace mesmer
     double minEnergy(SUPREMUM); // The minimum & maximum ZPE amongst all wells, set artificially large and small
     double maxEnergy(INFIMUM);  // to guarantee that each is overwritten in setting minEnergy and maxEnergy.
 
-    Molecule *pBathGasMolecule = m_pMoleculeManager->find(mEnv.bathGasName);
+    Molecule* pBathGasMolecule = m_pMoleculeManager->find(mEnv.bathGasName);
     if (!pBathGasMolecule)
     {
       cerr << "The molecular data for the bath gas " << mEnv.bathGasName << " has not been found" << endl;
@@ -84,14 +85,14 @@ namespace mesmer
     // populate molMapType with unimolecular species and determine minimum/maximum energy on the PES
     for (size_t i(0); i < m_pReactionManager->size(); ++i) {
 
-      Reaction *pReaction = (*m_pReactionManager)[i];
+      Reaction* pReaction = (*m_pReactionManager)[i];
 
       // Reset the the microcanonical re-calculation flags if required.
       if (!mFlags.useTheSameCellNumber) pReaction->resetCalcFlag();
 
       // Transition State
       // third check for the transition state in this reaction
-      Molecule *pTransitionState = pReaction->get_TransitionState();
+      Molecule* pTransitionState = pReaction->get_TransitionState();
       double TS_ZPE(INFIMUM);
       if (pTransitionState) {
         TS_ZPE = pTransitionState->getDOS().get_zpe();
@@ -99,12 +100,12 @@ namespace mesmer
       }
 
       // unimolecular species
-      vector<Molecule *> unimolecules;
+      vector<Molecule*> unimolecules;
       pReaction->get_unimolecularspecies(unimolecules);
       // populate molMapType with unimolecular species
       for (size_t j(0); j < unimolecules.size(); ++j) {
         // wells
-        Molecule *pCollidingMolecule = unimolecules[j];
+        Molecule* pCollidingMolecule = unimolecules[j];
         const double collidingMolZPE(pCollidingMolecule->getDOS().get_zpe());
         if (pCollidingMolecule && m_isomers.find(pCollidingMolecule) == m_isomers.end()) { // New isomer
           m_isomers[pCollidingMolecule] = 0; //initialize to a trivial location
@@ -126,7 +127,7 @@ namespace mesmer
       // For Association reactions determine zero point energy location of the
       // associating pair.
       //
-      AssociationReaction *pAReaction = dynamic_cast<AssociationReaction*>(pReaction);
+      AssociationReaction* pAReaction = dynamic_cast<AssociationReaction*>(pReaction);
       if (pAReaction) {
         double sourceTermZPE = pAReaction->resetZPEofReactants();
         minEnergy = min(minEnergy, sourceTermZPE);
@@ -160,7 +161,7 @@ namespace mesmer
       // For irreversible exchange reactions determine zero point energy location of the
       // associating pair.
       //
-      IrreversibleExchangeReaction *pIEReaction = dynamic_cast<IrreversibleExchangeReaction*>(pReaction);
+      IrreversibleExchangeReaction* pIEReaction = dynamic_cast<IrreversibleExchangeReaction*>(pReaction);
       if (pIEReaction) {
         double pseudoIsomerZPE = pIEReaction->get_pseudoIsomer()->getDOS().get_zpe();
         double excessReactantZPE = pIEReaction->get_excessReactant()->getDOS().get_zpe();
@@ -174,7 +175,7 @@ namespace mesmer
       //
       // For irreversible unimolecular reactions determine zero point energy location of the barrier
       //
-      IrreversibleUnimolecularReaction *pDissnRtn = dynamic_cast<IrreversibleUnimolecularReaction*>(pReaction);
+      IrreversibleUnimolecularReaction* pDissnRtn = dynamic_cast<IrreversibleUnimolecularReaction*>(pReaction);
       if (pDissnRtn) {
         const double rctZPE = pDissnRtn->get_reactant()->getDOS().get_zpe();
         double barrierZPE = rctZPE + pDissnRtn->get_ThresholdEnergy();
@@ -190,7 +191,7 @@ namespace mesmer
       // drg 15 Dec 2011
       // For bimolecular sink reactions, determine the zero point energy of the bimolecular barrier (presently zero)
       //
-      BimolecularSinkReaction *pBimSinkRxn = dynamic_cast<BimolecularSinkReaction*>(pReaction);
+      BimolecularSinkReaction* pBimSinkRxn = dynamic_cast<BimolecularSinkReaction*>(pReaction);
       if (pBimSinkRxn) {
         const double rctZPE = pBimSinkRxn->get_reactant()->getDOS().get_zpe();
         double barrierZPE = rctZPE + pBimSinkRxn->get_ThresholdEnergy();
@@ -226,7 +227,7 @@ namespace mesmer
       Reaction::molMapType::iterator isomeritr = m_isomers.begin();
       for (; isomeritr != m_isomers.end(); ++isomeritr) {
 
-        Molecule *isomer = isomeritr->first;
+        Molecule* isomer = isomeritr->first;
         int colloptrsize = mEnv.MaxGrn - isomer->getColl().get_grnZPE();
         isomer->getColl().set_colloptrsize(colloptrsize);
 
@@ -277,7 +278,7 @@ namespace mesmer
   }
 
   // Sets grain parameters and determine system environment.
-  bool CollisionOperator::SetGrainParams(MesmerEnv &mEnv, const MesmerFlags& mFlags, const double minEne, const double maxEne, bool writeReport)
+  bool CollisionOperator::SetGrainParams(MesmerEnv& mEnv, const MesmerFlags& mFlags, const double minEne, const double maxEne, bool writeReport)
   {
     //  Grain size and number of grain:
     //
@@ -357,10 +358,10 @@ namespace mesmer
   // The following method checks to see if any of the principal species has an equilibrium
   // population that is greater than that of a specified threshold. If it is, it attempts to
   // find a new upper limit of the energy cut-off based on population.
-  void  CollisionOperator::SetMaximumCellEnergy(MesmerEnv &mEnv, const MesmerFlags& mFlags)
+  void  CollisionOperator::SetMaximumCellEnergy(MesmerEnv& mEnv, const MesmerFlags& mFlags)
   {
     // Locate the principal species: Iterate through all isomers.
-    vector<Molecule *> species;
+    vector<Molecule*> species;
     Reaction::molMapType::iterator isomeritr = m_isomers.begin();
     for (; isomeritr != m_isomers.end(); ++isomeritr) {
       species.push_back(isomeritr->first);
@@ -376,7 +377,7 @@ namespace mesmer
     const double populationThreshold(mFlags.popThreshold);
     double HighCell(0.0);
     for (size_t i(0); i < species.size(); ++i) {
-      Molecule *pmol = species[i];
+      Molecule* pmol = species[i];
       vector<double> cellFrac;
       pmol->getColl().normalizedCellBoltzmannDistribution(cellFrac);
 
@@ -410,7 +411,7 @@ namespace mesmer
   // This method constructs a transition matrix based on energy grains.
   //
   template<class T>
-  void CollisionOperator::constructGrainMatrix(MesmerEnv &mEnv, MesmerFlags& mFlags) {
+  void CollisionOperator::constructGrainMatrix(MesmerEnv& mEnv, MesmerFlags& mFlags) {
 
     // Determine the size and location of various blocks.
 
@@ -419,7 +420,7 @@ namespace mesmer
     size_t msize(0);
     Reaction::molMapType::iterator isomeritr = m_isomers.begin();
     for (; isomeritr != m_isomers.end(); ++isomeritr) {
-      Molecule *isomer = isomeritr->first;
+      Molecule* isomer = isomeritr->first;
       isomeritr->second = static_cast<int>(msize); //set location
       msize += isomer->getColl().get_colloptrsize() - isomer->getColl().reservoirShift();
     }
@@ -442,11 +443,11 @@ namespace mesmer
     isomeritr = m_isomers.begin();
     for (isomeritr = m_isomers.begin(); isomeritr != m_isomers.end(); ++isomeritr) {
 
-      Molecule *isomer = isomeritr->first;
+      Molecule* isomer = isomeritr->first;
       double omega = isomer->getColl().get_collisionFrequency();
       size_t idx = isomeritr->second;
 
-      TMatrix<T> *egme(NULL);
+      TMatrix<T>* egme(NULL);
       if (!isomer->getColl().collisionOperator(mEnv, &egme)) {
         string errorMsg = "Failed building collision operator for " + isomer->getName() + ".";
         throw(std::runtime_error(errorMsg));
@@ -506,7 +507,7 @@ namespace mesmer
 
       for (int j = 0; j < colloptrsize; ++j) {
         int ii(rctLocation + j);
-        (*m_reactionOperator)[ii][ii] -= qd_real(diffusionRate*rMeanOmega);  // Diffusive loss reaction.
+        (*m_reactionOperator)[ii][ii] -= qd_real(diffusionRate * rMeanOmega);  // Diffusive loss reaction.
       }
       return;
     }
@@ -515,7 +516,7 @@ namespace mesmer
     if (m_sources.size()) {
       Reaction::molMapType::iterator rctitr = m_sources.find(pMol);
       const int rctLocation = rctitr->second;
-      (*m_reactionOperator)[rctLocation][rctLocation] -= qd_real(diffusionRate*rMeanOmega);  // Diffusive loss reaction.
+      (*m_reactionOperator)[rctLocation][rctLocation] -= qd_real(diffusionRate * rMeanOmega);  // Diffusive loss reaction.
 
       return;
     }
@@ -539,7 +540,7 @@ namespace mesmer
   // One then needs to decide how many members of this basis matrix to include in the reduced basis matrix for
   // diagonalization.
   //
-  void CollisionOperator::constructBasisMatrix(MesmerEnv &mEnv) {
+  void CollisionOperator::constructBasisMatrix(MesmerEnv& mEnv) {
 
     // Determine the size and location of various blocks.
 
@@ -548,7 +549,7 @@ namespace mesmer
     size_t msize(0);
     Reaction::molMapType::iterator isomeritr = m_isomers.begin();
     for (; isomeritr != m_isomers.end(); ++isomeritr) {
-      Molecule *isomer = isomeritr->first;
+      Molecule* isomer = isomeritr->first;
       isomeritr->second = static_cast<int>(msize); //set location
       msize += isomer->getColl().get_nbasis();
     }
@@ -571,11 +572,11 @@ namespace mesmer
     // of the isomer collision operators.
     for (isomeritr = m_isomers.begin(); isomeritr != m_isomers.end(); ++isomeritr) {
 
-      Molecule *isomer = isomeritr->first;
+      Molecule* isomer = isomeritr->first;
       double omega = isomer->getColl().get_collisionFrequency();
       size_t idx = isomeritr->second;
 
-      qdMatrix *egme(NULL);
+      qdMatrix* egme(NULL);
       isomer->getColl().collisionOperator(mEnv, &egme);
       isomer->getColl().diagonalizeCollisionOperator(egme);
       isomer->getColl().copyCollisionOperatorEigenValues(m_reactionOperator, idx, omega);
@@ -599,7 +600,7 @@ namespace mesmer
 
   }
 
-  bool CollisionOperator::calculateEquilibriumFractions(MesmerEnv &mEnv)
+  bool CollisionOperator::calculateEquilibriumFractions(MesmerEnv& mEnv)
   { /* Consider a three well system: e.g., A <-> B <-> C where A <-> B has Keq = K1 & B <-> C has Keq = K2.
     This routine uses the fact that the normalized equilibrated system may be described
     by a 3x3 matrix and a vector which satisfy the following:
@@ -668,7 +669,7 @@ namespace mesmer
           counter++;
           bNewRec = true;
         }
-        set<Molecule*> &rSet = Connections[rloc];
+        set<Molecule*>& rSet = Connections[rloc];
         rSet.insert(pdt);
 
         Reaction::molMapType::iterator pdtitr = m_SpeciesSequence.find(pdt);
@@ -681,7 +682,7 @@ namespace mesmer
           counter++;
           bNewPdt = true;
         }
-        set<Molecule*> &pSet = Connections[ploc];
+        set<Molecule*>& pSet = Connections[ploc];
         pSet.insert(rct);
 
         // Determine if reaction is redundant.
@@ -709,7 +710,7 @@ namespace mesmer
             idxr = reactionCount;
             idxs = rloc;
             eqMatrix[reactionCount][ploc] += qd_real(1.0);
-            eqMatrix[reactionCount][rloc] -= qd_real(2.0*Keq);
+            eqMatrix[reactionCount][rloc] -= qd_real(2.0 * Keq);
             eqMatrix[nTotalNumSpecies - 1][reactionCount] = qd_real(2.0);
           }
         }
@@ -729,7 +730,7 @@ namespace mesmer
     if (reactionCount < nIndependRxns) {
       cerr << string(__FUNCTION__)
         + string(":\n The total number of independent species is greater than the number of unique reactions - the system is under specified.")
-        + string("\n This may be because two independent sets of reactions are being defined in one system.\n") ;
+        + string("\n This may be because two independent sets of reactions are being defined in one system.\n");
 
       thermodynamicFractions(mEnv, eqFraction);
     }
@@ -832,7 +833,7 @@ namespace mesmer
   // Calculate the equilibrium fraction for systems with second order terms
   // using an iterative approach - a Newton-Raphson root finding algorithm 
   // is used. 
-  bool CollisionOperator::iterativeEquiSln(qdMatrix &eqMatrix, vector<qd_real> &eqFraction, size_t idxr, size_t idxs) {
+  bool CollisionOperator::iterativeEquiSln(qdMatrix& eqMatrix, vector<qd_real>& eqFraction, size_t idxr, size_t idxs) {
 
     size_t niterations(100);
     vector<qd_real> delta;
@@ -883,7 +884,7 @@ namespace mesmer
   }
 
   // Calculate the equilibrium fraction for system based on statistical mechanics.
-  bool CollisionOperator::thermodynamicFractions(MesmerEnv &mEnv, vector<qd_real> &eqFraction) {
+  bool CollisionOperator::thermodynamicFractions(MesmerEnv& mEnv, vector<qd_real>& eqFraction) {
     bool status(false);
 
     const qd_real beta = mEnv.beta;
@@ -893,9 +894,9 @@ namespace mesmer
 
     std::map<Molecule*, qd_real> factorMap;
     for (size_t i(0); i < m_pReactionManager->size(); ++i) {
-      if ((*m_pReactionManager)[i]->getReactionType() == ASSOCIATION || 
-          (*m_pReactionManager)[i]->getReactionType() == PSEUDOISOMERIZATION) {
-        Molecule* rct   = (*m_pReactionManager)[i]->get_reactant();
+      if ((*m_pReactionManager)[i]->getReactionType() == ASSOCIATION ||
+        (*m_pReactionManager)[i]->getReactionType() == PSEUDOISOMERIZATION) {
+        Molecule* rct = (*m_pReactionManager)[i]->get_reactant();
         Molecule* exRct = (*m_pReactionManager)[i]->getExcessReactant();
         qd_real CanPrtnFn = rct->getDOS().rovibronicGrnCanPrtnFn();
         CanPrtnFn *= translationalContribution(rct->getStruc().getMass(), exRct->getStruc().getMass(), to_double(beta));
@@ -912,7 +913,7 @@ namespace mesmer
       key = itr->first;
       qd_real CanPrtnFn = key->getDOS().rovibronicGrnCanPrtnFn();
       qd_real HeatOfFrm = key->getDOS().get_zpe();
-      CanPrtnFn *= exp(-beta* HeatOfFrm);
+      CanPrtnFn *= exp(-beta * HeatOfFrm);
 
       // Check for association factors.
       std::map<Molecule*, qd_real>::const_iterator fctritr = factorMap.find(key);
@@ -925,7 +926,7 @@ namespace mesmer
 
     // Normalize equilibrium vector.
     qd_real sm(qd_real(0.0));
-    for (size_t i(0) ; i < eqFraction.size() ; i++) {
+    for (size_t i(0); i < eqFraction.size(); i++) {
       sm += eqFraction[i];
     }
 
@@ -936,7 +937,7 @@ namespace mesmer
     return status;
   }
 
-  void CollisionOperator::diagReactionOperator(const MesmerFlags &mFlags, const MesmerEnv &mEnv,
+  void CollisionOperator::diagReactionOperator(const MesmerFlags& mFlags, const MesmerEnv& mEnv,
     AnalysisData* analysisData)
   {
     // Allocate space for eigenvalues.
@@ -1057,6 +1058,7 @@ namespace mesmer
     }
   }
 
+  // Calculate the time evolution of the system.
   bool CollisionOperator::timeEvolution(MesmerFlags& mFlags, AnalysisData* analysisData)
   {
     ErrorContext c(__FUNCTION__);
@@ -1065,8 +1067,15 @@ namespace mesmer
     if (!mFlags.speciesProfileEnabled)
       return true;
 
+    // SHR, 17/Mar/2020: A compromise needs to be struck here, if the entire calculation
+    // is done in quad-double precision them this routine can consume the most time. On
+    // the other hand if this calculation is done in regular double precison then there 
+    // is a signifcant loss in accuracy. The balance has been struck such that r_0 is 
+    // calculated is quad-double precision and then converted to  double precision and 
+    // the remainder of the calculation is done in double precision.
+
     size_t smsize = m_eigenvectors->size();
-    vector<qd_real> r_0(smsize, 0.);
+    vector<double> r_0(smsize, 0.);
     if (!projectedInitialDistrbtn(r_0)) {
       cerr << "Projection of initial disttribution failed.";
       return false;
@@ -1078,27 +1087,29 @@ namespace mesmer
     if (analysisData)
       analysisData->m_timePoints = timePoints;
 
+    // Copy full eigenvectors of the system. 
+    dMatrix totalEigenVecs(smsize);
+    for (size_t i = 0; i < smsize; ++i) {
+      double tmp = to_double(m_eqVector[i]);
+      for (size_t j = 0; j < smsize; ++j) {
+        totalEigenVecs[i][j] = tmp * to_double((*m_eigenvectors)[i][j]);
+      }
+    }
+
     const size_t maxTimeStep = timePoints.size();
     vector<vector<double> > grnProfile(smsize, vector<double>(maxTimeStep));
+    vector<double> p_t(smsize, 0.);
 
     for (size_t timestep(0); timestep < maxTimeStep; ++timestep) {
-      qd_real numColl = m_meanOmega * timePoints[timestep];
-      vector<qd_real> r_1(smsize, qd_real(0.0));
+      double numColl = m_meanOmega * timePoints[timestep];
       for (size_t j(0); j < smsize; ++j) {
-        r_1[j] = r_0[j] * exp(m_eigenvalues[j] * numColl);
+        p_t[j] = r_0[j] * exp(to_double(m_eigenvalues[j]) * numColl);
       } // now |p_t> = exp(Lambda*t)*V^(T)*|init> = exp(Lambda*t)*U^(-1)*|n_0>
 
-      vector<qd_real> p_t(smsize, qd_real(0.0));
-      for (size_t i = 0; i < smsize; ++i) {
-        qd_real sum = qd_real(0.0);
-        for (size_t j = 0; j < smsize; ++j) {
-          sum += (*m_eigenvectors)[i][j] * r_1[j];
-        }
-        p_t[i] = m_eqVector[i] * sum;
-      }
+      p_t *= totalEigenVecs;
 
       for (size_t j(0); j < smsize; ++j) {
-        grnProfile[j][timestep] = to_double(p_t[j]);
+        grnProfile[j][timestep] = p_t[j];
       } // now |grnProfile(t)> = |grnProfile(i)> = F*V*exp(Lambda*t)*V^(T)*|init> = U*exp(Lambda*t)*U^(-1)*|n_0>
 
     }
@@ -1317,16 +1328,16 @@ namespace mesmer
 
     const double logMaxTime = 20.;
 
-    double shortestTime(0.0) ;
+    double shortestTime(0.0);
     // set the default maximum evolution time
-    shortestTime = max(mFlags.shortestTimeOfInterest, pow(10., -logMaxTime)) ;
+    shortestTime = max(mFlags.shortestTimeOfInterest, pow(10., -logMaxTime));
 
-    double maxEvoTime(0.0) ;
+    double maxEvoTime(0.0);
     // set the default maximum evolution time
-    maxEvoTime = min(mFlags.maxEvolutionTime, pow(10., logMaxTime)) ;
+    maxEvoTime = min(mFlags.maxEvolutionTime, pow(10., logMaxTime));
 
     const double itvl = 10.;
-    const size_t n    = 2 * size_t(itvl*logMaxTime);
+    const size_t n = 2 * size_t(itvl * logMaxTime);
 
     // Calculates the time points
     for (size_t i = 0; i <= n; ++i) {
@@ -1529,7 +1540,7 @@ namespace mesmer
       const double first_IERE = (to_double(m_eigenvalues[nchemIdx - 1]));
       const double CSE_IERE_ratio = last_CSE / first_IERE;
       static bool bCSE_IERE_ratio_WARN = true;
-      if (CSE_IERE_ratio > adsorbedCSETol && bCSE_IERE_ratio_WARN) {
+      if (CSE_IERE_ratio > adsorbedCSETol&& bCSE_IERE_ratio_WARN) {
         bCSE_IERE_ratio_WARN = false; // Only issue this warning once.
         stringstream ss1;
         ss1 << "\nWARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs)." << endl;
@@ -1771,7 +1782,7 @@ namespace mesmer
       qd_real time = timePoints[i];
       vector<qd_real> p(Z_matrix.size(), 0.0);
       for (size_t j(0); j < p.size(); ++j) {
-        p[j] = exp(Egv[j][j] * time)*c0[j];
+        p[j] = exp(Egv[j][j] * time) * c0[j];
       }
       p *= Z_matrix;
       stest << setw(16) << time;
@@ -2049,7 +2060,7 @@ namespace mesmer
   }
 
   // Calculate Yields.
-  void CollisionOperator::calculateYields(YieldMap &yieldMap, double &time) const {
+  void CollisionOperator::calculateYields(YieldMap& yieldMap, double& time) const {
 
     //
     // Yields are calculated by integrating the term Sum_i ki pi.
@@ -2065,7 +2076,7 @@ namespace mesmer
 
     // Get initial distribution.
     size_t smsize = m_eigenvalues.size();
-    vector<qd_real> p_0(smsize, 0.0);
+    vector<qd_real> p_0(smsize, qd_real(0.0));
     if (!produceInitialPopulationVector(p_0)) {
       throw std::runtime_error("Calculation of initial conditions vector failed.");
     }
@@ -2083,7 +2094,7 @@ namespace mesmer
       // Experimental time.
 
       for (size_t j(0); j < smsize; ++j) {
-        wrk[j] *= (exp(m_meanOmega*m_eigenvalues[j] * time) - 1.0) / (m_meanOmega*m_eigenvalues[j]);
+        wrk[j] *= (exp(m_meanOmega * m_eigenvalues[j] * time) - 1.0) / (m_meanOmega * m_eigenvalues[j]);
       }
     }
     else {
@@ -2091,7 +2102,7 @@ namespace mesmer
       // Infinite time limit.
 
       for (size_t j(0); j < smsize; ++j) {
-        wrk[j] /= fabs(m_meanOmega*m_eigenvalues[j]);
+        wrk[j] /= fabs(m_meanOmega * m_eigenvalues[j]);
       }
     }
 
@@ -2125,7 +2136,7 @@ namespace mesmer
   }
 
   // Calculate an experimental trace.
-  void CollisionOperator::calculateTrace(const string &ref, vector<double> &times, vector<double> &signal) const {
+  void CollisionOperator::calculateTrace(const string& ref, vector<double>& times, vector<double>& signal) const {
 
     // Signal is assumed to be proportional to the total population of the monitored species.
     // The grain population is calculated in the usual way for the whole system and then the 
@@ -2166,7 +2177,7 @@ namespace mesmer
     // Get initial distribution.
 
     size_t smsize = m_eigenvalues.size();
-    vector<qd_real> p_0(smsize, 0.0);
+    vector<qd_real> p_0(smsize, qd_real(0.0));
     if (!produceInitialPopulationVector(p_0)) {
       throw std::runtime_error("__FUNCTION__: Calculation of initial conditions vector failed.");
     }
@@ -2190,7 +2201,7 @@ namespace mesmer
       wrk = c_0;
       double time(times[i]);
       for (size_t j(0); j < smsize; ++j) {
-        wrk[j] *= (exp(m_meanOmega*m_eigenvalues[j] * time));
+        wrk[j] *= (exp(m_meanOmega * m_eigenvalues[j] * time));
       }
       wrk *= (*m_eigenvectors);
 
@@ -2259,7 +2270,7 @@ namespace mesmer
     // at each grain energy of each pMol at each time (Struan)
 
     size_t smsize = m_eigenvectors->size();
-    vector<qd_real> r_0(smsize, 0.); // initial distribution
+    vector<double> r_0(smsize, 0.); // initial distribution
     if (!projectedInitialDistrbtn(r_0)) {
       cerr << "Projection of initial disttribution failed.";
       return false;
@@ -2269,7 +2280,7 @@ namespace mesmer
     for (size_t iMol(0); iMol < m_GrainProfileAtTimeData.size(); ++iMol) {
 
       // Find the location of the species in the density vector.
-      Molecule*  pMol = m_GrainProfileAtTimeData[iMol].first;
+      Molecule* pMol = m_GrainProfileAtTimeData[iMol].first;
       int iLoc(-1);
       size_t slsize(0);
       if (m_isomers.find(pMol) != m_isomers.end()) {
@@ -2323,12 +2334,12 @@ namespace mesmer
     return true;
   }
 
-  bool CollisionOperator::projectedInitialDistrbtn(vector<qd_real>& r_0) const {
+  bool CollisionOperator::projectedInitialDistrbtn(vector<double>& r_0) const {
 
     // This method calculates the projection of the initial distribution on to the
     // eigenspace of the collision matrix.
 
-    vector<qd_real> n_0 = r_0;
+    vector<qd_real> n_0(r_0.size(), qd_real(0.0));
     if (!produceInitialPopulationVector(n_0)) {
       cerr << "Calculation of initial conditions vector failed.";
       return false;
@@ -2349,7 +2360,7 @@ namespace mesmer
       for (size_t j(0); j < r_0.size(); ++j) {
         sum += n_0[j] * (*m_eigenvectors)[j][i];
       }
-      r_0[i] = sum;
+      r_0[i] = to_double(sum);
     }
 
     return true;

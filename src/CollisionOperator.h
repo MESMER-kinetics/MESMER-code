@@ -108,7 +108,7 @@ namespace mesmer
 
     bool produceInitialPopulationVector(vector<qd_real>& initDist) const;
 
-    bool projectedInitialDistrbtn(vector<qd_real>& initDist) const;
+    bool projectedInitialDistrbtn(vector<double>& initDist) const;
 
     // Calculate the equilibrium fraction for systems with second order terms
     // using an iterative approach.
