@@ -77,15 +77,18 @@ namespace mesmer
 			: m_concentration(cp_), m_temperature(t_), m_precision(_pre),
 			m_pBathGasName(_bathGas), m_excessConcs(_excessConcs) {}
 
-		void set_experimentalRates(PersistPtr ppData, std::string ref1, std::string ref2,
-			std::string refReaction, double value, double error) {
-			m_rates.push_back(conditionSet(ref1, ref2, refReaction, value, error));
-			m_expDataPtrs.push_back(ppData);
+		void set_experimentalRates(PersistPtr ppData, std::string ref1, std::string ref2, std::string refReaction, double value, double error) {
+			if (ref1.size() > 0 && ref2.size() > 0 && refReaction.size() > 0) {
+				m_rates.push_back(conditionSet(ref1, ref2, refReaction, value, error));
+				m_expDataPtrs.push_back(ppData);
+			}
 		}
 
 		void set_experimentalYields(PersistPtr ppData, std::string ref, std::string yieldTime, double value, double error) {
-			m_yields.push_back(conditionSet(ref, yieldTime, std::string(""), value, error));
-			m_expDataPtrs.push_back(ppData);
+			if (ref.size() > 0 && yieldTime.size() > 0) {
+				m_yields.push_back(conditionSet(ref, yieldTime, std::string(""), value, error));
+				m_expDataPtrs.push_back(ppData);
+			}
 		}
 
 		void set_experimentalEigenvalues(PersistPtr ppData, std::string eigenvalueID, double value, double error) {

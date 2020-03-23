@@ -74,6 +74,9 @@
                 </xs:all>
                 <xs:attribute name="units" type="me:concUnitsType"/>
                 <xs:attribute name="precision" type="me:precisionType" use="optional"/>
+                <xs:attribute name="ref1" type="xs:string" use="optional"/>
+                <xs:attribute name="ref2" type="xs:string" use="optional"/>
+                <xs:attribute name="refReaction" type="xs:string" use="optional"/>
                 <xs:attribute name="default" type="me:ynboolean" use="optional"/>
               </xs:complexType>
             </xs:element>

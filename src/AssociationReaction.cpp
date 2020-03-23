@@ -100,9 +100,7 @@ namespace mesmer
     return sourceTermZPE;
   }
 
-  void AssociationReaction::AddReactionTerms(qdMatrix* CollOptr,
-    molMapType& isomermap,
-    const double rMeanOmega)
+  void AssociationReaction::AddReactionTerms(qdMatrix* CollOptr, molMapType& isomermap, const double rMeanOmega)
   {
     // Get densities of states of the adduct for detailed balance.
     vector<double> pdtDOS;

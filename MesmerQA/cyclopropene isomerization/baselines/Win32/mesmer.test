@@ -2266,7 +2266,7 @@ Print time dependent species and product profiles
 {
       Timestep/s          allene    cyclopropene         propyne  totalIsomerPop     totalPdtPop
            1e-11     5.40189e-11               1     1.02564e-09               1               0
-     1.25893e-11     6.77158e-11               1     1.29006e-09               1               0
+     1.25893e-11     6.77159e-11               1     1.29006e-09               1               0
      1.58489e-11     8.48713e-11               1     1.62245e-09               1               0
      1.99526e-11     1.06332e-10               1     2.04014e-09               1               0
      2.51189e-11      1.3314e-10               1     2.56479e-09               1               0

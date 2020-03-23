@@ -107,11 +107,11 @@ namespace mesmer
           preaction = new IrreversibleUnimolecularReaction(m_pMoleculeManager, mEnv, mFlags, id);
         }
       }
-      else if (bRct2) {
-        if ((rct1Type == "modelled" || rct2Type == "modelled") && bPdt1 && (pdt1Type == "sink")) {
+      else if (bRct2 && bPdt1) {
+        if ((rct1Type == "modelled" || rct2Type == "modelled") && (pdt1Type == "sink")) {
           preaction = new BimolecularSinkReaction(m_pMoleculeManager, mEnv, mFlags, id, (rct1Type == "excessReactant"));
         }
-        else if ((rct1Type == "deficientReactant" || rct2Type == "deficientReactant") && bPdt1 && !bPdt2) {
+        else if ((rct1Type == "deficientReactant" || rct2Type == "deficientReactant") && !bPdt2) {
           if (rct1Name == rct2Name) {
             preaction = new SecondOrderAssocReaction(m_pMoleculeManager, mEnv, mFlags, id, (rct1Type != "deficientReactant"));
           }
@@ -119,14 +119,14 @@ namespace mesmer
             preaction = new AssociationReaction(m_pMoleculeManager, mEnv, mFlags, id, (rct1Type != "deficientReactant"));
           }
         }
-        else if ((rct1Type == "modelled" || rct2Type == "modelled") && bPdt1 && (pdt1Type == "modelled") && !bPdt2) {
+        else if ((rct1Type == "modelled" || rct2Type == "modelled") && (pdt1Type == "modelled") && !bPdt2) {
           preaction = new PseudoIsomerizationReaction(m_pMoleculeManager, mEnv, mFlags, id, (rct1Type != "modelled"));
         }
-        else if (bPdt1 && (pdt1Type == "sink" || pdt2Type == "sink")) {
+        else if ((pdt1Type == "sink" || pdt2Type == "sink")) {
           preaction = new IrreversibleExchangeReaction(m_pMoleculeManager, mEnv, mFlags, id, (rct1Type == "deficientReactant"));
         }
-        else if ((rct1Type == "deficientReactant" || rct2Type == "deficientReactant") && bPdt1 && (pdt1Type == "modelled")) {
-          preaction = new ExchangeReaction(m_pMoleculeManager, mEnv, mFlags, id, (rct1Type == "deficientReactant"));
+        else if ((rct1Type == "deficientReactant" || rct2Type == "deficientReactant") && bPdt2 && (pdt1Type == "modelled" || pdt2Type == "modelled")) {
+          preaction = new ExchangeReaction(m_pMoleculeManager, mEnv, mFlags, id, (rct1Type == "deficientReactant"), (pdt1Type == "modelled"));
         }
       }
 

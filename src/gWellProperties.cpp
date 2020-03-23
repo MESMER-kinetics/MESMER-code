@@ -205,12 +205,12 @@ namespace mesmer
     // CONCentration is in molec/cm^3.
     //
 
-    double A = 1.16145;
-    double B = 0.14874;
-    double C = 0.52487;
-    double D = 0.77320;
-    double E = 2.16178;
-    double F = 2.43787;
+    const double A = 1.16145;
+    const double B = 0.14874;
+    const double C = 0.52487;
+    const double D = 0.77320;
+    const double E = 2.16178;
+    const double F = 2.43787;
 
     double temp = 1.0 / (boltzmann_RCpK*env.beta);
 

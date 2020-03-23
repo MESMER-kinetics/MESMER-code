@@ -1,3 +1,19 @@
+2020-March-21 Struan Robertson
+
+		* ConditionsManager.h/.cpp: Fix for PT set bug.
+
+		* ExchangeReaction.h/.cpp: Added code to account for a reservoir state.
+
+		* ReactionManager.cpp: Simplified reaction type decision logic. 
+
+		* Minor code updates to fix compiler warnings.
+
+		* Documentation update.
+
+		* Win32 baseline update. 
+
+		* Schema update.
+
 2020-March-17 Struan Robertson
 
 		* CollisionOperator.h/.cpp: Altered to improve speed of grain and species population 

@@ -47,16 +47,13 @@ namespace mesmer
     // if deficientReactantLocation=true, then pMol1 (the first rct
     // in the XML input) is the deficient reactant (m_rct1)
 
-    Molecule* tmp_rct1 = pMol1;
-    Molecule* tmp_rct2 = pMol2;
-
-    if (deficientReactantLocation) {
-      m_rct1 = tmp_rct1;
-      m_rct2 = tmp_rct2;
+    if (m_deficientReactantLocation) {
+      m_rct1 = pMol1;
+      m_rct2 = pMol2;
     }
     else {
-      m_rct1 = tmp_rct2;
-      m_rct2 = tmp_rct1;
+      m_rct1 = pMol2;
+      m_rct2 = pMol1;
     }
 
     if (!m_rct1) {
@@ -76,7 +73,12 @@ namespace mesmer
     if (ppProduct1) {
       pMol1 = GetMolRef(ppProduct1);
       if (pMol1) {
-        m_pdt1 = pMol1;
+        if (m_modelledProductLocation) {
+          m_pdt1 = pMol1;
+        }
+        else {
+          m_pdt2 = pMol1;
+        }
       }
       else {
         cerr << "Exchange reaction" << getName() << " has no products defined.";
@@ -86,6 +88,13 @@ namespace mesmer
       if (ppProduct2) {
         pMol2 = GetMolRef(ppProduct2);
         if (pMol2) {
+          if (m_modelledProductLocation) {
+            m_pdt2 = pMol2;
+          }
+          else {
+            m_pdt1 = pMol2;
+          }
+
           m_pdt2 = pMol2;
         }
         else {
@@ -191,12 +200,11 @@ namespace mesmer
     vector<double> pdtEne;
     vector<double> pdtBltz;
     m_pdt1->getDOS().getGrainEnergies(pdtEne);
-    m_pdt1->getColl().normalizedGrnBoltzmannDistribution(pdtBltz);
+    m_pdt1->getColl().normalizedGrnBoltzmannDistribution(pdtBltz); // Note: reservoir state accounted for in pdtBltz.
 
     // Need to know the number of grouped grains in product.
     const size_t pShiftedGrains(m_pdt1->getColl().reservoirShift());
-
-    const size_t pColloptrsize = m_pdt1->getColl().get_colloptrsize();
+    const size_t pColloptrsize = m_pdt1->getColl().get_colloptrsize(); // Note: reservoir state accounted.
 
     if (pColloptrsize != pdtBltz.size()) {
       string msg = __FUNCTION__ + string(": Error: collison operator and distribution have different sizes.\n");
@@ -205,7 +213,7 @@ namespace mesmer
 
     // Get TS Boltzmann distribution for partition of rate.
     vector<double> TStPopFrac; // Population fraction of the transition state.
-    m_TransitionState->getColl().set_colloptrsize(pColloptrsize);
+    m_TransitionState->getColl().set_colloptrsize(pColloptrsize + pShiftedGrains);
     m_TransitionState->getColl().normalizedGrnBoltzmannDistribution(TStPopFrac);
 
     // Calculate the weighted sum of the energy partition distribution.
@@ -217,16 +225,30 @@ namespace mesmer
 
     // 2. Form the weighted sum of distributions.
     m_fragDist->initialize(this);
-    vector<double> totalFragDist(pdtBltz.size(), 0.0);
-    for (size_t i(nRvrThresh), idx(0); i < pdtBltz.size(); ++i, ++idx) {
+    vector<double> totalFragDist(TStPopFrac.size(), 0.0);
+    for (size_t i(nRvrThresh), idx(0); i < TStPopFrac.size(); ++i, ++idx) {
 
-      vector<double> fragDist(pdtBltz.size(), 0.0);
+      vector<double> fragDist(TStPopFrac.size(), 0.0);
       m_fragDist->calculate(pdtEne[i], fragDist);
 
       double weight = TStPopFrac[idx];
-      for (size_t j(0); j < pdtBltz.size(); ++j) {
+      for (size_t j(0); j < TStPopFrac.size(); ++j) {
         totalFragDist[j] += weight * fragDist[j];
       }
+    }
+
+    // Account for the reservoir if there is one.
+    if (pShiftedGrains > 0) {
+      double sum(0.0);
+      for (size_t j(0); j <= pShiftedGrains; ++j) {
+        sum += totalFragDist[j] ;
+      }
+      vector<double> tmp(pColloptrsize, 0.0);
+      tmp[0] = sum;
+      for (size_t j(1), jj(pShiftedGrains + 1); j < tmp.size(); ++j, ++jj) {
+        tmp[j] = totalFragDist[jj];
+      }
+      totalFragDist = tmp;
     }
 
     // 3. Re-normalize the fragmentation distribution.
@@ -256,7 +278,7 @@ namespace mesmer
       qd_real dist(totalFragDist[i]), bltz(pdtBltz[i]);
       (*CollOptr)[ii][ii] -= diag * dist / bltz;          // Loss of the adduct to the source
       (*CollOptr)[jj][ii] = offDiag * dist / sqrt(bltz);  // Reactive gain of the source
-      (*CollOptr)[ii][jj] = (*CollOptr)[jj][ii];         // Reactive gain (symmetrization)
+      (*CollOptr)[ii][jj] = (*CollOptr)[jj][ii];          // Reactive gain (symmetrization)
     }
 
     // Return any resources used.

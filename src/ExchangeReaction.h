@@ -28,14 +28,15 @@ namespace mesmer
   public:
 
     // Constructors.
-    ExchangeReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, MesmerFlags& Flags, const char *id, bool isReactant)
+    ExchangeReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, MesmerFlags& Flags, const char *id, bool isReactant, bool isProduct)
       : Reaction(pMoleculeManager, Env, Flags, id),
       m_sourceMap(NULL),
       m_rct1(NULL),
       m_rct2(NULL),
       m_pdt1(NULL),
       m_pdt2(NULL),
-      deficientReactantLocation(isReactant),
+      m_deficientReactantLocation(isReactant),
+      m_modelledProductLocation(isProduct),
       m_EPConc(0.0),
       m_fragDist(NULL)
     {
@@ -135,7 +136,8 @@ namespace mesmer
     Molecule    *m_pdt1; // Product Molecule.
     Molecule    *m_pdt2; // Subsidiary product molecule, in excess.
 
-    bool deficientReactantLocation; // true if 1st rct in XML file is deficient false if 2nd reactant is deficient
+    bool m_deficientReactantLocation; // True if 1st reactant in XML file is deficient false if 2nd reactant is deficient.
+    bool m_modelledProductLocation;   // True if 1st product in XML file is modelled false if 2nd reactant is deficient.
 
     double    m_EPConc;  // Concentration of the excess product.
 
