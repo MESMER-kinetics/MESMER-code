@@ -78,7 +78,7 @@ namespace mesmer
 			m_pBathGasName(_bathGas), m_excessConcs(_excessConcs) {}
 
 		void set_experimentalRates(PersistPtr ppData, std::string ref1, std::string ref2, std::string refReaction, double value, double error) {
-			if (ref1.size() > 0 && ref2.size() > 0 && refReaction.size() > 0) {
+			if (ref1.size() > 0 && ref2.size() > 0) {
 				m_rates.push_back(conditionSet(ref1, ref2, refReaction, value, error));
 				m_expDataPtrs.push_back(ppData);
 			}

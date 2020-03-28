@@ -1067,15 +1067,8 @@ namespace mesmer
     if (!mFlags.speciesProfileEnabled)
       return true;
 
-    // SHR, 17/Mar/2020: A compromise needs to be struck here, if the entire calculation
-    // is done in quad-double precision them this routine can consume the most time. On
-    // the other hand if this calculation is done in regular double precison then there 
-    // is a signifcant loss in accuracy. The balance has been struck such that r_0 is 
-    // calculated is quad-double precision and then converted to  double precision and 
-    // the remainder of the calculation is done in double precision.
-
     size_t smsize = m_eigenvectors->size();
-    vector<double> r_0(smsize, 0.);
+    vector<qd_real> r_0(smsize, 0.);
     if (!projectedInitialDistrbtn(r_0)) {
       cerr << "Projection of initial disttribution failed.";
       return false;
@@ -1088,28 +1081,29 @@ namespace mesmer
       analysisData->m_timePoints = timePoints;
 
     // Copy full eigenvectors of the system. 
-    dMatrix totalEigenVecs(smsize);
+    qdMatrix totalEigenVecs(smsize);
     for (size_t i = 0; i < smsize; ++i) {
-      double tmp = to_double(m_eqVector[i]);
+      qd_real tmp = m_eqVector[i];
       for (size_t j = 0; j < smsize; ++j) {
-        totalEigenVecs[i][j] = tmp * to_double((*m_eigenvectors)[i][j]);
+        totalEigenVecs[i][j] = tmp * (*m_eigenvectors)[i][j];
       }
     }
 
     const size_t maxTimeStep = timePoints.size();
     vector<vector<double> > grnProfile(smsize, vector<double>(maxTimeStep));
-    vector<double> p_t(smsize, 0.);
 
+    // now |p_t> = exp(Lambda*t)*V^(T)*|init> = exp(Lambda*t)*U^(-1)*|n_0>
     for (size_t timestep(0); timestep < maxTimeStep; ++timestep) {
-      double numColl = m_meanOmega * timePoints[timestep];
+      qd_real numColl = m_meanOmega * timePoints[timestep];
+      vector<qd_real> p_t(smsize, double(0.0));
       for (size_t j(0); j < smsize; ++j) {
-        p_t[j] = r_0[j] * exp(to_double(m_eigenvalues[j]) * numColl);
-      } // now |p_t> = exp(Lambda*t)*V^(T)*|init> = exp(Lambda*t)*U^(-1)*|n_0>
+        p_t[j] = r_0[j] * exp(m_eigenvalues[j] * numColl);
+      }
 
       p_t *= totalEigenVecs;
 
       for (size_t j(0); j < smsize; ++j) {
-        grnProfile[j][timestep] = p_t[j];
+        grnProfile[j][timestep] = to_double(p_t[j]);
       } // now |grnProfile(t)> = |grnProfile(i)> = F*V*exp(Lambda*t)*V^(T)*|init> = U*exp(Lambda*t)*U^(-1)*|n_0>
 
     }
@@ -2270,7 +2264,7 @@ namespace mesmer
     // at each grain energy of each pMol at each time (Struan)
 
     size_t smsize = m_eigenvectors->size();
-    vector<double> r_0(smsize, 0.); // initial distribution
+    vector<qd_real> r_0(smsize, qd_real(0.0)); // initial distribution
     if (!projectedInitialDistrbtn(r_0)) {
       cerr << "Projection of initial disttribution failed.";
       return false;
@@ -2334,7 +2328,7 @@ namespace mesmer
     return true;
   }
 
-  bool CollisionOperator::projectedInitialDistrbtn(vector<double>& r_0) const {
+  bool CollisionOperator::projectedInitialDistrbtn(vector<qd_real>& r_0) const {
 
     // This method calculates the projection of the initial distribution on to the
     // eigenspace of the collision matrix.
@@ -2360,7 +2354,7 @@ namespace mesmer
       for (size_t j(0); j < r_0.size(); ++j) {
         sum += n_0[j] * (*m_eigenvectors)[j][i];
       }
-      r_0[i] = to_double(sum);
+      r_0[i] = sum;
     }
 
     return true;

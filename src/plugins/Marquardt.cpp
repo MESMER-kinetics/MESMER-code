@@ -99,6 +99,10 @@ namespace mesmer
     // temperature (i.e. reduce the number of times micro-rates are calculated).
     pSys->m_Flags.useTheSameCellNumber = true;
 
+    // Set control flags to values that stop unnecessary calculations whose results will be discarded.
+    bool bSpeciesProfileEnabled = pSys->m_Flags.speciesProfileEnabled;
+    pSys->m_Flags.speciesProfileEnabled = false;
+
     // Uncomment to enable ctest output during fitting. Or use -w5 option in command.
     //ChangeErrorLevel e(obDebug); 
 
@@ -204,6 +208,9 @@ namespace mesmer
       cs << chiSquare;
       Rdouble::withRange()[i]->XmlWriteAttribute("chiSquared", cs.str());
     }
+
+    // Restore control flags to their user defined values.
+    pSys->m_Flags.speciesProfileEnabled = bSpeciesProfileEnabled;
 
     // Write out the results and the statisitics of the fit.
     ResultsAndStatistics(pSys, hessian);

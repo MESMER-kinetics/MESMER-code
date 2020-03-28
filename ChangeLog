@@ -1,3 +1,10 @@
+2020-March-28 Struan Robertson
+
+		* CollisionOperator.h/.cpp, Marquardt.cpp: Revert fix for Marquardt performance issue
+		in check-in 1480 in favour of fix based on control flags.
+
+		* ConditionsManager.h: Fix for QA break related to check-in 1481.
+
 2020-March-21 Struan Robertson
 
 		* ConditionsManager.h/.cpp: Fix for PT set bug.
