@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.0 compiled: -- Mar  5 2020 -- 23:15:47
+     Mesmer v6.0 compiled: -- Mar 28 2020 -- 15:01:47
 
      Copyright (C) 2009-2020 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Fri Mar  6 00:25:15 2020
+                     Execution Date:  Sat Mar 28 16:12:50 2020
                      Number of ranks: 12
 
 defaults.xml, librarymols.xml are in ../..
@@ -50,7 +50,7 @@ The default value of the attribute Tstep was used.
 The default value of the attribute Tmin was used.
 The default value of the attribute Tmax was used.
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20200306_002515
+Write metadata 20200328_161250
 
 File: "ZNtest.xml" successfully parsed.
 Main Calculation begins
@@ -65,11 +65,11 @@ In FastLaplaceConvolution: 46140 values in the FFT convolution routine were repl
 Number of grains produced is not equal to that requested for: dummy-Singlet-OH
 Number of grains requested: 1000
 Number of grains produced : 1
- -- Total time elapsed: 8 seconds.
+ -- Total time elapsed: 30 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
 
 System saved to mesmer_out.xml
-Total time elapsed: 8 seconds.
+Total time elapsed: 30 seconds.

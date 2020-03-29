@@ -567,7 +567,7 @@ examples/spin_forbidden_kinetics/baselines/Linux64/LZ_test.test -text
 examples/spin_forbidden_kinetics/baselines/Linux64/WKB_test.log -text
 examples/spin_forbidden_kinetics/baselines/Linux64/WKB_test.test -text
 examples/spin_forbidden_kinetics/baselines/Linux64/ZNtest.log -text
-examples/spin_forbidden_kinetics/baselines/Linux64/ZNtest.test -text
+examples/spin_forbidden_kinetics/baselines/Linux64/ZNtest.test -text svneol=unset#unset
 examples/spin_forbidden_kinetics/baselines/Win32/HCCH_methylene.log -text
 examples/spin_forbidden_kinetics/baselines/Win32/HCCH_methylene.test -text
 examples/spin_forbidden_kinetics/baselines/Win32/LZ_test.log -text

@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.0 compiled: -- Mar  5 2020 -- 21:03:29
+     Mesmer v6.0 compiled: -- Mar 28 2020 -- 14:24:21
 
      Copyright (C) 2009-2020 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Mon Mar  9 00:23:37 2020
+                     Execution Date:  Sun Mar 29 00:30:01 2020
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -88,7 +88,7 @@ The default value of the attribute Tstep was used.
 The default value of the attribute Tmin was used.
 The default value of the attribute Tmax was used.
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20200309_002337
+Write metadata 20200329_003001
 
 File: "CH3_CH3_to_C2H6.xml" successfully parsed.
 Main Calculation begins
@@ -113,7 +113,7 @@ Chi^2 = 31.5255 Lambda = 0.01
 C2H6:deltaEDown:Ar=343.276  C2H6:deltaEDown:He=334.326  R1:preExponential=5.23886e-11  R1:nInfinity=-0.574478  
 Iteration: 2 of Marquardt. ChiSquare = 31.5255, Lambda = 0.01
 Number of cells = 58660, Number of grains = 838
- -- Total time elapsed: 388 seconds.
+ -- Total time elapsed: 391 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
@@ -173,4 +173,4 @@ Number of degrees of Freedom = 25
 Chi^2 probability = 0.172204
 
 System saved to mesmer_out.xml
-Total time elapsed: 388 seconds.
+Total time elapsed: 391 seconds.

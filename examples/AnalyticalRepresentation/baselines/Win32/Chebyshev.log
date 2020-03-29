@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.0 compiled: -- Mar  5 2020 -- 21:03:29
+     Mesmer v6.0 compiled: -- Mar 28 2020 -- 14:24:21
 
      Copyright (C) 2009-2020 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sun Mar  8 23:39:15 2020
+                     Execution Date:  Sat Mar 28 23:43:35 2020
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -110,7 +110,7 @@ In cycCH2OCH2O: Could not find cycCH2OCH2O in ../../librarymols.xml
 In R5: --Parse data for RRKM
 In R5: No tunneling method used for R5
 No pressure and temperature specified.
-Write metadata 20200308_233915
+Write metadata 20200328_234335
 
 File: "Chebyshev.xml" successfully parsed.
 Main Calculation begins
@@ -422,7 +422,7 @@ chebyshev_reaction('IM2 => OH-3 + cycCH2OCH2O',
                            [    -0.0283107,    0.00143872,     0.0646827,    -0.0470463]])
 
 
- -- Total time elapsed: 357 seconds.
+ -- Total time elapsed: 384 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 357 seconds.
+Total time elapsed: 384 seconds.

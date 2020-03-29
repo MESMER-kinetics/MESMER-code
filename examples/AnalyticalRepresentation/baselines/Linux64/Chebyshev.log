@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.2 compiled: -- Dec  4 2018 -- 16:50:21
+     Mesmer v6.0 compiled: -- Mar 28 2020 -- 15:01:47
 
-     Copyright (C) 2009-2018 by
+     Copyright (C) 2009-2020 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,8 +27,8 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Tue Dec  4 17:40:13 2018
-                     Number of ranks: 1
+                     Execution Date:  Sat Mar 28 16:13:57 2020
+                     Number of ranks: 12
 
 defaults.xml, librarymols.xml are in ../..
 
@@ -47,6 +47,9 @@ In CH3OCH2: Vibrational frequencies (cm-1) were calculated from Hessian:
 In CH3OCH2: The default value of me:DOSCMethod was used.
 In CH3OCH2: Hindered rotor b5
 In CH3OCH2: Hindered rotor b4
+In CH3OCH2: WARNING: The Fourier expansion for the internal rotor potential for bond b4 of 
+In CH3OCH2: species CH3OCH2, differs at the minimum from the value entered by more than 20 cm-1.
+In CH3OCH2: More terms in the Fourier expansion may be needed.
 In IM1: WARNING: When calculating frequencies from a Hessian it is critical
      that the Hessian and species coordinates are expressed relative to
      the same Cartesian coordinate system.
@@ -94,6 +97,9 @@ In TS5: The default value of me:DOSCMethod was used.
 In TS5: Hindered rotor b1
 In TS5: Hindered rotor b2
 In TS5: Hindered rotor b3
+In TS5: WARNING: The Fourier expansion for the internal rotor potential for bond b3 of 
+In TS5: species TS5, differs at the minimum from the value entered by more than 20 cm-1.
+In TS5: More terms in the Fourier expansion may be needed.
 In R3: --Parse data for RRKM
 In R3: No tunneling method used for R3
 In R4: Parsing reaction...Irreversible unimolecular reaction
@@ -104,7 +110,7 @@ In cycCH2OCH2O: Could not find cycCH2OCH2O in ../../librarymols.xml
 In R5: --Parse data for RRKM
 In R5: No tunneling method used for R5
 No pressure and temperature specified.
-Write metadata 20181204_174013
+Write metadata 20200328_161357
 
 File: "Chebyshev.xml" successfully parsed.
 Main Calculation begins
@@ -155,7 +161,6 @@ Restricted thermo output for cycCH2OCH2O because it has arbitrary energy data.
 Bath gas is He
 In FastLaplaceConvolution: 4880 values in the FFT convolution routine were replaced by standard convolution
 In FastLaplaceConvolution: 4060 values in the FFT convolution routine were replaced by standard convolution
-Association ILT calculation completed
 In FastLaplaceConvolution: 9460 values in the FFT convolution routine were replaced by standard convolution
 
 WARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs).
@@ -199,11 +204,11 @@ species(name = "IM1",
         atoms = " C:2   H:5   O:3  ",
         thermo = (
             NASA( [   200.000, 1000.000], [  6.9338856e+00,  -1.6948480e-03, 
-                       7.1974608e-05,  -9.6048855e-08,   3.9201876e-11, 
-                      -5.2809407e+01,   2.6729033e-01] ),
+                       7.1974608e-05,  -9.6048854e-08,   3.9201875e-11, 
+                      -5.2809407e+01,   2.6729035e-01] ),
             NASA( [  1000.000, 1000.000], [  6.9338856e+00,  -1.6948480e-03, 
-                       7.1974608e-05,  -9.6048855e-08,   3.9201876e-11, 
-                      -5.2809407e+01,   2.6729033e-01] ) ) )
+                       7.1974608e-05,  -9.6048854e-08,   3.9201875e-11, 
+                      -5.2809407e+01,   2.6729035e-01] ) ) )
 
 species(name = "IM2",
         atoms = " C:2   H:5   O:3  ",
@@ -417,7 +422,7 @@ chebyshev_reaction('IM2 => OH-3 + cycCH2OCH2O',
                            [    -0.0293336,    0.00336075,     0.0630631,     -0.045827]])
 
 
- -- Total time elapsed: 210 seconds.
+ -- Total time elapsed: 240 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 210 seconds.
+Total time elapsed: 240 seconds.

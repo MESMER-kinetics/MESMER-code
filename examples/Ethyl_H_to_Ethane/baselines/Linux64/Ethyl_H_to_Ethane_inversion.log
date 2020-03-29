@@ -26,9 +26,9 @@
     You should have received a copy of the GNU Public License
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
-                     Platform:        Windows
-                     Execution Date:  Sun Feb 23 17:26:54 2020
-                     Number of ranks: 1
+                     Platform:        Linux
+                     Execution Date:  Sat Mar 28 16:08:35 2020
+                     Number of ranks: 12
 
 defaults.xml, librarymols.xml are in ../..
 
@@ -54,7 +54,7 @@ In R1: Not a unimolecular reaction: look for excess reactant concentration.
 In R1: No value of me:excessReactantConc was supplied and the default value NEEDS TO BE CHECKED**
 25.1Torr, 301K at dd precision with He
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20200223_173230
+Write metadata 20200328_160835
 
 File: "Ethyl_H_to_Ethane_inversion.xml" successfully parsed.
 Main Calculation begins
@@ -65,7 +65,7 @@ Number of cells = 50000, Number of grains = 194
 Number of grains produced is not equal to that requested for: H
 Number of grains requested: 194
 Number of grains produced : 1
-In FastLaplaceConvolution: 3600 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 3660 values in the FFT convolution routine were replaced by standard convolution
 
 WARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs).
 
@@ -73,11 +73,11 @@ The last CSE = -7.09637e+06 and the first IERE = -1.79252e+07
 (last CSE)/(first IERE) ratio = 0.395887, which is less than an order of magnitude
 
 Results obtained from Bartis Widom eigenvalue-vector analysis may be unreliable
- -- Total time elapsed: 459 seconds.
+ -- Total time elapsed: 1 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
 
 System saved to mesmer_out.xml
-Total time elapsed: 459 seconds.
+Total time elapsed: 1 seconds.

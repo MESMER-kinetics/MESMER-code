@@ -177,6 +177,8 @@
       <me:deltaEDownTExponent>0.0221492</me:deltaEDownTExponent>
 
       <me:DOSCMethod xsi:type="ClassicalRotors"/>
+
+      <me:reservoirSize units="cm-1">500.0</me:reservoirSize>
     </molecule>
 
     <molecule id="H2O">
@@ -924,6 +926,7 @@
         <me:modPriorTref>298</me:modPriorTref>
       </me:FragmentDist>
       <me:excessReactantConc>1E14</me:excessReactantConc>
+      <me:excessProductConc>1E15</me:excessProductConc>
     </reaction>
 
     <reaction id="R4">

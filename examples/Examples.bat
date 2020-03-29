@@ -148,9 +148,10 @@ IF "%1"=="-o" copy "./LZ_test.log" "./%bline%LZ_test.log"
 copy "./WKB_test.test" "./%bline%WKB_test.test"
 IF "%1"=="-o" copy "./WKB_test.log" "./%bline%WKB_test.log"
 
-%cmdline% -N WKB_test.xml %directive%
-copy "./ZNtest.test" "./%bline%ZNtest.test"
-IF "%1"=="-o" copy "./ZNtest.log" "./%bline%ZNtest.log"
+set testName="ZNtest"
+%cmdline% -N %testName%.xml
+copy "./%testName%.test" "./%bline%%testName%.test"
+IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
 cd ..
 
 cd "OH_NO_to HONO"

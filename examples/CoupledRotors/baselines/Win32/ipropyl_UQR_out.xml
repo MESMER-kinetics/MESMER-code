@@ -106,7 +106,7 @@
         <me:thermoValue T="1450.00" H="176.6914" S="472.3570" G="-508.2263" Cp="186.5915" cellS="472.3578" cellH="176.6960" cellG="-508.2229" cellCp="186.5922" />
         <me:thermoValue T="1500.00" H="186.0740" S="478.7186" G="-532.0038" Cp="188.6907" cellS="478.7194" cellH="186.0787" cellG="-532.0004" cellCp="188.6912" />
       </me:thermoTable>
-      <me:densityOfStatesList calculated="20200309_010309">
+      <me:densityOfStatesList calculated="20200329_021006">
         <me:description>Rovibronic partition function calculation at various temperatures. qtot : product of QM partition functions for vibrations (1-D harmonic oscillator) and classical partition functions for rotations.  sumc : cell based partition function. sumg : grain based partition function </me:description>
         <me:densityOfStates>
           <me:T>200</me:T>
@@ -620,7 +620,7 @@
     <dc:title>isopropyl decomposition</dc:title>
     <dc:source>ipropyl_UQR.xml</dc:source>
     <dc:creator>Mesmer v6.0</dc:creator>
-    <dc:date>20200309_010308</dc:date>
+    <dc:date>20200329_021005</dc:date>
     <dc:contributor>strua</dc:contributor>
   </metadataList>
 </me:mesmer>
