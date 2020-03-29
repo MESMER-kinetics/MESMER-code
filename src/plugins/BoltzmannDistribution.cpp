@@ -15,6 +15,7 @@
 #include "../Molecule.h"
 #include "../MesmerFlags.h"
 #include "../gDensityOfStates.h"
+#include "../gWellProperties.h"
 
 namespace mesmer
 {
@@ -23,20 +24,21 @@ namespace mesmer
   public:
 
     ///Constructor which registers with the list of DistributionCalculators in the base class
-    BoltzmannDistribution(const char* id) :m_id(id), m_temp(-1.0) { Register(); }
+    BoltzmannDistribution(const char* id) :m_id(id), m_temp(-1.0), m_excitation(0.0) { Register(); }
 
     virtual ~BoltzmannDistribution() {}
-    virtual const char* getID()  { return m_id; }
+    virtual const char* getID() { return m_id; }
     virtual BoltzmannDistribution* Clone() { return new BoltzmannDistribution(*this); }
 
-	  virtual bool ParseData(PersistPtr pp) ;
+    virtual bool ParseData(PersistPtr pp);
 
     virtual bool calculateDistribution(Molecule* m_host, std::vector<double>& dist);
 
   private:
     const char* m_id;
 
-	double m_temp ;
+    double m_temp;
+    double m_excitation;
   };
 
   //************************************************************
@@ -44,56 +46,88 @@ namespace mesmer
   BoltzmannDistribution theBoltzmannDistribution("Boltzmann");
   //************************************************************
 
-  // Read in in optional temperature (Mostly used for shock tube simulations).
   bool BoltzmannDistribution::ParseData(PersistPtr pp) {
-	const char* ptxt = pp->XmlReadValue("me:Temperature",optional); 
+
+    // Read in in optional temperature (Mostly used for shock tube simulations).
+
+    const char* ptxt = pp->XmlReadValue("me:Temperature", optional);
     if (ptxt) {
-	  stringstream ss(ptxt);
+      stringstream ss(ptxt);
       ss >> m_temp;
-	}
-	return true ;
+    }
+
+    // Read in in optional excitation (mostly for photo-excitation studies).
+
+    PersistPtr ppExcite = pp->XmlMoveTo("me:Excitation");
+    if (ppExcite) {
+
+      const char* p = ppExcite->XmlReadValue("units", optional);
+      string units = p ? p : "cm-1";
+
+      const char* ptxt = pp->XmlReadValue("me:Excitation", optional);
+      if (ptxt) {
+        stringstream ss(ptxt);
+        ss >> m_excitation;
+      }
+      m_excitation = getConvertedEnergy(units, m_excitation);
+
+    }
+
+    return true;
   }
 
-  bool BoltzmannDistribution::calculateDistribution(Molecule* m_host,
-    std::vector<double>& dist)
+  bool BoltzmannDistribution::calculateDistribution(Molecule* m_host, std::vector<double>& dist)
   {
-    //Get the average grain energies
 
+    // Note any adjustments need to account for a reservoir are performed by the calling method.
+
+    // Get the grain energies.
     vector<double> Ene;
     m_host->getDOS().getGrainEnergies(Ene);
 
-    // Get the rovibrational Density of states
+    //Get the cell energies and rovibrational Densities of States.
 
-    vector<double> DOS;
-    m_host->getDOS().getGrainDensityOfStates(DOS);
+    vector<double> cellEne, tmpDOS;
+    getCellEnergies(m_host->getEnv().MaxCell, m_host->getEnv().CellSize, cellEne);
+    m_host->getDOS().getCellDensityOfStates(tmpDOS);
 
     // Get the value of beta. 
 
-	const double beta = (m_temp > 0.0) ? 1.0 / (boltzmann_RCpK*m_temp) : m_host->getEnv().beta ;
+    const double beta = (m_temp > 0.0) ? 1.0 / (boltzmann_RCpK * m_temp) : m_host->getEnv().beta;
 
-    // Calculate unnormalized Boltzmann dist.
+    // Calculate unnormalized Boltzmann dist., accounting for excitation if needed.
     // Note the extra 10.0 is to prevent underflow, it is removed during normalization.
-    dist.clear();
-    for (size_t i(0) ; i < DOS.size() ; ++i) {
-      dist.push_back(exp(log(DOS[i]) - beta * Ene[i] + 10.0)) ;
+    size_t cellOffSet = m_host->getDOS().get_cellOffset();
+    size_t nExcitation = size_t(m_excitation) + cellOffSet;
+    vector<double> tmp(tmpDOS.size(), 0.0);
+    for (size_t i(0), jj(nExcitation); jj < tmp.size(); ++i, ++jj) {
+      tmp[jj] = exp(log(tmpDOS[i]) - beta * cellEne[i] + 10.0);
     }
 
-    // Calculate the normalization coefficient. Reverse for numerical accuracy.
-    double sum(0.0) ;
-    for (size_t i(0), j(dist.size()-1) ; i < dist.size() ; ++i,--j) {
-      sum += dist[j] ;
+    // Now form the grain sums accounting for excitation and cell off set.
+    dist.clear();
+    size_t cellPerGrain = m_host->getEnv().cellPerGrain();
+    double tsum(0.0);
+    for (size_t i(0), ii(0) ; ii< Ene.size() ; ii++ ) {
+      double sum(0.0);
+      for (size_t j(0) ; j < cellPerGrain && i < tmp.size() ; j++, i++) {
+        sum += tmp[i];
+      }
+      tsum += sum;
+      dist.push_back(sum);
     }
 
     // Normalize distribution. 
-    for (size_t i(0) ; i < dist.size() ; ++i) {
-      dist[i] /= sum ;
+    for (size_t i(0); i < dist.size(); ++i) {
+      dist[i] /= tsum;
     }
 
-    if (m_host->getFlags().InitialDistEnabled){
-      ctest << "\nInitial distribution vector" << endl ;
-      for (size_t i(0); i < Ene.size(); i++){
-        formatFloat(ctest, dist[i],  6,  15) ;
-        ctest << endl ;
+    // Print distribution if requested.
+    if (m_host->getFlags().InitialDistEnabled) {
+      ctest << "\nInitial distribution vector" << endl;
+      for (size_t i(0); i < dist.size(); i++) {
+        formatFloat(ctest, dist[i], 6, 15);
+        ctest << endl;
       }
     }
 

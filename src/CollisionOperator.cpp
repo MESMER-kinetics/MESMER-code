@@ -346,9 +346,7 @@ namespace mesmer
     }
 
     // Determine if DOS and reaction fluxes need to be recalculated.
-    size_t oldMaxCell = mEnv.MaxCell;
     mEnv.MaxCell = max(mEnv.MaxCell, (mEnv.MaxGrn * size_t(double(mEnv.GrainSize) / mEnv.CellSize)));
-    // Reaction::resetCalcFlag((oldMaxCell < mEnv.MaxCell)) ;
 
     if (writeReport) cinfo << "Number of cells = " << mEnv.MaxCell << ", Number of grains = " << mEnv.MaxGrn << once << endl;
 

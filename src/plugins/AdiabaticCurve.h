@@ -13,7 +13,7 @@ namespace mesmer
     double Energy;
 
   public:
-    OneDimensionalFunction() {};
+    OneDimensionalFunction(): Energy(0.0) {};
     virtual ~OneDimensionalFunction() {};
 
     // set Functions
@@ -97,9 +97,6 @@ namespace mesmer
   // another test function
   class cosineTest2 : public OneDimensionalFunction {
 
-  private:
-    double K, DE;
-
   public:
     // Constructor
     cosineTest2() {};
@@ -152,7 +149,7 @@ namespace mesmer
     double H12; // coordinate, coupling, & Energy
 
   public:
-    AdiabaticCurve() {};
+    AdiabaticCurve(): R(NULL), P(NULL), H12(0.0) {};
     virtual ~AdiabaticCurve() {};
 
     // set Functions

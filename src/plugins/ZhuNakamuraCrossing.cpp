@@ -472,11 +472,6 @@ namespace mesmer
     double a = lowerLimit;
     double c = upperLimit;
     double tmp;
-    tmp = energyCurve->evaluateEnergy(a);
-    double eneA = tmp*tmp;
-    tmp = energyCurve->evaluateEnergy(c);
-    double eneC = tmp*tmp;
-
     static const int limit = 20;
 
     // Locate the initial mid-point by golden section. 
@@ -495,7 +490,6 @@ namespace mesmer
 
       if (eneX < eneB) {
         a = b;
-        eneA = eneB;
         b = x;
         eneB = eneX;
 
@@ -507,7 +501,6 @@ namespace mesmer
       }
       else {
         c = x;
-        eneC = eneX;
         x = b;
         eneX = eneB;
 

@@ -1,3 +1,10 @@
+2020-March-29 Struan Robertson
+
+		* BoltzmannDistribution.cpp: Added excitation field to distribution to allow 
+		approximate modelling of photo-excitation.
+
+		* Minor code updates to fix compiler warnings.
+
 2020-March-28 Struan Robertson
 
 		* CollisionOperator.h/.cpp, Marquardt.cpp: Revert fix for Marquardt performance issue
