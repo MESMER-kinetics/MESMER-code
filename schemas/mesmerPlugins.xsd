@@ -16,6 +16,32 @@
     </xs:restriction>
   </xs:simpleType>
 
+  <xs:complexType name="Boltzmann">
+    <xs:complexContent>
+      <xs:extension base="distributionMethodct">
+        <xs:all>
+          <xs:element name="Temperature" minOccurs="0">
+            <xs:complexType>
+              <xs:simpleContent>
+                <xs:extension base="xs:float">
+                </xs:extension>
+              </xs:simpleContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Excitation" minOccurs="0">
+            <xs:complexType>
+              <xs:simpleContent>
+                <xs:extension base="xs:float">
+                  <xs:attribute name="units" type="me:energyUnitsType" use="optional"/>
+                </xs:extension>
+              </xs:simpleContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:all>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
   <xs:complexType name="ExponentialDown">
     <xs:complexContent>
       <xs:extension base="energyTransferct">
@@ -226,7 +252,8 @@
           <xs:element name="excessReactantConc" type="xs:float" minOccurs="0">
           </xs:element>
         </xs:all>
-        <xs:attribute name="nameZ" type="xs:string" use="optional" /><!--????-->
+        <xs:attribute name="nameZ" type="xs:string" use="optional" />
+        <!--????-->
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -264,7 +291,7 @@
     <xs:sequence></xs:sequence>
     <xs:attribute name="name" type="xs:string" use="optional"/>
   </xs:complexType>
-  
+
   <xs:complexType name="DOSCMethodt">
     <xs:sequence></xs:sequence>
     <xs:attribute name="name" type="xs:string" use="optional"/>
@@ -283,8 +310,9 @@
   <xs:simpleType name="classicalRotors" >
     <xs:restriction base="xs:string">
       <xs:length value="0"></xs:length>
-    </xs:restriction> </xs:simpleType>
-  
+    </xs:restriction>
+  </xs:simpleType>
+
   <xs:complexType name="DefinedDensityOfStates">
     <xs:complexContent>
       <xs:extension base="DOSCMethodt">
@@ -310,7 +338,7 @@
               <xs:attribute name="grainSize" type="xs:decimal" use="optional"/>
             </xs:complexType>
           </xs:element>
-          
+
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -388,7 +416,7 @@
               <xs:attribute name="format" type="hinderedRotorFormatType" use="required" />
               <xs:attribute name="units" type="xs:string" use="required" />
               <xs:attribute name="expansionSize" type="xs:unsignedInt" use="optional" />
-                <xs:attribute name="UseSineTerms" type="me:ynboolean" use="optional" />
+              <xs:attribute name="UseSineTerms" type="me:ynboolean" use="optional" />
             </xs:complexType>
           </xs:element>
           <xs:element name="periodicity" type="xs:unsignedInt" minOccurs="0"/>
@@ -431,7 +459,7 @@
           <xs:element name="reducedMass" type="xs:float" minOccurs="0"/>
           <xs:element name="bondRef" type="xs:string" minOccurs="0"/>
           <!--needs units-->
-          
+
           <xs:element name="vibrationalPotential">
             <xs:complexType>
               <xs:sequence>
@@ -493,7 +521,7 @@
         <xs:annotation>
           <xs:documentation>
             &lt;me:DOSCMethod name="me:ClassicalCoupledRotsrs"> CAN have sub elements &lt;me:MCStates,&lt;me:RotorArray>
-        </xs:documentation>
+          </xs:documentation>
         </xs:annotation>
       </xs:enumeration>
     </xs:restriction>
@@ -675,9 +703,9 @@
             </xs:complexType>
           </xs:element>
         </xs:sequence>
-        </xs:extension>    
-  </xs:complexContent>
-   </xs:complexType>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
 
   <xs:complexType name="Prior">
     <xs:complexContent>
@@ -712,6 +740,23 @@
       <xs:attribute name="units" type="energyUnitsType" use="optional"/>
     </xs:complexType>
   </xs:element>
+
+  <xs:complexType name="Eckart">
+    <xs:complexContent>
+      <xs:extension base ="tunnelingt">
+        <xs:sequence>
+          <xs:element name="useZPE" />
+          <xs:element name="BarrierHeights">
+            <xs:complexType>
+              <xs:attribute name="units" type="xs:string" use="optional" />
+              <xs:attribute name="V0" type="xs:decimal" use="optional" />
+              <xs:attribute name="V1" type="xs:decimal" use="optional" />
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
 
   <xs:complexType name="WKB">
     <xs:complexContent>
@@ -802,60 +847,60 @@
       <xs:extension base="MCRCMethodct">
         <xs:all>
           <xs:element name="harmonicReactantDiabat-FC">
-          <xs:complexType>
-            <xs:simpleContent>
-              <xs:extension base="xs:string">
-                <xs:attribute name="units" use="required"/>
-              </xs:extension>
-            </xs:simpleContent>
-          </xs:complexType>
-            </xs:element>
-            <xs:element name="harmonicReactantDiabat-X0">
-              <xs:complexType>
-                <xs:simpleContent>
-                  <xs:extension base="xs:float">
-                    <xs:attribute name="units" use="required"/>
-                  </xs:extension>
-                </xs:simpleContent>
-              </xs:complexType>
-            </xs:element>
-            <xs:element name="harmonicReactantDiabat-DE">
-              <xs:complexType>
-                <xs:simpleContent>
-                  <xs:extension base="xs:float">
-                    <xs:attribute name="units" type="me:energyUnitsType" use="required"/>
-                  </xs:extension>
-                </xs:simpleContent>
-              </xs:complexType>
-            </xs:element>
-            <xs:element name="exponentialProductDiabat-A">
-              <xs:complexType>
-                <xs:simpleContent>
-                  <xs:extension base="xs:float">
-                    <xs:attribute name="units" type="me:energyUnitsType" use="required"/>
-                  </xs:extension>
-                </xs:simpleContent>
-              </xs:complexType>
-            </xs:element>
-            <xs:element name="exponentialProductDiabat-B">
-              <xs:complexType>
-                <xs:simpleContent>
-                  <xs:extension base="xs:float">
-                    <xs:attribute name="units" use="required"/>
-                  </xs:extension>
-                </xs:simpleContent>
-              </xs:complexType>
-            </xs:element>
-            <xs:element name="exponentialProductDiabat-DE">
-          <xs:complexType>
-            <xs:simpleContent>
-              <xs:extension base="xs:float">
-                <xs:attribute name="units" type="me:energyUnitsType" use="required"/>
-              </xs:extension>
-            </xs:simpleContent>
-          </xs:complexType>
-            </xs:element>
-            <xs:element name="H12">
+            <xs:complexType>
+              <xs:simpleContent>
+                <xs:extension base="xs:string">
+                  <xs:attribute name="units" use="required"/>
+                </xs:extension>
+              </xs:simpleContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="harmonicReactantDiabat-X0">
+            <xs:complexType>
+              <xs:simpleContent>
+                <xs:extension base="xs:float">
+                  <xs:attribute name="units" use="required"/>
+                </xs:extension>
+              </xs:simpleContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="harmonicReactantDiabat-DE">
+            <xs:complexType>
+              <xs:simpleContent>
+                <xs:extension base="xs:float">
+                  <xs:attribute name="units" type="me:energyUnitsType" use="required"/>
+                </xs:extension>
+              </xs:simpleContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="exponentialProductDiabat-A">
+            <xs:complexType>
+              <xs:simpleContent>
+                <xs:extension base="xs:float">
+                  <xs:attribute name="units" type="me:energyUnitsType" use="required"/>
+                </xs:extension>
+              </xs:simpleContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="exponentialProductDiabat-B">
+            <xs:complexType>
+              <xs:simpleContent>
+                <xs:extension base="xs:float">
+                  <xs:attribute name="units" use="required"/>
+                </xs:extension>
+              </xs:simpleContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="exponentialProductDiabat-DE">
+            <xs:complexType>
+              <xs:simpleContent>
+                <xs:extension base="xs:float">
+                  <xs:attribute name="units" type="me:energyUnitsType" use="required"/>
+                </xs:extension>
+              </xs:simpleContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="H12">
             <xs:complexType>
               <xs:simpleContent>
                 <xs:extension base="xs:float">
@@ -865,13 +910,13 @@
             </xs:complexType>
           </xs:element>
           <xs:element name="reducedMass">
-          <xs:complexType>
-            <xs:simpleContent>
-              <xs:extension base="xs:float">
-                <xs:attribute name="units" use="required"/>
-              </xs:extension>
-            </xs:simpleContent>
-          </xs:complexType>
+            <xs:complexType>
+              <xs:simpleContent>
+                <xs:extension base="xs:float">
+                  <xs:attribute name="units" use="required"/>
+                </xs:extension>
+              </xs:simpleContent>
+            </xs:complexType>
           </xs:element>
         </xs:all>
       </xs:extension>

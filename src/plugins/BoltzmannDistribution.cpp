@@ -70,7 +70,9 @@ namespace mesmer
         ss >> m_excitation;
       }
       m_excitation = getConvertedEnergy(units, m_excitation);
-
+      if (m_excitation < 0.0) {
+        throw std::runtime_error("Initial distribution of" + getParent()->getName() + "specifed with a negative excitation energy.");
+      }
     }
 
     return true;

@@ -309,7 +309,7 @@ MesmerQA/benzene_oxidation/baselines/Win32/mesmer.test -text
 MesmerQA/benzene_oxidation/benzene_oxidation_test.xml -text
 MesmerQA/cyclopropene[!!-~]isomerization[!!-~]reservoir[!!-~]state/Cyclopropene_isomerization_reservoir_state_test.xml -text
 MesmerQA/cyclopropene[!!-~]isomerization[!!-~]reservoir[!!-~]state/baselines/Linux64/mesmer.log -text
-MesmerQA/cyclopropene[!!-~]isomerization[!!-~]reservoir[!!-~]state/baselines/Linux64/mesmer.test -text svneol=unset#unset
+MesmerQA/cyclopropene[!!-~]isomerization[!!-~]reservoir[!!-~]state/baselines/Linux64/mesmer.test -text
 MesmerQA/cyclopropene[!!-~]isomerization[!!-~]reservoir[!!-~]state/baselines/Win32/mesmer.log -text
 MesmerQA/cyclopropene[!!-~]isomerization[!!-~]reservoir[!!-~]state/baselines/Win32/mesmer.test -text
 MesmerQA/cyclopropene[!!-~]isomerization/Cyclopropene_isomerization_test.xml -text
@@ -530,9 +530,19 @@ examples/SensitivityAnalysis/baselines/Win32/pentyl_isomerization_SA.log -text
 examples/SensitivityAnalysis/baselines/Win32/pentyl_isomerization_SA.test -text
 examples/SensitivityAnalysis/ipropyl_SA.xml -text
 examples/SensitivityAnalysis/pentyl_isomerization_SA.xml -text
+examples/Tunnelling/Acetyl_O2_associationEx1.xml -text
+examples/Tunnelling/Acetyl_O2_associationEx2.xml -text
 examples/Tunnelling/H+H2,T+T2.xml -text
+examples/Tunnelling/baselines/Linux64/Acetyl_O2_associationEx1.log -text
+examples/Tunnelling/baselines/Linux64/Acetyl_O2_associationEx1.test -text
+examples/Tunnelling/baselines/Linux64/Acetyl_O2_associationEx2.log -text
+examples/Tunnelling/baselines/Linux64/Acetyl_O2_associationEx2.test -text
 examples/Tunnelling/baselines/Linux64/H+H2,T+T2.log -text
 examples/Tunnelling/baselines/Linux64/H+H2,T+T2.test -text
+examples/Tunnelling/baselines/Win32/Acetyl_O2_associationEx1.log -text
+examples/Tunnelling/baselines/Win32/Acetyl_O2_associationEx1.test -text
+examples/Tunnelling/baselines/Win32/Acetyl_O2_associationEx2.log -text
+examples/Tunnelling/baselines/Win32/Acetyl_O2_associationEx2.test -text
 examples/Tunnelling/baselines/Win32/H+H2,T+T2.log -text
 examples/Tunnelling/baselines/Win32/H+H2,T+T2.test -text
 examples/cis_to_trans_But-2-ene/baselines/Linux64/cis_to_trans_But-2-ene.log -text
@@ -540,6 +550,7 @@ examples/cis_to_trans_But-2-ene/baselines/Linux64/cis_to_trans_But-2-ene.test -t
 examples/cis_to_trans_But-2-ene/baselines/Win32/cis_to_trans_But-2-ene.log -text
 examples/cis_to_trans_But-2-ene/baselines/Win32/cis_to_trans_But-2-ene.test -text
 examples/cis_to_trans_But-2-ene/cis_to_trans_But-2-ene.xml -text
+examples/cis_to_trans_But-2-ene/cis_to_trans_But-2-eneEx.xml -text
 examples/diamond/baselines/Linux64/diamond-gaussianModel.log -text
 examples/diamond/baselines/Linux64/diamond-gaussianModel.test -text
 examples/diamond/baselines/Win32/diamond-gaussianModel.log -text

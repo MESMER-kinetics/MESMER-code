@@ -47,7 +47,7 @@ namespace mesmer
     // First determine if V0 and V1 are measured from the classical well or zero point energy.
     PersistPtr ppEckart = pReact->get_PersistentPointer();
     ppEckart = ppEckart->XmlMoveTo("me:tunneling");
-    bool useZPE = ppEckart->XmlReadBoolean("useZPE");
+    bool useZPE = ppEckart->XmlReadBoolean("me:useZPE");
 
     double rctClassicalEnergy(pReact->get_reactant()->getDOS().getClassicalEnergy());
     if (pReact->getReactionType() == IRREVERSIBLE_EXCHANGE) {
@@ -82,9 +82,8 @@ namespace mesmer
     const int barrier1 = int(TZ - pReact->get_relative_pdtZPE());
 
     double V0(0.0), V1(0.0);
-    V0 = ppEckart->XmlReadDouble("V0", optional);
-    V1 = ppEckart->XmlReadDouble("V1", optional);
-    if (IsNan(V0) || IsNan(V1)) {
+    PersistPtr ppBarrier = ppEckart->XmlMoveTo("me:BarrierHeights");
+    if (!ppBarrier) {
       if (useZPE) {
         // The zpe corrected barrier heights in the forward/reverse directions
         V0 = TZ - pReact->get_relative_rctZPE();
@@ -97,8 +96,10 @@ namespace mesmer
       }
     }
     else {
-      const char* p = ppEckart->XmlReadValue("units", optional);
-      string units = p ? p : "kJ/mol";
+      const char* p = ppBarrier->XmlReadValue("units", optional);
+      string units = p ? p : "cm-1";
+      V0 = ppBarrier->XmlReadDouble("V0", optional);
+      V1 = ppBarrier->XmlReadDouble("V1", optional);
 
       V0 = getConvertedEnergy(units, V0);
       V1 = getConvertedEnergy(units, V1);

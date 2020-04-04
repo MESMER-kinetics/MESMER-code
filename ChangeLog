@@ -1,3 +1,13 @@
+2020-April-04 Struan Robertson
+
+		* EckartCoefficients.cpp: Revised code to reflect change in Schema.
+
+		* Schema update.
+
+		* Documentation update.
+
+		* Win32 baseline update.
+
 2020-March-29 Struan Robertson
 
 		* BoltzmannDistribution.cpp: Added excitation field to distribution to allow 

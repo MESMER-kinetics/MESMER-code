@@ -75,15 +75,13 @@ echo ---------------------------------------------------------------------------
 echo.
 GOTO END
 
-
 :RUNNING
 REM GOTO IN
-
-cd AcetylO2
 
 :: display mesmer version
 %executable% -V
 
+cd AcetylO2
 %cmdline% Acetyl_O2_associationEx.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
@@ -201,6 +199,10 @@ set testName="cis_to_trans_But-2-ene"
 %cmdline% -N %testName%.xml
 copy "./%testName%.test" "./%bline%%testName%.test"
 IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
+set testName="cis_to_trans_But-2-eneEx"
+%cmdline% -N %testName%.xml
+copy "./%testName%.test" "./%bline%%testName%.test"
+IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
 cd ..
 
 cd "C4H9O2_NO2_to_C4H9O2NO2"
@@ -254,6 +256,14 @@ cd ..
 
 cd "Tunnelling"
 set testName="H+H2,T+T2"
+%cmdline% -N %testName%.xml
+copy "./%testName%.test" "./%bline%%testName%.test"
+IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
+set testName="Acetyl_O2_associationEx1"
+%cmdline% -N %testName%.xml
+copy "./%testName%.test" "./%bline%%testName%.test"
+IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
+set testName="Acetyl_O2_associationEx2"
 %cmdline% -N %testName%.xml
 copy "./%testName%.test" "./%bline%%testName%.test"
 IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"

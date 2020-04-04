@@ -243,7 +243,12 @@ cp ./$testName.test ./$bline$testName.test
 if [ "$1" == "-o" ] ; then
   cp ./$testName.log ./$bline$testName.log
 fi
-cd ..
+testName=cis_to_trans_But-2-eneEx
+$cmdline -N $testName.xml
+cp ./$testName.test ./$bline$testName.test
+if [ "$1" == "-o" ] ; then
+  cp ./$testName.log ./$bline$testName.log
+ficd ..
 
 cd "C4H9O2_NO2_to_C4H9O2NO2"
 testName=C4H9O2_NO2_association
@@ -310,6 +315,18 @@ cd ..
 
 cd "Tunnelling"
 testName="H+H2,T+T2"
+$cmdline -N $testName.xml
+cp ./$testName.test ./$bline$testName.test
+if [ "$1" == "-o" ] ; then
+  cp ./$testName.log ./$bline$testName.log
+fi
+testName="Acetyl_O2_associationEx1"
+$cmdline -N $testName.xml
+cp ./$testName.test ./$bline$testName.test
+if [ "$1" == "-o" ] ; then
+  cp ./$testName.log ./$bline$testName.log
+fi
+testName="Acetyl_O2_associationEx2"
 $cmdline -N $testName.xml
 cp ./$testName.test ./$bline$testName.test
 if [ "$1" == "-o" ] ; then
