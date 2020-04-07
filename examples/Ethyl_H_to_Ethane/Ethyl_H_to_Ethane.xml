@@ -109,6 +109,7 @@
         <me:PotentialPoint angle="350"  potential="-879.02059923"/>
         <me:PotentialPoint angle="360"  potential="-878.88480619"/>
       </me:HinderedRotorPotential>
+      <me:periodicity>3</me:periodicity>
     </me:ExtraDOSCMethod>
 
     </molecule>
@@ -141,7 +142,7 @@
           <array units="cm-1"> 3.900 0.7712 0.7128 </array>
         </property>
         <property dictRef="me:symmetryNumber">
-          <scalar>2</scalar>
+          <scalar>1</scalar>
         </property>
         <!--  Frequency 186. has been eliminated in favour of a 1 Dimensional rotor. -->
         <property dictRef="me:vibFreqs">
@@ -245,6 +246,16 @@
     <!--Use the default: simpleCalc-->
     <me:testDOS />
     <me:eigenvalues>5</me:eigenvalues>
+  </me:control>
+
+  <me:control>
+    <me:calcMethod units="kJ/mol" xsi:type="me:ThermodynamicTable">
+      <me:Tmin>75</me:Tmin>
+      <me:Tmid>600</me:Tmid>
+      <me:Tmax>1050</me:Tmax>
+      <me:Tstep>75</me:Tstep>
+      <me:withCellDOSCalc/>
+    </me:calcMethod>
   </me:control>
 
 </me:mesmer>

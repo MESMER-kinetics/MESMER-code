@@ -109,6 +109,7 @@
           <me:PotentialPoint angle="350"  potential="-879.02059923"/>
           <me:PotentialPoint angle="360"  potential="-878.88480619"/>
         </me:HinderedRotorPotential>
+      <me:periodicity>3</me:periodicity>
       </me:ExtraDOSCMethod>
 
     </molecule>
@@ -141,7 +142,7 @@
           <array units="cm-1"> 3.900 0.7712 0.7128 </array>
         </property>
         <property dictRef="me:symmetryNumber">
-          <scalar>2</scalar>
+          <scalar>1</scalar>
         </property>
         <!--  Frequency 186. has been eliminated in favour of a 1 Dimensional rotor. -->
         <property dictRef="me:vibFreqs">
@@ -359,8 +360,8 @@
           <me:PotentialPoint coordinate=" 0.17725913	"  potential="-52715.15 "/>
           <me:PotentialPoint coordinate=" 0.19471242	"  potential="-52715.13 "/>
           <me:PotentialPoint coordinate=" 0.21216571	"  potential="-52715.11	"/>
-          <me:PotentialPoint coordinate=" 0.229619		"  potential="-52715.09 "/>
-          <me:PotentialPoint coordinate=" 0.2470723		"  potential="-52715.06	"/>
+          <me:PotentialPoint coordinate=" 0.22961900    "  potential="-52715.09 "/>
+          <me:PotentialPoint coordinate=" 0.24707230	"  potential="-52715.06	"/>
           <me:PotentialPoint coordinate=" 0.26452559	"  potential="-52715.03	"/>
           <me:PotentialPoint coordinate=" 0.28197888	"  potential="-52715.00 "/>
           <me:PotentialPoint coordinate=" 0.29943217	"  potential="-52714.96	"/>
@@ -373,7 +374,7 @@
           <me:PotentialPoint coordinate=" 0.42160522	"  potential="-52714.54 "/>
           <me:PotentialPoint coordinate=" 0.43905851	"  potential="-52714.46 "/>
           <me:PotentialPoint coordinate=" 0.45651181	"  potential="-52714.37 "/>
-          <me:PotentialPoint coordinate=" 0.4739651		"  potential="-52714.28 "/>
+          <me:PotentialPoint coordinate=" 0.47396510    "  potential="-52714.28 "/>
           <me:PotentialPoint coordinate=" 0.49141839	"  potential="-52714.17 "/>
           <me:PotentialPoint coordinate=" 0.50887168	"  potential="-52714.06	"/>
           <me:PotentialPoint coordinate=" 0.52632498	"  potential="-52713.94	"/>
@@ -386,7 +387,7 @@
           <me:PotentialPoint coordinate=" 0.64849802	"  potential="-52712.81	"/>
           <me:PotentialPoint coordinate=" 0.66595132	"  potential="-52712.61	"/>
           <me:PotentialPoint coordinate=" 0.68340461	"  potential="-52712.39 "/>
-          <me:PotentialPoint coordinate=" 0.7008579		"  potential="-52712.16	"/>
+          <me:PotentialPoint coordinate=" 0.7008579	"  potential="-52712.16	"/>
           <me:PotentialPoint coordinate=" 0.71831119	"  potential="-52711.91 "/>
           <me:PotentialPoint coordinate=" 0.73576449	"  potential="-52711.65 "/>
           <me:PotentialPoint coordinate=" 0.75321778	"  potential="-52711.38 "/>
@@ -399,8 +400,8 @@
           <me:PotentialPoint coordinate=" 0.87539083	"  potential="-52709.05 "/>
           <me:PotentialPoint coordinate=" 0.89284412	"  potential="-52708.65 "/>
           <me:PotentialPoint coordinate=" 0.91029741	"  potential="-52708.24	"/>
-          <me:PotentialPoint coordinate=" 0.9277507		"  potential="-52707.81	"/>
-          <me:PotentialPoint coordinate=" 0.945204		"  potential="-52707.36   "/>
+          <me:PotentialPoint coordinate=" 0.9277507	"  potential="-52707.81	"/>
+          <me:PotentialPoint coordinate=" 0.945204	"  potential="-52707.36 "/>
           <me:PotentialPoint coordinate=" 0.96265729	"  potential="-52706.89	"/>
           <me:PotentialPoint coordinate=" 0.98011058	"  potential="-52706.41	"/>
           <me:PotentialPoint coordinate=" 0.99756387	"  potential="-52705.91	"/>
@@ -535,6 +536,7 @@
           <me:PotentialPoint coordinate=" 3.24903861	"  potential="-52566.14	"/>
           <me:PotentialPoint coordinate=" 3.26649190	"  potential="-52566.33	"/>
         </me:vibrationalPotential>
+        <me:PlotStates/>
       </me:ExtraDOSCMethod>
 
     </molecule>
@@ -614,6 +616,16 @@
     <!--Use the default: simpleCalc-->
     <me:testDOS />
     <me:eigenvalues>5</me:eigenvalues>
+  </me:control>
+
+  <me:control>
+    <me:calcMethod units="kJ/mol" xsi:type="me:ThermodynamicTable">
+      <me:Tmin>75</me:Tmin>
+      <me:Tmid>600</me:Tmid>
+      <me:Tmax>1050</me:Tmax>
+      <me:Tstep>75</me:Tstep>
+      <me:withCellDOSCalc/>
+    </me:calcMethod>
   </me:control>
 
 </me:mesmer>
