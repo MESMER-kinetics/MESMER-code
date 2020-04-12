@@ -24,7 +24,7 @@ GOTO SETTINGS
 :SETTINGS
 SET tfn=mesmer.test
 SET lfn=mesmer.log
-SET bline=baselines/Win32/
+SET bline=baselines\Win32\
 SET outf=out.xml
 SET mpicommand="C:\Program Files\Microsoft MPI\Bin\mpiexec" -n 4 %executable%
 SET cmdline=%mpicommand%
@@ -78,10 +78,10 @@ GOTO END
 :RUNNING
 REM GOTO IN
 
+cd AcetylO2
 :: display mesmer version
 %executable% -V
 
-cd AcetylO2
 %cmdline% Acetyl_O2_associationEx.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
@@ -236,14 +236,14 @@ cd ..
 cd "Glyoxyl"
 set testName="Glyoxal"
 %cmdline% -N %testName%.xml
-copy "./%testName%.test" "./%bline%%testName%.test"
+copy "%testName%.test" %bline%
 IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
 cd ..
 
 cd "DefinedTunellingCoefficients"
-set testName="OH+methanol"
-%cmdline% -N %testName%.xml
-copy "./%testName%.test" "./%bline%%testName%.test"
+set testName=OH+methanol
+%cmdline% -N "%testName%.xml"
+copy "%testName%.test" %bline%
 IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
 cd ..
 
@@ -255,9 +255,9 @@ IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
 cd ..
 
 cd "Tunnelling"
-set testName="H+H2,T+T2"
+set testName=H+H2,T+T2
 %cmdline% -N %testName%.xml
-copy "./%testName%.test" "./%bline%%testName%.test"
+copy "%testName%.test" %bline%
 IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
 set testName="Acetyl_O2_associationEx1"
 %cmdline% -N %testName%.xml
@@ -305,9 +305,9 @@ IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
 cd ..
 
 cd "POandO2"
-set testName="PO+O2"
-%cmdline% -N %testName%.xml
-copy "./%testName%.test" "./%bline%%testName%.test"
+set testName=PO+O2
+%cmdline% -N "%testName%.xml"
+copy "%testName%.test" %bline%
 IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
 cd ..
 
