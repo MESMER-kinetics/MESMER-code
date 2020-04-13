@@ -21,7 +21,7 @@
 //-------------------------------------------------------------------------------------------
 #include "AssociationReaction.h"
 
-using namespace Constants ;
+using namespace Constants;
 using namespace mesmer;
 
 namespace mesmer
@@ -32,46 +32,51 @@ namespace mesmer
   public:
 
     // Constructors.
-    SecondOrderAssocReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, MesmerFlags& Flags, const char *id, bool isReactant)
-      :AssociationReaction(pMoleculeManager, Env, Flags, id, isReactant) { Flags.bIsSystemSecondOrder = true; } ;
+    SecondOrderAssocReaction(MoleculeManager* pMoleculeManager, const MesmerEnv& Env, MesmerFlags& Flags, const char* id, bool isReactant)
+      :AssociationReaction(pMoleculeManager, Env, Flags, id, isReactant) {
+      Flags.bIsSystemSecondOrder = true;
+    };
 
     // Destructor.
-    virtual ~SecondOrderAssocReaction(){}
+    virtual ~SecondOrderAssocReaction() {}
 
     // Initialize reaction.
-    virtual bool InitializeReaction(PersistPtr ppReac) ;
+    virtual bool InitializeReaction(PersistPtr ppReac);
 
     // return relative reactant, product and transition state zero-point energy
     virtual double get_relative_rctZPE() const { return m_rct1->getDOS().get_zpe() - getEnv().EMin; }
 
-	// Reset zero point energy locations of the reactants such that
-	// location of the pair is entirely on the pseudoisomer.
-	virtual double resetZPEofReactants() ;
+    // Reset zero point energy locations of the reactants such that
+    // location of the pair is entirely on the pseudoisomer.
+    virtual double resetZPEofReactants();
 
     // returns the reaction type
-    virtual ReactionType getReactionType(){return SECONDORDERASSOCIATION;};
+    virtual ReactionType getReactionType() { return SECONDORDERASSOCIATION; };
 
     // Get reactants grain ZPE
     virtual const int get_rctsGrnZPE(void);
 
     // Get cell offset for the reactants.
     virtual size_t get_cellOffset(void) {
-      double modulus = fmod(m_rct1->getDOS().get_zpe() - getEnv().EMin, double(getEnv().GrainSize))/getEnv().CellSize ;
-      return size_t(modulus) ;
-    } ;
+      double modulus = fmod(m_rct1->getDOS().get_zpe() - getEnv().EMin, double(getEnv().GrainSize)) / getEnv().CellSize;
+      return size_t(modulus);
+    };
 
     // Add reaction terms to the reaction matrix.
-    virtual void AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega) ;
+    virtual void AddReactionTerms(qdMatrix* CollOptr, molMapType& isomermap, const double rMeanOmega);
 
     // Add contracted basis set reaction terms to the reaction matrix.
-    virtual void AddContractedBasisReactionTerms(qdMatrix *CollOptr, molMapType &isomermap) ;
+    virtual void AddContractedBasisReactionTerms(qdMatrix* CollOptr, molMapType& isomermap);
 
-	// The following method takes an effective unimolecular rate 
-	// coefficient and normalizes it by concentration to obtain
-	// a second order rate coefficient.
-	virtual double normalizeRateCoefficient(const double rateCoefficient) const {return rateCoefficient/(4.0*m_ERConc) ; }  ;
+    // The following method takes an effective unimolecular rate 
+    // coefficient and normalizes it by concentration to obtain
+    // a second order rate coefficient.
+    virtual double normalizeRateCoefficient(const double rateCoefficient, std::string ref = "") const {
+      // Check the sense of the rate coefficient by checking for the principal reactant.
+      return (ref == m_rct1->getName()) ? rateCoefficient / (4.0 * m_ERConc) : rateCoefficient;
+    };
 
-  } ;
+  };
 
 }//namespace
 #endif // GUARD_SecondOrderAssocReaction_h

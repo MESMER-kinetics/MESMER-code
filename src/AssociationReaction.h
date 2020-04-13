@@ -21,7 +21,7 @@
 #include "Reaction.h"
 #include "gDensityOfStates.h"
 
-using namespace Constants ;
+using namespace Constants;
 using namespace std;
 using namespace mesmer;
 
@@ -33,19 +33,19 @@ namespace mesmer
   public:
 
     // Constructors.
-    AssociationReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, MesmerFlags& Flags, const char *id, bool isReactant)
+    AssociationReaction(MoleculeManager* pMoleculeManager, const MesmerEnv& Env, MesmerFlags& Flags, const char* id, bool isReactant)
       :Reaction(pMoleculeManager, Env, Flags, id),
       m_rct1(NULL),
       m_rct2(NULL),
       m_pdt1(NULL),
-      m_SavedZPE1(0.0), 
+      m_SavedZPE1(0.0),
       m_SavedZPE2(0.0),
       m_sourceMap(NULL),
       m_deficientReactantLocation(isReactant),
-      m_GrainKbmc() {} ;
+      m_GrainKbmc() {};
 
     // Destructor.
-    virtual ~AssociationReaction(){}
+    virtual ~AssociationReaction() {}
 
     virtual void Finish()
     {
@@ -53,68 +53,68 @@ namespace mesmer
       // in case there are extra tasks like Thermodynamic Table
       m_rct1->getDOS().set_zpe(m_SavedZPE1);
       m_rct2->getDOS().set_zpe(m_SavedZPE2);
-   }
+    }
 
     virtual void updateSourceMap(molMapType& sourcemap) {
-      if (m_rct1 && sourcemap.find(m_rct1) == sourcemap.end()){ // Reaction includes a new pseudoisomer.
-        sourcemap[m_rct1] = 0 ;
+      if (m_rct1 && sourcemap.find(m_rct1) == sourcemap.end()) { // Reaction includes a new pseudoisomer.
+        sourcemap[m_rct1] = 0;
       }
-      m_sourceMap = &sourcemap ; 
-    } ;
+      m_sourceMap = &sourcemap;
+    };
 
     // Get unimolecular species information:
-    virtual int get_unimolecularspecies(std::vector<Molecule *> &unimolecularspecies) const
+    virtual int get_unimolecularspecies(std::vector<Molecule*>& unimolecularspecies) const
     {
-      unimolecularspecies.push_back(m_pdt1) ;
-      return unimolecularspecies.size() ;
-    } ;
+      unimolecularspecies.push_back(m_pdt1);
+      return unimolecularspecies.size();
+    };
 
     // Get product information:
-    virtual int get_products(std::vector<Molecule *> &unimolecularspecies) const
+    virtual int get_products(std::vector<Molecule*>& unimolecularspecies) const
     {
-      unimolecularspecies.push_back(m_pdt1) ;
+      unimolecularspecies.push_back(m_pdt1);
       return 1;
-    } ;
+    };
 
-    virtual int get_reactants(std::vector<Molecule *> &reactants) const
+    virtual int get_reactants(std::vector<Molecule*>& reactants) const
     {
       reactants.push_back(m_rct1);
       reactants.push_back(m_rct2);
       return 2;
-    } ;
+    };
 
     // Initialize reaction.
-    virtual bool InitializeReaction(PersistPtr ppReac) ;
+    virtual bool InitializeReaction(PersistPtr ppReac);
 
     // Get the principal source reactant (i.e. reactant not in excess).
-    virtual Molecule *get_pseudoIsomer(void) const {return m_rct1 ; } ;
-    virtual Molecule *get_reactant(void) const {return m_rct1;};
-    virtual Molecule *get_excessReactant(void) const {return m_rct2 ; } ;
+    virtual Molecule* get_pseudoIsomer(void) const { return m_rct1; };
+    virtual Molecule* get_reactant(void) const { return m_rct1; };
+    virtual Molecule* get_excessReactant(void) const { return m_rct2; };
 
     // return relative reactant, product and transition state zero-point energy
     virtual double get_relative_rctZPE() const { return m_rct1->getDOS().get_zpe() + m_rct2->getDOS().get_zpe() - getEnv().EMin; }
     virtual double get_relative_pdtZPE() const { return m_pdt1->getDOS().get_zpe() - getEnv().EMin; }
     virtual double get_relative_TSZPE(void) const { return m_TransitionState->getDOS().get_zpe() - getEnv().EMin; };
 
-	// Reset zero point energy locations of the reactants such that
-	// location of the pair is entirely on the pseudoisomer.
-	virtual double resetZPEofReactants() ;
+    // Reset zero point energy locations of the reactants such that
+    // location of the pair is entirely on the pseudoisomer.
+    virtual double resetZPEofReactants();
 
     // Calculate high pressure rate coefficients at current T.
-    virtual void HighPresRateCoeffs(vector<double> *pCoeffs) ;
+    virtual void HighPresRateCoeffs(vector<double>* pCoeffs);
 
-	// Calculate reaction equilibrium constant.
-    virtual double calcEquilibriumConstant() ;
+    // Calculate reaction equilibrium constant.
+    virtual double calcEquilibriumConstant();
 
     // Is reaction equilibrating and therefore contributes
     // to the calculation of equilibrium fractions.
-    virtual bool isEquilibratingReaction(double &Keq, Molecule **rct, Molecule **pdt) ;
+    virtual bool isEquilibratingReaction(double& Keq, Molecule** rct, Molecule** pdt);
 
     // returns the reaction type
-    virtual ReactionType getReactionType(){return ASSOCIATION;};
+    virtual ReactionType getReactionType() { return ASSOCIATION; };
 
     // Get reactants cell density of states.
-    void getRctsCellDensityOfStates(std::vector<double> &cellDOS) ;
+    void getRctsCellDensityOfStates(std::vector<double>& cellDOS);
 
     // Get reactants grain ZPE
     virtual const int get_rctsGrnZPE(void);
@@ -125,46 +125,49 @@ namespace mesmer
 
     // Get cell offset for the reactants.
     virtual size_t get_cellOffset(void) {
-      double modulus = fmod(m_rct1->getDOS().get_zpe() + m_rct2->getDOS().get_zpe() - getEnv().EMin, double(getEnv().GrainSize))/getEnv().CellSize ;
-      return size_t(modulus) ;
-    } ;
+      double modulus = fmod(m_rct1->getDOS().get_zpe() + m_rct2->getDOS().get_zpe() - getEnv().EMin, double(getEnv().GrainSize)) / getEnv().CellSize;
+      return size_t(modulus);
+    };
 
     bool calcRctsGrainDensityOfStates(std::vector<double>& grainDOS, std::vector<double>& grainEne);
 
     // Add reaction terms to the reaction matrix.
-    virtual void AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega) ;
+    virtual void AddReactionTerms(qdMatrix* CollOptr, molMapType& isomermap, const double rMeanOmega);
 
     // Add contracted basis set reaction terms to the reaction matrix.
-    virtual void AddContractedBasisReactionTerms(qdMatrix *CollOptr, molMapType &isomermap) ;
+    virtual void AddContractedBasisReactionTerms(qdMatrix* CollOptr, molMapType& isomermap);
 
-	// The following method takes an effective unimolecular rate 
-	// coefficient and normalizes it by concentration to obtain
-	// a second order rate coefficient.
-	virtual double normalizeRateCoefficient(const double rateCoefficient) const {return rateCoefficient/m_ERConc ; }  ;
+    // The following method takes an effective unimolecular rate 
+    // coefficient and normalizes it by concentration to obtain
+    // a second order rate coefficient.
+    virtual double normalizeRateCoefficient(const double rateCoefficient, std::string ref = "") const { 
+      // Check the sense of the rate coefficient by checking for the principal reactant.
+      return (ref == m_rct1->getName()) ? rateCoefficient / m_ERConc : rateCoefficient; 
+    };
 
   protected:
 
     // Reaction composition:
 
-    Molecule *m_rct1 ;   // Reactant Molecule.
-    Molecule *m_rct2 ;   // Subsidiary reactant molecule.
-    Molecule *m_pdt1 ;   // Product Molecule.
+    Molecule* m_rct1;   // Reactant Molecule.
+    Molecule* m_rct2;   // Subsidiary reactant molecule.
+    Molecule* m_pdt1;   // Product Molecule.
     double m_SavedZPE1, m_SavedZPE2; //ZPE of reactants before pseudo isomers
-    molMapType *m_sourceMap ;
+    molMapType* m_sourceMap;
 
     // Calculate rovibronic canonical partition function in the grain level for reactants.
     double rctsRovibronicGrnCanPrtnFn();
 
-private:
+  private:
 
     // Grain averaged microcanonical rate coefficients.
     virtual void calcGrainRateCoeffs();
 
     bool m_deficientReactantLocation; // true if 1st rct in XML file is deficient false if 2nd reactant is deficient
 
-    std::vector<double>  m_GrainKbmc ; // Grained averaged backward microcanonical rates.
+    std::vector<double>  m_GrainKbmc; // Grained averaged backward microcanonical rates.
 
-  } ;
+  };
 
 
 }//namespace

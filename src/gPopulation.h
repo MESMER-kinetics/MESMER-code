@@ -35,10 +35,7 @@ namespace mesmer
     };
 
     void getInitGrainPopulation(map<int,double>& inputMap) { 
-      map<int,double>::iterator it;
-      for(it=grainPopulations.begin(); it!=grainPopulations.end(); ++it){
-        inputMap[it->first]=it->second;
-      }
+      inputMap = grainPopulations;
     };
 
     //  note: any given molecule should have EITHER a total population OR a grain population, BUT NOT BOTH

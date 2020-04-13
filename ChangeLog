@@ -1,3 +1,13 @@
+2020-April-13 Struan Robertson
+
+		* Reaction.h, AssociationReaction.cpp, SecondOrderAssocReaction.cpp, ExchangeReaction.cpp,
+		AnalyticalRepresentation.cpp: Update of methods for normalizing pseudo first order reactions
+		to second order reactions.
+
+		* CollisionOperator.cpp: Check that initial distribution is properly normalized.
+
+		* Baseline update.
+
 2020-April-04 Struan Robertson
 
 		* EckartCoefficients.cpp: Revised code to reflect change in Schema.

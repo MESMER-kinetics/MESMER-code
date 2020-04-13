@@ -634,7 +634,7 @@ namespace mesmer
     // Counters to keep track of how many elements are in m_SpeciesSequence and reactions examined.
     size_t reactionCount(0), counter(0);
 
-    // The followong vector keeps track of how isomers/pseudoisomers are connected.  The
+    // The following vector keeps track of how isomers/pseudoisomers are connected.  The
     // ordering of the vector is the same as m_SpeciesSequence and each set contains the
     // isomers a give isomer is connected to, either directly or indirectly. This object
     // is used to determine if a reaction is redundant or not.
@@ -1390,7 +1390,7 @@ namespace mesmer
     for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos) {
       Molecule* isomer = ipos->first;                        // get initial population of each isomer
       double initFrac = isomer->getPop().getInitPopulation();
-      if (initFrac != 0.0) {                                           // if isomer initial populations are nonzero
+      if (initFrac > 0.0) {                                           // if isomer initial populations are nonzero
         initFrac /= populationSum;                                    // normalize initial pop fraction
         int rxnMatrixLoc = ipos->second;
         const size_t colloptrsize = isomer->getColl().get_colloptrsize();
@@ -1454,6 +1454,21 @@ namespace mesmer
         double initFrac = source->getPop().getInitPopulation() / populationSum;
         n_0[rxnMatrixLoc] = initFrac;
       }
+    }
+
+    // Final normalization.
+    qd_real sum(0.0);
+    for (size_t i(0); i < n_0.size(); i++ ) {
+      sum += n_0[i];
+    }
+
+    if (sum > 0.0) {
+      for (size_t i(0); i < n_0.size(); i++) {
+        n_0[i] /= sum ;
+      }
+    }
+    else {
+      throw(std::runtime_error("Initial distribution not defined."));
     }
 
     return true;
@@ -1841,7 +1856,7 @@ namespace mesmer
           }
 
           puNumbers << Kr[pdtpos][rctpos] << "\t";
-          if (m_punchSymbolGathered == false) {
+          if (!m_punchSymbolGathered) {
             puSymbols << rctName << " -> " << pdtName << "\t";
           }
         }
@@ -1890,7 +1905,7 @@ namespace mesmer
               analysisData->m_firstOrderReactionType.push_back("irreversible");
               puNumbers << Kp[sinkpos][rctpos] << "\t";
             }
-            if (m_punchSymbolGathered == false) {
+            if (!m_punchSymbolGathered) {
               puSymbols << rctName << " -> " << pdtsName << "\t";
             }
           }

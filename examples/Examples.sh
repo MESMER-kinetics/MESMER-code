@@ -248,7 +248,8 @@ $cmdline -N $testName.xml
 cp ./$testName.test ./$bline$testName.test
 if [ "$1" == "-o" ] ; then
   cp ./$testName.log ./$bline$testName.log
-ficd ..
+fi
+cd ..
 
 cd "C4H9O2_NO2_to_C4H9O2NO2"
 testName=C4H9O2_NO2_association
