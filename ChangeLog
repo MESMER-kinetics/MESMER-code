@@ -1,3 +1,9 @@
+2020-April-19 Struan Robertson
+
+		* ThermodynamicTable.cpp: Add check for undeclared transition states.
+
+		* PriorDistribtuion.cpp: Improved output for od prior distribution to .test file.
+
 2020-April-13 Struan Robertson
 
 		* Reaction.h, AssociationReaction.cpp, SecondOrderAssocReaction.cpp, ExchangeReaction.cpp,

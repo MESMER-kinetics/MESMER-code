@@ -105,9 +105,10 @@ namespace mesmer
     // The (classical) translational density of states. Prefactors are not included 
     // because they cancel on normalization.
 
-    vector<double> Trans_DOS ;
-    getCellEnergies(XsEne, m_host->getEnv().CellSize, Trans_DOS) ;
-    for (int i(0) ; i < XsEne ; i++) {
+    vector<double> ene, Trans_DOS ;
+    getCellEnergies(XsEne, m_host->getEnv().CellSize, ene) ;
+    Trans_DOS = ene;
+    for (size_t i(0) ; i < Trans_DOS.size() ; i++) {
       Trans_DOS[i] = sqrt(Trans_DOS[i]) ;
     }
 
@@ -131,13 +132,13 @@ namespace mesmer
       vector<double> TransCellDist(XsEne, 0.0) ;
       GetNormalisedDist(Trans_DOS, DOS2, DOS1, TransCellDist);
 
-      ctest << "\nInitial distribution vector" << endl ;
-      ctest << "\nReactant\tCoProduct\tTranslational" << endl ;
+      ctest << endl << "Initial distribution vector" << endl ;
+      ctest << endl << setw(16) << "Energy/cm-1," << setw(17) << "Reactant," << setw(17) << "CoProduct," << setw(16) << "Translational" << endl ;
       for (int i=0; i < XsEne; i++){
-        formatFloat(ctest, ReactCellDist[i],    6, 15) ;
-        formatFloat(ctest,  CoReactCellDist[i], 6, 15) ;
-        formatFloat(ctest, TransCellDist[i],    6, 15) ;
-        ctest << endl ;
+        ctest << formatFloat(ene[i],            6, 15) << ", ";
+        ctest << formatFloat(ReactCellDist[i],  6, 15) << ", ";
+        ctest << formatFloat(CoReactCellDist[i],6, 15) << ", ";
+        ctest << formatFloat(TransCellDist[i],  6, 15) << endl ;
       }
     }
 

@@ -49,10 +49,6 @@ namespace mesmer
 
     virtual bool ParseData(PersistPtr pp);
 
-    //string underlineText(const string& text) const;
-    //string writeTableHeader(const string& unit) const;
-    //void writeTableEntry(Molecule *pmol, double temp, double unitFctr, string & header) const;
-
     const char* m_id;
 
     int m_nTemp;
@@ -95,11 +91,24 @@ namespace mesmer
         // Get the name of the molecule.
         const char* reftxt = ppmol->XmlReadValue("id");
         if (reftxt) {
+          string molname(reftxt);
           // Check to see if species is a transition state. If not
           // use molType="forThermo" to activate DOS properties.
           const char* tstxt = ppmol->XmlReadValue("role", optional);
           string role = (tstxt && string(tstxt) == "transitionState") ? string(tstxt) : string("forThermo") ;
-          pMoleculeManager->addmol(string(reftxt), role , pSys->getEnv(), pSys->m_Flags);
+          try {
+            pMoleculeManager->addmol(molname, role, pSys->getEnv(), pSys->m_Flags);
+          }
+          catch (std::runtime_error &e) {
+            cerr << e.what() << endl;
+            cerr << "Will attempt to treat " << molname << " as undeclared transition state." << endl;
+            try {
+              pMoleculeManager->addmol(molname, string("transitionState"), pSys->getEnv(), pSys->m_Flags);
+            }
+            catch (...) {
+              cerr << "Definition of " << molname << " required review."<< endl;
+            }
+          }
         }
       }
 
