@@ -77,8 +77,8 @@ esac
 
 pwd
 $executable -V
-mpicommand="mpirun -n 2 $executable" 
-cmdline=$executable
+mpicommand="mpirun -n 12 $executable" 
+cmdline=$mpicommand
 
 cd pentyl
 $cmdline pentyl_isomerization_test.xml -o $outf $directive
