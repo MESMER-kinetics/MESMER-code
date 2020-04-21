@@ -460,10 +460,14 @@ examples/ErrorPropagation/baselines/Win32/ipropyl_EP.test -text
 examples/ErrorPropagation/ipropyl_EP.xml -text
 examples/Ethyl_H_to_Ethane/Ethyl_H_to_Ethane.xml -text
 examples/Ethyl_H_to_Ethane/Ethyl_H_to_Ethane_inversion.xml -text
+examples/Ethyl_H_to_Ethane/baselines/Linux64/Ethyl_H_to_Ethane.log -text
+examples/Ethyl_H_to_Ethane/baselines/Linux64/Ethyl_H_to_Ethane.test -text
 examples/Ethyl_H_to_Ethane/baselines/Linux64/Ethyl_H_to_Ethane_inversion.log -text
 examples/Ethyl_H_to_Ethane/baselines/Linux64/Ethyl_H_to_Ethane_inversion.test -text
 examples/Ethyl_H_to_Ethane/baselines/Linux64/mesmer.log -text
 examples/Ethyl_H_to_Ethane/baselines/Linux64/mesmer.test -text
+examples/Ethyl_H_to_Ethane/baselines/Win32/Ethyl_H_to_Ethane.log -text
+examples/Ethyl_H_to_Ethane/baselines/Win32/Ethyl_H_to_Ethane.test -text
 examples/Ethyl_H_to_Ethane/baselines/Win32/Ethyl_H_to_Ethane_inversion.log -text
 examples/Ethyl_H_to_Ethane/baselines/Win32/Ethyl_H_to_Ethane_inversion.test -text
 examples/Ethyl_H_to_Ethane/baselines/Win32/mesmer.log -text
@@ -547,8 +551,12 @@ examples/Tunnelling/baselines/Win32/H+H2,T+T2.log -text
 examples/Tunnelling/baselines/Win32/H+H2,T+T2.test -text
 examples/cis_to_trans_But-2-ene/baselines/Linux64/cis_to_trans_But-2-ene.log -text
 examples/cis_to_trans_But-2-ene/baselines/Linux64/cis_to_trans_But-2-ene.test -text
+examples/cis_to_trans_But-2-ene/baselines/Linux64/cis_to_trans_But-2-eneEx.log -text
+examples/cis_to_trans_But-2-ene/baselines/Linux64/cis_to_trans_But-2-eneEx.test -text
 examples/cis_to_trans_But-2-ene/baselines/Win32/cis_to_trans_But-2-ene.log -text
 examples/cis_to_trans_But-2-ene/baselines/Win32/cis_to_trans_But-2-ene.test -text
+examples/cis_to_trans_But-2-ene/baselines/Win32/cis_to_trans_But-2-eneEx.log -text
+examples/cis_to_trans_But-2-ene/baselines/Win32/cis_to_trans_But-2-eneEx.test -text
 examples/cis_to_trans_But-2-ene/cis_to_trans_But-2-ene.xml -text
 examples/cis_to_trans_But-2-ene/cis_to_trans_But-2-eneEx.xml -text
 examples/diamond/baselines/Linux64/diamond-gaussianModel.log -text

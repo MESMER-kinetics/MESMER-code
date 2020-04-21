@@ -1,0 +1,114 @@
+Internal rotor b1 of species Ethane
+          Angle         Potential          Series
+              0,               0,        -2.66382
+       0.174533,         8.42783,         19.6076
+       0.349066,         71.7902,         78.2051
+       0.523599,         150.604,         152.216
+       0.698132,         213.132,         217.046
+       0.872665,         254.657,         253.861
+         1.0472,         252.352,         255.516
+        1.22173,         215.919,         228.146
+        1.39626,         183.174,         189.777
+         1.5708,         160.699,         166.958
+        1.74533,         180.781,         189.021
+        1.91986,         276.253,         279.563
+         2.0944,         432.387,         447.109
+        2.26893,         665.887,         679.373
+        2.44346,         932.614,          945.08
+        2.61799,         1198.38,         1203.23
+        2.79253,         1411.64,         1415.02
+        2.96706,         1546.05,         1552.29
+        3.14159,         1593.54,          1599.6
+        3.31613,         1556.12,         1552.29
+        3.49066,         1426.92,         1415.02
+        3.66519,         1217.34,         1203.23
+        3.83972,         952.652,          945.08
+        4.01426,         682.786,         679.373
+        4.18879,         458.988,         447.109
+        4.36332,         294.535,         279.563
+        4.53786,          199.81,         189.021
+        4.71239,         170.751,         166.958
+        4.88692,         189.429,         189.777
+        5.06145,         238.679,         228.146
+        5.23599,         263.765,         255.516
+        5.41052,         259.134,         253.861
+        5.58505,         217.126,         217.046
+        5.75959,         149.814,         152.216
+        5.93412,         84.4978,         78.2051
+        6.10865,         30.3534,         19.6076
+
+PT Grid 0 Condition: conc = 8.05242e+17, temp = 301, diagonalization precision: double-double
+{
+
+Test rovibronic density of states for: Ethane
+{
+      T           qtot           sumc           sumg
+    200        358.667        357.996        329.883
+    300        996.465        995.217         959.08
+    400        2255.06        2252.91        2205.99
+}
+
+Eq fraction matrix:
+{
+ -1.06681e+67  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -9.37371e-68  9.37371e-68
+  9.37371e-68  1.00000e+00
+}
+Equilibrium Fraction for Ethane = 1
+Equilibrium Fraction for Ethyl = 9.37371e-68
+
+Total number of eigenvalues = 195
+Eigenvalues
+{
+  -2.256224e+07
+  -2.099527e+07
+  -1.792525e+07
+  -7.085908e+06
+   2.955575e-22
+}
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-7.562126e-34	5.718576e-67	
+7.562126e-34	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-1.322379e+33	7.562126e-34	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	9.016581e-131	
+1.512177e-64	1.000000e+00	
+}
+
+Kr matrix:
+{
+-7.085908e+06	4.052130e-60	
+7.085908e+06	-4.052130e-60	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+Ethane loss = -4.052130e-60
+Ethyl loss = -7.085908e+06
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+Ethane -> Ethyl = 4.052130e-60
+Ethyl -> Ethane = 7.085908e+06
+}
+}
