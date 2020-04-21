@@ -1,3 +1,9 @@
+2020-April-21 Struan Robertson
+
+		* Reaction.h, all reaction classes, AnalyticalRepresentation.cpp, System.cpp: Method 
+		"normalizeRateCoefficient" altered to use a reference and made pure virtual to prevent 
+		implementation assumptions. This method remains a null operation for unimolecular reactions.
+
 2020-April-19 Struan Robertson
 
 		* ThermodynamicTable.cpp: Add check for undeclared transition states.

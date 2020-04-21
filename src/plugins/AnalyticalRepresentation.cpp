@@ -379,10 +379,11 @@ namespace mesmer
               m_reactions.push_back(presult.first);
             }
             Reaction *r = presult.second;
-            // Distinguidh between unimolecular and bimolecular reactions.
+            // Distinguish between unimolecular and bimolecular reactions.
             double concExcessReactant = r ? r->get_concExcessReactant() : 0.0;
             string rct = r ? r->get_reactant()->getName() : string("");
-            double rateCoefficient = r ? r->normalizeRateCoefficient(itr->second, rct) : itr->second;
+            double rateCoefficient = itr->second;
+            if (r != NULL) r->normalizeRateCoefficient(rateCoefficient, rct);
             rate.push_back(concExcessReactant > 0 ? rateCoefficient * fctr : rateCoefficient);
           }
           flag = false;
@@ -644,9 +645,11 @@ namespace mesmer
               m_reactions.push_back(presult.first);
             }
             Reaction *r = presult.second;
-            // Distinguidh between unimolecular and bimolecular reactions.
+            // Distinguish between unimolecular and bimolecular reactions.
             double concExcessReactant = r ? r->get_concExcessReactant() : 0.0;
-            double rateCoefficient = r ? r->normalizeRateCoefficient(itr->second) : itr->second;
+            string rct = r ? r->get_reactant()->getName() : string("");
+            double rateCoefficient = itr->second;
+            if (r != NULL) r->normalizeRateCoefficient(rateCoefficient, rct);
             rate.push_back(concExcessReactant > 0 ? rateCoefficient * fctr : rateCoefficient);
           }
           RCGrid.push_back(rate);

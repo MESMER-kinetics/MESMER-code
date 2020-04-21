@@ -23,80 +23,82 @@ namespace mesmer
   public:
 
     // Constructors.
-    IsomerizationReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, MesmerFlags& Flags, const char *id)
+    IsomerizationReaction(MoleculeManager* pMoleculeManager, const MesmerEnv& Env, MesmerFlags& Flags, const char* id)
       : Reaction(pMoleculeManager, Env, Flags, id),
       m_rct1(NULL),
       m_pdt1(NULL),
-      m_GrainKbmc() {} ;
+      m_GrainKbmc() {};
 
     // Destructor.
-    virtual ~IsomerizationReaction() {} ;
+    virtual ~IsomerizationReaction() {};
 
     // Get unimolecular species information:
-    virtual int get_unimolecularspecies(std::vector<Molecule *> &unimolecularspecies) const
+    virtual int get_unimolecularspecies(std::vector<Molecule*>& unimolecularspecies) const
     {
-      unimolecularspecies.push_back(m_rct1) ;
-      unimolecularspecies.push_back(m_pdt1) ;
-      return unimolecularspecies.size() ;
-    } ;
+      unimolecularspecies.push_back(m_rct1);
+      unimolecularspecies.push_back(m_pdt1);
+      return unimolecularspecies.size();
+    };
 
     // Return products
-    virtual int get_products(std::vector<Molecule *> &product) const
+    virtual int get_products(std::vector<Molecule*>& product) const
     {
-      product.push_back(m_pdt1) ;
+      product.push_back(m_pdt1);
       return 1;
-    } ;
+    };
 
-    virtual int get_reactants(std::vector<Molecule *> &reactants) const
+    virtual int get_reactants(std::vector<Molecule*>& reactants) const
     {
       reactants.push_back(m_rct1);
       return 1;
-    } ;
+    };
 
     // Initialize reaction.
-    virtual bool InitializeReaction(PersistPtr ppReac) ;
+    virtual bool InitializeReaction(PersistPtr ppReac);
 
     // return relative reactant, product and transition state zero-point energy
-    virtual double get_relative_rctZPE() const {return m_rct1->getDOS().get_zpe() - getEnv().EMin;}
-    virtual double get_relative_pdtZPE() const {return m_pdt1->getDOS().get_zpe() - getEnv().EMin;}
-    virtual double get_relative_TSZPE(void) const {return m_TransitionState->getDOS().get_zpe() - getEnv().EMin;};
+    virtual double get_relative_rctZPE() const { return m_rct1->getDOS().get_zpe() - getEnv().EMin; }
+    virtual double get_relative_pdtZPE() const { return m_pdt1->getDOS().get_zpe() - getEnv().EMin; }
+    virtual double get_relative_TSZPE(void) const { return m_TransitionState->getDOS().get_zpe() - getEnv().EMin; };
 
     // Is reaction equilibrating and therefore contributes
     // to the calculation of equilibrium fractions.
-    virtual bool isEquilibratingReaction(double &Keq, Molecule **rct, Molecule **pdt) ;
+    virtual bool isEquilibratingReaction(double& Keq, Molecule** rct, Molecule** pdt);
 
     // returns the reaction type
-    virtual ReactionType getReactionType(){return ISOMERIZATION;};
+    virtual ReactionType getReactionType() { return ISOMERIZATION; };
 
     // calculate the effective threshold energy for utilizing in k(E) calculations, necessary for cases
     // with a negative threshold energy
     void calcEffGrnThresholds(void);
 
     // Calculate high pressure rate coefficients at current T.
-    virtual void HighPresRateCoeffs(vector<double> *pCoeffs) ;
+    virtual void HighPresRateCoeffs(vector<double>* pCoeffs);
 
     // Calculate reaction equilibrium constant.
-    virtual double calcEquilibriumConstant() ;
+    virtual double calcEquilibriumConstant();
 
     // get the reactant, which reacts in a first order or pseudo first order process
-    virtual Molecule *get_reactant(void) const {return m_rct1;};
+    virtual Molecule* get_reactant(void) const { return m_rct1; };
 
     // Add reaction terms to the reaction matrix.
-    virtual void AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega) ;
+    virtual void AddReactionTerms(qdMatrix* CollOptr, molMapType& isomermap, const double rMeanOmega);
 
     // Add contracted basis set reaction terms to the reaction matrix.
-	virtual void AddContractedBasisReactionTerms(qdMatrix *CollOptr, molMapType &isomermap) ;
+    virtual void AddContractedBasisReactionTerms(qdMatrix* CollOptr, molMapType& isomermap);
+
+    virtual void normalizeRateCoefficient(double& rateCoefficient, std::string ref = "") const {};
 
   private:
 
     // Grain averaged microcanonical rate coefficients.
     virtual void calcGrainRateCoeffs();
 
-    Molecule   *m_rct1 ;                 // Reactant Molecule.
-    Molecule   *m_pdt1 ;                 // Product Molecule.
+    Molecule* m_rct1;                 // Reactant Molecule.
+    Molecule* m_pdt1;                 // Product Molecule.
 
-    std::vector<double>  m_GrainKbmc ;   // Grained averaged backward microcanonical rates.
-  } ;
+    std::vector<double>  m_GrainKbmc;   // Grained averaged backward microcanonical rates.
+  };
 
 }//namespace
 #endif // GUARD_IsomerizationReaction_h

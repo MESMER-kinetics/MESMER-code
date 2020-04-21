@@ -761,7 +761,7 @@ namespace mesmer
 
       Reaction *reaction = m_pReactionManager->find(refReaction);
       if (reaction)
-        rateCoeff = reaction->normalizeRateCoefficient(rateCoeff, ref1);
+        reaction->normalizeRateCoefficient(rateCoeff, ref1);
 
       double diff = (m_Flags.bIndependentErrors) ? (expRate - rateCoeff) / expErr : (expRate - rateCoeff);
       residuals[calPoint] += diff;

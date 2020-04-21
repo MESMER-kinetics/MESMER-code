@@ -189,12 +189,12 @@ namespace mesmer
     void   set_concExcessReactant(double conc) { m_ERConc = conc; }
     Molecule* getExcessReactant() { return m_ExcessReactant; }
 
-    // The following method takes an effective unimolecular rate 
-    // coefficient and if required, normalizes it by, a concentration 
-    // and/or any other factors in order to obtain a second order rate
-    // coefficient. For a unimolecular reaction this function does nothing. 
-    // This function is used in the calculation of Chi^2 values.
-    virtual double normalizeRateCoefficient(const double rateCoefficient, std::string ref = "") const { return rateCoefficient; };
+    // The following method takes an effective unimolecular rate coefficient 
+    // and if required, normalizes it by, a concentration and/or any other 
+    // factors in order to obtain a second order rate coefficient. For a
+    // unimolecular reaction this function does nothing. This function is 
+    // used in the calculation of Chi^2 values and analytical representation.
+    virtual void normalizeRateCoefficient(double &rateCoefficient, std::string ref = "") const = 0 ;
 
     void setUsesProductProperties(bool b = true);
     bool UsesProductProperties() const { return m_UsesProductProperties; }

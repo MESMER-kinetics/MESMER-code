@@ -71,9 +71,10 @@ namespace mesmer
     // The following method takes an effective unimolecular rate 
     // coefficient and normalizes it by concentration to obtain
     // a second order rate coefficient.
-    virtual double normalizeRateCoefficient(const double rateCoefficient, std::string ref = "") const {
+    virtual void normalizeRateCoefficient(double &rateCoefficient, std::string ref = "") const {
       // Check the sense of the rate coefficient by checking for the principal reactant.
-      return (ref == m_rct1->getName()) ? rateCoefficient / (4.0 * m_ERConc) : rateCoefficient;
+      if (ref == m_rct1->getName()) 
+        rateCoefficient /= (4.0 * m_ERConc) ;
     };
 
   };

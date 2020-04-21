@@ -112,6 +112,10 @@ namespace mesmer
     // Add contracted basis set reaction terms to the reaction matrix.
     virtual void AddContractedBasisReactionTerms(qdMatrix *CollOptr, molMapType &isomermap) {};
 
+    virtual void normalizeRateCoefficient(double& rateCoefficient, std::string ref = "") const {
+      rateCoefficient /= m_ERConc;
+    };
+
   private:
 
     // Grain averaged microcanonical rate coefficients.

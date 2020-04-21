@@ -27,14 +27,19 @@ namespace mesmer
       m_id(id),
       m_nTemp(20),
       m_TempInterval(50.0),
+      m_Tmin(50),
+      m_Tmax(3000),
+      m_Tmid(1000),
       m_Unit("kJ/mol"),
-      m_makeNasaPoly(true)
+      m_unitFctr(1.0),
+      m_makeNasaPoly(true),
+      m_outputCellVersion(false)
     {
       Register();
     }
 
     virtual ~ThermodynamicTable() {}
-    virtual const char* getID()  { return m_id; }
+    virtual const char* getID() { return m_id; }
     virtual ThermodynamicTable* Clone() { return new ThermodynamicTable(*this); }
 
     //Does not do own parsing (returns false with default call),
@@ -57,7 +62,7 @@ namespace mesmer
     double m_unitFctr;
     bool m_makeNasaPoly;
     bool m_outputCellVersion;
-  } ;
+  };
 
   ////////////////////////////////////////////////
   //Global instance
@@ -95,18 +100,18 @@ namespace mesmer
           // Check to see if species is a transition state. If not
           // use molType="forThermo" to activate DOS properties.
           const char* tstxt = ppmol->XmlReadValue("role", optional);
-          string role = (tstxt && string(tstxt) == "transitionState") ? string(tstxt) : string("forThermo") ;
+          string role = (tstxt && string(tstxt) == "transitionState") ? string(tstxt) : string("forThermo");
           try {
             pMoleculeManager->addmol(molname, role, pSys->getEnv(), pSys->m_Flags);
           }
-          catch (std::runtime_error &e) {
+          catch (std::runtime_error & e) {
             cerr << e.what() << endl;
             cerr << "Will attempt to treat " << molname << " as undeclared transition state." << endl;
             try {
               pMoleculeManager->addmol(molname, string("transitionState"), pSys->getEnv(), pSys->m_Flags);
             }
             catch (...) {
-              cerr << "Definition of " << molname << " required review."<< endl;
+              cerr << "Definition of " << molname << " required review." << endl;
             }
           }
         }
@@ -116,7 +121,7 @@ namespace mesmer
       PersistPtr ppControl = pSys->getPersistPtr()->XmlMoveTo("me:control");
       pSys->m_Flags.testDOSEnabled = ppControl->XmlReadBoolean("me:testDOS");
       if (pSys->m_Flags.testDOSEnabled)
-        pSys->getEnv().beta = 1.0 / (boltzmann_RCpK*double(m_nTemp)*m_TempInterval);
+        pSys->getEnv().beta = 1.0 / (boltzmann_RCpK * double(m_nTemp) * m_TempInterval);
     }
     if (MolecularComponent::getEnergyConvention() == "arbitrary")
       m_makeNasaPoly = false;
@@ -156,9 +161,9 @@ namespace mesmer
       pp->XmlWriteAttribute("default", "true");
 
       //Get the grain parameters from defaults.xml (The reads will always fail.)
-      Env.GrainSize  = ppParams->XmlReadInteger("me:grainSize");
+      Env.GrainSize = ppParams->XmlReadInteger("me:grainSize");
       //Env.EAboveHill = ppModelParams->XmlReadDouble("me:energyAboveTheTopHill");
- 
+
       return true;
     }
     return q != ALL;
@@ -177,9 +182,9 @@ namespace mesmer
     // have been requested in both the upper and lower polynomials 
     // or, if Tmid=0, the single polynomial.
 
-    int nTemps = static_cast<int>(std::floor((m_Tmax - m_Tmin) / m_TempInterval))+1;
-    int nTempsLower = static_cast<int>(std::floor((m_Tmid - m_Tmin) / m_TempInterval)+1);
-    bool enoughPoints = (!m_Tmid && (nTemps > 6)) || (m_Tmid && (nTempsLower > 6) && ((nTemps-nTempsLower)>=6));
+    int nTemps = static_cast<int>(std::floor((m_Tmax - m_Tmin) / m_TempInterval)) + 1;
+    int nTempsLower = static_cast<int>(std::floor((m_Tmid - m_Tmin) / m_TempInterval) + 1);
+    bool enoughPoints = (!m_Tmid && (nTemps > 6)) || (m_Tmid && (nTempsLower > 6) && ((nTemps - nTempsLower) >= 6));
     if (!enoughPoints)
     {
       cinfo << "Too few data points to fit NASA polynomials." << endl;
@@ -194,7 +199,7 @@ namespace mesmer
     for (; molItr != molItrEnd; molItr++)
     {
       vector<double> temperature, Hf /* enthalpy of formation / R */;
-      Molecule *pmol = molItr->second;
+      Molecule* pmol = molItr->second;
 
       // Restrict output for molecules without a specified energy.
       double Hf298local = NaN;
@@ -217,11 +222,11 @@ namespace mesmer
         pp->XmlWriteAttribute("unitsHf", m_Unit);
 
       double S298; // Always calculated. NOTE kJ/mol/K.
-      double enthalpy298 ;
+      double enthalpy298;
       thermoDynFns thermos;
       pmol->getDOS().thermodynamicsFunctions(298.15, m_unitFctr, thermos);
-      enthalpy298 = thermos.enthalpy ;
-      S298        = thermos.entropy ;
+      enthalpy298 = thermos.enthalpy;
+      S298 = thermos.entropy;
       tempLessThan298 = true;
       for (double temp = m_Tmin; temp <= m_Tmax; temp += m_TempInterval)
       {
@@ -238,22 +243,22 @@ namespace mesmer
         pmol->getDOS().thermodynamicsFunctions(T, m_unitFctr, thermos);
 
         PersistPtr ppVal = pp->XmlWriteElement("me:thermoValue");
-        ppVal->XmlWriteAttribute("T",  T, 2, true);
-        ppVal->XmlWriteAttribute("H",  thermos.enthalpy, 4, true);
-        ppVal->XmlWriteAttribute("S",  thermos.entropy*1000, 4, true);
-        ppVal->XmlWriteAttribute("G",  thermos.gibbsFreeEnergy, 4, true);
-        ppVal->XmlWriteAttribute("Cp", thermos.heatCapacity*1000, 4, true);
+        ppVal->XmlWriteAttribute("T", T, 2, true);
+        ppVal->XmlWriteAttribute("H", thermos.enthalpy, 4, true);
+        ppVal->XmlWriteAttribute("S", thermos.entropy * 1000, 4, true);
+        ppVal->XmlWriteAttribute("G", thermos.gibbsFreeEnergy, 4, true);
+        ppVal->XmlWriteAttribute("Cp", thermos.heatCapacity * 1000, 4, true);
         if (m_outputCellVersion)
         {
-          ppVal->XmlWriteAttribute("cellS",  thermos.cellEntropy*1000, 4, true);
-          ppVal->XmlWriteAttribute("cellH",  thermos.cellEnthalpy, 4, true);
-          ppVal->XmlWriteAttribute("cellG",  thermos.cellGibbsFreeEnergy, 4, true);
-          ppVal->XmlWriteAttribute("cellCp", thermos.cellHeatCapacity*1000, 4, true);
+          ppVal->XmlWriteAttribute("cellS", thermos.cellEntropy * 1000, 4, true);
+          ppVal->XmlWriteAttribute("cellH", thermos.cellEnthalpy, 4, true);
+          ppVal->XmlWriteAttribute("cellG", thermos.cellGibbsFreeEnergy, 4, true);
+          ppVal->XmlWriteAttribute("cellCp", thermos.cellHeatCapacity * 1000, 4, true);
         }
         if (!IsNan(Hf298local))
         {
           Hf.push_back((thermos.enthalpy - enthalpy298 + Hf298local) * 1000 / R); //e.g. J/mol
-          ppVal->XmlWriteAttribute("Hf", Hf.back()*R / 1000, 4, true); //back to kJ/mol
+          ppVal->XmlWriteAttribute("Hf", Hf.back() * R / 1000, 4, true); //back to kJ/mol
         }
       }
 
@@ -279,7 +284,7 @@ namespace mesmer
           }
           int nlowerrange = itermid - temperature.begin();
           fits1 = FitPoly(6, itermid, temperature.end(), Hf.begin() + nlowerrange); //upper range
-          fits2 = FitPoly(6, temperature.begin(), itermid+1, Hf.begin()); //lower range
+          fits2 = FitPoly(6, temperature.begin(), itermid + 1, Hf.begin()); //lower range
           fits1[2] *= 2; fits1[3] *= 3; fits1[4] *= 4; fits1[5] *= 5;
           fits2[2] *= 2; fits2[3] *= 3; fits2[4] *= 4; fits2[5] *= 5;
         }
@@ -289,20 +294,20 @@ namespace mesmer
 
         coeffs[5] = fits1[0];
         coeffs[12] = fits2[0];
-        coeffs[14] = Hf298local/R;
+        coeffs[14] = Hf298local / R;
 
         //Set a14 to match S at 298.15K
         coeffs[13] = 0.0;
-        coeffs[13] = S298*1000/R - SdivR(coeffs.begin()+7, 298.15);
+        coeffs[13] = S298 * 1000 / R - SdivR(coeffs.begin() + 7, 298.15);
 
         //Set a7 to match a) S at 298K for one range; b) S at Tmid for two range;
-        if(m_Tmid==0)
+        if (m_Tmid == 0)
           coeffs[6] = coeffs[13];
         else
         {
           pmol->getDOS().thermodynamicsFunctions(m_Tmid, m_unitFctr, thermos);
           coeffs[6] = 0.0;
-          coeffs[6] = thermos.entropy*1000/R - SdivR(coeffs.begin(), m_Tmid);
+          coeffs[6] = thermos.entropy * 1000 / R - SdivR(coeffs.begin(), m_Tmid);
         }
 
         // Output to XML using a CML property for Nasa Polynomials
