@@ -111,20 +111,47 @@ namespace mesmer
 
     m_fragDist->ReadParameters(ppDstbn, this->getName());
 
-    // Read heat of reaction and rate parameters.
-    if (!ReadRateCoeffParameters(ppReac))
-      return false;
+    //// Read heat of reaction and rate parameters.
+    //if (!ReadRateCoeffParameters(ppReac))
+    //  return false;
+
+    // Read the transition state, which must be present, for this type of reaction.
+    // Note no microcanonical rate method is read in for this reaction type as it is
+    // not relevant for this bimolecualr reaction.
+    PersistPtr ppTransitionState = ppReac->XmlMoveTo("me:transitionState");
+    if (!ppTransitionState)
+      ppTransitionState = ppReac->XmlMoveTo("transitionState");
+    if (ppTransitionState)
+    {
+      Molecule* pTrans = GetMolRef(ppTransitionState, "transitionState");
+      if (pTrans) {
+        m_TransitionState = pTrans;
+        m_TransitionState->activateRole(string("transitionState"));
+      }
+    }
 
     // Check the transistion state is defined. 
     if (!m_TransitionState) {
       throw(std::runtime_error(string("The irreversible exchange reaction " + getName() + " is defined without a transition state.\n")));
     }
 
+    // Determine the method of estimating tunneling coefficients. Note data may be in TS.
+    m_pTunnelingCalculator = ParseForPlugin<TunnelingCalculator>(this, "me:tunneling", ppReac, optional);
+    if (!m_pTunnelingCalculator)
+      cinfo << "No tunneling method used for " << getName() << endl;
+
+    if (m_ERConc == 0.0 || IsNan(m_ERConc))
+    {
+      // If not already read in the MicroRateCalculator
+      cinfo << "Not a unimolecular reaction: look for excess reactant concentration." << endl;
+      if (!ReadExcessReactantConcentration(ppReac)) return false;
+    }
+
     // Read excess product concentration.
     const char* pEPConctxt = ppReac->XmlReadValue("me:excessProductConc", optional);
     if (!pEPConctxt) {
       cinfo << "No excess product concentration specified for reaction " << getName() << "." << endl
-         << "Assume excess product concentration the same as excess reactant concentration." << endl;
+        << "Assume excess product concentration the same as excess reactant concentration." << endl;
       m_EPConc = m_ERConc;
     }
     else {
@@ -196,7 +223,7 @@ namespace mesmer
     const size_t rctLocation = (*m_sourceMap)[m_rct1];
     const size_t pdtLocation = isomermap[m_pdt1];
 
-    // Get densities of states for detailed balance.
+    // Get densities of states of the main product (modelled) molecule for detailed balance.
     vector<double> pdtEne;
     vector<double> pdtBltz;
     m_pdt1->getDOS().getGrainEnergies(pdtEne);
@@ -223,7 +250,33 @@ namespace mesmer
     calcEffGrnThresholds();
     size_t nRvrThresh = get_EffGrnRvsThreshold();
 
-    // 2. Form the weighted sum of distributions.
+    // 2. Calculate a tunnelling correction factor, if required. See Sabbatical report for details.
+
+    double tunnellingCorrection(1.0);
+    if (thereIsTunnelling()) {
+      vector<double> TunnelingProbability;
+      calculateCellTunnelingCoeffs(TunnelingProbability);
+
+      vector<double> cellEne;
+      getCellEnergies(TunnelingProbability.size(), getEnv().CellSize, cellEne);
+
+      const double beta = getEnv().beta;
+      tunnellingCorrection = 0.0;
+      for (size_t i(0); i < TunnelingProbability.size(); i++) {
+        tunnellingCorrection += TunnelingProbability[i] * exp(-beta * cellEne[i]);
+      }
+
+      double HeatOfReaction = getHeatOfReaction();
+
+      double V0 = (getHeatOfReaction() > 0.0) ? get_relative_TSZPE() - get_relative_pdtZPE() : get_relative_TSZPE() - get_relative_rctZPE();
+      tunnellingCorrection *= beta * exp(beta * V0);
+
+      // Update the reverse threshold to account for tunnelling.
+
+      nRvrThresh = (HeatOfReaction > 0.0) ? 0 : size_t(fabs(HeatOfReaction / getEnv().GrainSize));
+    }
+
+    // 3. Form the weighted sum of distributions.
     m_fragDist->initialize(this);
     vector<double> totalFragDist(TStPopFrac.size(), 0.0);
     for (size_t i(nRvrThresh), idx(0); i < TStPopFrac.size(); ++i, ++idx) {
@@ -237,11 +290,11 @@ namespace mesmer
       }
     }
 
-    // Account for the reservoir if there is one.
+    // 4. Account for the reservoir if there is one.
     if (pShiftedGrains > 0) {
       double sum(0.0);
       for (size_t j(0); j <= pShiftedGrains; ++j) {
-        sum += totalFragDist[j] ;
+        sum += totalFragDist[j];
       }
       vector<double> tmp(pColloptrsize, 0.0);
       tmp[0] = sum;
@@ -251,7 +304,7 @@ namespace mesmer
       totalFragDist = tmp;
     }
 
-    // 3. Re-normalize the fragmentation distribution.
+    // 5. Re-normalize the fragmentation distribution.
     normalizeDist(totalFragDist);
 
     // Get equilibrium constant.
@@ -264,7 +317,7 @@ namespace mesmer
     HighPresRateCoeffs(NULL);
     getFlags().testRateConstantEnabled = writeStatus;
 
-    qd_real AssocRateCoeff(m_MtxGrnKf[0]), qdMeanOmega(rMeanOmega);
+    qd_real AssocRateCoeff(tunnellingCorrection * m_MtxGrnKf[0]), qdMeanOmega(rMeanOmega);
 
     qd_real diag(qdMeanOmega * AssocRateCoeff / Keq);
     qd_real offDiag(qdMeanOmega * AssocRateCoeff / sqrt(Keq));
@@ -292,40 +345,32 @@ namespace mesmer
     double k_forward(0.0);
     const double beta = getEnv().beta;
 
-    string mrcID = string(m_pMicroRateCalculator->getID());
 
-    if (mrcID == "CanonicalRateCoefficient") {
-      m_pMicroRateCalculator->calculateMicroCnlFlux(this);
-      k_forward = m_CellFlux[0];
-    }
-    else {
+    // Calculate rate coefficient using standard TST theory.
 
-      // Calculate rate coefficient using standard TST theory.
+    const double rctsEne = m_rct1->getDOS().get_zpe() + m_rct2->getDOS().get_zpe();
+    const double tsEne = m_TransitionState->getDOS().get_zpe();
+    const double Ethresh = tsEne - rctsEne;
 
-      const double rctsEne = m_rct1->getDOS().get_zpe() + m_rct2->getDOS().get_zpe();
-      const double tsEne   = m_TransitionState->getDOS().get_zpe();
-      const double Ethresh = tsEne - rctsEne;
+    vector<double> cellEne, tmpDOS;
+    getCellEnergies(m_rct1->getEnv().MaxCell, m_rct1->getEnv().CellSize, cellEne);
 
-      vector<double> cellEne, tmpDOS;
-      getCellEnergies(m_rct1->getEnv().MaxCell, m_rct1->getEnv().CellSize, cellEne);
+    // Rovibronic partition function for the transition state.
+    m_TransitionState->getDOS().getCellDensityOfStates(tmpDOS);
+    double Qtst = canonicalPartitionFunction(tmpDOS, cellEne, beta);
+    tmpDOS.clear();
 
-      // Rovibronic partition function for the transition state.
-      m_TransitionState->getDOS().getCellDensityOfStates(tmpDOS);
-      double Qtst = canonicalPartitionFunction(tmpDOS, cellEne, beta);
-      tmpDOS.clear();
+    // Rovibronic partition function for reactants.
+    m_rct1->getDOS().getCellDensityOfStates(tmpDOS);
+    double Qrcts = canonicalPartitionFunction(tmpDOS, cellEne, beta);
+    tmpDOS.clear();
+    m_rct2->getDOS().getCellDensityOfStates(tmpDOS);
+    Qrcts *= canonicalPartitionFunction(tmpDOS, cellEne, beta);
 
-      // Rovibronic partition function for reactants.
-      m_rct1->getDOS().getCellDensityOfStates(tmpDOS);
-      double Qrcts = canonicalPartitionFunction(tmpDOS, cellEne, beta);
-      tmpDOS.clear();
-      m_rct2->getDOS().getCellDensityOfStates(tmpDOS);
-      Qrcts *= canonicalPartitionFunction(tmpDOS, cellEne, beta);
+    // Rovibronic partition function for reactants/products multiplied by translation contribution.
+    Qrcts *= translationalContribution(m_rct1->getStruc().getMass(), m_rct2->getStruc().getMass(), beta);
 
-      // Rovibronic partition function for reactants/products multiplied by translation contribution.
-      Qrcts *= translationalContribution(m_rct1->getStruc().getMass(), m_rct2->getStruc().getMass(), beta);
-
-      k_forward = SpeedOfLight_in_cm * Qtst *exp(-beta* Ethresh)/ (beta*Qrcts);
-    }
+    k_forward = SpeedOfLight_in_cm * Qtst * exp(-beta * Ethresh) / (beta * Qrcts);
 
     // Save high pressure rate coefficient for use in the construction of the collision operator.
     m_MtxGrnKf.clear();

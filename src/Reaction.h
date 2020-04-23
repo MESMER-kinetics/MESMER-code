@@ -247,9 +247,12 @@ namespace mesmer
     bool ReadRateCoeffParameters(PersistPtr ppReac);
 
     double m_ERConc;           // Concentration of the excess reactant (This is a complement to reactions with
-                                // excess species. This value is not used in unimolecular reactions.)
+                               // excess species. This value is not used in unimolecular reactions.)
 
-  private:
+    // Read excess reactant concentration
+    bool ReadExcessReactantConcentration(PersistPtr ppReac);
+
+private:
 
     // Copy constructor.
     //   Reaction(const Reaction& reaction) ;
@@ -259,9 +262,6 @@ namespace mesmer
 
     // Grain average microcanonical rate coefficients.
     bool grnAvrgMicroFluxCoeffs();
-
-    // Read excess reactant concentration
-    bool ReadExcessReactantConcentration(PersistPtr ppReac);
 
     const MesmerEnv& m_Env;
     MesmerFlags& m_Flags;

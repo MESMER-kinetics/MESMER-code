@@ -912,12 +912,7 @@
       <transitionState>
         <molecule ref="TS1" role="transitionState"/>
       </transitionState>
-      <!--<me:MCRCMethod xsi:type="me:CanonicalRateCoefficient">
-        <me:preExponential units="cm3molecule-1s-1" >2.0e-11</me:preExponential>
-        <me:activationEnergy units="kJ/mol">1.2</me:activationEnergy>
-        <me:TInfinity>1.0</me:TInfinity>
-        <me:nInfinity>0.0</me:nInfinity>
-      </me:MCRCMethod>-->
+      <me:tunneling xsi:type="Eckart"/>
       <me:FragmentDist xsi:type="me:modPrior">
         <!--<me:modPriorOrder lower="0.1" upper="1.0" stepsize="0.01">0.256437</me:modPriorOrder>-->
         <me:modPriorOrder>0.256437</me:modPriorOrder>
@@ -1004,7 +999,7 @@
       <me:PTpair units="Torr" P="80" T="295" refReactionExcess="R2" excessReactantConc="9.24E+17" precision="dd" >
         <me:experimentalYield ref="QOOH" error="0.036" yieldTime="1.e-02">0.21629</me:experimentalYield>
       </me:PTpair>
-      <me:PTpair units="Torr" P="80" T="295" refReactionExcess="R2" excessReactantConc="13.2E+17" precision="dd" >
+      <!--<me:PTpair units="Torr" P="80" T="295" refReactionExcess="R2" excessReactantConc="13.2E+17" precision="dd" >
         <me:experimentalYield ref="QOOH" error="0.041" yieldTime="1.e-02">0.2378</me:experimentalYield>
       </me:PTpair>
       <me:PTpair units="Torr" P="40" T="295" refReactionExcess="R2" excessReactantConc="0.2636E+17" precision="dd" >
@@ -1255,7 +1250,7 @@
       </me:PTpair>
       <me:PTpair units="Torr" P="5" T="212" refReactionExcess="R2" excessReactantConc="0.0113E+17" precision="qd" >
         <me:experimentalYield ref="QOOH" error="0.034" yieldTime="1.e-02">0.116</me:experimentalYield>
-      </me:PTpair>
+      </me:PTpair>-->
       <me:PTpair units="Torr" P="5" T="212" refReactionExcess="R2" excessReactantConc="0.0356E+17" precision="qd" >
         <me:experimentalYield ref="QOOH" error="0.03812" yieldTime="1.e-02">0.181</me:experimentalYield>
       </me:PTpair>
@@ -1277,11 +1272,11 @@
   </me:modelParameters>
 
   <me:control>
-    <!--<me:calcMethod xsi:type="me:marquardt">
+    <me:calcMethod xsi:type="me:marquardt">
       <me:MarquardtIterations>2</me:MarquardtIterations>
       <me:MarquardtTolerance>0.0001</me:MarquardtTolerance>
       <me:MarquardtDerivDelta>1.e-02</me:MarquardtDerivDelta>
-    </me:calcMethod>-->
+    </me:calcMethod>
     <me:testDOS/>
     <me:eigenvalues>5</me:eigenvalues>
   </me:control>

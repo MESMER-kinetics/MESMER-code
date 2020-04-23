@@ -89,6 +89,8 @@ namespace mesmer
     virtual double get_relative_pdtZPE() const { return m_pdt1->getDOS().get_zpe() + m_pdt2->getDOS().get_zpe() - getEnv().EMin; }
     virtual double get_relative_TSZPE(void) const { return m_TransitionState->getDOS().get_zpe() - getEnv().EMin; };
 
+    virtual double get_ThresholdEnergy(void) { return get_relative_TSZPE() - get_relative_rctZPE(); };
+
     // Calculate high pressure rate coefficients at current T.
     virtual void HighPresRateCoeffs(vector<double> *pCoeffs);
 
