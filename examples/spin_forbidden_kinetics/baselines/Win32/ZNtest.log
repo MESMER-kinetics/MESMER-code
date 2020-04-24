@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.0 compiled: -- Mar 28 2020 -- 14:24:21
+     Mesmer v6.0 compiled: -- Apr 23 2020 -- 11:12:53
 
      Copyright (C) 2009-2020 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sat Mar 28 23:41:59 2020
+                     Execution Date:  Thu Apr 23 20:01:17 2020
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -50,7 +50,7 @@ The default value of the attribute Tstep was used.
 The default value of the attribute Tmin was used.
 The default value of the attribute Tmax was used.
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20200328_234159
+Write metadata 20200423_200117
 
 File: "ZNtest.xml" successfully parsed.
 Main Calculation begins
@@ -61,6 +61,10 @@ Number of cells = 108000, Number of grains = 1000
 In dummy-Singlet-OH: Cannot find me:vibFreqs or me:hessian. Assuming an atom or a sink molecule.
 In dummy-Singlet-OH: No rotational constants from <me:rotConsts> or structure. Assuming an atom or a sink molecule.
 In dummy-Singlet-OH: The default value of the attribute spinMultiplicity was used.
+Calculating Zhu Nakamura Probabilities for energies less than Et...
+Calculating Zhu Nakamura Probabilities for energies between Et and Eb...
+Calculating Zhu Nakamura Probabilities for energies greater than Eb...
+Finished Calculating Zhu Nakamura Probabilities...
 In FastLaplaceConvolution: 46140 values in the FFT convolution routine were replaced by standard convolution
 Number of grains produced is not equal to that requested for: dummy-Singlet-OH
 Number of grains requested: 1000

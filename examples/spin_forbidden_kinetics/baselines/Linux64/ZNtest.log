@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Sat Mar 28 16:12:50 2020
+                     Execution Date:  Thu Apr 23 18:38:02 2020
                      Number of ranks: 12
 
 defaults.xml, librarymols.xml are in ../..
@@ -50,7 +50,7 @@ The default value of the attribute Tstep was used.
 The default value of the attribute Tmin was used.
 The default value of the attribute Tmax was used.
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20200328_161250
+Write metadata 20200423_183802
 
 File: "ZNtest.xml" successfully parsed.
 Main Calculation begins
@@ -61,15 +61,19 @@ Number of cells = 108000, Number of grains = 1000
 In dummy-Singlet-OH: Cannot find me:vibFreqs or me:hessian. Assuming an atom or a sink molecule.
 In dummy-Singlet-OH: No rotational constants from <me:rotConsts> or structure. Assuming an atom or a sink molecule.
 In dummy-Singlet-OH: The default value of the attribute spinMultiplicity was used.
+Calculating Zhu Nakamura Probabilities for energies less than Et...
+Calculating Zhu Nakamura Probabilities for energies between Et and Eb...
+Calculating Zhu Nakamura Probabilities for energies greater than Eb...
+Finished Calculating Zhu Nakamura Probabilities...
 In FastLaplaceConvolution: 46140 values in the FFT convolution routine were replaced by standard convolution
 Number of grains produced is not equal to that requested for: dummy-Singlet-OH
 Number of grains requested: 1000
 Number of grains produced : 1
- -- Total time elapsed: 30 seconds.
+ -- Total time elapsed: 29 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
 
 System saved to mesmer_out.xml
-Total time elapsed: 30 seconds.
+Total time elapsed: 29 seconds.

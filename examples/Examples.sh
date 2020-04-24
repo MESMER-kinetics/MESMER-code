@@ -294,6 +294,13 @@ cp ./$testName.test ./$bline$testName.test
 if [ "$1" == "-o" ] ; then
   cp ./$testName.log ./$bline$testName.log
 fi
+
+testName=Glyoxal_Exchange
+$cmdline -N $testName.xml
+cp ./$testName.test ./$bline$testName.test
+if [ "$1" == "-o" ] ; then
+  cp ./$testName.log ./$bline$testName.log
+fi
 cd ..
 
 cd "DefinedTunellingCoefficients"
