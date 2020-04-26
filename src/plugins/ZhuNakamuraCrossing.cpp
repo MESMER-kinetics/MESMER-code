@@ -260,7 +260,7 @@ namespace mesmer
     double leftBound, rightBound, deltaIntegral(0.0), sigma, P12, dummy;
     leftBound = rightBound = Rt;
 
-    cout << "Calculating Zhu Nakamura Probabilities for energies less than Et..." << endl;
+    cinfo << "Calculating Zhu Nakamura Probabilities for energies less than Et..." << endl;
     lowerAdiabatActionIntegrand* actionIntegrand;
     actionIntegrand = new lowerAdiabatActionIntegrand(reactantCurve, productCurve, m_H12*kJPerMoltoHartree, m, 0.0);  // initialize the energy to zero for now
 
@@ -296,7 +296,7 @@ namespace mesmer
 
     // now we calculate the zone 2 probabilities, beginning at Et and working our way up to Eb
     // comment out Zone 2 ------------------------------------------------------------------------
-    cout << "Calculating Zhu Nakamura Probabilities for energies between Et and Eb..." << endl;
+    cinfo << "Calculating Zhu Nakamura Probabilities for energies between Et and Eb..." << endl;
     double step, g4, g5, upperLimitOft(0.0), W(0.0), previousP12(0.0);
     ZNzone2Integrand* zone2integrand;
     zone2integrand = new ZNzone2Integrand(0.0, 0.0, 0.0, 0.0, 0.0);  // ftn of the form E(t) = kk*cos(t**3/3.0 + aa*t + bb*t/(cc + 1.4842*t))
@@ -340,7 +340,7 @@ namespace mesmer
     upperTPCurve = new upperAdiabatShiftedByE(reactantCurve, productCurve, m_H12*kJPerMoltoHartree, 0);   // initialize the ftn with dE=0
     leftBound = rightBound = Rb;
 
-    cout << "Calculating Zhu Nakamura Probabilities for energies greater than Eb..." << endl;
+    cinfo << "Calculating Zhu Nakamura Probabilities for energies greater than Eb..." << endl;
     upperAdiabatActionIntegrand* upperActionIntegrand;
     upperActionIntegrand = new upperAdiabatActionIntegrand(reactantCurve, productCurve, m_H12*kJPerMoltoHartree, m, 0.0);  // initialize the energy to zero for now
 
@@ -379,7 +379,7 @@ namespace mesmer
       grnCrossingProb[i] = (IsNan(P12)) ? 0.0 : P12;
     }
 
-    cout << "Finished Calculating Zhu Nakamura Probabilities..." << endl;
+    cinfo << "Finished Calculating Zhu Nakamura Probabilities..." << endl;
 
 		// Interpolate crossing probabilities. 
 
