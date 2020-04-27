@@ -346,6 +346,8 @@ Windows[!!-~]VC15/qd/qd_config.h -text
 Windows[!!-~]VC16/Mesmer.sln -text
 Windows[!!-~]VC16/Mesmer/Mesmer.vcxproj -text
 Windows[!!-~]VC16/TinyXML/TinyXML.vcxproj -text
+Windows[!!-~]VC16/distribution/NSISScriptToCreateInstaller.nsi -text
+Windows[!!-~]VC16/distribution/ReadMe.txt -text
 Windows[!!-~]VC16/qd/qd.vcxproj -text
 /chemStrucEL.xsl -text
 /defaults.xml -text
