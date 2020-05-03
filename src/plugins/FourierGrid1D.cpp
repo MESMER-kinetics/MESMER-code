@@ -162,6 +162,9 @@ namespace mesmer
     if (!bondref)
       bondref = ppDOSC->XmlReadValue("me:bondRef", optional);
 
+    // The following vector, "mode", will be used to hold the internal 
+    // motion vector (analogus to the the internal rotor case). 
+    vector<double> mode(3 * gs.NumAtoms(), 0.0);
     if (ppRM) {
       const char* p = ppRM->XmlReadValue("units", optional);
       string units = p ? p : "amu";
@@ -178,13 +181,13 @@ namespace mesmer
 
       switch (nBonds) {
       case 1:
-        m_reducedMass = gs.bondStretchReducedMass(bondIDs);
+        m_reducedMass = gs.bondStretchReducedMass(bondIDs, mode);
         break;
       case 2:
-        m_reducedMass = gs.angleBendReducedMass(bondIDs);
+        m_reducedMass = gs.angleBendReducedMass(bondIDs, mode);
         break;
       case 3:
-        m_reducedMass = gs.inversionReducedMass(bondIDs);
+        m_reducedMass = gs.inversionReducedMass(bondIDs, mode);
         break;
       default:
         cerr << "Bond definition for FGH term in " << gdos->getHost()->getName() << " incorrectly defined." << endl;
@@ -223,9 +226,6 @@ namespace mesmer
     // associated with this mode.
 
     if (gdos->hasHessian()) {
-      // The following vector, "mode", will be used to hold the internal rotation 
-      // mode vector as defined by Sharma, Raman and Green, J. Phys. Chem. (2010). 
-      vector<double> mode(3 * gs.NumAtoms(), 0.0);
       if (!gdos->projectMode(mode)) {
         cerr << "Failed to project out internal rotation." << endl;
         return false;

@@ -1,3 +1,7 @@
+2020-May-03 Struan Robertson
+
+		* FourierGrid1D.cpp, gStructure.h/.cpp: Fix for inversion projection from Hessian bug.
+
 2020-April-23 Struan Robertson
 
 		* Reaction.h, ExchangeReaction.h/.cpp: Tunnelling term added to bimolecular exchange 

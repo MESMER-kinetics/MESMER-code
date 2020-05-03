@@ -920,29 +920,40 @@ namespace mesmer
   }
 
   // Reduced mass methods:
-  double gStructure::bondStretchReducedMass(vector<string>& bondIDs) {
+  double gStructure::bondStretchReducedMass(vector<string>& bondIDs, vector<double>& mode) {
 
     pair<string, string> bondats = GetAtomsOfBond(bondIDs[0]);
+
+    // Construct vector between the two connected atoms.
+
+    vector3 axis = setVectorDirection(bondats, bondats.second);
+
+    axis.normalize();
+
+    // Construct stretch mode vector.
 
     vector<string> atomset1;
     findRotorConnectedAtoms(atomset1, bondats.first, bondats.second);
     vector<string> atomset2;
     findRotorConnectedAtoms(atomset2, bondats.second, bondats.first);
 
-    double m1(0.0);
-    for (size_t i(0); i < atomset1.size(); i++) {
-      m1 += atomMass((Atoms.find(atomset1[i]))->second.element);
-    }
+    // Apply inertia weighting, i.e. in the limit that one fragment is
+    // infinitely heavy the motion will be confined to the other. 
+    double m1 = CalcStretchVec(atomset1, axis, mode);
+    axis *= -1.0;
+    double m2 = CalcStretchVec(atomset2, axis, mode);
 
-    double m2(0.0);
-    for (size_t i(0); i < atomset2.size(); i++) {
-      m2 += atomMass((Atoms.find(atomset2[i]))->second.element);
-    }
+    double fctr1 = m2 / (m1 + m2);
+    ApplyInertiaWeighting(atomset1, mode, fctr1);
+    double fctr2 = m1 / (m1 + m2);
+    ApplyInertiaWeighting(atomset2, mode, fctr2);
+
+    OrthogonalizeMode(mode);
 
     return m1 * m2 / (m1 + m2);
   }
 
-  double gStructure::angleBendReducedMass(vector<string>& bondIDs) {
+  double gStructure::angleBendReducedMass(vector<string>& bondIDs, vector<double>& mode) {
 
     // Find the hinge atom.
 
@@ -975,8 +986,6 @@ namespace mesmer
 
     vector3 coordsHinge = GetAtomCoords(hinge);
 
-    vector<double> mode(3 * NumAtoms(), 0.0);
-
     // Construct hinge mode vector.
 
     vector<string> atomset1;
@@ -1006,7 +1015,7 @@ namespace mesmer
     return reducedMass;
   }
 
-  double gStructure::inversionReducedMass(vector<string>& bondIDs) {
+  double gStructure::inversionReducedMass(vector<string>& bondIDs, vector<double>& mode) {
 
     // Find the inversion centre.
 
@@ -1041,8 +1050,6 @@ namespace mesmer
     axis.normalize();
 
     vector3 coordsInvCentre = GetAtomCoords(invrCentre);
-
-    vector<double> mode(3 * NumAtoms(), 0.0);
 
     // Construct invertion mode vector.
 
@@ -1109,6 +1116,32 @@ namespace mesmer
     }
 
     return moi;
+  }
+
+  // Calculates stretch eigenvector along an axis define by at1 and at2.
+  double gStructure::CalcStretchVec(vector<string> atomset, vector3 axis, vector<double>& mode)
+  {
+    double totalMass(0.0);
+    vector<string>::iterator iter;
+    for (iter = atomset.begin(); iter != atomset.end(); ++iter)
+    {
+      double mass = atomMass(Atoms[*iter].element);
+      double massWeight = sqrt(mass);
+      totalMass += mass;
+      int atomicOrder = getAtomicOrder(*iter);
+      if (atomicOrder >= 0) {
+        size_t location = 3 * size_t(atomicOrder);
+        for (size_t i(location), j(0); j < 3; i++, j++) {
+          mode[i] = massWeight * axis[j];
+        }
+      }
+      else {
+        string errorMsg = "Problem with calculation of the stretch eigenvector. Atomic order is not correactly defined.";
+        throw (std::runtime_error(errorMsg));
+      }
+    }
+
+    return totalMass;
   }
 
   // Orthogonalize a mode against the translationl and rotational modes.

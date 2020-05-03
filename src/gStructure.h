@@ -54,6 +54,9 @@ namespace mesmer
     // Calculates bend eigenvector about an axis define by at1 and at2.
     double CalcBendVec(std::vector<string> atomset, OpenBabel::vector3 at1, OpenBabel::vector3 at2, vector<double>& mode);
 
+    // Calculates stretch eigenvector along an axis define by at1 and at2.
+    double CalcStretchVec(vector<string> atomset, OpenBabel::vector3 axis, vector<double>& mode);
+
     // Returns in atomset the IDs of all the atoms attached to atomID via bonds, but
     // does not include any atoms already in atomset or atoms beyond them.
     void GetAttachedAtoms(std::vector<std::string>& atomset, const std::string& atomID);
@@ -194,11 +197,11 @@ namespace mesmer
     void exportToCML(const char* txt = NULL, bool last = false, PersistPtr ppConfigData = NULL);
 
     // Reduced mass methods:
-    double bondStretchReducedMass(vector<string>& bondIDs);
+    double bondStretchReducedMass(vector<string>& bondIDs, vector<double> &mode);
 
-    double angleBendReducedMass(vector<string>& bondIDs);
+    double angleBendReducedMass(vector<string>& bondIDs, vector<double>& mode);
 
-    double inversionReducedMass(vector<string>& bondIDs);
+    double inversionReducedMass(vector<string>& bondIDs, vector<double>& mode);
 
   };
 
