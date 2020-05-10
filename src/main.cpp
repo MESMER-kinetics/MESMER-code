@@ -1,4 +1,4 @@
-/*  Copyright (C) 2009-2020 by
+/*  Copyright (C) 2009-2021 by
 Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
 David R. Glowacki, Michael J. Pilling and contributors
 This file is a part of
@@ -470,7 +470,7 @@ void banner(size_t nRanks)
   cinfo << endl;
   cinfo << "     Mesmer: Master Equation Solver for Multi-Energy well Reactions" << endl;
   cinfo << "     " << version() << endl;
-  cinfo << "     Copyright (C) 2009-2020 by" << endl;
+  cinfo << "     Copyright (C) 2009-2021 by" << endl;
   cinfo << "     Struan H. Robertson, Chris Morley, Chi-Hsiu Liang," << endl;
   cinfo << "     David R. Glowacki, Michael J. Pilling and contributors" << endl;
   cinfo << endl;

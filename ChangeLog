@@ -1,3 +1,7 @@
+2020-May-10 Struan Robertson
+
+		* main.cpp, System.cpp: Version updated to 6.1.
+
 2020-May-03 Struan Robertson
 
 		* FourierGrid1D.cpp, gStructure.h/.cpp: Fix for inversion projection from Hessian bug.
