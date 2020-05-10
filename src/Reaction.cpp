@@ -46,19 +46,6 @@ namespace mesmer
 
   Reaction::~Reaction(){}
 
-  /*
-  Reaction::Reaction(const Reaction& reaction) {
-  // Copy constructor - define later SHR 23/Feb/2003
-  }
-
-  Reaction& Reaction::operator=(const Reaction& reaction) {
-  // Assignment operator - define later SHR 23/Feb/2003
-
-  return *this ;
-  }
-  */
-
-
   //
   // Locate molecule in molecular map.
   //
@@ -236,16 +223,6 @@ namespace mesmer
     m_pTunnelingCalculator = ParseForPlugin<TunnelingCalculator>(this, "me:tunneling", ppReac, optional);
     if(!m_pTunnelingCalculator)
       cinfo << "No tunneling method used for " << getName() << endl;
-
-    if ((getReactionType() == ASSOCIATION || getReactionType() == IRREVERSIBLE_EXCHANGE 
-      || getReactionType() == BIMOLECULAR_SINK || getReactionType() == PSEUDOISOMERIZATION
-	    || getReactionType() == SECONDORDERASSOCIATION || getReactionType() == BIMOLECULAR_EXCHANGE)
-      && (m_ERConc==0.0 || IsNan(m_ERConc)))
-    {
-      // If not already read in the MicroRateCalculator
-      cinfo << "Not a unimolecular reaction: look for excess reactant concentration." << endl;
-      if (!ReadExcessReactantConcentration(ppReac)) return false;
-    }
 
     return true ;
   }

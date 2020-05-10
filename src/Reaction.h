@@ -254,12 +254,6 @@ namespace mesmer
 
 private:
 
-    // Copy constructor.
-    //   Reaction(const Reaction& reaction) ;
-
-    // Assignment operator.
-    //   Reaction& operator=(const Reaction& reaction) ;
-
     // Grain average microcanonical rate coefficients.
     bool grnAvrgMicroFluxCoeffs();
 

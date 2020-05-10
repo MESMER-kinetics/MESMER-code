@@ -91,8 +91,17 @@ namespace mesmer
       }
     }
 
-    return ReadRateCoeffParameters(ppReac);       // Read heat of reaction and rate parameters.
+    // Read rate coefficient parameters.
+    if (!ReadRateCoeffParameters(ppReac)) return false;
 
+    if (m_ERConc == 0.0 || IsNan(m_ERConc))
+    {
+      // If not already read in the MicroRateCalculator
+      cinfo << "Not a unimolecular reaction: look for excess reactant concentration." << endl;
+      if (!ReadExcessReactantConcentration(ppReac)) return false;
+    }
+
+    return true;
   }
 
   double IrreversibleExchangeReaction::calcEquilibriumConstant() {   // Calculate reaction equilibrium constant.

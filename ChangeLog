@@ -1,5 +1,10 @@
 2020-May-10 Struan Robertson
 
+		* Reaction.h/.cpp and derived reaction classes: Delegate the reading of second order 
+		excess concentration to the relevant classes.
+
+2020-May-10 Struan Robertson
+
 		* main.cpp, System.cpp: Version updated to 6.1.
 
 2020-May-03 Struan Robertson

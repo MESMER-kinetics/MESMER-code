@@ -82,9 +82,17 @@ namespace mesmer
       return false;
     }
 
-    // Read heat of reaction and rate parameters.
-    return ReadRateCoeffParameters(ppReac);
+    // Read rate coefficient parameters.
+    if (!ReadRateCoeffParameters(ppReac)) return false;
 
+    if (m_ERConc == 0.0 || IsNan(m_ERConc))
+    {
+      // If not already read in the MicroRateCalculator
+      cinfo << "Not a unimolecular reaction: look for excess reactant concentration." << endl;
+      if (!ReadExcessReactantConcentration(ppReac)) return false;
+    }
+
+    return true;
   }
 
   // Reset zero point energy locations of the reactants such that
