@@ -1,3 +1,10 @@
+2020-May-31 Struan Robertson
+
+		* MesmerILT.cpp: Bug fixes for issues relating to the used of extended ILT with Marquardt 
+		fitting.
+
+		* Documentation update.
+
 2020-May-10 Struan Robertson
 
 		* Reaction.h/.cpp and derived reaction classes: Delegate the reading of second order 

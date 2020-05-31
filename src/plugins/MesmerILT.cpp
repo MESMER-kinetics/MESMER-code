@@ -96,7 +96,7 @@ namespace mesmer
     bool    m_Secondary;    // There is a secondary set of Arrhenius paramaters.
     size_t  m_OffSet;       // The relative location of the secondary set to the first.
 
-    bool (MesmerILT::*m_pfnptr)(Reaction* pReact);
+    bool (MesmerILT::* m_pfnptr)(Reaction* pReact);
   };
 
   /*********************************************************************************
@@ -279,10 +279,17 @@ namespace mesmer
     if (m_Secondary && pActEne2txt)
     {
       PersistPtr ppActEne2 = pp->XmlMoveTo("me:secondaryActivationEnergy");
-      ReadRdoubleRange(string(pReact->getName() + ":secondaryActivationEnergy"), ppActEne2, m_EInf2, rangeSet);
-      const char* unitsTxt = ppActEne->XmlReadValue("units", optional);
+      double tmpvalue(0.0);
+      stringstream s2(pActEnetxt); s2 >> tmpvalue;
+      const char* unitsTxt = ppActEne->XmlReadValue("units", false);
       string unitsInput = (unitsTxt) ? unitsTxt : "kJ/mol";
-      m_EInf2 = getConvertedEnergy(unitsInput, m_EInf2);
+      double value(getConvertedEnergy(unitsInput, tmpvalue));
+      if (value < 0.0) {
+        cerr << "Activation energy should not be negative when used with ILT." << endl;
+        return false;
+      }
+      ReadRdoubleRange(string(pReact->getName() + ":secondaryActivationEnergy"), ppActEne2, m_EInf2, rangeSet);
+      m_EInf2 = value;
       if (m_EInf2 < 0.0) {
         cerr << "Activation energy should not be negative when used with ILT." << endl;
         return false;
@@ -305,6 +312,7 @@ namespace mesmer
     if (m_Secondary && pPreExp2txt)
     {
       PersistPtr ppPreExp2 = pp->XmlMoveTo("me:secondaryPreExponential");
+      istringstream s2(pPreExp2txt); s2 >> m_PreExp2;
       ReadRdoubleRange(string(pReact->getName() + ":secondaryPreExponential"), ppPreExp2, m_PreExp2, rangeSet);
       if (m_PreExp < 0.0) {
         cerr << "Pre-exponential factor should not be negative when used with ILT." << endl;
@@ -328,6 +336,7 @@ namespace mesmer
     if (m_Secondary && pNInf2txt)
     {
       PersistPtr ppNInf2 = pp->XmlMoveTo("me:secondaryNInfinity");
+      istringstream s2(pNInf2txt); s2 >> m_NInf2;
       ReadRdoubleRange(string(pReact->getName() + ":secondaryNInfinity"), ppNInf2, m_NInf2, rangeSet);
     }
     else {
@@ -363,23 +372,23 @@ namespace mesmer
     // Check to see what type of reaction we have
     ReactionType reactionType = pReact->getReactionType();
     bool isUnimolecular = (reactionType == ISOMERIZATION || reactionType == IRREVERSIBLE_ISOMERIZATION || reactionType == DISSOCIATION);
-    m_pfnptr = (isUnimolecular) ? &MesmerILT::calculateUnimolecularMicroRates :  &MesmerILT::calculateAssociationMicroRates;
+    m_pfnptr = (isUnimolecular) ? &MesmerILT::calculateUnimolecularMicroRates : &MesmerILT::calculateAssociationMicroRates;
     if (!(this->*m_pfnptr)(pReact))
       return false;
     if (m_Secondary) { // If there is a second Arrhenius term add its contribution.
       // Set Secondary parameters.
-      m_PreExp = m_PreExp2;
-      m_NInf   = m_NInf2;
-      m_TInf   = m_TInf2;
-      m_EInf   = m_EInf2;
+      m_PreExp = double(m_PreExp2);
+      m_NInf = double(m_NInf2);
+      m_TInf = double(m_TInf2);
+      m_EInf = double(m_EInf2);
       m_OffSet = size_t(m_EInf2 - EInf1);
       if (!(this->*m_pfnptr)(pReact))
         return false;
       // Restore primary parameters.
       m_PreExp = PreExp1;
-      m_NInf   = NInf1;
-      m_TInf   = TInf1;
-      m_EInf   = min(EInf1, double(m_EInf2));
+      m_NInf = NInf1;
+      m_TInf = TInf1;
+      m_EInf = min(EInf1, double(m_EInf2));
       m_OffSet = 0;
     }
 
@@ -583,7 +592,7 @@ namespace mesmer
 
   /* -------------------------------------------------
      Short note for variables & abbreviations in Mesmer: (REVERSIBLE association reaction)
-  
+
      zpe_react:      zero-point energy of the reactant
      zpe_prodt:      zero-point energy of the product
      barri_hgt:      Barrier height (equals to theoretical calculated threshold energy)
@@ -607,9 +616,9 @@ namespace mesmer
                     ------------------------------------------------------------->
                                    reaction coordinate
         PES
-      
+
          Definition of a REVERSIBLE association reaction in Mesmer:
-      
+
          1. A REVERSIBLE association reaction is going forward when the reaction is going from left to right in this
             potential energy surface.
          2. A reaction PES can change in different temperature, caused by rotational contribution to the total energy.
