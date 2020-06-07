@@ -371,7 +371,7 @@ namespace mesmer
       species.push_back(pseudoIsomeritr->first);
     }
 
-    mEnv.MaxCell = max(mEnv.MaxCell, size_t(mEnv.EMax - mEnv.EMin));
+    mEnv.MaxCell = max(mEnv.MaxCell, size_t((mEnv.EMax - mEnv.EMin)/mEnv.CellSize));
     const double populationThreshold(mFlags.popThreshold);
     double HighCell(0.0);
     for (size_t i(0); i < species.size(); ++i) {
@@ -381,7 +381,7 @@ namespace mesmer
 
       // Offset cell size by relative energy of species.
       double Rel_ZPE(pmol->getDOS().get_zpe() - mEnv.EMin);
-      size_t cutoffCell = mEnv.MaxCell - 1 - size_t(Rel_ZPE);
+      size_t cutoffCell = mEnv.MaxCell - 1 - size_t(Rel_ZPE/mEnv.CellSize);
       if (cellFrac[cutoffCell] > populationThreshold) {
 
         // Find cell at which population threshold is reached.
@@ -396,10 +396,10 @@ namespace mesmer
         if (flag) {
           maxcell = cellFrac.size();
           cerr << "Warning: The equilbrum population of species " << pmol->getName()
-            << " is greater than the specefied cutt-off " << populationThreshold << endl;
+            << " is greater than the specified cut-off " << populationThreshold << endl;
         }
 
-        HighCell = max(HighCell, double(maxcell));
+        HighCell = max(HighCell, double(maxcell) * mEnv.CellSize);
       }
     }
     mEnv.EMax += HighCell;

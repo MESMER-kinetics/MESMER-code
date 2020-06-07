@@ -1,3 +1,8 @@
+2020-June-07 Struan Robertson
+
+		* CollisionOperator.cpp: Change to SetMaximumCellEnergy method to account for variable
+		cell size.
+
 2020-May-31 Struan Robertson
 
 		* MesmerILT.cpp: Bug fixes for issues relating to the used of extended ILT with Marquardt 

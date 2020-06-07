@@ -421,7 +421,7 @@ namespace mesmer
   // Get cell density of states.
   //
   bool gDensityOfStates::getCellDensityOfStates(vector<double> &cellDOS, bool bcalc) {
-    // If density of states have not already been calcualted then do so.
+    // If density of states have not already been calculated then do so.
     if (bcalc && !calcDensityOfStates())
     {
       cerr << "Failed calculating DOS" << endl;
