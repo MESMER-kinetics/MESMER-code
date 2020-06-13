@@ -186,7 +186,7 @@
         <property dictRef="me:vibFreqs">
           <!-- 53.09 replaced by HR-->
           <array units="cm-1">
-             100.95   197.17   317.57   443.93   643.31
+            100.95   197.17   317.57   443.93   643.31
             1026.48  1067.71  1160.21  1368.17  1457.44
             1479.85  1490.64  3020.96  3094.58  3143.64
             3543.35  3819.65
@@ -300,7 +300,7 @@
         <property dictRef="me:vibFreqs">
           <!-- 120  221.9 -->
           <array units="cm-1">
-             185.93    392.73    794.48   1017.41   1106.28
+            185.93    392.73    794.48   1017.41   1106.28
             1163.97   1274.73    1441.9   1469.18   1488.53
             1508.54   3062.53   3158.45   3171.95   3705.64
           </array>
@@ -338,7 +338,7 @@
           <me:PotentialPoint angle="360" potential="0" />
         </me:HinderedRotorPotential>
       </me:ExtraDOSCMethod>
-      
+
       <me:ExtraDOSCMethod xsi:type="HinderedRotorQM1D">
         <me:bondRef>b2</me:bondRef>
         <me:HinderedRotorPotential format="numerical" units="kcal/mol" expansionSize="7" scale="1">
@@ -385,7 +385,7 @@
     </molecule>
 
     <molecule id="prod" description="trans">
-      <atomArray>
+      <!--<atomArray>
         <atom id="a1" elementType="C"/>
         <atom id="a2" elementType="H"/>
         <atom id="a3" elementType="H"/>
@@ -412,7 +412,7 @@
         <bond atomRefs2="a11 a2" order="1"/>
         <bond atomRefs2="a12 a6" order="1"/>
         <bond atomRefs2="a11 a12" order="1"/>
-      </bondArray>
+      </bondArray>-->
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="kcal/mol">-26.7</scalar>
@@ -436,33 +436,12 @@
         </property>
         <property dictRef="me:vibFreqs">
           <array units="cm-1">
-            3841
-            3193
-            3136
-            3107
-            3054
-            3037
-            1619
-            1544
-            1520
-            1506
-            1494
-            1292
-            1277
-            1244
-            1206
-            1172
-            1159
-            1017
-            932
-            749
-            357
-            321
-            218
-            211
-            123
-            52
-            1953
+            3841 3193 3136 3107 3054
+            3037 1619 1544 1520 1506
+            1494 1292 1277 1244 1206
+            1172 1159 1017  932  749
+             357  321  218  211  123
+              52 1953
           </array>
         </property>
         <property dictRef="me:MW">
@@ -517,93 +496,92 @@
         <molecule ref="TS2" role="transitionState"/>
       </me:transitionState>
 
-      <me:MCRCMethod xsi:type="RRKM">
-        <me:tunneling xsi:type="DefinedTunnelingCoefficient">
-          <me:DefinedTunnelingCoefficients>
-            <me:DefinedPE energy= " 0.0000  " pE= " 3.96E-15 "/>
-            <me:DefinedPE energy= " 1.89    " pE= " 4.09E-15 "/>
-            <me:DefinedPE energy= " 5.67    " pE= " 4.37E-15 "/>
-            <me:DefinedPE energy= " 11.445  " pE= " 4.83E-15 "/>
-            <me:DefinedPE energy= " 19.075  " pE= " 5.51E-15 "/>
-            <me:DefinedPE energy= " 28.56   " pE= " 6.51E-15 "/>
-            <me:DefinedPE energy= " 39.935  " pE= " 7.96E-15 "/>
-            <me:DefinedPE energy= " 53.2    " pE= " 1.01E-14 "/>
-            <me:DefinedPE energy= " 68.25   " pE= " 1.33E-14 "/>
-            <me:DefinedPE energy= " 85.12   " pE= " 1.81E-14 "/>
-            <me:DefinedPE energy= " 103.775 " pE= " 2.56E-14 "/>
-            <me:DefinedPE energy= " 124.215 " pE= " 3.79E-14 "/>
-            <me:DefinedPE energy= " 146.37  " pE= " 5.85E-14 "/>
-            <me:DefinedPE energy= " 170.205 " pE= " 9.48E-14 "/>
-            <me:DefinedPE energy= " 195.685 " pE= " 1.62E-13 "/>
-            <me:DefinedPE energy= " 222.81  " pE= " 2.98E-13 "/>
-            <me:DefinedPE energy= " 251.51  " pE= " 6.12E-13 "/>
-            <me:DefinedPE energy= " 281.75  " pE= " 1.30E-12 "/>
-            <me:DefinedPE energy= " 313.46  " pE= " 2.80E-12 "/>
-            <me:DefinedPE energy= " 346.605 " pE= " 6.13E-12 "/>
-            <me:DefinedPE energy= " 381.185 " pE= " 1.36E-11 "/>
-            <me:DefinedPE energy= " 417.06  " pE= " 3.03E-11 "/>
-            <me:DefinedPE energy= " 454.23  " pE= " 6.95E-11 "/>
-            <me:DefinedPE energy= " 492.66  " pE= " 1.63E-10 "/>
-            <me:DefinedPE energy= " 532.245 " pE= " 3.84E-10 "/>
-            <me:DefinedPE energy= " 572.915 " pE= " 8.87E-10 "/>
-            <me:DefinedPE energy= " 614.67  " pE= " 2.02E-09 "/>
-            <me:DefinedPE energy= " 657.405 " pE= " 4.63E-09 "/>
-            <me:DefinedPE energy= " 701.05  " pE= " 1.05E-08 "/>
-            <me:DefinedPE energy= " 745.57  " pE= " 2.52E-08 "/>
-            <me:DefinedPE energy= " 790.895 " pE= " 5.99E-08 "/>
-            <me:DefinedPE energy= " 836.92  " pE= " 1.49E-07 "/>
-            <me:DefinedPE energy= " 883.61  " pE= " 3.21E-07 "/>
-            <me:DefinedPE energy= " 930.895 " pE= " 6.65E-07 "/>
-            <me:DefinedPE energy= " 978.67  " pE= " 1.30E-06 "/>
-            <me:DefinedPE energy= " 1026.9  " pE= " 2.49E-06 "/>
-            <me:DefinedPE energy= " 1075.515" pE= " 4.59E-06 "/>
-            <me:DefinedPE energy= " 1124.375" pE= " 8.68E-06 "/>
-            <me:DefinedPE energy= " 1173.515" pE= " 1.63E-05 "/>
-            <me:DefinedPE energy= " 1222.76 " pE= " 2.95E-05 "/>
-            <me:DefinedPE energy= " 1272.11 " pE= " 5.29E-05 "/>
-            <me:DefinedPE energy= " 1321.425" pE= " 9.39E-05 "/>
-            <me:DefinedPE energy= " 1370.705" pE= " 1.63E-04 "/>
-            <me:DefinedPE energy= " 1419.81 " pE= " 2.76E-04 "/>
-            <me:DefinedPE energy= " 1468.705" pE= " 4.57E-04 "/>
-            <me:DefinedPE energy= " 1517.285" pE= " 7.42E-04 "/>
-            <me:DefinedPE energy= " 1565.515" pE= " 1.18E-03 "/>
-            <me:DefinedPE energy= " 1613.325" pE= " 1.84E-03 "/>
-            <me:DefinedPE energy= " 1660.575" pE= " 2.82E-03 "/>
-            <me:DefinedPE energy= " 1707.265" pE= " 4.23E-03 "/>
-            <me:DefinedPE energy= " 1753.325" pE= " 6.21E-03 "/>
-            <me:DefinedPE energy= " 1798.615" pE= " 8.93E-03 "/>
-            <me:DefinedPE energy= " 1843.135" pE= " 1.26E-02 "/>
-            <me:DefinedPE energy= " 1886.78 " pE= " 1.75E-02 "/>
-            <me:DefinedPE energy= " 1929.515" pE= " 2.39E-02 "/>
-            <me:DefinedPE energy= " 1971.27 " pE= " 3.22E-02 "/>
-            <me:DefinedPE energy= " 2011.975" pE= " 4.25E-02 "/>
-            <me:DefinedPE energy= " 2051.56 " pE= " 5.52E-02 "/>
-            <me:DefinedPE energy= " 2089.955" pE= " 7.04E-02 "/>
-            <me:DefinedPE energy= " 2127.125" pE= " 8.84E-02 "/>
-            <me:DefinedPE energy= " 2163.035" pE= " 1.09E-01 "/>
-            <me:DefinedPE energy= " 2197.58 " pE= " 1.33E-01 "/>
-            <me:DefinedPE energy= " 2230.76 " pE= " 1.60E-01 "/>
-            <me:DefinedPE energy= " 2262.47 " pE= " 1.90E-01 "/>
-            <me:DefinedPE energy= " 2292.675" pE= " 2.22E-01 "/>
-            <me:DefinedPE energy= " 2321.375" pE= " 2.55E-01 "/>
-            <me:DefinedPE energy= " 2348.5  " pE= " 2.88E-01 "/>
-            <me:DefinedPE energy= " 2374.015" pE= " 3.18E-01 "/>
-            <me:DefinedPE energy= " 2397.85 " pE= " 3.47E-01 "/>
-            <me:DefinedPE energy= " 2419.97 " pE= " 3.73E-01 "/>
-            <me:DefinedPE energy= " 2440.41 " pE= " 3.97E-01 "/>
-            <me:DefinedPE energy= " 2459.065" pE= " 4.18E-01 "/>
-            <me:DefinedPE energy= " 2475.935" pE= " 4.36E-01 "/>
-            <me:DefinedPE energy= " 2491.02 " pE= " 4.51E-01 "/>
-            <me:DefinedPE energy= " 2504.25 " pE= " 4.64E-01 "/>
-            <me:DefinedPE energy= " 2515.625" pE= " 4.75E-01 "/>
-            <me:DefinedPE energy= " 2525.11 " pE= " 4.84E-01 "/>
-            <me:DefinedPE energy= " 2532.775" pE= " 4.90E-01 "/>
-            <me:DefinedPE energy= " 2538.515" pE= " 4.95E-01 "/>
-            <me:DefinedPE energy= " 2542.33 " pE= " 4.98E-01 "/>
-            <me:DefinedPE energy= " 2544.185" pE= " 5.00E-01 "/>
-          </me:DefinedTunnelingCoefficients>
-        </me:tunneling>
-      </me:MCRCMethod>
+      <me:MCRCMethod xsi:type="RRKM"/>
+      <me:tunneling xsi:type="DefinedTunnelingCoefficient">
+        <me:DefinedTunnelingCoefficients>
+          <me:DefinedPE energy= " 0.0000  " pE= " 3.96E-15 "/>
+          <me:DefinedPE energy= " 1.89    " pE= " 4.09E-15 "/>
+          <me:DefinedPE energy= " 5.67    " pE= " 4.37E-15 "/>
+          <me:DefinedPE energy= " 11.445  " pE= " 4.83E-15 "/>
+          <me:DefinedPE energy= " 19.075  " pE= " 5.51E-15 "/>
+          <me:DefinedPE energy= " 28.56   " pE= " 6.51E-15 "/>
+          <me:DefinedPE energy= " 39.935  " pE= " 7.96E-15 "/>
+          <me:DefinedPE energy= " 53.2    " pE= " 1.01E-14 "/>
+          <me:DefinedPE energy= " 68.25   " pE= " 1.33E-14 "/>
+          <me:DefinedPE energy= " 85.12   " pE= " 1.81E-14 "/>
+          <me:DefinedPE energy= " 103.775 " pE= " 2.56E-14 "/>
+          <me:DefinedPE energy= " 124.215 " pE= " 3.79E-14 "/>
+          <me:DefinedPE energy= " 146.37  " pE= " 5.85E-14 "/>
+          <me:DefinedPE energy= " 170.205 " pE= " 9.48E-14 "/>
+          <me:DefinedPE energy= " 195.685 " pE= " 1.62E-13 "/>
+          <me:DefinedPE energy= " 222.81  " pE= " 2.98E-13 "/>
+          <me:DefinedPE energy= " 251.51  " pE= " 6.12E-13 "/>
+          <me:DefinedPE energy= " 281.75  " pE= " 1.30E-12 "/>
+          <me:DefinedPE energy= " 313.46  " pE= " 2.80E-12 "/>
+          <me:DefinedPE energy= " 346.605 " pE= " 6.13E-12 "/>
+          <me:DefinedPE energy= " 381.185 " pE= " 1.36E-11 "/>
+          <me:DefinedPE energy= " 417.06  " pE= " 3.03E-11 "/>
+          <me:DefinedPE energy= " 454.23  " pE= " 6.95E-11 "/>
+          <me:DefinedPE energy= " 492.66  " pE= " 1.63E-10 "/>
+          <me:DefinedPE energy= " 532.245 " pE= " 3.84E-10 "/>
+          <me:DefinedPE energy= " 572.915 " pE= " 8.87E-10 "/>
+          <me:DefinedPE energy= " 614.67  " pE= " 2.02E-09 "/>
+          <me:DefinedPE energy= " 657.405 " pE= " 4.63E-09 "/>
+          <me:DefinedPE energy= " 701.05  " pE= " 1.05E-08 "/>
+          <me:DefinedPE energy= " 745.57  " pE= " 2.52E-08 "/>
+          <me:DefinedPE energy= " 790.895 " pE= " 5.99E-08 "/>
+          <me:DefinedPE energy= " 836.92  " pE= " 1.49E-07 "/>
+          <me:DefinedPE energy= " 883.61  " pE= " 3.21E-07 "/>
+          <me:DefinedPE energy= " 930.895 " pE= " 6.65E-07 "/>
+          <me:DefinedPE energy= " 978.67  " pE= " 1.30E-06 "/>
+          <me:DefinedPE energy= " 1026.9  " pE= " 2.49E-06 "/>
+          <me:DefinedPE energy= " 1075.515" pE= " 4.59E-06 "/>
+          <me:DefinedPE energy= " 1124.375" pE= " 8.68E-06 "/>
+          <me:DefinedPE energy= " 1173.515" pE= " 1.63E-05 "/>
+          <me:DefinedPE energy= " 1222.76 " pE= " 2.95E-05 "/>
+          <me:DefinedPE energy= " 1272.11 " pE= " 5.29E-05 "/>
+          <me:DefinedPE energy= " 1321.425" pE= " 9.39E-05 "/>
+          <me:DefinedPE energy= " 1370.705" pE= " 1.63E-04 "/>
+          <me:DefinedPE energy= " 1419.81 " pE= " 2.76E-04 "/>
+          <me:DefinedPE energy= " 1468.705" pE= " 4.57E-04 "/>
+          <me:DefinedPE energy= " 1517.285" pE= " 7.42E-04 "/>
+          <me:DefinedPE energy= " 1565.515" pE= " 1.18E-03 "/>
+          <me:DefinedPE energy= " 1613.325" pE= " 1.84E-03 "/>
+          <me:DefinedPE energy= " 1660.575" pE= " 2.82E-03 "/>
+          <me:DefinedPE energy= " 1707.265" pE= " 4.23E-03 "/>
+          <me:DefinedPE energy= " 1753.325" pE= " 6.21E-03 "/>
+          <me:DefinedPE energy= " 1798.615" pE= " 8.93E-03 "/>
+          <me:DefinedPE energy= " 1843.135" pE= " 1.26E-02 "/>
+          <me:DefinedPE energy= " 1886.78 " pE= " 1.75E-02 "/>
+          <me:DefinedPE energy= " 1929.515" pE= " 2.39E-02 "/>
+          <me:DefinedPE energy= " 1971.27 " pE= " 3.22E-02 "/>
+          <me:DefinedPE energy= " 2011.975" pE= " 4.25E-02 "/>
+          <me:DefinedPE energy= " 2051.56 " pE= " 5.52E-02 "/>
+          <me:DefinedPE energy= " 2089.955" pE= " 7.04E-02 "/>
+          <me:DefinedPE energy= " 2127.125" pE= " 8.84E-02 "/>
+          <me:DefinedPE energy= " 2163.035" pE= " 1.09E-01 "/>
+          <me:DefinedPE energy= " 2197.58 " pE= " 1.33E-01 "/>
+          <me:DefinedPE energy= " 2230.76 " pE= " 1.60E-01 "/>
+          <me:DefinedPE energy= " 2262.47 " pE= " 1.90E-01 "/>
+          <me:DefinedPE energy= " 2292.675" pE= " 2.22E-01 "/>
+          <me:DefinedPE energy= " 2321.375" pE= " 2.55E-01 "/>
+          <me:DefinedPE energy= " 2348.5  " pE= " 2.88E-01 "/>
+          <me:DefinedPE energy= " 2374.015" pE= " 3.18E-01 "/>
+          <me:DefinedPE energy= " 2397.85 " pE= " 3.47E-01 "/>
+          <me:DefinedPE energy= " 2419.97 " pE= " 3.73E-01 "/>
+          <me:DefinedPE energy= " 2440.41 " pE= " 3.97E-01 "/>
+          <me:DefinedPE energy= " 2459.065" pE= " 4.18E-01 "/>
+          <me:DefinedPE energy= " 2475.935" pE= " 4.36E-01 "/>
+          <me:DefinedPE energy= " 2491.02 " pE= " 4.51E-01 "/>
+          <me:DefinedPE energy= " 2504.25 " pE= " 4.64E-01 "/>
+          <me:DefinedPE energy= " 2515.625" pE= " 4.75E-01 "/>
+          <me:DefinedPE energy= " 2525.11 " pE= " 4.84E-01 "/>
+          <me:DefinedPE energy= " 2532.775" pE= " 4.90E-01 "/>
+          <me:DefinedPE energy= " 2538.515" pE= " 4.95E-01 "/>
+          <me:DefinedPE energy= " 2542.33 " pE= " 4.98E-01 "/>
+          <me:DefinedPE energy= " 2544.185" pE= " 5.00E-01 "/>
+        </me:DefinedTunnelingCoefficients>
+      </me:tunneling>
     </reaction>
   </reactionList>
   <me:conditions>
