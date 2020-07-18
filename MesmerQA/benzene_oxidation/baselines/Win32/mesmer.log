@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.0 compiled: -- Oct 25 2019 -- 22:13:05
+     Mesmer v6.1 compiled: -- May 23 2020 -- 19:35:23
 
-     Copyright (C) 2009-2020 by
+     Copyright (C) 2009-2021 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sun Oct 27 13:15:25 2019
+                     Execution Date:  Sat Jul 18 17:31:02 2020
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -69,7 +69,7 @@ In R_2_6c: No tunneling method used for R_2_6c
 The default value of the attribute Tstep was used.
 The default value of the attribute Tmin was used.
 The default value of the attribute Tmax was used.
-Write metadata 20191027_131525
+Write metadata 20200718_173102
 
 File: "benzene_oxidation_test.xml" successfully parsed.
 Main Calculation begins
@@ -83,11 +83,11 @@ The default value of me:energyTransferModel was used.
 No value of me:deltaEDown was supplied and the default value NEEDS TO BE CHECKED**
 Number of cells = 50000, Number of grains = 228
 In FastLaplaceConvolution: 16020 values in the FFT convolution routine were replaced by standard convolution
- -- Total time elapsed: 14 seconds.
+ -- Total time elapsed: 15 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
 
 System saved to out.xml
-Total time elapsed: 14 seconds.
+Total time elapsed: 15 seconds.
