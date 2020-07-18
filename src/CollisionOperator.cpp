@@ -340,7 +340,6 @@ namespace mesmer
       bcalGrainNum = true;
     }
     else if (mEnv.GrainSize > 0 && mEnv.MaxGrn > 0) {
-      cerr << "Both grain size and number of grains specified. Grain size used" << once << endl;
       mEnv.MaxGrn = int((mEnv.EMax - mEnv.EMin) / double(mEnv.GrainSize)) + 1;
       bcalGrainNum = true;
     }

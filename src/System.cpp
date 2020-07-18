@@ -188,23 +188,30 @@ namespace mesmer
 
         if (readModelParams)
         {
-          // The grain size and grain number are linked via the total maximum energy,
-          // so only on of then is independent. Look for grain size first and if that
-          // fails look for the Max. number of grains.
-
-          m_Env.GrainSize = ppParams->XmlReadInteger("me:grainSize", optional);
-          if (m_Env.GrainSize == 0) {
-            m_Env.MaxGrn = ppParams->XmlReadInteger("me:numberOfGrains", optional);
-            if (IsNan(m_Env.MaxGrn))
-              m_Env.MaxGrn = 0;
-          }
-
           m_Env.CellSize = ppParams->XmlReadDouble("me:cellSize", optional);
           if (IsNan(m_Env.CellSize)) {
             m_Env.CellSize = 1.0; // Default cell size in cm-1.
           }
           size_t nCells = ppParams->XmlReadInteger("me:numberOfCells", optional);
           if (nCells) m_Env.MaxCell = nCells;
+
+          // The grain size and grain number are linked via the total maximum energy,
+          // so only one of then is independent. Look for grain size first and if that
+          // fails look for the Max. number of grains.
+
+          m_Env.GrainSize = ppParams->XmlReadInteger("me:grainSize", optional);
+          if (m_Env.GrainSize == 0) {
+            m_Env.MaxGrn = ppParams->XmlReadInteger("me:numberOfGrains", optional);
+            if (IsNan(m_Env.MaxGrn)) {
+              m_Env.MaxGrn = 0;
+            }
+            else {
+              m_Env.GrainSize = m_Env.MaxCell * m_Env.CellSize / m_Env.MaxGrn ;
+            }
+          }
+          else {
+            m_Env.MaxGrn = m_Env.MaxCell * m_Env.CellSize / m_Env.GrainSize ;
+          }
 
           m_Env.MaximumTemperature = ppParams->XmlReadDouble("me:maxTemperature", optional);
           if (IsNan(m_Env.MaximumTemperature))
