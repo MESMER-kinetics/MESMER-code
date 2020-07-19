@@ -4,22 +4,22 @@ PT Grid 0 Condition: conc = 3.28452e+14, temp = 294, diagonalization precision: 
 Test rovibronic density of states for: PO3
 {
       T           qtot           sumc           sumg
-    200        41952.2          41913              0
-    300         132188         132019              0
+    200        41952.2          41913        38664.5
+    300         132188         132019         127238
 }
 
 Test rovibronic density of states for: cis-OPO2
 {
       T           qtot           sumc           sumg
-    200         103082         102973              0
-    300         335894         335412              0
+    200         103082         102973        95924.9
+    300         335894         335412         323776
 }
 
 Test rovibronic density of states for: trans-OPO2
 {
       T           qtot           sumc           sumg
-    200         110477         110508              0
-    300         381446         381526              0
+    200         110477         110508         102439
+    300         381446         381526         367940
 }
 
 Canonical pseudo first order rate constant of association reaction R1 = 212.091 s-1 (294 K)
@@ -420,22 +420,22 @@ PT Grid 1 Condition: conc = 3.28452e+17, temp = 294, diagonalization precision: 
 Test rovibronic density of states for: PO3
 {
       T           qtot           sumc           sumg
-    200        41952.2          41913              0
-    300         132188         132019              0
+    200        41952.2          41913        38664.5
+    300         132188         132019         127238
 }
 
 Test rovibronic density of states for: cis-OPO2
 {
       T           qtot           sumc           sumg
-    200         103082         102973              0
-    300         335894         335412              0
+    200         103082         102973        95924.9
+    300         335894         335412         323776
 }
 
 Test rovibronic density of states for: trans-OPO2
 {
       T           qtot           sumc           sumg
-    200         110477         110508              0
-    300         381446         381526              0
+    200         110477         110508         102439
+    300         381446         381526         367940
 }
 
 Canonical pseudo first order rate constant of association reaction R1 = 212.091 s-1 (294 K)
@@ -836,22 +836,22 @@ PT Grid 2 Condition: conc = 6.56904e+17, temp = 294, diagonalization precision: 
 Test rovibronic density of states for: PO3
 {
       T           qtot           sumc           sumg
-    200        41952.2          41913              0
-    300         132188         132019              0
+    200        41952.2          41913        38664.5
+    300         132188         132019         127238
 }
 
 Test rovibronic density of states for: cis-OPO2
 {
       T           qtot           sumc           sumg
-    200         103082         102973              0
-    300         335894         335412              0
+    200         103082         102973        95924.9
+    300         335894         335412         323776
 }
 
 Test rovibronic density of states for: trans-OPO2
 {
       T           qtot           sumc           sumg
-    200         110477         110508              0
-    300         381446         381526              0
+    200         110477         110508         102439
+    300         381446         381526         367940
 }
 
 Canonical pseudo first order rate constant of association reaction R1 = 212.091 s-1 (294 K)
@@ -1252,22 +1252,22 @@ PT Grid 3 Condition: conc = 9.85356e+17, temp = 294, diagonalization precision: 
 Test rovibronic density of states for: PO3
 {
       T           qtot           sumc           sumg
-    200        41952.2          41913              0
-    300         132188         132019              0
+    200        41952.2          41913        38664.5
+    300         132188         132019         127238
 }
 
 Test rovibronic density of states for: cis-OPO2
 {
       T           qtot           sumc           sumg
-    200         103082         102973              0
-    300         335894         335412              0
+    200         103082         102973        95924.9
+    300         335894         335412         323776
 }
 
 Test rovibronic density of states for: trans-OPO2
 {
       T           qtot           sumc           sumg
-    200         110477         110508              0
-    300         381446         381526              0
+    200         110477         110508         102439
+    300         381446         381526         367940
 }
 
 Canonical pseudo first order rate constant of association reaction R1 = 212.091 s-1 (294 K)

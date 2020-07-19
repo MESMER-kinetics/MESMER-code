@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.0 compiled: -- Apr 10 2020 -- 16:41:00
+     Mesmer v6.1 compiled: -- May 23 2020 -- 19:35:23
 
-     Copyright (C) 2009-2020 by
+     Copyright (C) 2009-2021 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sat Apr 18 13:38:30 2020
+                     Execution Date:  Sat Jul 18 19:48:54 2020
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -171,7 +171,7 @@ In R3: Not a unimolecular reaction: look for excess reactant concentration.
 210.5torr, 577.8K at d precision with N2. Excess Reactant Conc = 3.158e+15 particles per cc
 210.5torr, 577.8K at d precision with N2. Excess Reactant Conc = 2.139e+15 particles per cc
 210.5torr, 577.8K at d precision with N2. Excess Reactant Conc = 1.087e+15 particles per cc
-Write metadata 20200418_133830
+Write metadata 20200718_194854
 
 File: "Ethylene_abstraction.xml" successfully parsed.
 Main Calculation begins
@@ -284,7 +284,7 @@ Chi^2 = 0.000155733 Lambda = 1e+10
 ethylene_OH:ZPE=-111.748  ethylene_OH:deltaEDown:N2=226.856  ethylene_OH:deltaEDownTExponent:N2=0.418089  R1:preExponential=6.4439e-12  R1:nInfinity=-0.652623  H-Abstraction:activationEnergy=23.5168  H-Abstraction:preExponential=2.49958e-11  R3:BimolecularLossRateCoefficient=3.35065e-12  
 Iteration: 20 of Marquardt. ChiSquare = 0.000155733, Lambda = 1e+10
 Number of cells = 50000, Number of grains = 147
- -- Total time elapsed: 1956 seconds.
+ -- Total time elapsed: 1747 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
@@ -20665,4 +20665,4 @@ Number of degrees of Freedom = 19932
 Error Factor = 8.83923e-05
 
 System saved to mesmer_out.xml
-Total time elapsed: 1956 seconds.
+Total time elapsed: 1747 seconds.

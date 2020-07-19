@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.0 compiled: -- Mar 28 2020 -- 15:01:47
+     Mesmer v6.1 compiled: -- Jul 13 2020 -- 23:02:00
 
-     Copyright (C) 2009-2020 by
+     Copyright (C) 2009-2021 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Thu Apr 23 18:38:02 2020
+                     Execution Date:  Mon Jul 13 23:15:38 2020
                      Number of ranks: 12
 
 defaults.xml, librarymols.xml are in ../..
@@ -50,14 +50,14 @@ The default value of the attribute Tstep was used.
 The default value of the attribute Tmin was used.
 The default value of the attribute Tmax was used.
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20200423_183802
+Write metadata 20200713_231538
 
 File: "ZNtest.xml" successfully parsed.
 Main Calculation begins
 Now calculating...
 
 --Execute calcMethod simpleCalc
-Number of cells = 108000, Number of grains = 1000
+Number of cells = 107100, Number of grains = 2142
 In dummy-Singlet-OH: Cannot find me:vibFreqs or me:hessian. Assuming an atom or a sink molecule.
 In dummy-Singlet-OH: No rotational constants from <me:rotConsts> or structure. Assuming an atom or a sink molecule.
 In dummy-Singlet-OH: The default value of the attribute spinMultiplicity was used.
@@ -65,15 +65,15 @@ Calculating Zhu Nakamura Probabilities for energies less than Et...
 Calculating Zhu Nakamura Probabilities for energies between Et and Eb...
 Calculating Zhu Nakamura Probabilities for energies greater than Eb...
 Finished Calculating Zhu Nakamura Probabilities...
-In FastLaplaceConvolution: 46140 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 45760 values in the FFT convolution routine were replaced by standard convolution
 Number of grains produced is not equal to that requested for: dummy-Singlet-OH
-Number of grains requested: 1000
+Number of grains requested: 2142
 Number of grains produced : 1
- -- Total time elapsed: 29 seconds.
+ -- Total time elapsed: 171 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
 
 System saved to mesmer_out.xml
-Total time elapsed: 29 seconds.
+Total time elapsed: 171 seconds.

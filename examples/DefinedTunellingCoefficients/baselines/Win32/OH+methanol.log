@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sun Jun  7 00:53:09 2020
+                     Execution Date:  Sat Jul 18 19:43:58 2020
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -54,10 +54,11 @@ In TS2: species TS2, differs at the minimum from the value entered by more than 
 In TS2: More terms in the Fourier expansion may be needed.
 In TS2: Hindered rotor b2
 In R3: --Parse data for RRKM
-In R3: No tunneling method used for R3
+In R3: --Parse data for DefinedTunnelingCoefficient
+In R3: Data for DefinedTunnelingCoefficients found
 6e+16PPCC, 40K at dd precision with N_2
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20200607_005309
+Write metadata 20200718_194358
 
 File: "OH+methanol.xml" successfully parsed.
 Main Calculation begins
@@ -67,6 +68,7 @@ Now calculating...
 Number of cells = 50000, Number of grains = 264
 In FastLaplaceConvolution: 300 values in the FFT convolution routine were replaced by standard convolution
 In FastLaplaceConvolution: 1220 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 5300 values in the FFT convolution routine were replaced by standard convolution
  -- Total time elapsed: 2 seconds.
 
 

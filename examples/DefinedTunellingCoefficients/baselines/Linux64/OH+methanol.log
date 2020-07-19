@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.0 compiled: -- Mar 28 2020 -- 15:01:47
+     Mesmer v6.1 compiled: -- Jul 13 2020 -- 23:02:00
 
-     Copyright (C) 2009-2020 by
+     Copyright (C) 2009-2021 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Sat Mar 28 17:05:30 2020
+                     Execution Date:  Tue Jul 14 00:19:46 2020
                      Number of ranks: 12
 
 defaults.xml, librarymols.xml are in ../..
@@ -54,10 +54,11 @@ In TS2: species TS2, differs at the minimum from the value entered by more than 
 In TS2: More terms in the Fourier expansion may be needed.
 In TS2: Hindered rotor b2
 In R3: --Parse data for RRKM
-In R3: No tunneling method used for R3
+In R3: --Parse data for DefinedTunnelingCoefficient
+In R3: Data for DefinedTunnelingCoefficients found
 6e+16PPCC, 40K at dd precision with N_2
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20200328_170530
+Write metadata 20200714_001946
 
 File: "OH+methanol.xml" successfully parsed.
 Main Calculation begins
@@ -67,11 +68,12 @@ Now calculating...
 Number of cells = 50000, Number of grains = 264
 In FastLaplaceConvolution: 300 values in the FFT convolution routine were replaced by standard convolution
 In FastLaplaceConvolution: 1220 values in the FFT convolution routine were replaced by standard convolution
- -- Total time elapsed: 1 seconds.
+In FastLaplaceConvolution: 5300 values in the FFT convolution routine were replaced by standard convolution
+ -- Total time elapsed: 3 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
 
 System saved to mesmer_out.xml
-Total time elapsed: 1 seconds.
+Total time elapsed: 3 seconds.
