@@ -172,11 +172,16 @@ namespace mesmer
               return false;
             }
 
-          // Convert addand of dependent variable to the units of the independent variable
+          // Convert addand of dependent variable to the units of the independent variable.
           // Currently this works only with energy units (ZPE, deltaEDown),
           // but could be generalised.
-          if (!depvar->m_units.empty() && !depvar->link->m_units.empty())
-            depvar->set_addand(ConvertEnergy(depvar->m_units, depvar->link->m_units, depvar->addand));
+          if (!depvar->m_units.empty() && !depvar->link->m_units.empty()) {
+            if (depvar->m_units != depvar->link->m_units) {
+              // Test for energy units.
+              if (energyMap.find(depvar->m_units) != energyMap.end())
+                depvar->set_addand(ConvertEnergy(depvar->m_units, depvar->link->m_units, depvar->addand));
+            }
+          }
         }
         else
         {

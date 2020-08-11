@@ -1,3 +1,8 @@
+2020-August-11 Struan Robertson
+
+		* Rdouble.cpp: Fix for derived variable bug, which occurred when the two variables involved
+		were not energies.
+
 2020-July-18 Struan Robertson
 
 		* System.cpp: Fix for missing grain partition functions in output - calculate MaxGrn on 
