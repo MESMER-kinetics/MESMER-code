@@ -129,7 +129,7 @@ namespace mesmer
     gStructure& gs = gdos->getHost()->getStruc();
     if (!gs.ReadStructure())
     {
-      cerr << "A complete set of atom coordinates are required for hindered rotor calculations" << endl;
+      cerr << "A complete set of atom coordinates are required for Fourier grid calculations" << endl;
       return false;
     }
 
@@ -139,7 +139,7 @@ namespace mesmer
     {
       if (!gdos->removeVibFreq(atof(vibFreq)))
       {
-        cerr << "Cannot find vibrational frequency " << vibFreq << " to replace it with hindered rotor" << endl;
+        cerr << "Cannot find harmonic vibrational frequency " << vibFreq << " to replace with anharmonic vibration" << endl;
         return false;
       }
       cinfo << " replacing vib freq " << vibFreq;

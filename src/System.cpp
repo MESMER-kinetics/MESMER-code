@@ -102,7 +102,7 @@ namespace mesmer
   }
 
 
-  System::System(const std::string& libraryfilename, ParallelManager *pParallelManager) :
+  System::System(const std::string& libraryfilename, ParallelManager* pParallelManager) :
     m_pMoleculeManager(0),
     m_pReactionManager(0),
     m_pConditionsManager(0),
@@ -196,21 +196,23 @@ namespace mesmer
           if (nCells) m_Env.MaxCell = nCells;
 
           // The grain size and grain number are linked via the total maximum energy,
-          // so only one of then is independent. Look for grain size first and if that
-          // fails look for the Max. number of grains.
+          // so only one of then is independent. Look for Max. number of grains first
+          // and if that fails look for the grain size which must be there explictly
+          // or available as a default. Note these are provisional estimates that may
+          // be revised later after the system is parsed.
 
-          m_Env.GrainSize = ppParams->XmlReadInteger("me:grainSize", optional);
-          if (m_Env.GrainSize == 0) {
-            m_Env.MaxGrn = ppParams->XmlReadInteger("me:numberOfGrains", optional);
-            if (IsNan(m_Env.MaxGrn)) {
-              m_Env.MaxGrn = 0;
+          m_Env.MaxGrn = ppParams->XmlReadInteger("me:numberOfGrains", optional);
+          if (m_Env.MaxGrn == 0) {
+            m_Env.GrainSize = ppParams->XmlReadInteger("me:grainSize");
+            if (m_Env.GrainSize == 0) {
+              throw (std::runtime_error("Neither grain number or grain size is specified. At least one of these us required"));
             }
             else {
-              m_Env.GrainSize = m_Env.MaxCell * m_Env.CellSize / m_Env.MaxGrn ;
+              m_Env.MaxGrn = size_t(double(m_Env.MaxCell) * m_Env.CellSize / double(m_Env.GrainSize));
             }
           }
           else {
-            m_Env.MaxGrn = m_Env.MaxCell * m_Env.CellSize / m_Env.GrainSize ;
+            m_Env.GrainSize = size_t(double(m_Env.MaxCell) * m_Env.CellSize / double(m_Env.MaxGrn));
           }
 
           m_Env.MaximumTemperature = ppParams->XmlReadDouble("me:maxTemperature", optional);
@@ -438,7 +440,7 @@ namespace mesmer
   //
   // Begin calculation.
   // over all PT values, constant parameters
-  bool System::calculate(double& chiSquare, vector<double> &residuals, bool writeReport)
+  bool System::calculate(double& chiSquare, vector<double>& residuals, bool writeReport)
   {
     // Controls the print-out of grain/cell DOS in each cycle (This is only for source term)
     if (m_Flags.cellDOSEnabled) m_Flags.cyclePrintCellDOS = true;
@@ -582,6 +584,7 @@ namespace mesmer
         }
       }
 
+      m_pParallelManager->barrier();
       m_pParallelManager->writeCtest();
 
     } // End of temperature and concentration loop. 
@@ -620,7 +623,7 @@ namespace mesmer
   //
   // Calculate rate coefficients etc. for a specific condition.
   //
-  bool System::calculate(size_t nConds, vector<double> &Quantities, bool writeReport)
+  bool System::calculate(size_t nConds, vector<double>& Quantities, bool writeReport)
   {
     //
     // Reset microcanonical rate re-calculation flag as parameters, such
@@ -681,8 +684,8 @@ namespace mesmer
   // Calculate rate coefficients for conditions other than those 
   // supplied directly by user e.g. for analytical representation.
   //
-  bool System::calculate(double &Temperature, double &Concentration, Precision precision,
-    map<string, double> &phenRates, double &MaxT, const string& bathGas)
+  bool System::calculate(double& Temperature, double& Concentration, Precision precision,
+    map<string, double>& phenRates, double& MaxT, const string& bathGas)
   {
     assert(!bathGas.empty());
     m_Env.bathGasName = bathGas;
@@ -716,7 +719,7 @@ namespace mesmer
   }
 
   // Wrapper for single calculation.
-  bool System::calculate(size_t nCond, map<string, double> &phenRates) {
+  bool System::calculate(size_t nCond, map<string, double>& phenRates) {
 
     //
     // Reset microcanonical rate re-calculation flag as parameters, such
@@ -731,11 +734,11 @@ namespace mesmer
     double conc = m_pConditionsManager->PTPointConc(nCond);
     Precision precision = m_pConditionsManager->PTPointPrecision(nCond);
     string bathGas(m_pConditionsManager->PTPointBathGas(nCond));
-    double MaxT(2.0*temp);
+    double MaxT(2.0 * temp);
     return calculate(temp, conc, precision, phenRates, MaxT, bathGas);
   };
 
-  double System::calcChiSqRateCoefficients(const qdMatrix& mesmerRates, const unsigned calPoint, vector<double> &residuals) {
+  double System::calcChiSqRateCoefficients(const qdMatrix& mesmerRates, const unsigned calPoint, vector<double>& residuals) {
 
     double chiSquare(0.0);
 
@@ -766,7 +769,7 @@ namespace mesmer
 
       // Is a bimolecular rate coefficient required?
 
-      Reaction *reaction = m_pReactionManager->find(refReaction);
+      Reaction* reaction = m_pReactionManager->find(refReaction);
       if (reaction)
         reaction->normalizeRateCoefficient(rateCoeff, ref1);
 
@@ -782,7 +785,7 @@ namespace mesmer
     return chiSquare;
   }
 
-  double System::calcChiSqYields(const unsigned calPoint, vector<double> &residuals) {
+  double System::calcChiSqYields(const unsigned calPoint, vector<double>& residuals) {
 
     double chiSquare(0.0);
     vector<conditionSet> expYields;
@@ -805,7 +808,7 @@ namespace mesmer
 
       m_collisionOperator.calculateYields(yieldMap, time);
     }
-    catch (std::runtime_error& e) {
+    catch (std::runtime_error & e) {
       cerr << "Error: during calculation of Chi^2 for yields:" << endl;
       cerr << e.what() << endl;
       return 0.0;
@@ -843,7 +846,7 @@ namespace mesmer
     return chiSquare;
   }
 
-  double System::calcChiSqEigenvalues(const unsigned calPoint, vector<double> &residuals) {
+  double System::calcChiSqEigenvalues(const unsigned calPoint, vector<double>& residuals) {
 
     double chiSquare(0.0);
 
@@ -863,7 +866,7 @@ namespace mesmer
       try {
         eigenvalue = m_collisionOperator.getEigenvalue(idEigenvalue);
       }
-      catch (std::runtime_error& e) {
+      catch (std::runtime_error & e) {
         cerr << e.what() << endl;
         continue;
       }
@@ -880,7 +883,7 @@ namespace mesmer
     return chiSquare;
   }
 
-  double System::calcChiSqRawData(const unsigned calPoint, vector<double> &residuals) {
+  double System::calcChiSqRawData(const unsigned calPoint, vector<double>& residuals) {
 
     //
     // With trace data, an indpendent assessment of the precision of the measurements is not possible. 
@@ -891,7 +894,7 @@ namespace mesmer
     //
 
     double chiSquare(0.0);
-    vector<RawDataSet> &rawDataSets = m_pConditionsManager->get_experimentalrawDataSets(calPoint);
+    vector<RawDataSet>& rawDataSets = m_pConditionsManager->get_experimentalrawDataSets(calPoint);
     if (rawDataSets.size() == 0)
       return chiSquare;
 
@@ -929,7 +932,7 @@ namespace mesmer
       for (size_t j(0); j < signal.size(); ++j) {
         signal[j] *= alpha;
         diff = (signal[j] - expSignal[j]);
-        localChi += (diff*diff);
+        localChi += (diff * diff);
       }
       dataSet.m_calcTrace = signal;
 
@@ -945,7 +948,7 @@ namespace mesmer
         else {
           chiSquare += localChi;
         }
-        dataSet.m_weight = localChi/double(signal.size() - 1);
+        dataSet.m_weight = localChi / double(signal.size() - 1);
       }
 
     }

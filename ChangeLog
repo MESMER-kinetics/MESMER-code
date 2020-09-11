@@ -1,3 +1,10 @@
+2020-September-11 Struan Robertson
+
+		* System.cpp: Added extra MPI barrier to help synchronize processes. Altered calculation
+		of MaxGrn on input.
+
+		* FourierGrid1D.cpp: Fixed error strings.
+
 2020-August-11 Struan Robertson
 
 		* Rdouble.cpp: Fix for derived variable bug, which occurred when the two variables involved
