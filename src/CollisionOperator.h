@@ -123,6 +123,9 @@ namespace mesmer
     // Method to integrate the phenomenological rate equations using BW coefficients.
     bool PhenomenologicalIntegration(qdMatrix& Z_matrix, qdMatrix& Zinv, qdMatrix& Egv, MesmerFlags& mFlags);
 
+    // Method for printing the ratio matrix, used to determine if species are in equilibrium.
+    bool printRatioMatrix(qdMatrix& Z_matrix, vector<qd_real>& speciesPopn) const;
+
     // Location of the molecule manager.
     MoleculeManager *m_pMoleculeManager;
 

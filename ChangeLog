@@ -1,3 +1,8 @@
+2020-October-25 Struan Robertson
+
+		* CollisonOperator.h/.cpp, MesmerFlags.h/.cpp, System.cpp: Initial implementation of 
+		equilibration analysis.
+
 2020-September-11 Struan Robertson
 
 		* System.cpp: Added extra MPI barrier to help synchronize processes. Altered calculation

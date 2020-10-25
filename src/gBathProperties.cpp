@@ -16,16 +16,6 @@ namespace mesmer
   //
   // Constructor, destructor and initialization
   //
-  gBathProperties::~gBathProperties()
-  {
-    /*  if (m_Sigma_chk == 0){
-    cinfo << "m_Sigma is provided but not used in " << m_host->getName() << "." << endl;
-    }
-    if (m_Epsilon_chk == 0){
-    cinfo << "m_Epsilon is provided but not used in " << m_host->getName() << "." << endl;
-    }
-    */
-  };
 
   gBathProperties::gBathProperties(Molecule* pMol)
     :m_Sigma(sigmaDefault),

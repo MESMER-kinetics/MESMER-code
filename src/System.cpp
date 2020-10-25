@@ -327,6 +327,7 @@ namespace mesmer
         m_Flags.useDOSweightedDT = ppControl->XmlReadBoolean("me:useDOSweighedDownWardTransition");
         m_Flags.bForceMacroDetailedBalance = ppControl->XmlReadBoolean("me:ForceMacroDetailedBalance");
         m_Flags.useOrigFreqForZPECorrection = ppControl->XmlReadBoolean("me:useOrigFreqForZPECorrection");
+        m_Flags.printZMatrixRatios = ppControl->XmlReadBoolean("me:printZMatrixRatios");   
 
         m_Flags.useTraceWeighting = ppControl->XmlReadBoolean("me:useTraceWeighting");
         if (m_Flags.useTraceWeighting) {

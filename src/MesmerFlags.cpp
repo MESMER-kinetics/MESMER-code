@@ -45,7 +45,8 @@ namespace mesmer{
 		bIndependentErrors(true),
 		useOrigFreqForZPECorrection(true),
     useTraceWeighting(false),
-    updateTraceWeights(false)
+    updateTraceWeights(false),
+    printZMatrixRatios(false)
   {}
 }//namespace
 

@@ -63,7 +63,8 @@ namespace mesmer
 		                                       // frequencies to calculate the ZPE correction need to addjust the Classical potential.
     bool   useTraceWeighting;              // If true weight the traces with the (normalized) values in the input file, otherwise
                                            // calculate weight weights.
-    bool updateTraceWeights;               // If true trace weights are updated at the end of a fitting cycle.
+    bool   updateTraceWeights;             // If true trace weights are updated at the end of a fitting cycle.
+    bool   printZMatrixRatios;             // If true the rations of the Z matrix elements are printed. These can used to identify equlibrating pairs.
   };
 }//namespace
 
