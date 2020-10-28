@@ -370,7 +370,7 @@ namespace mesmer
       species.push_back(pseudoIsomeritr->first);
     }
 
-    mEnv.MaxCell = max(mEnv.MaxCell, size_t((mEnv.EMax - mEnv.EMin)/mEnv.CellSize));
+    mEnv.MaxCell = max(mEnv.MaxCell, size_t((mEnv.EMax - mEnv.EMin) / mEnv.CellSize));
     const double populationThreshold(mFlags.popThreshold);
     double HighCell(0.0);
     for (size_t i(0); i < species.size(); ++i) {
@@ -380,7 +380,7 @@ namespace mesmer
 
       // Offset cell size by relative energy of species.
       double Rel_ZPE(pmol->getDOS().get_zpe() - mEnv.EMin);
-      size_t cutoffCell = mEnv.MaxCell - 1 - size_t(Rel_ZPE/mEnv.CellSize);
+      size_t cutoffCell = mEnv.MaxCell - 1 - size_t(Rel_ZPE / mEnv.CellSize);
       if (cellFrac[cutoffCell] > populationThreshold) {
 
         // Find cell at which population threshold is reached.
@@ -1457,13 +1457,13 @@ namespace mesmer
 
     // Final normalization.
     qd_real sum(0.0);
-    for (size_t i(0); i < n_0.size(); i++ ) {
+    for (size_t i(0); i < n_0.size(); i++) {
       sum += n_0[i];
     }
 
     if (sum > 0.0) {
       for (size_t i(0); i < n_0.size(); i++) {
-        n_0[i] /= sum ;
+        n_0[i] /= sum;
       }
     }
     else {
@@ -1618,6 +1618,28 @@ namespace mesmer
         Y_matrix.print(MatrixTitle, stest, int(nsinks), int(m_SpeciesSequence.size()));
       }
 
+      // Calculate mole fractions of species.
+
+      vector<qd_real> speciesPopn(Z_matrix.size(), qd_real(0.0));
+      if (nsinks) {
+
+        // Non-conservative case.
+
+        Reaction::molMapType::iterator spcitr = m_SpeciesSequence.begin();
+        for (; spcitr != m_SpeciesSequence.end(); ++spcitr) {
+          size_t i = spcitr->second;
+          speciesPopn[i] = qd_real((spcitr->first)->getPop().getEqFraction());
+        }
+      }
+      else {
+
+        // Conservative case.
+
+        for (size_t i(0); i < nchem; ++i) {
+          speciesPopn[i] = Z_matrix[i][nchem - 1];
+        }
+      }
+
       qdMatrix Zinv(Z_matrix);
       if (nsinks && !mFlags.bForceMacroDetailedBalance) {
 
@@ -1649,27 +1671,10 @@ namespace mesmer
 
         qdMatrix Fr(nchem), Fr_inv(nchem);
 
-        if (nsinks && mFlags.bForceMacroDetailedBalance) {
-
-          // Non-conservative case.
-
-          Reaction::molMapType::iterator spcitr = m_SpeciesSequence.begin();
-          for (; spcitr != m_SpeciesSequence.end(); ++spcitr) {
-            size_t i = spcitr->second;
-            Fr[i][i] = sqrt(qd_real((spcitr->first)->getPop().getEqFraction()));
-            Fr_inv[i][i] = qd_real(1.0) / Fr[i][i];
-          }
+        for (size_t i(0); i < nchem; ++i) {
+          Fr[i][i] = sqrt(speciesPopn[i]);
+          Fr_inv[i][i] = qd_real(1.0) / Fr[i][i];
         }
-        else {
-
-          // Conservative case.
-
-          for (size_t i(0); i < nchem; ++i) {
-            Fr[i][i] = sqrt(Z_matrix[i][nchem - 1]);
-            Fr_inv[i][i] = qd_real(1.0) / Fr[i][i];
-          }
-        }
-
 
         qdMatrix Er = Fr_inv * Z_matrix;
 
@@ -1689,6 +1694,11 @@ namespace mesmer
 
       stest << "\nZ_matrix: ";
       Z_matrix.showFinalBits(nchem, true);
+
+      // Print out the ratio matrix if required.
+
+      if (mFlags.printZMatrixRatios)
+        printRatioMatrix(Z_matrix, speciesPopn);
 
       stest << endl << "Z_matrix^(-1):" << endl;
       Zinv.showFinalBits(nchem, true);
@@ -2371,5 +2381,51 @@ namespace mesmer
 
     return true;
   }
+
+  // Method for printing the ratio matrix, used to determine if species are in equilibrium.
+  bool CollisionOperator::printRatioMatrix(qdMatrix& Z_matrix, vector<qd_real>& speciesPopn) const {
+
+    size_t nsize = Z_matrix.size();
+
+    if (nsize < 3) {
+      return true;
+    }
+    size_t rsize = nsize * (nsize - 1) / 2;
+    qdMatrix ratios(rsize);
+
+    vector<string> species(nsize);
+    Reaction::molMapType::const_iterator itr1;
+    for (itr1 = m_SpeciesSequence.begin(); itr1 != m_SpeciesSequence.end(); ++itr1)
+      species[itr1->second] = itr1->first->getName();
+
+
+
+    for (size_t l(0); l < nsize; ++l) {
+      for (size_t i(0), ii(0); i < nsize; ++i) {
+        for (size_t j(i + 1); j < nsize; ++j, ++ii) {
+          qd_real eqmRatio = speciesPopn[j] / speciesPopn[i];
+          qd_real ratio = Z_matrix[j][l] / Z_matrix[i][l];
+          ratios[ii][l] = ratio;
+        }
+      }
+    }
+
+    stest << endl << "Ratio matrix" << endl << "{" << endl;
+    for (size_t i(0), ii (0), jj (1) ; i < rsize; ++i, ++jj) {
+      for (size_t j(0); j < nsize; ++j) {
+        formatFloat(stest, ratios[i][j], 6, 15); 
+        stest << ",";
+      }
+      stest << " : " << species[jj] << "/" << species[ii] << endl;
+      if (jj == nsize-1) {
+        ii++;
+        jj = ii;
+      }
+    }
+    stest << "}" << endl;
+
+    return true;
+  }
+
 
 }  //namespace

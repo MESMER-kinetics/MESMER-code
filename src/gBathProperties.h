@@ -1,11 +1,7 @@
 #ifndef GUARD_gBathProperties_h
 #define GUARD_gBathProperties_h
 
-
 #include "MolecularComponents.h"
-
-using namespace std ;
-using namespace Constants ;
 
 namespace mesmer
 {
@@ -17,14 +13,10 @@ namespace mesmer
     //-------------------------------------------------------------------------------------------------
 
   private:
-    double         m_Sigma ;            // Lennard-Jones sigma.
-    double         m_Epsilon ;          // Lennard-Jones epsilon.
 
-    //================================================
-    // CHECK FOR INPUTFILE PARAMETERS
-    int m_Sigma_chk;
-    int m_Epsilon_chk;
-    //================================================
+    double m_Sigma ;         // Lennard-Jones sigma.
+    double m_Epsilon ;       // Lennard-Jones epsilon.
+    bool   m_dafaultPrmtrs ; // Indicates if defaults paramters have been read. 
 
   public:
 
@@ -32,12 +24,11 @@ namespace mesmer
     // Constructor, destructor and initialization
     //
     gBathProperties(Molecule* pMol);
-    virtual ~gBathProperties();
+    ~gBathProperties() {};
 
-    double getSigma() ;
-    double getEpsilon() ;
-    void   setSigma(double value);
-    void   setEpsilon(double value);
+    double getSigma() { return m_Sigma; }
+    double getEpsilon() { return m_Epsilon; }
+    bool   dafaultLJParatmeters() { return m_dafaultPrmtrs; }
   };
 }
 #endif

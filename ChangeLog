@@ -1,3 +1,8 @@
+2020-October-28 Struan Robertson
+
+		* CollisonOperator.h/.cpp, gWellProperties.h/.cpp, gBathProperties.h/.cpp: Initial implementation 
+		of Jasper Lennard-Jones collision frequency parameters.
+
 2020-October-25 Struan Robertson
 
 		* CollisonOperator.h/.cpp, MesmerFlags.h/.cpp, System.cpp: Initial implementation of 

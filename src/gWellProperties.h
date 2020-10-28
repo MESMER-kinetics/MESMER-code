@@ -94,6 +94,10 @@ namespace mesmer
     void normalizedGrnBoltzmannDistribution(vector<double> &grainFrac);
     void normalizedCellBoltzmannDistribution(vector<double> &grainFrac);
 
+    // Method to calculate LJ parameters based on Jasper fits.
+
+    bool jasperLJParameters(Molecule* pMol, Molecule* pBathGasMolecule, double &eam, double &sam) const;
+
     // Accessors.
 
     double get_collisionFrequency() const {return m_collisionFrequency ; } ;

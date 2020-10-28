@@ -1,22 +1,76 @@
-// MolecularComponents.cpp
+//-------------------------------------------------------------------------------------------
+// gWellProperties.cpp
 //
-// Author: Chi-Hsiu Liang
+// Authors: Chi-Hsiu Liang and Struan Robertson
 //
 //-------------------------------------------------------------------------------------------
-#include <stdexcept>
-#include <numeric>
-#include <cmath>
-#include <iomanip>
+#include "gWellProperties.h"
 #include "Molecule.h"
 #include "System.h"
 #include "ParseForPlugin.h"
-#include "gWellProperties.h"
 #include "gBathProperties.h"
 #include "gStructure.h"
 
 using namespace std;
 using namespace Constants;
 using namespace OpenBabel;
+
+namespace {
+
+  // This namespace contains data and methods to calculate the Lennard-Jones collision 
+  // parameters as described by Jasper in Int J Chem Kinet. 2020;52:387–402. The data 
+  // for Kr as the bath gas has been assumed to be the same as for Ar as suggested in 
+  // this paper. Similarly the data for Ne has been equated with that of He and, for 
+  // the case of hydrocarbons data for O2 has been equated with that of N2.
+
+  enum CompoundType {
+    HYDROCARBON,
+    ALCOHOL,
+    HYDROPEROXIDE,
+    UNDEFINED
+  };
+
+  // Tables for Jasper fits of Lennard-Jones parameters.
+  typedef map<string, vector<double> > LJTable;
+  typedef map<string, vector<double> >::const_iterator LJItr;
+
+  const LJTable hydrocarbons = {
+      {"He", {3.33, 0.17, 21.3, 0.31}},
+      {"Ne", {3.33, 0.17, 21.3, 0.31}},
+      {"Ar", {3.40, 0.18, 113., 0.31}},
+      {"Kr", {3.40, 0.18, 113., 0.31}},
+      {"H2", {3.68, 0.18, 75.0, 0.30}},
+      {"N2", {3.40, 0.16, 100., 0.25}},
+      {"O2", {3.40, 0.16, 100., 0.25}}
+  };
+
+  const LJTable alcohols = {
+      {"He", {2.90, 0.21, 22.0, 0.28}},
+      {"Ne", {2.90, 0.21, 22.0, 0.28}},
+      {"Ar", {3.05, 0.20, 150., 0.29}},
+      {"Kr", {3.05, 0.20, 150., 0.29}}
+  };
+
+  const LJTable hydroperoxides = {
+      {"He", {2.90, 0.21, 10.0, 0.75}},
+      {"Ne", {2.90, 0.21, 10.0, 0.75}},
+      {"Ar", {3.05, 0.20, 110., 0.39}},
+      {"Kr", {3.05, 0.20, 110., 0.39}}
+  };
+
+  bool calculateLJParameters(const LJTable& table, string bathGas, size_t N, double& eam, double& sam) {
+    LJItr it = table.find(bathGas);
+    if (it == table.end()) {
+      return false;
+    }
+    else {
+      const vector<double> prmtrs = it->second;
+      eam = prmtrs[1] * pow(double(N), prmtrs[2]);
+      sam = prmtrs[3] * pow(double(N), prmtrs[4]);
+    }
+  }
+
+}
 
 namespace mesmer
 {
@@ -65,8 +119,6 @@ namespace mesmer
       return false;
     pModel->setParent(m_host);
     return true;
-
-
   }
 
   EnergyTransferModel* gWellProperties::addBathGas(const char* pbathGasName, EnergyTransferModel* pModel)
@@ -199,6 +251,34 @@ namespace mesmer
   //
   double gWellProperties::collisionFrequency(MesmerEnv env, Molecule *pBathGasMolecule)
   {
+
+    // Determine collision parameters.
+
+    double bthMass = pBathGasMolecule->getStruc().getMass();
+    double molMass = m_host->getStruc().getMass();
+    double mu = amu * molMass * bthMass / (molMass + bthMass);
+
+    double eam(0.0), sam(0.0);
+    double bthSigma = pBathGasMolecule->getBath().getSigma();
+    double bthEpsilon = pBathGasMolecule->getBath().getEpsilon();
+    if (m_host->getBath().dafaultLJParatmeters()) {
+
+      // Try to calculate parameters via the Jasper formulae, if this fails use default parameters.
+
+      if (!jasperLJParameters(m_host, pBathGasMolecule, eam, sam)) {
+        eam = sqrt(m_host->getBath().getEpsilon() * bthEpsilon);
+        sam = (m_host->getBath().getSigma() + bthSigma) * 0.5;
+      }
+
+    }
+    else {
+
+      // Calculate Lennard-Jones parameters based on user suplied values
+
+      eam = sqrt(m_host->getBath().getEpsilon() * bthEpsilon);
+      sam = (m_host->getBath().getSigma() + bthSigma) * 0.5;
+    }
+
     //
     // Lennard-Jones Collision frequency. The collision integral is calculated
     // using the formula of Neufeld et al., J.C.P. Vol. 57, Page 1100 (1972).
@@ -212,28 +292,8 @@ namespace mesmer
     const double E = 2.16178;
     const double F = 2.43787;
 
-    double temp = 1.0 / (boltzmann_RCpK*env.beta);
+    double temp = 1.0 / (boltzmann_RCpK * env.beta);
 
-    // Calculate collision parameter averages.
-    double bthMass = 0.0;
-    bthMass = pBathGasMolecule->getStruc().getMass();
-
-    double bthSigma = 0.0;
-    bthSigma = pBathGasMolecule->getBath().getSigma();
-
-    if (!bthSigma)
-      cerr << "me:sigma is necessary for " << pBathGasMolecule->getName()
-      << ". Correct input file to remove this error." << endl;
-
-    double bthEpsilon = 0.0;
-    bthEpsilon = pBathGasMolecule->getBath().getEpsilon();
-
-    if (!bthEpsilon)
-      cerr << "me:epsilon is necessary for " << pBathGasMolecule->getName()
-      << ". Correct input file to remove this error.";
-    double mu = amu * m_host->getStruc().getMass() * bthMass / (m_host->getStruc().getMass() + bthMass);
-    double eam = sqrt(m_host->getBath().getEpsilon() * bthEpsilon);
-    double sam = (m_host->getBath().getSigma() + bthSigma) * 0.5;
     double tstr = temp / eam;
 
     // Calculate collision integral.
@@ -401,5 +461,60 @@ namespace mesmer
   // Accessor for number of basis functions to be used in contracted basis set method.
   //
   size_t gWellProperties::get_nbasis() const { return m_host->getEnv().nBasisSet; }
+
+  // Method to calculate LJ parameters based on Jasper fits.
+
+  bool gWellProperties::jasperLJParameters(Molecule* pMol, Molecule* pBathGasMolecule, double& eam, double& sam) const {
+
+    bool status(true);
+
+    map<std::string, int> elementContent = pMol->getStruc().GetElementalComposition();
+
+    status = (elementContent.size() > 1) ; 
+
+    size_t N(0), nC(0), nO(0), nH(0);
+    for (map<string, int>::const_iterator it = elementContent.begin(); it != elementContent.end() && status ; ++it) {
+      string El = it->first;
+      if (El == "C") { 
+        nC  = it->second ;
+        N  += nC ;
+      }
+      else if (El == "O") {
+        nO = it->second;
+        N += nO;
+      }
+      else if (El == "H") {
+        nH = it->second;
+        // H atoms are excluded from N.
+      } else {
+        status = false;
+      }
+    }
+
+    if (!status)
+      return status;
+
+    CompoundType compoundID = UNDEFINED;
+    if (nO == 0)
+      compoundID = HYDROCARBON;
+
+    const string bathGas = pBathGasMolecule->getName();
+    switch (compoundID) {
+    case HYDROCARBON:
+      status = ::calculateLJParameters(hydrocarbons, bathGas, N, eam, sam);
+      break;
+    case ALCOHOL:
+      status = ::calculateLJParameters(alcohols, bathGas, N, eam, sam);
+      break;
+    case HYDROPEROXIDE:
+      status = ::calculateLJParameters(hydroperoxides, bathGas, N, eam, sam);
+      break;
+    default:
+      status = false;
+      break;
+    }
+
+    return status ;
+  }
 
 }//namespace
