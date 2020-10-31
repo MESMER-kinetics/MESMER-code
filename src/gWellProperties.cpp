@@ -60,16 +60,17 @@ namespace {
 
   bool calculateLJParameters(const LJTable& table, string bathGas, size_t N, double& eam, double& sam) {
     LJItr it = table.find(bathGas);
+    bool status = true;
     if (it == table.end()) {
-      return false;
+      status = false;
     }
     else {
       const vector<double> prmtrs = it->second;
       eam = prmtrs[1] * pow(double(N), prmtrs[2]);
       sam = prmtrs[3] * pow(double(N), prmtrs[4]);
     }
+    return status;
   }
-
 }
 
 namespace mesmer

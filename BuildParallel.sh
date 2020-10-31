@@ -20,8 +20,8 @@ echo "----------------------------------------------------------------------"
 
 cd ./qd
 chmod +x configure
-./configure
-make
+CXX=gcc CXXFLAGS='-O2' ./configure --prefix $PWD/src
+make install
 cd ../
 
 echo "----------------------------------------------------------------------"

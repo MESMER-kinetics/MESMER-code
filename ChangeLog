@@ -1,7 +1,13 @@
+2020-October-31 Struan Robertson
+
+		* Update of Linux build and Make scripts.
+
+		* Documentation update.
+
 2020-October-28 Struan Robertson
 
 		* CollisonOperator.h/.cpp, gWellProperties.h/.cpp, gBathProperties.h/.cpp: Initial implementation 
-		of Jasper Lennard-Jones collision frequency parameters.
+		of Jasper Lennard-Jones collision parameters.
 
 2020-October-25 Struan Robertson
 

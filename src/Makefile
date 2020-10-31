@@ -39,7 +39,7 @@ RELEASE_CFLAGS   := -Wall -Wno-format -O2 -DLINUX
 # tinyxml and qd in their default location within the MESMER distribution.
 # This is the LIBS path required by most users
 
-LIBS           := ../tinyxml/tinyxml.a ../qd/src/libqd.a
+LIBS           := ../tinyxml/tinyxml.a ../qd/src/lib/libqd.a
 
 # the line below should be uncommented if tinyxml is in its default location and 
 # qd is placed in an arbitrary directory by the user.  The path to libqd.a 
