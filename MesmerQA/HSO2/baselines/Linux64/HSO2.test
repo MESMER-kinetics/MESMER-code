@@ -160,7 +160,7 @@ Eigenvalues
   -1.388425e+08
   -6.089400e-01
   -2.958772e-05
-   1.061229e-21
+   8.588334e-22
 }
 
 Bartis Widom eigenvalue/eigenvector analysis
@@ -189,27 +189,27 @@ Z_matrix^(-1):
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	-1.014845e-66	-9.008226e-85	
--1.340754e-64	1.000000e+00	-2.033285e-83	
--4.421374e-65	-9.495568e-65	1.000000e+00	
+1.000000e+00	-5.302358e-67	8.364781e-85	
+-8.163349e-65	1.000000e+00	-4.423682e-84	
+1.091990e-64	7.596454e-65	1.000000e+00	
 }
 
 Kr matrix:
 {
 -5.947671e-01	1.420256e-02	1.151173e-23	
 5.934985e-01	-1.420256e-02	2.201709e-32	
-1.268586e-03	5.806126e-14	1.049718e-21	
+1.268586e-03	5.806126e-14	8.473216e-22	
 }
 
 Kp matrix:
 {
-   1.463953e-16,   3.284655e-27,   1.660340e-46,
+   1.463953e-16,   3.284655e-27,   7.338673e-47,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
 H loss = -5.947671e-01
-HOSO loss = 1.049718e-21
+HOSO loss = 8.473216e-22
 HSO2 loss = -1.420256e-02
 }
 
@@ -226,7 +226,7 @@ HSO2 -> HOSO = 5.806126e-14
 First order & pseudo first order rate coefficients for irreversible rxns:
 {
 H -> OH+SO = 1.463953e-16
-HOSO -> OH+SO = 1.660340e-46
+HOSO -> OH+SO = 7.338673e-47
 HSO2 -> OH+SO = 3.284655e-27
 }
 
