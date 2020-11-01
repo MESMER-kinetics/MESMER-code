@@ -62,37 +62,37 @@ Number of sinks in this system: 0
 There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
 
 Z_matrix: {
--4.382139e-34	1.920314e-67	
-4.382139e-34	1.000000e+00	
+6.979446e-34	4.871267e-67	
+-6.979446e-34	1.000000e+00	
 }
 
 Z_matrix^(-1):
 {
--2.281991e+33	4.382139e-34	
+1.432778e+33	-6.979446e-34	
 1.000000e+00	1.000000e+00	
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	1.540920e-132	
-2.467707e-65	1.000000e+00	
+1.000000e+00	5.635363e-132	
+-7.172954e-66	1.000000e+00	
 }
 
 Kr matrix:
 {
--8.674309e+05	1.665740e-61	
-8.674309e+05	-1.665740e-61	
+-8.674309e+05	4.225487e-61	
+8.674309e+05	-4.225487e-61	
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-Methoxy loss = -1.665740e-61
+Methoxy loss = -4.225487e-61
 Methyl loss = -8.674309e+05
 }
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-Methoxy -> Methyl = 1.665740e-61
+Methoxy -> Methyl = 4.225487e-61
 Methyl -> Methoxy = 8.674309e+05
 }
 }
