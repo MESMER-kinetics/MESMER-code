@@ -496,8 +496,19 @@ namespace mesmer
       return status;
 
     CompoundType compoundID = UNDEFINED;
-    if (nO == 0)
+    if (nO == 0) {
       compoundID = HYDROCARBON;
+    }
+    else if (nO == 1) {
+      // Possible alcohol.
+      if (pMol->getStruc().findFunctionalForm("C,O,H"))
+        compoundID = ALCOHOL;
+    }
+    else {
+      // Possible peroxide.
+      if (pMol->getStruc().findFunctionalForm("C,O,O,H") || pMol->getStruc().findFunctionalForm("C,O,O,."))
+        compoundID = HYDROPEROXIDE;
+    }
 
     const string bathGas = pBathGasMolecule->getName();
     switch (compoundID) {

@@ -187,6 +187,7 @@ SRCS := \
 	XMLPersist.cpp \
 	plugins/AnalyticalRepresentation.cpp \
 	plugins/BeyerSwinehart.cpp \
+	plugins/BiExponentialDown.cpp \
 	plugins/BoltzmannDistribution.cpp	\
 	plugins/CanonicalRateCoefficient.cpp	\
 	plugins/ClassicalRotor.cpp \

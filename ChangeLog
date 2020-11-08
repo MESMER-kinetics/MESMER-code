@@ -1,3 +1,10 @@
+2020-November-08 Struan Robertson
+
+		* BiExponentialDown.cpp: Initial revision of Biexponential energy transfer Kernel.
+
+		* WellProperties.h/.cpp, gStructure.h/.cpp: Functional search to support Jasper 
+		Lennard-Jones collision parameters.
+
 2020-October-31 Struan Robertson
 
 		* Update of Linux build and Make scripts.

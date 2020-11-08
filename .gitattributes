@@ -1130,6 +1130,7 @@ src/plugin.h -text
 src/plugins/AdiabaticCurve.h -text
 src/plugins/AnalyticalRepresentation.cpp -text
 src/plugins/BeyerSwinehart.cpp -text
+src/plugins/BiExponentialDown.cpp -text
 src/plugins/BoltzmannDistribution.cpp -text
 src/plugins/CanonicalRateCoefficient.cpp -text
 src/plugins/ClassicalCoupledRotors.cpp -text

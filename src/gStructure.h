@@ -89,6 +89,8 @@ namespace mesmer
     // Applies Gram-Schmit projection to remove component of second vector from the first.
     bool ProjectOutMode(vector<double>& mode, vector<double>& tmode);
 
+    bool sequenceSearch(const string AtomID, vector<string> &stk, size_t idx);
+
   public:
 
     gStructure(Molecule* pMol);
@@ -202,6 +204,8 @@ namespace mesmer
     double angleBendReducedMass(vector<string>& bondIDs, vector<double>& mode);
 
     double inversionReducedMass(vector<string>& bondIDs, vector<double>& mode);
+
+    bool findFunctionalForm(string functionalForm) ;
 
   };
 

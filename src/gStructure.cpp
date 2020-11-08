@@ -1225,6 +1225,42 @@ namespace mesmer
     return true;
   }
 
+  bool gStructure::findFunctionalForm(const string functionalForm) {
+
+    bool status(false) ;
+
+    // Split functional form string.
+    string tmp;
+    vector<string> stk;
+    stringstream ss(functionalForm);
+    while (getline(ss, tmp, ',')) {
+      stk.push_back(tmp);
+    }
+
+    std::map<std::string, atom>::const_iterator itatom = Atoms.begin();
+    for (; itatom != Atoms.end() && !status; itatom++) {
+      size_t idx(0);
+      if (itatom->second.element == stk[idx]) {
+        status = sequenceSearch(itatom->first, stk, ++idx);
+      }
+    }
+
+    return status;
+  }
+
+  bool gStructure::sequenceSearch(const string AtomID, vector<string> &stk, size_t idx) {
+    if (idx == stk.size())
+      return true;
+
+    for (size_t i(0); i < Atoms[AtomID].connects.size(); i++) {
+      string childAtomID = Atoms[AtomID].connects[i];
+      if (Atoms[childAtomID].element == stk[idx] && idx < stk.size()) {
+        return sequenceSearch(childAtomID, stk, ++idx);
+      }
+    }
+    return false;
+  }
+
 }//namespace
 
 //XML written as text; not used.
