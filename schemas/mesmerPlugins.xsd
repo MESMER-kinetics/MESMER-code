@@ -119,6 +119,115 @@
     </xs:sequence>
   </xs:group>
 
+  <xs:complexType name="BiExponentialDown">
+    <xs:complexContent>
+      <xs:extension base="energyTransferct">
+        <xs:group ref="BiDeltaEDownGrp" maxOccurs="unbounded"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:group name="BiDeltaEDownGrp">
+    <xs:sequence>
+      <xs:element name="deltaEDown" minOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+            "Attributes bathGas and ref are alternatives.
+            Omit both if the bathGas is the one specified in the
+            &lt;me:conditions> section"
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:float">
+              <xs:attribute name="bathGas" use="optional" />
+              <xs:attribute name="ref" use="optional" />
+              <xs:attribute name="units" type="energyUnitsType" use="required" />
+              <xs:attributeGroup ref="me:rangeAttributes"/>
+              <xs:attributeGroup ref="me:linkAttributes"/>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="deltaEDown2" minOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:float">
+              <xs:attribute name="bathGas" use="optional" />
+              <xs:attribute name="ref" use="optional" />
+              <xs:attributeGroup ref="me:rangeAttributes"/>
+              <xs:attributeGroup ref="me:linkAttributes"/>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ratio" minOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:float">
+              <xs:attribute name="bathGas" use="optional" />
+              <xs:attribute name="ref" use="optional" />
+              <xs:attributeGroup ref="me:rangeAttributes"/>
+              <xs:attributeGroup ref="me:linkAttributes"/>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="deltaEDownTExponent" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            "Adds a temperature dependence: multiplies deltaEDown
+            by (T / refTemp)^deltaEDownTExponent. The parameter defaults to 0,
+            and refTemp defaults to 298K.
+            Attributes bathGas and ref are alternatives.
+            Omit both if the bathGas is the one specified in the
+            &lt;me:conditions> section"
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:float">
+              <xs:attribute name="bathGas" use="optional" />
+              <xs:attribute name="ref" use="optional" />
+              <xs:attribute name="referenceTemperature" type="xs:decimal" use="optional" />
+              <xs:attributeGroup ref="rangeAttributes"/>
+              <xs:attributeGroup ref="me:linkAttributes"/>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="deltaEDownTActivation" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            "Adds a temperature dependence: multiplies deltaEDown
+            by exp(-deltaEDownTActivation/T). The parameter defaults to 0.
+            Attributes bathGas and ref are alternatives.
+            Omit both if the bathGas is the one specified in the
+            &lt;me:conditions> section"
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:float">
+              <xs:attribute name="units" use="optional" />
+              <xs:attribute name="bathGas" use="optional" />
+              <xs:attribute name="ref" use="optional" />
+              <xs:attributeGroup ref="rangeAttributes"/>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:group>
+
   <xs:complexType name="gaussian">
     <xs:complexContent>
       <xs:extension base="energyTransferct">

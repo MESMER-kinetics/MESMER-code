@@ -1,3 +1,8 @@
+2020-November-15 Struan Robertson
+
+		* BiExponentialDown.cpp: Update of Biexponential energy transfer Kernel to account for 
+		different bath gases.
+
 2020-November-08 Struan Robertson
 
 		* BiExponentialDown.cpp: Initial revision of Biexponential energy transfer Kernel.

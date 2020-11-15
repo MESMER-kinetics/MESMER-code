@@ -2,7 +2,10 @@
 //
 // BiExponentialDown.cpp
 //
-// This file contains the implementation of Biexponential Down energy transfer model.
+// This file contains the implementation of Biexponential Down energy transfer model. This
+// implementation differs from the simple exponential down class in that it will be assumed
+// that there will be NO definition of parameters in the proprety list, i.e. parameters will
+// only be defined as part of the model. 
 //
 // Author: Struan Robertson.
 // Date:   27/Oct/2020
@@ -26,7 +29,7 @@ namespace mesmer
   public:
 
     BiExponentialDown(const char* id) : m_id(id),
-      m_deltaEDown(200.0, "cm-1"), m_deltaEDown2(1000.0, "cm-1"), m_balance(0.0), m_refTemp(298), m_dEdExp(0.0), m_dEdAct(0.0)
+      m_deltaEDown(200.0, "cm-1"), m_deltaEDown2(1000.0, "cm-1"), m_ratio(0.0), m_refTemp(298), m_dEdExp(0.0), m_dEdAct(0.0)
     {
       Register();
     }
@@ -66,7 +69,7 @@ namespace mesmer
     const char* m_id; //all concrete plugin classes have this 
     Rdouble m_deltaEDown;
     Rdouble m_deltaEDown2;
-    Rdouble m_balance;
+    Rdouble m_ratio;
     double  m_refTemp;
     Rdouble m_dEdExp;
     Rdouble m_dEdAct;
@@ -82,43 +85,21 @@ namespace mesmer
 
   bool BiExponentialDown::ParseData(PersistPtr ppModel)
   {
-    PersistPtr ppTop = m_parent->get_PersistentPointer();
+    //Data is a child of <me:energyTransferModel>
+    m_deltaEDown = ppModel->XmlReadDouble("me:deltaEDown"); //or use default
+    m_deltaEDown2 = ppModel->XmlReadDouble("me:deltaEDown2"); //or use default
+    m_ratio = ppModel->XmlReadDouble("me:ratio"); //or use default
 
-    bool dataInProperty(true);
-    PersistPtr ppPropList = ppTop->XmlMoveTo("propertyList");
-    ppTop = ppPropList ? ppPropList : ppTop; //At <propertyList> if exists, else at <molecule>
-    PersistPtr ppProp = ppTop->XmlMoveToProperty("me:deltaEDown");
-
-    if (!ppProp)
-    {
-      //Data is a child of <me:energyTransferModel>
-      dataInProperty = false;
-      //PersistPtr ppModel = pp->XmlMoveTo("me:energyTransferModel");
-      m_deltaEDown = ppModel->XmlReadDouble("me:deltaEDown"); //or use default
-      ppProp = ppModel->XmlMoveTo("me:deltaEDown");
-    }
-    else //Try for data in a property
-    {
-      /******************************************************************************
-      The following reads the content of every CML property "me:deltaEDown". If there
-      is not one, the default value from defaults.xml is added to the internal XML tree
-      and the value returned. This mechanism, which applies for most XmlRead
-      operations unless there is a 'optional' parameter, is the recommended way to
-      handle default values. It allows the default to be changed by the user, logs the
-      use of the default, and provides error messages, including optional exhortations
-      for the user to check the default (see the manual).
-      ******************************************************************************/
-      m_deltaEDown = ppTop->XmlReadPropertyDouble("me:deltaEDown");
-    }
-    if (IsNan(m_deltaEDown)) //unlikely failure
+    if (IsNan(m_deltaEDown) || IsNan(m_deltaEDown2) || IsNan(m_ratio)) //unlikely failure
       return false;
 
+    PersistPtr ppProp = ppModel->XmlMoveTo("me:deltaEDown");
     do //Loop over all <me:deltaEDown> or equivalent property.
     {
       /******************************************************************************
       The bath gas can optionally be specified (using ref or bathGas or omitted, when
-      the general one specified directly under <me:conditions> is used. Each bath gas
-      has its own instance of BiExponentialDown (made, if necessary, in 
+      the general one specified directly under <me:conditions> is used). Each bath gas
+      has its own instance of BiExponentialDown (made, if necessary, in
       WellProperties::addBathGas()).
       ******************************************************************************/
       const char* bathGasName = NULL;
@@ -142,8 +123,49 @@ namespace mesmer
         varid += string(":") += bathGasName;
       ReadRdoubleRange(varid, ppProp, pModel->m_deltaEDown, rangeSet);
 
-    } while (ppProp = dataInProperty ? ppProp->XmlMoveToProperty("me:deltaEDown", true)
-      : ppProp->XmlMoveTo("me:deltaEDown"));
+    } while (ppProp = ppProp->XmlMoveTo("me:deltaEDown"));
+
+    // Loop over all <me:deltaEDown2>.
+
+    PersistPtr pp = ppModel;
+    while (pp = pp->XmlMoveTo("me:deltaEDown2"))
+    {
+      const char* bathGasName = pp->XmlReadValue("ref", optional);
+      if (!bathGasName)
+        bathGasName = pp->XmlReadValue("bathGas", optional);
+      BiExponentialDown* pModel
+        = static_cast<BiExponentialDown*>(m_parent->getColl().addBathGas(bathGasName, this));
+
+      istringstream ss(pp->XmlRead());
+      ss >> pModel->m_deltaEDown2;
+
+      bool rangeSet;
+      string varid = m_parent->getName() + ":deltaEDown2";
+      if (bathGasName)
+        varid += string(":") += bathGasName;
+      ReadRdoubleRange(varid, pp, pModel->m_deltaEDown2, rangeSet);
+    }
+
+    // Loop over all <me:ratio>.
+
+    PersistPtr pp = ppModel;
+    while (pp = pp->XmlMoveTo("me:ratio"))
+    {
+      const char* bathGasName = pp->XmlReadValue("ref", optional);
+      if (!bathGasName)
+        bathGasName = pp->XmlReadValue("bathGas", optional);
+      BiExponentialDown* pModel
+        = static_cast<BiExponentialDown*>(m_parent->getColl().addBathGas(bathGasName, this));
+
+      istringstream ss(pp->XmlRead());
+      ss >> pModel->m_ratio;
+
+      bool rangeSet;
+      string varid = m_parent->getName() + ":ratio";
+      if (bathGasName)
+        varid += string(":") += bathGasName;
+      ReadRdoubleRange(varid, pp, pModel->m_ratio, rangeSet);
+    }
 
     /******************************************************************************
     Read the temperature coefficients for all bath gases.
@@ -153,10 +175,8 @@ namespace mesmer
     on temperature. The reference temperature of <DeltaEDown>, refTemp, also hardwired,
     has a default of 298K. Both of the temperature parameters can be range variables.
     ******************************************************************************/
-    PersistPtr ppPropExp = dataInProperty ? ppTop : ppModel;
-    while (ppPropExp = dataInProperty ?
-      ppPropExp->XmlMoveToProperty("me:deltaEDownTExponent", true) :
-      ppPropExp->XmlMoveTo("me:deltaEDownTExponent"))
+    PersistPtr ppPropExp = ppModel;
+    while (ppPropExp = ppPropExp->XmlMoveTo("me:deltaEDownTExponent"))
     {
       m_refTemp = ppPropExp->XmlReadDouble("referenceTemperature", optional);
       if (IsNan(m_refTemp))
@@ -177,10 +197,8 @@ namespace mesmer
       ReadRdoubleRange(varid, ppPropExp, pModel->m_dEdExp, rangeSet);
     }
 
-    PersistPtr ppPropAct = dataInProperty ? ppTop : ppModel;
-    while (ppPropAct = dataInProperty ?
-      ppPropAct->XmlMoveToProperty("me:deltaEDownTActivation", true) :
-      ppPropAct->XmlMoveTo("me:deltaEDownTActivation"))
+    PersistPtr ppPropAct = ppModel;
+    while (ppPropAct = ppPropAct->XmlMoveTo("me:deltaEDownTActivation"))
     {
       const char* bathGasName = ppPropAct->XmlReadValue("ref", optional);
       if (!bathGasName)
@@ -205,7 +223,7 @@ namespace mesmer
   This is the function which does the real work of the plugin
   ******************************************************************************/
   double BiExponentialDown::calculateTransitionProbability(double Ei, double Ej) {
-    double deltaEDown  = m_deltaEDown;
+    double deltaEDown = m_deltaEDown;
     double deltaEDown2 = m_deltaEDown2;
     const double temperature = 1.0 / (boltzmann_RCpK * getParent()->getEnv().beta);
     if (m_dEdExp != 0.0)
@@ -232,7 +250,7 @@ namespace mesmer
     double ratio = Ei / 1000.0;
     deltaEDown *= ratio / (1 + ratio);
 
-    return (1.0 - m_balance)*exp(-(Ei - Ej) / deltaEDown) + m_balance * exp(-(Ei - Ej) / deltaEDown2);
+    return (1.0 - m_ratio) * exp(-(Ei - Ej) / deltaEDown) + m_ratio * exp(-(Ei - Ej) / deltaEDown2);
   }
 
 }//namespace
