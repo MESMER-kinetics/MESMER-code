@@ -1,5 +1,12 @@
 2020-November-15 Struan Robertson
 
+		* examples/Butan-1-ol: New tests for Lennard-Jones calculation methods and Biexponential 
+		down model.
+
+		* Documentation update.
+
+2020-November-15 Struan Robertson
+
 		* BiExponentialDown.cpp: Update of Biexponential energy transfer Kernel to account for 
 		different bath gases.
 

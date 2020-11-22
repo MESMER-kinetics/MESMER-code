@@ -239,7 +239,7 @@ namespace mesmer
   }
 
   // Calculates internal rotation eigenvector about an axis define by at1 and at2.
-  bool gStructure::CalcInternalRotVec(vector<string> atomset, vector3 at1, vector3 at2, vector<double>& mode, bool ApplyMWeight)
+  bool gStructure::CalcInternalRotVec(string bondID, vector<string> atomset, vector3 at1, vector3 at2, vector<double>& mode, bool ApplyMWeight)
   {
     vector3 diff = at1 - at2;
     diff.normalize();
@@ -257,7 +257,7 @@ namespace mesmer
         }
       }
       else {
-        string errorMsg = "Problem with calculation of internal rotation eigenvector. Atomic order is not correactly defined.";
+        string errorMsg = "Problem with calculation of internal rotation eigenvector about bond " + bondID + ", atomic order is not correctly defined.";
         throw (std::runtime_error(errorMsg));
       }
     }
@@ -545,17 +545,17 @@ namespace mesmer
     vector<string> atomset1;
     findRotorConnectedAtoms(atomset1, bondats.first, bondats.second);
     double mm1 = CalcMomentAboutAxis(atomset1, coords1, coords2);
-    CalcInternalRotVec(atomset1, coords1, coords2, mode, ApplyMWeight);
+    CalcInternalRotVec(bondID, atomset1, coords1, coords2, mode, ApplyMWeight);
 
     //...and the other side of the bond
     vector<string> atomset2;
     findRotorConnectedAtoms(atomset2, bondats.second, bondats.first);
     double mm2 = CalcMomentAboutAxis(atomset2, coords1, coords2);
-    CalcInternalRotVec(atomset2, coords2, coords1, mode, ApplyMWeight);
+    CalcInternalRotVec(bondID, atomset2, coords2, coords1, mode, ApplyMWeight);
 
     // The following, slightly confusing code, is placed here for the
     // benefit of coupled rotors code, and does not apply when a vector 
-    // for use use in Hessian analysis is being constructed. The code is 
+    // for use in Hessian analysis is being constructed. The code is 
     // here at present because the moments of inertia about the rotating 
     // bond are needed, which are applied as weights for the relative
     // rotation of each fragment with respect to each other. In the limit
@@ -1249,7 +1249,7 @@ namespace mesmer
   }
 
   bool gStructure::sequenceSearch(const string AtomID, vector<string> &stk, size_t idx) {
-    if (idx == stk.size())
+    if (idx == stk.size() || stk[idx] == ".")
       return true;
 
     for (size_t i(0); i < Atoms[AtomID].connects.size(); i++) {

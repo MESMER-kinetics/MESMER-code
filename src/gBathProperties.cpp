@@ -28,7 +28,7 @@ namespace mesmer
 
     PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
     if (!ppPropList)
-      ppPropList = pp; //Be forgiving; we can get by without a propertyList element
+      ppPropList = pp; // Be forgiving; we can get by without a propertyList element.
 
     m_Sigma   = ppPropList->XmlReadPropertyDouble("me:sigma", false);
     m_Epsilon = ppPropList->XmlReadPropertyDouble("me:epsilon", false);

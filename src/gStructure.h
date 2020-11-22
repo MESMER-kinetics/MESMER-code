@@ -49,7 +49,7 @@ namespace mesmer
     double CalcMomentAboutAxis(std::vector<std::string> atomset, OpenBabel::vector3 at1, OpenBabel::vector3 at2);
 
     // Calculates internal rotation eigenvector about an axis define by at1 and at2.
-    bool CalcInternalRotVec(std::vector<string> atomset, OpenBabel::vector3 at1, OpenBabel::vector3 at2, vector<double> &mode, bool ApplyMWeight);
+    bool CalcInternalRotVec(std::string bondID, std::vector<string> atomset, OpenBabel::vector3 at1, OpenBabel::vector3 at2, vector<double> &mode, bool ApplyMWeight);
 
     // Calculates bend eigenvector about an axis define by at1 and at2.
     double CalcBendVec(std::vector<string> atomset, OpenBabel::vector3 at1, OpenBabel::vector3 at2, vector<double>& mode);
@@ -163,7 +163,7 @@ namespace mesmer
 
     int getAtomicOrder(std::string AtomID) const {
       size_t i(0);
-      for (; AtomID != m_atomicOrder[i] && i < m_atomicOrder.size(); i++);
+      for (; i < m_atomicOrder.size() && AtomID != m_atomicOrder[i] ; i++);
       return (i < m_atomicOrder.size()) ? int(i) : -1;
     };
 

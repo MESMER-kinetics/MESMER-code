@@ -66,8 +66,8 @@ namespace {
     }
     else {
       const vector<double> prmtrs = it->second;
-      eam = prmtrs[1] * pow(double(N), prmtrs[2]);
-      sam = prmtrs[3] * pow(double(N), prmtrs[4]);
+      eam = prmtrs[0] * pow(double(N), prmtrs[1]);
+      sam = prmtrs[2] * pow(double(N), prmtrs[3]);
     }
     return status;
   }
@@ -501,7 +501,7 @@ namespace mesmer
     }
     else if (nO == 1) {
       // Possible alcohol.
-      if (pMol->getStruc().findFunctionalForm("C,O,H"))
+      if (pMol->getStruc().findFunctionalForm("C,O,H") || pMol->getStruc().findFunctionalForm("C,O,."))
         compoundID = ALCOHOL;
     }
     else {

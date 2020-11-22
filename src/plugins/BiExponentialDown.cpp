@@ -148,7 +148,7 @@ namespace mesmer
 
     // Loop over all <me:ratio>.
 
-    PersistPtr pp = ppModel;
+    pp = ppModel;
     while (pp = pp->XmlMoveTo("me:ratio"))
     {
       const char* bathGasName = pp->XmlReadValue("ref", optional);

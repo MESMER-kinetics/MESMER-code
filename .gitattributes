@@ -392,7 +392,16 @@ examples/AnalyticalRepresentation/baselines/Win32/Plog.log -text
 examples/AnalyticalRepresentation/baselines/Win32/Plog.test -text
 examples/AnalyticalRepresentation/baselines/Win32/PlogCK.log -text
 examples/AnalyticalRepresentation/baselines/Win32/PlogCK.test -text
+examples/Butan-1-ol/Butan-1-peroxy_H_to_Butan-1-hydroperoxy.xml -text
 examples/Butan-1-ol/Butoxy_H_to_Butan-1-ol.xml -text
+examples/Butan-1-ol/baselines/Linux64/Butan-1-peroxy_H_to_Butan-1-hydroperoxy.log -text
+examples/Butan-1-ol/baselines/Linux64/Butan-1-peroxy_H_to_Butan-1-hydroperoxy.test -text
+examples/Butan-1-ol/baselines/Linux64/Butoxy_H_to_Butan-1-ol.log -text
+examples/Butan-1-ol/baselines/Linux64/Butoxy_H_to_Butan-1-ol.test -text
+examples/Butan-1-ol/baselines/Win32/Butan-1-peroxy_H_to_Butan-1-hydroperoxy.log -text
+examples/Butan-1-ol/baselines/Win32/Butan-1-peroxy_H_to_Butan-1-hydroperoxy.test -text
+examples/Butan-1-ol/baselines/Win32/Butoxy_H_to_Butan-1-ol.log -text
+examples/Butan-1-ol/baselines/Win32/Butoxy_H_to_Butan-1-ol.test -text
 examples/Butyl_H_to_Butane/Butyl_H_to_Butane.xml -text
 examples/Butyl_H_to_Butane/baselines/Linux64/mesmer.log -text
 examples/Butyl_H_to_Butane/baselines/Linux64/mesmer.test -text
