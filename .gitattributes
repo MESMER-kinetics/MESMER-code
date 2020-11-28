@@ -332,6 +332,7 @@ MesmerQA/pentyl/baselines/Linux64/mesmer.test -text
 MesmerQA/pentyl/baselines/Win32/mesmer.log -text
 MesmerQA/pentyl/baselines/Win32/mesmer.test -text
 MesmerQA/pentyl/pentyl_isomerization_basisset_test.xml -text
+MesmerQA/pentyl/pentyl_isomerization_restrainedTS.xml -text
 MesmerQA/pentyl/pentyl_isomerization_test.xml -text
 MesmerQA/pentyl/pentyl_isomerize_dissocn.xml -text
 /README -text
