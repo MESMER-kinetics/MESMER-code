@@ -1,4 +1,13 @@
-2020-November-15 Struan Robertson
+2020-November-29 Struan Robertson
+
+		* gWellProperties.cpp: Corrections to Lennard-Jones implementation.
+
+		* gDensityOfStates.cpp: Updated to store imaginary frequency if transition state parsed.
+
+		* pentyl_isomerization_restrainedTS.xml: Updated of cyclic transition state test to include 
+		tunnelling.
+
+2020-November-22 Struan Robertson
 
 		* examples/Butan-1-ol: New tests for Lennard-Jones calculation methods and Biexponential 
 		down model.
@@ -14,7 +23,7 @@
 
 		* BiExponentialDown.cpp: Initial revision of Biexponential energy transfer Kernel.
 
-		* WellProperties.h/.cpp, gStructure.h/.cpp: Functional search to support Jasper 
+		* gWellProperties.h/.cpp, gStructure.h/.cpp: Functional search to support Jasper 
 		Lennard-Jones collision parameters.
 
 2020-October-31 Struan Robertson

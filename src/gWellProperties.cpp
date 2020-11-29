@@ -66,8 +66,9 @@ namespace {
     }
     else {
       const vector<double> prmtrs = it->second;
-      eam = prmtrs[0] * pow(double(N), prmtrs[1]);
-      sam = prmtrs[2] * pow(double(N), prmtrs[3]);
+      sam  = prmtrs[0] * pow(double(N), prmtrs[1]);
+      eam  = prmtrs[2] * pow(double(N), prmtrs[3]);
+      eam /= boltzmann_RCpK ; // Convert to temperature.
     }
     return status;
   }

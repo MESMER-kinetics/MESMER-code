@@ -1012,6 +1012,9 @@ namespace mesmer
         double imFreq = convFactor*sqrt(fabs(freqs[m]));
         if (imFreq > 1.0) {
 
+          // Save imaginary frequency for use in tunnelling calculations.
+          m_host->getTS().set_imFreq(imFreq);
+
           vector<double> mode(msize, 0.0);
           for (size_t j(0); j < msize; j++) {
             mode[j] = tmpHessian[j][m];

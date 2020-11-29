@@ -391,9 +391,46 @@
           <scalar>2</scalar>
         </property>
       </propertyList>
-      <me:energyTransferModel xsi:type="me:ExponentialDown">
-        <me:deltaEDown units="cm-1">230.0</me:deltaEDown>
-      </me:energyTransferModel>
+
+      <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
+        <me:bondRef>C1-C2</me:bondRef>
+        <me:HinderedRotorPotential format="analytical" units="kJ/mol">
+          <me:PotentialPoint index="0"  coefficient="6.2"/>
+          <me:PotentialPoint index="3"  coefficient="-6.2"/>
+        </me:HinderedRotorPotential>
+        <me:periodicity>3</me:periodicity>
+      </me:ExtraDOSCMethod>
+
+      <!--<me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
+        <me:TSExclusion/>
+        <me:bondRef>C2-C3</me:bondRef>
+        <me:HinderedRotorPotential format="analytical" units="kJ/mol">
+          <me:PotentialPoint index="0"  coefficient="6.2"/>
+          <me:PotentialPoint index="3"  coefficient="-6.2"/>
+        </me:HinderedRotorPotential>
+        <me:periodicity>1</me:periodicity>
+      </me:ExtraDOSCMethod>-->
+
+      <!--<me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
+        <me:TSExclusion/>
+        <me:bondRef>C3-C4</me:bondRef>
+        <me:HinderedRotorPotential format="analytical" units="kJ/mol">
+          <me:PotentialPoint index="0"  coefficient="6.2"/>
+          <me:PotentialPoint index="3"  coefficient="-6.2"/>
+        </me:HinderedRotorPotential>
+        <me:periodicity>1</me:periodicity>
+      </me:ExtraDOSCMethod>
+
+      <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
+        <me:TSExclusion/>
+        <me:bondRef>C4-C5</me:bondRef>
+        <me:HinderedRotorPotential format="analytical" units="kJ/mol">
+          <me:PotentialPoint index="0"  coefficient="6.2"/>
+          <me:PotentialPoint index="3"  coefficient="-6.2"/>
+        </me:HinderedRotorPotential>
+        <me:periodicity>1</me:periodicity>
+      </me:ExtraDOSCMethod>-->
+
     </molecule>
 
     <molecule id="2-pentyl">
@@ -677,7 +714,7 @@
       </me:ExtraDOSCMethod>
 
       <me:energyTransferModel xsi:type="me:ExponentialDown">
-        <me:deltaEDown units="cm-1">230.0</me:deltaEDown>
+        <me:deltaEDown units="cm-1" derivedFrom="1-pentyl:deltaEDown" >230.0</me:deltaEDown>
       </me:energyTransferModel>
     </molecule>
 
@@ -710,7 +747,7 @@
       </product>
 
       <me:MCRCMethod name="RRKM"/>
-
+      <me:tunneling name="Eckart"/>
       <me:transitionState>
         <molecule ref="1-pentyl=TS=2-pentyl" me:type="transitionState" />
       </me:transitionState>

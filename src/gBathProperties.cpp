@@ -34,9 +34,9 @@ namespace mesmer
     m_Epsilon = ppPropList->XmlReadPropertyDouble("me:epsilon", false);
 
     if (IsNan(m_Sigma) || IsNan(m_Epsilon)) {
-      clog << "No lennard-Jones parameters found for " << pMol->getName() << "." << endl 
-           << "An attempt to calculate parameters will be made. If this fails" << endl 
-           << "default parameters will be used" << endl;
+      cinfo << "No lennard-Jones parameters found for " << pMol->getName() << "." << endl 
+            << "An attempt to calculate parameters will be made. If this fails" << endl 
+            << "default parameters will be used" << endl;
       m_dafaultPrmtrs = true;
       m_Sigma = ppPropList->XmlReadPropertyDouble("me:sigma");
       m_Epsilon = ppPropList->XmlReadPropertyDouble("me:epsilon");
