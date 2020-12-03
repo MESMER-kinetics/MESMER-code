@@ -4,10 +4,9 @@
 <me:mesmer xmlns="http://www.xml-cml.org/schema"
            xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <me:title>Pentyl isomerization</me:title>
+  <me:title>Pentyl isomerization: All molecular data calculated using DMol3 using L11/DND theory.</me:title>
   <moleculeList>
     <molecule id="1-pentyl">
-      <!-- C1      C2      C3      C4      C5      H1      H2      H3      H4      H5     H6     H7     H8     H9     H10     H11 -->
       <atomArray>
         <atom id="C1"  elementType="C" x3="    -9.115282" y3="    -0.381048" z3="    -0.007422" />
         <atom id="C2"  elementType="C" x3="    -7.861367" y3="     0.436187" z3="     0.073064" />
@@ -45,7 +44,7 @@
       </bondArray>
       <propertyList>
         <property dictRef="me:ZPE">
-          <scalar units="kJ/mol">9.12112</scalar>
+          <scalar units="cm-1">1893.62710764</scalar>
         </property>
         <property dictRef="me:symmetryNumber">
           <scalar>1</scalar>
@@ -330,7 +329,7 @@
         <bond id="C5-H9" atomRefs2="C5 H9" order="1" />
       </bondArray>      <propertyList>
         <property dictRef="me:ZPE">
-          <scalar units="kJ/mol">108.74216</scalar>
+          <scalar units="cm-1">10883.52742707</scalar>
         </property>
         <property dictRef="me:symmetryNumber">
           <scalar>1</scalar>
@@ -401,7 +400,7 @@
         <me:periodicity>3</me:periodicity>
       </me:ExtraDOSCMethod>
 
-      <!--<me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
+      <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
         <me:TSExclusion/>
         <me:bondRef>C2-C3</me:bondRef>
         <me:HinderedRotorPotential format="analytical" units="kJ/mol">
@@ -409,9 +408,9 @@
           <me:PotentialPoint index="3"  coefficient="-6.2"/>
         </me:HinderedRotorPotential>
         <me:periodicity>1</me:periodicity>
-      </me:ExtraDOSCMethod>-->
+      </me:ExtraDOSCMethod>
 
-      <!--<me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
+      <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
         <me:TSExclusion/>
         <me:bondRef>C3-C4</me:bondRef>
         <me:HinderedRotorPotential format="analytical" units="kJ/mol">
@@ -429,7 +428,7 @@
           <me:PotentialPoint index="3"  coefficient="-6.2"/>
         </me:HinderedRotorPotential>
         <me:periodicity>1</me:periodicity>
-      </me:ExtraDOSCMethod>-->
+      </me:ExtraDOSCMethod>
 
     </molecule>
 
@@ -471,7 +470,7 @@
       </bondArray>
       <propertyList>
         <property dictRef="me:ZPE">
-          <scalar units="kJ/mol">0.0</scalar>
+          <scalar units="cm-1">0.0</scalar>
         </property>
         <property dictRef="me:symmetryNumber">
           <scalar>1</scalar>
@@ -759,7 +758,7 @@
   <me:conditions>
     <me:bathGas>Ar</me:bathGas>
     <me:PTs>
-      <me:PTpair units="PPCC" P="1.0e8" T="500" />
+      <me:PTpair units="PPCC" P="1.0e18" T="500" />
     </me:PTs>
   </me:conditions>
 

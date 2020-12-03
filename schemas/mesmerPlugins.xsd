@@ -493,6 +493,7 @@
             </xs:complexType>
           </xs:element>
           <xs:element name="periodicity" type="xs:unsignedInt" minOccurs="0"/>
+          <xs:element name="TSExclusion" minOccurs="0" />
           <xs:element name="PlotStates" minOccurs="0" />
           <xs:element name="WriteStates" minOccurs="0" />
           <xs:element name="CalculateInternalRotorInertia" minOccurs="0">

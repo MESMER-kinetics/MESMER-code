@@ -1,10 +1,16 @@
+2020-December-03 Struan Robertson
+
+		* HinderedRotorQM1D.cpp: Allow for the exclusion of hindered rotors from a transition state.
+
+		* pentyl_isomerization_restrainedTS.xml: Further updates of cyclic transition state test.
+
 2020-November-29 Struan Robertson
 
 		* gWellProperties.cpp: Corrections to Lennard-Jones implementation.
 
 		* gDensityOfStates.cpp: Updated to store imaginary frequency if transition state parsed.
 
-		* pentyl_isomerization_restrainedTS.xml: Updated of cyclic transition state test to include 
+		* pentyl_isomerization_restrainedTS.xml: Update of cyclic transition state test to include 
 		tunnelling.
 
 2020-November-22 Struan Robertson

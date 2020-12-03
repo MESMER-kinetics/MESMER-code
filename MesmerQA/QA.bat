@@ -90,6 +90,10 @@ set printversion= %version%"\Mesmer\Mesmer.exe" -V
 %cmdline% pentyl_isomerization_test.xml -o %outf% %directive%
 @copy "./%tfn%" "./%bline%%otfn%"
 @IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
+@set testName="pentyl_isomerization_restrainedTS"
+%cmdline% -N %testName%.xml
+@copy "./%testName%.test" "./%bline%%testName%.test"
+@IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
 @cd ..
 @echo --------------------------------------------------------------------
 

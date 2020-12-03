@@ -155,19 +155,10 @@
         <property dictRef="me:MW">
           <scalar>71</scalar>
         </property>
-        <property dictRef="me:epsilon">
-          <scalar me:derivedFrom="n-pentyl:epsilon">347</scalar>
-        </property>
-        <property dictRef="me:sigma">
-          <scalar>5.93</scalar>
-        </property>
         <property dictRef="me:spinMultiplicity">
           <scalar>2</scalar>
         </property>
       </propertyList>
-      <me:energyTransferModel xsi:type="me:ExponentialDown">
-        <me:deltaEDown units="cm-1">230.0</me:deltaEDown>
-      </me:energyTransferModel>
     </molecule>
 
     <molecule id="2-pentyl">

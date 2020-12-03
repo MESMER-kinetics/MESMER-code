@@ -86,6 +86,13 @@ cp ./$tfn ./$bline$otfn
 if [ "$1" == "-o" ]; then
   cp ./$lfn ./$bline$lfn 
 fi
+
+testName="pentyl_isomerization_restrainedTS"
+$cmdline -N $testName.xml
+cp ./$testName.test ./$bline$testName.test
+if [ "$1" == "-o" ] ; then
+  cp ./$testName.log ./$bline$testName.log
+fi
 cd ..
 echo "--------------------------------------------------------------------"
 

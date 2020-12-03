@@ -58,7 +58,7 @@
           <scalar>1</scalar>
         </property>
         <property dictRef="me:hessian">
-          <matrix matrixType="squareSymmetricLT" rows="45"  units="kcal/mol/Ang2" >
+          <matrix matrixType="squareSymmetricLT" rows="48"  units="kcal/mol/Ang2" >
             1.181898432836E+02
             4.170332275083E+01 6.915471851887E+02
             1.647817399103E+01 2.171272330365E+02 1.840194038567E+02

@@ -35,7 +35,7 @@ namespace mesmer
     virtual bool countCellDOS(gDensityOfStates* mol, const MesmerEnv& env);
 
     // Provide a function to calculate contribution to canonical partition function.
-    virtual void canPrtnFnCntrb(gDensityOfStates* gdos, double beta, double &PrtnFn, double &IntrlEne, double &varEne);
+    virtual void canPrtnFnCntrb(gDensityOfStates* gdos, double beta, double& PrtnFn, double& IntrlEne, double& varEne);
 
     // Function to return the number of degrees of freedom associated with this count.
     virtual unsigned int NoDegOfFreedom(gDensityOfStates* gdos) { return 1; };
@@ -54,7 +54,9 @@ namespace mesmer
       m_energyLevels(),
       m_ZPE(0.0),
       m_plotStates(false),
-      m_writeStates(false)
+      m_writeStates(false),
+      m_excludeFromTS(false),
+      m_ppConfigData(NULL)
     { }
 
     virtual ~HinderedRotorQM1D() {}
@@ -76,14 +78,16 @@ namespace mesmer
     vector<double> m_kineticCosCoeff;   // The cosine coefficients of the internal rotor inertia term.
     vector<double> m_kineticSinCoeff;   // The sine coefficients of the internal rotor inertia term.
 
-		vector<double> m_potentialCosCoeff; // The cosine coefficients of the hindered rotor potential.
-		vector<double> m_potentialSinCoeff; // The sine coefficients of the hindered rotor potential.
+    vector<double> m_potentialCosCoeff; // The cosine coefficients of the hindered rotor potential.
+    vector<double> m_potentialSinCoeff; // The sine coefficients of the hindered rotor potential.
 
-		vector<double> m_energyLevels;	    // The energies of the hindered rotor states.
+    vector<double> m_energyLevels;	    // The energies of the hindered rotor states.
     double m_ZPE;                       // Zero point energy. 
 
     bool m_plotStates;                  // If true output data for plotting. 
     bool m_writeStates;                 // If true energy levels written to output. 
+    bool m_excludeFromTS;               // If true this rotor is to be exluded because it is part of a cyclic transitions state.
+                                        // Note this mode should be projected from the Hessian if it is being used.
     PersistPtr m_ppConfigData;
   };
 
@@ -197,11 +201,11 @@ namespace mesmer
       }
     }
 
-		// Read in potential information.
+    // Read in potential information.
 
-		m_periodicity = max(m_periodicity, ppDOSC->XmlReadInteger("me:periodicity", optional));
+    m_periodicity = max(m_periodicity, ppDOSC->XmlReadInteger("me:periodicity", optional));
 
-		ReadPotentialParameters(ppDOSC, SpeciesID, string(bondID), m_potentialCosCoeff, m_potentialSinCoeff);
+    ReadPotentialParameters(ppDOSC, SpeciesID, string(bondID), m_potentialCosCoeff, m_potentialSinCoeff);
 
     // Check if there is a Hessian and knock out the frequency
     // associated with this internal rotation.
@@ -231,6 +235,13 @@ namespace mesmer
       m_writeStates = true;
     }
 
+    // Check if this mode is to be excluded from state count because it is part of a transition state definition.
+
+    pp = ppDOSC->XmlMoveTo("me:TSExclusion");
+    if (pp) {
+      m_excludeFromTS = true;
+    }
+
     // Check if configuration data are required.
 
     pp = ppDOSC->XmlMoveTo("me:ConfigurationalData");
@@ -248,6 +259,14 @@ namespace mesmer
   //
   bool HinderedRotorQM1D::countCellDOS(gDensityOfStates* pDOS, const MesmerEnv& env)
   {
+    // First check if the density of states of this mode is to be excluded
+    // because it is part of the definition of a transition state.
+
+    if (m_excludeFromTS) {
+      m_ZPE = 0.0;
+      return true;
+    }
+
     const size_t MaximumCell = env.MaxCell;
 
     vector<double> cellDOS;
@@ -293,7 +312,7 @@ namespace mesmer
 
     hamiltonian[0][0] = m_potentialCosCoeff[0];
     for (int k(1), i(1); k <= kmax; k++) {
-      double energy = bint*double(k)*double(k) + m_potentialCosCoeff[0];
+      double energy = bint * double(k) * double(k) + m_potentialCosCoeff[0];
       hamiltonian[i][i] = energy;
       stateIndicies[i] = -k;
       i++;                         // Need to account for the two directions of rotation.
@@ -308,7 +327,7 @@ namespace mesmer
       double matrixElement = m_potentialCosCoeff[n] / 2.0;
       for (size_t i(0); i < nstates; i++) {
         for (size_t j(0); j < nstates; j++) {
-          hamiltonian[i][j] += matrixElement*(((abs(stateIndicies[j] - stateIndicies[i]) - n) == 0) ? 1.0 : 0.0);
+          hamiltonian[i][j] += matrixElement * (((abs(stateIndicies[j] - stateIndicies[i]) - n) == 0) ? 1.0 : 0.0);
         }
       }
     }
@@ -322,9 +341,9 @@ namespace mesmer
           int k = stateIndicies[i];
           for (size_t j(0); j < nstates; j++) {
             int jj = stateIndicies[j];
-            hamiltonian[i][j] += matrixElement*(
-              (((k - jj + m) == 0) ? double(k*(k + m)) : 0.0) +
-              (((k - jj - m) == 0) ? double(k*(k - m)) : 0.0));
+            hamiltonian[i][j] += matrixElement * (
+              (((k - jj + m) == 0) ? double(k * (k + m)) : 0.0) +
+              (((k - jj - m) == 0) ? double(k * (k - m)) : 0.0));
           }
         }
       }
@@ -347,9 +366,9 @@ namespace mesmer
         double matrixElement = m_potentialSinCoeff[n] / 2.0;
         for (size_t i(0); i < nstates; i++) {
           for (size_t j(0); j < nstates; j++) {
-            hamiltonian[nstates + i][j] += matrixElement*(
+            hamiltonian[nstates + i][j] += matrixElement * (
               (((stateIndicies[j] - stateIndicies[i] - n) == 0) ? 1.0 : 0.0)
-            - (((stateIndicies[j] - stateIndicies[i] + n) == 0) ? 1.0 : 0.0));
+              - (((stateIndicies[j] - stateIndicies[i] + n) == 0) ? 1.0 : 0.0));
           }
         }
       }
@@ -363,9 +382,9 @@ namespace mesmer
             int k = stateIndicies[i];
             for (size_t j(0); j < nstates; j++) {
               int jj = stateIndicies[j];
-              hamiltonian[nstates + i][j] += matrixElement*(
-                (((k - jj + m) == 0) ? double(k*(k + m)) : 0.0) -
-                (((k - jj - m) == 0) ? double(k*(k - m)) : 0.0));
+              hamiltonian[nstates + i][j] += matrixElement * (
+                (((k - jj + m) == 0) ? double(k * (k + m)) : 0.0) -
+                (((k - jj - m) == 0) ? double(k * (k - m)) : 0.0));
             }
           }
         }
@@ -439,24 +458,26 @@ namespace mesmer
   // Provide a function to calculate contribution to canonical partition function.
   // (Mostly for testing purposes.)
   //
-  void HinderedRotorQM1D::canPrtnFnCntrb(gDensityOfStates* gdos, double beta, double &PrtnFn, double &IntrlEne, double &varEne)
+  void HinderedRotorQM1D::canPrtnFnCntrb(gDensityOfStates* gdos, double beta, double& PrtnFn, double& IntrlEne, double& varEne)
   {
-    double Qintrot(0.0), Eintrot(0.0), varEintrot(0.0);
+    if (!m_excludeFromTS) {
+      double Qintrot(0.0), Eintrot(0.0), varEintrot(0.0);
 
-    double zeroPointEnergy(m_energyLevels[0]);
-    for (size_t i(0); i < m_energyLevels.size(); i++) {
-      double ene = m_energyLevels[i] - zeroPointEnergy;
-      Qintrot += exp(-beta*ene);
-      Eintrot += ene*exp(-beta*ene);
-      varEintrot += ene*ene*exp(-beta*ene);
+      double zeroPointEnergy(m_energyLevels[0]);
+      for (size_t i(0); i < m_energyLevels.size(); i++) {
+        double ene = m_energyLevels[i] - zeroPointEnergy;
+        Qintrot += exp(-beta * ene);
+        Eintrot += ene * exp(-beta * ene);
+        varEintrot += ene * ene * exp(-beta * ene);
+      }
+      Eintrot /= Qintrot;
+      varEintrot = varEintrot / Qintrot - Eintrot * Eintrot;
+      Qintrot /= double(m_periodicity);
+
+      PrtnFn   *= Qintrot;
+      IntrlEne += Eintrot;
+      varEne   += varEintrot;
     }
-    Eintrot /= Qintrot;
-    varEintrot = varEintrot / Qintrot - Eintrot*Eintrot;
-    Qintrot /= double(m_periodicity);
-
-    PrtnFn *= Qintrot;
-    IntrlEne += Eintrot;
-    varEne += varEintrot;
   }
 
   // Provide data for plotting states against potential.
@@ -466,7 +487,7 @@ namespace mesmer
     int npoints(500);
     double dAngle = M_PI / double(npoints);
     for (int i(-npoints); i < npoints; ++i) {
-      double angle = double(i)*dAngle;
+      double angle = double(i) * dAngle;
       double potential = CalculatePotential(angle, m_potentialCosCoeff, m_potentialSinCoeff);
       ctest << formatFloat(angle, 6, 15) << ", " << formatFloat(potential, 6, 15) << endl;
     }
@@ -498,12 +519,12 @@ namespace mesmer
     // Calculate the Moment of inertia at a set of points.
 
     const size_t nAngle(360);
-    const double dAngle(2.0*M_PI / double(nAngle));
+    const double dAngle(2.0 * M_PI / double(nAngle));
 
     vector<double> MoI(nAngle, 0.0);
     vector<double> angle(nAngle, 0.0);
     for (size_t i(0); i < nAngle; ++i) {
-      angle[i] = double(i)*dAngle;
+      angle[i] = double(i) * dAngle;
       double sum(0.0);
       for (size_t j(0); j < ndata; ++j) {
         double nTheta = double(j) * angle[i];
@@ -520,7 +541,7 @@ namespace mesmer
         double nTheta = double(j) * angle[i];
         sum += MoI[i] * cos(nTheta);
       }
-      m_kineticCosCoeff[j] = 2.0*sum / double(nAngle);
+      m_kineticCosCoeff[j] = 2.0 * sum / double(nAngle);
     }
     m_kineticCosCoeff[0] /= 2.0;
   }
