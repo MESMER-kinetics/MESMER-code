@@ -328,6 +328,18 @@ copy "./%testName%.test" "./%bline%%testName%.test"
 IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
 cd ..
 
+cd "Butan-1-ol"
+set testName="Butoxy_H_to_Butan-1-ol"
+%cmdline% -N %testName%.xml
+copy "./%testName%.test" "./%bline%%testName%.test"
+IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
+
+set testName="Butan-1-peroxy_H_to_Butan-1-hydroperoxy"
+%cmdline% -N %testName%.xml
+copy "./%testName%.test" "./%bline%%testName%.test"
+IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
+cd ..
+
 :OUT
 
 echo Start Time=%starttime% - End Time=%time%

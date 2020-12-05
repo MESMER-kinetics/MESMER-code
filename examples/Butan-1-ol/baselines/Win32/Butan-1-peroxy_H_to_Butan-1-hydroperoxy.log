@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.1 compiled: -- Oct 25 2020 -- 19:43:47
+     Mesmer v6.1 compiled: -- Nov 29 2020 -- 18:54:39
 
      Copyright (C) 2009-2021 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,8 +27,8 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sun Nov 22 18:59:13 2020
-                     Number of ranks: 1
+                     Execution Date:  Sat Dec  5 23:07:14 2020
+                     Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
 
@@ -79,11 +79,17 @@ Energy convention "arbitrary" written to <moleculeList>
 In R1: Parsing reaction...Pseudoisomerization reaction
 In R1: The default value of me:FragmentDist was used.
 In R1: --Parse data for Prior
+In butan-1-peroxy: No lennard-Jones parameters found for butan-1-peroxy.
+In butan-1-peroxy: An attempt to calculate parameters will be made. If this fails
+In butan-1-peroxy: default parameters will be used
 In butan-1-peroxy: The default value of me:DistributionCalcMethod was used.
 In butan-1-peroxy: --Parse data for Boltzmann
 In butan-1-peroxy: The default value of me:energyTransferModel was used.
 In butan-1-peroxy: --Parse data for ExponentialDown
 In butan-1-peroxy: No value of me:deltaEDown was supplied and the default value NEEDS TO BE CHECKED**
+In butan-1-hydroperoxy: No lennard-Jones parameters found for butan-1-hydroperoxy.
+In butan-1-hydroperoxy: An attempt to calculate parameters will be made. If this fails
+In butan-1-hydroperoxy: default parameters will be used
 In butan-1-hydroperoxy: The default value of me:DistributionCalcMethod was used.
 In butan-1-hydroperoxy: --Parse data for Boltzmann
 In butan-1-hydroperoxy: --Parse data for BiExponentialDown
@@ -97,7 +103,7 @@ The default value of me:ForceMacroDetailedBalance was used.
 The default value of me:calcMethod was used.
 --Parse data for simpleCalc
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20201122_185939
+Write metadata 20201205_230715
 
 File: "Butan-1-peroxy_H_to_Butan-1-hydroperoxy.xml" successfully parsed.
 Main Calculation begins
@@ -2274,11 +2280,18 @@ Number of grains requested: 437
 In FastLaplaceConvolution: 18060 values in the FFT convolution routine were replaced by standard convolution
 In FastLaplaceConvolution: 20 values in the FFT convolution routine were replaced by standard convolution
 In FastLaplaceConvolution: 15800 values in the FFT convolution routine were replaced by standard convolution
- -- Total time elapsed: 178 seconds.
+
+WARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs).
+
+The last CSE = -6.80631e+06 and the first IERE = -1.91787e+07
+(last CSE)/(first IERE) ratio = 0.354889, which is less than an order of magnitude
+
+Results obtained from Bartis Widom eigenvalue-vector analysis may be unreliable
+ -- Total time elapsed: 24 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
 
 System saved to mesmer_out.xml
-Total time elapsed: 178 seconds.
+Total time elapsed: 24 seconds.

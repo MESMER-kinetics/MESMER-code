@@ -418,5 +418,21 @@ if [ "$1" == "-o" ] ; then
 fi
 cd ..
 
+cd "Butan-1-ol"
+testName="Butoxy_H_to_Butan-1-ol"
+$cmdline -N $testName.xml
+cp ./$testName.test ./$bline$testName.test
+if [ "$1" == "-o" ] ; then
+  cp ./$testName.log ./$bline$testName.log
+fi
+
+testName="Butan-1-peroxy_H_to_Butan-1-hydroperoxy"
+$cmdline -N $testName.xml
+cp ./$testName.test ./$bline$testName.test
+if [ "$1" == "-o" ] ; then
+  cp ./$testName.log ./$bline$testName.log
+fi
+cd ..
+
 echo Start Time=$starttime - End Time=`date`
 
