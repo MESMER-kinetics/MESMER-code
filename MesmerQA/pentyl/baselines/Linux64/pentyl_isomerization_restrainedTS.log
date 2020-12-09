@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.1 compiled: -- Nov 29 2020 -- 18:54:39
+     Mesmer v6.1 compiled: -- Dec  5 2020 -- 23:41:07
 
      Copyright (C) 2009-2021 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -26,9 +26,9 @@
     You should have received a copy of the GNU Public License
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
-                     Platform:        Windows
-                     Execution Date:  Thu Dec  3 20:42:45 2020
-                     Number of ranks: 4
+                     Platform:        Linux
+                     Execution Date:  Sat Dec  5 23:58:07 2020
+                     Number of ranks: 12
 
 defaults.xml, librarymols.xml are in ../..
 
@@ -111,7 +111,7 @@ The default value of the attribute Tmin was used.
 The default value of the attribute Tmax was used.
 The default value of me:ForceMacroDetailedBalance was used.
 2-pentyl:deltaEDown is derived from 1-pentyl:deltaEDown, and has a fixed value = 230 cm-1
-Write metadata 20201203_204245
+Write metadata 20201205_235807
 
 File: "pentyl_isomerization_restrainedTS.xml" successfully parsed.
 Main Calculation begins
@@ -122,9 +122,9 @@ In FastLaplaceConvolution: 20 values in the FFT convolution routine were replace
 
 --Execute calcMethod simpleCalc
 Number of cells = 50000, Number of grains = 214
-In FastLaplaceConvolution: 21860 values in the FFT convolution routine were replaced by standard convolution
-In mesmer::CollisionOperator::timeEvolution: No population was assigned, and there is no source term.
-In mesmer::CollisionOperator::timeEvolution: Initial poupulation set to 1.0  in the first isomer.
+In FastLaplaceConvolution: 21840 values in the FFT convolution routine were replaced by standard convolution
+In timeEvolution: No population was assigned, and there is no source term.
+In timeEvolution: Initial poupulation set to 1.0  in the first isomer.
  -- Total time elapsed: 10 seconds.
 
 
