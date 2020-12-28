@@ -41,7 +41,7 @@ namespace mesmer
         "This calculates energy transfer probabilities on the basis of\n  "
         "the biexponential down model: the probability of transition from a\n  "
         "grain of energy E to one of lower energy E1 is given by\n  "
-        "P(E|E1) = A(E1)((1-y)exp(-(E - E1)/<DE>d1) + y exp(-(E - E1)/<DE>d1))\n  "
+        "P(E|E1) = A(E1)((1-y)exp(-(E - E1)/<DE>d1) + y exp(-(E - E1)/<DE>d2))\n  "
         "where A(E1) is a normalization factor. The probabilities of\n  "
         "activating collisions are found by detailed balance.\n"
         ;

@@ -1,3 +1,7 @@
+2020-December-28 Struan Robertson
+
+		* Documentation update.
+
 2020-December-03 Struan Robertson
 
 		* HinderedRotorQM1D.cpp: Allow for the exclusion of hindered rotors from a transition state.
