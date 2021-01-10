@@ -562,16 +562,15 @@ namespace mesmer
             // Write out phenomenological rate coefficients.
             m_collisionOperator.PrintPhenomenologicalRates(mesmerRates, lossRates, m_Flags, m_pConditionsManager->get_analysisData(calPoint));
 
-            // For these conditions calculate the contribution to the chi^2 merit function
-            // for any of the experimentally observable data types. 
+            // For these conditions calculate the for the experimentally observable data types. 
 
-            chiSquare += calcChiSqRateCoefficients(mesmerRates, calPoint, residuals);
+            calcRateCoefficients(mesmerRates, calPoint);
 
-            chiSquare += calcChiSqYields(calPoint, residuals);
+            calcYields(calPoint);
 
-            chiSquare += calcChiSqEigenvalues(calPoint, residuals);
+            calcEigenvalues(calPoint);
 
-            chiSquare += calcChiSqRawData(calPoint, residuals);
+            calcRawData(calPoint);
 
             stest << "}\n";
 
@@ -593,10 +592,12 @@ namespace mesmer
     // Reduce Chi^2 values and redistribute
 
     m_pParallelManager->barrier();
-    m_pParallelManager->sumDouble(&chiSquare, 1);
-    m_pParallelManager->sumDouble(&residuals[0], residuals.size());
     m_pConditionsManager->reconcileTable();
     m_pConditionsManager->AddCalcValToXml();
+
+    double ChiSquaredTest(0.0);
+    m_pConditionsManager->calculateChiSquared(ChiSquaredTest, residuals);
+    chiSquare = ChiSquaredTest;
 
     if (writeReport) {
       m_pConditionsManager->WriteDataTable();
@@ -666,12 +667,11 @@ namespace mesmer
     // For this conditions calculate the experimentally observable data types. 
 
     stringstream rateCoeffTable;
-    vector<double> residuals;
-    calcChiSqRateCoefficients(mesmerRates, nConds, residuals);
+    calcRateCoefficients(mesmerRates, nConds);
 
-    calcChiSqYields(nConds, residuals);
+    calcYields(nConds);
 
-    calcChiSqEigenvalues(nConds, residuals);
+    calcEigenvalues(nConds);
 
     double data(0.0);
     while (rateCoeffTable >> data) {
@@ -739,9 +739,7 @@ namespace mesmer
     return calculate(temp, conc, precision, phenRates, MaxT, bathGas);
   };
 
-  double System::calcChiSqRateCoefficients(const qdMatrix& mesmerRates, const unsigned calPoint, vector<double>& residuals) {
-
-    double chiSquare(0.0);
+  void System::calcRateCoefficients(const qdMatrix& mesmerRates, const unsigned calPoint) {
 
     vector<conditionSet> expRates;
     m_pConditionsManager->get_experimentalRates(calPoint, expRates);
@@ -774,25 +772,20 @@ namespace mesmer
       if (reaction)
         reaction->normalizeRateCoefficient(rateCoeff, ref1);
 
-      double diff = (m_Flags.bIndependentErrors) ? (expRate - rateCoeff) / expErr : (expRate - rateCoeff);
-      residuals[calPoint] += diff;
-      chiSquare += diff * diff;
-
       calcRates[i] = rateCoeff;
     }
 
     m_pConditionsManager->set_calculatedRates(calPoint, calcRates);
 
-    return chiSquare;
+    return;
   }
 
-  double System::calcChiSqYields(const unsigned calPoint, vector<double>& residuals) {
+  void System::calcYields(const unsigned calPoint) {
 
-    double chiSquare(0.0);
     vector<conditionSet> expYields;
     m_pConditionsManager->get_experimentalYields(calPoint, expYields);
     if (expYields.size() == 0)
-      return chiSquare;
+      return ;
 
     vector<double> calcYields(expYields.size(), 0.0);
     //
@@ -812,7 +805,7 @@ namespace mesmer
     catch (std::runtime_error & e) {
       cerr << "Error: during calculation of Chi^2 for yields:" << endl;
       cerr << e.what() << endl;
-      return 0.0;
+      return ;
     }
 
     for (size_t i(0); i < expYields.size(); ++i) {
@@ -835,21 +828,15 @@ namespace mesmer
 
       }
 
-      double diff = (m_Flags.bIndependentErrors) ? (expYield - yield) / expErr : (expYield - yield);
-      residuals[calPoint] += diff;
-      chiSquare += (diff * diff);
-
       calcYields[i] = yield;
     }
 
     m_pConditionsManager->set_calculatedYields(calPoint, calcYields);
 
-    return chiSquare;
+    return ;
   }
 
-  double System::calcChiSqEigenvalues(const unsigned calPoint, vector<double>& residuals) {
-
-    double chiSquare(0.0);
+  void System::calcEigenvalues(const unsigned calPoint) {
 
     vector<conditionSet> expEigenvalues;
     m_pConditionsManager->get_experimentalEigenvalues(calPoint, expEigenvalues);
@@ -872,19 +859,15 @@ namespace mesmer
         continue;
       }
 
-      double diff = (m_Flags.bIndependentErrors) ? (expEigenvalue - eigenvalue) / expErr : (expEigenvalue - eigenvalue);
-      residuals[calPoint] += diff;
-      chiSquare += (diff * diff);
-
       calcEigenvalues[i] = eigenvalue;
     }
 
     m_pConditionsManager->set_calculatedEigenvalues(calPoint, calcEigenvalues);
 
-    return chiSquare;
+    return ;
   }
 
-  double System::calcChiSqRawData(const unsigned calPoint, vector<double>& residuals) {
+  void System::calcRawData(const unsigned calPoint) {
 
     //
     // With trace data, an indpendent assessment of the precision of the measurements is not possible. 
@@ -894,10 +877,9 @@ namespace mesmer
     // needs to be set.
     //
 
-    double chiSquare(0.0);
     vector<RawDataSet>& rawDataSets = m_pConditionsManager->get_experimentalrawDataSets(calPoint);
     if (rawDataSets.size() == 0)
-      return chiSquare;
+      return ;
 
     //
     // Calculate profile for each experimental set.
@@ -929,32 +911,13 @@ namespace mesmer
       }
 
       double alpha = sumef / sumf2;
-      double diff(0.0), localChi(0.0);
       for (size_t j(0); j < signal.size(); ++j) {
         signal[j] *= alpha;
-        diff = (signal[j] - expSignal[j]);
-        localChi += (diff * diff);
       }
       dataSet.m_calcTrace = signal;
-
-      // Taking the residual to be the euclidian distance between functions (represented as vectors).
-      residuals[calPoint] += sqrt(localChi);
-      if (m_Flags.useTraceWeighting) {
-        chiSquare += localChi * dataSet.m_weight;
-      }
-      else {
-        if (m_Flags.updateTraceWeights) {
-          chiSquare += localChi * dataSet.m_weight;
-        }
-        else {
-          chiSquare += localChi;
-        }
-        dataSet.m_weight = localChi / double(signal.size() - 1);
-      }
-
     }
 
-    return chiSquare;
+    return ;
   }
 
   void System::WriteMetadata(const string& infilename)

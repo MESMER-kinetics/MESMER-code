@@ -41,7 +41,7 @@ namespace mesmer
 		std::string m_ref1;                           // Monitored species.
 		const char* m_Name;                           // Name of trace.
 		double m_excessConc;                          // Concentration of excess reactant.
-		double m_weight;                              // Weight data should be given - as determined by the experimenter.
+		mutable double m_weight;                      // Weight data should be given - as determined by the experimenter.
 		PersistPtr m_pPersistPtr;                     // Location of data.
 	};
 
@@ -70,12 +70,14 @@ namespace mesmer
 		std::vector<RawDataSet>   m_rawDataSets;
 		std::vector<PersistPtr>   m_expDataPtrs;
 
+		std::string m_group; // Used when comparing data from different Labs. 
+
 		AnalysisData m_analysisData;
 
 		CandTpair(double cp_, double t_, Precision _pre, const char* _bathGas,
-			const map<Reaction*, double>& _excessConcs)
+			const map<Reaction*, double>& _excessConcs, const char* _group )
 			: m_concentration(cp_), m_temperature(t_), m_precision(_pre),
-			m_pBathGasName(_bathGas), m_excessConcs(_excessConcs) {}
+			m_pBathGasName(_bathGas), m_excessConcs(_excessConcs), m_group(_group) {}
 
 		void set_experimentalRates(PersistPtr ppData, std::string ref1, std::string ref2, std::string refReaction, double value, double error) {
 			if (ref1.size() > 0 && ref2.size() > 0) {
@@ -199,6 +201,9 @@ namespace mesmer
 		// Reconcile table across processs.
 		void reconcileTable();
 
+		// Calculate ChiSquared.
+		void calculateChiSquared(double &chiSquared, vector<double>& residuals) const;
+
 		// Write data table.
 		void WriteDataTable() const;
 
@@ -254,6 +259,9 @@ namespace mesmer
 
 		// Index of the current set being analysed.
 		int currentSet;
+
+		// Map of the location of all data by group.
+		std::map<std::string, std::vector<size_t> > m_groupMap;
 
 	};
 

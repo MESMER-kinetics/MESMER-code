@@ -16,7 +16,8 @@ namespace mesmer
     PandTs(),
     m_pParallelManager(NULL),
     generalAnalysisData(),
-    currentSet(-1) {
+    currentSet(-1),
+    m_groupMap() {
     m_pParallelManager = m_pSys->getParallelManager();
   }
 
@@ -96,6 +97,13 @@ namespace mesmer
         if (txt)
           this_precision = txtToPrecision(txt);
 
+        string group("");
+        txt = ppPTset->XmlReadValue("me:group", optional);
+        if (!txt)
+          txt = ppPTset->XmlReadValue("group");
+        if (txt)
+          group = txt;
+
         string ref1;
         txt = ppPTset->XmlReadValue("me:ref1", optional);
         if (!txt)
@@ -124,7 +132,7 @@ namespace mesmer
         const char* bathGasName = m_pSys->getMoleculeManager()->get_BathGasName().c_str();
         for (size_t j(0); j < Tvals.size(); ++j) {
           for (size_t i(0); i < Pvals.size(); ++i) {
-            CandTpair thisPair(getConvertedP(this_units, Pvals[i], Tvals[j]), Tvals[j], this_precision, bathGasName, baseExcessConcs);
+            CandTpair thisPair(getConvertedP(this_units, Pvals[i], Tvals[j]), Tvals[j], this_precision, bathGasName, baseExcessConcs, group.c_str());
             thisPair.set_experimentalRates(ppPTset, ref1, ref2, refReaction, 0.0, 0.0);
             PandTs.push_back(thisPair);
             m_pSys->getEnv().MaximumTemperature = max(m_pSys->getEnv().MaximumTemperature, thisPair.m_temperature);
@@ -133,7 +141,7 @@ namespace mesmer
         ppPTset = ppPTset->XmlMoveTo("me:PTset");
       }
 
-      //These attributes can be on <me:PTs> and apply to its child elements (to shorten them).
+      // These attributes can be on <me:PTs> and apply to its child elements (to shorten them).
       const char* common_precision = pp->XmlReadValue("precision", optional);
       const char* common_units = pp->XmlReadValue("units", optional);
       const char* common_bathgas = pp->XmlReadValue("bathGas", optional);
@@ -142,6 +150,7 @@ namespace mesmer
       const char* common_ref = pp->XmlReadValue("ref", optional);
       const char* common_reaction = pp->XmlReadValue("refReaction", optional);
       const char* common_reaction_excess = pp->XmlReadValue("refReactionExcess", optional);
+      const char* common_group = pp->XmlReadValue("group", optional);
       double common_excessReactantConc = pp->XmlReadDouble("excessReactantConc", optional);
 
       // Check for individually specified concentration/temperature points.
@@ -253,8 +262,18 @@ namespace mesmer
           }
         }
 
+        // Group to which this PT belongs.
+        const char* group = ppPTpair->XmlReadValue("me:group", optional);
+        if (!group)
+          group = ppPTpair->XmlReadValue("group", optional); //attribute
+        if (!group)
+          group = common_group;
+        if (!group) // If not specified leave as blank.
+          group = "default";
+        ppPTpair->XmlWriteAttribute("group", group);
+
         CandTpair thisPair(getConvertedP(this_units, this_P, this_T), this_T,
-          this_precision, bathGasName, thisExcessConcs);
+          this_precision, bathGasName, thisExcessConcs, group);
         cinfo << this_P << this_units << ", " << this_T << "K at " << txt
           << " precision" << " with " << bathGasName;
         if (!IsNan(excessConc))
@@ -438,6 +457,12 @@ namespace mesmer
 
     // Normalize weigths on raw data (if any).
     NormalizeExptWeights();
+
+    // Locate data groups
+    for (size_t i(0); i < PandTs.size(); ++i) {
+      string group = PandTs[i].m_group;
+      m_groupMap[group].push_back(i);
+    }
 
     return true;
   }
@@ -646,6 +671,85 @@ namespace mesmer
         Trace[i].m_weight = tmp2;
       }
     }
+  }
+
+  // Calculate ChiSquared.
+  void ConditionsManager::calculateChiSquared(double& chiSquared, vector<double>& residuals) const {
+
+    bool bIndependentErrors = m_pSys->m_Flags.bIndependentErrors;
+    bool bUseTraceWeighting = m_pSys->m_Flags.useTraceWeighting;
+    bool bUpdateTraceWeights = m_pSys->m_Flags.updateTraceWeights;
+
+    chiSquared = 0.0;
+    residuals.clear();
+    residuals.resize(PandTs.size(), 0.0);
+    for (size_t calPoint(0); calPoint < PandTs.size(); calPoint++) {
+
+      const vector<conditionSet>& rates = PandTs[calPoint].m_rates;
+      for (size_t i(0); i < rates.size(); ++i) {
+        double error = (bIndependentErrors) ? rates[i].m_error : 1.0;
+        double tmp = (rates[i].m_value - rates[i].m_calcValue) / error;
+        residuals[calPoint] += tmp;
+        chiSquared += tmp * tmp;
+      }
+      const vector<conditionSet>& yields = PandTs[calPoint].m_yields;
+      for (size_t i(0); i < yields.size(); ++i) {
+        double error = (bIndependentErrors) ? yields[i].m_error : 1.0;
+        double tmp = (yields[i].m_value - yields[i].m_calcValue) / error;
+        residuals[calPoint] += tmp;
+        chiSquared += tmp * tmp;
+      }
+      const vector<conditionSet>& eigenvalues = PandTs[calPoint].m_eigenvalues;
+      for (size_t i(0); i < eigenvalues.size(); ++i) {
+        double error = (bIndependentErrors) ? eigenvalues[i].m_error : 1.0;
+        double tmp = (eigenvalues[i].m_value - eigenvalues[i].m_calcValue) / error;
+        residuals[calPoint] += tmp;
+        chiSquared += tmp * tmp;
+      }
+      const vector<RawDataSet>& Trace = PandTs[calPoint].m_rawDataSets;
+      for (size_t i(0); i < Trace.size(); ++i) {
+        const RawDataSet& dataSet = Trace[i];
+
+        // Extract the times for which the trace should be calculated. 
+        vector<double> times, expSignal;
+        const size_t ntimes = dataSet.data.size();
+        for (size_t j(0); j < ntimes; ++j) {
+          double time = dataSet.data[j].first;
+          if (time > 0.0) {
+            times.push_back(time);
+            expSignal.push_back(dataSet.data[j].second);
+          }
+        }
+
+        const vector<double>& signal = dataSet.m_calcTrace;
+
+        // Accumulate Chi^2 for trace.
+
+        double diff(0.0), localChi(0.0);
+        for (size_t j(0); j < signal.size(); ++j) {
+          diff = (signal[j] - expSignal[j]);
+          localChi += (diff * diff);
+        }
+
+        // Taking the residual to be the euclidian distance between functions (represented as vectors).
+        residuals[calPoint] += sqrt(localChi);
+        if (bUseTraceWeighting) {
+          chiSquared += localChi * dataSet.m_weight;
+        }
+        else {
+          if (bUpdateTraceWeights) {
+            chiSquared += localChi * dataSet.m_weight;
+          }
+          else {
+            chiSquared += localChi;
+          }
+          dataSet.m_weight = localChi / double(signal.size() - 1);
+        }
+
+      }
+
+    } // End Main conditions loop.
+
   }
 
   // Write calculated date to output.
