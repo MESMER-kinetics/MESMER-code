@@ -260,9 +260,6 @@ namespace mesmer
 		// Index of the current set being analysed.
 		int currentSet;
 
-		// Map of the location of all data by group.
-		std::map<std::string, std::vector<size_t> > m_groupMap;
-
 	};
 
 }//namespace

@@ -16,8 +16,7 @@ namespace mesmer
     PandTs(),
     m_pParallelManager(NULL),
     generalAnalysisData(),
-    currentSet(-1),
-    m_groupMap() {
+    currentSet(-1) {
     m_pParallelManager = m_pSys->getParallelManager();
   }
 
@@ -458,12 +457,6 @@ namespace mesmer
     // Normalize weigths on raw data (if any).
     NormalizeExptWeights();
 
-    // Locate data groups
-    for (size_t i(0); i < PandTs.size(); ++i) {
-      string group = PandTs[i].m_group;
-      m_groupMap[group].push_back(i);
-    }
-
     return true;
   }
 
@@ -674,81 +667,100 @@ namespace mesmer
   }
 
   // Calculate ChiSquared.
-  void ConditionsManager::calculateChiSquared(double& chiSquared, vector<double>& residuals) const {
+  void ConditionsManager::calculateChiSquared(double& totalChiSquared, vector<double>& residuals) const {
 
-    bool bIndependentErrors = m_pSys->m_Flags.bIndependentErrors;
-    bool bUseTraceWeighting = m_pSys->m_Flags.useTraceWeighting;
+    // Map of the location of all data by group.
+    map<string, vector<size_t> > groupMap;
+    for (size_t i(0); i < PandTs.size(); ++i) {
+      string group = PandTs[i].m_group;
+      groupMap[group].push_back(i);
+    }
+
+    bool bIndependentErrors  = m_pSys->m_Flags.bIndependentErrors;
+    bool bUseTraceWeighting  = m_pSys->m_Flags.useTraceWeighting;
     bool bUpdateTraceWeights = m_pSys->m_Flags.updateTraceWeights;
 
-    chiSquared = 0.0;
+    totalChiSquared = 0.0;
     residuals.clear();
     residuals.resize(PandTs.size(), 0.0);
-    for (size_t calPoint(0); calPoint < PandTs.size(); calPoint++) {
+    map<string, vector<size_t> >::const_iterator itr = groupMap.begin();
+    for (; itr != groupMap.end(); itr++) {
 
-      const vector<conditionSet>& rates = PandTs[calPoint].m_rates;
-      for (size_t i(0); i < rates.size(); ++i) {
-        double error = (bIndependentErrors) ? rates[i].m_error : 1.0;
-        double tmp = (rates[i].m_value - rates[i].m_calcValue) / error;
-        residuals[calPoint] += tmp;
-        chiSquared += tmp * tmp;
-      }
-      const vector<conditionSet>& yields = PandTs[calPoint].m_yields;
-      for (size_t i(0); i < yields.size(); ++i) {
-        double error = (bIndependentErrors) ? yields[i].m_error : 1.0;
-        double tmp = (yields[i].m_value - yields[i].m_calcValue) / error;
-        residuals[calPoint] += tmp;
-        chiSquared += tmp * tmp;
-      }
-      const vector<conditionSet>& eigenvalues = PandTs[calPoint].m_eigenvalues;
-      for (size_t i(0); i < eigenvalues.size(); ++i) {
-        double error = (bIndependentErrors) ? eigenvalues[i].m_error : 1.0;
-        double tmp = (eigenvalues[i].m_value - eigenvalues[i].m_calcValue) / error;
-        residuals[calPoint] += tmp;
-        chiSquared += tmp * tmp;
-      }
-      const vector<RawDataSet>& Trace = PandTs[calPoint].m_rawDataSets;
-      for (size_t i(0); i < Trace.size(); ++i) {
-        const RawDataSet& dataSet = Trace[i];
+      const vector<size_t> location = itr->second;
+      double chiSquared = 0.0;
 
-        // Extract the times for which the trace should be calculated. 
-        vector<double> times, expSignal;
-        const size_t ntimes = dataSet.data.size();
-        for (size_t j(0); j < ntimes; ++j) {
-          double time = dataSet.data[j].first;
-          if (time > 0.0) {
-            times.push_back(time);
-            expSignal.push_back(dataSet.data[j].second);
+      for (size_t ii(0); ii < location.size(); ii++) {
+        size_t calPoint = location[ii];
+        const vector<conditionSet>& rates = PandTs[calPoint].m_rates;
+        for (size_t i(0); i < rates.size(); ++i) {
+          double error = (bIndependentErrors) ? rates[i].m_error : 1.0;
+          double tmp = (rates[i].m_value - rates[i].m_calcValue) / error;
+          residuals[calPoint] += tmp;
+          chiSquared += tmp * tmp;
+        }
+        const vector<conditionSet>& yields = PandTs[calPoint].m_yields;
+        for (size_t i(0); i < yields.size(); ++i) {
+          double error = (bIndependentErrors) ? yields[i].m_error : 1.0;
+          double tmp = (yields[i].m_value - yields[i].m_calcValue) / error;
+          residuals[calPoint] += tmp;
+          chiSquared += tmp * tmp;
+        }
+        const vector<conditionSet>& eigenvalues = PandTs[calPoint].m_eigenvalues;
+        for (size_t i(0); i < eigenvalues.size(); ++i) {
+          double error = (bIndependentErrors) ? eigenvalues[i].m_error : 1.0;
+          double tmp = (eigenvalues[i].m_value - eigenvalues[i].m_calcValue) / error;
+          residuals[calPoint] += tmp;
+          chiSquared += tmp * tmp;
+        }
+        const vector<RawDataSet>& Trace = PandTs[calPoint].m_rawDataSets;
+        for (size_t i(0); i < Trace.size(); ++i) {
+          const RawDataSet& dataSet = Trace[i];
+
+          // Extract the times for which the trace should be calculated. 
+          vector<double> times, expSignal;
+          const size_t ntimes = dataSet.data.size();
+          for (size_t j(0); j < ntimes; ++j) {
+            double time = dataSet.data[j].first;
+            if (time > 0.0) {
+              times.push_back(time);
+              expSignal.push_back(dataSet.data[j].second);
+            }
           }
-        }
 
-        const vector<double>& signal = dataSet.m_calcTrace;
+          const vector<double>& signal = dataSet.m_calcTrace;
 
-        // Accumulate Chi^2 for trace.
+          // Accumulate Chi^2 for trace.
 
-        double diff(0.0), localChi(0.0);
-        for (size_t j(0); j < signal.size(); ++j) {
-          diff = (signal[j] - expSignal[j]);
-          localChi += (diff * diff);
-        }
+          double diff(0.0), localChi(0.0);
+          for (size_t j(0); j < signal.size(); ++j) {
+            diff = (signal[j] - expSignal[j]);
+            localChi += (diff * diff);
+          }
 
-        // Taking the residual to be the euclidian distance between functions (represented as vectors).
-        residuals[calPoint] += sqrt(localChi);
-        if (bUseTraceWeighting) {
-          chiSquared += localChi * dataSet.m_weight;
-        }
-        else {
-          if (bUpdateTraceWeights) {
+          // Taking the residual to be the euclidian distance between functions (represented as vectors).
+          residuals[calPoint] += sqrt(localChi);
+          if (bUseTraceWeighting) {
             chiSquared += localChi * dataSet.m_weight;
           }
           else {
-            chiSquared += localChi;
+            if (bUpdateTraceWeights) {
+              chiSquared += localChi * dataSet.m_weight;
+            }
+            else {
+              chiSquared += localChi;
+            }
+            dataSet.m_weight = localChi / double(signal.size() - 1);
           }
-          dataSet.m_weight = localChi / double(signal.size() - 1);
+
         }
 
-      }
+      } // End Main conditions loop.
 
-    } // End Main conditions loop.
+      totalChiSquared += chiSquared / double(location.size());
+
+    }
+
+    totalChiSquared *= double(PandTs.size()) / double(groupMap.size());
 
   }
 

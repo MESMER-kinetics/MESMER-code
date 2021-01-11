@@ -1,3 +1,7 @@
+2021-January-11 Struan Robertson
+
+		* ConditionsManager.h/.cpp: Implementation of data grouping Chi^2 calculation.
+
 2021-January-10 Struan Robertson
 
 		* ConditionsManager.h/.cpp, System.h/.cpp: Restructuring of code in preparation for
