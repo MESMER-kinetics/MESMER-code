@@ -4,8 +4,8 @@
 // Authors: Chi-Hsiu Liang and Struan Robertson
 //
 //-------------------------------------------------------------------------------------------
-#include "gWellProperties.h"
 #include "Molecule.h"
+#include "gWellProperties.h"
 #include "System.h"
 #include "ParseForPlugin.h"
 #include "gBathProperties.h"
