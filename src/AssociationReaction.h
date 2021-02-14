@@ -91,6 +91,9 @@ namespace mesmer
     virtual Molecule* get_reactant(void) const { return m_rct1; };
     virtual Molecule* get_excessReactant(void) const { return m_rct2; };
 
+    // Test if excess concentration is greater than bath gas concentration.
+    virtual bool IsExcessGreaterThanBathConc(double bathConc) const { return (m_ERConc > bathConc); }
+
     // return relative reactant, product and transition state zero-point energy
     virtual double get_relative_rctZPE() const { return m_rct1->getDOS().get_zpe() + m_rct2->getDOS().get_zpe() - getEnv().EMin; }
     virtual double get_relative_pdtZPE() const { return m_pdt1->getDOS().get_zpe() - getEnv().EMin; }

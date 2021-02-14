@@ -669,6 +669,12 @@ namespace mesmer
   // Calculate ChiSquared.
   void ConditionsManager::calculateChiSquared(double& totalChiSquared, vector<double>& residuals) const {
 
+    // Data can be assigned to groups and if data has not been assigned to a group it
+    // is placed in a default group. The intention here is to stop the shear size of
+    // a data set from, say, one laboratory, out weighing all other data, especially
+    // in the situation that it has a systematic error. See T. Turányi and co-workers
+    // Z. Phys. Chem. 2020; 234(7–9): 1329–1357.
+
     // Map of the location of all data by group.
     map<string, vector<size_t> > groupMap;
     for (size_t i(0); i < PandTs.size(); ++i) {

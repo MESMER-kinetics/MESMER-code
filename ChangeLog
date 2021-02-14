@@ -1,3 +1,9 @@
+2021-February-14 Struan Robertson
+
+		* ConditionsManager.cpp, Reaction.h, AssociationReaction.h, Collision.cpp: Added 
+		check for association reactions that excess reactant concentration does not exceed
+		bath gas concentration and print warning if it does.
+
 2021-January-11 Struan Robertson
 
 		* ConditionsManager.h/.cpp: Implementation of data grouping Chi^2 calculation.

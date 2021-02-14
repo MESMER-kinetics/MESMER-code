@@ -182,12 +182,19 @@ namespace mesmer
     virtual double calcEquilibriumConstant() = 0;
 
     // For reactions involving a source update pseudoisomer map.
-    virtual void updateSourceMap(molMapType& sourcemap) { /* For reactions without source terms this is a NULL operation. */ };
+    virtual void updateSourceMap(molMapType& sourcemap) { 
+      /* For reactions without source terms this is a NULL operation. */ 
+    };
 
     // Get the concentration of the excess reactant. 
     double get_concExcessReactant() const { return m_ERConc; }
     void   set_concExcessReactant(double conc) { m_ERConc = conc; }
     Molecule* getExcessReactant() { return m_ExcessReactant; }
+
+    // Test if excess concentration is greater than bath gas concentration.
+    // This method will be over ridden only by association reactions and
+    // derivatives thereof.
+    virtual bool IsExcessGreaterThanBathConc(double bathConc) const { return false; }
 
     // The following method takes an effective unimolecular rate coefficient 
     // and if required, normalizes it by, a concentration and/or any other 

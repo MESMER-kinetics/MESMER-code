@@ -90,6 +90,12 @@ namespace mesmer
       // Reset the the microcanonical re-calculation flags if required.
       if (!mFlags.useTheSameCellNumber) pReaction->resetCalcFlag();
 
+      // Check if excess concentration is greater than bath gas concentration
+      // (for assocation reactions only).
+      if (pReaction->IsExcessGreaterThanBathConc(mEnv.conc)) {
+        cerr << "WARNING: concentration of excess species is greater than bath gas concentration for reaction " << pReaction->getName() << once << endl ;
+      }
+
       // Transition State
       // third check for the transition state in this reaction
       Molecule* pTransitionState = pReaction->get_TransitionState();
