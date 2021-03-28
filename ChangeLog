@@ -1,3 +1,7 @@
+2021-March-28 Struan Robertson
+
+		* ConditionsManager.cpp: Minor change to make grouping of data to be fit optional.
+
 2021-February-14 Struan Robertson
 
 		* ConditionsManager.cpp, Reaction.h, AssociationReaction.h, Collision.cpp: Added 

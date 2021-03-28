@@ -99,7 +99,7 @@ namespace mesmer
         string group("");
         txt = ppPTset->XmlReadValue("me:group", optional);
         if (!txt)
-          txt = ppPTset->XmlReadValue("group");
+          txt = ppPTset->XmlReadValue("group", optional);
         if (txt)
           group = txt;
 
