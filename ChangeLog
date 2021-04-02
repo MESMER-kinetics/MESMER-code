@@ -1,3 +1,7 @@
+2021-April-02 Struan Robertson
+
+		* MesmerILT.cpp: Fix for ILT reference temperature incorrect read bug.
+
 2021-March-28 Struan Robertson
 
 		* ConditionsManager.cpp: Minor change to make grouping of data to be fit optional.

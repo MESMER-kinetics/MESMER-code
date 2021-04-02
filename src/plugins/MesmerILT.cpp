@@ -252,7 +252,7 @@ namespace mesmer
       ReadRdoubleRange(string(pReact->getName() + ":nInfinity"), ppNInf, m_NInf, rangeSet);
     }
 
-    double TInf = ppReac->XmlReadDouble("me:TInfinity");
+    double TInf = pp->XmlReadDouble("me:TInfinity");
     if (TInf <= 0) {
       cinfo << "Tinfinity is less than or equal to 0; set to the default value of 298 K" << endl;
       m_TInf = 298.0;
