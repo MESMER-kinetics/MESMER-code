@@ -92,5 +92,6 @@
   <me:AverageSlope units="a.u./Bohr" default="true">0.1</me:AverageSlope>
   <me:ForceMacroDetailedBalance default="true">true</me:ForceMacroDetailedBalance>
   <me:testMicroRates Tmin = "100" Tmax = "2000" Tstep = "100" default="true"/>
+  <me:experimentalRate error ="0.0" default="true"/>
 </defaults>
 

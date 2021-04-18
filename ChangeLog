@@ -1,3 +1,11 @@
+2021-April-18 Struan Robertson
+
+		* Defaults.xml: Added default value of zero for error attribute of me:experimentalRate 
+		element.
+
+		* AssociationReactio.cpp, IsomerizationReaction.cpp: Improved output of microcanonical 
+		rate coefficients.
+
 2021-April-02 Struan Robertson
 
 		* MesmerILT.cpp: Fix for ILT reference temperature incorrect read bug.

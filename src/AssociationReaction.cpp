@@ -298,7 +298,9 @@ namespace mesmer
     vector<double> rctGrainDOS;
     vector<double> rctGrainEne;
     vector<double> pdtGrainDOS;
+    vector<double> pdtGrainEne;
     m_pdt1->getDOS().getGrainDensityOfStates(pdtGrainDOS);
+    m_pdt1->getDOS().getGrainEnergies(pdtGrainEne);
     calcRctsGrainDensityOfStates(rctGrainDOS, rctGrainEne);
 
     calcEffGrnThresholds();
@@ -324,14 +326,14 @@ namespace mesmer
     if (getFlags().kfEGrainsEnabled) {
       stest << "\nk_f(e) grains for " << getName() << ":\n{\n";
       for (int i = 0; i < MaximumGrain; ++i) {
-        stest << m_GrainKfmc[i] << endl;
+        stest << setw(15) << formatFloat(rctGrainEne[i], 6, 15) << " " << formatFloat(m_GrainKfmc[i], 6, 15) << endl;
       }
       stest << "}\n";
     }
     if (getFlags().kbEGrainsEnabled) {
       stest << "\nk_b(e) grains for " << getName() << ":\n{\n";
       for (int i = 0; i < MaximumGrain; ++i) {
-        stest << m_GrainKbmc[i] << endl;
+        stest << setw(15) << formatFloat(pdtGrainEne[i], 6, 15) << " " << formatFloat(m_GrainKbmc[i], 6, 15) << endl;
       }
       stest << "}\n";
     }

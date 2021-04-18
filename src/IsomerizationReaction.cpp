@@ -11,6 +11,7 @@
 #include <limits>
 #include "IsomerizationReaction.h"
 #include "gWellProperties.h"
+#include "formatFloat.h"
 
 using namespace Constants ;
 using namespace std;
@@ -255,6 +256,10 @@ namespace mesmer
     vector<double> pdtGrainDOS;
     m_rct1->getDOS().getGrainDensityOfStates(rctGrainDOS) ;
     m_pdt1->getDOS().getGrainDensityOfStates(pdtGrainDOS) ;
+    vector<double> rctGrainEne;
+    vector<double> pdtGrainEne;
+    m_rct1->getDOS().getGrainEnergies(rctGrainEne) ;
+    m_pdt1->getDOS().getGrainEnergies(pdtGrainEne) ;
 
     calcEffGrnThresholds();
     const int forwardTE = get_EffGrnFwdThreshold();
@@ -279,14 +284,14 @@ namespace mesmer
     if (getFlags().kfEGrainsEnabled){
       stest << "\nk_f(e) grains for " << getName() << ":\n{\n";
       for (int i = 0; i < MaximumGrain; ++i){
-        stest << m_GrainKfmc[i] << endl;
+        stest << setw(15) << formatFloat(rctGrainEne[i], 6, 15) << " " << formatFloat(m_GrainKfmc[i], 6, 15) << endl;
       }
       stest << "}\n";
     }
     if (getFlags().kbEGrainsEnabled){
       stest << "\nk_b(e) grains for " << getName() << ":\n{\n";
       for (int i = 0; i < MaximumGrain; ++i){
-        stest << m_GrainKbmc[i] << endl;
+        stest << setw(15) << formatFloat(pdtGrainEne[i], 6, 15) << " " << formatFloat(m_GrainKbmc[i], 6, 15) << endl;
       }
       stest << "}\n";
     }
