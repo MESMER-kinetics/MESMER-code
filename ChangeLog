@@ -1,3 +1,7 @@
+2021-April-29 Struan Robertson
+
+		* CollisionOperator.cpp: Initial implementation of diffusive loss array.
+
 2021-April-18 Struan Robertson
 
 		* Defaults.xml: Added default value of zero for error attribute of me:experimentalRate 

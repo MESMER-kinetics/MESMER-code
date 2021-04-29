@@ -93,7 +93,7 @@ namespace mesmer
       // Check if excess concentration is greater than bath gas concentration
       // (for assocation reactions only).
       if (pReaction->IsExcessGreaterThanBathConc(mEnv.conc)) {
-        cerr << "WARNING: concentration of excess species is greater than bath gas concentration for reaction " << pReaction->getName() << once << endl ;
+        cerr << "WARNING: concentration of excess species is greater than bath gas concentration for reaction " << pReaction->getName() << once << endl;
       }
 
       // Transition State
@@ -500,28 +500,73 @@ namespace mesmer
       throw(std::runtime_error(msg.str()));
     }
 
-    double diffusionRate = expData.m_pPersistPtr->XmlReadDouble("diffusiveLoss");
+    map<Molecule*, double> diffusionMap;
+    diffusionMap[pMol] = 0.0;
 
-    // Search for diffusing species in isomers.
-    Reaction::molMapType::iterator rctitr = m_isomers.find(pMol);
-    if (rctitr != m_isomers.end()) {
-      const int rctLocation = rctitr->second;
-      const int colloptrsize = pMol->getColl().get_colloptrsize();
+    // First check if there is a single diffusive loss term.
+    double diffusionRate = expData.m_pPersistPtr->XmlReadDouble("diffusiveLoss", optional);
+    if (IsNan(diffusionRate)) {
+      // See if a set of diffusion loss terms has been defined.
+      PersistPtr pDiff = expData.m_pPersistPtr->XmlMoveTo("me:diffusiveLossArray");
+      if (pDiff) {
+        while (pDiff = pDiff->XmlMoveTo("me:diffusiveLoss")) {
 
-      for (int j = 0; j < colloptrsize; ++j) {
-        int ii(rctLocation + j);
-        (*m_reactionOperator)[ii][ii] -= qd_real(diffusionRate * rMeanOmega);  // Diffusive loss reaction.
+          const char* ptxt = pDiff->XmlReadValue("speciesRef");
+          string ref;
+          if (ptxt)
+            ref = string(ptxt);
+          else {
+            stringstream msg;
+            msg << "Failed to located diffusing species name." << endl;
+            throw(std::runtime_error(msg.str()));
+          }
+
+          Molecule* pMol = m_pMoleculeManager->find(ref);
+          if (!pMol) {
+            stringstream msg;
+            msg << "Failed to located diffusing species referred to in diffusive loss reaction" << ref1 << "." << endl;
+            throw(std::runtime_error(msg.str()));
+          }
+
+          double lossRate = pDiff->XmlReadDouble("loss");
+          diffusionMap[pMol] = lossRate;
+        }
+
       }
-      return;
+      else {
+        throw(std::runtime_error("Failed to locate any diffusive loss terms."));
+      }
+    }
+    else {
+      diffusionMap[pMol] = diffusionRate;
     }
 
-    // Search for diffusing species in pseudoisomers.
-    if (m_sources.size()) {
-      Reaction::molMapType::iterator rctitr = m_sources.find(pMol);
-      const int rctLocation = rctitr->second;
-      (*m_reactionOperator)[rctLocation][rctLocation] -= qd_real(diffusionRate * rMeanOmega);  // Diffusive loss reaction.
+    map<Molecule*, double>::const_iterator itr;
+    for (itr = diffusionMap.begin(); itr != diffusionMap.end(); ++itr) {
+      Molecule* pMol = itr->first;
+      double diffusionRate = itr->second;
 
-      return;
+      // Search for diffusing species in isomers.
+      Reaction::molMapType::iterator rctitr = m_isomers.find(pMol);
+      if (rctitr != m_isomers.end()) {
+        const int rctLocation = rctitr->second;
+        const int colloptrsize = pMol->getColl().get_colloptrsize();
+
+        for (int j = 0; j < colloptrsize; ++j) {
+          int ii(rctLocation + j);
+          (*m_reactionOperator)[ii][ii] -= qd_real(diffusionRate * rMeanOmega);  // Diffusive loss reaction.
+        }
+        return;
+      }
+
+      // Search for diffusing species in pseudoisomers.
+      if (m_sources.size()) {
+        Reaction::molMapType::iterator rctitr = m_sources.find(pMol);
+        const int rctLocation = rctitr->second;
+        (*m_reactionOperator)[rctLocation][rctLocation] -= qd_real(diffusionRate * rMeanOmega);  // Diffusive loss reaction.
+
+        return;
+      }
     }
   }
 
@@ -2417,13 +2462,13 @@ namespace mesmer
     }
 
     stest << endl << "Ratio matrix" << endl << "{" << endl;
-    for (size_t i(0), ii (0), jj (1) ; i < rsize; ++i, ++jj) {
+    for (size_t i(0), ii(0), jj(1); i < rsize; ++i, ++jj) {
       for (size_t j(0); j < nsize; ++j) {
-        formatFloat(stest, ratios[i][j], 6, 15); 
+        formatFloat(stest, ratios[i][j], 6, 15);
         stest << ",";
       }
       stest << " : " << species[jj] << "/" << species[ii] << endl;
-      if (jj == nsize-1) {
+      if (jj == nsize - 1) {
         ii++;
         jj = ii;
       }
