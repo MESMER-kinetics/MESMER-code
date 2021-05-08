@@ -11,7 +11,7 @@
 #include <limits>
 #include "IsomerizationReaction.h"
 #include "gWellProperties.h"
-#include "formatFloat.h"
+#include "formatfloat.h"
 
 using namespace Constants ;
 using namespace std;
