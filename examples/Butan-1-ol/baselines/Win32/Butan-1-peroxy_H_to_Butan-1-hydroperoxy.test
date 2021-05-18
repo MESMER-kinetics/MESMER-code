@@ -771,7 +771,7 @@ Inverse of Generalized rotation inertia tensor:
      -0.0110554,     -0.0143338,     -0.0425057,   -5.34972e+14,       0.335078,    5.34972e+14,       0.166694,       0.958229,
    -4.11988e+13,   -1.32386e+14,   -4.57039e+14,   -7.87999e+30,    1.55239e+14,    7.87999e+30,    2.36633e+15,    1.41478e+16,
    -0.000302796,   -1.65743e-05,     -0.0035178,    1.79591e+14,     0.00250555,   -1.79591e+14,      0.0192973,      -0.300414,
-     0.00195313,    3.05176e-05,        0.03125,    2.81475e+14,     -0.0078125,   -2.81475e+14,        -0.0625,            0.5,
+     0.00195312,    3.05176e-05,        0.03125,    2.81475e+14,     -0.0078125,   -2.81475e+14,        -0.0625,            0.5,
 }
 
 Generalized rotation inertia tensor:
@@ -7636,9 +7636,9 @@ Test rovibronic density of states for: butan-1-peroxy
 PT Grid 0 Condition: conc = 8.05242e+17, temp = 301, diagonalization precision: double-double
 {
 
-Canonical pseudo first order rate constant of association reaction R1 = 6.93581e+06 s-1 (301 K)
-Canonical bimolecular rate constant of association reaction R1 = 3.08258e-10 cm^3/mol/s (301 K)
-Canonical first order rate constant for the reverse of reaction R1 = 1.87651e-63 s-1 (301 K)
+Canonical pseudo first order rate constant of association reaction R1 = 6.8988e+06 s-1 (301 K)
+Canonical bimolecular rate constant of association reaction R1 = 3.06613e-10 cm^3/mol/s (301 K)
+Canonical first order rate constant for the reverse of reaction R1 = 1.86649e-63 s-1 (301 K)
 
 Eq fraction matrix:
 {
@@ -7660,38 +7660,38 @@ Number of sinks in this system: 0
 There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
 
 Z_matrix: {
-1.981248e-31	3.925344e-62	
--1.981248e-31	1.000000e+00	
+-3.270501e-31	1.069617e-61	
+3.270501e-31	1.000000e+00	
 }
 
 Z_matrix^(-1):
 {
-5.047324e+30	-1.981248e-31	
+-3.057636e+30	3.270501e-31	
 1.000000e+00	1.000000e+00	
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	7.386383e-126	
-1.865077e-64	1.000000e+00	
+1.000000e+00	-4.431830e-126	
+-2.189533e-65	1.000000e+00	
 }
 
 Kr matrix:
 {
--6.806307e+06	2.671710e-55	
-6.806307e+06	-2.671710e-55	
+-6.770593e+06	7.241944e-55	
+6.770593e+06	-7.241944e-55	
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-butan-1-hydroperoxy loss = -2.671710e-55
-butan-1-peroxy loss = -6.806307e+06
+butan-1-hydroperoxy loss = -7.241944e-55
+butan-1-peroxy loss = -6.770593e+06
 }
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-butan-1-hydroperoxy -> butan-1-peroxy = 2.671710e-55
-butan-1-peroxy -> butan-1-hydroperoxy = 6.806307e+06
+butan-1-hydroperoxy -> butan-1-peroxy = 7.241944e-55
+butan-1-peroxy -> butan-1-hydroperoxy = 6.770593e+06
 }
 }
 

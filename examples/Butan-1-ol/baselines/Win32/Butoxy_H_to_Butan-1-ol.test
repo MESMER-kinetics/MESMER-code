@@ -6502,9 +6502,9 @@ Test rovibronic density of states for: butoxy
 PT Grid 0 Condition: conc = 8.05242e+17, temp = 301, diagonalization precision: double-double
 {
 
-Canonical pseudo first order rate constant of association reaction R1 = 6.93742e+06 s-1 (301 K)
-Canonical bimolecular rate constant of association reaction R1 = 3.0833e-10 cm^3/mol/s (301 K)
-Canonical first order rate constant for the reverse of reaction R1 = 4.56025e-63 s-1 (301 K)
+Canonical pseudo first order rate constant of association reaction R1 = 6.9004e+06 s-1 (301 K)
+Canonical bimolecular rate constant of association reaction R1 = 3.06684e-10 cm^3/mol/s (301 K)
+Canonical first order rate constant for the reverse of reaction R1 = 4.53592e-63 s-1 (301 K)
 
 Eq fraction matrix:
 {
@@ -6526,38 +6526,38 @@ Number of sinks in this system: 0
 There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
 
 Z_matrix: {
-2.103038e-31	4.422771e-62	
--2.103038e-31	1.000000e+00	
+2.491159e-31	6.205873e-62	
+-2.491159e-31	1.000000e+00	
 }
 
 Z_matrix^(-1):
 {
-4.755025e+30	-2.103038e-31	
+4.014196e+30	-2.491159e-31	
 1.000000e+00	1.000000e+00	
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	-3.693191e-126	
--4.612898e-65	1.000000e+00	
+1.000000e+00	-2.954553e-126	
+-7.442719e-65	1.000000e+00	
 }
 
 Kr matrix:
 {
--6.797279e+06	3.006281e-55	
-6.797279e+06	-3.006281e-55	
+-6.761655e+06	4.196198e-55	
+6.761655e+06	-4.196198e-55	
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-butan-1-ol loss = -3.006281e-55
-butoxy loss = -6.797279e+06
+butan-1-ol loss = -4.196198e-55
+butoxy loss = -6.761655e+06
 }
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-butan-1-ol -> butoxy = 3.006281e-55
-butoxy -> butan-1-ol = 6.797279e+06
+butan-1-ol -> butoxy = 4.196198e-55
+butoxy -> butan-1-ol = 6.761655e+06
 }
 }
 
