@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.0 compiled: -- Mar 28 2020 -- 14:24:21
+     Mesmer v6.1 compiled: -- Apr  2 2021 -- 18:28:42
 
-     Copyright (C) 2009-2020 by
+     Copyright (C) 2009-2021 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sat Mar 28 23:28:33 2020
+                     Execution Date:  Fri Apr  2 23:10:44 2021
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -47,7 +47,6 @@ In Methane: --Parse data for ExponentialDown
 In R1: --Parse data for MesmerILT
 In R1: R1:preExponential was given a range with 41 steps 
 In R1: R1:nInfinity was given a range with 81 steps 
-In R1: The default value of me:TInfinity was used.
 In R1: No tunneling method used for R1
 In R1: Not a unimolecular reaction: look for excess reactant concentration.
 In R1: No value of me:excessReactantConc was supplied and the default value NEEDS TO BE CHECKED**
@@ -89,7 +88,7 @@ In R1: No value of me:excessReactantConc was supplied and the default value NEED
 614.5Torr, 601K at dd precision with He
 711Torr, 601K at dd precision with He
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20200328_232833
+Write metadata 20210402_231044
 
 File: "Methyl_H_to_Methane.xml" successfully parsed.
 Main Calculation begins
@@ -101,211 +100,210 @@ Number of grains requested: 204
 Number of grains produced : 1
 In FastLaplaceConvolution: 100 values in the FFT convolution routine were replaced by standard convolution
 
-Chi^2 = 5.9896e-20
+Chi^2 = 5.88264e-20
 R1:preExponential=3e-10  R1:nInfinity=0.8  
-Iteration: 1 of fitting. chiSquare = 5.9896e-20
-Direction sweep:0 of fitting. chiSquare = 5.9896e-20
+Iteration: 1 of fitting. chiSquare = 5.88264e-20
+Direction sweep:0 of fitting. chiSquare = 5.88264e-20
 
 Begin line search
-     6.6786e-20     5.9896e-20    4.95312e-20
+    6.56216e-20    5.88264e-20    4.86129e-20
 In FastLaplaceConvolution: 120 values in the FFT convolution routine were replaced by standard convolution
-     5.9896e-20    4.95312e-20    3.50094e-20
-    4.95312e-20    3.50094e-20    1.84185e-20
-    3.50094e-20    1.84185e-20    1.58671e-20
+    5.88264e-20    4.86129e-20    3.43298e-20
+    4.86129e-20    3.43298e-20    1.81048e-20
+    3.43298e-20    1.81048e-20    1.60629e-20
 Failed bounds check.
 
 Bound check failed in bracket search.
 
-Chi^2 = 1.84185e-20
+Chi^2 = 1.81048e-20
 R1:preExponential=1.46738e-10  R1:nInfinity=0.8  
-Direction sweep:1 of fitting. chiSquare = 1.84185e-20
+Direction sweep:1 of fitting. chiSquare = 1.81048e-20
 
 Begin line search
-    1.84185e-20    1.59346e-20    1.60456e-20
-    1.84185e-20    1.59346e-20    1.59768e-20    1.60456e-20
-    1.84185e-20    1.59083e-20    1.59346e-20    1.59768e-20
+    1.81048e-20    1.61343e-20    1.62516e-20
+    1.81048e-20    1.61343e-20    1.61788e-20    1.62516e-20
+    1.81048e-20    1.61065e-20    1.61343e-20    1.61788e-20
 
-Chi^2 = 1.59083e-20
+Chi^2 = 1.61065e-20
 R1:preExponential=1.46738e-10  R1:nInfinity=0.80618  
 
 Begin line search
 Failed bounds check.
 
-Chi^2 = 1.59083e-20
+Chi^2 = 1.61065e-20
 R1:preExponential=1.46738e-10  R1:nInfinity=0.80618  
-Iteration: 2 of fitting. chiSquare = 1.59083e-20
-Direction sweep:0 of fitting. chiSquare = 1.59083e-20
+Iteration: 2 of fitting. chiSquare = 1.61065e-20
+Direction sweep:0 of fitting. chiSquare = 1.61065e-20
 
 Begin line search
-    1.59768e-20    1.59083e-20    1.58005e-20
-    1.59083e-20    1.58005e-20    1.56331e-20
-    1.58005e-20    1.56331e-20    1.53786e-20
+    1.61788e-20    1.61065e-20    1.59924e-20
+    1.61065e-20    1.59924e-20     1.5815e-20
+    1.59924e-20     1.5815e-20    1.55447e-20
 In FastLaplaceConvolution: 80 values in the FFT convolution routine were replaced by standard convolution
-    1.56331e-20    1.53786e-20    1.50119e-20
-    1.53786e-20    1.50119e-20    1.45373e-20
+     1.5815e-20    1.55447e-20    1.51537e-20
+    1.55447e-20    1.51537e-20    1.46435e-20
 Failed bounds check.
 
 Bound check failed in bracket search.
 
-Chi^2 = 1.50119e-20
+Chi^2 = 1.51537e-20
 R1:preExponential=1.46738e-10  R1:nInfinity=0.542016  
-Direction sweep:1 of fitting. chiSquare = 1.50119e-20
+Direction sweep:1 of fitting. chiSquare = 1.51537e-20
 
 Begin line search
 Failed bounds check.
 
-Chi^2 = 1.50119e-20
+Chi^2 = 1.51537e-20
 R1:preExponential=1.46738e-10  R1:nInfinity=0.542016  
 
 Begin line search
 Failed bounds check.
 
-Chi^2 = 1.50119e-20
+Chi^2 = 1.51537e-20
 R1:preExponential=1.46738e-10  R1:nInfinity=0.542016  
 
 Direction Matrix Reset.
-Iteration: 3 of fitting. chiSquare = 1.50119e-20
-Direction sweep:0 of fitting. chiSquare = 1.50119e-20
+Iteration: 3 of fitting. chiSquare = 1.51537e-20
+Direction sweep:0 of fitting. chiSquare = 1.51537e-20
 
 Begin line search
-    1.50119e-20    1.30955e-20     1.2854e-20
-    1.30955e-20     1.2854e-20    1.72811e-20
-    1.30955e-20     1.2854e-20    1.38852e-20    1.72811e-20
-    1.30955e-20    1.26564e-20     1.2854e-20    1.38852e-20
+    1.51537e-20    1.31497e-20    1.28183e-20
+    1.31497e-20    1.28183e-20     1.7087e-20
+    1.31497e-20    1.28183e-20    1.37908e-20     1.7087e-20
+    1.31497e-20    1.26559e-20    1.28183e-20    1.37908e-20
 
-Chi^2 = 1.26564e-20
+Chi^2 = 1.26559e-20
 R1:preExponential=1.66738e-10  R1:nInfinity=0.542016  
-Direction sweep:1 of fitting. chiSquare = 1.26564e-20
+Direction sweep:1 of fitting. chiSquare = 1.26559e-20
 
 Begin line search
-    1.26564e-20    1.26459e-20    1.26315e-20
-    1.26459e-20    1.26315e-20    1.26157e-20
-    1.26315e-20    1.26157e-20    1.26094e-20
-    1.26157e-20    1.26094e-20    1.26495e-20
-    1.26157e-20    1.26094e-20    1.26174e-20    1.26495e-20
-    1.26157e-20     1.2609e-20    1.26094e-20    1.26174e-20
+    1.26559e-20     1.2647e-20    1.26356e-20
+     1.2647e-20    1.26356e-20    1.26248e-20
+    1.26356e-20    1.26248e-20    1.26273e-20
+    1.26356e-20    1.26248e-20    1.26228e-20    1.26273e-20
+    1.26248e-20    1.26228e-20    1.26234e-20    1.26273e-20
 
-Chi^2 = 1.2609e-20
-R1:preExponential=1.66738e-10  R1:nInfinity=0.620557  
-
-Begin line search
-Failed bounds check.
-
-Chi^2 = 1.2609e-20
-R1:preExponential=1.66738e-10  R1:nInfinity=0.620557  
-Iteration: 4 of fitting. chiSquare = 1.2609e-20
-Direction sweep:0 of fitting. chiSquare = 1.2609e-20
-
-Begin line search
-     1.2609e-20    1.26088e-20    1.26114e-20
-     1.2609e-20    1.26088e-20    1.26094e-20    1.26114e-20
-     1.2609e-20    1.26087e-20    1.26088e-20    1.26094e-20
-
-Chi^2 = 1.26087e-20
-R1:preExponential=1.66738e-10  R1:nInfinity=0.626738  
-Direction sweep:1 of fitting. chiSquare = 1.26087e-20
+Chi^2 = 1.26228e-20
+R1:preExponential=1.66738e-10  R1:nInfinity=0.610557  
 
 Begin line search
 Failed bounds check.
 
-Chi^2 = 1.26087e-20
-R1:preExponential=1.66738e-10  R1:nInfinity=0.626738  
+Chi^2 = 1.26228e-20
+R1:preExponential=1.66738e-10  R1:nInfinity=0.610557  
+Iteration: 4 of fitting. chiSquare = 1.26228e-20
+Direction sweep:0 of fitting. chiSquare = 1.26228e-20
+
+Begin line search
+    1.26234e-20    1.26228e-20    1.26248e-20
+    1.26234e-20    1.26228e-20    1.26231e-20    1.26248e-20
+    1.26234e-20    1.26229e-20    1.26228e-20    1.26231e-20
+
+Chi^2 = 1.26228e-20
+R1:preExponential=1.66738e-10  R1:nInfinity=0.610557  
+Direction sweep:1 of fitting. chiSquare = 1.26228e-20
 
 Begin line search
 Failed bounds check.
 
-Chi^2 = 1.26087e-20
-R1:preExponential=1.66738e-10  R1:nInfinity=0.626738  
+Chi^2 = 1.26228e-20
+R1:preExponential=1.66738e-10  R1:nInfinity=0.610557  
+
+Begin line search
+Failed bounds check.
+
+Chi^2 = 1.26228e-20
+R1:preExponential=1.66738e-10  R1:nInfinity=0.610557  
 
 Direction Matrix Reset.
-Iteration: 5 of fitting. chiSquare = 1.26087e-20
-Direction sweep:0 of fitting. chiSquare = 1.26087e-20
+Iteration: 5 of fitting. chiSquare = 1.26228e-20
+Direction sweep:0 of fitting. chiSquare = 1.26228e-20
 
 Begin line search
-    1.28522e-20    1.26087e-20    1.41468e-20
-    1.28522e-20    1.26087e-20    1.29026e-20    1.41468e-20
-    1.28522e-20    1.25995e-20    1.26087e-20    1.29026e-20
+     1.2851e-20    1.26228e-20    1.41925e-20
+     1.2851e-20    1.26228e-20    1.29277e-20    1.41925e-20
+     1.2851e-20    1.26073e-20    1.26228e-20    1.29277e-20
 
-Chi^2 = 1.25995e-20
-R1:preExponential=1.70557e-10  R1:nInfinity=0.626738  
-Direction sweep:1 of fitting. chiSquare = 1.25995e-20
+Chi^2 = 1.26073e-20
+R1:preExponential=1.70557e-10  R1:nInfinity=0.610557  
+Direction sweep:1 of fitting. chiSquare = 1.26073e-20
 
 Begin line search
-    1.25995e-20    1.25896e-20    1.25764e-20
-    1.25896e-20    1.25764e-20    1.25627e-20
-    1.25764e-20    1.25627e-20    1.25602e-20
-    1.25627e-20    1.25602e-20     1.2608e-20
-    1.25627e-20    1.25602e-20    1.25709e-20     1.2608e-20
-    1.25627e-20    1.25583e-20    1.25602e-20    1.25709e-20
+    1.26073e-20     1.2597e-20    1.25835e-20
+     1.2597e-20    1.25835e-20    1.25694e-20
+    1.25835e-20    1.25694e-20    1.25671e-20
+    1.25694e-20    1.25671e-20    1.26174e-20
+    1.25694e-20    1.25671e-20    1.25784e-20    1.26174e-20
+    1.25694e-20     1.2565e-20    1.25671e-20    1.25784e-20
 
-Chi^2 = 1.25583e-20
-R1:preExponential=1.70557e-10  R1:nInfinity=0.705279  
+Chi^2 = 1.2565e-20
+R1:preExponential=1.70557e-10  R1:nInfinity=0.689098  
 
 Begin line search
 Failed bounds check.
 
-Chi^2 = 1.25583e-20
-R1:preExponential=1.70557e-10  R1:nInfinity=0.705279  
+Chi^2 = 1.2565e-20
+R1:preExponential=1.70557e-10  R1:nInfinity=0.689098  
 Number of cells = 50000, Number of grains = 204
- -- Total time elapsed: 383 seconds.
+ -- Total time elapsed: 396 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
-            301    8.05242e+17       1.26e-11    5.09448e-11
-            301    1.62973e+18       3.52e-11    6.93776e-11
-            301    3.24984e+18       6.36e-11    8.95069e-11
-            301     4.8892e+18       9.37e-11    1.01802e-10
-            301    6.59272e+18       1.05e-10    1.10727e-10
-            301    8.20641e+18       1.34e-10    1.17129e-10
-            301    9.83294e+18        1.4e-10    1.22289e-10
-            301     1.1437e+19        1.4e-10    1.26489e-10
-            301    1.30988e+19       1.61e-10    1.30159e-10
-            301    1.63455e+19       1.82e-10    1.35919e-10
-            401    6.06842e+17       2.35e-11    3.13481e-11
-            401    1.20887e+18       2.52e-11    4.56945e-11
-            401    2.41292e+18       4.44e-11    6.39173e-11
-            401    3.68199e+18       6.06e-11     7.6789e-11
-            401    4.82102e+18       7.56e-11    8.55637e-11
-            401     6.1214e+18          9e-11    9.36286e-11
-            401    8.42836e+18       1.01e-10    1.04733e-10
-            401    1.09785e+19       1.21e-10    1.14055e-10
-            401    1.22452e+19       1.31e-10    1.17915e-10
-            401    1.47015e+19       1.44e-10    1.24359e-10
-            504    4.82825e+17       1.14e-11    1.90762e-11
-            504    9.61817e+17       1.66e-11    2.93379e-11
-            504    1.92555e+18       3.44e-11    4.36058e-11
-            504    2.94101e+18       4.68e-11    5.44567e-11
-            504    3.84727e+18       5.31e-11    6.21956e-11
-            504    4.90105e+18       5.78e-11    6.97239e-11
-            504    6.83618e+18       6.82e-11    8.08766e-11
-            504    7.66771e+18       7.75e-11    8.49228e-11
-            504    9.75229e+18       8.32e-11    9.36943e-11
-            504      1.172e+19       9.69e-11    1.00636e-10
-            601    1.69189e+18       2.11e-11    3.08666e-11
-            601    3.35005e+18       3.35e-11    4.57374e-11
-            601    4.89251e+18       3.78e-11    5.59624e-11
-            601    6.60369e+18        4.5e-11    6.50937e-11
-            601     8.2747e+18       4.84e-11    7.25548e-11
-            601     9.8734e+18       5.75e-11    7.87411e-11
-            601    1.14239e+19       6.18e-11    8.40674e-11
+            301    8.05242e+17       1.26e-11    5.10989e-11
+            301    1.62973e+18       3.52e-11    6.95362e-11
+            301    3.24984e+18       6.36e-11    8.96334e-11
+            301     4.8892e+18       9.37e-11    1.01888e-10
+            301    6.59272e+18       1.05e-10    1.10771e-10
+            301    8.20641e+18       1.34e-10    1.17139e-10
+            301    9.83294e+18        1.4e-10    1.22265e-10
+            301     1.1437e+19        1.4e-10    1.26436e-10
+            301    1.30988e+19       1.61e-10    1.30079e-10
+            301    1.63455e+19       1.82e-10     1.3579e-10
+            401    6.06842e+17       2.35e-11    3.14074e-11
+            401    1.20887e+18       2.52e-11    4.57486e-11
+            401    2.41292e+18       4.44e-11    6.39363e-11
+            401    3.68199e+18       6.06e-11    7.67639e-11
+            401    4.82102e+18       7.56e-11     8.5499e-11
+            401     6.1214e+18          9e-11    9.35205e-11
+            401    8.42836e+18       1.01e-10    1.04554e-10
+            401    1.09785e+19       1.21e-10    1.13806e-10
+            401    1.22452e+19       1.31e-10    1.17634e-10
+            401    1.47015e+19       1.44e-10     1.2402e-10
+            504    4.82825e+17       1.14e-11    1.91008e-11
+            504    9.61817e+17       1.66e-11    2.93564e-11
+            504    1.92555e+18       3.44e-11    4.35966e-11
+            504    2.94101e+18       4.68e-11    5.44124e-11
+            504    3.84727e+18       5.31e-11     6.2119e-11
+            504    4.90105e+18       5.78e-11    6.96101e-11
+            504    6.83618e+18       6.82e-11    8.06973e-11
+            504    7.66771e+18       7.75e-11    8.47166e-11
+            504    9.75229e+18       8.32e-11    9.34243e-11
+            504      1.172e+19       9.69e-11     1.0031e-10
+            601    1.69189e+18       2.11e-11    3.08514e-11
+            601    3.35005e+18       3.35e-11    4.56712e-11
+            601    4.89251e+18       3.78e-11    5.58471e-11
+            601    6.60369e+18        4.5e-11    6.49254e-11
+            601     8.2747e+18       4.84e-11     7.2337e-11
+            601     9.8734e+18       5.75e-11    7.84779e-11
+            601    1.14239e+19       6.18e-11    8.37621e-11
 
 
-Chi^2 = 1.25583e-20
+Chi^2 = 1.2565e-20
 
 Best fit parameters:
 
-R1:preExponential = 1.70557e-10 +/- 1.58469e-11
-R1:nInfinity = 0.705279 +/- 0.371884
+R1:preExponential = 1.70557e-10 +/- 1.5439e-11
+R1:nInfinity = 0.689098 +/- 0.393759
 
 Correlation coefficients:
 
-R1:nInfinity , R1:preExponential = 0.819166
+R1:nInfinity , R1:preExponential = 0.808806
 
 No independent experimenal error estimates available, therefore Chi^2 test not applicable.
 
 Number of degrees of Freedom = 35
-Error Factor = 1.89422e-11
+Error Factor = 1.89473e-11
 
 System saved to out.xml
-Total time elapsed: 383 seconds.
+Total time elapsed: 396 seconds.

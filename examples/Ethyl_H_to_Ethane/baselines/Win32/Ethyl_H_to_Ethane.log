@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.0 compiled: -- Apr 20 2020 -- 19:46:02
+     Mesmer v6.1 compiled: -- Apr  2 2021 -- 18:28:42
 
-     Copyright (C) 2009-2020 by
+     Copyright (C) 2009-2021 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Mon Apr 20 20:23:13 2020
+                     Execution Date:  Fri Apr  2 23:10:27 2021
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -47,7 +47,6 @@ In Ethane: The default value of me:DistributionCalcMethod was used.
 In Ethane: --Parse data for Boltzmann
 In Ethane: --Parse data for ExponentialDown
 In R1: --Parse data for MesmerILT
-In R1: The default value of me:TInfinity was used.
 In R1: No tunneling method used for R1
 In R1: Not a unimolecular reaction: look for excess reactant concentration.
 In R1: No value of me:excessReactantConc was supplied and the default value NEEDS TO BE CHECKED**
@@ -55,7 +54,7 @@ In R1: No value of me:excessReactantConc was supplied and the default value NEED
 The default value of me:ForceMacroDetailedBalance was used.
 --Parse data for ThermodynamicTable
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20200420_202313
+Write metadata 20210402_231027
 
 File: "Ethyl_H_to_Ethane.xml" successfully parsed.
 Main Calculation begins
@@ -70,8 +69,8 @@ In FastLaplaceConvolution: 3720 values in the FFT convolution routine were repla
 
 WARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs).
 
-The last CSE = -7.08591e+06 and the first IERE = -1.79252e+07
-(last CSE)/(first IERE) ratio = 0.395303, which is less than an order of magnitude
+The last CSE = -7.04827e+06 and the first IERE = -1.79252e+07
+(last CSE)/(first IERE) ratio = 0.393204, which is less than an order of magnitude
 
 Results obtained from Bartis Widom eigenvalue-vector analysis may be unreliable
 
@@ -83,7 +82,7 @@ Results obtained from Bartis Widom eigenvalue-vector analysis may be unreliable
 In He: The default value of me:DOSCMethod was used.
 In He: The default value of the attribute spinMultiplicity was used.
 gDensityOfStates initialization failed.
- -- Total time elapsed: 0 seconds.
+ -- Total time elapsed: 1 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 0 seconds.
+Total time elapsed: 1 seconds.
