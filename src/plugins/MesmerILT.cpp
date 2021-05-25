@@ -528,7 +528,7 @@ namespace mesmer
     vector<double>& rxnFlux = pReact->get_CellFlux();
 
     if (m_NInf + 1.5 <= 0.0)
-      throw(std::runtime_error(string("Reaction ") + pReact->getName() + string(": nInfinity for association ILT must be > 1.5.")));
+      throw(std::runtime_error(string("Reaction ") + pReact->getName() + string(": nInfinity for association ILT must be > -1.5.")));
 
     const double gammaValue = MesmerGamma(m_NInf + 1.5);
 
