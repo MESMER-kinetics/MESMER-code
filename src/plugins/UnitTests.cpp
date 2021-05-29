@@ -776,7 +776,7 @@ namespace mesmer
 
         pMol->getDOS().getCellDensityOfStates(cellDOS, false);
 
-        calcGrainAverages(env.MaxGrn, env.cellPerGrain(), 0, cellDOS, cellEne, grainDOS, grainEne, pMol->getName());
+        calcGrainAverages(MaximumCell, env.cellPerGrain(), 0, cellDOS, cellEne, grainDOS, grainEne, pMol->getName());
 
         // Calculate cell and grain sums of states.
 
@@ -842,15 +842,14 @@ namespace mesmer
         const size_t GrainSize = 10;
         const size_t cellPerGrain = GrainSize;
         const size_t cellOffset = 0;
-        const size_t MaximumGrain = cellDOS.size() / GrainSize;
         vector<double> cellEne(cellDOS.size(), 0.0);
-        vector<double> grainDOS(MaximumGrain, 0.0);
-        vector<double> grainEne(MaximumGrain, 0.0);
+        vector<double> grainDOS;
+        vector<double> grainEne;
         for (size_t i(0); i < cellDOS.size(); i++) {
             cellEne[i] += double(i);
         }
 
-        calcGrainAverages(MaximumGrain, cellPerGrain, cellOffset, cellDOS, cellEne, grainDOS, grainEne);
+        calcGrainAverages(cellDOS.size(), cellPerGrain, cellOffset, cellDOS, cellEne, grainDOS, grainEne);
 
         // Calculate cell and grain sums of states.
 

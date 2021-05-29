@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.1 compiled: -- Dec  5 2020 -- 23:41:07
+     Mesmer v6.1 compiled: -- May 26 2021 -- 23:56:09
 
      Copyright (C) 2009-2021 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Sat Dec  5 23:58:07 2020
+                     Execution Date:  Wed May 26 23:59:19 2021
                      Number of ranks: 12
 
 defaults.xml, librarymols.xml are in ../..
@@ -111,7 +111,7 @@ The default value of the attribute Tmin was used.
 The default value of the attribute Tmax was used.
 The default value of me:ForceMacroDetailedBalance was used.
 2-pentyl:deltaEDown is derived from 1-pentyl:deltaEDown, and has a fixed value = 230 cm-1
-Write metadata 20201205_235807
+Write metadata 20210526_235919
 
 File: "pentyl_isomerization_restrainedTS.xml" successfully parsed.
 Main Calculation begins

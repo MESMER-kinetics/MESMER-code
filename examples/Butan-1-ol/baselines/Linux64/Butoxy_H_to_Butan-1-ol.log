@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.1 compiled: -- May 16 2021 -- 20:39:34
+     Mesmer v6.1 compiled: -- May 26 2021 -- 23:56:09
 
      Copyright (C) 2009-2021 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Sun May 16 22:07:24 2021
+                     Execution Date:  Thu May 27 09:56:57 2021
                      Number of ranks: 12
 
 defaults.xml, librarymols.xml are in ../..
@@ -99,7 +99,7 @@ The default value of me:ForceMacroDetailedBalance was used.
 The default value of me:calcMethod was used.
 --Parse data for simpleCalc
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20210516_220724
+Write metadata 20210527_095657
 
 File: "Butoxy_H_to_Butan-1-ol.xml" successfully parsed.
 Main Calculation begins
@@ -1472,7 +1472,6 @@ butan-1-ol-orig_coords
 
 --Execute calcMethod simpleCalc
 Number of cells = 50000, Number of grains = 437
-Number of grains requested: 437
 In FastLaplaceConvolution: 16640 values in the FFT convolution routine were replaced by standard convolution
 In FastLaplaceConvolution: 20 values in the FFT convolution routine were replaced by standard convolution
 In FastLaplaceConvolution: 14260 values in the FFT convolution routine were replaced by standard convolution

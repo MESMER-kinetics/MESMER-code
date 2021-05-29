@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.0 compiled: -- Mar 28 2020 -- 14:24:21
+     Mesmer v6.1 compiled: -- May 25 2021 -- 20:47:20
 
-     Copyright (C) 2009-2020 by
+     Copyright (C) 2009-2021 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sun Mar 29 00:25:40 2020
+                     Execution Date:  Thu May 27 09:27:21 2021
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -40,6 +40,9 @@ The default value of me:MarquardtLambda was used.
 The default value of me:MarquardtLambdaScale was used.
 Energy convention "" written to <moleculeList>
 In R1: Parsing reaction...Association reaction
+In CH3OONO2: No lennard-Jones parameters found for CH3OONO2.
+In CH3OONO2: An attempt to calculate parameters will be made. If this fails
+In CH3OONO2: default parameters will be used
 In CH3OONO2: WARNING: When calculating frequencies from a Hessian it is critical
      that the Hessian and species coordinates are expressed relative to
      the same Cartesian coordinate system.
@@ -57,7 +60,6 @@ In CH3OONO2: CH3OONO2:deltaEDownTExponent:N2 was given a range with 111 steps
 In R1: --Parse data for MesmerILT
 In R1: R1:preExponential was given a range with 900 steps 
 In R1: R1:nInfinity was given a range with 401 steps 
-In R1: The default value of me:TInfinity was used.
 In R1: No tunneling method used for R1
 In R1: Not a unimolecular reaction: look for excess reactant concentration.
 50Torr, 296K at d precision with N2
@@ -126,7 +128,7 @@ In R1: Not a unimolecular reaction: look for excess reactant concentration.
 The default value of me:ForceMacroDetailedBalance was used.
 --Parse data for ThermodynamicTable
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20200329_002540
+Write metadata 20210527_092721
 
 File: "CH3O2_NO2_associationEx2.xml" successfully parsed.
 Main Calculation begins
@@ -270,7 +272,7 @@ Chi^2 probability = 0.139509
 In N2: The default value of me:DOSCMethod was used.
 In N2: The default value of the attribute spinMultiplicity was used.
 gDensityOfStates initialization failed.
- -- Total time elapsed: 212 seconds.
+ -- Total time elapsed: 209 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 212 seconds.
+Total time elapsed: 209 seconds.

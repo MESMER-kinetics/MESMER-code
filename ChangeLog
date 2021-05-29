@@ -1,3 +1,10 @@
+2021-May-29 Struan Robertson
+
+		* AssociationReaction.cpp, BimolecualrSinkReaction.cpp, IrreversibleUnimolecularReaction.cpp,
+		IsomerizatioReaction.cpp, gDensityOfSates.cpp, MesmerTools.h/.cpp, ThermodymanicTables.cpp,
+		UnitTest.cpp, Reaction.cpp: High Pressure rate coefficients calculations altered to use higher 
+		energy cut-off.
+
 2021-April-29 Struan Robertson
 
 		* CollisionOperator.cpp: Initial implementation of diffusive loss array.

@@ -6502,9 +6502,9 @@ Test rovibronic density of states for: butoxy
 PT Grid 0 Condition: conc = 8.05242e+17, temp = 301, diagonalization precision: double-double
 {
 
-Canonical pseudo first order rate constant of association reaction R1 = 6.9004e+06 s-1 (301 K)
-Canonical bimolecular rate constant of association reaction R1 = 3.06684e-10 cm^3/mol/s (301 K)
-Canonical first order rate constant for the reverse of reaction R1 = 4.53592e-63 s-1 (301 K)
+Canonical pseudo first order rate constant of association reaction R1 = 6.90061e+06 s-1 (301 K)
+Canonical bimolecular rate constant of association reaction R1 = 3.06694e-10 cm^3/mol/s (301 K)
+Canonical first order rate constant for the reverse of reaction R1 = 4.53606e-63 s-1 (301 K)
 
 Eq fraction matrix:
 {

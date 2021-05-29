@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.1 compiled: -- Apr  2 2021 -- 18:28:42
+     Mesmer v6.1 compiled: -- May 25 2021 -- 20:47:20
 
      Copyright (C) 2009-2021 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Fri Apr  2 23:10:44 2021
+                     Execution Date:  Thu May 27 08:28:09 2021
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -88,7 +88,7 @@ In R1: No value of me:excessReactantConc was supplied and the default value NEED
 614.5Torr, 601K at dd precision with He
 711Torr, 601K at dd precision with He
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20210402_231044
+Write metadata 20210527_082809
 
 File: "Methyl_H_to_Methane.xml" successfully parsed.
 Main Calculation begins
@@ -96,7 +96,7 @@ Now calculating...
 
 --Execute calcMethod fitting
 Number of grains produced is not equal to that requested for: H
-Number of grains requested: 204
+Number of grains requested: 250
 Number of grains produced : 1
 In FastLaplaceConvolution: 100 values in the FFT convolution routine were replaced by standard convolution
 
@@ -245,7 +245,7 @@ Failed bounds check.
 Chi^2 = 1.2565e-20
 R1:preExponential=1.70557e-10  R1:nInfinity=0.689098  
 Number of cells = 50000, Number of grains = 204
- -- Total time elapsed: 396 seconds.
+ -- Total time elapsed: 386 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
@@ -306,4 +306,4 @@ Number of degrees of Freedom = 35
 Error Factor = 1.89473e-11
 
 System saved to out.xml
-Total time elapsed: 396 seconds.
+Total time elapsed: 386 seconds.

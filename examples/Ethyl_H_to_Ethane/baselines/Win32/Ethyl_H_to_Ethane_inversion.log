@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.1 compiled: -- Apr  2 2021 -- 18:28:42
+     Mesmer v6.1 compiled: -- May 25 2021 -- 20:47:20
 
      Copyright (C) 2009-2021 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Fri Apr  2 23:10:29 2021
+                     Execution Date:  Thu May 27 08:27:54 2021
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -55,7 +55,7 @@ In R1: No value of me:excessReactantConc was supplied and the default value NEED
 The default value of me:ForceMacroDetailedBalance was used.
 --Parse data for ThermodynamicTable
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20210402_231029
+Write metadata 20210527_082754
 
 File: "Ethyl_H_to_Ethane_inversion.xml" successfully parsed.
 Main Calculation begins
@@ -64,7 +64,7 @@ Now calculating...
 --Execute calcMethod simpleCalc
 Number of cells = 50000, Number of grains = 194
 Number of grains produced is not equal to that requested for: H
-Number of grains requested: 194
+Number of grains requested: 250
 Number of grains produced : 1
 In FastLaplaceConvolution: 3600 values in the FFT convolution routine were replaced by standard convolution
 

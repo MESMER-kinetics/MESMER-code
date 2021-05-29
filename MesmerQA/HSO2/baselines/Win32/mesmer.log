@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.0 compiled: -- Oct 25 2019 -- 22:13:05
+     Mesmer v6.1 compiled: -- May 25 2021 -- 20:47:20
 
-     Copyright (C) 2009-2020 by
+     Copyright (C) 2009-2021 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sun Oct 27 13:15:39 2019
+                     Execution Date:  Sat May 29 22:52:19 2021
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -55,7 +55,7 @@ The default value of the attribute Tstep was used.
 The default value of the attribute Tmin was used.
 The default value of the attribute Tmax was used.
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20191027_131539
+Write metadata 20210529_225219
 
 File: "HSO2_test.xml" successfully parsed.
 Main Calculation begins
@@ -64,7 +64,7 @@ Now calculating...
 --Execute calcMethod simpleCalc
 Number of cells = 50000, Number of grains = 92
 Number of grains produced is not equal to that requested for: H
-Number of grains requested: 92
+Number of grains requested: 500
 Number of grains produced : 1
  -- Total time elapsed: 3 seconds.
 

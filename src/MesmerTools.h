@@ -24,7 +24,7 @@ namespace mesmer
   void canonicalMeanEnergy(const vector<double>& DOS, const vector<double>& Ene, const double beta, double& meanEnergy, double& varEnergy) ;
 
   // Calculate the average grain energy and then number of states per grain.
-  void calcGrainAverages(const size_t &MaximumGrain, const size_t &cellPerGrain, const size_t &cellOffset, const std::vector<double>& shiftedCellDOS,
+  void calcGrainAverages(const size_t &MaximumCell, const size_t &cellPerGrain, const size_t &cellOffset, const std::vector<double>& shiftedCellDOS,
     const std::vector<double>& shiftedCellEne, vector<double>& grainDOS, vector<double>& grainEne, std::string name = "Unknown") ;
 
   template<class T>

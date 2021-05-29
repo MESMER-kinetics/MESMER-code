@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.0 compiled: -- Mar 28 2020 -- 14:24:21
+     Mesmer v6.1 compiled: -- May 25 2021 -- 20:47:20
 
-     Copyright (C) 2009-2020 by
+     Copyright (C) 2009-2021 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sat Mar 28 23:34:56 2020
+                     Execution Date:  Thu May 27 08:34:36 2021
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -95,7 +95,7 @@ In R1: No value of me:excessReactantConc was supplied and the default value NEED
 711Torr, 601K at dd precision with He
 The default value of me:ForceMacroDetailedBalance was used.
 TS1:ZPE is derived from Methyl:ZPE
-Write metadata 20200328_233456
+Write metadata 20210527_083436
 
 File: "Methyl_H_to_Methane_FTST.xml" successfully parsed.
 Main Calculation begins
@@ -103,7 +103,7 @@ Now calculating...
 
 --Execute calcMethod marquardt
 Number of grains produced is not equal to that requested for: H
-Number of grains requested: 270
+Number of grains requested: 333
 Number of grains produced : 1
 
 Chi^2 = 1.52137e-19 Lambda = 1
@@ -113,7 +113,6 @@ Failed bounds check.
 Chi^2 = 1.52137e-19 Lambda = 10
 Methyl:ZPE=103.43  Methane:deltaEDown=190  
 Iteration: 1 of Marquardt. ChiSquare = 1.52137e-19, Lambda = 10
-Number of grains requested: 268
 
 Chi^2 = 1.21725e-19 Lambda = 1
 Methyl:ZPE=102.884  Methane:deltaEDown=180.504  
@@ -123,7 +122,6 @@ Failed bounds check.
 Chi^2 = 1.21725e-19 Lambda = 10
 Methyl:ZPE=102.884  Methane:deltaEDown=180.504  
 Iteration: 3 of Marquardt. ChiSquare = 1.21725e-19, Lambda = 10
-Number of grains requested: 266
 
 Chi^2 = 9.22293e-20 Lambda = 1
 Methyl:ZPE=101.918  Methane:deltaEDown=172.451  
@@ -133,7 +131,6 @@ Failed bounds check.
 Chi^2 = 9.22293e-20 Lambda = 10
 Methyl:ZPE=101.918  Methane:deltaEDown=172.451  
 Iteration: 5 of Marquardt. ChiSquare = 9.22293e-20, Lambda = 10
-Number of grains requested: 265
 
 Chi^2 = 7.30772e-20 Lambda = 1
 Methyl:ZPE=101.296  Methane:deltaEDown=165.755  
@@ -143,7 +140,6 @@ Failed bounds check.
 Chi^2 = 7.30772e-20 Lambda = 10
 Methyl:ZPE=101.296  Methane:deltaEDown=165.755  
 Iteration: 7 of Marquardt. ChiSquare = 7.30772e-20, Lambda = 10
-Number of grains requested: 263
 
 Chi^2 = 5.79429e-20 Lambda = 1
 Methyl:ZPE=100.638  Methane:deltaEDown=160.129  
@@ -181,7 +177,7 @@ Chi^2 = 5.6503e-20 Lambda = 1000
 Methyl:ZPE=100.631  Methane:deltaEDown=160.066  
 Iteration: 15 of Marquardt. ChiSquare = 5.6503e-20, Lambda = 1000
 Number of cells = 50000, Number of grains = 263
- -- Total time elapsed: 414 seconds.
+ -- Total time elapsed: 429 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
@@ -246,4 +242,4 @@ Number of degrees of Freedom = 35
 Error Factor = 4.01792e-11
 
 System saved to mesmer_out.xml
-Total time elapsed: 414 seconds.
+Total time elapsed: 429 seconds.

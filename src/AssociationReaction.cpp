@@ -351,7 +351,6 @@ namespace mesmer
   // Calculate high pressure rate coefficients at current T.
   void AssociationReaction::HighPresRateCoeffs(vector<double>* pCoeffs) {
 
-    const int MaximumGrain = (getEnv().MaxGrn - get_fluxFirstNonZeroIdx());
     vector<double> pdtGrainDOS, pdtGrainEne;
     m_pdt1->getDOS().getGrainDensityOfStates(pdtGrainDOS);
     m_pdt1->getDOS().getGrainEnergies(pdtGrainEne);
@@ -359,8 +358,10 @@ namespace mesmer
     // dissociation k(E) calculated in grains.
     double k_f_grained(0.0), k_b_grained(0.0);
     const double beta = getEnv().beta;
-    for (int i = 0; i < MaximumGrain; ++i) {
-      k_b_grained += m_GrainKbmc[i] * exp(log(pdtGrainDOS[i]) - beta * pdtGrainEne[i]);
+    const size_t rvsThreshold = get_EffGrnRvsThreshold();
+    const size_t fluxFirstNonZeroIdx = get_fluxFirstNonZeroIdx();
+    for (size_t i(rvsThreshold), j(fluxFirstNonZeroIdx) ; i < pdtGrainEne.size() ; ++i, ++j) {
+      k_b_grained += m_GrainFlux[j] * exp( -beta * pdtGrainEne[i]);
     }
 
     const double prtfn_grained = canonicalPartitionFunction(pdtGrainDOS, pdtGrainEne, beta);
@@ -415,7 +416,7 @@ namespace mesmer
       getFlags().cyclePrintCellDOS = false;
     }
 
-    calcGrainAverages(getEnv().MaxGrn, getEnv().cellPerGrain(), cellOffset, rctsCellDOS, rctsCellEne, grainDOS, grainEne, m_rct1->getName());
+    calcGrainAverages(MaximumCell, getEnv().cellPerGrain(), cellOffset, rctsCellDOS, rctsCellEne, grainDOS, grainEne, m_rct1->getName());
 
     if (getFlags().cyclePrintGrainDOS) {
       stest << endl << "Grain rovibronic density of states of " << catName << endl << "{" << endl;

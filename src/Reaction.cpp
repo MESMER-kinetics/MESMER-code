@@ -146,8 +146,8 @@ namespace mesmer
   // the range of first grain average.
   void Reaction::fluxCellToGrain() {
 
-    const size_t maxGrn       = getEnv().MaxGrn;
     const size_t cellPerGrain = getEnv().cellPerGrain() ;
+    const size_t maxGrn       = getEnv().MaxCell/ cellPerGrain;
     const size_t cellOffset   = getFluxCellOffset();
 
     m_GrainFlux.clear();

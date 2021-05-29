@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.0 compiled: -- Mar 28 2020 -- 14:24:21
+     Mesmer v6.1 compiled: -- May 25 2021 -- 20:47:20
 
-     Copyright (C) 2009-2020 by
+     Copyright (C) 2009-2021 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sat Mar 28 23:59:24 2020
+                     Execution Date:  Thu May 27 09:01:23 2021
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -51,7 +51,7 @@ In R1: No tunneling method used for R1
 3e+17PPCC, 720K at d precision with He
 3e+16PPCC, 880K at d precision with He
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20200328_235924
+Write metadata 20210527_090123
 
 File: "ipropyl_SA.xml" successfully parsed.
 Main Calculation begins
@@ -59,21 +59,10 @@ Now calculating...
 
 --Execute calcMethod SensitivityAnalysis
 Number of grains produced is not equal to that requested for: H
-Number of grains requested: 239
+Number of grains requested: 500
 Number of grains produced : 1
 In FastLaplaceConvolution: 5920 values in the FFT convolution routine were replaced by standard convolution
-Number of grains requested: 240
-Number of grains requested: 238
 In i-propyl: Delta E down is smaller than grain size: the solution may not converge.
-Number of grains requested: 237
-Number of grains requested: 241
-Number of grains requested: 236
-Number of grains requested: 261
-Number of grains requested: 264
-Number of grains requested: 260
-Number of grains requested: 262
-Number of grains requested: 259
-Number of grains requested: 263
 
 WARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs).
 
@@ -81,8 +70,7 @@ The last CSE = -5.33415e-10 and the first IERE = -1.8015e-09
 (last CSE)/(first IERE) ratio = 0.296094, which is less than an order of magnitude
 
 Results obtained from Bartis Widom eigenvalue-vector analysis may be unreliable
-Number of grains requested: 258
- -- Total time elapsed: 29 seconds.
+ -- Total time elapsed: 27 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 29 seconds.
+Total time elapsed: 27 seconds.

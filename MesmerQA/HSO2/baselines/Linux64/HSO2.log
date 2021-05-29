@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.2 compiled: -- Dec  6 2018 -- 21:24:20
+     Mesmer v6.1 compiled: -- May 26 2021 -- 23:56:09
 
-     Copyright (C) 2009-2018 by
+     Copyright (C) 2009-2021 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Thu Dec  6 21:39:29 2018
+                     Execution Date:  Wed May 26 23:59:54 2021
                      Number of ranks: 12
 
 defaults.xml, librarymols.xml are in ../..
@@ -51,6 +51,9 @@ In R1: --Parse data for RRKM
 In R1: No tunneling method used for R1
 In R1: Not a unimolecular reaction: look for excess reactant concentration.
 In R2: Parsing reaction...Association reaction
+In HOSO: No lennard-Jones parameters found for HOSO.
+In HOSO: An attempt to calculate parameters will be made. If this fails
+In HOSO: default parameters will be used
 In HOSO: The default value of me:DistributionCalcMethod was used.
 In HOSO: --Parse data for Boltzmann
 In HOSO: --Parse data for ExponentialDown
@@ -66,14 +69,16 @@ In R4: --Parse data for RRKM
 In R4: No tunneling method used for R4
 In R6: Parsing reaction...Irreversible unimolecular reaction
 In R6: --Parse data for MesmerILT
-In R6: The default value of me:TInfinity was used.
 In OH: The default value of me:DOSCMethod was used.
 In SO: The default value of me:DOSCMethod was used.
 In R6: No tunneling method used for R6
 3.37e+18PPCC, 295K at dd precision with He
+The default value of the attribute Tstep was used.
+The default value of the attribute Tmin was used.
+The default value of the attribute Tmax was used.
 --Parse data for ThermodynamicTable
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20181206_213929
+Write metadata 20210526_235954
 
 File: "HSO2.xml" successfully parsed.
 Main Calculation begins
@@ -81,8 +86,8 @@ Now calculating...
 
 --Execute calcMethod simpleCalc
 Number of cells = 50000, Number of grains = 252
-Number of grains produced is not equal to that requested
-Number of grains requested: 252
+Number of grains produced is not equal to that requested for: H
+Number of grains requested: 500
 Number of grains produced : 1
 In FastLaplaceConvolution: 20 values in the FFT convolution routine were replaced by standard convolution
 In FastLaplaceConvolution: 40 values in the FFT convolution routine were replaced by standard convolution
@@ -95,7 +100,7 @@ In FastLaplaceConvolution: 40 values in the FFT convolution routine were replace
 In He: The default value of me:DOSCMethod was used.
 In He: The default value of the attribute spinMultiplicity was used.
 gDensityOfStates initialization failed.
- -- Total time elapsed: 11 seconds.
+ -- Total time elapsed: 7 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 11 seconds.
+Total time elapsed: 7 seconds.

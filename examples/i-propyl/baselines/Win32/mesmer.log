@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.0 compiled: -- Mar 23 2020 -- 22:15:09
+     Mesmer v6.1 compiled: -- May 25 2021 -- 20:47:20
 
-     Copyright (C) 2009-2020 by
+     Copyright (C) 2009-2021 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Tue Mar 24 23:05:45 2020
+                     Execution Date:  Thu May 27 08:27:55 2021
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -47,7 +47,6 @@ In i-propyl: --Parse data for Boltzmann
 In i-propyl: --Parse data for ExponentialDown
 In i-propyl: i-propyl:deltaEDown was given a range with 15 steps 
 In R1: --Parse data for MesmerILT
-In R1: The default value of me:TInfinity was used.
 In propene: Hindered rotor b1
 In propene: propene:ZPE was given a range with 401 steps 
 In H: The default value of me:DOSCMethod was used.
@@ -196,7 +195,7 @@ The default value of the attribute precision was used.
 The default value of the attribute precision was used.
 3e+16PPCC, 880K at d precision with He
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20200324_230545
+Write metadata 20210527_082755
 
 File: "ipropyl_LM.xml" successfully parsed.
 Main Calculation begins
@@ -204,18 +203,16 @@ Now calculating...
 
 --Execute calcMethod marquardt
 Number of grains produced is not equal to that requested for: H
-Number of grains requested: 197
+Number of grains requested: 500
 Number of grains produced : 1
 In FastLaplaceConvolution: 5920 values in the FFT convolution routine were replaced by standard convolution
 
 Chi^2 = 1205.82 Lambda = 1
 i-propyl:deltaEDown=190  propene:ZPE=13000  
-Number of grains requested: 195
 
 Chi^2 = 37.9144 Lambda = 0.1
 i-propyl:deltaEDown=245.075  propene:ZPE=12757.8  
 Iteration: 1 of Marquardt. ChiSquare = 37.9144, Lambda = 0.1
-Number of grains requested: 194
 
 Chi^2 = 18.0875 Lambda = 0.01
 i-propyl:deltaEDown=246.385  propene:ZPE=12718.2  
@@ -229,7 +226,7 @@ Chi^2 = 15.9948 Lambda = 0.0001
 i-propyl:deltaEDown=226.235  propene:ZPE=12655.7  
 Iteration: 4 of Marquardt. ChiSquare = 15.9948, Lambda = 0.0001
 Number of cells = 50000, Number of grains = 194
- -- Total time elapsed: 11 seconds.
+ -- Total time elapsed: 13 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
@@ -324,4 +321,4 @@ Number of degrees of Freedom = 69
 Chi^2 probability = 1
 
 System saved to out.xml
-Total time elapsed: 11 seconds.
+Total time elapsed: 13 seconds.

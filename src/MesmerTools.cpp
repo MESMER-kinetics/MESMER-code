@@ -51,10 +51,11 @@ namespace mesmer
   //
   // Calculate the average grain energy and then number of states per grain.
   //
-  void calcGrainAverages(const size_t &MaximumGrain, const size_t &cellPerGrain, const size_t &cellOffset, const vector<double>& CellDOS, const vector<double>& CellEne, vector<double>& grainDOS, vector<double>& grainEne, string name)
+  void calcGrainAverages(const size_t &MaximumCell, const size_t &cellPerGrain, const size_t &cellOffset, const vector<double>& CellDOS, const vector<double>& CellEne, vector<double>& grainDOS, vector<double>& grainEne, string name)
   {
     grainEne.clear();
     grainDOS.clear();
+    size_t MaximumGrain = MaximumCell / cellPerGrain;
     grainEne.resize(MaximumGrain, 0.);
     grainDOS.resize(MaximumGrain, 0.);
 
@@ -67,8 +68,6 @@ namespace mesmer
     size_t idx2 = 0;
     for (size_t i(0); i < MaximumGrain; ++i) {
 
-      size_t idx3(idx1);
-
       // Account for the cell off set against PES grid by altering
       // the range of first grain average.
 
@@ -76,16 +75,14 @@ namespace mesmer
 
       // Calculate the number of states in a grain.
       double gNOS = 0.0;
+      double gSE = 0.0; // grain sum of state energy
       for (size_t j(0); j < cellRange; ++j, ++idx1) {
         gNOS += CellDOS[idx1];
+        gSE  += CellEne[idx1] * CellDOS[idx1];
       }
 
       // Calculate average energy of the grain if it contains sum states.
       if (gNOS > 0.0) {
-        double gSE = 0.0; // grain sum of state energy
-        for (size_t j(0); j < cellRange; ++j, ++idx3) {
-          gSE += CellEne[idx3] * CellDOS[idx3];
-        }
         grainDOS[idx2] = gNOS;
         grainEne[idx2] = gSE / gNOS;
         idx2++;

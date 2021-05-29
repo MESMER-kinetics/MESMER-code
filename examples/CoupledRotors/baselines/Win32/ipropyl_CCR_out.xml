@@ -107,67 +107,67 @@
         <me:thermoValue T="1450.00" H="181.0165" S="486.4434" G="-524.3264" Cp="183.9743" cellS="486.4451" cellH="181.0042" cellG="-524.3412" cellCp="183.9740" />
         <me:thermoValue T="1500.00" H="190.2657" S="492.7144" G="-548.8060" Cp="185.9708" cellS="492.7161" cellH="190.2533" cellG="-548.8208" cellCp="185.9703" />
       </me:thermoTable>
-      <me:densityOfStatesList calculated="20200329_021009">
+      <me:densityOfStatesList calculated="20210527_102359">
         <me:description>Rovibronic partition function calculation at various temperatures. qtot : product of QM partition functions for vibrations (1-D harmonic oscillator) and classical partition functions for rotations.  sumc : cell based partition function. sumg : grain based partition function </me:description>
         <me:densityOfStates>
           <me:T>200</me:T>
           <me:qtot>8942.06</me:qtot>
           <me:sumc>9007.3</me:sumc>
-          <me:sumg>0</me:sumg>
+          <me:sumg>8820.58</me:sumg>
         </me:densityOfStates>
         <me:densityOfStates>
           <me:T>300</me:T>
           <me:qtot>54129.3</me:qtot>
           <me:sumc>54398.8</me:sumc>
-          <me:sumg>0</me:sumg>
+          <me:sumg>53886.1</me:sumg>
         </me:densityOfStates>
         <me:densityOfStates>
           <me:T>400</me:T>
           <me:qtot>232783</me:qtot>
           <me:sumc>233673</me:sumc>
-          <me:sumg>0</me:sumg>
+          <me:sumg>232424</me:sumg>
         </me:densityOfStates>
         <me:densityOfStates>
           <me:T>500</me:T>
           <me:qtot>849438</me:qtot>
           <me:sumc>852091</me:sumc>
-          <me:sumg>0</me:sumg>
+          <me:sumg>849166</me:sumg>
         </me:densityOfStates>
         <me:densityOfStates>
           <me:T>600</me:T>
           <me:qtot>2.82257e+06</me:qtot>
           <me:sumc>2.83005e+06</me:sumc>
-          <me:sumg>0</me:sumg>
+          <me:sumg>2.8233e+06</me:sumg>
         </me:densityOfStates>
         <me:densityOfStates>
           <me:T>700</me:T>
           <me:qtot>8.80314e+06</me:qtot>
           <me:sumc>8.82347e+06</me:sumc>
-          <me:sumg>0</me:sumg>
+          <me:sumg>8.80798e+06</me:sumg>
         </me:densityOfStates>
         <me:densityOfStates>
           <me:T>800</me:T>
           <me:qtot>2.61441e+07</me:qtot>
           <me:sumc>2.61978e+07</me:sumc>
-          <me:sumg>0</me:sumg>
+          <me:sumg>2.61626e+07</me:sumg>
         </me:densityOfStates>
         <me:densityOfStates>
           <me:T>900</me:T>
           <me:qtot>7.4512e+07</me:qtot>
           <me:sumc>7.46498e+07</me:sumc>
-          <me:sumg>0</me:sumg>
+          <me:sumg>7.45705e+07</me:sumg>
         </me:densityOfStates>
         <me:densityOfStates>
           <me:T>1000</me:T>
           <me:qtot>2.04751e+08</me:qtot>
           <me:sumc>2.05097e+08</me:sumc>
-          <me:sumg>0</me:sumg>
+          <me:sumg>2.0492e+08</me:sumg>
         </me:densityOfStates>
         <me:densityOfStates>
           <me:T>1100</me:T>
           <me:qtot>5.44175e+08</me:qtot>
           <me:sumc>5.45021e+08</me:sumc>
-          <me:sumg>0</me:sumg>
+          <me:sumg>5.44632e+08</me:sumg>
         </me:densityOfStates>
       </me:densityOfStatesList>
     </molecule>
@@ -377,224 +377,223 @@
         <me:TInfinity>1.0</me:TInfinity>
         <me:nInfinity>0.0</me:nInfinity>
       </me:MCRCMethod>
-      <me:TInfinity default="true">298</me:TInfinity>
     </reaction>
   </reactionList>
   <!-- Data taken from Seakins et al, J. Phys. Chem. Vol. 97, p. 4450 (1993). -->
   <me:conditions>
     <me:bathGas>He</me:bathGas>
     <me:PTs>
-      <me:PTpair units="PPCC" P="30.0e16" T="720." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="30.0e16" T="720." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0">41.5</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="30.1e16" T="730." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="30.1e16" T="730." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0">51.1</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="18.0e16" T="740." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="18.0e16" T="740." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0">55.5</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="24.0e16" T="740." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="24.0e16" T="740." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0">70.1</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="30.0e16" T="740." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="30.0e16" T="740." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0">71.1</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="12.0e16" T="750." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="12.0e16" T="750." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0">55.3</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="18.0e16" T="750." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="18.0e16" T="750." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0">67.2</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="24.1e16" T="750." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="24.1e16" T="750." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0">86.4</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="30.0e16" T="750." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="30.0e16" T="750." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="10.2">102.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="6.02e16" T="760." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="6.02e16" T="760." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0">51.9</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="9.02e16" T="760." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="9.02e16" T="760." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0">65.7</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="12.0e16" T="760." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="12.0e16" T="760." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0">76.5</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="18.1e16" T="760." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="18.1e16" T="760." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0">95.0</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="24.0e16" T="760." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="24.0e16" T="760." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="12.3">123.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="30.0e16" T="760." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="30.0e16" T="760." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="12.8">128.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="6.01e16" T="770." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="6.01e16" T="770." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0">68.9</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="9.00e16" T="770." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="9.00e16" T="770." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0">89.2</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="12.0e16" T="770." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="12.0e16" T="770." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0">99.0</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="18.0e16" T="770." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="18.0e16" T="770." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="12.1">121.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="24.1e16" T="770." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="24.1e16" T="770." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="15.9">159.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="30.0e16" T="770." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="30.0e16" T="770." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="16.4">164.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="3.00e16" T="780." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="3.00e16" T="780." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0">65.5</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="6.01e16" T="780." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="6.01e16" T="780." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0">89.1</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="9.00e16" T="780." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="9.00e16" T="780." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="11.4">114.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="12.0e16" T="780." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="12.0e16" T="780." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="12.5">125.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="18.0e16" T="780." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="18.0e16" T="780." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="16.5">165.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="24.0e16" T="780." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="24.0e16" T="780." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.3">203.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="30.0e16" T="780." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="30.0e16" T="780." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="21.3">213.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="3.00e16" T="790." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="3.00e16" T="790." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0">77.0</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="6.01e16" T="790." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="6.01e16" T="790." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="11.9">119.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="9.00e16" T="790." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="9.00e16" T="790." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="15.4">154.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="12.0e16" T="790." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="12.0e16" T="790." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="17.0">170.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="18.0e16" T="790." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="18.0e16" T="790." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="21.9">219.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="24.0e16" T="790." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="24.0e16" T="790." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="25.8">258.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="30.0e16" T="790." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="30.0e16" T="790." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="28.8">288.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="3.00e16" T="800." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="3.00e16" T="800." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0">96.1</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="6.01e16" T="800." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="6.01e16" T="800." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="14.7">147.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="9.00e16" T="800." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="9.00e16" T="800." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="19.9">199.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="12.1e16" T="800." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="12.1e16" T="800." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="22.4">223.5</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="18.0e16" T="800." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="18.0e16" T="800." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="30.2">302.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="24.0e16" T="800." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="24.0e16" T="800." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="34.1">341.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="30.0e16" T="800." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="30.0e16" T="800." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="35.0">350.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="3.00e16" T="810." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="3.00e16" T="810." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="12.4">124.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="6.00e16" T="810." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="6.00e16" T="810." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="18.5">185.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="9.00e16" T="810." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="9.00e16" T="810." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="24.8">248.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="12.1e16" T="810." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="12.1e16" T="810." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="27.4">274.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="18.1e16" T="810." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="18.1e16" T="810." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="37.9">379.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="24.0e16" T="810." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="24.0e16" T="810." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="40.2">402.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="30.0e16" T="810." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="30.0e16" T="810." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="49.2">492.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="3.00e16" T="820." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="3.00e16" T="820." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="16.0">160.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="6.01e16" T="820." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="6.01e16" T="820." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="23.9">239.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="9.01e16" T="820." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="9.01e16" T="820." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="32.0">320.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="12.1e16" T="820." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="12.1e16" T="820." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="36.3">363.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="18.0e16" T="820." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="18.0e16" T="820." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="44.7">447.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="24.0e16" T="820." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="24.0e16" T="820." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="55.4">554.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="30.0e16" T="820." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="30.0e16" T="820." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="54.9">549.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="3.00e16" T="830." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="3.00e16" T="830." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="18.9">189.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="6.00e16" T="830." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="6.00e16" T="830." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="28.7">287.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="9.00e16" T="830." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="9.00e16" T="830." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="37.5">375.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="12.0e16" T="830." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="12.0e16" T="830." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="44.7">447.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="18.0e16" T="830." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="18.0e16" T="830." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="57.0">570.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="3.01e16" T="840." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="3.01e16" T="840." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="25.2">252.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="6.00e16" T="840." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="6.00e16" T="840." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="34.9">349.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="9.00e16" T="840." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="9.00e16" T="840." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="47.1">471.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="12.0e16" T="840." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="12.0e16" T="840." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="55.9">559.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="3.00e16" T="850." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="3.00e16" T="850." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="31.4">314.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="6.00e16" T="850." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="6.00e16" T="850." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="44.4">444.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="3.01e16" T="860." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="3.01e16" T="860." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="37.8">378.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="6.03e16" T="860." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="6.03e16" T="860." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="53.5">535.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="3.01e16" T="870." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="3.01e16" T="870." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="43.6">436.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="3.00e16" T="880." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="3.00e16" T="880." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="53.5">535.</me:experimentalRate>
       </me:PTpair>
     </me:PTs>
@@ -623,8 +622,8 @@
   <metadataList xmlns:dc="http://purl.org/dc/elements/1.1/">
     <dc:title>isopropyl decomposition</dc:title>
     <dc:source>ipropyl_CCR.xml</dc:source>
-    <dc:creator>Mesmer v6.0</dc:creator>
-    <dc:date>20200329_021008</dc:date>
+    <dc:creator>Mesmer v6.1</dc:creator>
+    <dc:date>20210527_102358</dc:date>
     <dc:contributor>strua</dc:contributor>
   </metadataList>
 </me:mesmer>

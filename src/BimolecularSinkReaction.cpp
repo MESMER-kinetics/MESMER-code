@@ -188,16 +188,20 @@ namespace mesmer
   // Calculate high pressure rate coefficients at current T.
   void BimolecularSinkReaction::HighPresRateCoeffs(vector<double> *pCoeffs) {
 
-    double k_forward(0.0);
     vector<double> rctGrainDOS, rctGrainEne;
     m_rct1->getDOS().getGrainDensityOfStates(rctGrainDOS);
     m_rct1->getDOS().getGrainEnergies(rctGrainEne);
-    const int MaximumGrain = (getEnv().MaxGrn-get_fluxFirstNonZeroIdx());
     const double beta = getEnv().beta;
     const double temperature = 1. / (boltzmann_RCpK * beta);
 
-    for(int i(0); i < MaximumGrain; ++i)
-      k_forward += m_GrainKfmc[i] * exp( log(rctGrainDOS[i]) - beta * rctGrainEne[i]);
+    double k_forward(0.0);
+    calcEffGrnThresholds();
+    const size_t forwardTE = get_EffGrnFwdThreshold();
+    calcFluxFirstNonZeroIdx();
+    const size_t fluxStartIdx = get_fluxFirstNonZeroIdx();
+    for (size_t i(forwardTE), j(fluxStartIdx); i < rctGrainEne.size(); ++i, ++j) {
+      k_forward += m_GrainFlux[j] * exp(-beta * rctGrainEne[i]);
+    }
 
     const double rctprtfn = canonicalPartitionFunction(rctGrainDOS, rctGrainEne, beta);
     k_forward /= rctprtfn;

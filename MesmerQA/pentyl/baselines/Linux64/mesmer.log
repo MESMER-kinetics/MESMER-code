@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.2 compiled: -- Dec  4 2018 -- 16:50:21
+     Mesmer v6.1 compiled: -- May 26 2021 -- 23:56:09
 
-     Copyright (C) 2009-2018 by
+     Copyright (C) 2009-2021 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,8 +27,8 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Tue Dec  4 16:52:07 2018
-                     Number of ranks: 1
+                     Execution Date:  Wed May 26 23:59:15 2021
+                     Number of ranks: 12
 
 defaults.xml, librarymols.xml are in ../..
 
@@ -53,8 +53,11 @@ In R1: --Parse data for RRKM
 In R1: No tunneling method used for R1
 The default value of the attribute precision was used.
 1e+08PPCC, 500K at d precision with Ar
+The default value of the attribute Tstep was used.
+The default value of the attribute Tmin was used.
+The default value of the attribute Tmax was used.
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20181204_165207
+Write metadata 20210526_235915
 
 File: "pentyl_isomerization_test.xml" successfully parsed.
 Main Calculation begins

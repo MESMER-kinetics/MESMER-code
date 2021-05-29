@@ -86,6 +86,14 @@ namespace mesmer
     m_outputCellVersion = pp->XmlReadBoolean("me:withCellDOSCalc");
 
     System* pSys = getParent();
+
+    // These next few lines are required because density of states parsing
+    // needs a grain size and the dafault value of this may be zero. (SHR, 
+    // 25/May/2021: This is a hack that needs to be reviewed)
+    MesmerEnv& Env = pSys->getEnv();
+    size_t savedGrainSize = Env.GrainSize;
+    Env.GrainSize = 100;
+
     MoleculeManager* pMoleculeManager = pSys->getMoleculeManager();
     if (pSys->getReactionManager()->size() == 0)
     {
@@ -111,7 +119,7 @@ namespace mesmer
               pMoleculeManager->addmol(molname, string("transitionState"), pSys->getEnv(), pSys->m_Flags);
             }
             catch (...) {
-              cerr << "Definition of " << molname << " required review." << endl;
+              cerr << "Definition of " << molname << " requires review." << endl;
             }
           }
         }
@@ -123,6 +131,9 @@ namespace mesmer
       if (pSys->m_Flags.testDOSEnabled)
         pSys->getEnv().beta = 1.0 / (boltzmann_RCpK * double(m_nTemp) * m_TempInterval);
     }
+
+    Env.GrainSize = savedGrainSize;
+
     if (MolecularComponent::getEnergyConvention() == "arbitrary")
       m_makeNasaPoly = false;
 

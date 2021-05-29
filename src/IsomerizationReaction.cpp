@@ -315,7 +315,6 @@ namespace mesmer
     m_pdt1->getDOS().getGrainDensityOfStates(pdtGrainDOS);
     m_rct1->getDOS().getGrainEnergies(rctGrainEne);
     m_pdt1->getDOS().getGrainEnergies(pdtGrainEne);
-    const int MaximumGrain = (getEnv().MaxGrn-get_fluxFirstNonZeroIdx());
     const double beta = getEnv().beta;
     const double temperature = 1. / (boltzmann_RCpK * beta);
 
@@ -323,7 +322,7 @@ namespace mesmer
     const int reverseTE = get_EffGrnRvsThreshold();
     calcFluxFirstNonZeroIdx();
     const int fluxStartIdx = get_fluxFirstNonZeroIdx();
-    for ( int i=fluxStartIdx, j = reverseTE, k = forwardTE; max(j,k) < MaximumGrain ; ++i, ++j, ++k) {
+    for ( size_t i=fluxStartIdx, j = reverseTE, k = forwardTE; j < pdtGrainEne.size() && k < rctGrainEne.size() ; ++i, ++j, ++k) {
       k_forward  += m_GrainFlux[i] * exp(-beta * rctGrainEne[k]);
       k_backward += m_GrainFlux[i] * exp(-beta * pdtGrainEne[j]);
     }

@@ -313,11 +313,11 @@ MesmerQA/cyclopropene[!!-~]isomerization[!!-~]reservoir[!!-~]state/baselines/Lin
 MesmerQA/cyclopropene[!!-~]isomerization[!!-~]reservoir[!!-~]state/baselines/Win32/mesmer.log -text
 MesmerQA/cyclopropene[!!-~]isomerization[!!-~]reservoir[!!-~]state/baselines/Win32/mesmer.test -text
 MesmerQA/cyclopropene[!!-~]isomerization/Cyclopropene_isomerization_test.xml -text
-MesmerQA/cyclopropene[!!-~]isomerization/baselines/Linux64/mesmer.log -text
+MesmerQA/cyclopropene[!!-~]isomerization/baselines/Linux64/mesmer.log -text svneol=unset#unset
 MesmerQA/cyclopropene[!!-~]isomerization/baselines/Linux64/mesmer.test -text
 MesmerQA/cyclopropene[!!-~]isomerization/baselines/Win32/mesmer.log -text
 MesmerQA/cyclopropene[!!-~]isomerization/baselines/Win32/mesmer.test -text
-MesmerQA/i-propyl/baselines/Linux64/ipropyl_reservoir.log -text
+MesmerQA/i-propyl/baselines/Linux64/ipropyl_reservoir.log -text svneol=unset#unset
 MesmerQA/i-propyl/baselines/Linux64/ipropyl_reservoir.test -text
 MesmerQA/i-propyl/baselines/Linux64/mesmer.log -text
 MesmerQA/i-propyl/baselines/Linux64/mesmer.test -text
@@ -399,7 +399,7 @@ examples/AnalyticalRepresentation/baselines/Win32/PlogCK.log -text
 examples/AnalyticalRepresentation/baselines/Win32/PlogCK.test -text
 examples/Butan-1-ol/Butan-1-peroxy_H_to_Butan-1-hydroperoxy.xml -text
 examples/Butan-1-ol/Butoxy_H_to_Butan-1-ol.xml -text
-examples/Butan-1-ol/baselines/Linux64/Butan-1-peroxy_H_to_Butan-1-hydroperoxy.log -text
+examples/Butan-1-ol/baselines/Linux64/Butan-1-peroxy_H_to_Butan-1-hydroperoxy.log -text svneol=unset#unset
 examples/Butan-1-ol/baselines/Linux64/Butan-1-peroxy_H_to_Butan-1-hydroperoxy.test -text
 examples/Butan-1-ol/baselines/Linux64/Butoxy_H_to_Butan-1-ol.log -text
 examples/Butan-1-ol/baselines/Linux64/Butoxy_H_to_Butan-1-ol.test -text

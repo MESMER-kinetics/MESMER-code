@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.0 compiled: -- Oct 25 2019 -- 22:13:05
+     Mesmer v6.1 compiled: -- May 25 2021 -- 20:47:20
 
-     Copyright (C) 2009-2020 by
+     Copyright (C) 2009-2021 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sun Oct 27 13:16:14 2019
+                     Execution Date:  Sat May 29 22:52:57 2021
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -45,7 +45,6 @@ In i-propyl: --Parse data for Boltzmann
 In i-propyl: --Parse data for ExponentialDown
 In i-propyl: i-propyl:deltaEDown was given a range with 15 steps 
 In R1: --Parse data for MesmerILT
-In R1: The default value of me:TInfinity was used.
 In propene: Hindered rotor b1
 In propene: propene:ZPE was given a range with 401 steps 
 In H: The default value of me:DOSCMethod was used.
@@ -65,7 +64,7 @@ In ThermodynamicTable: The default value of me:Tmin was used.
 In ThermodynamicTable: The default value of me:Tmax was used.
 In ThermodynamicTable: The default value of me:Tmid was used.
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20191027_131614
+Write metadata 20210529_225257
 
 File: "ipropyl_test.xml" successfully parsed.
 Main Calculation begins
@@ -74,7 +73,7 @@ Now calculating...
 --Execute calcMethod simpleCalc
 Number of cells = 50000, Number of grains = 186
 Number of grains produced is not equal to that requested for: H
-Number of grains requested: 186
+Number of grains requested: 500
 Number of grains produced : 1
 In FastLaplaceConvolution: 5920 values in the FFT convolution routine were replaced by standard convolution
 In mesmer::CollisionOperator::timeEvolution: No population was assigned, and there is no source term.

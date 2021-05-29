@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.1 compiled: -- Jul 13 2020 -- 23:02:00
+     Mesmer v6.1 compiled: -- May 26 2021 -- 23:56:09
 
      Copyright (C) 2009-2021 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Mon Jul 13 23:06:58 2020
+                     Execution Date:  Wed May 26 23:59:32 2021
                      Number of ranks: 12
 
 defaults.xml, librarymols.xml are in ../..
@@ -69,7 +69,7 @@ In R_2_6c: No tunneling method used for R_2_6c
 The default value of the attribute Tstep was used.
 The default value of the attribute Tmin was used.
 The default value of the attribute Tmax was used.
-Write metadata 20200713_230658
+Write metadata 20210526_235932
 
 File: "benzene_oxidation_test.xml" successfully parsed.
 Main Calculation begins

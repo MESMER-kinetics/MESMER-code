@@ -589,9 +589,7 @@ namespace mesmer
     if (MaximumCell > m_MaximumCell) {
       recalc = true;
       m_MaximumCell = MaximumCell;
-    }
 
-    if (recalc) {
       // Calculate density of states.
       if (!calcCellDensityOfStates())
         return false;
@@ -601,12 +599,12 @@ namespace mesmer
     {
       //cinfo << "calculation of DOS cutailed because no ZPE" << endl;
     }
-    else
+    else 
     {
       const int cellOffset = get_cellOffset();
       std::vector<double> cellEne;
       getCellEnergies(MaximumCell, m_host->getEnv().CellSize, cellEne);
-      calcGrainAverages(m_host->getEnv().MaxGrn, m_host->getEnv().cellPerGrain(), cellOffset, m_cellDOS, cellEne, m_grainDOS, m_grainEne, m_host->getName());
+      calcGrainAverages(MaximumCell, m_host->getEnv().cellPerGrain(), cellOffset, m_cellDOS, cellEne, m_grainDOS, m_grainEne, m_host->getName());
     }
 
     if (recalc) {

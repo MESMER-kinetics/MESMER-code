@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.0 compiled: -- Oct 25 2019 -- 22:13:05
+     Mesmer v6.1 compiled: -- May 25 2021 -- 20:47:20
 
-     Copyright (C) 2009-2020 by
+     Copyright (C) 2009-2021 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sun Oct 27 13:16:19 2019
+                     Execution Date:  Sat May 29 22:53:04 2021
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -36,7 +36,7 @@ Parsing input xml file...
 UnitTests.xml
 
 --Parse data for UnitTests
-Write metadata 20191027_131619
+Write metadata 20210529_225304
 
 File: "UnitTests.xml" successfully parsed.
 Main Calculation begins
@@ -65,7 +65,7 @@ Hindered rotor b1
 In ClOOCl: Hindered rotor b1
 gDensityOfStates initialization failed.
 Hindered rotor b1
- -- Total time elapsed: 6 seconds.
+ -- Total time elapsed: 5 seconds.
 
 System saved to out.xml
-Total time elapsed: 6 seconds.
+Total time elapsed: 5 seconds.

@@ -234,12 +234,16 @@ namespace mesmer
     vector<double> rctGrainDOS, rctGrainEne;
     m_rct1->getDOS().getGrainDensityOfStates(rctGrainDOS);
     m_rct1->getDOS().getGrainEnergies(rctGrainEne);
-    const size_t MaximumGrain = (getEnv().MaxGrn-get_fluxFirstNonZeroIdx());
     const double beta = getEnv().beta;
 
     double kf(0.0);
-    for(size_t i(0); i < MaximumGrain; ++i)
-      kf += m_GrainKfmc[i] * exp( log(rctGrainDOS[i]) - beta * rctGrainEne[i]);
+    calcEffGrnThresholds();
+    const size_t forwardTE = get_EffGrnFwdThreshold();
+    calcFluxFirstNonZeroIdx();
+    const size_t fluxStartIdx = get_fluxFirstNonZeroIdx();
+    for (size_t i(forwardTE), j(fluxStartIdx); i < rctGrainEne.size() ; ++i, ++j) {
+      kf += m_GrainFlux[j] * exp(-beta * rctGrainEne[i]);
+    }
 
     const double rctprtfn = canonicalPartitionFunction(rctGrainDOS, rctGrainEne, beta);
     kf /= rctprtfn;
