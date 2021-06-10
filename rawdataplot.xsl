@@ -30,7 +30,9 @@
       
       <!--frame of graph-->
       <svg:rect x="1" y="21" width="338" height="180" fill="none" stroke="black"/>
-      <svg:text x="5" y="212" font-size="10" text-anchor="middle">0</svg:text>
+      <svg:text x="5" y="212" font-size="10" text-anchor="middle">
+        <xsl:value-of select="$mintime"></xsl:value-of>
+      </svg:text>
       <svg:text x="330" y="212" font-size="10" text-anchor="middle">
         <xsl:value-of select="$maxtime"></xsl:value-of>
       </svg:text>
@@ -49,11 +51,11 @@
       
       <!--Viewbox puts -ymax at top and -ymin at bottom. y values are negated before plotting.-->
       <!--viewBox(minx, -miny, width, height) for a normal graph-->
-      <svg:svg x="1" y="21" width="800" height="180"  preserveAspectRatio="none" >
+      <svg:svg x="1" y="21" width="338" height="180"  preserveAspectRatio="none" >
 
         <xsl:attribute name="viewBox">
           <!--xsl:value-of select="concat(0, -$maxval, $maxtime, $maxval - $minval)"/>-->
-          <xsl:value-of select="concat(0, ' -',$maxval, ' ',$maxtime,' ', $maxval - $minval)"/>
+          <xsl:value-of select="concat($mintime, ' -',$maxval, ' ',$maxtime - $mintime,' ', $maxval - $minval)"/>
         </xsl:attribute>
 
         <svg:path stroke="red" fill="none" stroke-width="1" vector-effect="non-scaling-stroke" >

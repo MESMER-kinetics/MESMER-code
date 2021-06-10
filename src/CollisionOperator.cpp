@@ -466,7 +466,9 @@ namespace mesmer
     }
 
     // Add diffusive Loss terms if required.
-    AddDiffusiveLossTerms(1.0 / m_meanOmega);
+    if (mFlags.bIncludeDiffusiveLoss) {
+      AddDiffusiveLossTerms(1.0 / m_meanOmega);
+    }
 
   }
 
@@ -491,7 +493,7 @@ namespace mesmer
     RawDataSet& expData = exptDataSets[0];
     string ref1 = expData.m_ref1;
 
-    // Initialize diffusing species here, after all the participating have been specified by
+    // Initialize diffusing species here, after all the participating species have been specified by
     // regular reaction terms.
     Molecule* pMol = m_pMoleculeManager->find(ref1);
     if (!pMol) {
@@ -503,6 +505,7 @@ namespace mesmer
     map<Molecule*, double> diffusionMap;
     diffusionMap[pMol] = 0.0;
 
+    // Read diffusion coefficients.
     // First check if there is a single diffusive loss term.
     double diffusionRate = expData.m_pPersistPtr->XmlReadDouble("diffusiveLoss", optional);
     if (IsNan(diffusionRate)) {
@@ -541,6 +544,7 @@ namespace mesmer
       diffusionMap[pMol] = diffusionRate;
     }
 
+    // Apply diffusion coefficients.
     map<Molecule*, double>::const_iterator itr;
     for (itr = diffusionMap.begin(); itr != diffusionMap.end(); ++itr) {
       Molecule* pMol = itr->first;
@@ -549,25 +553,24 @@ namespace mesmer
       // Search for diffusing species in isomers.
       Reaction::molMapType::iterator rctitr = m_isomers.find(pMol);
       if (rctitr != m_isomers.end()) {
-        const int rctLocation = rctitr->second;
-        const int colloptrsize = pMol->getColl().get_colloptrsize();
+        const size_t rctLocation = rctitr->second;
+        const size_t colloptrsize = pMol->getColl().get_colloptrsize();
 
-        for (int j = 0; j < colloptrsize; ++j) {
-          int ii(rctLocation + j);
+        for (size_t j(0), ii(rctLocation); j < colloptrsize; ++j, ++ii) {
           (*m_reactionOperator)[ii][ii] -= qd_real(diffusionRate * rMeanOmega);  // Diffusive loss reaction.
         }
-        return;
       }
 
       // Search for diffusing species in pseudoisomers.
       if (m_sources.size()) {
         Reaction::molMapType::iterator rctitr = m_sources.find(pMol);
-        const int rctLocation = rctitr->second;
-        (*m_reactionOperator)[rctLocation][rctLocation] -= qd_real(diffusionRate * rMeanOmega);  // Diffusive loss reaction.
-
-        return;
+        if (rctitr != m_sources.end()) {
+          const size_t rctLocation = rctitr->second;
+          (*m_reactionOperator)[rctLocation][rctLocation] -= qd_real(diffusionRate * rMeanOmega);  // Diffusive loss reaction.
+        }
       }
     }
+    return;
   }
 
   // This is a routine to construct the big basis matrix based on the alternative basis set method.
@@ -1549,6 +1552,8 @@ namespace mesmer
     // with respect to the other eigenvalues. Also, as the system is conservative, set the 
     // smallest eigenvalue explicitly to zero.
     //
+    qd_real tmpEigenvalue = m_eigenvalues[smsize - 1];
+    vector<qd_real> tmpEqVector = m_eqVector;
     if (nsinks < 1) {
       m_eigenvalues[smsize - 1] = 0.0;
       for (size_t i(0); i < smsize; ++i) {
@@ -1804,8 +1809,14 @@ namespace mesmer
       mesmerRates = Kr;
       lossRates = Kp;
     }
-    return true;
 
+    // Restore equilibrium eigenpair as may be required for trace fitting.
+    if (nsinks < 1) {
+      m_eigenvalues[smsize - 1] = tmpEigenvalue;
+      m_eqVector = tmpEqVector;
+    }
+
+    return true;
   }
 
   // Method to integrate the phenomenological rate equations using BW coefficients.

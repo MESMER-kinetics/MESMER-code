@@ -1,3 +1,8 @@
+2021-June-10 Struan Robertson
+
+		* CollisionOperator.cpp, ConditionsManager.h/.cpp, MesmerFlags.h/.cpp, Marquardt.cpp,
+		rawdataplot.xsl: Fixes for diffusive loss array.
+
 2021-May-29 Struan Robertson
 
 		* AssociationReaction.cpp, BimolecualrSinkReaction.cpp, IrreversibleUnimolecularReaction.cpp,

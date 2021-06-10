@@ -34,10 +34,11 @@ namespace mesmer
 
 	struct RawDataSet
 	{
-		RawDataSet() : data(), m_calcTrace(), m_ref1(""), m_Name(NULL), m_excessConc(0.0), m_weight(0.0), m_pPersistPtr(NULL) {}
+		RawDataSet() : data(), m_calcTrace(), m_traceSize(0), m_ref1(""), m_Name(NULL), m_excessConc(0.0), m_weight(0.0), m_pPersistPtr(NULL) {}
 	public:
 		std::vector<std::pair<double, double> > data; // Time series data.
 		std::vector<double> m_calcTrace;              // Calculated trace. 
+		size_t m_traceSize;                           // Number of points in trace (including baseline noise).
 		std::string m_ref1;                           // Monitored species.
 		const char* m_Name;                           // Name of trace.
 		double m_excessConc;                          // Concentration of excess reactant.

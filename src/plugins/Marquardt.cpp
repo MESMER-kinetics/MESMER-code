@@ -103,6 +103,10 @@ namespace mesmer
     bool bSpeciesProfileEnabled = pSys->m_Flags.speciesProfileEnabled;
     pSys->m_Flags.speciesProfileEnabled = false;
 
+    // Set diffusive loss flag as trace fitting usually involves diffusive loss.
+    bool bIncludeDiffusiveLossEnabled = pSys->m_Flags.bIncludeDiffusiveLoss;
+    pSys->m_Flags.bIncludeDiffusiveLoss = true;
+
     // Uncomment to enable ctest output during fitting. Or use -w5 option in command.
     //ChangeErrorLevel e(obDebug); 
 
@@ -215,6 +219,8 @@ namespace mesmer
     // Write out the results and the statisitics of the fit.
     ResultsAndStatistics(pSys, hessian);
     pSys->getConditionsManager()->get_generalAnalysisData()->setCovariance(hessian);
+
+    pSys->m_Flags.bIncludeDiffusiveLoss = bIncludeDiffusiveLossEnabled;
 
     return true;
   }

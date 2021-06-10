@@ -411,6 +411,7 @@ namespace mesmer
           stringstream signals(ppRawData->XmlReadValue("me:signals", optional));
           stringstream timesout, signalsout;
           double t, val;
+          size_t traceSize(0);
           while (times.good() && signals.good())
           {
             times >> t;
@@ -418,7 +419,9 @@ namespace mesmer
             ds.data.push_back(make_pair(getConvertedTime(timeUnits, t), val));
             timesout << fixed << t << ' ';
             signalsout << fixed << val << ' ';
+            traceSize++;
           }
+          ds.m_traceSize = traceSize;
 
           if (times.good() || signals.good())
           {
@@ -799,6 +802,11 @@ namespace mesmer
         const RawDataSet& dataSet = PandTs[i].m_rawDataSets[j];
         const vector<double>& calcTrace = dataSet.m_calcTrace;
         stringstream ss;
+        // Add baseline if required.
+        for (size_t k(0); k < dataSet.m_traceSize - calcTrace.size(); k++) {
+          ss << fixed << 0.0 << " ";
+        }
+        //  Add calculated trace.
         for (size_t k(0); k < calcTrace.size(); k++) {
           string tmp = formatFloatNWS(calcTrace[k], 6, 15);
           ss << fixed << tmp << " ";
