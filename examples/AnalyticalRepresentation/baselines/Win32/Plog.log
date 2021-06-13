@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.1 compiled: -- May 25 2021 -- 20:47:20
+     Mesmer v6.1 compiled: -- Jun  8 2021 -- 20:30:48
 
      Copyright (C) 2009-2021 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Thu May 27 08:58:36 2021
+                     Execution Date:  Sat Jun 12 17:43:49 2021
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -52,7 +52,7 @@ In R2: No imaginary vibrational frequency. Check if there is tunneling.
 In R2: No tunneling method used for R2
 No pressure and temperature specified.
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20210527_085836
+Write metadata 20210612_174349
 
 File: "Plog.xml" successfully parsed.
 Main Calculation begins
@@ -132,31 +132,31 @@ species(name = "trans-But-2-ene",
 units(length = 'cm', quantity = 'mole')
 
 pdep_arrhenius('cis-But-2-ene => Butadiene + H2',
-               [(          0.01, 'atm'),   1.08597e+51,      -11.2189,       83204.4],
-               [(           0.1, 'atm'),   4.38042e+49,      -10.7862,       82674.6],
-               [(             1, 'atm'),   3.00105e+49,      -10.7354,       82611.2],
-               [(            10, 'atm'),   2.88773e+49,      -10.7302,       82604.8])
+               [(          0.01, 'atm'),   1.47829e+51,      -11.2606,       82828.7],
+               [(           0.1, 'atm'),   4.54274e+49,      -10.7911,       82254.6],
+               [(             1, 'atm'),   3.00274e+49,      -10.7354,       82185.2],
+               [(            10, 'atm'),   2.87871e+49,      -10.7298,       82178.1])
 
 pdep_arrhenius('cis-But-2-ene => trans-But-2-ene',
-               [(          0.01, 'atm'),   1.58853e+47,      -9.99762,       78478.1],
-               [(           0.1, 'atm'),    1.5198e+45,      -9.37652,       77669.7],
-               [(             1, 'atm'),   8.95185e+44,       -9.3059,         77577],
-               [(            10, 'atm'),   8.48398e+44,      -9.29874,       77567.6])
+               [(          0.01, 'atm'),   2.21111e+47,      -10.0419,       78322.1],
+               [(           0.1, 'atm'),   1.58288e+45,      -9.38196,       77463.8],
+               [(             1, 'atm'),   8.97566e+44,      -9.30626,       77364.5],
+               [(            10, 'atm'),    8.4733e+44,      -9.29858,       77354.4])
 
 pdep_arrhenius('trans-But-2-ene => Butadiene + H2',
-               [(          0.01, 'atm'),   2.73414e+64,       -15.134,       99209.1],
-               [(           0.1, 'atm'),   2.16677e+62,       -14.776,       98887.4],
-               [(             1, 'atm'),    1.5982e+61,      -14.7333,       98846.4],
-               [(            10, 'atm'),   1.54935e+60,       -14.729,       98842.3])
+               [(          0.01, 'atm'),   3.22845e+64,      -15.1463,       98989.4],
+               [(           0.1, 'atm'),   2.20598e+62,      -14.7671,       98650.1],
+               [(             1, 'atm'),   1.59194e+61,      -14.7214,       98606.3],
+               [(            10, 'atm'),   1.53978e+60,      -14.7168,       98601.8])
 
 pdep_arrhenius('trans-But-2-ene => cis-But-2-ene',
-               [(          0.01, 'atm'),   9.91791e+46,      -10.0526,       79215.7],
-               [(           0.1, 'atm'),   9.48878e+44,      -9.43148,       78407.3],
-               [(             1, 'atm'),   5.58904e+44,      -9.36086,       78314.6],
-               [(            10, 'atm'),   5.29693e+44,       -9.3537,       78305.2])
+               [(          0.01, 'atm'),    1.3803e+47,      -10.0968,       79059.6],
+               [(           0.1, 'atm'),   9.88118e+44,      -9.43689,       78201.3],
+               [(             1, 'atm'),    5.6031e+44,       -9.3612,         78102],
+               [(            10, 'atm'),    5.2895e+44,      -9.35352,       78091.9])
 
 
- -- Total time elapsed: 82 seconds.
+ -- Total time elapsed: 87 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 82 seconds.
+Total time elapsed: 87 seconds.
