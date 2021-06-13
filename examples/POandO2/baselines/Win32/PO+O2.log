@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.1 compiled: -- May 25 2021 -- 20:47:20
+     Mesmer v6.1 compiled: -- Jun  8 2021 -- 20:30:48
 
      Copyright (C) 2009-2021 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Thu May 27 10:59:20 2021
+                     Execution Date:  Sat Jun 12 19:47:48 2021
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -76,7 +76,7 @@ The default value of the attribute Tstep was used.
 The default value of the attribute Tmin was used.
 The default value of the attribute Tmax was used.
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20210527_105920
+Write metadata 20210612_194748
 
 File: "PO+O2.xml" successfully parsed.
 Main Calculation begins
@@ -105,11 +105,11 @@ The last CSE = -6583.11 and the first IERE = -8431.45
 (last CSE)/(first IERE) ratio = 0.78078, which is less than an order of magnitude
 
 Results obtained from Bartis Widom eigenvalue-vector analysis may be unreliable
- -- Total time elapsed: 128 seconds.
+ -- Total time elapsed: 136 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
 
 System saved to mesmer_out.xml
-Total time elapsed: 128 seconds.
+Total time elapsed: 136 seconds.
