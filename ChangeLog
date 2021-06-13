@@ -1,3 +1,9 @@
+2021-June-13 Struan Robertson
+
+		* Documentation update.
+
+		* Schema update.
+
 2021-June-10 Struan Robertson
 
 		* CollisionOperator.cpp, ConditionsManager.h/.cpp, MesmerFlags.h/.cpp, Marquardt.cpp,
