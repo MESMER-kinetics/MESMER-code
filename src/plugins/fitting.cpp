@@ -26,7 +26,7 @@ namespace mesmer
   public:
 
     Fitting(const char* id) : FittingUtils(), m_id(id), 
-      m_nVar(0), m_A(), m_B(), m_C(), m_chi2a(0.0), m_chi2b(0.0), m_chi2c(0.0)
+      m_maxIterations(0), m_tol(0.0), m_nVar(0), m_A(), m_B(), m_C(), m_chi2a(0.0), m_chi2b(0.0), m_chi2c(0.0)
     { Register(); }
 
     virtual ~Fitting() {}
@@ -136,6 +136,10 @@ namespace mesmer
     // Use the same grain numbers for for all calcuations regardless of 
     // temperature (i.e. reduce the number of times micro-rates are caluclated).
     pSys->m_Flags.useTheSameCellNumber = true;
+
+    // Set diffusive loss flag as trace fitting usually involves diffusive loss.
+    bool bIncludeDiffusiveLossEnabled = pSys->m_Flags.bIncludeDiffusiveLoss;
+    pSys->m_Flags.bIncludeDiffusiveLoss = true;
 
     // Uncomment to enable ctest output during fitting. Or use -w5 option in command.
     //ChangeErrorLevel e(obDebug); 
@@ -251,6 +255,8 @@ namespace mesmer
 
     ResultsAndStatistics(pSys, hessian) ;
 		pSys->getConditionsManager()->get_generalAnalysisData()->setCovariance(hessian);
+
+    pSys->m_Flags.bIncludeDiffusiveLoss = bIncludeDiffusiveLossEnabled;
 
     return true;
   }

@@ -1,3 +1,11 @@
+2021-June-22 Struan Robertson
+
+		* fitting.cpp: Diffusive loss term update and compliation fixes.
+		
+		* ConditionsManager.cpp: Warning added about diffusive loss.
+
+		* Test update.
+
 2021-June-13 Struan Robertson
 
 		* Documentation update.

@@ -394,6 +394,15 @@ namespace mesmer
             return false;
           }
 
+          // Check to see if diffusive loss is included and print a warning.
+          PersistPtr ppDiffLoss = ppRawData->XmlMoveTo("diffusiveLoss");
+          if (!ppDiffLoss) {
+            ppDiffLoss = ppRawData->XmlMoveTo("me:diffusiveLossArray");
+          }
+          if (ppDiffLoss) {
+            cwarn << "Note diffusinve loss terms are only included during fitting procedures." << endl;
+          }
+
           ds.m_weight = ppRawData->XmlReadDouble("weight", optional);
           if (IsNan(ds.m_weight)) {
             ds.m_weight = 1.0; // Assign a default weight of unity.
@@ -685,8 +694,8 @@ namespace mesmer
       groupMap[group].push_back(i);
     }
 
-    bool bIndependentErrors  = m_pSys->m_Flags.bIndependentErrors;
-    bool bUseTraceWeighting  = m_pSys->m_Flags.useTraceWeighting;
+    bool bIndependentErrors = m_pSys->m_Flags.bIndependentErrors;
+    bool bUseTraceWeighting = m_pSys->m_Flags.useTraceWeighting;
     bool bUpdateTraceWeights = m_pSys->m_Flags.updateTraceWeights;
 
     totalChiSquared = 0.0;
