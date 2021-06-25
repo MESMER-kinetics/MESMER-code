@@ -400,7 +400,7 @@ namespace mesmer
             ppDiffLoss = ppRawData->XmlMoveTo("me:diffusiveLossArray");
           }
           if (ppDiffLoss) {
-            cwarn << "Note diffusinve loss terms are only included during fitting procedures." << endl;
+            cinfo << "Note diffusive loss terms are only included during fitting procedures." << once << endl;
           }
 
           ds.m_weight = ppRawData->XmlReadDouble("weight", optional);
@@ -756,17 +756,16 @@ namespace mesmer
           }
 
           // Taking the residual to be the euclidian distance between functions (represented as vectors).
-          residuals[calPoint] += sqrt(localChi);
           if (bUseTraceWeighting) {
             chiSquared += localChi * dataSet.m_weight;
+            residuals[calPoint] += sqrt(localChi) * dataSet.m_weight;
+            if (bUpdateTraceWeights) {
+              dataSet.m_weight = localChi / double(signal.size() - 1);;
+            }
           }
           else {
-            if (bUpdateTraceWeights) {
-              chiSquared += localChi * dataSet.m_weight;
-            }
-            else {
-              chiSquared += localChi;
-            }
+            chiSquared += localChi;
+            residuals[calPoint] += sqrt(localChi);
             dataSet.m_weight = localChi / double(signal.size() - 1);
           }
 

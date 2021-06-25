@@ -1,3 +1,9 @@
+2021-June-25 Struan Robertson
+
+		* ConditionsManager.cpp: Gradient calculation during trace fitting corrected for weights.
+
+		* Documentation update.
+
 2021-June-22 Struan Robertson
 
 		* fitting.cpp: Diffusive loss term update and compliation fixes.
