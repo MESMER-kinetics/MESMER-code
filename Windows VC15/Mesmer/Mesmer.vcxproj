@@ -154,6 +154,7 @@
     <ClCompile Include="..\..\src\MolecularComponents.cpp" />
     <ClCompile Include="..\..\src\plugins\AnalyticalRepresentation.cpp" />
     <ClCompile Include="..\..\src\plugins\BeyerSwinehart.cpp" />
+    <ClCompile Include="..\..\src\plugins\BiExponentialDown.cpp" />
     <ClCompile Include="..\..\src\plugins\BoltzmannDistribution.cpp" />
     <ClCompile Include="..\..\src\plugins\CanonicalRateCoefficient.cpp" />
     <ClCompile Include="..\..\src\plugins\HirstWardlawPotential.cpp" />
