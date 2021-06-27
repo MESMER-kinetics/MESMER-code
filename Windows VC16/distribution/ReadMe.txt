@@ -1,6 +1,6 @@
            MESMER (Master Equation Solver for Multi Energy-well Reactions) 
 
-models the interaction between collisional energy transfer and chemical reaction
+Models the interaction between collisional energy transfer and chemical reaction
 for dissociation, isomerization and association processes.
 
 It is capable of solving the energy grained master equation (EGME) for a unimolecular
@@ -10,7 +10,6 @@ Mesmer is a command line program and should be run by first opening a DOS window
 normally with the current directory as the folder containing the input file. Then type:
 
   mesmer infile.xml
-  
   
 A Start Menu Programs item contains links to:
 
@@ -33,7 +32,5 @@ Mesmer on SourceForge: https://sourceforge.net/projects/mesmer/
 ----------------------------------------------------------------------------------------------------
 * Struan H. Robertson Univ. Leeds    struanhrobertson@gmail.com
 * Paul Seakins        Univ. Leeds    P.W.Seakins@leeds.ac.uk
-* David Glowacki      Univ. Bristol  David.R.Glowacki@bristol.ac.uk
-* Robin Shannon       Univ. Leeds    shannon.rj@gmail.com
 * Mark Blitz          Univ. Leeds    M.A.Blitzg@leeds.ac.uk
 

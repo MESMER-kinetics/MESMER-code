@@ -459,7 +459,7 @@ FunctionEnd
 ;General
 
   ;Mesmer version
-  !define MesmerVersion 6.0
+  !define MesmerVersion 6.1
 
   ;Name and file
   Name "Mesmer ${MESMERVERSION}"
