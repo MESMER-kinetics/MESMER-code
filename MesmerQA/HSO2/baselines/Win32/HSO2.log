@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.1 compiled: -- May 25 2021 -- 20:47:20
+     Mesmer v6.1 compiled: -- Jun 25 2021 -- 12:33:47
 
      Copyright (C) 2009-2021 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sat May 29 22:52:22 2021
+                     Execution Date:  Sat Jul  3 15:30:08 2021
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -72,20 +72,20 @@ In R6: --Parse data for MesmerILT
 In OH: The default value of me:DOSCMethod was used.
 In SO: The default value of me:DOSCMethod was used.
 In R6: No tunneling method used for R6
-3.37e+18PPCC, 295K at dd precision with He
+3.37e+18PPCC, 295K at qd precision with He
 The default value of the attribute Tstep was used.
 The default value of the attribute Tmin was used.
 The default value of the attribute Tmax was used.
 --Parse data for ThermodynamicTable
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20210529_225222
+Write metadata 20210703_153008
 
 File: "HSO2.xml" successfully parsed.
 Main Calculation begins
 Now calculating...
 
 --Execute calcMethod simpleCalc
-Number of cells = 50000, Number of grains = 252
+Number of cells = 50000, Number of grains = 263
 Number of grains produced is not equal to that requested for: H
 Number of grains requested: 500
 Number of grains produced : 1
@@ -100,7 +100,7 @@ In FastLaplaceConvolution: 40 values in the FFT convolution routine were replace
 In He: The default value of me:DOSCMethod was used.
 In He: The default value of the attribute spinMultiplicity was used.
 gDensityOfStates initialization failed.
- -- Total time elapsed: 6 seconds.
+ -- Total time elapsed: 49 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 6 seconds.
+Total time elapsed: 49 seconds.

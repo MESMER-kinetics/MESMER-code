@@ -320,7 +320,7 @@
   <me:conditions>
     <me:bathGas>He</me:bathGas>
     <me:PTs>
-      <me:PTpair units="PPCC" P="3.37e18" T="295" precision ="dd" />
+      <me:PTpair units="PPCC" P="3.37e18" T="295" precision ="qd" />
     </me:PTs>
     <me:InitialPopulation>
       <me:molecule ref="H" population="1.0" />
@@ -329,7 +329,7 @@
 
   <me:modelParameters>
     <me:grainSize units="cm-1">100</me:grainSize>
-    <me:energyAboveTheTopHill>5.</me:energyAboveTheTopHill>
+    <me:energyAboveTheTopHill>10.</me:energyAboveTheTopHill>
   </me:modelParameters>
 
   <me:control>

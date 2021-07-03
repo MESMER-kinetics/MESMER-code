@@ -1,5 +1,5 @@
 Initial population of H = 1
-PT Grid 0 Condition: conc = 3.37e+18, temp = 295, diagonalization precision: double-double
+PT Grid 0 Condition: conc = 3.37e+18, temp = 295, diagonalization precision: quad-double
 {
 
 Test rovibronic density of states for: TS1
@@ -153,14 +153,14 @@ Equilibrium Fraction for H = 9.07445e-21
 Equilibrium Fraction for HOSO = 1
 Equilibrium Fraction for HSO2 = 3.79205e-19
 
-Total number of eigenvalues = 420
+Total number of eigenvalues = 442
 Eigenvalues
 {
   -1.390025e+08
   -1.388425e+08
   -6.089400e-01
   -2.958772e-05
-   1.083764e-21
+  -1.256790e-32
 }
 
 Bartis Widom eigenvalue/eigenvector analysis
@@ -171,45 +171,45 @@ There should be 3 chemically significant eigenvalues (CSEs)
 
 Y_matrix:
 {
-  -1.374766e-26,   2.122251e-27,  -1.325115e-36,
+   1.706392e-26,   2.634186e-27,  -1.644764e-36,
 }
 
 Z_matrix: {
--9.414476e-11	1.453329e-11	-9.074463e-21	
-9.394863e-11	6.085870e-10	-3.792050e-19	
-1.961289e-13	-6.231211e-10	-1.000000e+00	
+9.414476e-11	1.453329e-11	-9.074463e-21	
+-9.394863e-11	6.085870e-10	-3.792050e-19	
+-1.961289e-13	-6.231211e-10	-1.000000e+00	
 }
 
 Z_matrix^(-1):
 {
--1.037470e+10	2.477519e+08	1.961289e-13	
+1.037470e+10	-2.477519e+08	-1.961289e-13	
 1.601561e+09	1.604904e+09	-6.231211e-10	
 -1.000001e+00	-1.000001e+00	-1.000000e+00	
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	2.639474e-67	-3.217223e-86	
-2.039272e-65	1.000000e+00	-2.470828e-83	
--4.154311e-65	-3.798227e-65	1.000000e+00	
+1.000000e+00	1.442300e-66	1.029512e-84	
+1.174784e-64	1.000000e+00	4.581326e-83	
+1.139468e-64	8.573830e-65	1.000000e+00	
 }
 
 Kr matrix:
 {
 -5.947671e-01	1.420256e-02	1.151173e-23	
 5.934985e-01	-1.420256e-02	2.201709e-32	
-1.268586e-03	5.806127e-14	1.072252e-21	
+1.268586e-03	5.806127e-14	-1.151174e-23	
 }
 
 Kp matrix:
 {
-   1.460269e-16,   3.276381e-27,   9.389621e-47,
+   1.812519e-16,   4.072982e-27,   9.723447e-47,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
 H loss = -5.947671e-01
-HOSO loss = 1.072252e-21
+HOSO loss = -1.151174e-23
 HSO2 loss = -1.420256e-02
 }
 
@@ -225,9 +225,9 @@ HSO2 -> HOSO = 5.806127e-14
 
 First order & pseudo first order rate coefficients for irreversible rxns:
 {
-H -> OH+SO = 1.460269e-16
-HOSO -> OH+SO = 9.389621e-47
-HSO2 -> OH+SO = 3.276381e-27
+H -> OH+SO = 1.812519e-16
+HOSO -> OH+SO = 9.723447e-47
+HSO2 -> OH+SO = 4.072982e-27
 }
 
 }
