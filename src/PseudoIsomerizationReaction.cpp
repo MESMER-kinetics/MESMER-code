@@ -82,14 +82,13 @@ namespace mesmer
       for (size_t k = rShiftedGrains, ll(0); k < rColloptrsize; ++k, ++ll) {
         size_t jj(rctLocation + k - rShiftedGrains) ;
         qd_real eqmRatio     = Keq*qd_real(pdtEq[i])/qd_real(rctEq[ll]) ;
-        (*CollOptr)[jj][ii]  = disMicroRateCoeff*qd_real(fragDist[k]) ; // Gain of pseudoisomer from adduct.
-        (*CollOptr)[ii][jj]  = (*CollOptr)[jj][ii]*eqmRatio ;           // Gain of adduct from pseudoisomer.
-        (*CollOptr)[jj][jj] -= (*CollOptr)[ii][jj] ;                    // Loss from pseudoisomer to adduct.
+        qd_real Cji          = disMicroRateCoeff*qd_real(fragDist[k]) ; // Gain of pseudoisomer from adduct.
+        (*CollOptr)[jj][jj] -= Cji * eqmRatio;                          // Loss from pseudoisomer to adduct.
 
         // Symmetrize system.
 
-        (*CollOptr)[jj][ii] *= sqrt(eqmRatio) ;  
-        (*CollOptr)[ii][jj]  = (*CollOptr)[jj][ii] ; 
+        (*CollOptr)[jj][ii] += Cji*sqrt(eqmRatio) ;
+        (*CollOptr)[ii][jj]  = (*CollOptr)[jj][ii] ; // Gain of adduct from pseudoisomer.
       }
     }
 

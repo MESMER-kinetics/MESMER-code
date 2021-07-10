@@ -141,7 +141,7 @@ namespace mesmer
       qd_real Flux(m_GrainFlux[i]), qMeanOmega(rMeanOmega), rDos(rctDOS[k]), pDos(pdtDOS[j]) ;
       (*CollOptr)[ii][ii] -= qMeanOmega * Flux / rDos;               // Forward loss reaction.
       (*CollOptr)[jj][jj] -= qMeanOmega * Flux / pDos ;              // Backward loss reaction from detailed balance.
-      (*CollOptr)[ii][jj]  = qMeanOmega * Flux / sqrt(rDos * pDos) ; // Reactive gain.
+      (*CollOptr)[ii][jj] += qMeanOmega * Flux / sqrt(rDos * pDos) ; // Reactive gain.
       (*CollOptr)[jj][ii]  = (*CollOptr)[ii][jj] ;                   // Reactive gain.
     }
 

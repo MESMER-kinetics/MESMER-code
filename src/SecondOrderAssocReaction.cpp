@@ -115,9 +115,9 @@ namespace mesmer
       int ii(pdtRxnOptPos + i);
       int kk(i - pShiftedGrains);
       qd_real Flux(m_GrainFlux[j]), dos(pdtDOS[i]), addPop(adductPopFrac[kk]);
-      (*CollOptr)[ii][ii] -= qdMeanOmega * Flux / dos;                                 // Loss of the adduct to the source
-      (*CollOptr)[jj][ii] = qdMeanOmega * Flux * qd_real(2.0) * sqrt(Keq * addPop) / dos; // Reactive gain of the source
-      (*CollOptr)[ii][jj] = (*CollOptr)[jj][ii];                                      // Reactive gain (symmetrization)
+      (*CollOptr)[ii][ii] -= qdMeanOmega * Flux / dos;                                     // Loss of the adduct to the source
+      (*CollOptr)[jj][ii] += qdMeanOmega * Flux * qd_real(2.0) * sqrt(Keq * addPop) / dos; // Reactive gain of the source
+      (*CollOptr)[ii][jj]  = (*CollOptr)[jj][ii];                                          // Reactive gain (symmetrization)
       DissRateCoeff += Flux * addPop / dos;
     }
     (*CollOptr)[jj][jj] -= qd_real(4.0) * qdMeanOmega * DissRateCoeff * Keq;           // Loss of the source from detailed balance.

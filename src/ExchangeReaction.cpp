@@ -329,9 +329,9 @@ namespace mesmer
     for (size_t i(0), j(0); i < pColloptrsize; ++i, ++j) {
       size_t ii(pdtLocation + i);
       qd_real dist(totalFragDist[i]), bltz(pdtBltz[i]);
-      (*CollOptr)[ii][ii] -= diag * dist / bltz;          // Loss of the adduct to the source
-      (*CollOptr)[jj][ii] = offDiag * dist / sqrt(bltz);  // Reactive gain of the source
-      (*CollOptr)[ii][jj] = (*CollOptr)[jj][ii];          // Reactive gain (symmetrization)
+      (*CollOptr)[ii][ii] -= diag * dist / bltz;           // Loss of the adduct to the source
+      (*CollOptr)[jj][ii] += offDiag * dist / sqrt(bltz);  // Reactive gain of the source
+      (*CollOptr)[ii][jj]  = (*CollOptr)[jj][ii];          // Reactive gain (symmetrization)
     }
 
     // Return any resources used.

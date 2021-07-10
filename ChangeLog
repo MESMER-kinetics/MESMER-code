@@ -1,3 +1,9 @@
+2021-July-10 Struan Robertson
+
+		* <Reversible>Reaction.cpp classes: Modifications relating to multiple transition states.
+
+		* Regression test update.
+
 2021-June-25 Struan Robertson
 
 		* ConditionsManager.cpp: Gradient calculation during trace fitting corrected for weights.
