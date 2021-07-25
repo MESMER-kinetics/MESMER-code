@@ -1121,7 +1121,7 @@ namespace mesmer
     size_t smsize = m_eigenvectors->size();
     vector<qd_real> r_0(smsize, 0.);
     if (!projectedInitialDistrbtn(r_0)) {
-      cerr << "Projection of initial disttribution failed.";
+      cerr << "Projection of initial distribution failed.";
       return false;
     }
 
@@ -1248,7 +1248,7 @@ namespace mesmer
       stest << endl << "Print time dependent species and product profiles" << endl << "{" << endl;
       int numberOfSpecies = static_cast<int>(m_isomers.size() + m_sources.size() + m_sinkRxns.size());
 
-      vector<vector<double> > speciesProfile(numberOfSpecies, vector<double>(maxTimeStep));
+      vector<vector<double> > speciesProfile(numberOfSpecies, vector<double>(maxTimeStep, 0.0));
       int speciesProfileidx(0);
 
       stest << setw(16) << "Timestep/s";
@@ -1295,8 +1295,8 @@ namespace mesmer
       size_t fluxIdx(0);
 
       // Iterate through sink map to get product profile vs t.
-      // SHR 26/Mar/2017: This section involves a very crude integration 
-      // over time and is in need of review.
+      // SHR 25/July/2021: This section has a lot in common with the
+      // calculateYield method, so there may be an opportunity to refactor.
       sinkMap::iterator pos;
       for (pos = m_sinkRxns.begin(); pos != m_sinkRxns.end(); ++pos) {
         Reaction* sinkReaction = pos->first;
@@ -1312,33 +1312,23 @@ namespace mesmer
         int rxnMatrixLoc = pos->second;  // Get sink location.
         double TimeIntegratedProductPop(0.0);
 
-        double lastTime(0.0);
         for (size_t timestep(0); timestep < maxTimeStep; ++timestep) {
-          double deltat = timePoints[timestep] - lastTime;
-          lastTime = timePoints[timestep];
+          vector<qd_real> P_t(smsize, double(0.0));
+          double time = timePoints[timestep];
+          for (size_t j(0); j < smsize; ++j) {
+            qd_real tmp = m_meanOmega * m_eigenvalues[j];
+            P_t[j] = r_0[j] * (exp(tmp * time) - 1.0) / tmp;
+          }
+
+          P_t *= totalEigenVecs;
+
           for (size_t i(0); i < KofEs.size(); ++i) {
-            speciesProfile[speciesProfileidx][timestep] += KofEs[i] * grnProfile[i + rxnMatrixLoc][timestep] * deltat;
+            speciesProfile[speciesProfileidx][timestep] += to_double(KofEs[i] * P_t[i + rxnMatrixLoc]);
             sinkFluxProfile[fluxIdx][timestep] += KofEs[i] * grnProfile[i + rxnMatrixLoc][timestep];
           }
-          TimeIntegratedProductPop += speciesProfile[speciesProfileidx][timestep];
-          speciesProfile[speciesProfileidx][timestep] = TimeIntegratedProductPop;
         }
         ++speciesProfileidx;
         ++fluxIdx;
-      }
-
-      if (pdtProfileStartIdx < speciesProfileidx) {
-        for (size_t timestep(0); timestep < maxTimeStep; ++timestep) {    // normalize product profile to account for small
-          double normConst(0.0);                          // numerical errors in TimeIntegratedProductPop
-          double pdtYield(0.0);
-          for (int i(pdtProfileStartIdx); i < speciesProfileidx; ++i) {   // calculate normalization constant
-            pdtYield += speciesProfile[i][timestep];
-          }
-          normConst = totalPdtPop[timestep] / pdtYield;
-          for (int i(pdtProfileStartIdx); i < speciesProfileidx; ++i) {   // apply normalization constant
-            speciesProfile[i][timestep] *= normConst;
-          }
-        }
       }
 
       // Write to stest and (ultimately) XML.
@@ -2154,25 +2144,18 @@ namespace mesmer
 
     // Get initial distribution.
     size_t smsize = m_eigenvalues.size();
-    vector<qd_real> p_0(smsize, qd_real(0.0));
-    if (!produceInitialPopulationVector(p_0)) {
-      throw std::runtime_error("Calculation of initial conditions vector failed.");
+    vector<qd_real> wrk(smsize, qd_real(0.0));
+    if (!projectedInitialDistrbtn(wrk)) {
+      throw std::runtime_error("Projection of initial distribution failed.");
     }
-
-    vector<qd_real> wrk(smsize, 0.0);
-    for (size_t j(0); j < smsize; ++j) {
-      wrk[j] = p_0[j] / m_eqVector[j];
-    }
-
-    (*m_eigenvectors).Transpose();
-    wrk *= (*m_eigenvectors);
 
     if (time > 0.0) {
 
       // Experimental time.
 
       for (size_t j(0); j < smsize; ++j) {
-        wrk[j] *= (exp(m_meanOmega * m_eigenvalues[j] * time) - 1.0) / (m_meanOmega * m_eigenvalues[j]);
+        qd_real tmp = m_meanOmega * m_eigenvalues[j];
+        wrk[j] *= (exp(tmp * time) - 1.0) / tmp;
       }
     }
     else {
@@ -2184,13 +2167,9 @@ namespace mesmer
       }
     }
 
-    (*m_eigenvectors).Transpose();
     wrk *= (*m_eigenvectors);
-
-    double sum(0.0);
     for (size_t j(0); j < smsize; ++j) {
       wrk[j] *= m_eqVector[j];
-      sum += to_double(wrk[j]);
     }
 
     sinkMap::const_iterator sinkitr = m_sinkRxns.begin();
