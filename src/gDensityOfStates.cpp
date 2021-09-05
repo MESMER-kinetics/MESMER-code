@@ -814,6 +814,7 @@ namespace mesmer
       beta = 1.0 / (boltzmann_RCpK*temp);
     }
     else {
+      thermos.ResetFns();
       return false;
     }
 

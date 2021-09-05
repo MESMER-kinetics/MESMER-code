@@ -21,7 +21,7 @@
 #include "CollisionOperator.h"
 #include "ParallelManager.h"
 
-#define MESMER_VERSION "6.1"
+#define MESMER_VERSION "6.2"
 
 namespace mesmer
 {

@@ -1,3 +1,9 @@
+2021-September-05 Struan Robertson
+
+		* gDensityOfStates.h/.cpp: Fixed for thermodynamic functions at 0 K.
+
+		* System.h: Version update.
+
 2021-July-25 Struan Robertson
 
 		* CollisionOperator.cpp: Replaced numerical integration of sink product distribution 
