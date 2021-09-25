@@ -120,7 +120,7 @@ namespace mesmer
           maxEnergy = max(maxEnergy, collidingMolZPE);
         }
 
-        //calculate the lowest barrier associated with this well(species)
+        // Calculate the lowest barrier associated with this well(species).
         if (TS_ZPE != INFIMUM) {
           const double barrierHeight = TS_ZPE - collidingMolZPE;
           if (barrierHeight < pCollidingMolecule->getColl().getLowestBarrier()) {
@@ -184,12 +184,13 @@ namespace mesmer
       IrreversibleUnimolecularReaction* pDissnRtn = dynamic_cast<IrreversibleUnimolecularReaction*>(pReaction);
       if (pDissnRtn) {
         const double rctZPE = pDissnRtn->get_reactant()->getDOS().get_zpe();
-        double barrierZPE = rctZPE + pDissnRtn->get_ThresholdEnergy();
+        double threshold = pDissnRtn->get_ThresholdEnergy();
+        double barrierZPE = rctZPE + threshold;
         minEnergy = min(minEnergy, barrierZPE);
         maxEnergy = max(maxEnergy, barrierZPE);
 
         // Calculate the lowest barrier associated with this well(species).
-        if (barrierZPE < unimolecules[0]->getColl().getLowestBarrier()) {
+        if (threshold < unimolecules[0]->getColl().getLowestBarrier()) {
           unimolecules[0]->getColl().setLowestBarrier(barrierZPE);
         }
       }

@@ -1,3 +1,11 @@
+2021-September-25 Struan Robertson
+
+		* CollisionOperator.cpp: Fixed for reservoir state and dissociation reaction.
+
+		* mesmer1.xsl: Fix for Cantera format.
+
+		* Documentation update.
+
 2021-September-05 Struan Robertson
 
 		* gDensityOfStates.h/.cpp: Fixed for thermodynamic functions at 0 K.
