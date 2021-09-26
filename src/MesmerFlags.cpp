@@ -30,7 +30,6 @@ namespace mesmer{
     printReactionOperatorNum(0),
 	  printSinkFluxes(false),
     allowSmallerDEDown(false),
-    print_TabbedMatrices(true),
     showCollisionOperator(0),
     useDOSweightedDT(false),
     punchSymbols(),

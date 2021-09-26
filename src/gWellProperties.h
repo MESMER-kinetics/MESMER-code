@@ -144,16 +144,19 @@ namespace mesmer
     if (!rawTransitionMatrix(env, gEne, gDOS, egme)) return false;
 
     if (m_host->getFlags().showCollisionOperator != 0){
-      stest << "\nCollision operator of " << m_host->getName() << " before normalization:\n";
-      egme->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
+      stringstream ss;
+      ss << endl << "Collision operator of " << m_host->getName() << " before normalization:" << endl;
+      egme->print(ss.str(), stest);
+
     }
 
     //Normalisation
     egme->normalizeProbabilityMatrix();
 
     if (m_host->getFlags().showCollisionOperator >= 1){
-      stest << "\nCollision operator of " << m_host->getName() << " after normalization:\n";
-      egme->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
+      stringstream ss;
+      ss << endl << "Collision operator of " << m_host->getName() << " after normalization:" << endl;
+      egme->print(ss.str(), stest);
     }
 
     // If requested write out column sums etc. to check normalization results.
@@ -196,8 +199,9 @@ namespace mesmer
     }
 
     if (m_host->getFlags().showCollisionOperator >= 2){
-      stest << "Collision operator of " << m_host->getName() << " after :\n";
-      egme->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
+      stringstream ss;
+      ss << endl << "Collision operator of " << m_host->getName() << " after :" << endl;
+      egme->print(ss.str(), stest);
     }
 
     m_ncolloptrsize = reducedCollOptrSize;

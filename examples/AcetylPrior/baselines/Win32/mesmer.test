@@ -10039,11 +10039,12 @@ PT Grid 0 Condition: conc = 2.59235e+18, temp = 298, diagonalization precision: 
 
 Eq fraction matrix:
 {
-  1.00000e+00
+   1.000000e+00,
 }
-inverse of Eq fraction matrix:
+
+Inverse of Eq fraction matrix:
 {
-  1.00000e+00
+   1.000000e+00,
 }
 Equilibrium Fraction for acetyl = 1
 
@@ -10307,23 +10308,24 @@ Y_matrix:
   -3.596000e+07,
 }
 
-Z_matrix: {
--1.000000e+00	
+Z_matrix: 
+{
+  -1.000000e+00,
 }
 
 Z_matrix^(-1):
 {
--1.000000e+00	
+  -1.000000e+00,
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	
+   1.000000e+00,
 }
 
 Kr matrix:
 {
--3.596000e+07	
+  -3.596000e+07,
 }
 
 Kp matrix:

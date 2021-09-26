@@ -44,7 +44,6 @@ namespace mesmer
                                            // by positive integers.
     bool   printSinkFluxes;                // Prints the fluxes into each sink from each isomer or pseudoisomer.
     bool   allowSmallerDEDown;             // decide whether allows <delta E>d to be smaller than grain size.
-    bool   print_TabbedMatrices;           // print tabbed instead of fixed-widthed matrices.
     int    showCollisionOperator;          // Show collision operator before and after normalization for each well.
                                            // 1: after normalization, 2: after deducting with I
                                            // 0 or anything else: before normalization

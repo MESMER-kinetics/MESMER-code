@@ -809,8 +809,9 @@ namespace mesmer
 
       qdMatrix backup(eqMatrix);  //backup EqMatrix for error reporting
 
-      stest << endl << "Eq fraction matrix:" << endl;
-      backup.showFinalBits(counter);
+      stringstream ss;
+      ss << "Eq fraction matrix:";
+      backup.print(ss.str(), stest);
 
       if (bSecondOrderFlag) {
         iterativeEquiSln(eqMatrix, eqFraction, idxr, idxs);
@@ -821,8 +822,9 @@ namespace mesmer
         eqFraction *= eqMatrix;
       }
 
-      stest << "inverse of Eq fraction matrix:" << endl;
-      eqMatrix.showFinalBits(counter);
+      ss.str("");
+      ss << "Inverse of Eq fraction matrix:";
+      eqMatrix.print(ss.str(), stest);
     }
 
     //eqFraction = testEqFraction;
@@ -1084,28 +1086,30 @@ namespace mesmer
   {
     const int smsize = int(m_reactionOperator->size());
 
+    stringstream ss;
     switch (mFlags.printReactionOperatorNum)
     {
     case -1:
-      stest << "Printing all (" << smsize << ") columns/rows of the Reaction Operator:\n";
-      (*m_reactionOperator).showFinalBits(smsize, mFlags.print_TabbedMatrices);
+      ss << "Printing all (" << smsize << ") columns/rows of the Reaction Operator:\n";
+      (*m_reactionOperator).print(ss.str(), stest);
       break;
     case -2:
-      stest << "Printing final 1/2 (" << smsize / 2 << ") columns/rows of the Reaction Operator:\n";
-      (*m_reactionOperator).showFinalBits(smsize / 2, mFlags.print_TabbedMatrices);
+      ss << "Printing final 1/2 (" << smsize / 2 << ") columns/rows of the Reaction Operator:\n";
+      (*m_reactionOperator).print(ss.str(), stest, smsize, smsize, smsize/2, smsize/2);
       break;
     case -3:
-      stest << "Printing final 1/3 (" << smsize / 3 << ") columns/rows of the Reaction Operator:\n";
-      (*m_reactionOperator).showFinalBits(smsize / 3, mFlags.print_TabbedMatrices);
+      ss << "Printing final 1/3 (" << smsize / 3 << ") columns/rows of the Reaction Operator:\n";
+      (*m_reactionOperator).print(ss.str(), stest, smsize, smsize, 2*smsize/3, 2*smsize/3);
       break;
-    default: // the number is either smaller than -3 or positive
-      if (abs(mFlags.printReactionOperatorNum) > smsize) {
-        stest << "Printing all (" << smsize << ") columns/rows of the Reaction Operator:\n";
-        (*m_reactionOperator).showFinalBits(smsize, mFlags.print_TabbedMatrices);
+    default: // The number is either smaller than -3 or positive.
+      const int ll = abs(mFlags.printReactionOperatorNum) ;
+      if (ll > smsize) {
+        ss << "Printing all (" << smsize << ") columns/rows of the Reaction Operator:\n";
+        (*m_reactionOperator).print(ss.str(), stest);
       }
       else {
-        stest << "Printing final " << abs(mFlags.printReactionOperatorNum) << " columns/rows of the Reaction Operator:\n";
-        (*m_reactionOperator).showFinalBits(abs(mFlags.printReactionOperatorNum), mFlags.print_TabbedMatrices);
+        ss << "Printing final " << smsize - ll << " columns/rows of the Reaction Operator:\n";
+        (*m_reactionOperator).print(ss.str(), stest, smsize, smsize, smsize - ll, smsize- ll);
       }
     }
   }
@@ -1693,8 +1697,8 @@ namespace mesmer
         // Apply standard inversion method.
 
         if (Zinv.invertLUdecomposition()) {
-          cerr << "Inversion of Z_matrix failed.  Matrix before inversion is: ";
-          Z_matrix.showFinalBits(nchem);
+          string MatrixTitle("Inversion of Z_matrix failed.Matrix before inversion is : \n");
+          Z_matrix.print(MatrixTitle, stest);
         }
 
       }
@@ -1739,21 +1743,24 @@ namespace mesmer
 
       }
 
-      stest << "\nZ_matrix: ";
-      Z_matrix.showFinalBits(nchem, true);
+      stringstream ss;
+      ss << "Z_matrix: ";
+      Z_matrix.print(ss.str(), stest);
 
       // Print out the ratio matrix if required.
 
       if (mFlags.printZMatrixRatios)
         printRatioMatrix(Z_matrix, speciesPopn);
 
-      stest << endl << "Z_matrix^(-1):" << endl;
-      Zinv.showFinalBits(nchem, true);
+      ss.str("");
+      ss << "Z_matrix^(-1):";
+      Zinv.print(ss.str(), stest);
 
       qdMatrix Zidentity = Z_matrix * Zinv;
 
-      stest << "\nZ_matrix * Z_matrix^(-1) [Identity matrix]:" << endl;
-      Zidentity.showFinalBits(nchem, true);
+      ss.str("");
+      ss << "Z_matrix * Z_matrix^(-1) [Identity matrix]:";
+      Zidentity.print(ss.str(), stest);
 
       // Construct phenomenological rate coefficient matrix.
 
@@ -1763,8 +1770,11 @@ namespace mesmer
       }
       qdMatrix Kr = Z_matrix * Egv * Zinv;
 
-      stest << "\nKr matrix:" << endl;
-      Kr.showFinalBits(nchem, true);       // Print out Kr_matrix
+      // Print out Kr_matrix
+
+      ss.str("");
+      ss << "Kr matrix:";
+      Kr.print(ss.str(), stest);
 
       // Construct loss matrix.
 

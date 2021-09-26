@@ -158,8 +158,6 @@ namespace mesmer
     // Write matrix to an XML stream.
     void WriteToXML(PersistPtr pp) const;
 
-    void showFinalBits(const size_t n, bool isTabbed = false);
-
     //
     // EISPACK methods for diagonalizing matrix.
     //
@@ -978,38 +976,6 @@ namespace mesmer
     // is all space separated. Both form are read identically.
     ppmatrix->XmlWriteAttribute("matrixType", "squareSymmetricLT");
     ppmatrix->XmlWriteAttribute("rows", toString(this->size()));
-  }
-
-  template<class T>
-  void TMatrix<T>::showFinalBits(const size_t n, bool isTabbed) {
-
-    size_t size = this->size();
-
-    // if n == 0, print the whole matrix
-    size_t fb(n);
-    if (n == 0) fb = size;
-
-    //
-    // Show the final n x n square of the current matrix
-    //
-    stest << "{\n";
-    if (!isTabbed) {
-      for (size_t i = size - fb; i < size; ++i) {
-        for (size_t j = size - fb; j < size; ++j) {
-          stest << formatFloat((*this)[i][j], 5, 13);
-        }
-        stest << endl;
-      }
-    }
-    else {
-      for (size_t i = size - fb; i < size; ++i) {
-        for (size_t j = size - fb; j < size; ++j) {
-          stest << (*this)[i][j] << "\t";
-        }
-        stest << endl;
-      }
-    }
-    stest << "}\n";
   }
 
   // Read a square CML <matrix>:

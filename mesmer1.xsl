@@ -312,14 +312,14 @@
               <xsl:value-of select="concat('thermo = (',
               'NASA([',format-number(cml:scalar[@dictRef='NasaLowT'], '#.##'),',',
                         format-number(cml:scalar[@dictRef='NasaMidT'], '#.##'),'],[')"/>
-              <xsl:for-each select="$lowercoeffs">
+              <xsl:for-each select="$uppercoeffs">
                 <xsl:value-of select="."/>
                 <xsl:if test="position() != last()">,</xsl:if>
               </xsl:for-each>]),
           <xsl:value-of select="concat(
           'NASA([',format-number(cml:scalar[@dictRef='NasaMidT'], '#.##'),',',
                     format-number(cml:scalar[@dictRef='NasaHighT'], '#.##'),'],[')"/>
-          <xsl:for-each select="$uppercoeffs">
+          <xsl:for-each select="$lowercoeffs">
             <xsl:value-of select="."/>
             <xsl:if test="position() != last()">,</xsl:if>
           </xsl:for-each>]))

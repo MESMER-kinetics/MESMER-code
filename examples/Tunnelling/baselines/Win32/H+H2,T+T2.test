@@ -50008,11 +50008,12 @@ Canonical pseudo first order forward rate constant of irreversible reaction R2 =
 
 Eq fraction matrix:
 {
-  1.00000e+00
+   1.000000e+00,
 }
-inverse of Eq fraction matrix:
+
+Inverse of Eq fraction matrix:
 {
-  1.00000e+00
+   1.000000e+00,
 }
 Equilibrium Fraction for Cl2-H = 1
 
@@ -50202,23 +50203,24 @@ Y_matrix:
   -2.305828e+05,
 }
 
-Z_matrix: {
--1.000000e+00	
+Z_matrix: 
+{
+  -1.000000e+00,
 }
 
 Z_matrix^(-1):
 {
--1.000000e+00	
+  -1.000000e+00,
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	
+   1.000000e+00,
 }
 
 Kr matrix:
 {
--2.305845e+05	
+  -2.305845e+05,
 }
 
 Kp matrix:
@@ -50244,11 +50246,12 @@ Canonical pseudo first order forward rate constant of irreversible reaction R2 =
 
 Eq fraction matrix:
 {
-  1.00000e+00
+   1.000000e+00,
 }
-inverse of Eq fraction matrix:
+
+Inverse of Eq fraction matrix:
 {
-  1.00000e+00
+   1.000000e+00,
 }
 Equilibrium Fraction for Cl2-H = 1
 
@@ -50438,23 +50441,24 @@ Y_matrix:
   -7.435310e+06,
 }
 
-Z_matrix: {
--1.000000e+00	
+Z_matrix: 
+{
+  -1.000000e+00,
 }
 
 Z_matrix^(-1):
 {
--1.000000e+00	
+  -1.000000e+00,
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	
+   1.000000e+00,
 }
 
 Kr matrix:
 {
--7.447851e+06	
+  -7.447851e+06,
 }
 
 Kp matrix:
@@ -50480,11 +50484,12 @@ Canonical pseudo first order forward rate constant of irreversible reaction R2 =
 
 Eq fraction matrix:
 {
-  1.00000e+00
+   1.000000e+00,
 }
-inverse of Eq fraction matrix:
+
+Inverse of Eq fraction matrix:
 {
-  1.00000e+00
+   1.000000e+00,
 }
 Equilibrium Fraction for Cl2-H = 1
 
@@ -50674,23 +50679,24 @@ Y_matrix:
   -8.326412e+07,
 }
 
-Z_matrix: {
--1.000000e+00	
+Z_matrix: 
+{
+  -1.000000e+00,
 }
 
 Z_matrix^(-1):
 {
--1.000000e+00	
+  -1.000000e+00,
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	
+   1.000000e+00,
 }
 
 Kr matrix:
 {
--9.488534e+07	
+  -9.488534e+07,
 }
 
 Kp matrix:
@@ -50716,11 +50722,12 @@ Canonical pseudo first order forward rate constant of irreversible reaction R2 =
 
 Eq fraction matrix:
 {
-  1.00000e+00
+   1.000000e+00,
 }
-inverse of Eq fraction matrix:
+
+Inverse of Eq fraction matrix:
 {
-  1.00000e+00
+   1.000000e+00,
 }
 Equilibrium Fraction for Cl2-H = 1
 
@@ -50910,23 +50917,24 @@ Y_matrix:
    1.003185e+08,
 }
 
-Z_matrix: {
-1.000000e+00	
+Z_matrix: 
+{
+   1.000000e+00,
 }
 
 Z_matrix^(-1):
 {
-1.000000e+00	
+   1.000000e+00,
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	
+   1.000000e+00,
 }
 
 Kr matrix:
 {
--1.690723e+08	
+  -1.690723e+08,
 }
 
 Kp matrix:

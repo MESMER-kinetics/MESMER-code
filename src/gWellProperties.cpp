@@ -235,8 +235,9 @@ namespace mesmer
 
     bool reportBasisSetDetails(false);
     if (reportBasisSetDetails) {
-      stest << "\nEigenvectors of: " << m_host->getName() << endl;
-      m_egvec->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
+      stringstream ss;
+      ss << "\nEigenvectors of: " << m_host->getName() << endl;
+      m_egvec->print(ss.str(), stest);
 
       // The eigenvalues in this series should contain a zero eigenvalue as 
       // energy transfer operators are conservative.

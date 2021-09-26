@@ -6508,13 +6508,14 @@ Canonical first order rate constant for the reverse of reaction R1 = 4.53606e-63
 
 Eq fraction matrix:
 {
- -1.52128e+69  1.00000e+00
-  1.00000e+00  1.00000e+00
+  -1.521279e+69,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
 }
-inverse of Eq fraction matrix:
+
+Inverse of Eq fraction matrix:
 {
- -6.57341e-70  6.57341e-70
-  6.57341e-70  1.00000e+00
+  -6.573415e-70,   6.573415e-70,
+   6.573415e-70,   1.000000e+00,
 }
 Equilibrium Fraction for butan-1-ol = 1
 Equilibrium Fraction for butoxy = 6.57341e-70
@@ -6525,27 +6526,28 @@ Number of sinks in this system: 0
 
 There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
 
-Z_matrix: {
-2.491159e-31	6.205873e-62	
--2.491159e-31	1.000000e+00	
+Z_matrix: 
+{
+   2.491159e-31,   6.205873e-62,
+  -2.491159e-31,   1.000000e+00,
 }
 
 Z_matrix^(-1):
 {
-4.014196e+30	-2.491159e-31	
-1.000000e+00	1.000000e+00	
+   4.014196e+30,  -2.491159e-31,
+   1.000000e+00,   1.000000e+00,
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	-2.954553e-126	
--7.442719e-65	1.000000e+00	
+   1.000000e+00, -2.954553e-126,
+  -7.442719e-65,   1.000000e+00,
 }
 
 Kr matrix:
 {
--6.761655e+06	4.196198e-55	
-6.761655e+06	-4.196198e-55	
+  -6.761655e+06,   4.196198e-55,
+   6.761655e+06,  -4.196198e-55,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:

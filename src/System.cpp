@@ -323,7 +323,6 @@ namespace mesmer
         m_Flags.InitialDistEnabled = ppControl->XmlReadBoolean("me:printInitialDistribution");
         m_Flags.viewEvents = ppControl->XmlReadBoolean("me:printEventsTimeStamps");
         m_Flags.allowSmallerDEDown = ppControl->XmlReadBoolean("me:allowSmallerDeltaEDown");
-        m_Flags.print_TabbedMatrices = ppControl->XmlReadBoolean("me:printTabbedMatrices");
         m_Flags.useDOSweightedDT = ppControl->XmlReadBoolean("me:useDOSweighedDownWardTransition");
         m_Flags.bForceMacroDetailedBalance = ppControl->XmlReadBoolean("me:ForceMacroDetailedBalance");
         m_Flags.useOrigFreqForZPECorrection = ppControl->XmlReadBoolean("me:useOrigFreqForZPECorrection");
