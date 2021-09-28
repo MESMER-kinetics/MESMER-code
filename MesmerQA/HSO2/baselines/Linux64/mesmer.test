@@ -523,13 +523,14 @@ Canonical (high pressure) rate coefficients for R1, calculated from microcanonic
 
 Eq fraction matrix:
 {
- -1.40684e+07  1.00000e+00
-  1.00000e+00  1.00000e+00
+  -1.406843e+07,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
 }
-inverse of Eq fraction matrix:
+
+Inverse of Eq fraction matrix:
 {
- -7.10811e-08  7.10811e-08
-  7.10811e-08  1.00000e+00
+  -7.108111e-08,   7.108111e-08,
+   7.108111e-08,   9.999999e-01,
 }
 Equilibrium Fraction for H = 7.10811e-08
 Equilibrium Fraction for HSO2 = 1
@@ -805,27 +806,28 @@ Number of sinks in this system: 0
 
 There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
 
-Z_matrix: {
-1.840032e-17	3.385720e-34	
--1.840032e-17	1.000000e+00	
+Z_matrix: 
+{
+   1.840032e-17,   3.385720e-34,
+  -1.840032e-17,   1.000000e+00,
 }
 
 Z_matrix^(-1):
 {
-5.434687e+16	-1.840032e-17	
-1.000000e+00	1.000000e+00	
+   5.434687e+16,  -1.840032e-17,
+   1.000000e+00,   1.000000e+00,
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	3.017487e-98	
-1.050447e-64	1.000000e+00	
+   1.000000e+00,   3.017487e-98,
+   1.050447e-64,   1.000000e+00,
 }
 
 Kr matrix:
 {
--1.364045e+00	4.618275e-34	
-1.364045e+00	-4.618275e-34	
+  -1.364045e+00,   4.618275e-34,
+   1.364045e+00,  -4.618275e-34,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -1364,13 +1366,14 @@ Canonical (high pressure) rate coefficients for R1, calculated from microcanonic
 
 Eq fraction matrix:
 {
- -1.40684e+07  1.00000e+00
-  1.00000e+00  1.00000e+00
+  -1.406843e+07,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
 }
-inverse of Eq fraction matrix:
+
+Inverse of Eq fraction matrix:
 {
- -7.10811e-08  7.10811e-08
-  7.10811e-08  1.00000e+00
+  -7.108111e-08,   7.108111e-08,
+   7.108111e-08,   9.999999e-01,
 }
 Equilibrium Fraction for H = 7.10811e-08
 Equilibrium Fraction for HSO2 = 1
@@ -1646,27 +1649,28 @@ Number of sinks in this system: 0
 
 There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
 
-Z_matrix: {
--2.666104e-04	7.108111e-08	
-2.666104e-04	9.999999e-01	
+Z_matrix: 
+{
+  -2.666104e-04,   7.108111e-08,
+   2.666104e-04,   9.999999e-01,
 }
 
 Z_matrix^(-1):
 {
--3.750791e+03	2.666104e-04	
-1.000000e+00	1.000000e+00	
+  -3.750791e+03,   2.666104e-04,
+   1.000000e+00,   1.000000e+00,
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	2.263920e-72	
-5.697341e-65	1.000000e+00	
+   1.000000e+00,   2.263920e-72,
+   5.697341e-65,   1.000000e+00,
 }
 
 Kr matrix:
 {
--1.364045e+00	9.695786e-08	
-1.364045e+00	-9.695786e-08	
+  -1.364045e+00,   9.695786e-08,
+   1.364045e+00,  -9.695786e-08,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -2205,13 +2209,14 @@ Canonical (high pressure) rate coefficients for R1, calculated from microcanonic
 
 Eq fraction matrix:
 {
- -1.40684e+07  1.00000e+00
-  1.00000e+00  1.00000e+00
+  -1.406843e+07,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
 }
-inverse of Eq fraction matrix:
+
+Inverse of Eq fraction matrix:
 {
- -7.10811e-08  7.10811e-08
-  7.10811e-08  1.00000e+00
+  -7.108111e-08,   7.108111e-08,
+   7.108111e-08,   9.999999e-01,
 }
 Equilibrium Fraction for H = 7.10811e-08
 Equilibrium Fraction for HSO2 = 1
@@ -2487,27 +2492,28 @@ Number of sinks in this system: 0
 
 There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
 
-Z_matrix: {
--2.666104e-04	7.108111e-08	
-2.666104e-04	9.999999e-01	
+Z_matrix: 
+{
+  -2.666104e-04,   7.108111e-08,
+   2.666104e-04,   9.999999e-01,
 }
 
 Z_matrix^(-1):
 {
--3.750791e+03	2.666104e-04	
-1.000000e+00	1.000000e+00	
+  -3.750791e+03,   2.666104e-04,
+   1.000000e+00,   1.000000e+00,
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	1.131960e-71	
-1.519291e-64	1.000000e+00	
+   1.000000e+00,   1.131960e-71,
+   1.519291e-64,   1.000000e+00,
 }
 
 Kr matrix:
 {
--1.364045e+00	9.695786e-08	
-1.364045e+00	-9.695786e-08	
+  -1.364045e+00,   9.695786e-08,
+   1.364045e+00,  -9.695786e-08,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:

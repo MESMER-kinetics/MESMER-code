@@ -613,13 +613,14 @@ Canonical (high pressure) rate coefficients for R1, calculated from microcanonic
 
 Eq fraction matrix:
 {
- -7.67212e+00  1.00000e+00
-  1.00000e+00  1.00000e+00
+  -7.672116e+00,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
 }
-inverse of Eq fraction matrix:
+
+Inverse of Eq fraction matrix:
 {
- -1.15312e-01  1.15312e-01
-  1.15312e-01  8.84688e-01
+  -1.153121e-01,   1.153121e-01,
+   1.153121e-01,   8.846879e-01,
 }
 Equilibrium Fraction for 1-pentyl = 0.115312
 Equilibrium Fraction for 2-pentyl = 0.884688
@@ -1011,27 +1012,28 @@ Number of sinks in this system: 0
 
 There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
 
-Z_matrix: {
--3.196209e-01	1.154971e-01	
-3.196209e-01	8.845029e-01	
+Z_matrix: 
+{
+  -3.196209e-01,   1.154971e-01,
+   3.196209e-01,   8.845029e-01,
 }
 
 Z_matrix^(-1):
 {
--2.767350e+00	3.613565e-01	
-1.000000e+00	1.000000e+00	
+  -2.767350e+00,   3.613565e-01,
+   1.000000e+00,   1.000000e+00,
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	0.000000e+00	
--2.848670e-65	1.000000e+00	
+   1.000000e+00,   0.000000e+00,
+  -2.848670e-65,   1.000000e+00,
 }
 
 Kr matrix:
 {
--9.030247e-06	1.179156e-06	
-9.030247e-06	-1.179156e-06	
+  -9.030247e-06,   1.179156e-06,
+   9.030247e-06,  -1.179156e-06,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:

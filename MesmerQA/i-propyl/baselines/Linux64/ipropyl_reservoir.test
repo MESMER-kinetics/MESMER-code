@@ -1835,11 +1835,12 @@ At equilibrium 0.972253 of the i-propyl population is in the active states.
 
 Eq fraction matrix:
 {
-  1.00000e+00
+   1.000000e+00,
 }
-inverse of Eq fraction matrix:
+
+Inverse of Eq fraction matrix:
 {
-  1.00000e+00
+   1.000000e+00,
 }
 Equilibrium Fraction for i-propyl = 1
 
@@ -1864,23 +1865,24 @@ Y_matrix:
   -1.866452e+01,
 }
 
-Z_matrix: {
--1.000000e+00	
+Z_matrix: 
+{
+  -1.000000e+00,
 }
 
 Z_matrix^(-1):
 {
--1.000000e+00	
+  -1.000000e+00,
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	
+   1.000000e+00,
 }
 
 Kr matrix:
 {
--1.866454e+01	
+  -1.866454e+01,
 }
 
 Kp matrix:
@@ -1943,11 +1945,12 @@ At equilibrium 0.97464 of the i-propyl population is in the active states.
 
 Eq fraction matrix:
 {
-  1.00000e+00
+   1.000000e+00,
 }
-inverse of Eq fraction matrix:
+
+Inverse of Eq fraction matrix:
 {
-  1.00000e+00
+   1.000000e+00,
 }
 Equilibrium Fraction for i-propyl = 1
 
@@ -1972,23 +1975,24 @@ Y_matrix:
   -2.585718e+01,
 }
 
-Z_matrix: {
--1.000000e+00	
+Z_matrix: 
+{
+  -1.000000e+00,
 }
 
 Z_matrix^(-1):
 {
--1.000000e+00	
+  -1.000000e+00,
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	
+   1.000000e+00,
 }
 
 Kr matrix:
 {
--2.585722e+01	
+  -2.585722e+01,
 }
 
 Kp matrix:
