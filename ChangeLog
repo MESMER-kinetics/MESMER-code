@@ -1,5 +1,9 @@
 2021-September-26 Struan Robertson
 
+		* CollisionOperator.cpp, gWellProperties.h/.cpp: Fixes for Linux64 build breaks.
+
+2021-September-26 Struan Robertson
+
 		* CollisionOperator.cpp, gWellProperties.h/.cpp, TMatrix.h, MesmerFlags.cpp: 
 		Updated old print matrix method for new.
 

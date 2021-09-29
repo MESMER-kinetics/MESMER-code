@@ -146,7 +146,8 @@ namespace mesmer
     if (m_host->getFlags().showCollisionOperator != 0){
       stringstream ss;
       ss << endl << "Collision operator of " << m_host->getName() << " before normalization:" << endl;
-      egme->print(ss.str(), stest);
+      string str = ss.str() ;
+      egme->print(str, stest);
 
     }
 
@@ -156,7 +157,8 @@ namespace mesmer
     if (m_host->getFlags().showCollisionOperator >= 1){
       stringstream ss;
       ss << endl << "Collision operator of " << m_host->getName() << " after normalization:" << endl;
-      egme->print(ss.str(), stest);
+      string str = ss.str() ;
+      egme->print(str, stest);
     }
 
     // If requested write out column sums etc. to check normalization results.
@@ -201,7 +203,8 @@ namespace mesmer
     if (m_host->getFlags().showCollisionOperator >= 2){
       stringstream ss;
       ss << endl << "Collision operator of " << m_host->getName() << " after :" << endl;
-      egme->print(ss.str(), stest);
+      string str = ss.str() ;
+      egme->print(str, stest);
     }
 
     m_ncolloptrsize = reducedCollOptrSize;

@@ -809,9 +809,8 @@ namespace mesmer
 
       qdMatrix backup(eqMatrix);  //backup EqMatrix for error reporting
 
-      stringstream ss;
-      ss << "Eq fraction matrix:";
-      backup.print(ss.str(), stest);
+      string ss("Eq fraction matrix:");
+      backup.print(ss, stest);
 
       if (bSecondOrderFlag) {
         iterativeEquiSln(eqMatrix, eqFraction, idxr, idxs);
@@ -822,9 +821,9 @@ namespace mesmer
         eqFraction *= eqMatrix;
       }
 
-      ss.str("");
-      ss << "Inverse of Eq fraction matrix:";
-      eqMatrix.print(ss.str(), stest);
+      ss.clear();
+      ss = "Inverse of Eq fraction matrix:";
+      eqMatrix.print(ss, stest);
     }
 
     //eqFraction = testEqFraction;
@@ -1087,29 +1086,35 @@ namespace mesmer
     const int smsize = int(m_reactionOperator->size());
 
     stringstream ss;
+    string str ;
     switch (mFlags.printReactionOperatorNum)
     {
     case -1:
       ss << "Printing all (" << smsize << ") columns/rows of the Reaction Operator:\n";
-      (*m_reactionOperator).print(ss.str(), stest);
+      str = ss.str() ;
+      (*m_reactionOperator).print(str, stest);
       break;
     case -2:
       ss << "Printing final 1/2 (" << smsize / 2 << ") columns/rows of the Reaction Operator:\n";
-      (*m_reactionOperator).print(ss.str(), stest, smsize, smsize, smsize/2, smsize/2);
+      str = ss.str() ;
+      (*m_reactionOperator).print(str, stest, smsize, smsize, smsize/2, smsize/2);
       break;
     case -3:
       ss << "Printing final 1/3 (" << smsize / 3 << ") columns/rows of the Reaction Operator:\n";
-      (*m_reactionOperator).print(ss.str(), stest, smsize, smsize, 2*smsize/3, 2*smsize/3);
+      str = ss.str() ;
+      (*m_reactionOperator).print(str, stest, smsize, smsize, 2*smsize/3, 2*smsize/3);
       break;
     default: // The number is either smaller than -3 or positive.
       const int ll = abs(mFlags.printReactionOperatorNum) ;
       if (ll > smsize) {
         ss << "Printing all (" << smsize << ") columns/rows of the Reaction Operator:\n";
-        (*m_reactionOperator).print(ss.str(), stest);
+        str = ss.str() ;
+        (*m_reactionOperator).print(str, stest);
       }
       else {
         ss << "Printing final " << smsize - ll << " columns/rows of the Reaction Operator:\n";
-        (*m_reactionOperator).print(ss.str(), stest, smsize, smsize, smsize - ll, smsize- ll);
+        str = ss.str() ;
+        (*m_reactionOperator).print(str, stest, smsize, smsize, smsize - ll, smsize- ll);
       }
     }
   }
@@ -1296,7 +1301,6 @@ namespace mesmer
       // at a later stage.
       vector<vector<double> > sinkFluxProfile(m_sinkRxns.size(), vector<double>(maxTimeStep));
 
-      int pdtProfileStartIdx = speciesProfileidx;
       size_t fluxIdx(0);
 
       // Iterate through sink map to get product profile vs t.
@@ -1315,7 +1319,6 @@ namespace mesmer
         stest << setw(16) << pdtName;
         speciesNames.push_back(pdtName);
         int rxnMatrixLoc = pos->second;  // Get sink location.
-        double TimeIntegratedProductPop(0.0);
 
         for (size_t timestep(0); timestep < maxTimeStep; ++timestep) {
           vector<qd_real> P_t(smsize, double(0.0));
@@ -1743,24 +1746,23 @@ namespace mesmer
 
       }
 
-      stringstream ss;
-      ss << "Z_matrix: ";
-      Z_matrix.print(ss.str(), stest);
+      string ss("Z_matrix: ");
+      Z_matrix.print(ss, stest);
 
       // Print out the ratio matrix if required.
 
       if (mFlags.printZMatrixRatios)
         printRatioMatrix(Z_matrix, speciesPopn);
 
-      ss.str("");
-      ss << "Z_matrix^(-1):";
-      Zinv.print(ss.str(), stest);
+      ss.clear();
+      ss = "Z_matrix^(-1):";
+      Zinv.print(ss, stest);
 
       qdMatrix Zidentity = Z_matrix * Zinv;
 
-      ss.str("");
-      ss << "Z_matrix * Z_matrix^(-1) [Identity matrix]:";
-      Zidentity.print(ss.str(), stest);
+      ss.clear();
+      ss = "Z_matrix * Z_matrix^(-1) [Identity matrix]:";
+      Zidentity.print(ss, stest);
 
       // Construct phenomenological rate coefficient matrix.
 
@@ -1772,9 +1774,9 @@ namespace mesmer
 
       // Print out Kr_matrix
 
-      ss.str("");
-      ss << "Kr matrix:";
-      Kr.print(ss.str(), stest);
+      ss.clear();
+      ss = "Kr matrix:";
+      Kr.print(ss, stest);
 
       // Construct loss matrix.
 
