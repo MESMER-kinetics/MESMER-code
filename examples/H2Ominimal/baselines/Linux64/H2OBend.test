@@ -3,13 +3,14 @@ PT Grid 0 Condition: conc = 1.31052e+20, temp = 560, diagonalization precision: 
 
 Eq fraction matrix:
 {
- -4.93896e+35  1.00000e+00
-  1.00000e+00  1.00000e+00
+  -4.938965e+35,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
 }
-inverse of Eq fraction matrix:
+
+Inverse of Eq fraction matrix:
 {
- -2.02472e-36  2.02472e-36
-  2.02472e-36  1.00000e+00
+  -2.024716e-36,   2.024716e-36,
+   2.024716e-36,   1.000000e+00,
 }
 Equilibrium Fraction for H = 2.02472e-36
 Equilibrium Fraction for H2O = 1
@@ -20,27 +21,28 @@ Number of sinks in this system: 0
 
 There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
 
-Z_matrix: {
-8.699328e-20	7.567831e-39	
--8.699328e-20	1.000000e+00	
+Z_matrix: 
+{
+   8.699328e-20,   7.567831e-39,
+  -8.699328e-20,   1.000000e+00,
 }
 
 Z_matrix^(-1):
 {
-1.149514e+19	-8.699328e-20	
-1.000000e+00	1.000000e+00	
+   1.149514e+19,  -8.699328e-20,
+   1.000000e+00,   1.000000e+00,
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	1.897538e-102	
-5.929315e-65	1.000000e+00	
+   1.000000e+00,  1.897538e-102,
+   5.929315e-65,   1.000000e+00,
 }
 
 Kr matrix:
 {
--6.625928e+02	5.014390e-36	
-6.625928e+02	-5.014390e-36	
+  -6.625928e+02,   5.014390e-36,
+   6.625928e+02,  -5.014390e-36,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:

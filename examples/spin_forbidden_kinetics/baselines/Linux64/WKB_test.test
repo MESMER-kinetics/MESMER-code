@@ -688,13 +688,14 @@ Canonical (high pressure) rate coefficients for R1, calculated from microcanonic
 
 Eq fraction matrix:
 {
- -3.91021e-07  1.00000e+00
-  1.00000e+00  1.00000e+00
+  -3.910206e-07,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
 }
-inverse of Eq fraction matrix:
+
+Inverse of Eq fraction matrix:
 {
- -1.00000e+00  1.00000e+00
-  1.00000e+00  3.91020e-07
+  -9.999996e-01,   9.999996e-01,
+   9.999996e-01,   3.910204e-07,
 }
 Equilibrium Fraction for cyclopropene = 1
 Equilibrium Fraction for triplet = 3.9102e-07
@@ -872,27 +873,28 @@ Number of sinks in this system: 0
 
 There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
 
-Z_matrix: {
-6.263319e-04	9.999996e-01	
--6.263319e-04	3.922918e-07	
+Z_matrix: 
+{
+   6.263319e-04,   9.999996e-01,
+  -6.263319e-04,   3.922918e-07,
 }
 
 Z_matrix^(-1):
 {
-6.263321e-04	-1.596597e+03	
-1.000000e+00	1.000000e+00	
+   6.263321e-04,  -1.596597e+03,
+   1.000000e+00,   1.000000e+00,
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	1.139468e-64	
-3.622272e-71	1.000000e+00	
+   1.000000e+00,   1.139468e-64,
+   3.622272e-71,   1.000000e+00,
 }
 
 Kr matrix:
 {
--6.052973e-01	1.542977e+06	
-6.052973e-01	-1.542977e+06	
+  -6.052973e-01,   1.542977e+06,
+   6.052973e-01,  -1.542977e+06,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -1672,13 +1674,14 @@ Canonical (high pressure) rate coefficients for R1, calculated from microcanonic
 
 Eq fraction matrix:
 {
- -1.07424e-05  1.00000e+00
-  1.00000e+00  1.00000e+00
+  -1.074242e-05,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
 }
-inverse of Eq fraction matrix:
+
+Inverse of Eq fraction matrix:
 {
- -9.99989e-01  9.99989e-01
-  9.99989e-01  1.07423e-05
+  -9.999893e-01,   9.999893e-01,
+   9.999893e-01,   1.074230e-05,
 }
 Equilibrium Fraction for cyclopropene = 0.999989
 Equilibrium Fraction for triplet = 1.07423e-05
@@ -1856,27 +1859,28 @@ Number of sinks in this system: 0
 
 There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
 
-Z_matrix: {
--3.281295e-03	9.999892e-01	
-3.281295e-03	1.076701e-05	
+Z_matrix: 
+{
+  -3.281295e-03,   9.999892e-01,
+   3.281295e-03,   1.076701e-05,
 }
 
 Z_matrix^(-1):
 {
--3.281331e-03	3.047544e+02	
-1.000000e+00	1.000000e+00	
+  -3.281331e-03,   3.047544e+02,
+   1.000000e+00,   1.000000e+00,
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	5.697341e-65	
-0.000000e+00	1.000000e+00	
+   1.000000e+00,   5.697341e-65,
+   0.000000e+00,   1.000000e+00,
 }
 
 Kr matrix:
 {
--4.943699e+01	4.591473e+06	
-4.943699e+01	-4.591473e+06	
+  -4.943699e+01,   4.591473e+06,
+   4.943699e+01,  -4.591473e+06,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:

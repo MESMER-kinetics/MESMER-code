@@ -1494,13 +1494,14 @@ Test rovibronic density of states for: Ethane
 
 Eq fraction matrix:
 {
- -1.01044e+67  1.00000e+00
-  1.00000e+00  1.00000e+00
+  -1.010442e+67,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
 }
-inverse of Eq fraction matrix:
+
+Inverse of Eq fraction matrix:
 {
- -9.89666e-68  9.89666e-68
-  9.89666e-68  1.00000e+00
+  -9.896658e-68,   9.896658e-68,
+   9.896658e-68,   1.000000e+00,
 }
 Equilibrium Fraction for Ethane = 1
 Equilibrium Fraction for Ethyl = 9.89666e-68
@@ -1521,27 +1522,28 @@ Number of sinks in this system: 0
 
 There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
 
-Z_matrix: {
-6.588215e-34	4.340457e-67	
--6.588215e-34	1.000000e+00	
+Z_matrix: 
+{
+   6.588215e-34,   4.340457e-67,
+  -6.588215e-34,   1.000000e+00,
 }
 
 Z_matrix^(-1):
 {
-1.517862e+33	-6.588215e-34	
-1.000000e+00	1.000000e+00	
+   1.517862e+33,  -6.588215e-34,
+   1.000000e+00,   1.000000e+00,
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	3.381218e-131	
-2.401899e-65	1.000000e+00	
+   1.000000e+00,  3.381218e-131,
+   2.401899e-65,   1.000000e+00,
 }
 
 Kr matrix:
 {
--7.033590e+06	3.052900e-60	
-7.033590e+06	-3.052900e-60	
+  -7.033590e+06,   3.052900e-60,
+   7.033590e+06,  -3.052900e-60,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:

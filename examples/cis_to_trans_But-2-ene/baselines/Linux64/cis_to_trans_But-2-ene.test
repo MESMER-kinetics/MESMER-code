@@ -616,13 +616,14 @@ Canonical (high pressure) rate coefficients for R2, calculated from microcanonic
 
 Eq fraction matrix:
 {
- -3.10318e-01  1.00000e+00
-  1.00000e+00  1.00000e+00
+  -3.103180e-01,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
 }
-inverse of Eq fraction matrix:
+
+Inverse of Eq fraction matrix:
 {
- -7.63173e-01  7.63173e-01
-  7.63173e-01  2.36827e-01
+  -7.631735e-01,   7.631735e-01,
+   7.631735e-01,   2.368265e-01,
 }
 Equilibrium Fraction for cis-But-2-ene = 0.236827
 Equilibrium Fraction for trans-But-2-ene = 0.763173
@@ -1474,27 +1475,28 @@ Y_matrix:
    2.199671e-01,   1.226939e+00,
 }
 
-Z_matrix: {
--3.989363e-01	7.771894e-01	
-4.329426e-01	2.222323e-01	
+Z_matrix: 
+{
+  -3.989363e-01,   7.771894e-01,
+   4.329426e-01,   2.222323e-01,
 }
 
 Z_matrix^(-1):
 {
--5.227335e-01	1.828100e+00	
-1.018365e+00	9.383758e-01	
+  -5.227335e-01,   1.828100e+00,
+   1.018365e+00,   9.383758e-01,
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	1.519291e-64	
--1.899114e-65	1.000000e+00	
+   1.000000e+00,   1.519291e-64,
+  -1.899114e-65,   1.000000e+00,
 }
 
 Kr matrix:
 {
--2.315136e+00	3.801139e+00	
-1.179562e+00	-5.353382e+00	
+  -2.315136e+00,   3.801139e+00,
+   1.179562e+00,  -5.353382e+00,
 }
 
 Kp matrix:
@@ -2318,13 +2320,14 @@ Canonical (high pressure) rate coefficients for R2, calculated from microcanonic
 
 Eq fraction matrix:
 {
- -3.16424e-01  1.00000e+00
-  1.00000e+00  1.00000e+00
+  -3.164245e-01,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
 }
-inverse of Eq fraction matrix:
+
+Inverse of Eq fraction matrix:
 {
- -7.59633e-01  7.59633e-01
-  7.59633e-01  2.40367e-01
+  -7.596334e-01,   7.596334e-01,
+   7.596334e-01,   2.403666e-01,
 }
 Equilibrium Fraction for cis-But-2-ene = 0.240367
 Equilibrium Fraction for trans-But-2-ene = 0.759633
@@ -3182,27 +3185,28 @@ Y_matrix:
   -7.771774e-01,   5.325635e+00,
 }
 
-Z_matrix: {
-3.992025e-01	7.747714e-01	
--4.358215e-01	2.245579e-01	
+Z_matrix: 
+{
+   3.992025e-01,   7.747714e-01,
+  -4.358215e-01,   2.245579e-01,
 }
 
 Z_matrix^(-1):
 {
-5.255199e-01	-1.813153e+00	
-1.019928e+00	9.342308e-01	
+   5.255199e-01,  -1.813153e+00,
+   1.019928e+00,   9.342308e-01,
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	-1.661724e-65	
-5.459951e-65	1.000000e+00	
+   1.000000e+00,  -1.661724e-65,
+   5.459951e-65,   1.000000e+00,
 }
 
 Kr matrix:
 {
--8.667274e+00	1.149765e+01	
-3.638136e+00	-1.788715e+01	
+  -8.667274e+00,   1.149765e+01,
+   3.638136e+00,  -1.788715e+01,
 }
 
 Kp matrix:
