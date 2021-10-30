@@ -2093,15 +2093,27 @@ namespace mesmer
 
   }
 
-  int CollisionOperator::getSpeciesSequenceIndex(const std::string ref)
+  // Locate species in macroscopic index.
+  int CollisionOperator::getSpeciesSequenceIndex(const std::string ref) const
   {
-    Reaction::molMapType::iterator spcitr;
+    Reaction::molMapType::const_iterator spcitr;
     for (spcitr = m_SpeciesSequence.begin(); spcitr != m_SpeciesSequence.end(); ++spcitr)
     {
       if (ref == (spcitr->first)->getName())
         return spcitr->second;
     }
-    cerr << "No molecule named " << ref << " is available in the reaction species.";
+    return -1;
+  }
+
+  // Locate sink in product rate matrix.
+  int CollisionOperator::getSinkSequenceIndex(const std::string ref) const
+  {
+    sinkMap::const_iterator sinkpos;
+    int seqMatrixLoc(0);
+    for (sinkpos = m_sinkRxns.begin(); sinkpos != m_sinkRxns.end() ; ++sinkpos, ++seqMatrixLoc) {
+      if (ref == sinkpos->first->getName())
+        return seqMatrixLoc;
+    }
     return -1;
   }
 

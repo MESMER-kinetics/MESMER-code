@@ -1,3 +1,8 @@
+2021-October-31 Struan Robertson
+
+		* CollisionOperator.h/cpp, System.h./cpp: Added a method to locate sink reaction 
+		species to support rate coefficient fitting of multiple sink reactions.
+
 2021-September-26 Struan Robertson
 
 		* CollisionOperator.cpp, gWellProperties.h/.cpp: Fixes for Linux64 build breaks.

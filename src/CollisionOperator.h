@@ -61,7 +61,11 @@ namespace mesmer
     // Write out phenomenological rate coefficients.
     bool PrintPhenomenologicalRates(qdMatrix& Kr, qdMatrix& Kp, MesmerFlags& mFlags, AnalysisData* analysisData);
 
-    int getSpeciesSequenceIndex(const std::string ref);
+    // Locate species in macroscopic index.
+    int getSpeciesSequenceIndex(const std::string ref) const;
+
+    // Locate sink in product rate matrix.
+    int getSinkSequenceIndex(const std::string ref) const;
 
     // Accessor to get specified eigenvalue.
     double getEigenvalue(size_t idEigenvalue) const;

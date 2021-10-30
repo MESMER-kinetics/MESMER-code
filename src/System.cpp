@@ -563,7 +563,7 @@ namespace mesmer
 
             // For these conditions calculate the for the experimentally observable data types. 
 
-            calcRateCoefficients(mesmerRates, calPoint);
+            calcRateCoefficients(mesmerRates, lossRates, calPoint);
 
             calcYields(calPoint);
 
@@ -666,7 +666,7 @@ namespace mesmer
     // For this conditions calculate the experimentally observable data types. 
 
     stringstream rateCoeffTable;
-    calcRateCoefficients(mesmerRates, nConds);
+    calcRateCoefficients(mesmerRates, lossRates, nConds);
 
     calcYields(nConds);
 
@@ -738,7 +738,7 @@ namespace mesmer
     return calculate(temp, conc, precision, phenRates, MaxT, bathGas);
   };
 
-  void System::calcRateCoefficients(const qdMatrix& mesmerRates, const unsigned calPoint) {
+  void System::calcRateCoefficients(const qdMatrix& mesmerRates, const qdMatrix& lossRates, const unsigned calPoint) {
 
     vector<conditionSet> expRates;
     m_pConditionsManager->get_experimentalRates(calPoint, expRates);
@@ -754,24 +754,40 @@ namespace mesmer
       seqMatrixLoc1 = m_collisionOperator.getSpeciesSequenceIndex(ref1);
       seqMatrixLoc2 = m_collisionOperator.getSpeciesSequenceIndex(ref2);
 
-      if (seqMatrixLoc1 < 0 || seqMatrixLoc2 < 0)
-        throw(std::runtime_error("Failed to locate species in rate coefficient matrix."));
+      if (seqMatrixLoc1 < 0) {
+        throw(std::runtime_error("Failed to locate reactant species " + ref1 + " in rate coefficient matrix."));
+      } else if (seqMatrixLoc2 < 0) {
+        //
+        // Search for a dissociation reaction.
+        // 
+        int sinkLocation = m_collisionOperator.getSinkSequenceIndex(refReaction);
 
-      // 
-      // In the following it is assumed that experimental rate coefficients will always 
-      // be quoted as a absolute values. Since the diagonal values of the BW matrix are
-      // negative, their absolute value is required for comparision with experimental
-      // values hence the fabs invocation.
-      //
-      double rateCoeff = fabs(to_double(mesmerRates[seqMatrixLoc2][seqMatrixLoc1]));
+        if (sinkLocation < 0) {
+          throw(std::runtime_error("Failed to locate sink species in rate coefficient matrix."));
+        }
 
-      // Is a bimolecular rate coefficient required?
+        double rateCoeff = fabs(to_double(lossRates[sinkLocation][seqMatrixLoc1]));
 
-      Reaction* reaction = m_pReactionManager->find(refReaction);
-      if (reaction)
-        reaction->normalizeRateCoefficient(rateCoeff, ref1);
+        calcRates[i] = rateCoeff;
+      }
+      else {
 
-      calcRates[i] = rateCoeff;
+        // 
+        // In the following it is assumed that experimental rate coefficients will always 
+        // be quoted as absolute values. Since the diagonal values of the BW matrix are
+        // negative, their absolute value is required for comparision with experimental
+        // values hence the fabs invocation.
+        //
+        double rateCoeff = fabs(to_double(mesmerRates[seqMatrixLoc2][seqMatrixLoc1]));
+
+        // Is a bimolecular rate coefficient required?
+
+        Reaction* reaction = m_pReactionManager->find(refReaction);
+        if (reaction)
+          reaction->normalizeRateCoefficient(rateCoeff, ref1);
+
+        calcRates[i] = rateCoeff;
+      }
     }
 
     m_pConditionsManager->set_calculatedRates(calPoint, calcRates);
