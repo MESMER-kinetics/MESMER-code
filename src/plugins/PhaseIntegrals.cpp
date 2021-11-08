@@ -10,11 +10,11 @@
 //
 //-------------------------------------------------------------------------------------------
 
-#include "PhaseIntegrals.h"
 #include "../gDensityOfStates.h"
 #include "../Reaction.h"
 #include "../Sobol.h"
 #include "../FTSTPotential.h"
+#include "PhaseIntegrals.h"
 
 using namespace std;
 using namespace Constants;

@@ -16,6 +16,7 @@
 #include "Tunneling.h"
 #include "gTransitionState.h"
 #include "dMatrix.h"
+#include "MicroRate.h"
 
 namespace mesmer
 {
@@ -156,11 +157,26 @@ namespace mesmer
     // with a negative threshold energy
     virtual void calcEffGrnThresholds(void) = 0;
 
-    // get the bottom cell offset of m_CellFlux
+    // Get the bottom cell offset of m_CellFlux.
     const size_t getFluxCellOffset(void) { return m_FluxCellOffset; };
 
     // Wrapper function to calculate and grain average microcanoincal rate coeffcients.
     virtual bool calcGrnAvrgMicroRateCoeffs();
+
+    // Calculate high pressure rate coefficients.
+    virtual bool HighPresRateCoeffTest(Reaction* pReact, PersistPtr ppbase) const;
+
+    static void setTestInterval(double TMin, double TMax, double dTemp) {
+      m_dTemp = dTemp;
+      m_TMin = TMin;
+      m_TMax = TMax;
+    };
+
+    static void getTestInterval(double& TMin, double& TMax, double& dTemp) {
+      dTemp = m_dTemp;
+      TMin = m_TMin;
+      TMax = m_TMax;
+    };
 
     // Add reaction terms to the reaction matrix.
     virtual void AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega) = 0;
@@ -255,6 +271,12 @@ namespace mesmer
 
     double m_ERConc;           // Concentration of the excess reactant (This is a complement to reactions with
                                // excess species. This value is not used in unimolecular reactions.)
+
+    // Temperature range and interval for rate coefficient test.
+
+    static double m_dTemp;
+    static double m_TMin;
+    static double m_TMax;
 
     // Read excess reactant concentration
     bool ReadExcessReactantConcentration(PersistPtr ppReac);

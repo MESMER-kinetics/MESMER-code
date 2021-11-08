@@ -29,7 +29,7 @@ namespace mesmer
 
     // Constructor
 
-    ParallelManager(int argc, char ** argv) : m_rank(0), m_size(1) {
+    ParallelManager(int argc, char ** argv) : m_rank(0), m_size(1), m_mutex(false) {
 
       MPI_Init(&argc, &argv);
 
@@ -140,7 +140,7 @@ namespace mesmer
 
     // Constructor
 
-    ParallelManager(int argc, char ** argv) : m_rank(0), m_size(1) {
+    ParallelManager(int argc, char ** argv) : m_rank(0), m_size(1), m_mutex(false) {
       // No Op.
     };
 
@@ -208,11 +208,22 @@ namespace mesmer
     int rank() { return m_rank; };
     int size() { return m_size; };
     bool Master() { return (m_rank == 0); };
+    void setMutex(const char * function) { 
+      if (!m_mutex) {
+        m_mutex = true;
+      }
+      else {
+        string msg =string(function) + string(": Parellel execution is recursive.\n");
+        throw(runtime_error(msg));
+      }
+    };
+    void clearMutex() { m_mutex = false; };
 
   private:
 
     int m_rank;
     int m_size;
+    bool m_mutex;
 
   };
 

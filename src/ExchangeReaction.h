@@ -112,9 +112,15 @@ namespace mesmer
 
     // Wrapper function to calculate and grain average microcanoincal rate coeffcients.
     virtual bool calcGrnAvrgMicroRateCoeffs() {
-      // This function is specifically for reactions that involve a unimolecular species
-      // and as such does not makes sense for this bimolecular step. Consequently it is
-      // overloaded here to a no op. 
+
+      // Calculate microcanonical rate coefficients.
+      if (m_pMicroRateCalculator)
+        if (!m_pMicroRateCalculator->calculateMicroCnlFlux(this))
+          return false;
+
+      // Test grained microcanonical rate coefficients.
+      if (getFlags().microRateEnabled && !HighPresRateCoeffTest(this, m_ppPersist))
+        return false;
 
       return true;
     };

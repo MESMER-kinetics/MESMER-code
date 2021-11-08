@@ -296,7 +296,7 @@ namespace mesmer
           double CRCTitl = pptmr->XmlReadDouble("Tstep");
           double CRCTMin = pptmr->XmlReadDouble("Tmin");
           double CRCTMax = pptmr->XmlReadDouble("Tmax");
-          MicroRateCalculator::setTestInterval(CRCTMin, CRCTMax, CRCTitl);
+          Reaction::setTestInterval(CRCTMin, CRCTMax, CRCTitl);
 
           m_Env.MaximumTemperature = max(m_Env.MaximumTemperature, CRCTMax);
         }
@@ -469,6 +469,7 @@ namespace mesmer
 
     int rank = m_pParallelManager->rank();
     int nRanks = m_pParallelManager->size();
+    m_pParallelManager->setMutex(__FUNCTION__);
     size_t nPoint = m_pConditionsManager->getNumPTPoints();
     size_t addand = (nPoint % nRanks > 0) ? 1 : 0;
     size_t nLoop = nRanks * (nPoint / nRanks + addand);
@@ -593,6 +594,8 @@ namespace mesmer
     m_pParallelManager->barrier();
     m_pConditionsManager->reconcileTable();
     m_pConditionsManager->AddCalcValToXml();
+    m_pParallelManager->clearMutex();
+
 
     double ChiSquaredTest(0.0);
     m_pConditionsManager->calculateChiSquared(ChiSquaredTest, residuals);

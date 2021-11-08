@@ -117,7 +117,7 @@ namespace mesmer
 
     // Read the transition state, which must be present, for this type of reaction.
     // Note no microcanonical rate method is read in for this reaction type as it is
-    // not relevant for this bimolecualr reaction.
+    // not relevant for this bimolecular reaction.
     PersistPtr ppTransitionState = ppReac->XmlMoveTo("me:transitionState");
     if (!ppTransitionState)
       ppTransitionState = ppReac->XmlMoveTo("transitionState");
@@ -126,7 +126,7 @@ namespace mesmer
       Molecule* pTrans = GetMolRef(ppTransitionState, "transitionState");
       if (pTrans) {
         m_TransitionState = pTrans;
-        m_TransitionState->activateRole(string("transitionState"));
+//        m_TransitionState->activateRole(string("transitionState"));
       }
     }
 

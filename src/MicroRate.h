@@ -85,34 +85,14 @@ appropriate, and the functions getParent and setParent and should be compatible.
    // Method to calculate the microcanoical flux (W(E)/h) at the transition state.
     virtual bool calculateMicroCnlFlux(Reaction* pReact) = 0 ;
 
-    virtual bool testMicroRateCoeffs(Reaction* pReact, PersistPtr ppbase) const;
-
     virtual double get_ThresholdEnergy(Reaction* pReac) ;
 
     // Utility function to check for inconsistencies. 
     static bool ILTCheck(Reaction* pReac, PersistPtr ppReac) ;
 
-    static void setTestInterval(double TMin, double TMax, double dTemp) {
-      m_dTemp = dTemp;
-      m_TMin  = TMin;
-      m_TMax  = TMax;
-    };
-
-    static void getTestInterval(double &TMin, double &TMax, double &dTemp) {
-      dTemp = m_dTemp;
-      TMin = m_TMin;
-      TMax = m_TMax;
-    };
-
   protected:
 
     Reaction* m_parent;
-
-    // Temperature range and interval for rate coefficient test.
-
-    static double m_dTemp;
-    static double m_TMin;
-    static double m_TMax;
 
   };
 
