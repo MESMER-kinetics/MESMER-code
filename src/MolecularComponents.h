@@ -15,7 +15,6 @@
 #define GUARD_MolecularComponents_h
 
 #include <memory>
-// #include "MicroRate.h"
 #include "DensityOfStates.h"
 #include "Distribution.h"
 #include "MesmerEnv.h"

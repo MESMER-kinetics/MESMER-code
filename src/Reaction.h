@@ -27,7 +27,7 @@ namespace mesmer
     DISSOCIATION,
     IRREVERSIBLE_ISOMERIZATION,
     IRREVERSIBLE_EXCHANGE,
-    BIMOLECULAR_SINK, 
+    BIMOLECULAR_SINK,
     BIMOLECULAR_EXCHANGE,
     PSEUDOISOMERIZATION,
     SECONDORDERASSOCIATION,
@@ -60,7 +60,7 @@ namespace mesmer
 
     // Constructors.
 
-    Reaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, MesmerFlags& Flags, const char *id);
+    Reaction(MoleculeManager* pMoleculeManager, const MesmerEnv& Env, MesmerFlags& Flags, const char* id);
 
     // Destructor.
     virtual ~Reaction();
@@ -95,16 +95,16 @@ namespace mesmer
     ILT can be used in all reaction types if necessary. */
 
     // get products and reactants
-    virtual int get_products(std::vector<Molecule *> &product) const = 0;
-    virtual int get_reactants(std::vector<Molecule *> &reactants) const = 0;
+    virtual int get_products(std::vector<Molecule*>& product) const = 0;
+    virtual int get_reactants(std::vector<Molecule*>& reactants) const = 0;
 
     // get the reactant, which reacts in a first order or pseudo first order process
-    virtual Molecule *get_reactant(void) const = 0;
+    virtual Molecule* get_reactant(void) const = 0;
 
     Molecule* get_TransitionState() const { return m_TransitionState; };
 
     // Get unimolecualr species information:
-    virtual int get_unimolecularspecies(std::vector<Molecule *> &unimolecularspecies) const = 0;
+    virtual int get_unimolecularspecies(std::vector<Molecule*>& unimolecularspecies) const = 0;
 
     enum reactionType { all, rev, reactantsOnly, productsOnly };
     std::string getReactionString(reactionType = all);
@@ -164,7 +164,7 @@ namespace mesmer
     virtual bool calcGrnAvrgMicroRateCoeffs();
 
     // Calculate high pressure rate coefficients.
-    virtual bool HighPresRateCoeffTest(Reaction* pReact, PersistPtr ppbase) const;
+    virtual bool HighPresRateCoeffTest(PersistPtr ppbase);
 
     static void setTestInterval(double TMin, double TMax, double dTemp) {
       m_dTemp = dTemp;
@@ -179,27 +179,27 @@ namespace mesmer
     };
 
     // Add reaction terms to the reaction matrix.
-    virtual void AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega) = 0;
+    virtual void AddReactionTerms(qdMatrix* CollOptr, molMapType& isomermap, const double rMeanOmega) = 0;
 
     // Add contracted basis set reaction terms to the reaction matrix.
-    virtual void AddContractedBasisReactionTerms(qdMatrix *CollOptr, molMapType &isomermap) = 0;
+    virtual void AddContractedBasisReactionTerms(qdMatrix* CollOptr, molMapType& isomermap) = 0;
 
     // Is reaction equilibrating and therefore contributes
     // to the calculation of equilibrium fractions.
-    virtual bool isEquilibratingReaction(double &Keq, Molecule **rct, Molecule **pdt) { return false; };
+    virtual bool isEquilibratingReaction(double& Keq, Molecule** rct, Molecule** pdt) { return false; };
 
     // returns the reaction type
     virtual ReactionType getReactionType() = 0;
 
     // Calculate high pressure rate coefficients at current T.
-    virtual void HighPresRateCoeffs(vector<double> *pCoeffs) = 0;
+    virtual void HighPresRateCoeffs(vector<double>* pCoeffs) = 0;
 
     // Calculate reaction equilibrium constant.
     virtual double calcEquilibriumConstant() = 0;
 
     // For reactions involving a source update pseudoisomer map.
-    virtual void updateSourceMap(molMapType& sourcemap) { 
-      /* For reactions without source terms this is a NULL operation. */ 
+    virtual void updateSourceMap(molMapType& sourcemap) {
+      /* For reactions without source terms this is a NULL operation. */
     };
 
     // Get the concentration of the excess reactant. 
@@ -217,7 +217,7 @@ namespace mesmer
     // factors in order to obtain a second order rate coefficient. For a
     // unimolecular reaction this function does nothing. This function is 
     // used in the calculation of Chi^2 values and analytical representation.
-    virtual void normalizeRateCoefficient(double &rateCoefficient, std::string ref = "") const = 0 ;
+    virtual void normalizeRateCoefficient(double& rateCoefficient, std::string ref = "") const = 0;
 
     void setUsesProductProperties(bool b = true);
     bool UsesProductProperties() const { return m_UsesProductProperties; }
@@ -227,6 +227,12 @@ namespace mesmer
     // Read a molecule name from the XML file and look it up
     // The defaultType is used if there is no me:type or role attribute
     Molecule* GetMolRef(PersistPtr pp, const char* defaultType = NULL);
+
+    // Read parameters requires to determine reaction heats and rates.
+    bool ReadRateCoeffParameters(PersistPtr ppReac);
+
+    // Read excess reactant concentration
+    bool ReadExcessReactantConcentration(PersistPtr ppReac);
 
     // Grain averaged microcanonical rate coefficients.
     virtual void calcGrainRateCoeffs() = 0;
@@ -238,11 +244,11 @@ namespace mesmer
     // Reaction composition.
     //
 
-    Molecule            *m_TransitionState;       // Transition State
-    Molecule            *m_ExcessReactant;
-    MoleculeManager     *m_pMoleculeManager;     // Pointer to molecule manager.
-    MicroRateCalculator *m_pMicroRateCalculator; // Pointer to microcanoical rate coeff. calculator.
-    TunnelingCalculator *m_pTunnelingCalculator; // Pointer to Tunneling Calculator
+    Molecule* m_TransitionState;       // Transition State
+    Molecule* m_ExcessReactant;
+    MoleculeManager* m_pMoleculeManager;     // Pointer to molecule manager.
+    MicroRateCalculator* m_pMicroRateCalculator; // Pointer to microcanoical rate coeff. calculator.
+    TunnelingCalculator* m_pTunnelingCalculator; // Pointer to Tunneling Calculator
 
     /*
     Each of the backward/forward microcanonical rate coefficients are based on
@@ -266,9 +272,6 @@ namespace mesmer
     std::vector<double>  m_GrainKfmc; // Grained averaged forward  microcanonical rates.
     std::vector<double>  m_MtxGrnKf;  // Grained averaged forward  microcanonical rates as used in collision operator.
 
-    // Read parameters requires to determine reaction heats and rates.
-    bool ReadRateCoeffParameters(PersistPtr ppReac);
-
     double m_ERConc;           // Concentration of the excess reactant (This is a complement to reactions with
                                // excess species. This value is not used in unimolecular reactions.)
 
@@ -278,10 +281,13 @@ namespace mesmer
     static double m_TMin;
     static double m_TMax;
 
-    // Read excess reactant concentration
-    bool ReadExcessReactantConcentration(PersistPtr ppReac);
+    // Previously private but needed in IrreversibleUnimolecularReaction::calcFluxFirstNonZeroIdx(void)
+    bool m_UsesProductProperties;
+    int m_GrnFluxFirstNonZeroIdx;  // idx of the starting grain for calculating forward/backward k(E)s from flux
+    int m_EffGrainedFwdThreshold;  // effective threshold energy (in grains) for forward flux calculations
+    int m_EffGrainedRvsThreshold;  // effective threshold energy (in grains) for backward flux calculations
 
-private:
+  private:
 
     // Grain average microcanonical rate coefficients.
     bool grnAvrgMicroFluxCoeffs();
@@ -292,11 +298,6 @@ private:
 
     bool   m_reCalcMicroRateCoeffs; // re-calculation on DOS
 
-  protected: //previously private but needed in IrreversibleUnimolecularReaction::calcFluxFirstNonZeroIdx(void)
-    bool m_UsesProductProperties;
-    int m_GrnFluxFirstNonZeroIdx;  // idx of the starting grain for calculating forward/backward k(E)s from flux
-    int m_EffGrainedFwdThreshold;  // effective threshold energy (in grains) for forward flux calculations
-    int m_EffGrainedRvsThreshold;  // effective threshold energy (in grains) for backward flux calculations
   };
 
   // _2008_04_24__12_35_40_

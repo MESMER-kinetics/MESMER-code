@@ -1,3 +1,8 @@
+2021-November-09 Struan Robertson
+
+		* Reaction.h/.cpp, ExchangeReaction.h, IrreversibleExchangeReaction.h: Tidying-up of 
+		reaction class.
+
 2021-November-08 Struan Robertson
 
 		* Reaction.h/.cpp, MicroRate.h/.cpp, ExchangeReaction.h, IrreversibleExchangeReaction.h,

@@ -118,23 +118,23 @@ namespace mesmer
         return false;
 
       // Test grained microcanonical rate coefficients.
-      if (getFlags().microRateEnabled && !HighPresRateCoeffTest(this, m_ppPersist) )
+      if (getFlags().microRateEnabled && !HighPresRateCoeffTest(m_ppPersist) )
         return false;
     }
     m_reCalcMicroRateCoeffs = false; // reset the flag
     return true;
   }
 
-  bool Reaction::HighPresRateCoeffTest(Reaction* pReact, PersistPtr ppbase) const
+  bool Reaction::HighPresRateCoeffTest(PersistPtr ppbase) 
   {
     string comment("Canonical rate coefficients (calculated from microcanonical rate coefficients)");
     PersistPtr ppList = ppbase->XmlWriteMainElement("me:canonicalRateList", comment);
 
-    stest << "\nCanonical (high pressure) rate coefficients for " << pReact->getName() << ", calculated from microcanonical rates\n{\n";
+    stest << "\nCanonical (high pressure) rate coefficients for " << getName() << ", calculated from microcanonical rates\n{\n";
     //Number of reactants and products to set kf,kb and Keq units
     vector<Molecule*> vec;
-    int nr = pReact->get_reactants(vec);
-    int np = pReact->get_products(vec);
+    int nr = get_reactants(vec);
+    int np = get_products(vec);
     stest << right << setw(7) << "T/K"
       << setw(20) << (nr == 2 ? "kf/cm3molecule-1s-1" : "kf/s-1")
       << setw(20) << (np == 2 ? "kb/cm3molecule-1s-1" : "kb/s-1")
@@ -143,14 +143,14 @@ namespace mesmer
 
     // Save the current value of excess concentration and set it to unity
     // to prevent division by zero for assocaiation type reactions.
-    const double current_conc = pReact->get_concExcessReactant();
-    pReact->set_concExcessReactant(1.0);
+    const double current_conc = get_concExcessReactant();
+    set_concExcessReactant(1.0);
 
     // Save current value of beta.
-    const double current_beta = pReact->getEnv().beta;
+    const double current_beta = getEnv().beta;
 
     // Calculate Canonical rate coefficients up to the max. temperature givn by MesmerEnv.
-    MesmerEnv& env = const_cast<MesmerEnv&>(pReact->getEnv());
+    MesmerEnv& env = const_cast<MesmerEnv&>(getEnv());
     double dTemp;
     double Temp;
     double TMax;
@@ -164,7 +164,7 @@ namespace mesmer
       env.beta = 1.0 / (boltzmann_RCpK * Temp);
 
       Coeffs.clear();
-      pReact->HighPresRateCoeffs(&Coeffs);
+      HighPresRateCoeffs(&Coeffs);
 
       formatFloat(stest, Temp, 6, 7);
       formatFloat(stest, Coeffs[0], 6, 20);
@@ -177,8 +177,8 @@ namespace mesmer
 
       // Add to XML document.
       vector<Molecule*> vec;
-      int nr = pReact->get_reactants(vec);
-      int np = pReact->get_products(vec);
+      int nr = get_reactants(vec);
+      int np = get_products(vec);
       PersistPtr ppItem = ppList->XmlWriteElement("me:kinf");
       PersistPtr pp = ppItem->XmlWriteValueElement("me:T", Temp, 6);
       if (j == 0) pp->XmlWriteAttribute("units", "K");
@@ -195,7 +195,7 @@ namespace mesmer
     stest << "}\n";
 
     // Restore excess concentration value.
-    pReact->set_concExcessReactant(current_conc);
+    set_concExcessReactant(current_conc);
 
     // Restore current value of beta.
     env.beta = current_beta;

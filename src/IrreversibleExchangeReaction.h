@@ -106,7 +106,7 @@ namespace mesmer
           return false;
 
       // Test grained microcanonical rate coefficients.
-      if (getFlags().microRateEnabled && !HighPresRateCoeffTest(this, m_ppPersist))
+      if (getFlags().microRateEnabled && !HighPresRateCoeffTest(m_ppPersist))
         return false;
 
       return true;
