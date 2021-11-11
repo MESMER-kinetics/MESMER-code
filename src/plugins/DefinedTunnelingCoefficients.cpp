@@ -14,6 +14,7 @@
 #include "../System.h"
 #include "../Spline.h"
 #include "../Reaction.h"
+#include "../Tunneling.h"
 
 using namespace Constants;
 

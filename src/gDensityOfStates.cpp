@@ -7,6 +7,7 @@
 #include "ParseForPlugin.h"
 #include "gStructure.h"
 #include "gDensityOfStates.h"
+#include "gTransitionState.h"
 
 using namespace std;
 using namespace Constants;

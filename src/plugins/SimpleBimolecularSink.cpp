@@ -14,6 +14,7 @@
 #include <string>
 #include "../System.h"
 #include "../gDensityOfStates.h"
+#include "../MicroRate.h"
 
 using namespace std;
 using namespace Constants;

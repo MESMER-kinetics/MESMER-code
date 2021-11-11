@@ -13,10 +13,7 @@
 //-------------------------------------------------------------------------------------------
 
 #include "MoleculeManager.h"
-#include "Tunneling.h"
-#include "gTransitionState.h"
 #include "dMatrix.h"
-#include "MicroRate.h"
 
 namespace mesmer
 {
@@ -34,6 +31,10 @@ namespace mesmer
     DIFFUSION,
     UNDEFINED_REACTION
   };
+
+  class MicroRateCalculator;
+
+  class TunnelingCalculator;
 
   class Reaction
   {
@@ -88,7 +89,7 @@ namespace mesmer
     virtual double get_relative_TSZPE(void) const = 0;
 
     // Get threshold energy
-    virtual double get_ThresholdEnergy(void) { return m_pMicroRateCalculator->get_ThresholdEnergy(this); };
+    virtual double get_ThresholdEnergy(void) ;
     /* This function should be considered as a function to get Einf.
     In ILT, not the theoretical threshold energy but the experimental Einf is used.
     This function returns user defined m_EInf, otherwise zero.
@@ -110,11 +111,12 @@ namespace mesmer
     std::string getReactionString(reactionType = all);
 
     // Get the imaginary frequency of the transitions state.
-    double get_TSImFreq(void) const { return m_TransitionState->getTS().get_ImFreq(); };
+    double get_TSImFreq(void) const ;
 
     bool thereIsTunnelling(void) const { return (m_pTunnelingCalculator) ? true : false; };
 
-    void calculateCellTunnelingCoeffs(std::vector<double>& TunnelingProbability) { m_pTunnelingCalculator->calculateCellTunnelingCoeffs(this, TunnelingProbability); };
+    // Get tunnelling probabilities if they are defined.
+    void calculateCellTunnelingCoeffs(std::vector<double>& TunnelingProbability) ;
 
     // calculate flux in grains
     void fluxCellToGrain();

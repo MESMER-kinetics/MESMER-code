@@ -11,6 +11,9 @@
 #include <limits>
 #include "Reaction.h"
 #include "ParseForPlugin.h"
+#include "MicroRate.h"
+#include "Tunneling.h"
+#include "gTransitionState.h"
 
 using namespace Constants ;
 using namespace std;
@@ -50,7 +53,21 @@ namespace mesmer
     m_EffGrainedRvsThreshold(0)
   {}
 
-  Reaction::~Reaction(){}
+  Reaction::~Reaction(){
+    if (m_pMicroRateCalculator)
+      delete m_pMicroRateCalculator;
+    if (m_pTunnelingCalculator)
+      delete m_pTunnelingCalculator; 
+  }
+
+  // Get threshold energy
+  double Reaction::get_ThresholdEnergy(void) { return m_pMicroRateCalculator->get_ThresholdEnergy(this); };
+
+  // Get tunnelling probabilities if they are defined.
+  void Reaction::calculateCellTunnelingCoeffs(std::vector<double>& TunnelingProbability) { m_pTunnelingCalculator->calculateCellTunnelingCoeffs(this, TunnelingProbability); };
+
+  // Get the imaginary frequency of the transitions state.
+  double Reaction::get_TSImFreq(void) const { return m_TransitionState->getTS().get_ImFreq(); };
 
   //
   // Locate molecule in molecular map.

@@ -15,6 +15,7 @@
 #include <vector>
 #include <string>
 #include "../System.h"
+#include "../MicroRate.h"
 
 using namespace std;
 

@@ -1,6 +1,7 @@
 
 #include "../AssociationReaction.h"
 #include "../gStructure.h"
+#include "../MicroRate.h"
 
 using namespace std;
 using namespace Constants;

@@ -98,19 +98,7 @@ namespace mesmer
     void calcEffGrnThresholds(void);
 
     // Wrapper function to calculate and grain average microcanoincal rate coeffcients.
-    virtual bool calcGrnAvrgMicroRateCoeffs() {
-
-      // Calculate microcanonical rate coefficients.
-      if (m_pMicroRateCalculator)  
-        if (!m_pMicroRateCalculator->calculateMicroCnlFlux(this))
-          return false;
-
-      // Test grained microcanonical rate coefficients.
-      if (getFlags().microRateEnabled && !HighPresRateCoeffTest(m_ppPersist))
-        return false;
-
-      return true;
-    };
+    virtual bool calcGrnAvrgMicroRateCoeffs() ;
 
     // Add reaction terms to the reaction matrix.
     virtual void AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega);

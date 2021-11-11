@@ -16,6 +16,7 @@
 #include "../ParseForPlugin.h"
 #include "PhaseIntegrals.h"
 #include "../FTSTPotential.h"
+#include "../MicroRate.h"
 
 using namespace std;
 using namespace Constants;

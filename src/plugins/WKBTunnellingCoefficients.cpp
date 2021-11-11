@@ -14,6 +14,7 @@
 #include <stdexcept>
 #include "../System.h"
 #include "../Reaction.h"
+#include "../Tunneling.h"
 
 using namespace Constants;
 using namespace std;

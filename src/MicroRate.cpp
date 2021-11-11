@@ -1,5 +1,6 @@
 #include <iomanip>
 #include "Reaction.h"
+#include "MicroRate.h"
 //
 // Test the forward microcanonical rate coefficients.
 //

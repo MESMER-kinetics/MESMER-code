@@ -16,6 +16,7 @@
 #include "../IrreversibleExchangeReaction.h"
 #include "../PseudoIsomerizationReaction.h"
 #include "../gDensityOfStates.h"
+#include "../Tunneling.h"
 
 using namespace Constants;
 

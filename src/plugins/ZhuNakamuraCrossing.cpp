@@ -16,6 +16,7 @@
 #include "../Rdouble.h"
 #include "../gDensityOfStates.h"
 #include "../Spline.h"
+#include "../MicroRate.h"
 
 using namespace Constants;
 using namespace std;

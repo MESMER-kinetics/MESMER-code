@@ -13,6 +13,7 @@
 #include <string>
 #include "../System.h"
 #include "../gDensityOfStates.h"
+#include "../MicroRate.h"
 
 using namespace Constants;
 using namespace std;

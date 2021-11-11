@@ -11,6 +11,7 @@
 #include <limits>
 #include "IrreversibleExchangeReaction.h"
 #include "gStructure.h"
+#include "MicroRate.h"
 
 using namespace Constants;
 using namespace std;
@@ -249,5 +250,20 @@ namespace mesmer
     if (thresh < 0.0) { m_GrnFluxFirstNonZeroIdx = int(-thresh / getEnv().GrainSize); }
     else { m_GrnFluxFirstNonZeroIdx = 0; }
   }
+
+  // Wrapper function to calculate and grain average microcanoincal rate coeffcients.
+  bool IrreversibleExchangeReaction::calcGrnAvrgMicroRateCoeffs() {
+
+    // Calculate microcanonical rate coefficients.
+    if (m_pMicroRateCalculator)
+      if (!m_pMicroRateCalculator->calculateMicroCnlFlux(this))
+        return false;
+
+    // Test grained microcanonical rate coefficients.
+    if (getFlags().microRateEnabled && !HighPresRateCoeffTest(m_ppPersist))
+      return false;
+
+    return true;
+  };
 
 }//namespace
