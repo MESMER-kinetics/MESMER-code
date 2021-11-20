@@ -355,6 +355,11 @@ Windows[!!-~]VC16/TinyXML/TinyXML.vcxproj -text
 Windows[!!-~]VC16/distribution/NSISScriptToCreateInstaller.nsi -text
 Windows[!!-~]VC16/distribution/ReadMe.txt -text
 Windows[!!-~]VC16/qd/qd.vcxproj -text
+Windows[!!-~]VC17/Mesmer/Mesmer.vcxproj -text
+Windows[!!-~]VC17/TinyXML/TinyXML.vcxproj -text
+Windows[!!-~]VC17/distribution/NSISScriptToCreateInstaller.nsi -text
+Windows[!!-~]VC17/distribution/ReadMe.txt -text
+Windows[!!-~]VC17/qd/qd.vcxproj -text
 /chemStrucEL.xsl -text
 /defaults.xml -text
 examples/2Methyl_to_Ethane/CH3_CH3_to_C2H6.xml -text
