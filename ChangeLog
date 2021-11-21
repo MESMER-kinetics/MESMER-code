@@ -1,3 +1,10 @@
+2021-November-21 Struan Robertson
+
+		* ExponentialDown.cpp: ExponentialDown energy transfer class altered to include a
+		linear dependence on the initial energy.
+
+		* Documentation update.
+
 2021-November-11 Struan Robertson
 
 		* Reaction.h/.cpp and all dervied classes and all classes derived from MicroRate.h
