@@ -19,7 +19,7 @@ namespace mesmer
   //
   // Get the current location.
   //
-  void FittingUtils::GetLocation(vector<double> &loc) const {
+  void FittingUtils::GetLocation(vector<double>& loc) const {
 
     for (size_t iVar(0); iVar < loc.size(); iVar++) {
       loc[iVar] = *Rdouble::withRange()[iVar];
@@ -30,7 +30,7 @@ namespace mesmer
   //
   // Set the current location.
   //
-  void FittingUtils::SetLocation(vector<double> &loc) const {
+  void FittingUtils::SetLocation(vector<double>& loc) const {
 
     for (size_t iVar(0); iVar < loc.size(); iVar++) {
       *Rdouble::withRange()[iVar] = loc[iVar];
@@ -42,7 +42,7 @@ namespace mesmer
   //
   // Check that the a point falls within the limits defined by the user.
   //
-  bool FittingUtils::CheckBounds(const vector<double> &A) const {
+  bool FittingUtils::CheckBounds(const vector<double>& A) const {
 
     bool check(true);
     for (size_t iVar(0); iVar < A.size() && check; iVar++) {
@@ -57,7 +57,7 @@ namespace mesmer
     }
 
     if (!check)
-      cinfo << "Failed bounds check." << endl ;
+      cinfo << "Failed bounds check." << endl;
 
     return check;
 
@@ -90,7 +90,7 @@ namespace mesmer
   // the 1/2 of the hessian as it these quantities can be used directly in the 
   // Marquardt algorithm to determine the next best guess of the the minimum.
   //
-  void FittingUtils::NumericalDerivatives(System* pSys, vector<double> &residuals, double delta, vector<double> &gradient, qdMatrix &hessian) const {
+  void FittingUtils::NumericalDerivatives(System* pSys, vector<double>& residuals, double delta, vector<double>& gradient, qdMatrix& hessian) const {
 
     size_t nVar = gradient.size();
     vector<double> location(nVar, 0.0), update(nVar, 0.0);
@@ -113,9 +113,9 @@ namespace mesmer
 
       double grad(0.0), hess(0.0);
       for (size_t i(0); i < sizeRes; i++) {
-        double deriv = (residuals[i] - newResiduals[i]) / (delta*location[iVar]);
+        double deriv = (residuals[i] - newResiduals[i]) / (delta * location[iVar]);
         grad += residuals[i] * deriv;
-        hess += deriv*deriv;
+        hess += deriv * deriv;
         derivatives.push_back(deriv);
       }
       gradient[iVar] = grad;
@@ -123,7 +123,7 @@ namespace mesmer
 
       for (size_t jVar(0); jVar < iVar; jVar++) {
         hess = 0.0;
-        for (size_t i(0), ii(iVar*sizeRes), jj(jVar*sizeRes); i < sizeRes; i++, ii++, jj++) {
+        for (size_t i(0), ii(iVar* sizeRes), jj(jVar* sizeRes); i < sizeRes; i++, ii++, jj++) {
           hess += derivatives[ii] * derivatives[jj];
         }
         hessian[iVar][jVar] = hessian[jVar][iVar] = qd_real(hess);
@@ -138,7 +138,7 @@ namespace mesmer
   //
   // Write out the results and statistics of the fit. 
   //
-  void FittingUtils::ResultsAndStatistics(System* pSys, qdMatrix &hessian) const {
+  void FittingUtils::ResultsAndStatistics(System* pSys, qdMatrix& hessian) const {
 
     // Calculate model values with optimum parameters.
 
@@ -151,24 +151,24 @@ namespace mesmer
     pSys->calculate(chiSquare, residuals, true);
     pSys->m_Flags.useTraceWeighting = useTraceWeights;
 
-		bool bIndependentErrors(pSys->m_Flags.bIndependentErrors);
+    bool bIndependentErrors(pSys->m_Flags.bIndependentErrors);
 
-		size_t NoDegFreedom = pSys->getConditionsManager()->getTotalNumPoints() - hessian.size();
-		double errorFactor = (bIndependentErrors) ? 1.0 : sqrt(chiSquare/double(NoDegFreedom)) ;
+    size_t NoDegFreedom = pSys->getConditionsManager()->getTotalNumPoints() - hessian.size();
+    double errorFactor = (bIndependentErrors) ? 1.0 : sqrt(chiSquare / double(NoDegFreedom));
 
-		// Calculate covaraince matrix.
+    // Calculate covaraince matrix.
 
     hessian.invertLUdecomposition();
 
-		stringstream line;
+    stringstream line;
     line << endl << "Chi^2 = " << chiSquare << endl << endl << "Best fit parameters:" << endl << endl;
 
     // Best fit parameters.
 
     for (size_t iVar(0); iVar < hessian.size(); iVar++) {
       Rdouble var = *Rdouble::withRange()[iVar];
-      double sigma = errorFactor*to_double(sqrt(hessian[iVar][iVar]));
-			line << var.get_varname() << " = " << setprecision(6) << var.originalUnits() << " +/- " << var.originalUnits(sigma) << endl;
+      double sigma = errorFactor * to_double(sqrt(hessian[iVar][iVar]));
+      line << var.get_varname() << " = " << setprecision(6) << var.originalUnits() << " +/- " << var.originalUnits(sigma) << endl;
       var.XmlWriteValue();
     }
     Rdouble::UpdateXMLDerivedVariables(); //properties specified with derivedFrom attribute
@@ -181,7 +181,7 @@ namespace mesmer
       Rdouble vara = *Rdouble::withRange()[iVar];
       double sigma = to_double(sqrt(hessian[iVar][iVar]));
       for (size_t jVar(0); jVar < iVar; jVar++) {
-        double corrlCoeff = to_double(hessian[iVar][jVar] / (sigma*sqrt(hessian[jVar][jVar])));
+        double corrlCoeff = to_double(hessian[iVar][jVar] / (sigma * sqrt(hessian[jVar][jVar])));
         Rdouble varb = *Rdouble::withRange()[jVar];
         line << vara.get_varname() << " , " << varb.get_varname() << " = " << setprecision(6) << corrlCoeff << endl;
       }
@@ -200,18 +200,18 @@ namespace mesmer
 
     // Goodness of fit.
 
-		if (bIndependentErrors) {
-			line << endl << "Goodness of Fit:" << endl << endl;
-			line << "Number of degrees of Freedom = " << NoDegFreedom << endl;
-			line << "Chi^2 probability = " << ChiSquaredPrbFn(chiSquare / 2.0, double(NoDegFreedom) / 2.0) << endl << endl;
-		}
-		else {
-			line << endl << "No independent experimenal error estimates available, therefore Chi^2 test not applicable." << endl << endl;
-			line << "Number of degrees of Freedom = " << NoDegFreedom << endl;
-			line << "Error Factor = " << errorFactor << endl << endl;
-		}
+    if (bIndependentErrors) {
+      line << endl << "Goodness of Fit:" << endl << endl;
+      line << "Number of degrees of Freedom = " << NoDegFreedom << endl;
+      line << "Chi^2 probability = " << ChiSquaredPrbFn(chiSquare / 2.0, double(NoDegFreedom) / 2.0) << endl << endl;
+    }
+    else {
+      line << endl << "No independent experimenal error estimates available, therefore Chi^2 test not applicable." << endl << endl;
+      line << "Number of degrees of Freedom = " << NoDegFreedom << endl;
+      line << "Error Factor = " << errorFactor << endl << endl;
+    }
 
-		cinfo << string(line.str());
+    cinfo << string(line.str());
 
     return;
 

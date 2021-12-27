@@ -16,7 +16,6 @@
 
 #include <memory>
 #include "DensityOfStates.h"
-#include "Distribution.h"
 #include "MesmerEnv.h"
 #include "MesmerFlags.h"
 #include "Rdouble.h"

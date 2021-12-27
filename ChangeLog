@@ -1,3 +1,9 @@
+2021-December-27 Struan Robertson
+
+		* gWellProperties.h, MolecularManager.h: Include discipline changes.
+
+		* ConditionsManager.h: Preparation for traces error analysis.
+
 2021-November-21 Struan Robertson
 
 		* ExponentialDown.cpp: ExponentialDown energy transfer class altered to include a
