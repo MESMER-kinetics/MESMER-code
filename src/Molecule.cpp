@@ -6,6 +6,7 @@
 //-------------------------------------------------------------------------------------------
 #include "Molecule.h"
 #include "gWellProperties.h"
+#include "gWellRadiationTransition.h"
 #include "gDensityOfStates.h"
 #include "gStructure.h"
 #include "gBathProperties.h"
@@ -34,6 +35,7 @@ namespace mesmer
     g_ts(NULL),
     g_pop(NULL),
     g_coll(NULL),
+    g_rad(NULL),
     g_struc(NULL)
   {
     m_molTypes[molType] = true;
@@ -43,9 +45,10 @@ namespace mesmer
     // delete the pointers in the reverse order.
     if (g_struc != NULL) delete g_struc;
     if (g_coll  != NULL) delete g_coll;
+    if (g_rad   != NULL) delete g_rad;
     if (g_pop   != NULL) delete g_pop;
     if (g_ts    != NULL) delete g_ts;
-    if (g_dos  != NULL) delete g_dos;
+    if (g_dos   != NULL) delete g_dos;
     if (g_bath  != NULL) delete g_bath;
   }
 
@@ -182,6 +185,19 @@ namespace mesmer
     }
 
     return *g_coll;
+  }
+
+  gWellRadiationTransition& Molecule::getRad() {
+    if (!g_rad) {
+      g_rad = new gWellRadiationTransition(this);
+
+      if (!g_rad->initialization()) {
+        string err("Radiation model parameters not defined for " + m_Name + ".\n");
+        throw std::runtime_error(err);
+      }
+    }
+
+    return *g_rad;
   }
 
   gStructure&        Molecule::getStruc() {

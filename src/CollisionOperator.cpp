@@ -22,6 +22,7 @@
 #include "ExchangeReaction.h"
 
 #include "gWellProperties.h"
+#include "gWellRadiationTransition.h"
 #include "gPopulation.h"
 
 namespace mesmer
@@ -457,6 +458,13 @@ namespace mesmer
         throw(std::runtime_error(errorMsg));
       }
       isomer->getColl().copyCollisionOperator(m_reactionOperator, egme, idx, omega / m_meanOmega);
+
+      // Add contribution from radiation transitions if appropriate.
+
+      if (isomer->getRad().RadiationOperator(mEnv, &egme)) {
+        isomer->getRad().addRadiationOperator(m_reactionOperator, egme, idx, 1.0 / m_meanOmega);
+      }
+
       delete egme;
 
     }

@@ -26,6 +26,7 @@ namespace mesmer
   class gDensityOfStates;
   class gPopulation;
   class gStructure;
+  class gWellRadiationTransition;
 
   //**************************************************
   /// Basic molecule: has name and some collision parameters.
@@ -44,19 +45,20 @@ namespace mesmer
     unsigned int     m_atomNumber;         // If (m_atomNumber == 0), the atomArray element is missing.
 
     PersistPtr       m_ppPersist;          // Conduit for I/O
-    std::string      m_Name;              // Molecule name.
+    std::string      m_Name;               // Molecule name.
     std::string      m_Description;        // Longer description for the structure
     MoleculeManager *m_pMoleculeManager;   // Pointer molecule manager for navigation purposes.
     std::map<std::string, bool> m_molTypes;
 
     // Component pointers
-    friend class MolecularComponent; // Provide access privalage of MolecularComponent to private members of Molecule.
-    gBathProperties*        g_bath;  // Component pointer for bath gas properties
-    gDensityOfStates*       g_dos;   // Component pointer for cell density of state properties
-    gTransitionState*       g_ts;    // Component pointer for transition state properties
-    gPopulation*            g_pop;   // Component pointer for population and equilibrium fraction
-    gWellProperties*        g_coll;  // Component pointer for collision down model properties
-    gStructure*             g_struc; // Component pointer for chemical structural properties
+    friend class MolecularComponent;   // Provide access privilege of MolecularComponent to private members of Molecule.
+    gBathProperties*          g_bath;  // Component pointer for bath gas properties
+    gDensityOfStates*         g_dos;   // Component pointer for cell density of state properties
+    gTransitionState*         g_ts;    // Component pointer for transition state properties
+    gPopulation*              g_pop;   // Component pointer for population and equilibrium fraction
+    gWellProperties*          g_coll;  // Component pointer for collision energy transfer properties
+    gStructure*               g_struc; // Component pointer for chemical structural properties
+    gWellRadiationTransition* g_rad;   // Component pointer for radation energy transfer properties
 
   public:
 
@@ -86,12 +88,13 @@ namespace mesmer
 
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     // Manipulators of component pointers
-    gBathProperties&  getBath();
-    gDensityOfStates& getDOS();
-    gTransitionState& getTS();
-    gPopulation&      getPop();
-    gWellProperties&  getColl();
-    gStructure&       getStruc();
+    gBathProperties&          getBath();
+    gDensityOfStates&         getDOS();
+    gTransitionState&         getTS();
+    gPopulation&              getPop();
+    gWellProperties&          getColl();
+    gWellRadiationTransition& getRad();
+    gStructure&               getStruc();
 
     bool activateRole(string molType);
     bool hasDOSProperties() { return g_dos != NULL; }

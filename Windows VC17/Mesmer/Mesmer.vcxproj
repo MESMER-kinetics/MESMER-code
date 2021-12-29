@@ -151,6 +151,7 @@
     <ClCompile Include="..\..\src\gStructure.cpp" />
     <ClCompile Include="..\..\src\gTransitionState.cpp" />
     <ClCompile Include="..\..\src\gWellProperties.cpp" />
+    <ClCompile Include="..\..\src\gWellRadiationTransition.cpp" />
     <ClCompile Include="..\..\src\MolecularComponents.cpp" />
     <ClCompile Include="..\..\src\plugins\AnalyticalRepresentation.cpp" />
     <ClCompile Include="..\..\src\plugins\BeyerSwinehart.cpp" />
@@ -245,6 +246,7 @@
     <ClInclude Include="..\..\src\gStructure.h" />
     <ClInclude Include="..\..\src\gTransitionState.h" />
     <ClInclude Include="..\..\src\gWellProperties.h" />
+    <ClInclude Include="..\..\src\gWellRadiationTransition.h" />
     <ClInclude Include="..\..\src\ParallelManager.h" />
     <ClInclude Include="..\..\src\ParseForPlugin.h" />
     <ClInclude Include="..\..\src\plugin.h" />

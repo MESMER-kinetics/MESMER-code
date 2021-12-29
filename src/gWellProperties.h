@@ -373,7 +373,7 @@ namespace mesmer
       throw (std::runtime_error("Error in the size of the system matrix."));
 
     // Copy collision operator to the diagonal block indicated by "locate"
-    // and multiply by the reduced collision frequencey.
+    // and multiply by the reduced collision frequency.
 
     for (size_t i(0), ii(locate) ; i < m_ncolloptrsize; ++i, ++ii) {
       for (size_t j(0), jj(locate) ; j < m_ncolloptrsize; ++j, ++jj) {

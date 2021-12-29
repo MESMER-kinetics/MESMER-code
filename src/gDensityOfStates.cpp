@@ -8,6 +8,7 @@
 #include "gStructure.h"
 #include "gDensityOfStates.h"
 #include "gTransitionState.h"
+#include "gWellRadiationTransition.h"
 
 using namespace std;
 using namespace Constants;
@@ -97,6 +98,11 @@ namespace mesmer
 
     m_scaleFactor = ppPropList->XmlReadPropertyDouble("me:frequenciesScaleFactor");
     m_scaleFactor_chk = 0;
+
+    // Update the radiation transition object with frequencies.
+    if (hasVibFreq) {
+      pMol->getRad().setTransitionFrequencies(m_VibFreq);
+    }
 
     // Rotational constants.
 
