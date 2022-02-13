@@ -1,3 +1,8 @@
+2022-February-13 Struan Robertson
+
+		* gWellProperties.h, gWellRadiationTransition.h/.cpp: Extension of radiation transition
+		method to allow for definition based on either adsorption or emission.
+
 2021-December-29 Struan Robertson
 
 		* gWellProperties.h, gWellRadiationTransition.h/.cpp, CollisionOperator.cpp, 

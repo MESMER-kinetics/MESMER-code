@@ -16,6 +16,7 @@
 #include "MolecularComponents.h"
 #include <vector> 
 #include "gDensityOfStates.h"
+#include "gWellProperties.h"
 
 namespace mesmer
 {
@@ -31,7 +32,8 @@ namespace mesmer
     //
     // Constructor, destructor and initialization
     //
-    gWellRadiationTransition(Molecule* pMol);
+    gWellRadiationTransition(Molecule* pMol) ;
+
     virtual ~gWellRadiationTransition();
     bool initialization();
 
@@ -52,19 +54,34 @@ namespace mesmer
 
     // Returns the Planck distribution for a frequency expressed in wavenumbers. Returned units are Js/m3.
     double planckDistribtuion(double ene, double beta) const {
-      return 8.0 * M_PI * pow(ene, 3.0) * 1.0e+06 * PlancksConstant_in_JouleSecond / (exp(beta * ene) - 1.0);
-    }
+      // return 8.0 * M_PI * pow(ene, 3.0) * 1.0e+06 * PlancksConstant_in_JouleSecond / (exp(beta * ene) - 1.0);
+      double radiance(0.0);
+      const double h = PlancksConstant_in_JouleSecond;
+      const double c = SpeedOfLight_in_cm;
+      const double beta2 = 1.0 / (boltzmann_RCpK * 2500.0);
 
-    const size_t reservoirShift() const { return m_numGroupedGrains == 0 ? 0 : m_numGroupedGrains - 1; }
+      double nu = ene * c;
+
+      // Radiance (in photons cm-2 s-1 nm-1) = 2*6.6E-34*300000000^2/(lambda*0.000000001)^5*1/(EXP(6.6E-34*300000000/((lambda*0.000000001)*1.38E-23*t_star)) - 1) …. *0.0001*0.000000001/(10000000/lambda*11.96/6.02E+23)
+
+      // radiance = 2.0 * h * c * c * pow(ene / 100, 3.0) / (exp(beta * ene) - 1.0); // * 0.0001 * 0.000000001 / (ene * 11.96 / AvogadroC);
+
+      radiance = 8.0 * M_PI * h * pow(nu, 3.0) / (c * c) / (exp(beta * ene) - 1.0);
+
+      //cout << radiance << endl;
+
+      return radiance;
+    }
 
     const double getLowestBarrier() { return m_lowestBarrier; }
 
     void setLowestBarrier(double value) { m_lowestBarrier = value; }
 
     std::vector<double> m_TransitionFrequency; // Transition freqeuncies (in most cases these are same as normal mode freqencies).
-    std::vector<double> m_EinsteinBij;         // The associated Einstein Bij freqnecies. 
+    std::vector<double> m_EinsteinAij;         // The associated Einstein Aij constant. 
+    std::vector<double> m_EinsteinBij;         // The associated Einstein Bij constant. 
 
-    size_t m_numGroupedGrains;    // Number of grains grouped into a reservoir grain.
+    bool m_bActivation; // If true the transition matrix will be constructed by considering downward transitions.
 
     double m_lowestBarrier;       // lowest barrier associatied with this species
   };
@@ -84,34 +101,65 @@ namespace mesmer
     m_host->getDOS().getGrainEnergies(gEne);
     m_host->getDOS().getGrainDensityOfStates(gDOS);
 
-    const size_t nradoptrsize = (*CollOp)->size() ;
+    const size_t nradoptrsize = (*CollOp)->size();
 
     // Allocate memory.
     TMatrix<T>* transitionMatrix = new TMatrix<T>(nradoptrsize, T(0.0));
 
     const T beta = T(env.beta);
 
-    // Determine the upward radiative transitions first, by filling sub diagonal elements first.
-    for (size_t idx(0); idx < m_EinsteinBij.size(); idx++) {
-      
-      const T excitationRate = T(m_EinsteinBij[idx] * planckDistribtuion(m_TransitionFrequency[idx], env.beta));
+    if (m_bActivation) {
 
-      // Search for first transition.  
-      size_t ll(0);
-      for (; m_TransitionFrequency[idx] > gEne[ll]; ll++) ;
+      // Determine the upward radiative transitions first, by filling sub diagonal elements first.
+      for (size_t idx(0); idx < m_EinsteinBij.size(); idx++) {
 
-      for (size_t i = ll, j = 0; i < nradoptrsize; ++i, ++j) {
-        T ei = T(gEne[i]);
-        T ni = T(gDOS[i]);
-        T ej = T(gEne[j]);
-        T nj = T(gDOS[j]);
+        const T excitationRate = T(m_EinsteinBij[idx] * planckDistribtuion(m_TransitionFrequency[idx], env.beta));
 
-        // Transfer to higher energy (adsorption).
-        (*transitionMatrix)[i][j] += excitationRate;
+        // Search for first transition.  
+        size_t ll(0);
+        for (; m_TransitionFrequency[idx] > gEne[ll]; ll++);
 
-        // Transfer to lower energy (stimulated and spontaneous emission via detailed balance).
-        (*transitionMatrix)[j][i] += excitationRate * (nj / ni) * exp(-beta * (ej - ei));
+        for (size_t i = ll, j = 0; i < nradoptrsize; ++i, ++j) {
+          T ei = T(gEne[i]);
+          T ni = T(gDOS[i]);
+          T ej = T(gEne[j]);
+          T nj = T(gDOS[j]);
+
+          // Transfer to higher energy (adsorption).
+          (*transitionMatrix)[i][j] += excitationRate;
+
+          // Transfer to lower energy (stimulated and spontaneous emission via detailed balance).
+          (*transitionMatrix)[j][i] += excitationRate * (nj / ni) * exp(-beta * (ej - ei));
+        }
       }
+
+    }
+    else {
+
+
+      // Determine the downward radiative transitions first, by filling super  diagonal elements first.
+      for (size_t idx(0); idx < m_EinsteinBij.size(); idx++) {
+
+        const T dexcitationRate = T(m_EinsteinBij[idx] * planckDistribtuion(m_TransitionFrequency[idx], env.beta)) + m_EinsteinAij[idx];
+
+        // Search for first transition.  
+        size_t ll(0);
+        for (; m_TransitionFrequency[idx] > gEne[ll]; ll++);
+
+        for (size_t j = ll, i = 0; i < nradoptrsize; ++i, ++j) {
+          T ei = T(gEne[i]);
+          T ni = T(gDOS[i]);
+          T ej = T(gEne[j]);
+          T nj = T(gDOS[j]);
+
+          // Transfer to lower energy (stimulated and spontaneous emission ).
+          (*transitionMatrix)[i][j] += dexcitationRate;
+
+          // Transfer to lower energy (emission via detailed balance).
+          (*transitionMatrix)[j][i] += dexcitationRate * (nj / ni) * exp(-beta * (ej - ei));
+        }
+      }
+
     }
 
     // Mass conservation.
@@ -125,10 +173,10 @@ namespace mesmer
       (*transitionMatrix)[i][i] = -sum;
     }
 
-    string title("Radiation Transition Matrix:");
-    transitionMatrix->print(title, stest, 20, 20, -1, -1);
-
     // Account for a reservoir state.
+    // Set the number of grains grouped in a reservoir grain to same value as used in the collision matrix.
+
+    const size_t m_numGroupedGrains = m_host->getColl().get_numGroupedGrains();
 
     vector<T> popDist; // Grained population distribution.
     popDist.push_back(0.0);
@@ -144,13 +192,13 @@ namespace mesmer
       }
     }
 
-    const size_t reducedCollOptrSize = nradoptrsize - reservoirShift();
+    const size_t reducedCollOptrSize = nradoptrsize - ((m_numGroupedGrains==0) ? 0 : m_numGroupedGrains-1);
 
     // Symmetrization of the radiation matrix.
     for (size_t i(1); i < reducedCollOptrSize; ++i) {
       for (size_t j(0); j < i; ++j) {
         (*transitionMatrix)[j][i] *= sqrt(popDist[i] / popDist[j]);
-        (*transitionMatrix)[i][j]  = (*transitionMatrix)[j][i];
+        (*transitionMatrix)[i][j] = (*transitionMatrix)[j][i];
       }
     }
 

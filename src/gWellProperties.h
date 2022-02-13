@@ -117,6 +117,10 @@ namespace mesmer
 
     const size_t reservoirShift() {return m_numGroupedGrains == 0 ? 0 : m_numGroupedGrains - 1; }
 
+    size_t get_numGroupedGrains() const {
+      return m_numGroupedGrains;
+    }
+
   };
 
   //

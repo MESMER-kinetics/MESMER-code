@@ -23,9 +23,11 @@ namespace mesmer
   // Constructor, destructor and initialization
   //
   gWellRadiationTransition::gWellRadiationTransition(Molecule* pMol) : MolecularComponent(), 
+    m_TransitionFrequency(),
+    m_EinsteinAij(),
     m_EinsteinBij(),
-    m_lowestBarrier(9e23),
-    m_numGroupedGrains(0)
+    m_bActivation(false),
+    m_lowestBarrier(9e23)
   {
     ErrorContext c(pMol->getName());
     m_host = pMol;
@@ -39,13 +41,20 @@ namespace mesmer
 
     PersistPtr pp = m_host->get_PersistentPointer();
 
-    // Read in Einstein Bij coefficents.
+    // Read in Einstein Aij and/or Bij coefficents.
 
     PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
     if (!ppPropList)
       ppPropList = pp; // A propertyList element is not essential.
 
     const char* txt;
+    if ((txt = ppPropList->XmlReadProperty("me:EinsteinAij", optional))) {
+      istringstream idata(txt);
+      double x;
+      while (idata >> x)
+        m_EinsteinAij.push_back(x);
+    }
+
     if ((txt = ppPropList->XmlReadProperty("me:EinsteinBij", optional))) {
       istringstream idata(txt);
       double x;
@@ -53,47 +62,24 @@ namespace mesmer
         m_EinsteinBij.push_back(x);
     }
 
-    // Determine the energy of the reservoir grain, first find the lowest barrier 
-    // associated with the current well.
-    // 
-    PersistPtr ppReservoirSize = pp->XmlMoveTo("me:reservoirSize");
-
-    m_numGroupedGrains = 0; // Reset the number of grains grouped into a reservoir grain to zero.
-
-    if (ppReservoirSize) {
-
-      // Check the size of the reservoir.
-      double tmpvalue = pp->XmlReadDouble("me:reservoirSize");
-
-      const char* unitsTxt = ppReservoirSize->XmlReadValue("units", false);
-      string unitsInput("kJ/mol");
-      if (unitsTxt) {
-        unitsInput = unitsTxt;
+    if (m_EinsteinAij.size() == m_EinsteinBij.size()) {
+      m_bActivation = false;
+    } else if (m_EinsteinAij.size() == 0 && m_EinsteinBij.size() > 0) {
+      m_bActivation = true;
+    }
+    else if (m_EinsteinAij.size() > 0 && m_EinsteinBij.size() == 0) {
+      m_bActivation = false;
+      const double h = PlancksConstant_in_JouleSecond;
+      const double c = SpeedOfLight_in_cm;
+      const double A2B = c * c / (8.0 * M_PI * h);
+      for (size_t i(0); i < m_EinsteinAij.size(); i++) {
+        const double nu = m_TransitionFrequency[i] * c;
+        const double Bij = A2B * m_EinsteinAij[i] / (pow(nu, 3.0));
+        m_EinsteinBij.push_back(Bij);
       }
-      else {
-        stest << "No unit for reservoir size has been supplied, use kJ/mol." << endl;
-      }
-
-      const double value(getConvertedEnergy(unitsInput, tmpvalue));
-      int grainLoc(int(value / double(m_host->getEnv().GrainSize)));
-      int lowestBarrier = int(getLowestBarrier() / double(m_host->getEnv().GrainSize));
-
-      if (grainLoc > 0) {
-        if (grainLoc > lowestBarrier) {
-          stest << "The reservoir size provided is too high, corrected according to the lowest barrier height." << endl;
-          grainLoc = lowestBarrier;
-        }
-      }
-      else {
-        if (abs(grainLoc) > lowestBarrier) {
-          stest << "The reservoir size provided is too low, corrected to zero." << endl;
-          grainLoc = 0;
-        }
-        else {
-          grainLoc += lowestBarrier;
-        }
-      }
-
+    }
+    else {
+      throw(runtime_error("Error reading Einstein Coefficients."));
     }
 
     return true;
