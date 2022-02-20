@@ -66,9 +66,22 @@ namespace mesmer
       m_bActivation = false;
     } else if (m_EinsteinAij.size() == 0 && m_EinsteinBij.size() > 0) {
       m_bActivation = true;
-    }
-    else if (m_EinsteinAij.size() > 0 && m_EinsteinBij.size() == 0) {
+    } else if (m_EinsteinAij.size() > 0 && m_EinsteinBij.size() == 0) {
       m_bActivation = false;
+    } else {
+      throw(runtime_error("Error reading Einstein Coefficients."));
+    }
+
+    return true;
+  }
+
+  // Set transition frequencies.
+  void gWellRadiationTransition::setTransitionFrequencies(vector<double>& frequencies) {
+    m_TransitionFrequency = frequencies;
+
+    // Derive Bij Coefficients from Aij coefficients if requried.
+    if (!m_bActivation && m_EinsteinBij.size() != m_EinsteinAij.size()) {
+      m_EinsteinBij.clear();
       const double h = PlancksConstant_in_JouleSecond;
       const double c = SpeedOfLight_in_cm;
       const double A2B = c * c / (8.0 * M_PI * h);
@@ -78,11 +91,10 @@ namespace mesmer
         m_EinsteinBij.push_back(Bij);
       }
     }
-    else {
-      throw(runtime_error("Error reading Einstein Coefficients."));
-    }
 
-    return true;
+    return;
   }
+
+
 
 }//namespace

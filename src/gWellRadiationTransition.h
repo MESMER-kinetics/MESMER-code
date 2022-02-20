@@ -38,9 +38,7 @@ namespace mesmer
     bool initialization();
 
     // Set transition frequencies.
-    void setTransitionFrequencies(vector<double>& frequencies) {
-      m_TransitionFrequency = frequencies;
-    }
+    void setTransitionFrequencies(vector<double>& frequencies);
 
     // Calculate radiation operator.
     template<class T>
@@ -93,7 +91,7 @@ namespace mesmer
   bool gWellRadiationTransition::RadiationOperator(MesmerEnv& env, TMatrix<T>** CollOp) const {
 
     // Are there any Einstein coeffcients?
-    if (m_EinsteinBij.size() == 0)
+    if (m_EinsteinBij.size() == 0 && m_EinsteinAij.size() == 0)
       return false;
 
     vector<double> gEne;
@@ -136,7 +134,6 @@ namespace mesmer
     }
     else {
 
-
       // Determine the downward radiative transitions first, by filling super  diagonal elements first.
       for (size_t idx(0); idx < m_EinsteinBij.size(); idx++) {
 
@@ -146,7 +143,7 @@ namespace mesmer
         size_t ll(0);
         for (; m_TransitionFrequency[idx] > gEne[ll]; ll++);
 
-        for (size_t j = ll, i = 0; i < nradoptrsize; ++i, ++j) {
+        for (size_t j = ll, i = 0; j < nradoptrsize; ++i, ++j) {
           T ei = T(gEne[i]);
           T ni = T(gDOS[i]);
           T ej = T(gEne[j]);

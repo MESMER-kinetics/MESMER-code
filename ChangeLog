@@ -1,5 +1,9 @@
 2022-February-20 Struan Robertson
 
+		* gWellRadiationTransition.h/.cpp: Fixes for radiation transition based on Aij.
+
+2022-February-20 Struan Robertson
+
 		* FourierGrid1D.cpp, mesmerPlugins.xsd, Ethyl_H_to_Ethane_inversion.xml: Added
 		a symmetry element to FourierGrid to account for inversion symmetry etc.
 
