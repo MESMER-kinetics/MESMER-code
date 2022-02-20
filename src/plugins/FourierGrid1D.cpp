@@ -61,7 +61,7 @@ namespace mesmer
     virtual bool countCellDOS(gDensityOfStates* mol, const MesmerEnv& env);
 
     // Provide a function to calculate contribution to canonical partition function.
-    virtual void canPrtnFnCntrb(gDensityOfStates* gdos, double beta, double &PrtnFn, double &IntrlEne, double &varEne);
+    virtual void canPrtnFnCntrb(gDensityOfStates* gdos, double beta, double& PrtnFn, double& IntrlEne, double& varEne);
 
     // Function to return the number of degrees of freedom associated with this count.
     virtual unsigned int NoDegOfFreedom(gDensityOfStates* gdos) { return 1; };
@@ -72,10 +72,11 @@ namespace mesmer
     // Constructor which registers with the list of DensityOfStatesCalculators in the base class
     // This class is an extra DOS class.
     FourierGrid1D(const char* id) : m_id(id),
-			m_ppotential(NULL),
-			m_nGridPoints(100),
+      m_ppotential(NULL),
+      m_nGridPoints(100),
       m_ZPE(0.0),
       m_reducedMass(0.0),
+      m_Sym(1.0),
       m_energyLevels(),
       m_plotStates(false),
       m_writeStates(false) {
@@ -84,7 +85,7 @@ namespace mesmer
 
     virtual const char* getID() { return m_id; }
 
-		virtual ~FourierGrid1D() { delete m_ppotential; }
+    virtual ~FourierGrid1D() { delete m_ppotential; }
     virtual FourierGrid1D* Clone() { return new FourierGrid1D(*this); }
     virtual const char* Description() {
       return
@@ -96,7 +97,7 @@ namespace mesmer
   private:
 
     // Provide data for plotting states against potential.
-    void outputPlotData(vector<double> &abscissa, vector<double> &potential) const;
+    void outputPlotData(vector<double>& abscissa, vector<double>& potential) const;
 
     // Print the hindered rotor states.
     void outputStateData() const;
@@ -104,10 +105,11 @@ namespace mesmer
     const char* m_id;
 
     Potential1D* m_ppotential;       // Class holding the potential representation.
-		size_t m_nGridPoints;            // Number of gridpoints to be used to construct Hamiltonian.
+    size_t m_nGridPoints;            // Number of gridpoints to be used to construct Hamiltonian.
 
     double m_ZPE;                    // Zero point energy.
     double m_reducedMass;            // reduced mass.
+    double m_Sym;                    // Symmetry Number (e.g. for inversion).
     string m_format;                 // Format that the potential is represented in.
 
     vector<double> m_energyLevels;	 // The energies of the hindered rotor states.
@@ -146,16 +148,16 @@ namespace mesmer
     }
     cinfo << endl;
 
-		// Read the number of grid points it be used and make sure it is even. 
+    // Read the number of grid points it be used and make sure it is even. 
 
-		m_nGridPoints  = ppDOSC->XmlReadInteger("me:NumGridPnts", optional);
-		m_nGridPoints += (m_nGridPoints % 2) ? 1 : 0;
+    m_nGridPoints = ppDOSC->XmlReadInteger("me:NumGridPnts", optional);
+    m_nGridPoints += (m_nGridPoints % 2) ? 1 : 0;
 
     // Determine reduced moment mass. These can either be read in or 
     // calculated if the coordinates are available. Always take the 
     // user defined reduced mass if present, if not then calculate. 
 
-		PersistPtr ppRM = ppDOSC->XmlMoveTo("me:reducedMass");
+    PersistPtr ppRM = ppDOSC->XmlMoveTo("me:reducedMass");
     if (!ppRM)
       ppRM = ppDOSC->XmlMoveTo("reducedMass");
     const char* bondref = ppDOSC->XmlReadValue("bondRef", optional);
@@ -216,9 +218,9 @@ namespace mesmer
         m_ppotential = new NumericalPotential(m_nGridPoints);
       }
       else {
-				cerr << "__FUNCTION__: Unknown potential type." << endl;
-				return false;
-			}
+        cerr << "__FUNCTION__: Unknown potential type." << endl;
+        return false;
+      }
       m_ppotential->InitializePotential(pp);
     }
 
@@ -231,6 +233,11 @@ namespace mesmer
         return false;
       }
     }
+
+    // Read (inversion) symmetry number.
+    double tmp = ppDOSC->XmlReadDouble("me:symmetryNumber", optional);
+    if (!IsNan(tmp))
+      m_Sym = tmp;
 
     // Check if is data for plotting are required.
 
@@ -282,28 +289,28 @@ namespace mesmer
     dMatrix hamiltonian(m_nGridPoints);
 
     // Add kinetic energy terms.
-		const double cfctr = M_PI / double(m_nGridPoints);
-		const double chlen = m_ppotential->get_characteristicLength();
-		const double tfctr = PlancksConstant_in_JouleSecond * AvogadroC *1.e+23 / (4.0*SpeedOfLight_in_cm*m_reducedMass*chlen*chlen);
-		const double dgnEl = tfctr*((double(m_nGridPoints)*double(m_nGridPoints) + 2.0) / 6.0);
-		for (int i(0) ; i < int(m_nGridPoints) ; i++) {
-			hamiltonian[i][i] = dgnEl;
-      for (int j(i+1) ; j < int(m_nGridPoints) ; j++) {
-				int dij     = i - j;
-				double tmp  = sin(double(dij)*cfctr) ;
-				double dsgn = (dij) % 2 ? -1.0 : 1.0;
-				hamiltonian[i][j]  = tfctr*dsgn /(tmp * tmp) ;
-				hamiltonian[j][i]  = hamiltonian[i][j];
+    const double cfctr = M_PI / double(m_nGridPoints);
+    const double chlen = m_ppotential->get_characteristicLength();
+    const double tfctr = PlancksConstant_in_JouleSecond * AvogadroC * 1.e+23 / (4.0 * SpeedOfLight_in_cm * m_reducedMass * chlen * chlen);
+    const double dgnEl = tfctr * ((double(m_nGridPoints) * double(m_nGridPoints) + 2.0) / 6.0);
+    for (int i(0); i < int(m_nGridPoints); i++) {
+      hamiltonian[i][i] = dgnEl;
+      for (int j(i + 1); j < int(m_nGridPoints); j++) {
+        int dij = i - j;
+        double tmp = sin(double(dij) * cfctr);
+        double dsgn = (dij) % 2 ? -1.0 : 1.0;
+        hamiltonian[i][j] = tfctr * dsgn / (tmp * tmp);
+        hamiltonian[j][i] = hamiltonian[i][j];
       }
     }
 
-		// Add diagonal potential terms.
+    // Add diagonal potential terms.
 
-		for (size_t n(0); n < m_nGridPoints; n++) {
-			hamiltonian[n][n] += potential[n];
-		}
+    for (size_t n(0); n < m_nGridPoints; n++) {
+      hamiltonian[n][n] += potential[n];
+    }
 
-		// Now diagonalize hamiltonian matrix to determine energy levels.
+    // Now diagonalize hamiltonian matrix to determine energy levels.
     vector<double> eigenvalues(m_nGridPoints, 0.0);
 
     hamiltonian.diagonalize(&eigenvalues[0]);
@@ -316,13 +323,19 @@ namespace mesmer
     // density of states for the other degrees of freedom.
 
     m_ZPE = m_energyLevels[0];
-    for (size_t k(1); k < m_energyLevels.size() ; k++) {
+    for (size_t k(1); k < m_energyLevels.size(); k++) {
       size_t nr = nint((m_energyLevels[k] - m_ZPE) / env.CellSize);
       if (nr < MaximumCell) {
         for (size_t i(0); i < MaximumCell - nr; i++) {
           tmpCellDOS[i + nr] = tmpCellDOS[i + nr] + cellDOS[i];
         }
       }
+    }
+
+    // Apply symmetry number.
+
+    for (size_t i(0); i < MaximumCell; i++) {
+      tmpCellDOS[i] /= m_Sym;
     }
 
     // Replace existing density of states.   
@@ -345,40 +358,41 @@ namespace mesmer
   // Provide a function to calculate contribution to canonical partition function.
   // (Mostly for testing purposes.)
   //
-  void FourierGrid1D::canPrtnFnCntrb(gDensityOfStates* gdos, double beta, double &PrtnFn, double &IntrlEne, double &varEne)
+  void FourierGrid1D::canPrtnFnCntrb(gDensityOfStates* gdos, double beta, double& PrtnFn, double& IntrlEne, double& varEne)
   {
-    double Qintrot(0.0), Eintrot(0.0), varEintrot(0.0);
+    double Qinvrn(0.0), Einvrn(0.0), varEinvrn(0.0);
 
     double zeroPointEnergy(m_energyLevels[0]);
     for (size_t i(0); i < m_energyLevels.size(); i++) {
       double ene = m_energyLevels[i] - zeroPointEnergy;
-      Qintrot += exp(-beta*ene);
-      Eintrot += ene*exp(-beta*ene);
-      varEintrot += ene*ene*exp(-beta*ene);
+      Qinvrn += exp(-beta * ene);
+      Einvrn += ene * exp(-beta * ene);
+      varEinvrn += ene * ene * exp(-beta * ene);
     }
-    Eintrot /= Qintrot;
-    varEintrot = varEintrot / Qintrot - Eintrot*Eintrot;
+    Einvrn /= Qinvrn;
+    varEinvrn = varEinvrn / Qinvrn - Einvrn * Einvrn;
+    Qinvrn /= m_Sym;
 
-    PrtnFn *= Qintrot;
-    IntrlEne += Eintrot;
-    varEne += varEintrot;
+    PrtnFn *= Qinvrn;
+    IntrlEne += Einvrn;
+    varEne += varEinvrn;
   }
 
   // Provide data for plotting states against potential.
-  void FourierGrid1D::outputPlotData(vector<double> &abscissa, vector<double> &potential) const {
+  void FourierGrid1D::outputPlotData(vector<double>& abscissa, vector<double>& potential) const {
 
     ctest << endl << "Vibrational state data for plotting." << endl << endl;
 
     size_t npoints(abscissa.size());
     for (size_t i(0); i < npoints; ++i) {
-    	ctest << formatFloat(abscissa[i], 6, 15) << ", " << formatFloat(potential[i], 6, 15) << endl;
+      ctest << formatFloat(abscissa[i], 6, 15) << ", " << formatFloat(potential[i], 6, 15) << endl;
     }
     ctest << endl;
 
     for (size_t i(0); i < m_energyLevels.size(); i++) {
-    	ctest << formatFloat(abscissa[0], 6, 15) << ", " << formatFloat(m_energyLevels[i], 6, 15) << endl;
-    	ctest << formatFloat(abscissa[npoints-1], 6, 15) << ", " << formatFloat(m_energyLevels[i], 6, 15) << endl;
-    	ctest << endl;
+      ctest << formatFloat(abscissa[0], 6, 15) << ", " << formatFloat(m_energyLevels[i], 6, 15) << endl;
+      ctest << formatFloat(abscissa[npoints - 1], 6, 15) << ", " << formatFloat(m_energyLevels[i], 6, 15) << endl;
+      ctest << endl;
     }
 
   }

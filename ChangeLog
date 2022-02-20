@@ -1,3 +1,8 @@
+2022-February-20 Struan Robertson
+
+		* FourierGrid1D.cpp, mesmerPlugins.xsd, Ethyl_H_to_Ethane_inversion.xml: Added
+		a symmetry element to FourierGrid to account for inversion symmetry etc.
+
 2022-February-13 Struan Robertson
 
 		* gWellProperties.h, gWellRadiationTransition.h/.cpp: Extension of radiation transition

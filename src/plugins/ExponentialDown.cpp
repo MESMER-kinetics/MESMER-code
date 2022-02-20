@@ -263,9 +263,9 @@ namespace mesmer
     double deltaEDown = m_deltaEDown + Ei * m_EdepParam;
     const double temperature = 1.0 / (boltzmann_RCpK * getParent()->getEnv().beta);
     if (m_dEdExp != 0.0)
-      deltaEDown = deltaEDown * pow((temperature / m_refTemp), m_dEdExp);
-    if (m_dEdAct != 0)
-      deltaEDown = deltaEDown * exp(m_dEdAct * temperature);
+      deltaEDown *= pow((temperature / m_refTemp), m_dEdExp);
+    if (m_dEdAct != 0.0)
+      deltaEDown *= exp(m_dEdAct * temperature);
 
     /******************************************************************************
     Issue a warning message if delta_E_down is smaller than grain size. When
@@ -307,7 +307,7 @@ namespace mesmer
     <me:energyTransferModel xsi:type="me:ExponentialDown">
       <me:deltaEDown units="cm-1" lower="160" upper="300" stepsize="10">190</me:deltaEDown>
       <me:deltaEDownTExponent referenceTemperature="300">1.0</me:deltaEDownTExponent>
-      <me:deltaEDownActivationParam units="K-1">1.2</me:deltaEDownActivationParam> <!--new-->
+      <me:deltaEDownTActivation units="K-1">1.2</me:deltaEDownTActivation> 
       <me:deltaEDown units="cm-1" bathGas="Ar">144.0</me:deltaEDown>
       <me:deltaEDownTExponent ref="Ar" lower="0.8" upper="1.2" stepsize="0.1">1.0</me:deltaEDownTExponent>
     </me:energyTransferModel>

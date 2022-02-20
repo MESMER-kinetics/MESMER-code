@@ -160,6 +160,7 @@ SRCS := \
 	gStructure.cpp \
 	gTransitionState.cpp \
 	gWellProperties.cpp \
+	gWellRadiationTransition.cpp \
 	IrreversibleExchangeReaction.cpp \
 	IrreversibleUnimolecularReaction.cpp \
 	IsomerizationReaction.cpp \

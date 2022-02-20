@@ -536,6 +536,7 @@
           <me:PotentialPoint coordinate=" 3.24903861	"  potential="-52566.14	"/>
           <me:PotentialPoint coordinate=" 3.26649190	"  potential="-52566.33	"/>
         </me:vibrationalPotential>
+        <me:symmetryNumber>2</me:symmetryNumber>
         <me:PlotStates/>
       </me:ExtraDOSCMethod>
 
