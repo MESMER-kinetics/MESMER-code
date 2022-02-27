@@ -1,5 +1,12 @@
 2022-February-20 Struan Robertson
 
+		* ParallelManager.h, ConditionsManager.cpp, System.h/.cpp: Fixes for sink reaction 
+		hang.
+
+		* Documentation update.
+
+2022-February-20 Struan Robertson
+
 		* gWellRadiationTransition.h/.cpp: Fixes for radiation transition based on Aij.
 
 2022-February-20 Struan Robertson

@@ -19,7 +19,6 @@
 #include "ReactionManager.h"
 #include "calcmethod.h"
 #include "CollisionOperator.h"
-#include "ParallelManager.h"
 
 #define MESMER_VERSION "6.2"
 
@@ -31,57 +30,58 @@ namespace mesmer
   //global variable
   extern std::string libfile;
 
-	class ConditionsManager;
+  class ConditionsManager;
+  class ParallelManager;
 
-  class System 
+  class System
   {
   public:
 
-    System(const std::string& libraryfilename, ParallelManager *pParallelManager) ;
-    ~System() ;
+    System(const std::string& libraryfilename, ParallelManager* pParallelManager);
+    ~System();
 
     // Initialize the System object.
-    bool initialize(void) ;
+    bool initialize(void);
 
     // Read and parse a data input file.
-    bool parse(PersistPtr ppIOPtr) ;
+    bool parse(PersistPtr ppIOPtr);
 
     // Begin calculation.
-    void executeCalculation() ;
+    void executeCalculation();
 
     // Begin single calculation.
-    bool calculate(double& chiSquare, vector<double> &residuals, bool writeReport = false) ;
+    bool calculate(double& chiSquare, vector<double>& residuals, bool writeReport = false);
 
     // Begin single calculation - wrapper function.
     bool calculate(double& chiSquare, bool writeReport = false) {
-      vector<double> residuals ;
-      return calculate(chiSquare, residuals, writeReport) ;
-    } ;
+      vector<double> residuals;
+      return calculate(chiSquare, residuals, writeReport);
+    };
 
     // Calculate rate coefficients etc. for a specific condition.
-    bool calculate(size_t nCond, vector<double> &Quantities, bool writeReport = false) ;
+    bool calculate(size_t nCond, vector<double>& Quantities, bool writeReport = false);
 
     // Begin single calculation.
-    bool calculate(double &Temperature, double &Concentration, Precision precision,
-      map<string, double> &phenRates, double &MaxT, const std::string& bathGas);
+    bool calculate(double& Temperature, double& Concentration, Precision precision,
+      map<string, double>& phenRates, double& MaxT, const std::string& bathGas);
 
     // Wrapper for single calculation.
-    bool calculate(size_t nCond, map<string, double> &phenRates)  ;
+    bool calculate(size_t nCond, map<string, double>& phenRates);
 
     // Print system configuration
     void configuration(void);
 
     // Deduce the role of each molecule and add it to the XML file 
-    bool assignMolTypes(PersistPtr ppIOPtr) ;
+    bool assignMolTypes(PersistPtr ppIOPtr);
 
     void WriteMetadata(const std::string& infilename);
 
     PersistPtr getPersistPtr() { return m_ppIOPtr; }
 
-    MoleculeManager*   getMoleculeManager()  { return m_pMoleculeManager; } ;
-    ReactionManager*   getReactionManager()  { return m_pReactionManager; } ;
-    ConditionsManager* getConditionsManager(){ return m_pConditionsManager; } ;
-		ParallelManager*   getParallelManager()  { return m_pParallelManager; } ;
+    MoleculeManager* getMoleculeManager() { return m_pMoleculeManager; };
+    ReactionManager* getReactionManager() { return m_pReactionManager; };
+    ConditionsManager* getConditionsManager() { return m_pConditionsManager; };
+    ParallelManager* getParallelManager() { return m_pParallelManager; };
 
     // Mesmer control flags.
     MesmerFlags m_Flags;
@@ -91,29 +91,29 @@ namespace mesmer
     std::vector<CalcMethod*> m_CalcMethodsForEachControl;
     std::vector<ConditionsManager*> m_ConditionsForEachControl;
 
-    MesmerEnv& getEnv() { return m_Env; } ;
+    MesmerEnv& getEnv() { return m_Env; };
 
     //Visit each set of Conditions to collect bath gas names
     void getAllBathGases(std::set<std::string>& bathGases);
 
   private:
 
-    void calcRateCoefficients(const qdMatrix& mesmerRates, const qdMatrix& lossRates, const unsigned calPoint) ;
+    void calcRateCoefficients(const qdMatrix& mesmerRates, const qdMatrix& lossRates, const unsigned calPoint);
     void calcYields(const unsigned calPoint);
     void calcEigenvalues(const unsigned calPoint);
     void calcRawData(const unsigned calPoint);
 
     // Location of the molecule manager.
-    MoleculeManager *m_pMoleculeManager;
+    MoleculeManager* m_pMoleculeManager;
 
     // Location of the reaction mananger.
-    ReactionManager *m_pReactionManager ;
+    ReactionManager* m_pReactionManager;
 
-		// Location of the conditions manager.
-    ConditionsManager *m_pConditionsManager;
+    // Location of the conditions manager.
+    ConditionsManager* m_pConditionsManager;
 
-		// Location of the parallel mananger.
-		ParallelManager *m_pParallelManager;
+    // Location of the parallel mananger.
+    ParallelManager* m_pParallelManager;
 
     // Physical variables. Reference to this are passed to all Molecule and Reaction constructors.
     MesmerEnv m_Env;
@@ -127,11 +127,11 @@ namespace mesmer
     const char* m_pTitle;
     const char* m_pDescription;
 
-		// Collision operator instance.
+    // Collision operator instance.
 
-    CollisionOperator m_collisionOperator ;
+    CollisionOperator m_collisionOperator;
 
-  } ;
+  };
 
 }//namespace
 #endif // GUARD_System_h

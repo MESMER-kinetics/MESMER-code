@@ -13,6 +13,7 @@
 #include "TimeCounter.h"
 #include "ParseForPlugin.h"
 #include "ConditionsManager.h"
+#include "ParallelManager.h"
 
 using namespace std;
 using namespace Constants;
@@ -476,63 +477,51 @@ namespace mesmer
 
     for (size_t calPoint(rank); calPoint < nLoop; calPoint += nRanks) {
 
-      // This condition catches those situations where the number of ranks is not a factor 
-      // of the number of (p,T) points and so some ranks have nothing to do but none-the-less 
-      // need to commumicate this. 
-      if (calPoint < nPoint) {
+      int status(-1);
+      stringstream error_msg;
+      error_msg << "Rank " << rank << ": no throw." << endl;
+      try {
 
-        m_pConditionsManager->get_analysisData(calPoint)->clear();
-        m_pConditionsManager->set_currentData(int(calPoint));
+        // This condition catches those situations where the number of ranks is not a factor 
+        // of the number of (p,T) points and so some ranks have nothing to do but none-the-less 
+        // need to commumicate this. 
+        if (calPoint < nPoint) {
 
-        m_Env.beta = 1.0 / (boltzmann_RCpK * m_pConditionsManager->PTPointTemp(calPoint));
-        m_Env.conc = m_pConditionsManager->PTPointConc(calPoint); // unit of conc: particles per cubic centimeter
-        m_Env.bathGasName = m_pConditionsManager->PTPointBathGas(calPoint);
-        map<Reaction*, double> excessConcs = m_pConditionsManager->PTPointExcessConcs(calPoint);
-        //Set excess Concentrations for all reactions
-        for (map<Reaction*, double>::iterator it = excessConcs.begin(); it != excessConcs.end(); ++it)
-          it->first->set_concExcessReactant(it->second);
+          m_pConditionsManager->get_analysisData(calPoint)->clear();
+          m_pConditionsManager->set_currentData(int(calPoint));
 
-        if (writeReport && debugOutput) { cinfo << "PT Grid " << calPoint << endl; }
-        Precision precision = m_pConditionsManager->PTPointPrecision(calPoint);
-        m_collisionOperator.setPrecision(precision);
+          m_Env.beta = 1.0 / (boltzmann_RCpK * m_pConditionsManager->PTPointTemp(calPoint));
+          m_Env.conc = m_pConditionsManager->PTPointConc(calPoint); // unit of conc: particles per cubic centimeter
+          m_Env.bathGasName = m_pConditionsManager->PTPointBathGas(calPoint);
+          map<Reaction*, double> excessConcs = m_pConditionsManager->PTPointExcessConcs(calPoint);
+          //Set excess Concentrations for all reactions
+          for (map<Reaction*, double>::iterator it = excessConcs.begin(); it != excessConcs.end(); ++it)
+            it->first->set_concExcessReactant(it->second);
 
-        stest << "PT Grid " << calPoint << " Condition: conc = " << m_Env.conc << ", temp = "
-          << m_pConditionsManager->PTPointTemp(calPoint);
+          if (writeReport && debugOutput) { cinfo << "PT Grid " << calPoint << endl; }
+          Precision precision = m_pConditionsManager->PTPointPrecision(calPoint);
+          m_collisionOperator.setPrecision(precision);
 
-        switch (precision) {
-        case DOUBLE_DOUBLE:
-          stest << ", diagonalization precision: double-double\n{\n";
-          break;
-        case QUAD_DOUBLE:
-          stest << ", diagonalization precision: quad-double\n{\n";
-          break;
-        default:
-          stest << ", diagonalization precision: double\n{\n";
-        }
+          stest << "PT Grid " << calPoint << " Condition: conc = " << m_Env.conc << ", temp = "
+            << m_pConditionsManager->PTPointTemp(calPoint);
 
-        // Build collison matrix for system.
-        if (!m_collisionOperator.BuildReactionOperator(m_Env, m_Flags, writeReport))
-          throw (std::runtime_error("Failed building system collison operator."));
+          switch (precision) {
+          case DOUBLE_DOUBLE:
+            stest << ", diagonalization precision: double-double\n{\n";
+            break;
+          case QUAD_DOUBLE:
+            stest << ", diagonalization precision: quad-double\n{\n";
+            break;
+          default:
+            stest << ", diagonalization precision: double\n{\n";
+          }
 
-        if (writeReport && debugOutput) {
-          string thisEvent = "Build Collison Operator";
-          string mytime = events.setTimeStamp(thisEvent, timeElapsed);
-          cinfo << thisEvent;
-          if (timeElapsed > 0)
-            cinfo << " -- Time elapsed: " << timeElapsed << " seconds.";
-          cinfo << endl;
-        }
-
-        if (!m_Flags.rateCoefficientsOnly) {
-
-          if (!m_collisionOperator.calculateEquilibriumFractions(m_Env))
-            throw (std::runtime_error("Failed calculating equilibrium fractions."));
-
-          // Diagonalise the collision operator.
-          m_collisionOperator.diagReactionOperator(m_Flags, m_Env, m_pConditionsManager->get_analysisData(calPoint));
+          // Build collison matrix for system.
+          if (!m_collisionOperator.BuildReactionOperator(m_Env, m_Flags, writeReport))
+            throw (std::runtime_error("Failed building system collison operator."));
 
           if (writeReport && debugOutput) {
-            string thisEvent = "Diagonalize the Reaction Operator";
+            string thisEvent = "Build Collison Operator";
             string mytime = events.setTimeStamp(thisEvent, timeElapsed);
             cinfo << thisEvent;
             if (timeElapsed > 0)
@@ -540,51 +529,76 @@ namespace mesmer
             cinfo << endl;
           }
 
-          if (!m_Env.useBasisSetMethod) {
+          if (!m_Flags.rateCoefficientsOnly) {
 
-            if (!m_Flags.bIsSystemSecondOrder) {
+            if (!m_collisionOperator.calculateEquilibriumFractions(m_Env))
+              throw (std::runtime_error("Failed calculating equilibrium fractions."));
 
-              // Calculate time-dependent properties.
-              m_collisionOperator.timeEvolution(m_Flags, m_pConditionsManager->get_analysisData(calPoint));
-              if (m_collisionOperator.hasGrainProfileData()) {
-                m_collisionOperator.printGrainProfileAtTime(m_pConditionsManager->get_analysisData(calPoint));
+            // Diagonalise the collision operator.
+            m_collisionOperator.diagReactionOperator(m_Flags, m_Env, m_pConditionsManager->get_analysisData(calPoint));
+
+            if (writeReport && debugOutput) {
+              string thisEvent = "Diagonalize the Reaction Operator";
+              string mytime = events.setTimeStamp(thisEvent, timeElapsed);
+              cinfo << thisEvent;
+              if (timeElapsed > 0)
+                cinfo << " -- Time elapsed: " << timeElapsed << " seconds.";
+              cinfo << endl;
+            }
+
+            if (!m_Env.useBasisSetMethod) {
+
+              if (!m_Flags.bIsSystemSecondOrder) {
+
+                // Calculate time-dependent properties.
+                m_collisionOperator.timeEvolution(m_Flags, m_pConditionsManager->get_analysisData(calPoint));
+                if (m_collisionOperator.hasGrainProfileData()) {
+                  m_collisionOperator.printGrainProfileAtTime(m_pConditionsManager->get_analysisData(calPoint));
+                }
               }
+              else {
+                cinfo << "At present it is not possible to print profiles for systems with a second order term." << once << endl;
+              }
+
+              // Calculate rate coefficients. 
+              qdMatrix mesmerRates(1);
+              qdMatrix lossRates(1);
+              m_collisionOperator.BartisWidomPhenomenologicalRates(mesmerRates, lossRates, m_Flags, m_pConditionsManager->get_analysisData(calPoint));
+
+              // Write out phenomenological rate coefficients.
+              m_collisionOperator.PrintPhenomenologicalRates(mesmerRates, lossRates, m_Flags, m_pConditionsManager->get_analysisData(calPoint));
+
+              // For these conditions calculate the for the experimentally observable data types. 
+
+              calcRateCoefficients(mesmerRates, lossRates, calPoint);
+
+              calcYields(calPoint);
+
+              calcEigenvalues(calPoint);
+
+              calcRawData(calPoint);
+
+              stest << "}\n";
+
             }
             else {
-              cinfo << "At present it is not possible to print profiles for systems with a second order term." << once << endl;
+
+              qdMatrix mesmerRates(1);
+              m_collisionOperator.BartisWidomBasisSetRates(mesmerRates, m_Flags);
+
             }
-
-            // Calculate rate coefficients. 
-            qdMatrix mesmerRates(1);
-            qdMatrix lossRates(1);
-            m_collisionOperator.BartisWidomPhenomenologicalRates(mesmerRates, lossRates, m_Flags, m_pConditionsManager->get_analysisData(calPoint));
-
-            // Write out phenomenological rate coefficients.
-            m_collisionOperator.PrintPhenomenologicalRates(mesmerRates, lossRates, m_Flags, m_pConditionsManager->get_analysisData(calPoint));
-
-            // For these conditions calculate the for the experimentally observable data types. 
-
-            calcRateCoefficients(mesmerRates, lossRates, calPoint);
-
-            calcYields(calPoint);
-
-            calcEigenvalues(calPoint);
-
-            calcRawData(calPoint);
-
-            stest << "}\n";
-
-          }
-          else {
-
-            qdMatrix mesmerRates(1);
-            m_collisionOperator.BartisWidomBasisSetRates(mesmerRates, m_Flags);
-
           }
         }
+
+      }
+      catch (std::runtime_error& e)  {
+        status = rank ;
+        error_msg.str("");
+        error_msg << "Rank " << rank << ": " <<  e.what() << endl;
       }
 
       m_pParallelManager->barrier();
+      m_pParallelManager->CheckForThrow(status, error_msg.str());
       m_pParallelManager->writeCtest();
 
     } // End of temperature and concentration loop. 

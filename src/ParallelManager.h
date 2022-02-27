@@ -29,7 +29,7 @@ namespace mesmer
 
     // Constructor
 
-    ParallelManager(int argc, char ** argv) : m_rank(0), m_size(1), m_mutex(false) {
+    ParallelManager(int argc, char** argv) : m_rank(0), m_size(1), m_mutex(false) {
 
       MPI_Init(&argc, &argv);
 
@@ -48,7 +48,7 @@ namespace mesmer
 
     // Sum vectors across all across processes and redistribute.
 
-    void sumDouble(double *sum, int size) {
+    void sumDouble(double* sum, int size) {
 
       vector<double> tmp(size, 0.0);
 
@@ -60,14 +60,14 @@ namespace mesmer
 
     }
 
-    // Broadcast strings across processes from a given route.
+    // Broadcast strings across processes from a given root.
 
-    void broadcastString(string &tmp, int root) {
-      int strSize(0), intSize(1) ;
+    void broadcastString(string& tmp, int root) {
+      int strSize(0), intSize(1);
       if (m_rank == root)
         strSize = tmp.size() + 1;
       MPI_Bcast(&strSize, intSize, MPI_INT, root, MPI_COMM_WORLD);
-      char *ctmp = new char[strSize];
+      char* ctmp = new char[strSize];
       if (m_rank == root)
         std::strcpy(ctmp, tmp.c_str());
       MPI_Bcast(ctmp, strSize, MPI_CHAR, root, MPI_COMM_WORLD);
@@ -75,9 +75,9 @@ namespace mesmer
       delete[] ctmp;
     }
 
-    // Broadcast vector of strings across processes from a given route.
+    // Broadcast vector of strings across processes from a given root.
 
-    void broadcastVecString(vector<string> &tmp, int root) {
+    void broadcastVecString(vector<string>& tmp, int root) {
       int size = tmp.size();
       MPI_Bcast(&size, 1, MPI_INT, root, MPI_COMM_WORLD);
       if (size == 0) // Nothing to copy so return;
@@ -85,7 +85,7 @@ namespace mesmer
       if (m_rank != root)
         tmp.clear();
       for (int i(0); i < size; i++) {
-	    string stmp(" ");
+        string stmp(" ");
         if (m_rank == root)
           stmp = tmp[i];
         broadcastString(stmp, root);
@@ -94,28 +94,48 @@ namespace mesmer
       }
     }
 
-    // Broadcast integers across processes from a given route.
+    // Broadcast integers across processes from a given root.
 
-    void broadcastInteger(int *tmp, int size, int root) {
+    void broadcastInteger(int* tmp, int size, int root) {
       MPI_Bcast(tmp, size, MPI_INT, root, MPI_COMM_WORLD);
     }
 
-    // Broadcast doubles across processes from a given route.
+    // Broadcast doubles across processes from a given root.
 
-    void broadcastDouble(double *tmp, int size, int root) {
+    void broadcastDouble(double* tmp, int size, int root) {
       MPI_Bcast(tmp, size, MPI_DOUBLE, root, MPI_COMM_WORLD);
     }
 
     // Broadcast vector of doubles across processes from a given route.
 
-    void broadcastVecDouble(vector<double> &tmp, int root) {
-			int size = tmp.size();
+    void broadcastVecDouble(vector<double>& tmp, int root) {
+      int size = tmp.size();
       MPI_Bcast(&size, 1, MPI_INT, root, MPI_COMM_WORLD);
       vector<double> dtmp(size);
       if (m_rank == root)
         dtmp = tmp;
       MPI_Bcast(&dtmp[0], size, MPI_DOUBLE, root, MPI_COMM_WORLD);
       tmp = dtmp;
+    }
+
+    // Broadcast throw across processes from an unknown rank.
+
+    void CheckForThrow(int rank, string error_msg) {
+
+      // First find if a  rank has thrown.
+      int root;
+      MPI_Allreduce(&rank, &root, 1, MPI_INT, MPI_MAX, MPI_COMM_WORLD);
+
+      // If one or more ranks have thrown, combine all error messages and re-throw.
+      if (root >= 0) {
+        stringstream ss;
+        for (int i(0); i < m_size; i++) {
+          string str = error_msg;
+          broadcastString(str, i);
+          ss << str;
+        }
+        throw(runtime_error(ss.str()));
+      }
     }
 
     // Brings processes to the same point.
@@ -140,7 +160,7 @@ namespace mesmer
 
     // Constructor
 
-    ParallelManager(int argc, char ** argv) : m_rank(0), m_size(1), m_mutex(false) {
+    ParallelManager(int argc, char** argv) : m_rank(0), m_size(1), m_mutex(false) {
       // No Op.
     };
 
@@ -154,38 +174,44 @@ namespace mesmer
 
     // Sum vectors across all across processes and redistribute.
 
-    void sumDouble(double *sum, int size) {
+    void sumDouble(double* sum, int size) {
       // No Op.
     }
 
     // Broadcast strings across processes from a given route.
 
-    void broadcastString(string &tmp, int root) {
+    void broadcastString(string& tmp, int root) {
       // No Op.
     }
 
     // Broadcast vector of strings across processes from a given route.
 
-    void broadcastVecString(vector<string> &tmp, int root) {
+    void broadcastVecString(vector<string>& tmp, int root) {
       // No Op.
     }
 
     // Broadcast integers across processes from a given route.
 
-    void broadcastInteger(int *tmp, int size, int root) {
+    void broadcastInteger(int* tmp, int size, int root) {
       // No Op.
     }
 
     // Broadcast doubles across processes from a given route.
 
-    void broadcastDouble(double *sum, int size, int root) {
+    void broadcastDouble(double* sum, int size, int root) {
       // No Op.
     }
 
     // Broadcast vector of doubles across processes from a given route.
 
-    void broadcastVecDouble(vector<double> &tmp, int root) {
+    void broadcastVecDouble(vector<double>& tmp, int root) {
       // No Op.
+    }
+
+    // Broadcast throw across processes from an unknown rank.
+
+    void CheckForThrow(int rank, string error_msg) {
+      throw(runtime_error(error_msg));
     }
 
     // Brings processes to the same point.
@@ -208,12 +234,12 @@ namespace mesmer
     int rank() { return m_rank; };
     int size() { return m_size; };
     bool Master() { return (m_rank == 0); };
-    void setMutex(const char * function) { 
+    void setMutex(const char* function) {
       if (!m_mutex) {
         m_mutex = true;
       }
       else {
-        string msg =string(function) + string(": Parellel execution is recursive.\n");
+        string msg = string(function) + string(": Parellel execution is recursive.\n");
         throw(runtime_error(msg));
       }
     };

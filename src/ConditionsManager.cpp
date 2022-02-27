@@ -305,9 +305,10 @@ namespace mesmer
           if (!txt)
           {
             txt = common_ref2;
-            ppExpRate->XmlWriteAttribute("ref2", txt);
+            if (txt)
+              ppExpRate->XmlWriteAttribute("ref2", txt);
           }
-          string ref2(txt);
+          string ref2 = (txt) ? txt : "";
 
           txt = ppExpRate->XmlReadValue("refReaction", optional);
           if (!txt)
