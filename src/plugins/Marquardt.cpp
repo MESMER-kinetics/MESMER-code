@@ -95,10 +95,6 @@ namespace mesmer
     //Do not output all the intermediate results to XML
     pSys->m_Flags.overwriteXmlAnalysis = true;
 
-    // Use the same grain numbers for for all calcuations regardless of 
-    // temperature (i.e. reduce the number of times micro-rates are calculated).
-    pSys->m_Flags.useTheSameCellNumber = true;
-
     // Set control flags to values that stop unnecessary calculations whose results will be discarded.
     bool bSpeciesProfileEnabled = pSys->m_Flags.speciesProfileEnabled;
     pSys->m_Flags.speciesProfileEnabled = false;

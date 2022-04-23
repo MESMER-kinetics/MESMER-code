@@ -1,3 +1,13 @@
+2022-April-23 Struan Robertson
+
+		* Marquardt.cpp: Removed requirement that all transition matrices should be of the 
+		same size during fitting. This requirement was put in place to avoid unnecessary
+		re-calculation of the density of states, however this was causing some fitting
+		calculations to take an excessive amount of time (particularly low temperature, 
+		higher precision instances) and should be unnecessary as density of states re-
+		calculation is only triggered when a new upper threshold is detected. The old 
+		behaviour can be obtained by setting "me:useTheSameCellNumberForAllConditions".
+
 2022-February-27 Struan Robertson
 
 		* ParallelManager.h, ConditionsManager.cpp, System.h/.cpp: Fixes for sink reaction 
