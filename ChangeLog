@@ -1,3 +1,7 @@
+2022-April-25 Struan Robertson
+
+		* System.h, main.cpp: Version update.
+
 2022-April-23 Struan Robertson
 
 		* Marquardt.cpp: Removed requirement that all transition matrices should be of the 
