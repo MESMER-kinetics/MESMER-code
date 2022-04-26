@@ -10,8 +10,8 @@ Input variables:
 
 
  Reaction           : i-propyl => propene+H
- Rate Coeffcient    : 1.182e+04
- Standard Deviation : 420.8
+ Rate Coeffcient    : 1.179e+04
+ Standard Deviation : 387.4
 
 CTest output disabled
 
@@ -24,6 +24,6 @@ Input variables:
 
 
  Reaction           : i-propyl => propene+H
- Rate Coeffcient    : 2432
- Standard Deviation : 129.7
+ Rate Coeffcient    : 2425
+ Standard Deviation : 122.9
 

@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.1 compiled: -- May 25 2021 -- 20:47:20
+     Mesmer v7.0 compiled: -- Apr 25 2022 -- 23:10:34
 
-     Copyright (C) 2009-2021 by
+     Copyright (C) 2009-2022 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Thu May 27 08:34:36 2021
+                     Execution Date:  Tue Apr 26 00:15:41 2022
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -95,7 +95,7 @@ In R1: No value of me:excessReactantConc was supplied and the default value NEED
 711Torr, 601K at dd precision with He
 The default value of me:ForceMacroDetailedBalance was used.
 TS1:ZPE is derived from Methyl:ZPE
-Write metadata 20210527_083436
+Write metadata 20220426_001541
 
 File: "Methyl_H_to_Methane_FTST.xml" successfully parsed.
 Main Calculation begins
@@ -106,140 +106,143 @@ Number of grains produced is not equal to that requested for: H
 Number of grains requested: 333
 Number of grains produced : 1
 
-Chi^2 = 1.52137e-19 Lambda = 1
+Chi^2 = 1.5214e-19 Lambda = 1
 Methyl:ZPE=103.43  Methane:deltaEDown=190  
 Failed bounds check.
 
-Chi^2 = 1.52137e-19 Lambda = 10
+Chi^2 = 1.5214e-19 Lambda = 10
 Methyl:ZPE=103.43  Methane:deltaEDown=190  
-Iteration: 1 of Marquardt. ChiSquare = 1.52137e-19, Lambda = 10
+Iteration: 1 of Marquardt. ChiSquare = 1.5214e-19, Lambda = 10
 
-Chi^2 = 1.21725e-19 Lambda = 1
+Chi^2 = 1.2178e-19 Lambda = 1
 Methyl:ZPE=102.884  Methane:deltaEDown=180.504  
-Iteration: 2 of Marquardt. ChiSquare = 1.21725e-19, Lambda = 1
+Iteration: 2 of Marquardt. ChiSquare = 1.2178e-19, Lambda = 1
 Failed bounds check.
 
-Chi^2 = 1.21725e-19 Lambda = 10
+Chi^2 = 1.2178e-19 Lambda = 10
 Methyl:ZPE=102.884  Methane:deltaEDown=180.504  
-Iteration: 3 of Marquardt. ChiSquare = 1.21725e-19, Lambda = 10
+Iteration: 3 of Marquardt. ChiSquare = 1.2178e-19, Lambda = 10
 
-Chi^2 = 9.22293e-20 Lambda = 1
-Methyl:ZPE=101.918  Methane:deltaEDown=172.451  
-Iteration: 4 of Marquardt. ChiSquare = 9.22293e-20, Lambda = 1
+Chi^2 = 9.20509e-20 Lambda = 1
+Methyl:ZPE=101.918  Methane:deltaEDown=172.449  
+Iteration: 4 of Marquardt. ChiSquare = 9.20509e-20, Lambda = 1
 Failed bounds check.
 
-Chi^2 = 9.22293e-20 Lambda = 10
-Methyl:ZPE=101.918  Methane:deltaEDown=172.451  
-Iteration: 5 of Marquardt. ChiSquare = 9.22293e-20, Lambda = 10
+Chi^2 = 9.20509e-20 Lambda = 10
+Methyl:ZPE=101.918  Methane:deltaEDown=172.449  
+Iteration: 5 of Marquardt. ChiSquare = 9.20509e-20, Lambda = 10
 
-Chi^2 = 7.30772e-20 Lambda = 1
-Methyl:ZPE=101.296  Methane:deltaEDown=165.755  
-Iteration: 6 of Marquardt. ChiSquare = 7.30772e-20, Lambda = 1
+Chi^2 = 7.32175e-20 Lambda = 1
+Methyl:ZPE=101.296  Methane:deltaEDown=165.758  
+Iteration: 6 of Marquardt. ChiSquare = 7.32175e-20, Lambda = 1
 Failed bounds check.
 
-Chi^2 = 7.30772e-20 Lambda = 10
-Methyl:ZPE=101.296  Methane:deltaEDown=165.755  
-Iteration: 7 of Marquardt. ChiSquare = 7.30772e-20, Lambda = 10
+Chi^2 = 7.32175e-20 Lambda = 10
+Methyl:ZPE=101.296  Methane:deltaEDown=165.758  
+Iteration: 7 of Marquardt. ChiSquare = 7.32175e-20, Lambda = 10
 
-Chi^2 = 5.79429e-20 Lambda = 1
-Methyl:ZPE=100.638  Methane:deltaEDown=160.129  
-Iteration: 8 of Marquardt. ChiSquare = 5.79429e-20, Lambda = 1
+Chi^2 = 5.78671e-20 Lambda = 1
+Methyl:ZPE=100.638  Methane:deltaEDown=160.128  
+Iteration: 8 of Marquardt. ChiSquare = 5.78671e-20, Lambda = 1
 Failed bounds check.
 
-Chi^2 = 5.79429e-20 Lambda = 10
-Methyl:ZPE=100.638  Methane:deltaEDown=160.129  
-Iteration: 9 of Marquardt. ChiSquare = 5.79429e-20, Lambda = 10
+Chi^2 = 5.78671e-20 Lambda = 10
+Methyl:ZPE=100.638  Methane:deltaEDown=160.128  
+Iteration: 9 of Marquardt. ChiSquare = 5.78671e-20, Lambda = 10
 Failed bounds check.
 
-Chi^2 = 5.79429e-20 Lambda = 100
-Methyl:ZPE=100.638  Methane:deltaEDown=160.129  
-Iteration: 10 of Marquardt. ChiSquare = 5.79429e-20, Lambda = 100
+Chi^2 = 5.78671e-20 Lambda = 100
+Methyl:ZPE=100.638  Methane:deltaEDown=160.128  
+Iteration: 10 of Marquardt. ChiSquare = 5.78671e-20, Lambda = 100
 Failed bounds check.
 
-Chi^2 = 5.79429e-20 Lambda = 1000
-Methyl:ZPE=100.638  Methane:deltaEDown=160.129  
-Iteration: 11 of Marquardt. ChiSquare = 5.79429e-20, Lambda = 1000
+Chi^2 = 5.78671e-20 Lambda = 1000
+Methyl:ZPE=100.638  Methane:deltaEDown=160.128  
+Iteration: 11 of Marquardt. ChiSquare = 5.78671e-20, Lambda = 1000
 
-Chi^2 = 5.69247e-20 Lambda = 100
-Methyl:ZPE=100.631  Methane:deltaEDown=160.072  
-Iteration: 12 of Marquardt. ChiSquare = 5.69247e-20, Lambda = 100
+Chi^2 = 5.68514e-20 Lambda = 100
+Methyl:ZPE=100.631  Methane:deltaEDown=160.071  
+Iteration: 12 of Marquardt. ChiSquare = 5.68514e-20, Lambda = 100
 Failed bounds check.
 
-Chi^2 = 5.69247e-20 Lambda = 1000
-Methyl:ZPE=100.631  Methane:deltaEDown=160.072  
-Iteration: 13 of Marquardt. ChiSquare = 5.69247e-20, Lambda = 1000
+Chi^2 = 5.68514e-20 Lambda = 1000
+Methyl:ZPE=100.631  Methane:deltaEDown=160.071  
+Iteration: 13 of Marquardt. ChiSquare = 5.68514e-20, Lambda = 1000
 
-Chi^2 = 5.69247e-20 Lambda = 10000
-Methyl:ZPE=100.631  Methane:deltaEDown=160.072  
-Iteration: 14 of Marquardt. ChiSquare = 5.69247e-20, Lambda = 10000
+Chi^2 = 5.68514e-20 Lambda = 10000
+Methyl:ZPE=100.631  Methane:deltaEDown=160.071  
+Iteration: 14 of Marquardt. ChiSquare = 5.68514e-20, Lambda = 10000
 
-Chi^2 = 5.6503e-20 Lambda = 1000
-Methyl:ZPE=100.631  Methane:deltaEDown=160.066  
-Iteration: 15 of Marquardt. ChiSquare = 5.6503e-20, Lambda = 1000
+Chi^2 = 5.64303e-20 Lambda = 1000
+Methyl:ZPE=100.63  Methane:deltaEDown=160.065  
+Iteration: 15 of Marquardt. ChiSquare = 5.64303e-20, Lambda = 1000
+Number of cells = 50000, Number of grains = 249
+Number of cells = 50000, Number of grains = 254
+Number of cells = 50000, Number of grains = 258
 Number of cells = 50000, Number of grains = 263
- -- Total time elapsed: 429 seconds.
+ -- Total time elapsed: 413 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
-            301    8.05242e+17       1.26e-11    5.83861e-11
-            301    1.62973e+18       3.52e-11    8.95686e-11
-            301    3.24984e+18       6.36e-11    1.30481e-10
-            301     4.8892e+18       9.37e-11    1.59499e-10
-            301    6.59272e+18       1.05e-10    1.82747e-10
-            301    8.20641e+18       1.34e-10    2.00682e-10
-            301    9.83294e+18        1.4e-10    2.15967e-10
-            301     1.1437e+19        1.4e-10    2.29002e-10
-            301    1.30988e+19       1.61e-10    2.40859e-10
-            301    1.63455e+19       1.82e-10     2.6041e-10
-            401    6.06842e+17       2.35e-11     2.5104e-11
-            401    1.20887e+18       2.52e-11    4.08178e-11
-            401    2.41292e+18       4.44e-11       6.43e-11
-            401    3.68199e+18       6.06e-11    8.33459e-11
-            401    4.82102e+18       7.56e-11    9.75599e-11
-            401     6.1214e+18          9e-11    1.11551e-10
-            401    8.42836e+18       1.01e-10    1.32359e-10
-            401    1.09785e+19       1.21e-10    1.51309e-10
-            401    1.22452e+19       1.31e-10    1.59579e-10
-            401    1.47015e+19       1.44e-10    1.73974e-10
-            504    4.82825e+17       1.14e-11    1.11865e-11
-            504    9.61817e+17       1.66e-11     1.9001e-11
-            504    1.92555e+18       3.44e-11    3.15508e-11
-            504    2.94101e+18       4.68e-11    4.23537e-11
-            504    3.84727e+18       5.31e-11    5.07182e-11
-            504    4.90105e+18       5.78e-11    5.93877e-11
-            504    6.83618e+18       6.82e-11    7.32175e-11
-            504    7.66771e+18       7.75e-11    7.85337e-11
-            504    9.75229e+18       8.32e-11    9.06234e-11
-            504      1.172e+19       9.69e-11    1.00757e-10
-            601    1.69189e+18       2.11e-11     1.7197e-11
-            601    3.35005e+18       3.35e-11    2.84752e-11
-            601    4.89251e+18       3.78e-11    3.71917e-11
-            601    6.60369e+18        4.5e-11    4.56303e-11
-            601     8.2747e+18       4.84e-11    5.29871e-11
-            601     9.8734e+18       5.75e-11    5.94064e-11
-            601    1.14239e+19       6.18e-11    6.51694e-11
+            301    8.05242e+17       1.26e-11    5.83723e-11
+            301    1.62973e+18       3.52e-11    8.95474e-11
+            301    3.24984e+18       6.36e-11    1.30449e-10
+            301     4.8892e+18       9.37e-11    1.59461e-10
+            301    6.59272e+18       1.05e-10    1.82703e-10
+            301    8.20641e+18       1.34e-10    2.00634e-10
+            301    9.83294e+18        1.4e-10    2.15915e-10
+            301     1.1437e+19        1.4e-10    2.28947e-10
+            301    1.30988e+19       1.61e-10    2.40801e-10
+            301    1.63455e+19       1.82e-10    2.60348e-10
+            401    6.06842e+17       2.35e-11    2.50995e-11
+            401    1.20887e+18       2.52e-11    4.08103e-11
+            401    2.41292e+18       4.44e-11    6.42882e-11
+            401    3.68199e+18       6.06e-11    8.33306e-11
+            401    4.82102e+18       7.56e-11     9.7542e-11
+            401     6.1214e+18          9e-11    1.11531e-10
+            401    8.42836e+18       1.01e-10    1.32335e-10
+            401    1.09785e+19       1.21e-10    1.51281e-10
+            401    1.22452e+19       1.31e-10     1.5955e-10
+            401    1.47015e+19       1.44e-10    1.73943e-10
+            504    4.82825e+17       1.14e-11    1.11848e-11
+            504    9.61817e+17       1.66e-11    1.89982e-11
+            504    1.92555e+18       3.44e-11    3.15461e-11
+            504    2.94101e+18       4.68e-11    4.23474e-11
+            504    3.84727e+18       5.31e-11    5.07106e-11
+            504    4.90105e+18       5.78e-11    5.93789e-11
+            504    6.83618e+18       6.82e-11    7.32067e-11
+            504    7.66771e+18       7.75e-11    7.85221e-11
+            504    9.75229e+18       8.32e-11      9.061e-11
+            504      1.172e+19       9.69e-11    1.00742e-10
+            601    1.69189e+18       2.11e-11    1.71948e-11
+            601    3.35005e+18       3.35e-11    2.84715e-11
+            601    4.89251e+18       3.78e-11    3.71869e-11
+            601    6.60369e+18        4.5e-11    4.56245e-11
+            601     8.2747e+18       4.84e-11    5.29803e-11
+            601     9.8734e+18       5.75e-11    5.93988e-11
+            601    1.14239e+19       6.18e-11     6.5161e-11
 
 
-Chi^2 = 5.6503e-20
+Chi^2 = 5.64303e-20
 
 Best fit parameters:
 
-Methyl:ZPE = 100.631 +/- 5.30482
-Methane:deltaEDown = 160.066 +/- 32.142
+Methyl:ZPE = 100.63 +/- 5.30266
+Methane:deltaEDown = 160.065 +/- 32.133
 
 Correlation coefficients:
 
-Methane:deltaEDown , Methyl:ZPE = -0.934207
+Methane:deltaEDown , Methyl:ZPE = -0.934231
 
 Derived parameter values:
 
-TS1:ZPE (Methyl:ZPE) = 100.631
+TS1:ZPE (Methyl:ZPE) = 100.63
 
 No independent experimenal error estimates available, therefore Chi^2 test not applicable.
 
 Number of degrees of Freedom = 35
-Error Factor = 4.01792e-11
+Error Factor = 4.01534e-11
 
 System saved to mesmer_out.xml
-Total time elapsed: 429 seconds.
+Total time elapsed: 413 seconds.

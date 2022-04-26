@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.1 compiled: -- May 25 2021 -- 20:47:20
+     Mesmer v7.0 compiled: -- Apr 25 2022 -- 23:10:34
 
-     Copyright (C) 2009-2021 by
+     Copyright (C) 2009-2022 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Thu May 27 10:10:35 2021
+                     Execution Date:  Tue Apr 26 01:53:58 2022
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -113,7 +113,7 @@ In R6: No tunneling method used for R6
 5Torr, 212K at qd precision with N2. Excess Reactant Conc = 3.68e+16 particles per cc
 5Torr, 212K at qd precision with N2. Excess Reactant Conc = 1.01e+17 particles per cc
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20210527_101035
+Write metadata 20220426_015358
 
 File: "Glyoxal_Exchange.xml" successfully parsed.
 Main Calculation begins
@@ -135,21 +135,22 @@ No population was assigned. Initialize the first source term to 1.0.
 Chi^2 = 263.156 Lambda = 1
 HC(O)CO:deltaEDown=278.947  R2:activationEnergy=3.0715  R2:preExponential=1.50278e-12  
 
-Chi^2 = 69.6913 Lambda = 0.1
+Chi^2 = 69.6916 Lambda = 0.1
 HC(O)CO:deltaEDown=346.388  R2:activationEnergy=4.1206  R2:preExponential=1.06275e-12  
-Iteration: 1 of Marquardt. ChiSquare = 69.6913, Lambda = 0.1
+Iteration: 1 of Marquardt. ChiSquare = 69.6916, Lambda = 0.1
 
-Chi^2 = 34.8174 Lambda = 0.01
-HC(O)CO:deltaEDown=228.521  R2:activationEnergy=5.92063  R2:preExponential=8.49305e-13  
-Iteration: 2 of Marquardt. ChiSquare = 34.8174, Lambda = 0.01
+Chi^2 = 34.8175 Lambda = 0.01
+HC(O)CO:deltaEDown=228.521  R2:activationEnergy=5.92064  R2:preExponential=8.49306e-13  
+Iteration: 2 of Marquardt. ChiSquare = 34.8175, Lambda = 0.01
 Number of cells = 50000, Number of grains = 245
- -- Total time elapsed: 776 seconds.
+Number of cells = 50000, Number of grains = 233
+ -- Total time elapsed: 658 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
             295    2.61871e+18         0.0508      0.0324291
-            295    2.61871e+18          0.135      0.0656189
+            295    2.61871e+18          0.135      0.0656188
             295    2.61871e+18        0.18893       0.110961
             295    2.61871e+18        0.21629       0.162398
             212    2.27747e+17          0.181      0.0683674
@@ -158,13 +159,13 @@ Number of cells = 50000, Number of grains = 245
             212    2.27747e+17          0.377        0.55032
 
 
-Chi^2 = 34.8174
+Chi^2 = 34.8175
 
 Best fit parameters:
 
-HC(O)CO:deltaEDown = 228.521 +/- 543.096
-R2:activationEnergy = 5.92063 +/- 36.9261
-R2:preExponential = 8.49305e-13 +/- 1.04319e-11
+HC(O)CO:deltaEDown = 228.521 +/- 543.095
+R2:activationEnergy = 5.92064 +/- 36.926
+R2:preExponential = 8.49306e-13 +/- 1.04319e-11
 
 Correlation coefficients:
 
@@ -175,7 +176,7 @@ R2:preExponential , R2:activationEnergy = 0.999055
 Goodness of Fit:
 
 Number of degrees of Freedom = 5
-Chi^2 probability = 1.63635e-06
+Chi^2 probability = 1.63628e-06
 
 System saved to mesmer_out.xml
-Total time elapsed: 776 seconds.
+Total time elapsed: 658 seconds.

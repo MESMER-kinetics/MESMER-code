@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.0 compiled: -- Mar 28 2020 -- 14:24:21
+     Mesmer v7.0 compiled: -- Apr 25 2022 -- 23:10:34
 
-     Copyright (C) 2009-2020 by
+     Copyright (C) 2009-2022 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sat Mar 28 23:42:26 2020
+                     Execution Date:  Tue Apr 26 00:27:24 2022
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -58,7 +58,6 @@ In HONO: --Parse data for ExponentialDown
 In HONO: HONO:deltaEDown was given a range with 451 steps 
 In R1: --Parse data for MesmerILT
 In R1: R1:preExponential was given a range with 82 steps 
-In R1: The default value of me:TInfinity was used.
 In R1: No tunneling method used for R1
 In R1: Not a unimolecular reaction: look for excess reactant concentration.
 3.2e+21PPCC, 295K at d precision with He
@@ -79,7 +78,7 @@ In R1: Not a unimolecular reaction: look for excess reactant concentration.
 2.63e+17PPCC, 294K at d precision with He
 3.28e+17PPCC, 294K at d precision with He
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20200328_234226
+Write metadata 20220426_002724
 
 File: "OH_NO_HONO.xml" successfully parsed.
 Main Calculation begins
@@ -87,8 +86,8 @@ Now calculating...
 
 --Execute calcMethod marquardt
 Number of grains produced is not equal to that requested for: OH
-Number of grains requested: 429
-Number of grains produced : 167
+Number of grains requested: 1000
+Number of grains produced : 392
 In FastLaplaceConvolution: 20 values in the FFT convolution routine were replaced by standard convolution
 
 Chi^2 = 228.498 Lambda = 1
@@ -134,7 +133,7 @@ Chi^2 = 51.4264 Lambda = 100
 HONO:deltaEDown=82.1279  R1:preExponential=6.4626e-11  
 Iteration: 10 of Marquardt. ChiSquare = 51.4264, Lambda = 100
 Number of cells = 50000, Number of grains = 429
- -- Total time elapsed: 65 seconds.
+ -- Total time elapsed: 80 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
@@ -175,4 +174,4 @@ Number of degrees of Freedom = 15
 Chi^2 probability = 7.02449e-06
 
 System saved to out.xml
-Total time elapsed: 65 seconds.
+Total time elapsed: 80 seconds.
