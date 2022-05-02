@@ -1,3 +1,10 @@
+2022-May-02 Struan Robertson
+
+		* PseudoIsomerizationReaction.cpp: Corrected to account for Type I potentials.
+
+		* PriorDistFragmentation.cpp: Initial implementation of fragmentation distribution
+		output.
+
 2022-April-25 Struan Robertson
 
 		* System.h, main.cpp: Version update.

@@ -34,7 +34,10 @@ namespace mesmer
       m_pReaction(NULL),
       m_rctDOS(),
       m_upperConv(),
-      m_lowerConv()
+      m_lowerConv(),
+      m_WriteDist(false),
+      m_XSEne(),
+      m_DistTable()
     {
       Register();
     };
@@ -45,6 +48,19 @@ namespace mesmer
     virtual const char* getID() { return m_id; }
     virtual priorDist* Clone() { return new priorDist(*this); }
 
+    // Read any data from XML and store in this instance. Default is do nothing.
+    virtual bool ReadParameters(PersistPtr ppFragDist, std::string name) {
+
+      // Check if fragmentation distribution is to be written.
+
+      PersistPtr pp = ppFragDist->XmlMoveTo("me:WriteDistribution");
+      if (pp) {
+        m_WriteDist = true;
+      }
+
+      return true;
+    }
+
     // Initialize the fragment distribution.
     virtual void initialize(Reaction* pReaction);
 
@@ -52,11 +68,7 @@ namespace mesmer
     virtual void calculate(double excessEnergy, std::vector<double>& dist);
 
     // Return resources
-    virtual void clear() {
-      m_rctDOS.clear();
-      m_upperConv.clear();
-      m_lowerConv.clear();
-    };
+    virtual void clear();
 
   private:
 
@@ -71,6 +83,14 @@ namespace mesmer
     vector<double> m_upperConv;
 
     vector<double> m_lowerConv;
+
+    // Varaibles for holding table data.
+
+    bool m_WriteDist;
+
+    vector<double> m_XSEne;
+
+    vector<vector<double> > m_DistTable;
 
   };
 
@@ -164,9 +184,58 @@ namespace mesmer
         dist[i] *= rSum;
       }
 
+    if (m_WriteDist) {
+      m_XSEne.push_back(XsE);
+      m_DistTable.push_back(dist);
     }
+
+    }
+
     return;
   }
+
+  // Return resources and write distribution.
+
+  void priorDist::clear() {
+
+    m_rctDOS.clear();
+    m_upperConv.clear();
+    m_lowerConv.clear();
+
+    // If required, write out the fragmentation distribution.
+
+    if (m_WriteDist && m_XSEne.size() > 0) {
+      string padding = "               ";
+      size_t maxSize(0);
+      ctest << endl << padding;
+      for (size_t i(0); i < m_XSEne.size(); i++) {
+        ctest << formatFloat(m_XSEne[i], 5, 15);
+        maxSize = max(maxSize, m_DistTable[i].size());
+      }
+      ctest << endl << endl;
+      stringstream ss;
+      size_t forwardThreshE = m_pReaction->get_EffGrnFwdThreshold();
+      vector<double> rctEne;
+      m_pReaction->get_reactant()->getDOS().getGrainEnergies(rctEne);
+      for (size_t j(0), jj(forwardThreshE); j < maxSize; j++, jj++) {
+        ss << formatFloat(rctEne[jj], 5, 15);
+        for (size_t i(0); i < m_DistTable.size(); i++) {
+          vector<double>& tmp = m_DistTable[i];
+          if (j < tmp.size())
+            ss << formatFloat(tmp[j], 5, 15);
+          else
+            ss << padding;
+        }
+        ss << endl;
+      }
+      ctest << ss.str();
+
+      m_XSEne.clear();
+      for (size_t i(0); i < m_DistTable.size(); i++)
+        m_DistTable[i].clear();
+      m_DistTable.clear();
+    }
+  };
 
 
   class modPriorDist : public priorDist
@@ -187,6 +256,9 @@ namespace mesmer
 
     // Read any data from XML and store in this instance. Default is do nothing.
     virtual bool ReadParameters(PersistPtr ppFragDist, std::string name) {
+
+      priorDist::ReadParameters(ppFragDist, name);
+
       m_order = ppFragDist->XmlReadDouble("me:modPriorOrder");
       m_nexp = ppFragDist->XmlReadDouble("me:modPriorNexp");
       m_Tref = ppFragDist->XmlReadDouble("me:modPriorTref");

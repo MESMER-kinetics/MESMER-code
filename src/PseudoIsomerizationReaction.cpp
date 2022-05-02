@@ -57,6 +57,7 @@ namespace mesmer
     const size_t pColloptrsize  = m_pdt1->getColl().get_colloptrsize() + pShiftedGrains ;
     const size_t rColloptrsize  = m_rct1->getColl().get_colloptrsize() + rShiftedGrains ;
     const size_t reverseThreshE = get_EffGrnRvsThreshold();
+    const size_t forwardThreshE = get_EffGrnFwdThreshold();
     const size_t fluxStartIdx   = get_fluxFirstNonZeroIdx();
 
     // Get Boltzmann distribution for detailed balance.
@@ -79,10 +80,10 @@ namespace mesmer
       // Distribute adduct loss rate according to fragmentation loss rate.
       // Use detailed balance to determine gain from association reaction.
 
-      for (size_t k = rShiftedGrains, ll(0); k < rColloptrsize; ++k, ++ll) {
+      for (size_t k = forwardThreshE, l(0); k < rColloptrsize; ++k, ++l) {
         size_t jj(rctLocation + k - rShiftedGrains) ;
-        qd_real eqmRatio     = Keq*qd_real(pdtEq[i])/qd_real(rctEq[ll]) ;
-        qd_real Cji          = disMicroRateCoeff*qd_real(fragDist[k]) ; // Gain of pseudoisomer from adduct.
+        qd_real eqmRatio     = Keq*qd_real(pdtEq[i])/qd_real(rctEq[k]) ;
+        qd_real Cji          = disMicroRateCoeff*qd_real(fragDist[l]) ; // Gain of pseudoisomer from adduct.
         (*CollOptr)[jj][jj] -= Cji * eqmRatio;                          // Loss from pseudoisomer to adduct.
 
         // Symmetrize system.
