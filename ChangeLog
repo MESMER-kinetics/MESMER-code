@@ -1,3 +1,7 @@
+2022-May-04 Struan Robertson
+
+		* PriorDistFragmentation.cpp: Update of fragmentation distribution output.
+
 2022-May-02 Struan Robertson
 
 		* PseudoIsomerizationReaction.cpp: Corrected to account for Type I potentials.

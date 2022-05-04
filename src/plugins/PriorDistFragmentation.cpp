@@ -205,14 +205,15 @@ namespace mesmer
     // If required, write out the fragmentation distribution.
 
     if (m_WriteDist && m_XSEne.size() > 0) {
+      stest << endl << "Fragmenation distribtuon for reaction " << m_pReaction->getName() << ":" << endl << "{";
       string padding = "               ";
       size_t maxSize(0);
-      ctest << endl << padding;
+      stest << endl << padding;
       for (size_t i(0); i < m_XSEne.size(); i++) {
-        ctest << formatFloat(m_XSEne[i], 5, 15);
+        stest << formatFloat(m_XSEne[i], 5, 15);
         maxSize = max(maxSize, m_DistTable[i].size());
       }
-      ctest << endl << endl;
+      stest << endl << endl;
       stringstream ss;
       size_t forwardThreshE = m_pReaction->get_EffGrnFwdThreshold();
       vector<double> rctEne;
@@ -228,7 +229,7 @@ namespace mesmer
         }
         ss << endl;
       }
-      ctest << ss.str();
+      stest << ss.str() <<"}" << endl;
 
       m_XSEne.clear();
       for (size_t i(0); i < m_DistTable.size(); i++)
