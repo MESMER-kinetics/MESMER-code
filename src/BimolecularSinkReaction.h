@@ -105,7 +105,7 @@ namespace mesmer
     virtual void AddContractedBasisReactionTerms(qdMatrix *CollOptr, molMapType &isomermap) ;
 
     virtual void normalizeRateCoefficient(double& rateCoefficient, std::string ref = "") const {
-      rateCoefficient /= m_ERConc;
+      rateCoefficient /= get_concExcessReactant();
     };
 
   private:

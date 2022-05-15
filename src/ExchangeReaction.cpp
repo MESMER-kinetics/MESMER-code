@@ -142,10 +142,9 @@ namespace mesmer
     if (!m_pTunnelingCalculator)
       cinfo << "No tunneling method used for " << getName() << endl;
 
-    if (m_ERConc == 0.0 || IsNan(m_ERConc))
+    if (!(get_concExcessReactant() > 0.0))
     {
       // If not already read in the MicroRateCalculator
-      cinfo << "Not a unimolecular reaction: look for excess reactant concentration." << endl;
       if (!ReadExcessReactantConcentration(ppReac)) return false;
     }
 
@@ -154,7 +153,7 @@ namespace mesmer
     if (!pEPConctxt) {
       cinfo << "No excess product concentration specified for reaction " << getName() << "." << endl
         << "Assume excess product concentration the same as excess reactant concentration." << endl;
-      m_EPConc = m_ERConc;
+      m_EPConc = get_concExcessReactant();
     }
     else {
       stringstream s3(pEPConctxt);
@@ -196,7 +195,7 @@ namespace mesmer
     const double HeatOfReaction = getHeatOfReaction();
     Keq *= exp(-beta * HeatOfReaction);
 
-    Keq *= m_ERConc / m_EPConc;
+    Keq *= get_concExcessReactant() / m_EPConc;
     //
     // K_eq = ( [C][D]/[A][B] ) * [A]/[D] = [C]/[B]
     //
@@ -376,7 +375,7 @@ namespace mesmer
 
     // Save high pressure rate coefficient for use in the construction of the collision operator.
     m_MtxGrnKf.clear();
-    m_MtxGrnKf.push_back(k_forward * m_ERConc);
+    m_MtxGrnKf.push_back(k_forward * get_concExcessReactant());
 
     if (pCoeffs) {
       pCoeffs->push_back(k_forward);
@@ -389,7 +388,7 @@ namespace mesmer
     else if (getFlags().testRateConstantEnabled) {
       const double temperature = 1. / (boltzmann_RCpK * beta);
       stest << endl << "Canonical pseudo first order rate constant of irreversible reaction "
-        << getName() << " = " << k_forward * m_ERConc << " s-1 (" << temperature << " K)" << endl;
+        << getName() << " = " << k_forward * get_concExcessReactant() << " s-1 (" << temperature << " K)" << endl;
       stest << "Canonical bimolecular rate constant of irreversible reaction "
         << getName() << " = " << k_forward << " cm^3/molec/s (" << temperature << " K)" << endl;
     }

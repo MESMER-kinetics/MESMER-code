@@ -125,7 +125,7 @@ namespace mesmer
     virtual void normalizeRateCoefficient(double &rateCoefficient, std::string ref = "") const {
       // Check the sense of the rate coefficient by checking for the principal reactant.
       if (ref == m_rct1->getName())
-        rateCoefficient /= m_ERConc ;
+        rateCoefficient /= get_concExcessReactant();
       else if (ref == m_pdt1->getName())
         rateCoefficient /= m_EPConc ;
       else

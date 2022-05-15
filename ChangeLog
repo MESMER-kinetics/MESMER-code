@@ -1,3 +1,11 @@
+2022-May-15 Struan Robertson
+
+		* ConditionsManager.h/.cpp, Reaction.h/.cpp and derived reaction classes: Initial 
+		work toward specifying spectator species concentrations as a percentage of total 
+		concentration.
+
+		* Glyoxal_Exchange.xml: Inappropriate use of reservoir state removed.
+
 2022-May-04 Struan Robertson
 
 		* PriorDistFragmentation.cpp: Update of fragmentation distribution output.

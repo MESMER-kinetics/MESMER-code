@@ -95,10 +95,9 @@ namespace mesmer
     // Read rate coefficient parameters.
     if (!ReadRateCoeffParameters(ppReac)) return false;
 
-    if (m_ERConc == 0.0 || IsNan(m_ERConc))
+    if (!(get_concExcessReactant() > 0.0))
     {
       // If not already read in the MicroRateCalculator
-      cinfo << "Not a unimolecular reaction: look for excess reactant concentration." << endl;
       if (!ReadExcessReactantConcentration(ppReac)) return false;
     }
 
@@ -205,7 +204,7 @@ namespace mesmer
 
     // Save high pressure rate coefficient for use in the construction of the collision operator.
     m_MtxGrnKf.clear();
-    m_MtxGrnKf.push_back(k_forward*m_ERConc);
+    m_MtxGrnKf.push_back(k_forward* get_concExcessReactant());
 
     if (pCoeffs) {
       pCoeffs->push_back(k_forward);
@@ -218,7 +217,7 @@ namespace mesmer
     else if (getFlags().testRateConstantEnabled) {
       const double temperature = 1. / (boltzmann_RCpK * beta);
       stest << endl << "Canonical pseudo first order rate constant of irreversible reaction "
-        << getName() << " = " << k_forward*m_ERConc << " s-1 (" << temperature << " K)" << endl;
+        << getName() << " = " << k_forward* get_concExcessReactant() << " s-1 (" << temperature << " K)" << endl;
       stest << "Canonical bimolecular rate constant of irreversible reaction "
         << getName() << " = " << k_forward << " cm^3/molec/s (" << temperature << " K)" << endl;
     }

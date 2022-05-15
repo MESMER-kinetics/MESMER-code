@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v7.0 compiled: -- Apr 25 2022 -- 23:10:34
+     Mesmer v7.0 compiled: -- May 14 2022 -- 15:44:51
 
      Copyright (C) 2009-2022 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Tue Apr 26 01:53:58 2022
+                     Execution Date:  Sun May 15 15:45:07 2022
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -50,7 +50,6 @@ In HC(O)CO: HC(O)CO:deltaEDown was given a range with 31 steps
 In R1: --Parse data for modPrior
 In TS1: The default value of me:DOSCMethod was used.
 In R1: --Parse data for Eckart
-In R1: Not a unimolecular reaction: look for excess reactant concentration.
 In R4: Parsing reaction...Irreversible unimolecular reaction
 In TS2: WARNING: When calculating frequencies from a Hessian it is critical
      that the Hessian and species coordinates are expressed relative to
@@ -88,7 +87,6 @@ In R2: R2:activationEnergy was given a range with 101 steps
 In R2: R2:preExponential was given a range with 1000 steps 
 In R2: The default value of me:TInfinity was used.
 In R2: No tunneling method used for R2
-In R2: Not a unimolecular reaction: look for excess reactant concentration.
 In R2: No value of me:excessReactantConc was supplied and the default value NEEDS TO BE CHECKED**
 In R6: Parsing reaction...Irreversible unimolecular reaction
 In TS4: WARNING: When calculating frequencies from a Hessian it is critical
@@ -113,7 +111,7 @@ In R6: No tunneling method used for R6
 5Torr, 212K at qd precision with N2. Excess Reactant Conc = 3.68e+16 particles per cc
 5Torr, 212K at qd precision with N2. Excess Reactant Conc = 1.01e+17 particles per cc
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20220426_015358
+Write metadata 20220515_154507
 
 File: "Glyoxal_Exchange.xml" successfully parsed.
 Main Calculation begins
@@ -132,51 +130,51 @@ In FastLaplaceConvolution: 100 values in the FFT convolution routine were replac
 In FastLaplaceConvolution: 2740 values in the FFT convolution routine were replaced by standard convolution
 No population was assigned. Initialize the first source term to 1.0.
 
-Chi^2 = 263.156 Lambda = 1
+Chi^2 = 445.266 Lambda = 1
 HC(O)CO:deltaEDown=278.947  R2:activationEnergy=3.0715  R2:preExponential=1.50278e-12  
 
-Chi^2 = 69.6916 Lambda = 0.1
-HC(O)CO:deltaEDown=346.388  R2:activationEnergy=4.1206  R2:preExponential=1.06275e-12  
-Iteration: 1 of Marquardt. ChiSquare = 69.6916, Lambda = 0.1
+Chi^2 = 154.624 Lambda = 0.1
+HC(O)CO:deltaEDown=361.721  R2:activationEnergy=3.91693  R2:preExponential=9.58199e-13  
+Iteration: 1 of Marquardt. ChiSquare = 154.624, Lambda = 0.1
 
-Chi^2 = 34.8175 Lambda = 0.01
-HC(O)CO:deltaEDown=228.521  R2:activationEnergy=5.92064  R2:preExponential=8.49306e-13  
-Iteration: 2 of Marquardt. ChiSquare = 34.8175, Lambda = 0.01
+Chi^2 = 59.3027 Lambda = 0.01
+HC(O)CO:deltaEDown=233.456  R2:activationEnergy=5.79395  R2:preExponential=7.57297e-13  
+Iteration: 2 of Marquardt. ChiSquare = 59.3027, Lambda = 0.01
 Number of cells = 50000, Number of grains = 245
 Number of cells = 50000, Number of grains = 233
- -- Total time elapsed: 658 seconds.
+ -- Total time elapsed: 718 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
-            295    2.61871e+18         0.0508      0.0324291
-            295    2.61871e+18          0.135      0.0656188
-            295    2.61871e+18        0.18893       0.110961
-            295    2.61871e+18        0.21629       0.162398
-            212    2.27747e+17          0.181      0.0683674
-            212    2.27747e+17          0.282       0.231797
-            212    2.27747e+17          0.367       0.385623
-            212    2.27747e+17          0.377        0.55032
+            295    2.61871e+18         0.0508      0.0474407
+            295    2.61871e+18          0.135      0.0942194
+            295    2.61871e+18        0.18893         0.1554
+            295    2.61871e+18        0.21629       0.221253
+            212    2.27747e+17          0.181        0.15643
+            212    2.27747e+17          0.282       0.403393
+            212    2.27747e+17          0.367       0.543074
+            212    2.27747e+17          0.377       0.644306
 
 
-Chi^2 = 34.8175
+Chi^2 = 59.3027
 
 Best fit parameters:
 
-HC(O)CO:deltaEDown = 228.521 +/- 543.095
-R2:activationEnergy = 5.92064 +/- 36.926
-R2:preExponential = 8.49306e-13 +/- 1.04319e-11
+HC(O)CO:deltaEDown = 233.456 +/- 597.478
+R2:activationEnergy = 5.79395 +/- 6.15707
+R2:preExponential = 7.57297e-13 +/- 4.15604e-12
 
 Correlation coefficients:
 
-R2:activationEnergy , HC(O)CO:deltaEDown = 0.968478
-R2:preExponential , HC(O)CO:deltaEDown = 0.978109
-R2:preExponential , R2:activationEnergy = 0.999055
+R2:activationEnergy , HC(O)CO:deltaEDown = 0.977001
+R2:preExponential , HC(O)CO:deltaEDown = 0.992357
+R2:preExponential , R2:activationEnergy = 0.9955
 
 Goodness of Fit:
 
 Number of degrees of Freedom = 5
-Chi^2 probability = 1.63628e-06
+Chi^2 probability = 1.69352e-11
 
 System saved to mesmer_out.xml
-Total time elapsed: 658 seconds.
+Total time elapsed: 718 seconds.

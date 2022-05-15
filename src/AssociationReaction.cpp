@@ -85,10 +85,9 @@ namespace mesmer
     // Read rate coefficient parameters.
     if (!ReadRateCoeffParameters(ppReac)) return false;
 
-    if (m_ERConc == 0.0 || IsNan(m_ERConc))
+    if (!(get_concExcessReactant()>0.0))
     {
       // If not already read in the MicroRateCalculator
-      cinfo << "Not a unimolecular reaction: look for excess reactant concentration." << endl;
       if (!ReadExcessReactantConcentration(ppReac)) return false;
     }
 
@@ -280,7 +279,7 @@ namespace mesmer
     const double HeatOfReaction = getHeatOfReaction();
     Keq *= exp(-beta * HeatOfReaction);
 
-    Keq *= m_ERConc;
+    Keq *= get_concExcessReactant();
     //
     // K_eq = ( [C]/[A][B] ) * [A] = [C]/[B]
     //
@@ -380,7 +379,7 @@ namespace mesmer
       stest << endl << "Canonical pseudo first order rate constant of association reaction "
         << getName() << " = " << k_f_grained << " s-1 (" << temperature << " K)" << endl;
       stest << "Canonical bimolecular rate constant of association reaction "
-        << getName() << " = " << k_f_grained / m_ERConc << " cm^3/mol/s (" << temperature << " K)" << endl;
+        << getName() << " = " << k_f_grained / get_concExcessReactant() << " cm^3/mol/s (" << temperature << " K)" << endl;
       stest << "Canonical first order rate constant for the reverse of reaction "
         << getName() << " = " << k_b_grained << " s-1 (" << temperature << " K)" << endl;
     }

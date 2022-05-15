@@ -178,7 +178,7 @@
 
       <me:DOSCMethod xsi:type="ClassicalRotors"/>
 
-      <me:reservoirSize units="cm-1">500.0</me:reservoirSize>
+      <!--<me:reservoirSize units="cm-1">500.0</me:reservoirSize>-->
     </molecule>
 
     <molecule id="H2O">
@@ -912,6 +912,7 @@
       <transitionState>
         <molecule ref="TS1" role="transitionState"/>
       </transitionState>
+      <me:MCRCMethod xsi:type="RRKM"/>
       <me:tunneling xsi:type="Eckart"/>
       <me:FragmentDist xsi:type="me:modPrior">
         <!--<me:modPriorOrder lower="0.1" upper="1.0" stepsize="0.01">0.256437</me:modPriorOrder>-->
@@ -937,7 +938,7 @@
       <transitionState>
         <molecule ref="TS2" role="transitionState"/>
       </transitionState>
-      <me:MCRCMethod name="RRKM"/>
+      <me:MCRCMethod xsi:type="RRKM"/>
     </reaction>
     
     <reaction id="R2">

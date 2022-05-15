@@ -51,13 +51,16 @@ namespace mesmer
     // Read any data from XML and store in this instance. Default is do nothing.
     virtual bool ReadParameters(PersistPtr ppFragDist, std::string name) {
 
-      // Check if fragmentation distribution is to be written.
+      if (ppFragDist) {
 
-      PersistPtr pp = ppFragDist->XmlMoveTo("me:WriteDistribution");
-      if (pp) {
-        m_WriteDist = true;
+        // Check if fragmentation distribution is to be written.
+
+        PersistPtr pp = ppFragDist->XmlMoveTo("me:WriteDistribution");
+        if (pp) {
+          m_WriteDist = true;
+        }
+
       }
-
       return true;
     }
 

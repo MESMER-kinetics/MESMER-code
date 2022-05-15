@@ -92,7 +92,7 @@ namespace mesmer
     virtual Molecule* get_excessReactant(void) const { return m_rct2; };
 
     // Test if excess concentration is greater than bath gas concentration.
-    virtual bool IsExcessGreaterThanBathConc(double bathConc) const { return (m_ERConc > bathConc); }
+    virtual bool IsExcessGreaterThanBathConc(double bathConc) const { return (get_concExcessReactant() > bathConc); }
 
     // return relative reactant, product and transition state zero-point energy
     virtual double get_relative_rctZPE() const { return m_rct1->getDOS().get_zpe() + m_rct2->getDOS().get_zpe() - getEnv().EMin; }
@@ -146,7 +146,7 @@ namespace mesmer
     virtual void normalizeRateCoefficient(double &rateCoefficient, std::string ref = "") const { 
       // Check the sense of the rate coefficient by checking for the principal reactant.
       if (ref == m_rct1->getName()) 
-        rateCoefficient /= m_ERConc ; 
+        rateCoefficient /= get_concExcessReactant();
     };
 
   protected:

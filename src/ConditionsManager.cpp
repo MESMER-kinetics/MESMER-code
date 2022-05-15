@@ -151,6 +151,7 @@ namespace mesmer
       const char* common_reaction_excess = pp->XmlReadValue("refReactionExcess", optional);
       const char* common_group = pp->XmlReadValue("group", optional);
       double common_excessReactantConc = pp->XmlReadDouble("excessReactantConc", optional);
+      bool common_bPercentExcessReactantConc = pp->XmlMoveTo("percentExcessReactantConc");
 
       // Check for individually specified concentration/temperature points.
       PersistPtr ppPTpair = pp->XmlMoveTo("me:PTpair");
@@ -198,6 +199,10 @@ namespace mesmer
           bathGasName = m_pSys->getMoleculeManager()->get_BathGasName().c_str();
         ppPTpair->XmlWriteAttribute("bathGas", bathGasName);
 
+        // Bath gas concentration
+
+        double bathGasConc = getConvertedP(this_units, this_P, this_T);
+
         // Excess Reactant Concentration for this PT.
         // If there is more than one reaction with an excessReactant specified, 
         // either they all have to be the same molecule, whose concentration is set here,
@@ -209,6 +214,7 @@ namespace mesmer
 
         map<Reaction*, double> thisExcessConcs(baseExcessConcs);
         double excessConc = ppPTpair->XmlReadDouble("excessReactantConc", optional);
+        bool bPercentExcessConc = ppPTpair->XmlMoveTo("percentExcessReactantConc");
 
         // If no excessCReactantConc here, use the one on PTs (if present).
         if (IsNan(excessConc) && !IsNan(common_excessReactantConc))

@@ -15,7 +15,7 @@
 #include "Tunneling.h"
 #include "gTransitionState.h"
 
-using namespace Constants ;
+using namespace Constants;
 using namespace std;
 using namespace mesmer;
 
@@ -28,11 +28,11 @@ namespace mesmer
   double Reaction::m_TMin = 100.0;
   double Reaction::m_TMax = 2000.0;
 
-  Reaction::Reaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, MesmerFlags& Flags, const char *id)
+  Reaction::Reaction(MoleculeManager* pMoleculeManager, const MesmerEnv& Env, MesmerFlags& Flags, const char* id)
     :m_ppPersist(),
     m_TransitionState(NULL),
-		m_ExcessReactant(NULL),
-		m_pMoleculeManager(pMoleculeManager),
+    m_ExcessReactant(NULL),
+    m_pMoleculeManager(pMoleculeManager),
     m_pMicroRateCalculator(NULL),
     m_pTunnelingCalculator(NULL),
     m_FluxCellZPE(0.0),
@@ -42,22 +42,23 @@ namespace mesmer
     m_GrainFlux(),
     m_GrainKfmc(),
     m_MtxGrnKf(),
-		m_ERConc(0.0),
-		m_Env(Env),
+    m_Env(Env),
     m_Flags(Flags),
     m_Name(id),
     m_reCalcMicroRateCoeffs(true),
     m_UsesProductProperties(true),
     m_GrnFluxFirstNonZeroIdx(0),
     m_EffGrainedFwdThreshold(0),
-    m_EffGrainedRvsThreshold(0)
+    m_EffGrainedRvsThreshold(0),
+    m_ERConc(-1.0),
+    m_bERConcPercent(false)
   {}
 
-  Reaction::~Reaction(){
+  Reaction::~Reaction() {
     if (m_pMicroRateCalculator)
       delete m_pMicroRateCalculator;
     if (m_pTunnelingCalculator)
-      delete m_pTunnelingCalculator; 
+      delete m_pTunnelingCalculator;
   }
 
   // Get threshold energy
@@ -76,32 +77,32 @@ namespace mesmer
   {
     Molecule* pMol = NULL;
 
-    if(!pp) return NULL;
+    if (!pp) return NULL;
     PersistPtr ppmol = pp->XmlMoveTo("molecule");
-    if(!ppmol) return NULL;
+    if (!ppmol) return NULL;
 
     const char* reftxt = ppmol->XmlReadValue("ref");//using const char* in case NULL returned
-    if(reftxt) // if got the name of the molecule
+    if (reftxt) // if got the name of the molecule
     {
-      const char* typetxt = ppmol->XmlReadValue("me:type",optional);
-      if(!typetxt)
+      const char* typetxt = ppmol->XmlReadValue("me:type", optional);
+      if (!typetxt)
         typetxt = ppmol->XmlReadValue("role");
-      if(!typetxt && defaultType)
-        typetxt=defaultType;
-      if(typetxt){ // initialize molecule here with the specified type (need to know m_ppIOPtr)
+      if (!typetxt && defaultType)
+        typetxt = defaultType;
+      if (typetxt) { // initialize molecule here with the specified type (need to know m_ppIOPtr)
         PersistPtr ppMolList = m_pMoleculeManager->get_PersistPtr();
-        if(!ppMolList)
+        if (!ppMolList)
         {
           cerr << "No molecules have been specified." << endl;
           return NULL;
         }
         pMol = m_pMoleculeManager->addmol(string(reftxt), string(typetxt), getEnv(), getFlags());
-        if(string(typetxt)==string("excessReactant"))
+        if (string(typetxt) == string("excessReactant"))
           m_ExcessReactant = pMol;
       }
     }
 
-    if(!pMol) {
+    if (!pMol) {
       cinfo << "Failed to get a molecular reference." << endl;
       return NULL;
     }
@@ -113,18 +114,18 @@ namespace mesmer
   // Calculate grain averaged microcanonical rate coefficients.
   //
   bool Reaction::calcGrnAvrgMicroRateCoeffs() {
-    if (m_reCalcMicroRateCoeffs){
+    if (m_reCalcMicroRateCoeffs) {
       if (m_CellFlux.size()) m_CellFlux.clear();
 
       // Calculate microcanonical rate coefficients.
-      if(!m_pMicroRateCalculator->calculateMicroCnlFlux(this))
+      if (!m_pMicroRateCalculator->calculateMicroCnlFlux(this))
         return false;
 
       // report Transition State Flux in cells to test output
       const int MaximumCell = getEnv().MaxCell;
-      if (getFlags().cellFluxEnabled){
+      if (getFlags().cellFluxEnabled) {
         ctest << "\nFlux(e) cells for " << getName() << ":\n{\n";
-        for (int i = 0; i < MaximumCell; ++i){
+        for (int i = 0; i < MaximumCell; ++i) {
           ctest << m_CellFlux[i] << endl;
         }
         ctest << "}\n";
@@ -135,14 +136,14 @@ namespace mesmer
         return false;
 
       // Test grained microcanonical rate coefficients.
-      if (getFlags().microRateEnabled && !HighPresRateCoeffTest(m_ppPersist) )
+      if (getFlags().microRateEnabled && !HighPresRateCoeffTest(m_ppPersist))
         return false;
     }
     m_reCalcMicroRateCoeffs = false; // reset the flag
     return true;
   }
 
-  bool Reaction::HighPresRateCoeffTest(PersistPtr ppbase) 
+  bool Reaction::HighPresRateCoeffTest(PersistPtr ppbase)
   {
     string comment("Canonical rate coefficients (calculated from microcanonical rate coefficients)");
     PersistPtr ppList = ppbase->XmlWriteMainElement("me:canonicalRateList", comment);
@@ -236,10 +237,10 @@ namespace mesmer
   }
 
   // set the bottom energy of m_CellFlux
-  void Reaction::setCellFluxBottom(const double fluxBottomZPE){
+  void Reaction::setCellFluxBottom(const double fluxBottomZPE) {
     m_FluxCellZPE = fluxBottomZPE;
-    m_FluxGrainZPE = fluxBottomZPE / getEnv().GrainSize ; //convert to grain
-    m_FluxCellOffset = size_t(fmod(fluxBottomZPE, double(getEnv().GrainSize))/getEnv().CellSize) ;
+    m_FluxGrainZPE = fluxBottomZPE / getEnv().GrainSize; //convert to grain
+    m_FluxCellOffset = size_t(fmod(fluxBottomZPE, double(getEnv().GrainSize)) / getEnv().CellSize);
   }
 
   // Calculate grain flux by summing over cells belong to each grain 
@@ -247,50 +248,53 @@ namespace mesmer
   // the range of first grain average.
   void Reaction::fluxCellToGrain() {
 
-    const size_t cellPerGrain = getEnv().cellPerGrain() ;
-    const size_t maxGrn       = getEnv().MaxCell/ cellPerGrain;
-    const size_t cellOffset   = getFluxCellOffset();
+    const size_t cellPerGrain = getEnv().cellPerGrain();
+    const size_t maxGrn = getEnv().MaxCell / cellPerGrain;
+    const size_t cellOffset = getFluxCellOffset();
 
     m_GrainFlux.clear();
     m_GrainFlux.resize(maxGrn, 0.0);
 
-    for (size_t i(0), cIdx(0) ; i < maxGrn ; ++i) {
-	  const size_t cellRange = (i == 0) ? cellPerGrain - cellOffset : cellPerGrain ; 
-      for (size_t j(0) ; j < cellRange; ++j, ++cIdx) {
+    for (size_t i(0), cIdx(0); i < maxGrn; ++i) {
+      const size_t cellRange = (i == 0) ? cellPerGrain - cellOffset : cellPerGrain;
+      for (size_t j(0); j < cellRange; ++j, ++cIdx) {
         m_GrainFlux[i] += m_CellFlux[cIdx];
       }
     }
 
-    if (getFlags().grainFluxEnabled){
+    if (getFlags().grainFluxEnabled) {
       ctest << "\nFlux(e) grains for " << getName() << ":\n{\n";
-      for (size_t i(0) ; i < maxGrn; ++i){
+      for (size_t i(0); i < maxGrn; ++i) {
         ctest << m_GrainFlux[i] << endl;
       }
       ctest << "}\n";
     }
   }
- 
+
   void Reaction::calcFluxFirstNonZeroIdx(void) {
     double thresh = get_ThresholdEnergy();
     double RxnHeat = getHeatOfReaction();
-    if(thresh<0.0)
-      m_GrnFluxFirstNonZeroIdx = int(-thresh/m_Env.GrainSize);
-    else if(thresh>0.0 && thresh<RxnHeat)
-      m_GrnFluxFirstNonZeroIdx = int(RxnHeat - thresh)/m_Env.GrainSize;
+    if (thresh < 0.0)
+      m_GrnFluxFirstNonZeroIdx = int(-thresh / m_Env.GrainSize);
+    else if (thresh > 0.0 && thresh < RxnHeat)
+      m_GrnFluxFirstNonZeroIdx = int(RxnHeat - thresh) / m_Env.GrainSize;
     else
       m_GrnFluxFirstNonZeroIdx = 0;
   };
 
   // Read excess reactant concentration
-  bool Reaction::ReadExcessReactantConcentration(PersistPtr ppReac){
+  bool Reaction::ReadExcessReactantConcentration(PersistPtr ppReac) {
     const char* pERConctxt = ppReac->XmlReadValue("me:excessReactantConc");
-    if (!pERConctxt){
+    if (!pERConctxt) {
       cerr << "Concentration of excess reactant has not been specified.";
       return false;
-    } else {
-      stringstream s3(pERConctxt) ;
-      s3 >> m_ERConc ;
     }
+    else {
+      stringstream s3(pERConctxt);
+      s3 >> m_ERConc;
+    }
+    m_bERConcPercent = ppReac->XmlMoveTo("me:percentExcessReactantConc");
+
     return true;
   }
 
@@ -302,14 +306,14 @@ namespace mesmer
     // OR in a name or a xsi:type attribute e.g <me:MCRCMethod xsi:type ="me:MesmerILT">
 
     // Read the transition state (if present)
-    PersistPtr ppTransitionState = ppReac->XmlMoveTo("me:transitionState") ;
-    if(!ppTransitionState)
-      ppTransitionState = ppReac->XmlMoveTo("transitionState") ;
+    PersistPtr ppTransitionState = ppReac->XmlMoveTo("me:transitionState");
+    if (!ppTransitionState)
+      ppTransitionState = ppReac->XmlMoveTo("transitionState");
     if (ppTransitionState)
     {
-      Molecule* pTrans = GetMolRef(ppTransitionState,"transitionState");
-      if(pTrans) {
-        m_TransitionState = pTrans ;
+      Molecule* pTrans = GetMolRef(ppTransitionState, "transitionState");
+      if (pTrans) {
+        m_TransitionState = pTrans;
         m_TransitionState->activateRole(string("transitionState"));
       }
     }
@@ -322,10 +326,10 @@ namespace mesmer
 
     // Determine the method of estimating tunneling coefficients. Note data may be in TS.
     m_pTunnelingCalculator = ParseForPlugin<TunnelingCalculator>(this, "me:tunneling", ppReac, optional);
-    if(!m_pTunnelingCalculator)
+    if (!m_pTunnelingCalculator)
       cinfo << "No tunneling method used for " << getName() << endl;
 
-    return true ;
+    return true;
   }
 
 
@@ -334,7 +338,7 @@ namespace mesmer
     m_UsesProductProperties = b;
 
     //Ensure appropriate product properties have been read in..
-    if(b)
+    if (b)
       getHeatOfReaction();
   }
 
@@ -343,27 +347,27 @@ namespace mesmer
     string s;
     int n;
     vector<Molecule*> reactants, products;
-    if(type != productsOnly)
+    if (type != productsOnly)
     {
       n = get_reactants(reactants);
-      for(int i=0; i<n; ++i)
+      for (int i = 0; i < n; ++i)
       {
         s += reactants[i]->getName();
-        if(i<n-1)
+        if (i < n - 1)
           s += " + ";
       }
     }
-    if(type==all)
+    if (type == all)
       s += " => ";
-    if(type==rev)
+    if (type == rev)
       s += " => ";
-    if(type!=reactantsOnly)
+    if (type != reactantsOnly)
     {
       n = get_products(products);
-      for(int i=0; i<n; ++i)
+      for (int i = 0; i < n; ++i)
       {
         s += products[i]->getName();
-        if(i<n-1)
+        if (i < n - 1)
           s += " + ";
       }
     }
