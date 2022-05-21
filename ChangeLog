@@ -1,5 +1,14 @@
 2022-May-15 Struan Robertson
 
+		* ConditionsManager.h/.cpp: Further prepartory work for specifying spectator 
+		species concentrations as a percentage of total concentration.
+
+		* Baseline update.
+
+		* Documentation update: Inappropriate use of reservoir state removed.
+
+2022-May-15 Struan Robertson
+
 		* ConditionsManager.h/.cpp, Reaction.h/.cpp and derived reaction classes: Initial 
 		work toward specifying spectator species concentrations as a percentage of total 
 		concentration.

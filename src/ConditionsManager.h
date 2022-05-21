@@ -40,8 +40,6 @@ namespace mesmer
       m_traceSize(0),
       m_ref1(""),
       m_Name(NULL),
-      m_excessConc(-1.0),
-      m_percentExcessConc(false),
       m_weight(0.0),
       m_pPersistPtr(NULL) {}
   public:
@@ -51,8 +49,6 @@ namespace mesmer
     size_t m_traceSize;                           // Number of points in trace (including baseline noise).
     std::string m_ref1;                           // Monitored species.
     const char* m_Name;                           // Name of trace.
-    double m_excessConc;                          // Concentration of excess reactant molec/cm^3.
-    bool m_percentExcessConc;                     // If true, excess concentration as a percentage of a bath gas concentration.
     mutable double m_weight;                      // Weight data should be given - as determined by the experimenter.
     PersistPtr m_pPersistPtr;                     // Location of data.
   };

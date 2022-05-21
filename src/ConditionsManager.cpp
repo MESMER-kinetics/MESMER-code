@@ -202,6 +202,7 @@ namespace mesmer
         // Bath gas concentration
 
         double bathGasConc = getConvertedP(this_units, this_P, this_T);
+        m_pSys->getEnv().conc = bathGasConc;
 
         // Excess Reactant Concentration for this PT.
         // If there is more than one reaction with an excessReactant specified, 
@@ -212,7 +213,12 @@ namespace mesmer
         // this attribute-based method cannot be used and an alternative element-based
         // form (not yet coded) is needed.
 
-        map<Reaction*, double> thisExcessConcs(baseExcessConcs);
+        map<Reaction*, double> thisExcessConcs;
+        // Save excess concs as specified in <Reaction>s.
+        vector<Reaction*> pReacts = m_pSys->getReactionManager()->getReactionsWithExcessReactant();
+        for (vector<Reaction*>::iterator it = pReacts.begin(); it != pReacts.end(); ++it)
+          thisExcessConcs[*it] = (*it)->get_concExcessReactant();
+
         double excessConc = ppPTpair->XmlReadDouble("excessReactantConc", optional);
         bool bPercentExcessConc = ppPTpair->XmlMoveTo("percentExcessReactantConc");
 
@@ -391,15 +397,6 @@ namespace mesmer
           double startTime2 = ppRawData->XmlReadDouble("startTime", optional);// attribute on rawData
           if (!IsNan(startTime2))
             startTime = startTime2;
-
-          ds.m_excessConc = ppRawData->XmlReadDouble("excessReactantConc", optional);
-          if (IsNan(ds.m_excessConc))
-            ds.m_excessConc = excessConc; // from PTPair
-          if (IsNan(ds.m_excessConc))
-          {
-            cerr << "Missing excessReactantConc on rawData (and not on PTPair)" << endl;
-            return false;
-          }
 
           // Check to see if diffusive loss is included and print a warning.
           PersistPtr ppDiffLoss = ppRawData->XmlMoveTo("diffusiveLoss");
