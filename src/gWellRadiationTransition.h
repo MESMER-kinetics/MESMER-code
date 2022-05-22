@@ -56,17 +56,10 @@ namespace mesmer
       double radiance(0.0);
       const double h = PlancksConstant_in_JouleSecond;
       const double c = SpeedOfLight_in_cm;
-      const double beta2 = 1.0 / (boltzmann_RCpK * 2500.0);
 
       double nu = ene * c;
 
-      // Radiance (in photons cm-2 s-1 nm-1) = 2*6.6E-34*300000000^2/(lambda*0.000000001)^5*1/(EXP(6.6E-34*300000000/((lambda*0.000000001)*1.38E-23*t_star)) - 1) …. *0.0001*0.000000001/(10000000/lambda*11.96/6.02E+23)
-
-      // radiance = 2.0 * h * c * c * pow(ene / 100, 3.0) / (exp(beta * ene) - 1.0); // * 0.0001 * 0.000000001 / (ene * 11.96 / AvogadroC);
-
       radiance = 8.0 * M_PI * h * pow(nu, 3.0) / (c * c) / (exp(beta * ene) - 1.0);
-
-      //cout << radiance << endl;
 
       return radiance;
     }

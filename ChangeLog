@@ -1,4 +1,10 @@
-2022-May-15 Struan Robertson
+2022-May-22 Struan Robertson
+
+		* Compiler fixes for Linux 64.
+
+		* Baseline update.
+
+2022-May-21 Struan Robertson
 
 		* ConditionsManager.h/.cpp: Further prepartory work for specifying spectator 
 		species concentrations as a percentage of total concentration.

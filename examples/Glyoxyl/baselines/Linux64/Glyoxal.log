@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v7.0 compiled: -- Apr 25 2022 -- 23:32:07
+     Mesmer v7.0 compiled: -- May 21 2022 -- 18:42:58
 
      Copyright (C) 2009-2022 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Tue Apr 26 00:24:20 2022
+                     Execution Date:  Sat May 21 19:50:44 2022
                      Number of ranks: 12
 
 defaults.xml, librarymols.xml are in ../..
@@ -53,7 +53,6 @@ In C1: --Parse data for ExponentialDown
 In R1: --Parse data for MesmerILT
 In R1: The default value of me:TInfinity was used.
 In R1: No tunneling method used for R1
-In R1: Not a unimolecular reaction: look for excess reactant concentration.
 In R1: No value of me:excessReactantConc was supplied and the default value NEEDS TO BE CHECKED**
 In R2_2: Parsing reaction...Isomerization reaction
 In C2: No lennard-Jones parameters found for C2.
@@ -77,7 +76,6 @@ In HC(O)CO: HC(O)CO:deltaEDown was given a range with 31 steps
 In R3: --Parse data for MesmerILT
 In R3: The default value of me:TInfinity was used.
 In R3: No tunneling method used for R3
-In R3: Not a unimolecular reaction: look for excess reactant concentration.
 In R4: Parsing reaction...Irreversible unimolecular reaction
 In TS2: WARNING: When calculating frequencies from a Hessian it is critical
      that the Hessian and species coordinates are expressed relative to
@@ -115,7 +113,6 @@ In R2: R2:activationEnergy was given a range with 101 steps
 In R2: R2:preExponential was given a range with 1000 steps 
 In R2: The default value of me:TInfinity was used.
 In R2: No tunneling method used for R2
-In R2: Not a unimolecular reaction: look for excess reactant concentration.
 In R2: No value of me:excessReactantConc was supplied and the default value NEEDS TO BE CHECKED**
 In R6: Parsing reaction...Irreversible unimolecular reaction
 In TS4: WARNING: When calculating frequencies from a Hessian it is critical
@@ -140,7 +137,7 @@ In R6: No tunneling method used for R6
 5Torr, 212K at qd precision with N2. Excess Reactant Conc = 3.68e+16 particles per cc
 5Torr, 212K at qd precision with N2. Excess Reactant Conc = 1.01e+17 particles per cc
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20220426_002420
+Write metadata 20220521_195045
 
 File: "Glyoxal.xml" successfully parsed.
 Main Calculation begins
@@ -164,50 +161,50 @@ The last CSE = -3.85748e+07 and the first IERE = -7.8195e+07
 Results obtained from Bartis Widom eigenvalue-vector analysis may be unreliable
 No population was assigned. Initialize the first source term to 1.0.
 
-Chi^2 = 6.91582 Lambda = 1
+Chi^2 = 6.89639 Lambda = 1
 HC(O)CO:deltaEDown=278.947  R2:activationEnergy=3.0715  R2:preExponential=1.50278e-12  
 
-Chi^2 = 6.85554 Lambda = 0.1
-HC(O)CO:deltaEDown=273.331  R2:activationEnergy=3.13903  R2:preExponential=1.52294e-12  
-Iteration: 1 of Marquardt. ChiSquare = 6.85554, Lambda = 0.1
+Chi^2 = 6.83559 Lambda = 0.1
+HC(O)CO:deltaEDown=273.281  R2:activationEnergy=3.1392  R2:preExponential=1.52273e-12  
+Iteration: 1 of Marquardt. ChiSquare = 6.83559, Lambda = 0.1
 
-Chi^2 = 6.47407 Lambda = 0.01
-HC(O)CO:deltaEDown=234.009  R2:activationEnergy=3.68674  R2:preExponential=1.72797e-12  
-Iteration: 2 of Marquardt. ChiSquare = 6.47407, Lambda = 0.01
+Chi^2 = 6.44322 Lambda = 0.01
+HC(O)CO:deltaEDown=233.421  R2:activationEnergy=3.68831  R2:preExponential=1.72561e-12  
+Iteration: 2 of Marquardt. ChiSquare = 6.44322, Lambda = 0.01
 Number of cells = 50000, Number of grains = 224
  -- Total time elapsed: 1114 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
-            295    2.61871e+18         0.0508      0.0744358
-            295    2.61871e+18          0.135       0.123392
-            295    2.61871e+18        0.18893       0.167336
-            295    2.61871e+18        0.21629       0.199988
-            212    2.27747e+17          0.181       0.235199
-            212    2.27747e+17          0.282       0.297899
-            212    2.27747e+17          0.367       0.312071
-            212    2.27747e+17          0.377       0.319182
+            295    2.61871e+18         0.0508      0.0743756
+            295    2.61871e+18          0.135       0.123462
+            295    2.61871e+18        0.18893       0.167645
+            295    2.61871e+18        0.21629       0.200552
+            212    2.27747e+17          0.181       0.235287
+            212    2.27747e+17          0.282       0.297978
+            212    2.27747e+17          0.367       0.312155
+            212    2.27747e+17          0.377       0.319295
 
 
-Chi^2 = 6.47407
+Chi^2 = 6.44322
 
 Best fit parameters:
 
-HC(O)CO:deltaEDown = 234.009 +/- 931.403
-R2:activationEnergy = 3.68674 +/- 6.63507
-R2:preExponential = 1.72797e-12 +/- 1.13526e-11
+HC(O)CO:deltaEDown = 233.421 +/- 933.676
+R2:activationEnergy = 3.68831 +/- 6.66617
+R2:preExponential = 1.72561e-12 +/- 1.14079e-11
 
 Correlation coefficients:
 
-R2:activationEnergy , HC(O)CO:deltaEDown = 0.818197
-R2:preExponential , HC(O)CO:deltaEDown = 0.968228
-R2:preExponential , R2:activationEnergy = 0.934524
+R2:activationEnergy , HC(O)CO:deltaEDown = 0.819095
+R2:preExponential , HC(O)CO:deltaEDown = 0.96853
+R2:preExponential , R2:activationEnergy = 0.934676
 
 Goodness of Fit:
 
 Number of degrees of Freedom = 5
-Chi^2 probability = 0.262782
+Chi^2 probability = 0.265447
 
 System saved to mesmer_out.xml
 Total time elapsed: 1114 seconds.

@@ -474,7 +474,7 @@ namespace mesmer
 
     status = (elementContent.size() > 1) ; 
 
-    size_t N(0), nC(0), nO(0), nH(0);
+    size_t N(0), nC(0), nO(0);
     for (map<string, int>::const_iterator it = elementContent.begin(); it != elementContent.end() && status ; ++it) {
       string El = it->first;
       if (El == "C") { 
@@ -486,7 +486,6 @@ namespace mesmer
         N += nO;
       }
       else if (El == "H") {
-        nH = it->second;
         // H atoms are excluded from N.
       } else {
         status = false;
