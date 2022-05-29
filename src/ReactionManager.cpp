@@ -317,7 +317,7 @@ namespace mesmer
     vector<Reaction*> reactions;
     for (unsigned ir = 0; ir < m_reactions.size(); ir++)
     {
-      if (m_reactions[ir]->get_concExcessReactant() != 0.0)
+      if (m_reactions[ir]->get_concExcessReactant() > 0.0)
         reactions.push_back(m_reactions[ir]);
     }
     return reactions;

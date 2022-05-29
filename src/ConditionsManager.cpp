@@ -219,57 +219,90 @@ namespace mesmer
         for (vector<Reaction*>::iterator it = pReacts.begin(); it != pReacts.end(); ++it)
           thisExcessConcs[*it] = (*it)->get_concExcessReactant();
 
-        double excessConc = ppPTpair->XmlReadDouble("excessReactantConc", optional);
-        bool bPercentExcessConc = ppPTpair->XmlMoveTo("percentExcessReactantConc");
+        // First see if there is a specification of all execess species concentrations.
+        PersistPtr ppXSConcArray = ppPTpair->XmlMoveTo("me:excessReactantConcArray");
+        if (ppXSConcArray) {
+          while (ppXSConcArray = ppXSConcArray->XmlMoveTo("me:excessReactantConc")) {
 
-        // If no excessCReactantConc here, use the one on PTs (if present).
-        if (IsNan(excessConc) && !IsNan(common_excessReactantConc))
-          excessConc = common_excessReactantConc;
-
-        if (!IsNan(excessConc))
-        {
-          const char* idtxt = ppPTpair->XmlReadValue("refReactionExcess", optional);
-          if (!idtxt && common_reaction_excess) // If no refReactionExcess here use the one on PTs.
-            idtxt = common_reaction_excess;
-          if (idtxt)
-          {
-            Reaction* pReact = m_pSys->getReactionManager()->find(idtxt);
-            if (!pReact)
-              cerr << "Unknown refReactionExcess (for excess reactant concentration)" << endl;
+            const char* ptxt = ppXSConcArray->XmlReadValue("reactionRef");
+            string ref;
+            if (ptxt)
+              ref = string(ptxt);
             else {
-              // Make sure the excess reactant has the same concentration in all reactions in which it participates.
-              Molecule* pMol = pReact->getExcessReactant();
-              vector<Reaction*> pReacts = m_pSys->getReactionManager()->getReactionsWithExcessReactant();
-              vector<Reaction*>::iterator it = pReacts.begin();
-              for (; it != pReacts.end(); ++it) {
-                if (pMol == (*it)->getExcessReactant())
-                  thisExcessConcs[*it] = excessConc;
-              }
+              stringstream msg;
+              msg << "Failed to located a reaction reference" << endl;
+              throw(std::runtime_error(msg.str()));
             }
+
+            Reaction* pReaction = m_pSys->getReactionManager()->find(ref);
+            if (!pReaction) {
+              stringstream msg;
+              msg << "Failed to located reaction referred to in excess concentration array" << ref << "." << endl;
+              throw(std::runtime_error(msg.str()));
+            }
+
+            double conc = ppXSConcArray->XmlReadDouble("concentration");
+            bool bConcPercent = ppXSConcArray->XmlReadBoolean("percent");
+            thisExcessConcs[pReaction] = (bConcPercent) ? conc * bathGasConc : conc ;
           }
-          else
+        }
+        else {
+
+          // If no specification exists then try to find a generic excess species concentration
+          // and apply it to all excess species. 
+          double excessConc = ppPTpair->XmlReadDouble("excessReactantConc", optional);
+          bool bPercentExcessConc = ppPTpair->XmlMoveTo("percentExcessReactantConc");
+
+          // If no excessCReactantConc here, use the one on PTs (if present).
+          if (IsNan(excessConc) && !IsNan(common_excessReactantConc)) {
+            excessConc = common_excessReactantConc;
+          }
+
+          if (!IsNan(excessConc))
           {
-            //check that all excessReactants are the same molecule
-            vector<Reaction*> pReacts = m_pSys->getReactionManager()->getReactionsWithExcessReactant();
-            vector<Reaction*>::iterator it = pReacts.begin();
-            if (pReacts.size() > 1)
+            const char* idtxt = ppPTpair->XmlReadValue("refReactionExcess", optional);
+            if (!idtxt && common_reaction_excess) // If no refReactionExcess here use the one on PTs.
+              idtxt = common_reaction_excess;
+            if (idtxt)
             {
-              Molecule* pMol = (*it)->getExcessReactant();
-              assert(pMol);
-              for (; it != pReacts.end(); ++it)
-              {
-                if (pMol != (*it)->getExcessReactant())
-                {
-                  cerr << "The attribute excessReactantConc on PTs or PTPair can be used only "
-                    << "if every excess Reactant is the same molecule or if refReactionExcess is specified."
-                    << endl;
-                  throw std::runtime_error("Erroneous excessReactantConc attribute in PTPair");
+              Reaction* pReact = m_pSys->getReactionManager()->find(idtxt);
+              if (!pReact)
+                cerr << "Unknown refReactionExcess (for excess reactant concentration)" << endl;
+              else {
+                // Make sure the excess reactant has the same concentration in all reactions in which it participates.
+                Molecule* pMol = pReact->getExcessReactant();
+                vector<Reaction*> pReacts = m_pSys->getReactionManager()->getReactionsWithExcessReactant();
+                vector<Reaction*>::iterator it = pReacts.begin();
+                for (; it != pReacts.end(); ++it) {
+                  if (pMol == (*it)->getExcessReactant())
+                    thisExcessConcs[*it] = excessConc;
                 }
               }
             }
-            //set all excess reactant concentions to the specified value
-            for (it = pReacts.begin(); it != pReacts.end(); ++it)
-              thisExcessConcs[*it] = excessConc;
+            else
+            {
+              //check that all excessReactants are the same molecule
+              vector<Reaction*> pReacts = m_pSys->getReactionManager()->getReactionsWithExcessReactant();
+              vector<Reaction*>::iterator it = pReacts.begin();
+              if (pReacts.size() > 1)
+              {
+                Molecule* pMol = (*it)->getExcessReactant();
+                assert(pMol);
+                for (; it != pReacts.end(); ++it)
+                {
+                  if (pMol != (*it)->getExcessReactant())
+                  {
+                    cerr << "The attribute excessReactantConc on PTs or PTPair can be used only "
+                      << "if every excess Reactant is the same molecule or if refReactionExcess is specified."
+                      << endl;
+                    throw std::runtime_error("Erroneous excessReactantConc attribute in PTPair");
+                  }
+                }
+              }
+              //set all excess reactant concentions to the specified value
+              for (it = pReacts.begin(); it != pReacts.end(); ++it)
+                thisExcessConcs[*it] = excessConc;
+            }
           }
         }
 
@@ -286,10 +319,9 @@ namespace mesmer
         CandTpair thisPair(getConvertedP(this_units, this_P, this_T), this_T,
           this_precision, bathGasName, thisExcessConcs, group);
         cinfo << this_P << this_units << ", " << this_T << "K at " << txt
-          << " precision" << " with " << bathGasName;
-        if (!IsNan(excessConc))
-          cinfo << ". Excess Reactant Conc = " << excessConc << " particles per cc";
-        cinfo << endl;
+          << " precision" << " with " << bathGasName << endl; 
+        for (vector<Reaction*>::iterator it = pReacts.begin(); it != pReacts.end(); ++it)
+          cinfo << "Excess Reactant Conc. for reaction " << (*it)->getName() << " = " << thisExcessConcs[*it] << " particles per cc" << endl;
 
         // Extract experimental rate coefficient values for chiSquare calculation.
 

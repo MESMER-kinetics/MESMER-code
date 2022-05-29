@@ -478,9 +478,9 @@
       <product>
         <molecule ref="Im1a" role="modelled"/>
       </product>
+      <me:excessReactantConc>2.25E14</me:excessReactantConc>
       <me:MCRCMethod xsi:type ="MesmerILT">
         <me:preExponential>3e-10</me:preExponential>
-        <me:excessReactantConc>2.25E14</me:excessReactantConc>
         <me:activationEnergy>0</me:activationEnergy>
         <me:nInfinity>0</me:nInfinity>
       </me:MCRCMethod>

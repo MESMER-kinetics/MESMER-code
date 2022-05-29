@@ -292,8 +292,9 @@ namespace mesmer
     else {
       stringstream s3(pERConctxt);
       s3 >> m_ERConc;
+      PersistPtr ppXSConc = ppReac->XmlMoveTo("me:excessReactantConc");
+      m_bERConcPercent = ppXSConc->XmlReadBoolean("percent");
     }
-    m_bERConcPercent = ppReac->XmlMoveTo("me:percentExcessReactantConc");
 
     return true;
   }

@@ -211,7 +211,9 @@ namespace mesmer
     // Broadcast throw across processes from an unknown rank.
 
     void CheckForThrow(int rank, string error_msg) {
-      throw(runtime_error(error_msg));
+      if (rank >= 0) {
+        throw(runtime_error(error_msg));
+      }
     }
 
     // Brings processes to the same point.
