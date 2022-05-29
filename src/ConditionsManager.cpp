@@ -205,13 +205,11 @@ namespace mesmer
         m_pSys->getEnv().conc = bathGasConc;
 
         // Excess Reactant Concentration for this PT.
-        // If there is more than one reaction with an excessReactant specified, 
-        // either they all have to be the same molecule, whose concentration is set here,
-        // or a refReaction attribute is needed to specify the reaction to which
+        // If there is more than one reaction with an excessReactant specified, it is 
+        // necessary to use the element-based form which is tested for first. Otherwise
+        // either all reactions have the same excess molecule, whose concentration is 
+        // set here or a refReaction attribute is needed to specify the reaction to which
         // this excessConc is applied.
-        // If it is necessary to specify more than one excessReactantConc for a PTPair,
-        // this attribute-based method cannot be used and an alternative element-based
-        // form (not yet coded) is needed.
 
         map<Reaction*, double> thisExcessConcs;
         // Save excess concs as specified in <Reaction>s.
@@ -219,7 +217,7 @@ namespace mesmer
         for (vector<Reaction*>::iterator it = pReacts.begin(); it != pReacts.end(); ++it)
           thisExcessConcs[*it] = (*it)->get_concExcessReactant();
 
-        // First see if there is a specification of all execess species concentrations.
+        // First, see if there is a specification of all excess species concentrations.
         PersistPtr ppXSConcArray = ppPTpair->XmlMoveTo("me:excessReactantConcArray");
         if (ppXSConcArray) {
           while (ppXSConcArray = ppXSConcArray->XmlMoveTo("me:excessReactantConc")) {
@@ -243,17 +241,17 @@ namespace mesmer
 
             double conc = ppXSConcArray->XmlReadDouble("concentration");
             bool bConcPercent = ppXSConcArray->XmlReadBoolean("percent");
-            thisExcessConcs[pReaction] = (bConcPercent) ? conc * bathGasConc : conc ;
+            thisExcessConcs[pReaction] = (bConcPercent) ? conc * bathGasConc : conc;
           }
         }
         else {
 
-          // If no specification exists then try to find a generic excess species concentration
-          // and apply it to all excess species. 
+          // A common excess reactant is assume. Try to find a generic excess 
+          // species concentration and apply it to all excess species. 
           double excessConc = ppPTpair->XmlReadDouble("excessReactantConc", optional);
           bool bPercentExcessConc = ppPTpair->XmlMoveTo("percentExcessReactantConc");
 
-          // If no excessCReactantConc here, use the one on PTs (if present).
+          // If no excessReactantConc here, use the one on PTs (if present).
           if (IsNan(excessConc) && !IsNan(common_excessReactantConc)) {
             excessConc = common_excessReactantConc;
           }
@@ -271,23 +269,20 @@ namespace mesmer
               else {
                 // Make sure the excess reactant has the same concentration in all reactions in which it participates.
                 Molecule* pMol = pReact->getExcessReactant();
-                vector<Reaction*> pReacts = m_pSys->getReactionManager()->getReactionsWithExcessReactant();
                 vector<Reaction*>::iterator it = pReacts.begin();
                 for (; it != pReacts.end(); ++it) {
                   if (pMol == (*it)->getExcessReactant())
-                    thisExcessConcs[*it] = excessConc;
+                    thisExcessConcs[*it] = (bPercentExcessConc) ? excessConc * bathGasConc : excessConc;
                 }
               }
             }
             else
             {
-              //check that all excessReactants are the same molecule
-              vector<Reaction*> pReacts = m_pSys->getReactionManager()->getReactionsWithExcessReactant();
+              // Check that all excessReactants are the same molecule.
               vector<Reaction*>::iterator it = pReacts.begin();
               if (pReacts.size() > 1)
               {
                 Molecule* pMol = (*it)->getExcessReactant();
-                assert(pMol);
                 for (; it != pReacts.end(); ++it)
                 {
                   if (pMol != (*it)->getExcessReactant())
@@ -299,9 +294,9 @@ namespace mesmer
                   }
                 }
               }
-              //set all excess reactant concentions to the specified value
+              // Set all excess reactant concentions to the specified value.
               for (it = pReacts.begin(); it != pReacts.end(); ++it)
-                thisExcessConcs[*it] = excessConc;
+                thisExcessConcs[*it] = (bPercentExcessConc) ? excessConc * bathGasConc : excessConc;
             }
           }
         }
@@ -319,7 +314,7 @@ namespace mesmer
         CandTpair thisPair(getConvertedP(this_units, this_P, this_T), this_T,
           this_precision, bathGasName, thisExcessConcs, group);
         cinfo << this_P << this_units << ", " << this_T << "K at " << txt
-          << " precision" << " with " << bathGasName << endl; 
+          << " precision" << " with " << bathGasName << endl;
         for (vector<Reaction*>::iterator it = pReacts.begin(); it != pReacts.end(); ++it)
           cinfo << "Excess Reactant Conc. for reaction " << (*it)->getName() << " = " << thisExcessConcs[*it] << " particles per cc" << endl;
 

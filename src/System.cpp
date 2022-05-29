@@ -660,6 +660,11 @@ namespace mesmer
     // unit of conc: particles per cubic centimetre
     m_Env.conc = m_pConditionsManager->PTPointConc(nConds);
 
+    // Set excess Concentrations for all reactions.
+    map<Reaction*, double> excessConcs = m_pConditionsManager->PTPointExcessConcs(nConds);
+    for (map<Reaction*, double>::iterator it = excessConcs.begin(); it != excessConcs.end(); ++it)
+      it->first->set_concExcessReactant(it->second);
+
     m_Env.bathGasName = m_pConditionsManager->PTPointBathGas(nConds);
 
     Precision precision = m_pConditionsManager->PTPointPrecision(nConds);

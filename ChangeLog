@@ -1,5 +1,10 @@
 2022-May-29 Struan Robertson
 
+		* ConditionsManager.cpp, System.cpp: Further implementation of excess species 
+		concentration definition.
+
+2022-May-29 Struan Robertson
+
 		* ConditionsManager.cpp, Reaction.cpp, ReactionManager.cpp, MesmerILT.cpp: 
 		Initial implementation of excess species concentration definition.
 
