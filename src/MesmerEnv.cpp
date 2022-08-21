@@ -12,6 +12,7 @@ namespace mesmer{
     MaximumTemperature(0.0),
     EMin(0.0),
     EMax(0.0),
+    radiationTemperature(600.0),
     EAboveHill(20.),
     useBasisSetMethod(false),
     nBasisSet(2){}

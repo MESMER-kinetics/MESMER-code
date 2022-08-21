@@ -22,13 +22,14 @@ namespace mesmer
     size_t MaxCell;             // The number of cells
     double MaximumTemperature;  // Maximum temperature for the purposes of setting the energy range
     double EMin, EMax;          // The absolute lowest and highest energies in the system, cm-1
+    double radiationTemperature;// Background radiation temperature in K.
     double EAboveHill;          // Max energy above the highest Hill [in kT]
     bool   useBasisSetMethod;   // Use the contracted basis set method.
     size_t nBasisSet;           // Number of basis set functions to use.
 
-public:
+  public:
 
-    const size_t cellPerGrain() const { return size_t(double(GrainSize)/CellSize) ; } ;
+    const size_t cellPerGrain() const { return size_t(double(GrainSize) / CellSize); };
   };
 
 }//namespace

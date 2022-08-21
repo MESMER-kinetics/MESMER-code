@@ -461,8 +461,8 @@ namespace mesmer
 
       // Add contribution from radiation transitions if appropriate.
 
-      if (isomer->getRad().RadiationOperator(mEnv, &egme)) {
-        isomer->getRad().addRadiationOperator(m_reactionOperator, egme, idx, 1.0 / m_meanOmega);
+      if (isomer->getRad().RadiationOperator(mEnv, &egme, m_meanOmega)) {
+        isomer->getRad().addRadiationOperator(m_reactionOperator, egme, idx);
       }
 
       delete egme;

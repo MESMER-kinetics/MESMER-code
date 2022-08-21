@@ -477,6 +477,10 @@ namespace mesmer
       PrtnFn   *= Qintrot;
       IntrlEne += Eintrot;
       varEne   += varEintrot;
+
+      // ctest << setw(10) << (1.0 / (boltzmann_RCpK * beta)) << " " <<
+      //         formatFloat((1000*boltzmann_RCpK * (beta * beta * varEintrot)/ kJPerMol_in_RC),6,15) << endl;
+
     }
   }
 

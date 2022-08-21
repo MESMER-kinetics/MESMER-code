@@ -438,6 +438,7 @@
       <me:MarquardtTolerance>0.01</me:MarquardtTolerance>
       <me:MarquardtDerivDelta>1.e-03</me:MarquardtDerivDelta>
     </me:calcMethod>
+    <me:useTheSameCellNumberForAllConditions>true</me:useTheSameCellNumberForAllConditions>
     <me:testDOS />
     <me:eigenvalues>1</me:eigenvalues>
   </me:control>

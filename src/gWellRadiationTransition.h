@@ -42,11 +42,11 @@ namespace mesmer
 
     // Calculate radiation operator.
     template<class T>
-    bool RadiationOperator(MesmerEnv& env, TMatrix<T>** egme) const;
+    bool RadiationOperator(MesmerEnv& env, TMatrix<T>** egme, double meanOmega) const;
 
     // Add radiation operator to overall transtion matrix.
     template<class T>
-    void addRadiationOperator(qdMatrix* CollOptr, TMatrix<T>* egme, const size_t locate, const double RducdOmega) const;
+    void addRadiationOperator(qdMatrix* CollOptr, TMatrix<T>* egme, const size_t locate) const;
 
   private:
 
@@ -81,7 +81,7 @@ namespace mesmer
   // Calculate collision operator
   //
   template<class T>
-  bool gWellRadiationTransition::RadiationOperator(MesmerEnv& env, TMatrix<T>** CollOp) const {
+  bool gWellRadiationTransition::RadiationOperator(MesmerEnv& env, TMatrix<T>** CollOp, double meanOmega) const {
 
     // Are there any Einstein coeffcients?
     if (m_EinsteinBij.size() == 0 && m_EinsteinAij.size() == 0)
@@ -97,14 +97,18 @@ namespace mesmer
     // Allocate memory.
     TMatrix<T>* transitionMatrix = new TMatrix<T>(nradoptrsize, T(0.0));
 
-    const T beta = T(env.beta);
+    // const T beta = T(env.beta);
+
+    const T beta = T(1.0) / (boltzmann_RCpK * env.radiationTemperature);
 
     if (m_bActivation) {
 
       // Determine the upward radiative transitions first, by filling sub diagonal elements first.
       for (size_t idx(0); idx < m_EinsteinBij.size(); idx++) {
 
-        const T excitationRate = T(m_EinsteinBij[idx] * planckDistribtuion(m_TransitionFrequency[idx], env.beta));
+        // Note excitation rate is scaled by mean collision frequency (this factor is cancelled later).
+
+        const T excitationRate = T(m_EinsteinBij[idx] * planckDistribtuion(m_TransitionFrequency[idx], to_double(beta))/meanOmega);
 
         // Search for first transition.  
         size_t ll(0);
@@ -130,7 +134,10 @@ namespace mesmer
       // Determine the downward radiative transitions first, by filling super  diagonal elements first.
       for (size_t idx(0); idx < m_EinsteinBij.size(); idx++) {
 
-        const T dexcitationRate = T(m_EinsteinBij[idx] * planckDistribtuion(m_TransitionFrequency[idx], env.beta)) + m_EinsteinAij[idx];
+        // Note excitation rate is scaled by mean collision frequency (this factor is cancelled later).
+
+        const T dexcitationRate = T(m_EinsteinBij[idx] * planckDistribtuion(m_TransitionFrequency[idx], to_double(beta))/meanOmega) 
+          + m_EinsteinAij[idx];
 
         // Search for first transition.  
         size_t ll(0);
@@ -204,7 +211,7 @@ namespace mesmer
 
   // Add radiation operator to overall transtion matrix.
   template<class T>
-  void gWellRadiationTransition::addRadiationOperator(qdMatrix* CollOptr, TMatrix<T>* egme, const size_t locate, const double RducdOmega) const {
+  void gWellRadiationTransition::addRadiationOperator(qdMatrix* CollOptr, TMatrix<T>* egme, const size_t locate) const {
 
     // Find size of system matrix.
 
@@ -221,7 +228,7 @@ namespace mesmer
 
     for (size_t i(0), ii(locate); i < nradoptrsize; ++i, ++ii) {
       for (size_t j(0), jj(locate); j < nradoptrsize; ++j, ++jj) {
-        (*CollOptr)[ii][jj] += RducdOmega * (*egme)[i][j];
+        (*CollOptr)[ii][jj] += (*egme)[i][j];
       }
     }
 
