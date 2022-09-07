@@ -994,18 +994,25 @@ double ChiSquaredPrbFn(double x, double a) {
 }
 
 // Calculate the Cosine Fourier coefficients for general data.
-void FourierCosCoeffs(vector<double> &angle, vector<double> &value, vector<double> &cosCoeff, size_t expansion)
+void FourierCosCoeffs(vector<double>& angle, vector<double>& value, vector<double>& cosCoeff, size_t expansion)
 {
   size_t ndata = angle.size();
   cosCoeff.clear();
+
+  vector<double> wght(ndata, 0.0);
+  wght[0] = (angle[1] + angle[ndata-1]) / 2.0 - M_PI;
+  for (size_t i(1) ; i < ndata-1; ++i) {
+    wght[i] = (angle[i+1] - angle[i-1])/2.0;
+  }
+  wght[ndata-1] = (angle[ndata-2] + angle[0]) / 2.0 - M_PI;
 
   for (size_t k(0); k < expansion; ++k) {
     double sum(0.0);
     for (size_t i(0); i < ndata; ++i) {
       double nTheta = double(k) * angle[i];
-      sum += value[i] * cos(nTheta);
+      sum += wght[i]*value[i] * cos(nTheta);
     }
-    cosCoeff.push_back(2.0*sum / double(ndata));
+    cosCoeff.push_back(sum / M_PI);
   }
   cosCoeff[0] /= 2.0;
 }
@@ -1016,13 +1023,20 @@ void FourierSinCoeffs(vector<double> &angle, vector<double> &value, vector<doubl
   size_t ndata = angle.size();
   sinCoeff.clear();
 
+  vector<double> wght(ndata, 0.0);
+  wght[0] = (angle[1] + angle[ndata - 1]) / 2.0 - M_PI;
+  for (size_t i(1); i < ndata - 1; ++i) {
+    wght[i] = (angle[i + 1] - angle[i - 1]) / 2.0;
+  }
+  wght[ndata - 1] = (angle[ndata - 2] + angle[0]) / 2.0 - M_PI;
+
   for (size_t k(0); k < expansion; ++k) {
     double sum(0.0);
     for (size_t i(0); i < ndata; ++i) {
       double nTheta = double(k) * angle[i];
-      sum += value[i] * sin(nTheta);
+      sum += wght[i] * value[i] * sin(nTheta);
     }
-    sinCoeff.push_back(2.0*sum / double(ndata));
+    sinCoeff.push_back(sum / M_PI);
   }
   sinCoeff[0] = 0.0;
 

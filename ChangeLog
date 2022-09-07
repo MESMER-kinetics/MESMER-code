@@ -1,3 +1,8 @@
+2022-September-07 Struan Robertson
+
+		* MesmerMaths.cpp: Initial fix for Fourier coefficients with unevenly spaced
+		data.
+
 2022-August-21 Struan Robertson
 
 		* CollisionOperator.cpp, MesmerEnv.h/.cpp, gWellTransition.h: Minor updates 
