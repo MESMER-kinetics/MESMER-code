@@ -149,6 +149,9 @@ void FourierCosCoeffs(std::vector<double> &angle, std::vector<double> &value, st
 // Calculate the Sine Fourier coefficients for general data.
 void FourierSinCoeffs(std::vector<double> &angle, std::vector<double> &value, std::vector<double> &sinCoeff, size_t expansion) ;
 
+// Trapezoidal integration weights need to determine the Fourier coefficients.
+void FourierTrapezoidalWeights(std::vector<double>& angle, std::vector<double>& value, std::vector<double>& wght) ;
+
 // cumulative distribution function and its inverse
 double RationalApproximation(double t) ;
 

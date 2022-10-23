@@ -37,10 +37,10 @@ namespace mesmer
   }
 
   gDensityOfStates::gDensityOfStates(Molecule* pMol)
-   :m_RotCstA(0.0),
+    :m_RotCstA(0.0),
     m_RotCstB(0.0),
     m_RotCstC(0.0),
-    m_ZPE(NaN,"cm-1"),
+    m_ZPE(NaN, "cm-1"),
     m_scaleFactor(1.0),
     m_RC_chk(-1),
     m_ZPE_chk(-1),
@@ -55,7 +55,7 @@ namespace mesmer
     m_cellDOS(),
     m_grainEne(),
     m_grainDOS() {
-      m_host = pMol;
+    m_host = pMol;
   }
 
   bool gDensityOfStates::initialization() {
@@ -76,12 +76,12 @@ namespace mesmer
     // try to read frequencies.
 
     bool hasVibFreq(true);
-    const char *txt;
-    if ( (m_Hessian = ReadPropertyMatrix<double>("me:hessian", ppPropList)) ){
+    const char* txt;
+    if ((m_Hessian = ReadPropertyMatrix<double>("me:hessian", ppPropList))) {
       PersistPtr pMtrx = ppPropList->XmlMoveToProperty("me:hessian");
       txt = pMtrx->XmlReadValue("units", false);
       m_HessianUnits = (txt) ? string(txt) : "kJ/mol/amu/Ang^2";
-      if(FrqsFromHessian())
+      if (FrqsFromHessian())
         WriteFrqsFromHessian(ppPropList);
     }
     else if ((txt = ppPropList->XmlReadProperty("me:vibFreqs", optional))) {
@@ -150,14 +150,14 @@ namespace mesmer
       m_RotCstC = rCnst[0];
       m_RC_chk = 0;
     }
-    else if (!pMol->getStruc().IsAtom()){
+    else if (!pMol->getStruc().IsAtom()) {
       cinfo << "No rotational constants from <me:rotConsts> or structure. "
         "Assuming an atom or a sink molecule." << endl;
     }
     else
       m_RC_chk = 0;
 
-    if (hasVibFreq != hasRotConst){
+    if (hasVibFreq != hasRotConst) {
       cerr << "Improper setting on vibrational frequencies or rotational constants." << endl;
     }
 
@@ -175,7 +175,7 @@ namespace mesmer
       throw(std::runtime_error(""));
 
     // Check whether the molecule has the correct number of degrees of freedom.
-    if (!m_host->checkDegOfFreedom()){
+    if (!m_host->checkDegOfFreedom()) {
       string errorMsg = "Incorrect number of degrees of freedom compared with atom count for " + m_host->getName();
       throw (std::runtime_error(errorMsg));
     }
@@ -185,26 +185,26 @@ namespace mesmer
 
   bool gDensityOfStates::ReadZeroPointEnergy(PersistPtr ppPropList)
   {
-    /* 
+    /*
     The convention attribute on a <me:ZPE> element of a molecule describes
     what zero energy means. Any string can be used for a convention but the
     built-in ones are:
     arbitrary       - energy zero is chosen by the user, often the ZPE of the
     lowest species. This is the default if there is no
     convention attribute of me:ZPE.
-    computational   - energy zero is separated nuclei and electrons from computational 
+    computational   - energy zero is separated nuclei and electrons from computational
     chemistry programs (but see below for ZPE correction).
     thermodynamic   - energy zero is the heat of formation at 0K
     (with a 0K reference temperature).
 
     All molecules taking part in the reactions must have the same convention,
-    which is set either by a convention attribute on <moleculeList> or 
+    which is set either by a convention attribute on <moleculeList> or
     by the first molecule in the data file that has an energy
     specified. (Bath gas molecules and sink molecules may not have a
     specified energy.) It is stored (as a static variable) in
     MolecularComponent::m_energyConvention.
 
-    When reading a datafile the energy of a molecule is looked for 
+    When reading a datafile the energy of a molecule is looked for
     first in <me:ZPE>, and if not found, successively in <me:Hf0>
     and <me:Hf298>. If the convention has not been set in <moleculeList>,
     it is set by the convention on <me:ZPE>, if there is one, and to arbitrary
@@ -224,7 +224,7 @@ namespace mesmer
 
     But if the energies of all the molecules are of the same type there is no
     need for any convention attributes. The commonest case is when they are
-    all provided in <me:ZPE> elements, when the convention is arbitrary. 
+    all provided in <me:ZPE> elements, when the convention is arbitrary.
     If they are all in either <me:Hf0> or <me:Hf298> the convention is
     thermodynamic.
 
@@ -261,12 +261,12 @@ namespace mesmer
 
     // Calculate density of states.
     if (!calcCellDensityOfStates())
-       throw(std::runtime_error("__FUNCTION__: Failed to calculate density of states."));
+      throw(std::runtime_error("__FUNCTION__: Failed to calculate density of states."));
 
     thermoDynFns thermos;
     thermodynamicsFunctions(298.15, 1.0 / kJPerMol_in_RC, thermos);
     double atomZPE, atomHf0, atomHf298, atomdH298, stddH298;
-    if (!(getHost()->getStruc()).GetConstituentAtomThermo(atomZPE, atomHf0, atomHf298, atomdH298,stddH298))
+    if (!(getHost()->getStruc()).GetConstituentAtomThermo(atomZPE, atomHf0, atomHf298, atomdH298, stddH298))
     {
       cerr << "Missing thermo data for atoms" << endl;
       return false;
@@ -278,15 +278,15 @@ namespace mesmer
            compE    |                  |    Hf0 for atoms
            nuclei,electrons =>  Atoms(0K)               compEatoms
 
-    Hf(298K)  +  H298els  -  Hf(0K)  -  H298 = 0     
+    Hf(298K)  +  H298els  -  Hf(0K)  -  H298 = 0
     compE -compEatoms - Hf(0K) + Hfatoms(0K) = 0   */
 
     //Use Hf0 as intermediate
     double val = ConvertEnergy(units, "kJ/mol", fromValue);
     if (fromConvention == "thermodynamic298K")
-      val += stddH298 - thermos.enthalpy ; //all in kJ/mol
+      val += stddH298 - thermos.enthalpy; //all in kJ/mol
     else if (fromConvention == "computational")
-      val += atomHf0 - atomZPE ;
+      val += atomHf0 - atomZPE;
     else if (fromConvention != "thermodynamic")
       val = NaN;
 
@@ -301,7 +301,7 @@ namespace mesmer
       cerr << "energy cannot be converted from "
       << fromConvention << " to " << toConvention << endl;
     else
-      cinfo <<"energy converted from "
+      cinfo << "energy converted from "
       << fromConvention << " to " << toConvention << endl;
 
     return ConvertEnergy("kJ/mol", units, val);
@@ -339,12 +339,12 @@ namespace mesmer
         m_energyConvention = txt ? txt : "arbitrary";
 
       double zpCorrection(0.0); // cm-1
-      if (m_energyConvention == "computational" || (txt && strcmp(txt, "computational")==0))
+      if (m_energyConvention == "computational" || (txt && strcmp(txt, "computational") == 0))
       {
         // Mesmer assumes that the ZPE is the true zero point energy, unless an
         // attribute zeroPointVibEnergyAdded="false" (or me:zeroPointVibEnergyAdded="false",
-				// an old version which also works with the schema) is present. This indicates
-				// that the value provided is a computed energy at the bottom of the well and
+        // an old version which also works with the schema) is present. This indicates
+        // that the value provided is a computed energy at the bottom of the well and
         // it is corrected here by adding 0.5*Sum(vib freqs).
         string zpAttName("zeroPointVibEnergyAdded");
         txt = ppPropList->XmlReadPropertyAttribute(elName, zpAttName, optional);
@@ -355,20 +355,20 @@ namespace mesmer
         }
         if (txt && strcmp(txt, "false") == 0)
         {
-					if (getHost()->getFlags().useOrigFreqForZPECorrection) {
-						// Assume that the correction can be obtained from the original frequencies.
-						if (m_VibFreq.size() > 0)
-						{ 
-							zpCorrection = accumulate(m_VibFreq.begin(), m_VibFreq.end(), 0.0);
-							zpCorrection *= m_scaleFactor;
-							zpCorrection *= 0.5;
-						}
-					}
-					else { 
-						// This correction accounts for hindered rotors etc.
-						calcDensityOfStates();	
-						zpCorrection = m_DiffQMClassZPE;
-					}
+          if (getHost()->getFlags().useOrigFreqForZPECorrection) {
+            // Assume that the correction can be obtained from the original frequencies.
+            if (m_VibFreq.size() > 0)
+            {
+              zpCorrection = accumulate(m_VibFreq.begin(), m_VibFreq.end(), 0.0);
+              zpCorrection *= m_scaleFactor;
+              zpCorrection *= 0.5;
+            }
+          }
+          else {
+            // This correction accounts for hindered rotors etc.
+            calcDensityOfStates();
+            zpCorrection = m_DiffQMClassZPE;
+          }
           tempzpe += ConvertFromWavenumbers(unitsInput, zpCorrection);
           //Write back a corrected value and change attribute to zeroPointVibEnergyAdded="true"
           PersistPtr ppScalar = ppMol->XmlMoveToProperty(elName);
@@ -395,11 +395,11 @@ namespace mesmer
       // and to allow the energy to be a range variable. 
       // <me:Hf0 and <me:Hf298> cannot have range attributes.
       stringstream ss;
-      ss << ConvertFromWavenumbers(unitsInput, m_ZPE) ;
+      ss << ConvertFromWavenumbers(unitsInput, m_ZPE);
       PersistPtr ppScalar = ppPropList->XmlWriteProperty("me:ZPE", ss.str(), unitsInput);
       ppScalar->XmlWriteAttribute("source", elName);
-			ppScalar->XmlWriteAttribute("convention", m_energyConvention);
-			cinfo << "New me:ZPE element written with data from " << elName << endl;
+      ppScalar->XmlWriteAttribute("convention", m_energyConvention);
+      cinfo << "New me:ZPE element written with data from " << elName << endl;
     }
     return true;
   }
@@ -410,7 +410,7 @@ namespace mesmer
       return NaN;
     cinfo << "enthalpy of formation at 298K:";
     return ConvertEnergyConvention(m_energyConvention, "thermodynamic298K",
-      ConvertFromWavenumbers("kJ/mol", m_ZPE),"kJ/mol");
+      ConvertFromWavenumbers("kJ/mol", m_ZPE), "kJ/mol");
   }
 
   //
@@ -427,7 +427,7 @@ namespace mesmer
   //
   // Get cell density of states.
   //
-  bool gDensityOfStates::getCellDensityOfStates(vector<double> &cellDOS, bool bcalc) {
+  bool gDensityOfStates::getCellDensityOfStates(vector<double>& cellDOS, bool bcalc) {
     // If density of states have not already been calculated then do so.
     if (bcalc && !calcDensityOfStates())
     {
@@ -454,14 +454,14 @@ namespace mesmer
     if (!*name)
     {
       PersistPtr ppDM = pp->XmlMoveTo("me:DOSCMethod");
-      if(ppDM)
-        name= ppDM->XmlReadValue("xsi:type", optional);//e.g. <me:DOSCMethod xsi:type="me:QMRotors"/>
+      if (ppDM)
+        name = ppDM->XmlReadValue("xsi:type", optional);//e.g. <me:DOSCMethod xsi:type="me:QMRotors"/>
       if (!name)
         name = pp->XmlMoveTo("me:DOSCMethod")->XmlReadValue("name"); // e.g. <me:DOSCMethod name="QMRotors"/>
         // and will provide default if there is no <me:DOSCMethod>
     }
     //remove "me:" if present
-    if (name && name[2]==':')
+    if (name && name[2] == ':')
       name = name + 3;
 
     m_DOSCalculators.push_back(DensityOfStatesCalculator::Find(string(name)));
@@ -477,12 +477,12 @@ namespace mesmer
       return false;
     }
 
-		// Not necessary; and better not to have the name of a plugin explicitly in the code.
-    // If the density of states are defined outside of MESMER then no additional terms are required.
-		//if (string(name) == "DefinedDensityOfStates")
-		//	return true;
+    // Not necessary; and better not to have the name of a plugin explicitly in the code.
+// If the density of states are defined outside of MESMER then no additional terms are required.
+    //if (string(name) == "DefinedDensityOfStates")
+    //	return true;
 
-    // Beyer-Swinehart object added by default at m_DOSCalculators[1].
+// Beyer-Swinehart object added by default at m_DOSCalculators[1].
     m_DOSCalculators.push_back(DensityOfStatesCalculator::Find("BeyerSwinehart"));
     if (!m_DOSCalculators[1])
     {
@@ -526,7 +526,7 @@ namespace mesmer
     {
       if (id == (*iter)->getID())
       {
-        delete *iter; //because plugin was a new instance made with Clone()
+        delete* iter; //because plugin was a new instance made with Clone()
         m_DOSCalculators.erase(iter);
         return true;
       }
@@ -550,9 +550,9 @@ namespace mesmer
     return NULL;
   }
 
-  RotationalTop gDensityOfStates::get_rotConsts(std::vector<double> &mmtsInt)
+  RotationalTop gDensityOfStates::get_rotConsts(std::vector<double>& mmtsInt)
   {
-    if (m_RC_chk <= -1){
+    if (m_RC_chk <= -1) {
       ErrorContext e(this->getHost()->getName());
       if (m_RC_chk == -1)
         //        cinfo << "Rotational constants were not defined but requested." << endl;
@@ -606,7 +606,7 @@ namespace mesmer
     {
       //cinfo << "calculation of DOS cutailed because no ZPE" << endl;
     }
-    else 
+    else
     {
       const int cellOffset = get_cellOffset();
       std::vector<double> cellEne;
@@ -626,17 +626,17 @@ namespace mesmer
   // Calculate Cell Density of states.
   bool gDensityOfStates::calcCellDensityOfStates() {
     bool ret(true);
-		m_DiffQMClassZPE = 0.0;
-		for (size_t i(0); ret && i < m_DOSCalculators.size(); ++i) {
-			ret = ret && m_DOSCalculators[i]->countCellDOS(this, m_host->getEnv());
-			m_DiffQMClassZPE += m_DOSCalculators[i]->ZeroPointEnergy(this);
-		}
+    m_DiffQMClassZPE = 0.0;
+    for (size_t i(0); ret && i < m_DOSCalculators.size(); ++i) {
+      ret = ret && m_DOSCalculators[i]->countCellDOS(this, m_host->getEnv());
+      m_DiffQMClassZPE += m_DOSCalculators[i]->ZeroPointEnergy(this);
+    }
 
-    return ret ;
+    return ret;
   }
 
   // Calculate classical energy
-  double gDensityOfStates::getClassicalEnergy(){
+  double gDensityOfStates::getClassicalEnergy() {
     //Basically use the frequencies to calculate the contribution of ZPE from harmonic oscillators approximation
     double ZC = 0.0;
     for (unsigned int i = 0; i < m_VibFreq.size(); ++i)
@@ -659,7 +659,7 @@ namespace mesmer
     const double temperature = 1. / (boltzmann_RCpK * m_host->getEnv().beta);
     const int max_nplus1 = int(temperature / 100.);
 
-    if (m_host->isMolType("modelled") || m_host->isMolType("transitionState")){
+    if (m_host->isMolType("modelled") || m_host->isMolType("transitionState")) {
       string comment("Rovibronic partition function calculation at various temperatures. qtot : product of QM partition functions for vibrations (1-D harmonic oscillator) and classical partition functions for rotations.  sumc : cell based partition function. sumg : grain based partition function ");
 
       PersistPtr ppList = m_host->get_PersistentPointer()->XmlWriteMainElement("me:densityOfStatesList", comment);
@@ -670,8 +670,8 @@ namespace mesmer
 
       //loop through predefined test temperatures
       for (int n = 0; n < max_nplus1; ++n) {
-        double temp = 100.0*static_cast<double>(n + 2);
-        double beta = 1.0 / (boltzmann_RCpK*temp);
+        double temp = 100.0 * static_cast<double>(n + 2);
+        double beta = 1.0 / (boltzmann_RCpK * temp);
 
         // Calculate rovibronic partition functions based on cells.
         double cellCanPrtnFn = canonicalPartitionFunction(m_cellDOS, cellEne, beta);
@@ -703,9 +703,9 @@ namespace mesmer
       if (m_host->getFlags().testDOSEnabled) stest << "}" << endl;
     }
 
-    if (m_host->getFlags().cellDOSEnabled){
+    if (m_host->getFlags().cellDOSEnabled) {
       stest << endl << "Cell rovibronic density of states of " << m_host->getName() << endl << "{" << endl;
-      for (int i(0); i < MaximumCell; ++i){
+      for (int i(0); i < MaximumCell; ++i) {
         formatFloat(stest, cellEne[i], 6, 15);
         formatFloat(stest, m_cellDOS[i], 6, 15);
         stest << endl;
@@ -713,9 +713,9 @@ namespace mesmer
       stest << "}" << endl;
     }
 
-    if (m_host->getFlags().grainDOSEnabled && (m_host->isMolType("modelled") || m_host->isMolType("transitionState"))){
+    if (m_host->getFlags().grainDOSEnabled && (m_host->isMolType("modelled") || m_host->isMolType("transitionState"))) {
       stest << endl << "Grain rovibronic density of states of " << m_host->getName() << endl << "{" << endl;
-      for (int i(0); i < MaximumGrain; ++i){
+      for (int i(0); i < MaximumGrain; ++i) {
         formatFloat(stest, m_grainEne[i], 6, 15);
         formatFloat(stest, m_grainDOS[i], 6, 15);
         stest << endl;
@@ -738,7 +738,7 @@ namespace mesmer
   }
 
   double gDensityOfStates::get_scaleFactor() {
-    if (m_scaleFactor_chk == -1){
+    if (m_scaleFactor_chk == -1) {
       cinfo << "m_scaleFactor was not defined but requested in " << m_host->getName() << ". Default value " << m_scaleFactor << " is given." << endl;
       --m_scaleFactor_chk;
     }
@@ -751,7 +751,7 @@ namespace mesmer
     return m_scaleFactor;
   }
 
-  void gDensityOfStates::get_VibFreq(std::vector<double>& vibFreq){
+  void gDensityOfStates::get_VibFreq(std::vector<double>& vibFreq) {
     const double scalefactor = get_scaleFactor();
     for (unsigned int i = 0; i < m_VibFreq.size(); ++i)
       vibFreq.push_back(m_VibFreq[i] * scalefactor);
@@ -773,9 +773,9 @@ namespace mesmer
   //
   // Get grain density of states.
   //
-  void gDensityOfStates::getGrainDensityOfStates(vector<double> &grainDOS) {
+  void gDensityOfStates::getGrainDensityOfStates(vector<double>& grainDOS) {
     // If density of states have not already been calculated then do so.
-    if (!calcDensityOfStates()){
+    if (!calcDensityOfStates()) {
       throw (std::runtime_error("Failed calculating DOS."));
     }
 
@@ -785,7 +785,7 @@ namespace mesmer
   //
   // Get grain energies.
   //
-  void gDensityOfStates::getGrainEnergies(vector<double> &grainEne) {
+  void gDensityOfStates::getGrainEnergies(vector<double>& grainEne) {
     // If density of states have not already been calcualted then do so.
     if (!calcDensityOfStates())
       cerr << "Failed calculating DOS";
@@ -809,7 +809,7 @@ namespace mesmer
   // Calculate standard thermodynamic quantities as a function of temperature.
   // The calculation is based on cell densities of states.
   //
-  bool gDensityOfStates::thermodynamicsFunctions(double temp, double unitFctr, thermoDynFns &thermos) {
+  bool gDensityOfStates::thermodynamicsFunctions(double temp, double unitFctr, thermoDynFns& thermos) {
 
     std::vector<double> cellEne;
     getCellEnergies(m_host->getEnv().MaxCell, m_host->getEnv().CellSize, cellEne);
@@ -818,7 +818,7 @@ namespace mesmer
 
     double beta;
     if (temp > 0.0) {
-      beta = 1.0 / (boltzmann_RCpK*temp);
+      beta = 1.0 / (boltzmann_RCpK * temp);
     }
     else {
       thermos.ResetFns();
@@ -829,32 +829,32 @@ namespace mesmer
     double cellCanPrtnFn = canonicalPartitionFunction(m_cellDOS, cellEne, beta);
 
     // The following calculates the mean internal molecular energy.
-    double cellIntlEnergy(0.0), cellvarEnergy(0.0) ;
+    double cellIntlEnergy(0.0), cellvarEnergy(0.0);
     canonicalMeanEnergy(m_cellDOS, cellEne, beta, cellIntlEnergy, cellvarEnergy);
 
     // Calculate rovibronic partition functions, using analytical formula where possible.
-    double CanPrtnFn(1.0), internalEnergy(0.0), varEnergy(0.0) ;
+    double CanPrtnFn(1.0), internalEnergy(0.0), varEnergy(0.0);
     for (vector<DensityOfStatesCalculator*>::size_type j = 0; j < m_DOSCalculators.size(); ++j) {
       m_DOSCalculators[j]->canPrtnFnCntrb(this, beta, CanPrtnFn, internalEnergy, varEnergy);
     }
 
     // The rovibronic partition function must be corrected for translation 
     // and (assuming an ideal gas) molecular indistinguishability.
-    double molarVol = AvogadroC/getConvertedP("bar", 1.0, temp);  // cm3
-    double lnQtrans = - log(tp_C * pow((m_host->getStruc().getMass() / beta), 1.5)*molarVol) + log(AvogadroC) ;
-    thermos.gibbsFreeEnergy     = unitFctr*(-log(CanPrtnFn) + lnQtrans) / beta;
-    thermos.cellGibbsFreeEnergy = unitFctr*(-log(cellCanPrtnFn) + lnQtrans) / beta;
+    double molarVol = AvogadroC / getConvertedP("bar", 1.0, temp);  // cm3
+    double lnQtrans = -log(tp_C * pow((m_host->getStruc().getMass() / beta), 1.5) * molarVol) + log(AvogadroC);
+    thermos.gibbsFreeEnergy = unitFctr * (-log(CanPrtnFn) + lnQtrans) / beta;
+    thermos.cellGibbsFreeEnergy = unitFctr * (-log(cellCanPrtnFn) + lnQtrans) / beta;
 
     // The enthalpy must be adjusted for translation by an additional 3kT/2.
-    thermos.enthalpy         = unitFctr*(internalEnergy + 5.0 / (2.0*beta));
-    thermos.cellEnthalpy     = unitFctr*(cellIntlEnergy + 5.0 / (2.0*beta));
+    thermos.enthalpy = unitFctr * (internalEnergy + 5.0 / (2.0 * beta));
+    thermos.cellEnthalpy = unitFctr * (cellIntlEnergy + 5.0 / (2.0 * beta));
 
-    thermos.entropy          = (thermos.enthalpy     - thermos.gibbsFreeEnergy) / temp;
-    thermos.cellEntropy      = (thermos.cellEnthalpy - thermos.cellGibbsFreeEnergy) / temp;
+    thermos.entropy = (thermos.enthalpy - thermos.gibbsFreeEnergy) / temp;
+    thermos.cellEntropy = (thermos.cellEnthalpy - thermos.cellGibbsFreeEnergy) / temp;
 
     // The heat capacity must be adjusted for translation by an additional 3k/2.
-    thermos.heatCapacity     = unitFctr*boltzmann_RCpK*(beta*beta*varEnergy     + 5.0/2.0);
-    thermos.cellHeatCapacity = unitFctr*boltzmann_RCpK*(beta*beta*cellvarEnergy + 5.0/2.0);
+    thermos.heatCapacity = unitFctr * boltzmann_RCpK * (beta * beta * varEnergy + 5.0 / 2.0);
+    thermos.cellHeatCapacity = unitFctr * boltzmann_RCpK * (beta * beta * cellvarEnergy + 5.0 / 2.0);
 
     return true;
   }
@@ -865,10 +865,10 @@ namespace mesmer
   // also Miller, Handy and Adams JCP, Vol, 72, 99 (1980).
   bool gDensityOfStates::FrqsFromHessian() {
 
-		// Print warning about coordinate frame consistency.
-		cinfo << "WARNING: When calculating frequencies from a Hessian it is critical\n" 
-    "     that the Hessian and species coordinates are expressed relative to\n"
-    "     the same Cartesian coordinate system." << endl;
+    // Print warning about coordinate frame consistency.
+    cinfo << "WARNING: When calculating frequencies from a Hessian it is critical\n"
+      "     that the Hessian and species coordinates are expressed relative to\n"
+      "     the same Cartesian coordinate system." << endl;
 
     const size_t msize = m_Hessian->size();
     m_Modes = new dMatrix(msize, 0.0);
@@ -936,9 +936,9 @@ namespace mesmer
       }
     }
 
-    dMatrix tmpHessian = (*m_Hessian)*Transform;
+    dMatrix tmpHessian = (*m_Hessian) * Transform;
     Transform.Transpose();
-    *m_Hessian = Transform*tmpHessian;
+    *m_Hessian = Transform * tmpHessian;
 
     // X Translation projector.
 
@@ -984,13 +984,13 @@ namespace mesmer
   }
 
   // Function to calculate the vibrational frequencies from a projected Hessian matrix.
-  bool gDensityOfStates::calculateFreqs(vector<double> &freqs, bool projectTransStateMode) {
+  bool gDensityOfStates::calculateFreqs(vector<double>& freqs, bool projectTransStateMode) {
 
     const size_t msize = m_Hessian->size();
 
     dMatrix tmp = *m_Modes;
     tmp.Transpose();
-    dMatrix Projector = (*m_Modes)*tmp;
+    dMatrix Projector = (*m_Modes) * tmp;
     for (size_t i = 0; i < msize; i++) {
       for (size_t j = 0; j < msize; j++) {
         Projector[i][j] *= -1.0;
@@ -998,16 +998,16 @@ namespace mesmer
       Projector[i][i] += 1.0;
     }
 
-    dMatrix tmpHessian = Projector*(*m_Hessian)*Projector;
+    dMatrix tmpHessian = Projector * (*m_Hessian) * Projector;
 
     tmpHessian.diagonalize(&freqs[0]);
 
-    double convFactor = conHess2Freq / (2.0*M_PI);
+    double convFactor = conHess2Freq / (2.0 * M_PI);
     for (size_t m(0); m < msize; m++) {
       if (freqs[m] > 0.0) {
 
         // Mostly vibration modes.
-        freqs[m] = convFactor*sqrt(freqs[m]);
+        freqs[m] = convFactor * sqrt(freqs[m]);
 
       }
       else if (projectTransStateMode) {
@@ -1015,7 +1015,7 @@ namespace mesmer
         // Add Transition state mode to the projected set after orthogonalization.
         // The magic number of "1.0" below is 1 cm-1 and used to filter out any 
         // small -ve frequencies associated with existing projected modes.
-        double imFreq = convFactor*sqrt(fabs(freqs[m]));
+        double imFreq = convFactor * sqrt(fabs(freqs[m]));
         if (imFreq > 1.0) {
 
           // Save imaginary frequency for use in tunnelling calculations.
@@ -1036,7 +1036,7 @@ namespace mesmer
 
   // This method is used to project a mode from the stored Hessian and
   // re-calculate the remaining frequencies.
-  bool gDensityOfStates::projectMode(vector<double> &mode) {
+  bool gDensityOfStates::projectMode(vector<double>& mode) {
 
     bool status(true);
 
@@ -1074,7 +1074,7 @@ namespace mesmer
 
   // This method is used to orthogonalize a mode against existing
   // projected modes and then add it to the projected set.
-  bool gDensityOfStates::orthogonalizeMode(vector<double> &mode) {
+  bool gDensityOfStates::orthogonalizeMode(vector<double>& mode) {
 
     const size_t msize = m_Hessian->size();
 
@@ -1097,7 +1097,7 @@ namespace mesmer
   }
 
   // Helper function to shift translation projection vector.
-  void gDensityOfStates::ShiftTransVector(vector<double> &mode) {
+  void gDensityOfStates::ShiftTransVector(vector<double>& mode) {
     const size_t msize = mode.size();
     for (size_t i = msize - 1; i > 0; i--)
       mode[i] = mode[i - 1];
@@ -1105,7 +1105,7 @@ namespace mesmer
   }
 
   // Helper function to create projector.
-  void gDensityOfStates::UpdateProjector(vector<double> &mode) {
+  void gDensityOfStates::UpdateProjector(vector<double>& mode) {
 
     // Normalize mode.
 
@@ -1129,15 +1129,15 @@ namespace mesmer
   }
 
   // Function to calculate the rotational mode vectors.
-  void gDensityOfStates::RotationVector(vector<double> &aa, size_t loca, double sgna, vector<double> &bb, size_t locb, double sgnb, vector<double> &massWeights, vector<double> &mode) {
+  void gDensityOfStates::RotationVector(vector<double>& aa, size_t loca, double sgna, vector<double>& bb, size_t locb, double sgnb, vector<double>& massWeights, vector<double>& mode) {
 
     mode.clear();
     size_t ncoords = aa.size();
     size_t i(0);
     for (; i < ncoords; i++) {
       vector<double> rcross(3, 0.0);
-      rcross[loca] = sgna*aa[i];
-      rcross[locb] = sgnb*bb[i];
+      rcross[loca] = sgna * aa[i];
+      rcross[locb] = sgnb * bb[i];
       for (size_t j(0); j < 3; j++) {
         mode.push_back(rcross[j]);
       }
@@ -1159,13 +1159,13 @@ namespace mesmer
     vector<double> atomicMasses;
     gs.getAtomicMasses(atomicMasses);
 
-    size_t nHeavyAtoms(0) ;
+    size_t nHeavyAtoms(0);
     for (size_t j(0); j < atomicMasses.size(); j++) {
       if (atomicMasses[j] > atomMass("H")) {
-        nHeavyAtoms++ ;
+        nHeavyAtoms++;
       }
     }
-    return (nHeavyAtoms > n) ;
+    return (nHeavyAtoms > n);
   }
 
   void gDensityOfStates::WriteFrqsFromHessian(PersistPtr ppProp)
@@ -1181,9 +1181,9 @@ namespace mesmer
 
     //Write to XML
     stringstream ss;
-		for (size_t i(0); i < m_VibFreq.size(); i++) {
-			ss << m_VibFreq[i] << " ";
-		}
+    for (size_t i(0); i < m_VibFreq.size(); i++) {
+      ss << m_VibFreq[i] << " ";
+    }
     PersistPtr ppScalar = ppProp->XmlWriteProperty("me:vibFreqsFromHessian", ss.str(), "cm-1");
   }
 

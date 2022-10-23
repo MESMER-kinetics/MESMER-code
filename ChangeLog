@@ -1,3 +1,8 @@
+2022-October-23 Struan Robertson
+
+		* MesmerMaths.h/.cpp: Further fixes for Fourier coefficients with unevenly
+		spaced data.
+
 2022-September-07 Struan Robertson
 
 		* MesmerMaths.cpp: Initial fix for Fourier coefficients with unevenly spaced

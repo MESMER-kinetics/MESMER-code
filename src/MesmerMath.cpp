@@ -1000,11 +1000,7 @@ void FourierCosCoeffs(vector<double>& angle, vector<double>& value, vector<doubl
   cosCoeff.clear();
 
   vector<double> wght(ndata, 0.0);
-  wght[0] = (angle[1] + angle[ndata-1]) / 2.0 - M_PI;
-  for (size_t i(1) ; i < ndata-1; ++i) {
-    wght[i] = (angle[i+1] - angle[i-1])/2.0;
-  }
-  wght[ndata-1] = (angle[ndata-2] + angle[0]) / 2.0 - M_PI;
+  FourierTrapezoidalWeights(angle, value, wght);
 
   for (size_t k(0); k < expansion; ++k) {
     double sum(0.0);
@@ -1024,11 +1020,7 @@ void FourierSinCoeffs(vector<double> &angle, vector<double> &value, vector<doubl
   sinCoeff.clear();
 
   vector<double> wght(ndata, 0.0);
-  wght[0] = (angle[1] + angle[ndata - 1]) / 2.0 - M_PI;
-  for (size_t i(1); i < ndata - 1; ++i) {
-    wght[i] = (angle[i + 1] - angle[i - 1]) / 2.0;
-  }
-  wght[ndata - 1] = (angle[ndata - 2] + angle[0]) / 2.0 - M_PI;
+  FourierTrapezoidalWeights(angle, value, wght);
 
   for (size_t k(0); k < expansion; ++k) {
     double sum(0.0);
@@ -1041,6 +1033,16 @@ void FourierSinCoeffs(vector<double> &angle, vector<double> &value, vector<doubl
   sinCoeff[0] = 0.0;
 
   return;
+}
+
+// Trapezoidal integration weights need to determine the Fourier coefficients.
+void FourierTrapezoidalWeights(vector<double>& angle, vector<double>& value, vector<double>& wght) {
+  size_t ndata = angle.size();
+  wght[0] = M_PI + (angle[1] - angle[ndata - 1]) * 0.5;
+  for (size_t i(1); i < ndata - 1; ++i) {
+    wght[i] = (angle[i + 1] - angle[i - 1]) / 2.0;
+  }
+  wght[ndata - 1] = M_PI + (angle[0] - angle[ndata - 2]) * 0.5;
 }
 
 double RationalApproximation(double t)
