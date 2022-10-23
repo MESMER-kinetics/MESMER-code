@@ -364,7 +364,9 @@ Windows[!!-~]VC17/qd/qd.vcxproj -text
 /defaults.xml -text
 examples/2Methyl_to_Ethane/CH3_CH3_to_C2H6.xml -text
 examples/2Methyl_to_Ethane/baselines/Linux64/CH3_CH3_to_C2H6.log -text
+examples/2Methyl_to_Ethane/baselines/Linux64/CH3_CH3_to_C2H6.test -text
 examples/2Methyl_to_Ethane/baselines/Win32/CH3_CH3_to_C2H6.log -text
+examples/2Methyl_to_Ethane/baselines/Win32/CH3_CH3_to_C2H6.test -text
 examples/AcetylO2/Acetyl_O2_associationEx.xml -text
 examples/AcetylO2/Int1.log -text
 examples/AcetylO2/Int2.log -text
