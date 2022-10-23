@@ -96,7 +96,7 @@
 
       <me:ExtraDOSCMethod xsi:type="HinderedRotorQM1D">
         <bondRef>b3</bondRef>
-        <me:HinderedRotorPotential format="numerical" expansionSize="15" units="kJ/mol" UseSineTerms="yes" scale="1">
+        <me:HinderedRotorPotential format="numerical" expansionSize="6" units="kJ/mol" UseSineTerms="yes" scale="1">
           <me:PotentialPoint angle= "0" potential = "0.0" />
           <me:PotentialPoint angle= "36" potential = "18.4081182655" />
           <me:PotentialPoint angle= "72" potential = "52.035377863" />

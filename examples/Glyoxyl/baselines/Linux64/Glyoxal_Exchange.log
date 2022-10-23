@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v7.0 compiled: -- Apr 25 2022 -- 23:32:07
+     Mesmer v7.0 compiled: -- Oct 23 2022 -- 14:01:55
 
      Copyright (C) 2009-2022 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Tue Apr 26 00:42:56 2022
+                     Execution Date:  Sun Oct 23 15:06:52 2022
                      Number of ranks: 12
 
 defaults.xml, librarymols.xml are in ../..
@@ -50,7 +50,6 @@ In HC(O)CO: HC(O)CO:deltaEDown was given a range with 31 steps
 In R1: --Parse data for modPrior
 In TS1: The default value of me:DOSCMethod was used.
 In R1: --Parse data for Eckart
-In R1: Not a unimolecular reaction: look for excess reactant concentration.
 In R4: Parsing reaction...Irreversible unimolecular reaction
 In TS2: WARNING: When calculating frequencies from a Hessian it is critical
      that the Hessian and species coordinates are expressed relative to
@@ -88,7 +87,6 @@ In R2: R2:activationEnergy was given a range with 101 steps
 In R2: R2:preExponential was given a range with 1000 steps 
 In R2: The default value of me:TInfinity was used.
 In R2: No tunneling method used for R2
-In R2: Not a unimolecular reaction: look for excess reactant concentration.
 In R2: No value of me:excessReactantConc was supplied and the default value NEEDS TO BE CHECKED**
 In R6: Parsing reaction...Irreversible unimolecular reaction
 In TS4: WARNING: When calculating frequencies from a Hessian it is critical
@@ -104,16 +102,32 @@ In TS4: species TS4, differs at the minimum from the value entered by more than 
 In TS4: More terms in the Fourier expansion may be needed.
 In R6: --Parse data for RRKM
 In R6: No tunneling method used for R6
-80Torr, 295K at dd precision with N2. Excess Reactant Conc = 1.547e+17 particles per cc
-80Torr, 295K at dd precision with N2. Excess Reactant Conc = 3.265e+17 particles per cc
-80Torr, 295K at dd precision with N2. Excess Reactant Conc = 5.866e+17 particles per cc
-80Torr, 295K at dd precision with N2. Excess Reactant Conc = 9.24e+17 particles per cc
-5Torr, 212K at qd precision with N2. Excess Reactant Conc = 3.56e+15 particles per cc
-5Torr, 212K at qd precision with N2. Excess Reactant Conc = 1.56e+16 particles per cc
-5Torr, 212K at qd precision with N2. Excess Reactant Conc = 3.68e+16 particles per cc
-5Torr, 212K at qd precision with N2. Excess Reactant Conc = 1.01e+17 particles per cc
+80Torr, 295K at dd precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+14 particles per cc
+Excess Reactant Conc. for reaction R2 = 1.547e+17 particles per cc
+80Torr, 295K at dd precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+14 particles per cc
+Excess Reactant Conc. for reaction R2 = 3.265e+17 particles per cc
+80Torr, 295K at dd precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+14 particles per cc
+Excess Reactant Conc. for reaction R2 = 5.866e+17 particles per cc
+80Torr, 295K at dd precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+14 particles per cc
+Excess Reactant Conc. for reaction R2 = 9.24e+17 particles per cc
+5Torr, 212K at qd precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+14 particles per cc
+Excess Reactant Conc. for reaction R2 = 3.56e+15 particles per cc
+5Torr, 212K at qd precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+14 particles per cc
+Excess Reactant Conc. for reaction R2 = 1.56e+16 particles per cc
+5Torr, 212K at qd precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+14 particles per cc
+Excess Reactant Conc. for reaction R2 = 3.68e+16 particles per cc
+5Torr, 212K at qd precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+14 particles per cc
+Excess Reactant Conc. for reaction R2 = 1.01e+17 particles per cc
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20220426_004256
+Write metadata 20221023_150652
 
 File: "Glyoxal_Exchange.xml" successfully parsed.
 Main Calculation begins
@@ -132,50 +146,50 @@ In FastLaplaceConvolution: 100 values in the FFT convolution routine were replac
 In FastLaplaceConvolution: 2740 values in the FFT convolution routine were replaced by standard convolution
 No population was assigned. Initialize the first source term to 1.0.
 
-Chi^2 = 263.165 Lambda = 1
+Chi^2 = 445.434 Lambda = 1
 HC(O)CO:deltaEDown=278.947  R2:activationEnergy=3.0715  R2:preExponential=1.50278e-12  
 
-Chi^2 = 69.6921 Lambda = 0.1
-HC(O)CO:deltaEDown=346.39  R2:activationEnergy=4.12069  R2:preExponential=1.06274e-12  
-Iteration: 1 of Marquardt. ChiSquare = 69.6921, Lambda = 0.1
+Chi^2 = 154.562 Lambda = 0.1
+HC(O)CO:deltaEDown=361.737  R2:activationEnergy=3.91681  R2:preExponential=9.57571e-13  
+Iteration: 1 of Marquardt. ChiSquare = 154.562, Lambda = 0.1
 
-Chi^2 = 34.8163 Lambda = 0.01
-HC(O)CO:deltaEDown=228.528  R2:activationEnergy=5.92091  R2:preExponential=8.49322e-13  
-Iteration: 2 of Marquardt. ChiSquare = 34.8163, Lambda = 0.01
+Chi^2 = 59.231 Lambda = 0.01
+HC(O)CO:deltaEDown=233.465  R2:activationEnergy=5.79246  R2:preExponential=7.56352e-13  
+Iteration: 2 of Marquardt. ChiSquare = 59.231, Lambda = 0.01
 Number of cells = 50000, Number of grains = 245
- -- Total time elapsed: 421 seconds.
+ -- Total time elapsed: 434 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
-            295    2.61871e+18         0.0508      0.0324303
-            295    2.61871e+18          0.135      0.0656211
-            295    2.61871e+18        0.18893       0.110965
-            295    2.61871e+18        0.21629       0.162403
-            212    2.27747e+17          0.181      0.0683688
-            212    2.27747e+17          0.282         0.2318
-            212    2.27747e+17          0.367       0.385627
-            212    2.27747e+17          0.377       0.550322
+            295    2.61871e+18         0.0508      0.0474178
+            295    2.61871e+18          0.135      0.0941772
+            295    2.61871e+18        0.18893       0.155337
+            295    2.61871e+18        0.21629       0.221175
+            212    2.27747e+17          0.181       0.156275
+            212    2.27747e+17          0.282       0.403171
+            212    2.27747e+17          0.367       0.542911
+            212    2.27747e+17          0.377       0.644224
 
 
-Chi^2 = 34.8163
+Chi^2 = 59.231
 
 Best fit parameters:
 
-HC(O)CO:deltaEDown = 228.528 +/- 543.24
-R2:activationEnergy = 5.92091 +/- 36.9164
-R2:preExponential = 8.49322e-13 +/- 1.04293e-11
+HC(O)CO:deltaEDown = 233.465 +/- 597.358
+R2:activationEnergy = 5.79246 +/- 6.16135
+R2:preExponential = 7.56352e-13 +/- 4.15317e-12
 
 Correlation coefficients:
 
-R2:activationEnergy , HC(O)CO:deltaEDown = 0.968492
-R2:preExponential , HC(O)CO:deltaEDown = 0.978123
-R2:preExponential , R2:activationEnergy = 0.999054
+R2:activationEnergy , HC(O)CO:deltaEDown = 0.977013
+R2:preExponential , HC(O)CO:deltaEDown = 0.992351
+R2:preExponential , R2:activationEnergy = 0.99551
 
 Goodness of Fit:
 
 Number of degrees of Freedom = 5
-Chi^2 probability = 1.63716e-06
+Chi^2 probability = 1.75226e-11
 
 System saved to mesmer_out.xml
-Total time elapsed: 421 seconds.
+Total time elapsed: 434 seconds.
