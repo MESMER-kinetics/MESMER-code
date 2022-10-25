@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.1 compiled: -- May 25 2021 -- 20:47:20
+     Mesmer v7.0 compiled: -- Oct 23 2022 -- 14:01:49
 
-     Copyright (C) 2009-2021 by
+     Copyright (C) 2009-2022 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Thu May 27 10:23:31 2021
+                     Execution Date:  Mon Oct 24 22:59:37 2022
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -40,7 +40,13 @@ The default value of me:calcMethod was used.
 Energy convention "" written to <moleculeList>
 In R1: Parsing reaction...Association reaction
 In Methanol: Hindered rotor b1
+In Methanol: WARNING: The Fourier expansion for the internal rotor potential for bond b1 of 
+In Methanol: species Methanol, differs at the minimum from the value entered by more than 20 cm-1.
+In Methanol: More terms in the Fourier expansion may be needed.
 In Im1a: Hindered rotor b1
+In Im1a: WARNING: The Fourier expansion for the internal rotor potential for bond b1 of 
+In Im1a: species Im1a, differs at the minimum from the value entered by more than 20 cm-1.
+In Im1a: More terms in the Fourier expansion may be needed.
 In Im1a: The default value of me:DistributionCalcMethod was used.
 In Im1a: --Parse data for Boltzmann
 In Im1a: --Parse data for ExponentialDown
@@ -57,8 +63,9 @@ In R3: --Parse data for RRKM
 In R3: --Parse data for DefinedTunnelingCoefficient
 In R3: Data for DefinedTunnelingCoefficients found
 6e+16PPCC, 40K at dd precision with N_2
+Excess Reactant Conc. for reaction R1 = 2.25e+14 particles per cc
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20210527_102331
+Write metadata 20221024_225937
 
 File: "OH+methanol.xml" successfully parsed.
 Main Calculation begins
@@ -67,7 +74,7 @@ Now calculating...
 --Execute calcMethod simpleCalc
 Number of cells = 50000, Number of grains = 264
 In FastLaplaceConvolution: 300 values in the FFT convolution routine were replaced by standard convolution
-In FastLaplaceConvolution: 1220 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 1180 values in the FFT convolution routine were replaced by standard convolution
 In FastLaplaceConvolution: 5300 values in the FFT convolution routine were replaced by standard convolution
  -- Total time elapsed: 2 seconds.
 

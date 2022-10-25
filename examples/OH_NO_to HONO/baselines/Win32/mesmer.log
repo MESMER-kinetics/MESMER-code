@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Sun Oct 23 14:32:21 2022
+                     Execution Date:  Mon Oct 24 21:09:52 2022
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -94,7 +94,7 @@ Excess Reactant Conc. for reaction R1 = 1e+16 particles per cc
 3.28e+17PPCC, 294K at d precision with He
 Excess Reactant Conc. for reaction R1 = 1e+16 particles per cc
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20221023_143221
+Write metadata 20221024_210952
 
 File: "OH_NO_HONO.xml" successfully parsed.
 Main Calculation begins
@@ -150,7 +150,7 @@ HONO:deltaEDown=83.396  R1:preExponential=6.46584e-11
 Iteration: 10 of Marquardt. ChiSquare = 51.2687, Lambda = 1
 Number of cells = 50000, Number of grains = 429
 Number of cells = 50000, Number of grains = 428
- -- Total time elapsed: 115 seconds.
+ -- Total time elapsed: 112 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
@@ -191,4 +191,4 @@ Number of degrees of Freedom = 15
 Chi^2 probability = 7.45745e-06
 
 System saved to out.xml
-Total time elapsed: 115 seconds.
+Total time elapsed: 112 seconds.

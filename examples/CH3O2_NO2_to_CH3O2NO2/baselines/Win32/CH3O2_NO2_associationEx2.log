@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v7.0 compiled: -- Apr 25 2022 -- 23:10:34
+     Mesmer v7.0 compiled: -- Oct 23 2022 -- 14:01:49
 
      Copyright (C) 2009-2022 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Tue Apr 26 01:13:09 2022
+                     Execution Date:  Mon Oct 24 22:00:57 2022
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -61,74 +61,136 @@ In R1: --Parse data for MesmerILT
 In R1: R1:preExponential was given a range with 900 steps 
 In R1: R1:nInfinity was given a range with 401 steps 
 In R1: No tunneling method used for R1
-In R1: Not a unimolecular reaction: look for excess reactant concentration.
 50Torr, 296K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 100Torr, 296K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 225Torr, 296K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 350Torr, 296K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 500Torr, 296K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 700Torr, 296K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 75Torr, 298K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 100Torr, 298K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 200Torr, 298K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 300Torr, 298K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 250Torr, 298K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 400Torr, 298K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 500Torr, 298K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 700Torr, 298K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 75Torr, 223K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 100Torr, 223K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 200Torr, 223K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 300Torr, 223K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 400Torr, 223K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 500Torr, 223K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 600Torr, 223K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 700Torr, 223K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 76Torr, 298K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 157Torr, 298K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 258Torr, 298K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 352Torr, 298K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 519Torr, 298K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 722Torr, 298K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 109Torr, 253K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 250Torr, 253K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 503Torr, 253K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 519Torr, 253K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 26Torr, 295K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 51Torr, 295K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 99Torr, 295K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 230Torr, 295K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 399Torr, 295K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 400Torr, 353K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 400Torr, 343K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 400Torr, 363K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 400Torr, 333K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 760Torr, 333K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 760Torr, 353K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 760Torr, 368K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 760Torr, 373K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 800mbar, 253K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 300mbar, 253K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 100mbar, 253K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 30mbar, 253K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 10mbar, 253K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 800mbar, 258K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 300mbar, 258K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 100mbar, 258K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 30mbar, 258K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 10mbar, 258K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 800mbar, 266K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 300mbar, 266K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 100mbar, 266K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 30mbar, 266K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 10mbar, 266K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 100mbar, 272K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 30mbar, 272K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 10mbar, 272K at d precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 The default value of me:ForceMacroDetailedBalance was used.
 --Parse data for ThermodynamicTable
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20220426_011309
+Write metadata 20221024_220057
 
 File: "CH3O2_NO2_associationEx2.xml" successfully parsed.
 Main Calculation begins
@@ -141,36 +203,36 @@ Warning: CH3OONO2 is an asymmetric top containing five or more non-hydrogen
 atoms. The asymmetric top rotation states may be expensive to calculate. You may 
 wish to consider using a classical treatment.
 
-Chi^2 = 114.758 Lambda = 1
+Chi^2 = 7127.71 Lambda = 1
 CH3OONO2:ZPE=-44.91  CH3OONO2:deltaEDown:N2=419  CH3OONO2:deltaEDownTExponent:N2=0.339  R1:preExponential=8.84e-12  R1:nInfinity=-0.87  
-In FastLaplaceConvolution: 2900 values in the FFT convolution routine were replaced by standard convolution
-In FastLaplaceConvolution: 2820 values in the FFT convolution routine were replaced by standard convolution
-
-Chi^2 = 69.9221 Lambda = 0.1
-CH3OONO2:ZPE=-44.9353  CH3OONO2:deltaEDown:N2=394.512  CH3OONO2:deltaEDownTExponent:N2=-0.0651505  R1:preExponential=8.50998e-12  R1:nInfinity=-0.82316  
-Iteration: 1 of Marquardt. ChiSquare = 69.9221, Lambda = 0.1
 Failed bounds check.
 
-Chi^2 = 69.9221 Lambda = 1
-CH3OONO2:ZPE=-44.9353  CH3OONO2:deltaEDown:N2=394.512  CH3OONO2:deltaEDownTExponent:N2=-0.0651505  R1:preExponential=8.50998e-12  R1:nInfinity=-0.82316  
-Iteration: 2 of Marquardt. ChiSquare = 69.9221, Lambda = 1
+Chi^2 = 7127.71 Lambda = 10
+CH3OONO2:ZPE=-44.91  CH3OONO2:deltaEDown:N2=419  CH3OONO2:deltaEDownTExponent:N2=0.339  R1:preExponential=8.84e-12  R1:nInfinity=-0.87  
+Iteration: 1 of Marquardt. ChiSquare = 7127.71, Lambda = 10
 Failed bounds check.
 
-Chi^2 = 69.9221 Lambda = 10
-CH3OONO2:ZPE=-44.9353  CH3OONO2:deltaEDown:N2=394.512  CH3OONO2:deltaEDownTExponent:N2=-0.0651505  R1:preExponential=8.50998e-12  R1:nInfinity=-0.82316  
-Iteration: 3 of Marquardt. ChiSquare = 69.9221, Lambda = 10
+Chi^2 = 7127.71 Lambda = 100
+CH3OONO2:ZPE=-44.91  CH3OONO2:deltaEDown:N2=419  CH3OONO2:deltaEDownTExponent:N2=0.339  R1:preExponential=8.84e-12  R1:nInfinity=-0.87  
+Iteration: 2 of Marquardt. ChiSquare = 7127.71, Lambda = 100
+In FastLaplaceConvolution: 2840 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 2800 values in the FFT convolution routine were replaced by standard convolution
+
+Chi^2 = 6774.45 Lambda = 10
+CH3OONO2:ZPE=-44.8524  CH3OONO2:deltaEDown:N2=410.13  CH3OONO2:deltaEDownTExponent:N2=0.456801  R1:preExponential=8.78297e-12  R1:nInfinity=-0.846828  
+Iteration: 3 of Marquardt. ChiSquare = 6774.45, Lambda = 10
 Failed bounds check.
 
-Chi^2 = 69.9221 Lambda = 100
-CH3OONO2:ZPE=-44.9353  CH3OONO2:deltaEDown:N2=394.512  CH3OONO2:deltaEDownTExponent:N2=-0.0651505  R1:preExponential=8.50998e-12  R1:nInfinity=-0.82316  
-Iteration: 4 of Marquardt. ChiSquare = 69.9221, Lambda = 100
+Chi^2 = 6774.45 Lambda = 100
+CH3OONO2:ZPE=-44.8524  CH3OONO2:deltaEDown:N2=410.13  CH3OONO2:deltaEDownTExponent:N2=0.456801  R1:preExponential=8.78297e-12  R1:nInfinity=-0.846828  
+Iteration: 4 of Marquardt. ChiSquare = 6774.45, Lambda = 100
 In FastLaplaceConvolution: 2880 values in the FFT convolution routine were replaced by standard convolution
 
-Chi^2 = 69.7135 Lambda = 10
-CH3OONO2:ZPE=-44.9354  CH3OONO2:deltaEDown:N2=394.279  CH3OONO2:deltaEDownTExponent:N2=-0.069534  R1:preExponential=8.50695e-12  R1:nInfinity=-0.822717  
-Iteration: 5 of Marquardt. ChiSquare = 69.7135, Lambda = 10
+Chi^2 = 6489.94 Lambda = 10
+CH3OONO2:ZPE=-44.8005  CH3OONO2:deltaEDown:N2=401.762  CH3OONO2:deltaEDownTExponent:N2=0.56562  R1:preExponential=8.72684e-12  R1:nInfinity=-0.824138  
+Iteration: 5 of Marquardt. ChiSquare = 6489.94, Lambda = 10
 Number of cells = 50000, Number of grains = 325
-Number of cells = 50000, Number of grains = 327
+Number of cells = 50000, Number of grains = 326
 Number of cells = 50000, Number of grains = 279
 Number of cells = 50000, Number of grains = 298
 Number of cells = 50000, Number of grains = 349
@@ -181,105 +243,105 @@ Number of cells = 50000, Number of grains = 310
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
-            296    1.63116e+18       1.19e-12    1.11285e-12
-            296    3.26233e+18       1.58e-12    1.68394e-12
-            296    7.34024e+18        1.8e-12    2.57871e-12
-            296    1.14181e+19       3.11e-12    3.16058e-12
-            296    1.63116e+19       3.13e-12    3.66756e-12
-            296    2.28363e+19       3.94e-12    4.16598e-12
-            298    2.43032e+18        1.5e-12    1.38607e-12
-            298    3.24043e+18       1.77e-12    1.63901e-12
-            298    6.48087e+18       2.42e-12    2.37521e-12
-            298     9.7213e+18       2.96e-12    2.88434e-12
-            298    8.10108e+18       2.76e-12    2.64884e-12
-            298    1.29617e+19       3.36e-12     3.2753e-12
-            298    1.62022e+19       3.61e-12     3.5922e-12
-            298     2.2683e+19       3.99e-12     4.0861e-12
-            223     3.2477e+18        4.1e-12     3.9344e-12
-            223    4.33026e+18       4.31e-12    4.44798e-12
-            223    8.66053e+18       6.35e-12    5.75742e-12
-            223    1.29908e+19        6.5e-12    6.53205e-12
-            223    1.73211e+19        7.6e-12    7.06683e-12
-            223    2.16513e+19       8.25e-12    7.46631e-12
-            223    2.59816e+19       8.28e-12    7.77974e-12
-            223    3.03119e+19        8.8e-12    8.03412e-12
-            298    2.46273e+18       1.36e-12    1.39704e-12
-            298    5.08748e+18        1.9e-12    2.09798e-12
-            298    8.36032e+18        2.6e-12    2.68878e-12
-            298    1.14063e+19       2.82e-12    3.09887e-12
-            298    1.68178e+19       3.36e-12    3.64612e-12
-            298    2.33959e+19       4.12e-12    4.13219e-12
-            253    4.16031e+18        2.5e-12    3.12255e-12
-            253    9.54199e+18       3.85e-12    4.44871e-12
-            253    1.91985e+19        5.1e-12    5.64946e-12
-            253    1.98092e+19        5.8e-12    5.70302e-12
-            295    8.51081e+17        8.2e-13    7.36452e-13
-            295    1.66943e+18       1.15e-12    1.14342e-12
-            295    3.24065e+18        1.5e-12    1.69721e-12
-            295    7.52879e+18       2.26e-12    2.63753e-12
-            295    1.30608e+19       3.05e-12    3.37994e-12
-            353    1.09422e+19          175.7         191.13
-            343    1.12612e+19           72.5         87.483
-            363    1.06408e+19            418        396.329
-            333    1.15994e+19             24        37.8288
-            333    2.20388e+19           52.3        50.8232
-            353    2.07902e+19            297         262.91
-            368    1.99428e+19            977        783.886
-            373    1.96754e+19           1328        1101.62
-            253    2.29027e+19         0.0034     0.00304996
-            253    8.58849e+18        0.00238     0.00218963
-            253    2.86283e+18        0.00139     0.00133232
-            253    8.58849e+17       0.000684    0.000671606
-            253    2.86283e+17       0.000271    0.000322199
-            258    2.24588e+19        0.00739     0.00677104
-            258    8.42205e+18          0.005     0.00480722
-            258    2.80735e+18        0.00304     0.00288998
-            258    8.42205e+17        0.00133     0.00143997
-            258    2.80735e+17       0.000631    0.000684787
-            266    2.17833e+19         0.0267      0.0226631
-            266    8.16876e+18         0.0155      0.0158099
-            266    2.72292e+18          0.011     0.00932764
-            266    8.16876e+17        0.00527     0.00456496
-            266    2.72292e+17        0.00214     0.00214186
-            272    2.66285e+18         0.0258       0.021355
-            272    7.98856e+17         0.0117      0.0103166
-            272    2.66285e+17        0.00538     0.00479395
+            296    1.63116e+18       1.19e-12    3.93197e-12
+            296    3.26233e+18       1.58e-12    5.00107e-12
+            296    7.34024e+18        1.8e-12     6.2002e-12
+            296    1.14181e+19       3.11e-12    6.77689e-12
+            296    1.63116e+19       3.13e-12     7.1867e-12
+            296    2.28363e+19       3.94e-12    7.52294e-12
+            298    2.43032e+18        1.5e-12    4.47842e-12
+            298    3.24043e+18       1.77e-12    4.92173e-12
+            298    6.48087e+18       2.42e-12    5.95413e-12
+            298     9.7213e+18       2.96e-12    6.50375e-12
+            298    8.10108e+18       2.76e-12     6.2632e-12
+            298    1.29617e+19       3.36e-12    6.85824e-12
+            298    1.62022e+19       3.61e-12     7.1101e-12
+            298     2.2683e+19       3.99e-12    7.44933e-12
+            223     3.2477e+18        4.1e-12    8.28027e-12
+            223    4.33026e+18       4.31e-12    8.73807e-12
+            223    8.66053e+18       6.35e-12    9.65873e-12
+            223    1.29908e+19        6.5e-12    1.00724e-11
+            223    1.73211e+19        7.6e-12    1.03126e-11
+            223    2.16513e+19       8.25e-12     1.0471e-11
+            223    2.59816e+19       8.28e-12    1.05837e-11
+            223    3.03119e+19        8.8e-12    1.06683e-11
+            298    2.46273e+18       1.36e-12    4.49883e-12
+            298    5.08748e+18        1.9e-12    5.60357e-12
+            298    8.36032e+18        2.6e-12    6.30557e-12
+            298    1.14063e+19       2.82e-12     6.7047e-12
+            298    1.68178e+19       3.36e-12    7.15014e-12
+            298    2.33959e+19       4.12e-12    7.47803e-12
+            253    4.16031e+18        2.5e-12    7.12461e-12
+            253    9.54199e+18       3.85e-12    8.28167e-12
+            253    1.91985e+19        5.1e-12    8.99516e-12
+            253    1.98092e+19        5.8e-12    9.02143e-12
+            295    8.51081e+17        8.2e-13    3.01584e-12
+            295    1.66943e+18       1.15e-12     3.9987e-12
+            295    3.24065e+18        1.5e-12     5.0256e-12
+            295    7.52879e+18       2.26e-12     6.2713e-12
+            295    1.30608e+19       3.05e-12    6.97302e-12
+            353    1.09422e+19          175.7        85.0316
+            343    1.12612e+19           72.5        37.8419
+            363    1.06408e+19            418         181.52
+            333    1.15994e+19             24        15.9268
+            333    2.20388e+19           52.3        18.0357
+            353    2.07902e+19            297        98.1387
+            368    1.99428e+19            977        305.053
+            373    1.96754e+19           1328        434.965
+            253    2.29027e+19         0.0034     0.00100369
+            253    8.58849e+18        0.00238    0.000895576
+            253    2.86283e+18        0.00139    0.000715585
+            253    8.58849e+17       0.000684    0.000484177
+            253    2.86283e+17       0.000271    0.000295179
+            258    2.24588e+19        0.00739     0.00223727
+            258    8.42205e+18          0.005     0.00198334
+            258    2.80735e+18        0.00304     0.00156941
+            258    8.42205e+17        0.00133     0.00104913
+            258    2.80735e+17       0.000631     0.00063272
+            266    2.17833e+19         0.0267     0.00754844
+            266    8.16876e+18         0.0155     0.00662072
+            266    2.72292e+18          0.011      0.0051578
+            266    8.16876e+17        0.00527     0.00338282
+            266    2.72292e+17        0.00214     0.00200603
+            272    2.66285e+18         0.0258      0.0119735
+            272    7.98856e+17         0.0117     0.00774328
+            272    2.66285e+17        0.00538     0.00453571
 
 
-Chi^2 = 69.7135
+Chi^2 = 6489.94
 
 Best fit parameters:
 
-CH3OONO2:ZPE = -44.9354 +/- 0.0978847
-CH3OONO2:deltaEDown:N2 = 394.279 +/- 50.0953
-CH3OONO2:deltaEDownTExponent:N2 = -0.069534 +/- 0.665949
-R1:preExponential = 8.50695e-12 +/- 1.22833e-12
-R1:nInfinity = -0.822717 +/- 0.440225
+CH3OONO2:ZPE = -44.8005 +/- 0.149103
+CH3OONO2:deltaEDown:N2 = 401.762 +/- 31.0294
+CH3OONO2:deltaEDownTExponent:N2 = 0.56562 +/- 1.00682
+R1:preExponential = 8.72684e-12 +/- 2.39167e-13
+R1:nInfinity = -0.824138 +/- 0.173705
 
 Correlation coefficients:
 
-CH3OONO2:deltaEDown:N2 , CH3OONO2:ZPE = -0.110385
-CH3OONO2:deltaEDownTExponent:N2 , CH3OONO2:ZPE = -0.0697289
-CH3OONO2:deltaEDownTExponent:N2 , CH3OONO2:deltaEDown:N2 = -0.831755
-R1:preExponential , CH3OONO2:ZPE = 0.267327
-R1:preExponential , CH3OONO2:deltaEDown:N2 = 0.579315
-R1:preExponential , CH3OONO2:deltaEDownTExponent:N2 = -0.757046
-R1:nInfinity , CH3OONO2:ZPE = 0.148169
-R1:nInfinity , CH3OONO2:deltaEDown:N2 = 0.840343
-R1:nInfinity , CH3OONO2:deltaEDownTExponent:N2 = -0.903827
-R1:nInfinity , R1:preExponential = 0.918301
+CH3OONO2:deltaEDown:N2 , CH3OONO2:ZPE = -0.30997
+CH3OONO2:deltaEDownTExponent:N2 , CH3OONO2:ZPE = 0.484914
+CH3OONO2:deltaEDownTExponent:N2 , CH3OONO2:deltaEDown:N2 = -0.588787
+R1:preExponential , CH3OONO2:ZPE = -0.00694597
+R1:preExponential , CH3OONO2:deltaEDown:N2 = 0.0405907
+R1:preExponential , CH3OONO2:deltaEDownTExponent:N2 = -0.459963
+R1:nInfinity , CH3OONO2:ZPE = -0.32236
+R1:nInfinity , CH3OONO2:deltaEDown:N2 = 0.674052
+R1:nInfinity , CH3OONO2:deltaEDownTExponent:N2 = -0.837288
+R1:nInfinity , R1:preExponential = 0.705375
 
 Goodness of Fit:
 
 Number of degrees of Freedom = 58
-Chi^2 probability = 0.139427
+Chi^2 probability = 0
 
 
 --Execute calcMethod ThermodynamicTable
 In N2: The default value of me:DOSCMethod was used.
 In N2: The default value of the attribute spinMultiplicity was used.
 gDensityOfStates initialization failed.
- -- Total time elapsed: 250 seconds.
+ -- Total time elapsed: 320 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 250 seconds.
+Total time elapsed: 320 seconds.

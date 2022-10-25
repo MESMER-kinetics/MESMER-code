@@ -103,43 +103,43 @@
       <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
         <me:bondRef>b1</me:bondRef>
         <me:HinderedRotorPotential format="numerical" units="kcal/mol" expansionSize="7" scale="1">
-          <me:PotentialPoint angle= "-9.8669E-06" potential= "0" />
-          <me:PotentialPoint angle= "-10.00000987" potential= "0.064208027" />
-          <me:PotentialPoint angle= "-20.00000987" potential= "0.239020879" />
-          <me:PotentialPoint angle= "-30.00000987" potential= "0.48119311" />
-          <me:PotentialPoint angle= "-40.00000987" potential= "0.727681352" />
-          <me:PotentialPoint angle= "-50.00000987" potential= "0.911707925" />
-          <me:PotentialPoint angle= "-60.00000987" potential= "0.977312788" />
-          <me:PotentialPoint angle= "-70.00000987" potential= "0.900209441" />
-          <me:PotentialPoint angle= "-80.00000987" potential= "0.705095402" />
-          <me:PotentialPoint angle= "-90.00000987" potential= "0.450790275" />
-          <me:PotentialPoint angle= "-100.0000099" potential= "0.211334532" />
-          <me:PotentialPoint angle= "-110.0000099" potential= "0.049134621" />
-          <me:PotentialPoint angle= "-120.0000099" potential= "0.004123992" />
-          <me:PotentialPoint angle= "-130.0000099" potential= "0.084898898" />
-          <me:PotentialPoint angle= "-140.0000099" potential= "0.268429111" />
-          <me:PotentialPoint angle= "-150.0000099" potential= "0.506469193" />
-          <me:PotentialPoint angle= "-160.0000099" potential= "0.742193136" />
-          <me:PotentialPoint angle= "-170.0000099" potential= "0.914718088" />
-          <me:PotentialPoint angle= "-180.0000099" potential= "0.977133321" />
-          <me:PotentialPoint angle= "-190.0000099" potential= "0.910608528" />
-          <me:PotentialPoint angle= "-200.0000099" potential= "0.737867713" />
-          <me:PotentialPoint angle= "-210.0000099" potential= "0.503568216" />
-          <me:PotentialPoint angle= "-220.0000099" potential= "0.263006802" />
-          <me:PotentialPoint angle= "-230.0000099" potential= "0.078995916" />
-          <me:PotentialPoint angle= "-240.0000099" potential= "0.00182919" />
-          <me:PotentialPoint angle= "-250.0000099" potential= "0.050874078" />
-          <me:PotentialPoint angle= "-260.0000099" potential= "0.214230488" />
-          <me:PotentialPoint angle= "-270.0000099" potential= "0.455086832" />
-          <me:PotentialPoint angle= "-280.0000099" potential= "0.71175014" />
-          <me:PotentialPoint angle= "-290.0000099" potential= "0.90523642" />
-          <me:PotentialPoint angle= "-300.0000099" potential= "0.976704732" />
-          <me:PotentialPoint angle= "-310.0000099" potential= "0.909297661" />
-          <me:PotentialPoint angle= "-320.0000099" potential= "0.725490088" />
-          <me:PotentialPoint angle= "-330.0000099" potential= "0.479992684" />
-          <me:PotentialPoint angle= "-340.0000099" potential= "0.240080115" />
-          <me:PotentialPoint angle= "-350.0000099" potential= "0.066840429" />
-          <me:PotentialPoint angle= "-360.0000099" potential= "0.003698541" />
+          <me:PotentialPoint angle= "   -9.9E-06" potential= "0.003698541" />
+          <me:PotentialPoint angle= "  9.9999901" potential= "0.066840429" />
+          <me:PotentialPoint angle= " 19.9999901" potential= "0.240080115" />
+          <me:PotentialPoint angle= " 29.9999901" potential= "0.479992684" />
+          <me:PotentialPoint angle= " 39.9999901" potential= "0.725490088" />
+          <me:PotentialPoint angle= " 49.9999901" potential= "0.909297661" />
+          <me:PotentialPoint angle= " 59.9999901" potential= "0.976704732" />
+          <me:PotentialPoint angle= " 69.9999901" potential= "0.90523642" />
+          <me:PotentialPoint angle= " 79.9999901" potential= "0.71175014" />
+          <me:PotentialPoint angle= " 89.9999901" potential= "0.455086832" />
+          <me:PotentialPoint angle= " 99.9999901" potential= "0.214230488" />
+          <me:PotentialPoint angle= "109.9999901" potential= "0.050874078" />
+          <me:PotentialPoint angle= "119.9999901" potential= "0.00182919" />
+          <me:PotentialPoint angle= "129.9999901" potential= "0.078995916" />
+          <me:PotentialPoint angle= "139.9999901" potential= "0.263006802" />
+          <me:PotentialPoint angle= "149.9999901" potential= "0.503568216" />
+          <me:PotentialPoint angle= "159.9999901" potential= "0.737867713" />
+          <me:PotentialPoint angle= "169.9999901" potential= "0.910608528" />
+          <me:PotentialPoint angle= "179.9999901" potential= "0.977133321" />
+          <me:PotentialPoint angle= "189.9999901" potential= "0.914718088" />
+          <me:PotentialPoint angle= "199.9999901" potential= "0.742193136" />
+          <me:PotentialPoint angle= "209.9999901" potential= "0.506469193" />
+          <me:PotentialPoint angle= "219.9999901" potential= "0.268429111" />
+          <me:PotentialPoint angle= "229.9999901" potential= "0.084898898" />
+          <me:PotentialPoint angle= "239.9999901" potential= "0.004123992" />
+          <me:PotentialPoint angle= "249.9999901" potential= "0.049134621" />
+          <me:PotentialPoint angle= "259.9999901" potential= "0.211334532" />
+          <me:PotentialPoint angle= "269.9999901" potential= "0.450790275" />
+          <me:PotentialPoint angle= "279.9999901" potential= "0.705095402" />
+          <me:PotentialPoint angle= "289.9999901" potential= "0.900209441" />
+          <me:PotentialPoint angle= "299.9999901" potential= "0.977312788" />
+          <me:PotentialPoint angle= "309.9999901" potential= "0.911707925" />
+          <me:PotentialPoint angle= "319.9999901" potential= "0.727681352" />
+          <me:PotentialPoint angle= "329.9999901" potential= "0.48119311" />
+          <me:PotentialPoint angle= "339.9999901" potential= "0.239020879" />
+          <me:PotentialPoint angle= "349.9999901" potential= "0.064208027" />
+          <me:PotentialPoint angle= "359.9999901" potential= "0" />
         </me:HinderedRotorPotential>
         <me:periodicity>3</me:periodicity>
       </me:ExtraDOSCMethod>
@@ -218,43 +218,43 @@
       <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
         <me:bondRef>b1</me:bondRef>
         <me:HinderedRotorPotential format="numerical" units="kcal/mol" expansionSize="7" scale="1">
-          <me:PotentialPoint angle= "-9.8669E-06" potential= "0" />
-          <me:PotentialPoint angle= "-10.00000987" potential= "0.064208027" />
-          <me:PotentialPoint angle= "-20.00000987" potential= "0.239020879" />
-          <me:PotentialPoint angle= "-30.00000987" potential= "0.48119311" />
-          <me:PotentialPoint angle= "-40.00000987" potential= "0.727681352" />
-          <me:PotentialPoint angle= "-50.00000987" potential= "0.911707925" />
-          <me:PotentialPoint angle= "-60.00000987" potential= "0.977312788" />
-          <me:PotentialPoint angle= "-70.00000987" potential= "0.900209441" />
-          <me:PotentialPoint angle= "-80.00000987" potential= "0.705095402" />
-          <me:PotentialPoint angle= "-90.00000987" potential= "0.450790275" />
-          <me:PotentialPoint angle= "-100.0000099" potential= "0.211334532" />
-          <me:PotentialPoint angle= "-110.0000099" potential= "0.049134621" />
-          <me:PotentialPoint angle= "-120.0000099" potential= "0.004123992" />
-          <me:PotentialPoint angle= "-130.0000099" potential= "0.084898898" />
-          <me:PotentialPoint angle= "-140.0000099" potential= "0.268429111" />
-          <me:PotentialPoint angle= "-150.0000099" potential= "0.506469193" />
-          <me:PotentialPoint angle= "-160.0000099" potential= "0.742193136" />
-          <me:PotentialPoint angle= "-170.0000099" potential= "0.914718088" />
-          <me:PotentialPoint angle= "-180.0000099" potential= "0.977133321" />
-          <me:PotentialPoint angle= "-190.0000099" potential= "0.910608528" />
-          <me:PotentialPoint angle= "-200.0000099" potential= "0.737867713" />
-          <me:PotentialPoint angle= "-210.0000099" potential= "0.503568216" />
-          <me:PotentialPoint angle= "-220.0000099" potential= "0.263006802" />
-          <me:PotentialPoint angle= "-230.0000099" potential= "0.078995916" />
-          <me:PotentialPoint angle= "-240.0000099" potential= "0.00182919" />
-          <me:PotentialPoint angle= "-250.0000099" potential= "0.050874078" />
-          <me:PotentialPoint angle= "-260.0000099" potential= "0.214230488" />
-          <me:PotentialPoint angle= "-270.0000099" potential= "0.455086832" />
-          <me:PotentialPoint angle= "-280.0000099" potential= "0.71175014" />
-          <me:PotentialPoint angle= "-290.0000099" potential= "0.90523642" />
-          <me:PotentialPoint angle= "-300.0000099" potential= "0.976704732" />
-          <me:PotentialPoint angle= "-310.0000099" potential= "0.909297661" />
-          <me:PotentialPoint angle= "-320.0000099" potential= "0.725490088" />
-          <me:PotentialPoint angle= "-330.0000099" potential= "0.479992684" />
-          <me:PotentialPoint angle= "-340.0000099" potential= "0.240080115" />
-          <me:PotentialPoint angle= "-350.0000099" potential= "0.066840429" />
-          <me:PotentialPoint angle= "-360.0000099" potential= "0.003698541" />
+          <me:PotentialPoint angle= "-9.9E-06  "  potential= "0.003698541" />
+          <me:PotentialPoint angle= "9.9999901 "  potential= "0.066840429" />
+          <me:PotentialPoint angle= "19.9999901"  potential= "0.240080115" />
+          <me:PotentialPoint angle= "29.9999901"  potential= "0.479992684" />
+          <me:PotentialPoint angle= "39.9999901"  potential= "0.725490088" />
+          <me:PotentialPoint angle= "49.9999901"  potential= "0.909297661" />
+          <me:PotentialPoint angle= "59.9999901"  potential= "0.976704732" />
+          <me:PotentialPoint angle= "69.9999901"  potential= "0.90523642" />
+          <me:PotentialPoint angle= "79.9999901"  potential= "0.71175014" />
+          <me:PotentialPoint angle= "89.9999901"  potential= "0.455086832" />
+          <me:PotentialPoint angle= "99.9999901"  potential= "0.214230488" />
+          <me:PotentialPoint angle= "109.9999901" potential= "0.050874078" />
+          <me:PotentialPoint angle= "119.9999901" potential= "0.00182919" />
+          <me:PotentialPoint angle= "129.9999901" potential= "0.078995916" />
+          <me:PotentialPoint angle= "139.9999901" potential= "0.263006802" />
+          <me:PotentialPoint angle= "149.9999901" potential= "0.503568216" />
+          <me:PotentialPoint angle= "159.9999901" potential= "0.737867713" />
+          <me:PotentialPoint angle= "169.9999901" potential= "0.910608528" />
+          <me:PotentialPoint angle= "179.9999901" potential= "0.977133321" />
+          <me:PotentialPoint angle= "189.9999901" potential= "0.914718088" />
+          <me:PotentialPoint angle= "199.9999901" potential= "0.742193136" />
+          <me:PotentialPoint angle= "209.9999901" potential= "0.506469193" />
+          <me:PotentialPoint angle= "219.9999901" potential= "0.268429111" />
+          <me:PotentialPoint angle= "229.9999901" potential= "0.084898898" />
+          <me:PotentialPoint angle= "239.9999901" potential= "0.004123992" />
+          <me:PotentialPoint angle= "249.9999901" potential= "0.049134621" />
+          <me:PotentialPoint angle= "259.9999901" potential= "0.211334532" />
+          <me:PotentialPoint angle= "269.9999901" potential= "0.450790275" />
+          <me:PotentialPoint angle= "279.9999901" potential= "0.705095402" />
+          <me:PotentialPoint angle= "289.9999901" potential= "0.900209441" />
+          <me:PotentialPoint angle= "299.9999901" potential= "0.977312788" />
+          <me:PotentialPoint angle= "309.9999901" potential= "0.911707925" />
+          <me:PotentialPoint angle= "319.9999901" potential= "0.727681352" />
+          <me:PotentialPoint angle= "329.9999901" potential= "0.48119311" />
+          <me:PotentialPoint angle= "339.9999901" potential= "0.239020879" />
+          <me:PotentialPoint angle= "349.9999901" potential= "0.064208027" />
+          <me:PotentialPoint angle= "359.9999901" potential= "0" />
         </me:HinderedRotorPotential>
         <me:periodicity>3</me:periodicity>
       </me:ExtraDOSCMethod>
@@ -322,7 +322,7 @@
       <me:DOSCMethod name="ClassicalRotors"/>
       <me:ExtraDOSCMethod xsi:type="HinderedRotorQM1D">
         <me:bondRef>b1</me:bondRef>
-        <me:HinderedRotorPotential format="numerical" units="kJ/mol" expansionSize="7" scale="1">
+        <me:HinderedRotorPotential format="numerical" units="kJ/mol" expansionSize="4" UseSineTerms="yes" scale="1">
           <me:PotentialPoint angle="  0" potential="0" />
           <me:PotentialPoint angle=" 30" potential="0.4069786" />
           <me:PotentialPoint angle=" 60" potential="2.717916565" />
