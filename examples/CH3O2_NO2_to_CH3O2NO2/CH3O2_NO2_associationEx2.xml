@@ -32,7 +32,7 @@
       <propertyList>
         <property dictRef="me:ZPE">
           <!--scalar units="kJ/mol">-46.23</scalar-->
-          <scalar units="kJ/mol" lower="-70" upper="-20.0" stepsize="0.1">-44.91</scalar>
+          <scalar units="kJ/mol" lower="-70" upper="-20.0" stepsize="0.1">-41.1218</scalar>
 
         </property>
         <property dictRef="me:rotConsts">
@@ -113,9 +113,9 @@
       </me:ExtraDOSCMethod>
 
       <me:energyTransferModel xsi:type="me:ExponentialDown">
-        <me:deltaEDown bathGas="N2" units="cm-1" lower="125" upper="800" stepsize="10">419</me:deltaEDown>
+        <me:deltaEDown bathGas="N2" units="cm-1" lower="125" upper="800" stepsize="10">125.036</me:deltaEDown>
         <!--me:deltaEDown bathGas="N2" units="cm-1" >500</me:deltaEDown-->
-        <me:deltaEDownTExponent bathGas="N2" referenceTemperature="298" lower="-0.1" upper="1.0" stepsize="0.01">0.339</me:deltaEDownTExponent>
+        <me:deltaEDownTExponent bathGas="N2" referenceTemperature="298" lower="-0.1" upper="2.0" stepsize="0.01">0.66285</me:deltaEDownTExponent>
       </me:energyTransferModel>
 
     </molecule>
@@ -267,11 +267,10 @@
         <molecule ref="CH3OONO2" role="modelled" />
       </product>
       <me:MCRCMethod xsi:type="me:MesmerILT">
-        <me:preExponential units="cm3molecule-1s-1" lower="1e-13" upper="9e-11" stepsize="1e-13">8.84e-12</me:preExponential>
-        <!--me:preExponential units="cm3molecule-1s-1">5.00e-12</me:preExponential-->
+        <me:preExponential units="cm3molecule-1s-1" lower="1e-13" upper="9e-10" stepsize="1e-13">1.06033e-11</me:preExponential>
         <me:activationEnergy units="kJ/mol">0.0</me:activationEnergy>
         <me:TInfinity>298.0</me:TInfinity>
-        <me:nInfinity lower="-1.0" upper="1.0" stepsize="0.005">-0.87</me:nInfinity>
+        <me:nInfinity lower="-1.0" upper="1.0" stepsize="0.005">0.162001</me:nInfinity>
         <!--me:nInfinity>-0.35</me:nInfinity-->
       </me:MCRCMethod>
       <me:excessReactantConc>1e15</me:excessReactantConc>

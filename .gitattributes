@@ -427,7 +427,9 @@ examples/C4H9O2_NO2_to_C4H9O2NO2/baselines/Win32/C4H9O2_NO2_association.log -tex
 examples/C4H9O2_NO2_to_C4H9O2NO2/baselines/Win32/C4H9O2_NO2_association.test -text
 examples/CH3O2_NO2_to_CH3O2NO2/CH3O2_NO2_associationEx2.xml -text
 examples/CH3O2_NO2_to_CH3O2NO2/baselines/Linux64/CH3O2_NO2_associationEx2.log -text
+examples/CH3O2_NO2_to_CH3O2NO2/baselines/Linux64/CH3O2_NO2_associationEx2.test -text
 examples/CH3O2_NO2_to_CH3O2NO2/baselines/Win32/CH3O2_NO2_associationEx2.log -text
+examples/CH3O2_NO2_to_CH3O2NO2/baselines/Win32/CH3O2_NO2_associationEx2.test -text
 examples/CoupledRotors/Butyl_H_to_Butane_CCQR.xml -text
 examples/CoupledRotors/Butyl_H_to_Butane_CCR.xml -text
 examples/CoupledRotors/Butyl_H_to_Butane_UCR.xml -text
@@ -498,10 +500,14 @@ examples/Examples.sh -text
 examples/Glyoxyl/Glyoxal.xml -text
 examples/Glyoxyl/Glyoxal_Exchange.xml -text
 examples/Glyoxyl/baselines/Linux64/Glyoxal.log -text
+examples/Glyoxyl/baselines/Linux64/Glyoxal.test -text
 examples/Glyoxyl/baselines/Linux64/Glyoxal_Exchange.log -text
+examples/Glyoxyl/baselines/Linux64/Glyoxal_Exchange.test -text
 examples/Glyoxyl/baselines/Linux64/Glyoxal_Full.log -text
 examples/Glyoxyl/baselines/Win32/Glyoxal.log -text
+examples/Glyoxyl/baselines/Win32/Glyoxal.test -text
 examples/Glyoxyl/baselines/Win32/Glyoxal_Exchange.log -text
+examples/Glyoxyl/baselines/Win32/Glyoxal_Exchange.test -text
 examples/Glyoxyl/baselines/Win32/Glyoxal_Full.log -text
 examples/H2Ominimal/H2OBend.xml -text
 examples/H2Ominimal/H2Ominimal.xml -text

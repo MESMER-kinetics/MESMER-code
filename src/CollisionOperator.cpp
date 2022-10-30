@@ -2477,7 +2477,6 @@ namespace mesmer
     for (size_t l(0); l < nsize; ++l) {
       for (size_t i(0), ii(0); i < nsize; ++i) {
         for (size_t j(i + 1); j < nsize; ++j, ++ii) {
-          qd_real eqmRatio = speciesPopn[j] / speciesPopn[i];
           qd_real ratio = Z_matrix[j][l] / Z_matrix[i][l];
           ratios[ii][l] = ratio;
         }

@@ -57,8 +57,8 @@ namespace mesmer
     gTransitionState*         g_ts;    // Component pointer for transition state properties
     gPopulation*              g_pop;   // Component pointer for population and equilibrium fraction
     gWellProperties*          g_coll;  // Component pointer for collision energy transfer properties
-    gStructure*               g_struc; // Component pointer for chemical structural properties
     gWellRadiationTransition* g_rad;   // Component pointer for radation energy transfer properties
+    gStructure*               g_struc; // Component pointer for chemical structural properties
 
   public:
 

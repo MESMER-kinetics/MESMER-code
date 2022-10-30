@@ -1038,11 +1038,11 @@ void FourierSinCoeffs(vector<double> &angle, vector<double> &value, vector<doubl
 // Trapezoidal integration weights need to determine the Fourier coefficients.
 void FourierTrapezoidalWeights(vector<double>& angle, vector<double>& value, vector<double>& wght) {
   size_t ndata = angle.size();
-  wght[0] = M_PI + (angle[1] - angle[ndata - 1]) * 0.5;
+  wght[0] = M_PI - 0.5*fabs(angle[1] - angle[ndata - 1]) ;
   for (size_t i(1); i < ndata - 1; ++i) {
-    wght[i] = (angle[i + 1] - angle[i - 1]) / 2.0;
+    wght[i] = 0.5 * fabs(angle[i + 1] - angle[i - 1]) ;
   }
-  wght[ndata - 1] = M_PI + (angle[0] - angle[ndata - 2]) * 0.5;
+  wght[ndata - 1] = M_PI - 0.5 * fabs(angle[0] - angle[ndata - 2]) ;
 }
 
 double RationalApproximation(double t)

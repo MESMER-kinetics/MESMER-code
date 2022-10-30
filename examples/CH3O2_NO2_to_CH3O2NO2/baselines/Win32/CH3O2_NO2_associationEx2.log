@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v7.0 compiled: -- Oct 23 2022 -- 14:01:49
+     Mesmer v7.0 compiled: -- Oct 29 2022 -- 16:37:05
 
      Copyright (C) 2009-2022 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Mon Oct 24 22:00:57 2022
+                     Execution Date:  Sun Oct 30 19:26:12 2022
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -56,9 +56,9 @@ In CH3OONO2: The default value of me:DistributionCalcMethod was used.
 In CH3OONO2: --Parse data for Boltzmann
 In CH3OONO2: --Parse data for ExponentialDown
 In CH3OONO2: CH3OONO2:deltaEDown:N2 was given a range with 68 steps 
-In CH3OONO2: CH3OONO2:deltaEDownTExponent:N2 was given a range with 111 steps 
+In CH3OONO2: CH3OONO2:deltaEDownTExponent:N2 was given a range with 211 steps 
 In R1: --Parse data for MesmerILT
-In R1: R1:preExponential was given a range with 900 steps 
+In R1: R1:preExponential was given a range with 9000 steps 
 In R1: R1:nInfinity was given a range with 401 steps 
 In R1: No tunneling method used for R1
 50Torr, 296K at d precision with N2
@@ -190,7 +190,7 @@ Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 The default value of me:ForceMacroDetailedBalance was used.
 --Parse data for ThermodynamicTable
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20221024_220057
+Write metadata 20221030_192612
 
 File: "CH3O2_NO2_associationEx2.xml" successfully parsed.
 Main Calculation begins
@@ -198,150 +198,151 @@ Now calculating...
 
 --Execute calcMethod marquardt
 In FastLaplaceConvolution: 5280 values in the FFT convolution routine were replaced by standard convolution
-In FastLaplaceConvolution: 2780 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 5240 values in the FFT convolution routine were replaced by standard convolution
 Warning: CH3OONO2 is an asymmetric top containing five or more non-hydrogen
 atoms. The asymmetric top rotation states may be expensive to calculate. You may 
 wish to consider using a classical treatment.
 
-Chi^2 = 7127.71 Lambda = 1
-CH3OONO2:ZPE=-44.91  CH3OONO2:deltaEDown:N2=419  CH3OONO2:deltaEDownTExponent:N2=0.339  R1:preExponential=8.84e-12  R1:nInfinity=-0.87  
+Chi^2 = 133.276 Lambda = 1
+CH3OONO2:ZPE=-41.1218  CH3OONO2:deltaEDown:N2=125.036  CH3OONO2:deltaEDownTExponent:N2=0.66285  R1:preExponential=1.06033e-11  R1:nInfinity=0.162001  
+In FastLaplaceConvolution: 5220 values in the FFT convolution routine were replaced by standard convolution
 Failed bounds check.
 
-Chi^2 = 7127.71 Lambda = 10
-CH3OONO2:ZPE=-44.91  CH3OONO2:deltaEDown:N2=419  CH3OONO2:deltaEDownTExponent:N2=0.339  R1:preExponential=8.84e-12  R1:nInfinity=-0.87  
-Iteration: 1 of Marquardt. ChiSquare = 7127.71, Lambda = 10
+Chi^2 = 133.276 Lambda = 10
+CH3OONO2:ZPE=-41.1218  CH3OONO2:deltaEDown:N2=125.036  CH3OONO2:deltaEDownTExponent:N2=0.66285  R1:preExponential=1.06033e-11  R1:nInfinity=0.162001  
+Iteration: 1 of Marquardt. ChiSquare = 133.276, Lambda = 10
 Failed bounds check.
 
-Chi^2 = 7127.71 Lambda = 100
-CH3OONO2:ZPE=-44.91  CH3OONO2:deltaEDown:N2=419  CH3OONO2:deltaEDownTExponent:N2=0.339  R1:preExponential=8.84e-12  R1:nInfinity=-0.87  
-Iteration: 2 of Marquardt. ChiSquare = 7127.71, Lambda = 100
-In FastLaplaceConvolution: 2840 values in the FFT convolution routine were replaced by standard convolution
-In FastLaplaceConvolution: 2800 values in the FFT convolution routine were replaced by standard convolution
+Chi^2 = 133.276 Lambda = 100
+CH3OONO2:ZPE=-41.1218  CH3OONO2:deltaEDown:N2=125.036  CH3OONO2:deltaEDownTExponent:N2=0.66285  R1:preExponential=1.06033e-11  R1:nInfinity=0.162001  
+Iteration: 2 of Marquardt. ChiSquare = 133.276, Lambda = 100
+In FastLaplaceConvolution: 5200 values in the FFT convolution routine were replaced by standard convolution
 
-Chi^2 = 6774.45 Lambda = 10
-CH3OONO2:ZPE=-44.8524  CH3OONO2:deltaEDown:N2=410.13  CH3OONO2:deltaEDownTExponent:N2=0.456801  R1:preExponential=8.78297e-12  R1:nInfinity=-0.846828  
-Iteration: 3 of Marquardt. ChiSquare = 6774.45, Lambda = 10
+Chi^2 = 133.238 Lambda = 10
+CH3OONO2:ZPE=-41.1216  CH3OONO2:deltaEDown:N2=125.006  CH3OONO2:deltaEDownTExponent:N2=0.662841  R1:preExponential=1.06033e-11  R1:nInfinity=0.161998  
+Iteration: 3 of Marquardt. ChiSquare = 133.238, Lambda = 10
 Failed bounds check.
 
-Chi^2 = 6774.45 Lambda = 100
-CH3OONO2:ZPE=-44.8524  CH3OONO2:deltaEDown:N2=410.13  CH3OONO2:deltaEDownTExponent:N2=0.456801  R1:preExponential=8.78297e-12  R1:nInfinity=-0.846828  
-Iteration: 4 of Marquardt. ChiSquare = 6774.45, Lambda = 100
-In FastLaplaceConvolution: 2880 values in the FFT convolution routine were replaced by standard convolution
+Chi^2 = 133.238 Lambda = 100
+CH3OONO2:ZPE=-41.1216  CH3OONO2:deltaEDown:N2=125.006  CH3OONO2:deltaEDownTExponent:N2=0.662841  R1:preExponential=1.06033e-11  R1:nInfinity=0.161998  
+Iteration: 4 of Marquardt. ChiSquare = 133.238, Lambda = 100
+Failed bounds check.
 
-Chi^2 = 6489.94 Lambda = 10
-CH3OONO2:ZPE=-44.8005  CH3OONO2:deltaEDown:N2=401.762  CH3OONO2:deltaEDownTExponent:N2=0.56562  R1:preExponential=8.72684e-12  R1:nInfinity=-0.824138  
-Iteration: 5 of Marquardt. ChiSquare = 6489.94, Lambda = 10
-Number of cells = 50000, Number of grains = 325
-Number of cells = 50000, Number of grains = 326
-Number of cells = 50000, Number of grains = 279
-Number of cells = 50000, Number of grains = 298
-Number of cells = 50000, Number of grains = 349
-Number of cells = 50000, Number of grains = 374
+Chi^2 = 133.238 Lambda = 1000
+CH3OONO2:ZPE=-41.1216  CH3OONO2:deltaEDown:N2=125.006  CH3OONO2:deltaEDownTExponent:N2=0.662841  R1:preExponential=1.06033e-11  R1:nInfinity=0.161998  
+Iteration: 5 of Marquardt. ChiSquare = 133.238, Lambda = 1000
+Number of cells = 50000, Number of grains = 320
+Number of cells = 50000, Number of grains = 321
+Number of cells = 50000, Number of grains = 273
+Number of cells = 50000, Number of grains = 292
+Number of cells = 50000, Number of grains = 319
+Number of cells = 50000, Number of grains = 343
+Number of cells = 50000, Number of grains = 368
+Number of cells = 50000, Number of grains = 296
 Number of cells = 50000, Number of grains = 301
-Number of cells = 50000, Number of grains = 306
-Number of cells = 50000, Number of grains = 310
+Number of cells = 50000, Number of grains = 304
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
-            296    1.63116e+18       1.19e-12    3.93197e-12
-            296    3.26233e+18       1.58e-12    5.00107e-12
-            296    7.34024e+18        1.8e-12     6.2002e-12
-            296    1.14181e+19       3.11e-12    6.77689e-12
-            296    1.63116e+19       3.13e-12     7.1867e-12
-            296    2.28363e+19       3.94e-12    7.52294e-12
-            298    2.43032e+18        1.5e-12    4.47842e-12
-            298    3.24043e+18       1.77e-12    4.92173e-12
-            298    6.48087e+18       2.42e-12    5.95413e-12
-            298     9.7213e+18       2.96e-12    6.50375e-12
-            298    8.10108e+18       2.76e-12     6.2632e-12
-            298    1.29617e+19       3.36e-12    6.85824e-12
-            298    1.62022e+19       3.61e-12     7.1101e-12
-            298     2.2683e+19       3.99e-12    7.44933e-12
-            223     3.2477e+18        4.1e-12    8.28027e-12
-            223    4.33026e+18       4.31e-12    8.73807e-12
-            223    8.66053e+18       6.35e-12    9.65873e-12
-            223    1.29908e+19        6.5e-12    1.00724e-11
-            223    1.73211e+19        7.6e-12    1.03126e-11
-            223    2.16513e+19       8.25e-12     1.0471e-11
-            223    2.59816e+19       8.28e-12    1.05837e-11
-            223    3.03119e+19        8.8e-12    1.06683e-11
-            298    2.46273e+18       1.36e-12    4.49883e-12
-            298    5.08748e+18        1.9e-12    5.60357e-12
-            298    8.36032e+18        2.6e-12    6.30557e-12
-            298    1.14063e+19       2.82e-12     6.7047e-12
-            298    1.68178e+19       3.36e-12    7.15014e-12
-            298    2.33959e+19       4.12e-12    7.47803e-12
-            253    4.16031e+18        2.5e-12    7.12461e-12
-            253    9.54199e+18       3.85e-12    8.28167e-12
-            253    1.91985e+19        5.1e-12    8.99516e-12
-            253    1.98092e+19        5.8e-12    9.02143e-12
-            295    8.51081e+17        8.2e-13    3.01584e-12
-            295    1.66943e+18       1.15e-12     3.9987e-12
-            295    3.24065e+18        1.5e-12     5.0256e-12
-            295    7.52879e+18       2.26e-12     6.2713e-12
-            295    1.30608e+19       3.05e-12    6.97302e-12
-            353    1.09422e+19          175.7        85.0316
-            343    1.12612e+19           72.5        37.8419
-            363    1.06408e+19            418         181.52
-            333    1.15994e+19             24        15.9268
-            333    2.20388e+19           52.3        18.0357
-            353    2.07902e+19            297        98.1387
-            368    1.99428e+19            977        305.053
-            373    1.96754e+19           1328        434.965
-            253    2.29027e+19         0.0034     0.00100369
-            253    8.58849e+18        0.00238    0.000895576
-            253    2.86283e+18        0.00139    0.000715585
-            253    8.58849e+17       0.000684    0.000484177
-            253    2.86283e+17       0.000271    0.000295179
-            258    2.24588e+19        0.00739     0.00223727
-            258    8.42205e+18          0.005     0.00198334
-            258    2.80735e+18        0.00304     0.00156941
-            258    8.42205e+17        0.00133     0.00104913
-            258    2.80735e+17       0.000631     0.00063272
-            266    2.17833e+19         0.0267     0.00754844
-            266    8.16876e+18         0.0155     0.00662072
-            266    2.72292e+18          0.011      0.0051578
-            266    8.16876e+17        0.00527     0.00338282
-            266    2.72292e+17        0.00214     0.00200603
-            272    2.66285e+18         0.0258      0.0119735
-            272    7.98856e+17         0.0117     0.00774328
-            272    2.66285e+17        0.00538     0.00453571
+            296    1.63116e+18       1.19e-12    1.15855e-12
+            296    3.26233e+18       1.58e-12    1.73348e-12
+            296    7.34024e+18        1.8e-12    2.64666e-12
+            296    1.14181e+19       3.11e-12    3.25476e-12
+            296    1.63116e+19       3.13e-12    3.79687e-12
+            296    2.28363e+19       3.94e-12    4.34326e-12
+            298    2.43032e+18        1.5e-12    1.44017e-12
+            298    3.24043e+18       1.77e-12     1.6965e-12
+            298    6.48087e+18       2.42e-12    2.45007e-12
+            298     9.7213e+18       2.96e-12    2.98107e-12
+            298    8.10108e+18       2.76e-12    2.73424e-12
+            298    1.29617e+19       3.36e-12    3.39598e-12
+            298    1.62022e+19       3.61e-12    3.73764e-12
+            298     2.2683e+19       3.99e-12    4.28109e-12
+            223     3.2477e+18        4.1e-12    3.24565e-12
+            223    4.33026e+18       4.31e-12    3.66472e-12
+            223    8.66053e+18       6.35e-12    4.76027e-12
+            223    1.29908e+19        6.5e-12    5.43358e-12
+            223    1.73211e+19        7.6e-12    5.91302e-12
+            223    2.16513e+19       8.25e-12    6.28062e-12
+            223    2.59816e+19       8.28e-12     6.5756e-12
+            223    3.03119e+19        8.8e-12    6.81981e-12
+            298    2.46273e+18       1.36e-12    1.45127e-12
+            298    5.08748e+18        1.9e-12    2.16464e-12
+            298    8.36032e+18        2.6e-12    2.77596e-12
+            298    1.14063e+19       2.82e-12    3.20789e-12
+            298    1.68178e+19       3.36e-12     3.7963e-12
+            298    2.33959e+19       4.12e-12    4.33255e-12
+            253    4.16031e+18        2.5e-12    2.83581e-12
+            253    9.54199e+18       3.85e-12    4.05339e-12
+            253    1.91985e+19        5.1e-12    5.21202e-12
+            253    1.98092e+19        5.8e-12    5.26535e-12
+            295    8.51081e+17        8.2e-13    7.77577e-13
+            295    1.66943e+18       1.15e-12    1.18653e-12
+            295    3.24065e+18        1.5e-12    1.74252e-12
+            295    7.52879e+18       2.26e-12     2.7001e-12
+            295    1.30608e+19       3.05e-12    3.47758e-12
+            353    1.09422e+19          175.7        126.105
+            343    1.12612e+19           72.5        59.9704
+            363    1.06408e+19            418        252.339
+            333    1.15994e+19             24        27.0186
+            333    2.20388e+19           52.3        36.6275
+            353    2.07902e+19            297        174.689
+            368    1.99428e+19            977        493.504
+            373    1.96754e+19           1328        682.013
+            253    2.29027e+19         0.0034     0.00348115
+            253    8.58849e+18        0.00238     0.00245464
+            253    2.86283e+18        0.00139     0.00149456
+            253    8.58849e+17       0.000684    0.000772949
+            253    2.86283e+17       0.000271    0.000386538
+            258    2.24588e+19        0.00739     0.00744393
+            258    8.42205e+18          0.005     0.00519378
+            258    2.80735e+18        0.00304     0.00312676
+            258    8.42205e+17        0.00133     0.00159915
+            258    2.80735e+17       0.000631    0.000792694
+            266    2.17833e+19         0.0267       0.023531
+            266    8.16876e+18         0.0155      0.0161483
+            266    2.72292e+18          0.011     0.00955192
+            266    8.16876e+17        0.00527     0.00480172
+            266    2.72292e+17        0.00214     0.00234812
+            272    2.66285e+18         0.0258      0.0210307
+            272    7.98856e+17         0.0117       0.010441
+            272    2.66285e+17        0.00538     0.00505616
 
 
-Chi^2 = 6489.94
+Chi^2 = 133.238
 
 Best fit parameters:
 
-CH3OONO2:ZPE = -44.8005 +/- 0.149103
-CH3OONO2:deltaEDown:N2 = 401.762 +/- 31.0294
-CH3OONO2:deltaEDownTExponent:N2 = 0.56562 +/- 1.00682
-R1:preExponential = 8.72684e-12 +/- 2.39167e-13
-R1:nInfinity = -0.824138 +/- 0.173705
+CH3OONO2:ZPE = -41.1216 +/- 0.101327
+CH3OONO2:deltaEDown:N2 = 125.006 +/- 14.1782
+CH3OONO2:deltaEDownTExponent:N2 = 0.662841 +/- 0.563338
+R1:preExponential = 1.06033e-11 +/- 2.06709e-12
+R1:nInfinity = 0.161998 +/- 0.638457
 
 Correlation coefficients:
 
-CH3OONO2:deltaEDown:N2 , CH3OONO2:ZPE = -0.30997
-CH3OONO2:deltaEDownTExponent:N2 , CH3OONO2:ZPE = 0.484914
-CH3OONO2:deltaEDownTExponent:N2 , CH3OONO2:deltaEDown:N2 = -0.588787
-R1:preExponential , CH3OONO2:ZPE = -0.00694597
-R1:preExponential , CH3OONO2:deltaEDown:N2 = 0.0405907
-R1:preExponential , CH3OONO2:deltaEDownTExponent:N2 = -0.459963
-R1:nInfinity , CH3OONO2:ZPE = -0.32236
-R1:nInfinity , CH3OONO2:deltaEDown:N2 = 0.674052
-R1:nInfinity , CH3OONO2:deltaEDownTExponent:N2 = -0.837288
-R1:nInfinity , R1:preExponential = 0.705375
+CH3OONO2:deltaEDown:N2 , CH3OONO2:ZPE = -0.240592
+CH3OONO2:deltaEDownTExponent:N2 , CH3OONO2:ZPE = 0.207635
+CH3OONO2:deltaEDownTExponent:N2 , CH3OONO2:deltaEDown:N2 = -0.867102
+R1:preExponential , CH3OONO2:ZPE = 0.0887205
+R1:preExponential , CH3OONO2:deltaEDown:N2 = 0.709034
+R1:preExponential , CH3OONO2:deltaEDownTExponent:N2 = -0.8161
+R1:nInfinity , CH3OONO2:ZPE = -0.0598236
+R1:nInfinity , CH3OONO2:deltaEDown:N2 = 0.903052
+R1:nInfinity , CH3OONO2:deltaEDownTExponent:N2 = -0.925068
+R1:nInfinity , R1:preExponential = 0.936586
 
 Goodness of Fit:
 
 Number of degrees of Freedom = 58
-Chi^2 probability = 0
+Chi^2 probability = 7.47608e-08
 
 
 --Execute calcMethod ThermodynamicTable
 In N2: The default value of me:DOSCMethod was used.
 In N2: The default value of the attribute spinMultiplicity was used.
 gDensityOfStates initialization failed.
- -- Total time elapsed: 320 seconds.
+ -- Total time elapsed: 181 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 320 seconds.
+Total time elapsed: 181 seconds.
