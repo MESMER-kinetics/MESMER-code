@@ -68,7 +68,7 @@
       <me:DOSCMethod xsi:type="me:QMRotors" />
       <me:ExtraDOSCMethod xsi:type="HinderedRotorQM1D">
         <me:bondRef>b4</me:bondRef>
-        <me:HinderedRotorPotential format="numerical" expansionSize="20" units="Hartree" useSineTerms="yes" scale="1">
+        <me:HinderedRotorPotential format="numerical" expansionSize="10" useSineTerms="yes" units="Hartree" scale="1">
           <me:PotentialPoint angle="-165.908" potential="-154.350510" />
           <me:PotentialPoint angle="-150.908" potential="-154.350360" />
           <me:PotentialPoint angle="-135.908" potential="-154.350030" />
@@ -93,13 +93,12 @@
           <me:PotentialPoint angle="149.092" potential="-154.350350" />
           <me:PotentialPoint angle="164.092" potential="-154.350500" />
           <me:PotentialPoint angle="179.092" potential="-154.350450" />
-          <me:PotentialPoint angle="-165.908" potential="-154.350500" />
         </me:HinderedRotorPotential>
         <me:periodicity>2</me:periodicity>
       </me:ExtraDOSCMethod>
       <me:ExtraDOSCMethod xsi:type="HinderedRotorQM1D">
         <me:bondRef>b5</me:bondRef>
-        <me:HinderedRotorPotential format="numerical" expansionSize="25" units="Hartree" useSineTerms="yes" scale="1">
+        <me:HinderedRotorPotential format="numerical" expansionSize="10" useSineTerms="yes" units="Hartree" scale="1">
           <me:PotentialPoint angle="-174.207" potential="-154.350510" />
           <me:PotentialPoint angle="-159.207" potential="-154.350310" />
           <me:PotentialPoint angle="-144.207" potential="-154.349810" />
@@ -124,7 +123,6 @@
           <me:PotentialPoint angle="140.793" potential="-154.349700" />
           <me:PotentialPoint angle="155.793" potential="-154.350210" />
           <me:PotentialPoint angle="170.793" potential="-154.350500" />
-          <me:PotentialPoint angle="-174.207" potential="-154.350380" />
         </me:HinderedRotorPotential>
       </me:ExtraDOSCMethod>
       <me:energyTransferModel xsi:type="me:ExponentialDown">
