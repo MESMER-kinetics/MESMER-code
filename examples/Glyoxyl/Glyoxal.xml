@@ -354,44 +354,43 @@
       <me:DOSCMethod xsi:type="ClassicalRotors"/>
       <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
         <me:bondRef>b1</me:bondRef>
-        <me:HinderedRotorPotential format="numerical" units="kJ/mol" expansionSize="7">
-          <me:PotentialPoint angle="  10  " potential=" 0 "/>
-          <me:PotentialPoint angle="  20  " potential=" 0.027533619 "/>
-          <me:PotentialPoint angle="  30  " potential=" 0.385489037 "/>
-          <me:PotentialPoint angle="  40  " potential=" 1.071463924 "/>
-          <me:PotentialPoint angle="  50  " potential=" 2.026998897 "/>
-          <me:PotentialPoint angle="  60  " potential=" 3.079900536 "/>
-          <me:PotentialPoint angle=" 70 " potential=" 4.023754659 "/>
-          <me:PotentialPoint angle="  80  " potential=" 4.704349896 "/>
-          <me:PotentialPoint angle="  90  " potential=" 5.44173995 "/>
-          <me:PotentialPoint angle="  100  " potential=" 5.05148563 "/>
-          <me:PotentialPoint angle="  110  " potential=" 4.628635727 "/>
-          <me:PotentialPoint angle="  120  " potential=" 3.905859207 "/>
-          <me:PotentialPoint angle="  130  " potential=" 2.935907614 "/>
-          <me:PotentialPoint angle="  140  " potential=" 1.884127063 "/>
-          <me:PotentialPoint angle="  150  " potential=" 0.958052827 "/>
-          <me:PotentialPoint angle="  160  " potential=" 0.317034376 "/>
-          <me:PotentialPoint angle="  170  " potential=" 0.004851924 "/>
-          <me:PotentialPoint angle="  180  " potential=" 0.019071632 "/>
-          <me:PotentialPoint angle="  190  " potential=" 0.307900261 "/>
-          <me:PotentialPoint angle="  200  " potential=" 0.843410369 "/>
-          <me:PotentialPoint angle="  210  " potential=" 1.600982641 "/>
-          <me:PotentialPoint angle="  220  " potential=" 2.510936307 "/>
-          <me:PotentialPoint angle="  230  " potential=" 3.4892895 "/>
-          <me:PotentialPoint angle="  240  " potential=" 4.252758645 "/>
-          <me:PotentialPoint angle="  250  " potential=" 4.364738845 "/>
-          <me:PotentialPoint angle="  260  " potential=" 4.4 "/>
-          <me:PotentialPoint angle=" 270 " potential=" 4.42 "/>
-          <me:PotentialPoint angle="  280  " potential=" 4.4 "/>
-          <me:PotentialPoint angle="  290  " potential=" 4.364738845 "/>
-          <me:PotentialPoint angle="  300  " potential=" 4.252758645 "/>
-          <me:PotentialPoint angle="  310  " potential=" 3.4892895 "/>
-          <me:PotentialPoint angle="  320  " potential=" 2.510936307 "/>
-          <me:PotentialPoint angle="  330  " potential=" 1.600982641 "/>
-          <me:PotentialPoint angle="  340  " potential=" 0.843410369 "/>
-          <me:PotentialPoint angle="  350  " potential=" 0.307900261 "/>
-          <me:PotentialPoint angle="  360  " potential=" 0.019071632 "/>
-          <me:PotentialPoint angle="  370  " potential=" 0 "/>
+        <me:HinderedRotorPotential format="numerical" units="kJ/mol" expansionSize="10" useSineTerms="yes">
+          <me:PotentialPoint angle=" 10" potential=" 0 "/>
+          <me:PotentialPoint angle=" 20" potential=" 0.027533619 "/>
+          <me:PotentialPoint angle=" 30" potential=" 0.385489037 "/>
+          <me:PotentialPoint angle=" 40" potential=" 1.071463924 "/>
+          <me:PotentialPoint angle=" 50" potential=" 2.026998897 "/>
+          <me:PotentialPoint angle=" 60" potential=" 3.079900536 "/>
+          <me:PotentialPoint angle=" 70" potential=" 4.023754659 "/>
+          <me:PotentialPoint angle=" 80" potential=" 4.704349896 "/>
+          <me:PotentialPoint angle=" 90" potential=" 5.44173995 "/>
+          <me:PotentialPoint angle="100" potential=" 5.05148563 "/>
+          <me:PotentialPoint angle="110" potential=" 4.628635727 "/>
+          <me:PotentialPoint angle="120" potential=" 3.905859207 "/>
+          <me:PotentialPoint angle="130" potential=" 2.935907614 "/>
+          <me:PotentialPoint angle="140" potential=" 1.884127063 "/>
+          <me:PotentialPoint angle="150" potential=" 0.958052827 "/>
+          <me:PotentialPoint angle="160" potential=" 0.317034376 "/>
+          <me:PotentialPoint angle="170" potential=" 0.004851924 "/>
+          <me:PotentialPoint angle="180" potential=" 0.019071632 "/>
+          <me:PotentialPoint angle="190" potential=" 0.307900261 "/>
+          <me:PotentialPoint angle="200" potential=" 0.843410369 "/>
+          <me:PotentialPoint angle="210" potential=" 1.600982641 "/>
+          <me:PotentialPoint angle="220" potential=" 2.510936307 "/>
+          <me:PotentialPoint angle="230" potential=" 3.4892895 "/>
+          <me:PotentialPoint angle="240" potential=" 4.252758645 "/>
+          <me:PotentialPoint angle="250" potential=" 4.364738845 "/>
+          <me:PotentialPoint angle="260" potential=" 4.4 "/>
+          <me:PotentialPoint angle="270" potential=" 4.42 "/>
+          <me:PotentialPoint angle="280" potential=" 4.4 "/>
+          <me:PotentialPoint angle="290" potential=" 4.364738845 "/>
+          <me:PotentialPoint angle="300" potential=" 4.252758645 "/>
+          <me:PotentialPoint angle="310" potential=" 3.4892895 "/>
+          <me:PotentialPoint angle="320" potential=" 2.510936307 "/>
+          <me:PotentialPoint angle="330" potential=" 1.600982641 "/>
+          <me:PotentialPoint angle="340" potential=" 0.843410369 "/>
+          <me:PotentialPoint angle="350" potential=" 0.307900261 "/>
+          <me:PotentialPoint angle="360" potential=" 0.019071632 "/>
         </me:HinderedRotorPotential>
       </me:ExtraDOSCMethod>
     </molecule>
@@ -518,16 +517,16 @@
       <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
         <me:bondRef> b1   </me:bondRef>
         <me:HinderedRotorPotential format="numerical" expansionSize="15" units="kJ/mol" useSineTerms="yes">
-          <me:PotentialPoint angle= "0" potential = "0.0" />
-          <me:PotentialPoint angle= "10" potential = "2.15536484244" />
-          <me:PotentialPoint angle= "20" potential = "4.87058605393" />
-          <me:PotentialPoint angle= "30" potential = "7.51716356793" />
-          <me:PotentialPoint angle= "40" potential = "9.31663400901" />
-          <me:PotentialPoint angle= "50" potential = "10.2685799224" />
-          <me:PotentialPoint angle= "60" potential = "10.0752748594" />
-          <me:PotentialPoint angle= "70" potential = "8.51835861039" />
-          <me:PotentialPoint angle= "80" potential = "6.16698706547" />
-          <me:PotentialPoint angle= "90" potential = "3.44434881642" />
+          <me:PotentialPoint angle=   "0" potential = "0.0" />
+          <me:PotentialPoint angle=  "10" potential = "2.15536484244" />
+          <me:PotentialPoint angle=  "20" potential = "4.87058605393" />
+          <me:PotentialPoint angle=  "30" potential = "7.51716356793" />
+          <me:PotentialPoint angle=  "40" potential = "9.31663400901" />
+          <me:PotentialPoint angle=  "50" potential = "10.2685799224" />
+          <me:PotentialPoint angle=  "60" potential = "10.0752748594" />
+          <me:PotentialPoint angle=  "70" potential = "8.51835861039" />
+          <me:PotentialPoint angle=  "80" potential = "6.16698706547" />
+          <me:PotentialPoint angle=  "90" potential = "3.44434881642" />
           <me:PotentialPoint angle= "100" potential = "0.683223362911" />
           <me:PotentialPoint angle= "110" potential = "-1.87522661806" />
           <me:PotentialPoint angle= "120" potential = "-3.56359640108" />
@@ -554,22 +553,21 @@
           <me:PotentialPoint angle= "330" potential = "-2.14674270059" />
           <me:PotentialPoint angle= "340" potential = "-2.14410407309" />
           <me:PotentialPoint angle= "350" potential = "-1.42511614907" />
-          <me:PotentialPoint angle= "360" potential = "-0.000147028086786" />
         </me:HinderedRotorPotential>
       </me:ExtraDOSCMethod>
       <me:ExtraDOSCMethod xsi:type="HinderedRotorQM1D">
         <me:bondRef>  b2  </me:bondRef>
         <me:HinderedRotorPotential format="numerical" expansionSize="15" units="kJ/mol" useSineTerms="yes">
-          <me:PotentialPoint angle= "0" potential = "0.0" />
-          <me:PotentialPoint angle= "10" potential = "-0.538004332606" />
-          <me:PotentialPoint angle= "20" potential = "0.547135821447" />
-          <me:PotentialPoint angle= "30" potential = "2.97196097988" />
-          <me:PotentialPoint angle= "40" potential = "6.47679606544" />
-          <me:PotentialPoint angle= "50" potential = "10.9037172529" />
-          <me:PotentialPoint angle= "60" potential = "15.7018578854" />
-          <me:PotentialPoint angle= "70" potential = "20.6029233689" />
-          <me:PotentialPoint angle= "80" potential = "24.5671185599" />
-          <me:PotentialPoint angle= "90" potential = "27.319214919" />
+          <me:PotentialPoint angle= "  0" potential = "0.0" />
+          <me:PotentialPoint angle= " 10" potential = "-0.538004332606" />
+          <me:PotentialPoint angle= " 20" potential = "0.547135821447" />
+          <me:PotentialPoint angle= " 30" potential = "2.97196097988" />
+          <me:PotentialPoint angle= " 40" potential = "6.47679606544" />
+          <me:PotentialPoint angle= " 50" potential = "10.9037172529" />
+          <me:PotentialPoint angle= " 60" potential = "15.7018578854" />
+          <me:PotentialPoint angle= " 70" potential = "20.6029233689" />
+          <me:PotentialPoint angle= " 80" potential = "24.5671185599" />
+          <me:PotentialPoint angle= " 90" potential = "27.319214919" />
           <me:PotentialPoint angle= "100" potential = "5.02751481442" />
           <me:PotentialPoint angle= "110" potential = "1.96889920695" />
           <me:PotentialPoint angle= "120" potential = "-0.0670710230462" />
@@ -583,7 +581,6 @@
           <me:PotentialPoint angle= "200" potential = "12.6832365195" />
           <me:PotentialPoint angle= "210" potential = "3.24202516089" />
           <me:PotentialPoint angle= "220" potential = "2.70268182342" />
-          <me:PotentialPoint angle= "360" potential = "0.0" />
         </me:HinderedRotorPotential>
       </me:ExtraDOSCMethod>
 
@@ -648,34 +645,32 @@
       <me:deltaEDownTExponent >0.0</me:deltaEDownTExponent>
       <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
         <me:bondRef>b1</me:bondRef>
-        <me:HinderedRotorPotential format="numerical" units="kJ/mol" expansionSize="7">
-          <me:PotentialPoint	angle="	0	"	 potential="	0	"/>
-          <me:PotentialPoint	angle="	36	"	 potential="	3.520259898	"/>
-          <me:PotentialPoint	angle="	72	"	 potential="	12.40227126	"/>
-          <me:PotentialPoint	angle="	108	"	 potential="	15.35504771	"/>
-          <me:PotentialPoint	angle="	144	"	 potential="	8.942823195	"/>
-          <me:PotentialPoint	angle="	180	"	 potential="	5.154796429	"/>
-          <me:PotentialPoint	angle="	216	"	 potential="	8.942828446	"/>
-          <me:PotentialPoint	angle="	252	"	 potential="	15.35489281	"/>
-          <me:PotentialPoint	angle="	288	"	 potential="	12.40225551	"/>
-          <me:PotentialPoint	angle="	324	"	 potential="	3.520280902	"/>
-          <me:PotentialPoint	angle="	360	"	 potential="	-0.127748954	"/>
+        <me:HinderedRotorPotential format="numerical" units="kJ/mol" expansionSize="5" useSineTerms="yes">
+          <me:PotentialPoint	angle="	0	"	 potential="0	"/>
+          <me:PotentialPoint	angle="	36	"	 potential="3.520259898	"/>
+          <me:PotentialPoint	angle="	72	"	 potential="12.40227126	"/>
+          <me:PotentialPoint	angle="	108	"	 potential="15.35504771	"/>
+          <me:PotentialPoint	angle="	144	"	 potential="8.942823195	"/>
+          <me:PotentialPoint	angle="	180	"	 potential="5.154796429	"/>
+          <me:PotentialPoint	angle="	216	"	 potential="8.942828446	"/>
+          <me:PotentialPoint	angle="	252	"	 potential="15.35489281	"/>
+          <me:PotentialPoint	angle="	288	"	 potential="12.40225551	"/>
+          <me:PotentialPoint	angle="	324	"	 potential="3.520280902	"/>
         </me:HinderedRotorPotential>
       </me:ExtraDOSCMethod>
       <me:ExtraDOSCMethod xsi:type="HinderedRotorQM1D">
         <me:bondRef>b2</me:bondRef>
-        <me:HinderedRotorPotential format="numerical" units="kJ/mol" expansionSize="7">
-          <me:PotentialPoint	angle="	0	"	 potential="	0	"/>
-          <me:PotentialPoint	angle="	36	"	 potential="	9.401965384	"/>
-          <me:PotentialPoint	angle="	72	"	 potential="	24.38858456	"/>
-          <me:PotentialPoint	angle="	108	"	 potential="	17.53182876	"/>
-          <me:PotentialPoint	angle="	144	"	 potential="	7.588485275	"/>
-          <me:PotentialPoint	angle="	180	"	 potential="	11.81304343	"/>
-          <me:PotentialPoint	angle="	216	"	 potential="	7.588569291	"/>
-          <me:PotentialPoint	angle="	252	"	 potential="	17.5318839	"/>
-          <me:PotentialPoint	angle="	288	"	 potential="	24.38853468	"/>
-          <me:PotentialPoint	angle="	324	"	 potential="	9.401823607	"/>
-          <me:PotentialPoint	angle="	360	"	 potential="	-0.127882854	"/>
+        <me:HinderedRotorPotential format="numerical" units="kJ/mol" expansionSize="5" useSineTerms="yes">
+          <me:PotentialPoint	angle="	0	"	 potential="0	"/>
+          <me:PotentialPoint	angle="	36	"	 potential="9.401965384	"/>
+          <me:PotentialPoint	angle="	72	"	 potential="24.38858456	"/>
+          <me:PotentialPoint	angle="	108	"	 potential="17.53182876	"/>
+          <me:PotentialPoint	angle="	144	"	 potential="7.588485275	"/>
+          <me:PotentialPoint	angle="	180	"	 potential="11.81304343	"/>
+          <me:PotentialPoint	angle="	216	"	 potential="7.588569291	"/>
+          <me:PotentialPoint	angle="	252	"	 potential="17.5318839	"/>
+          <me:PotentialPoint	angle="	288	"	 potential="24.38853468	"/>
+          <me:PotentialPoint	angle="	324	"	 potential="9.401823607	"/>
         </me:HinderedRotorPotential>
       </me:ExtraDOSCMethod>
     </molecule>
@@ -743,7 +738,6 @@
           <me:PotentialPoint	angle="	252	"	 potential="	10.2255086	"/>
           <me:PotentialPoint	angle="	288	"	 potential="	11.30181657	"/>
           <me:PotentialPoint	angle="	324	"	 potential="	4.4428711	"/>
-          <me:PotentialPoint	angle="	360	"	 potential="	0	"/>
         </me:HinderedRotorPotential>
       </me:ExtraDOSCMethod>
 
@@ -811,8 +805,6 @@
           <me:PotentialPoint	angle="	252	"	 potential="	28.01572069	"/>
           <me:PotentialPoint	angle="	288	"	 potential="	21.23291472	"/>
           <me:PotentialPoint	angle="	324	"	 potential="	2.41642881	"/>
-          <me:PotentialPoint	angle="	360	"	 potential="	0	"/>
-
         </me:HinderedRotorPotential>
       </me:ExtraDOSCMethod>
       <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
@@ -828,25 +820,21 @@
           <me:PotentialPoint	angle="	252	"	 potential="	8.320850122	"/>
           <me:PotentialPoint	angle="	288	"	 potential="	25.66219098	"/>
           <me:PotentialPoint	angle="	324	"	 potential="	8.710526832	"/>
-          <me:PotentialPoint	angle="	360	"	 potential="	0	"/>
-
         </me:HinderedRotorPotential>
       </me:ExtraDOSCMethod>
       <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
         <me:bondRef>b2</me:bondRef>
         <me:HinderedRotorPotential format="numerical" units="kJ/mol" expansionSize="7">
-          <me:PotentialPoint	angle="	0	"	 potential="	0	"/>
-          <me:PotentialPoint	angle="	36	"	 potential="	5.658574744	"/>
-          <me:PotentialPoint	angle="	72	"	 potential="	22.00540771	"/>
-          <me:PotentialPoint	angle="	108	"	 potential="	36.77041105	"/>
-          <me:PotentialPoint	angle="	144	"	 potential="	29.78816686	"/>
-          <me:PotentialPoint	angle="	180	"	 potential="	12.41902195	"/>
-          <me:PotentialPoint	angle="	216	"	 potential="	0.894400205	"/>
-          <me:PotentialPoint	angle="	252	"	 potential="	1.869865347	"/>
-          <me:PotentialPoint	angle="	288	"	 potential="	7.341740786	"/>
-          <me:PotentialPoint	angle="	324	"	 potential="	6.449023527	"/>
-          <me:PotentialPoint	angle="	360	"	 potential="	0	"/>
-
+          <me:PotentialPoint	angle="	0	" potential="0	"/>
+          <me:PotentialPoint	angle="	36	" potential="5.658574744	"/>
+          <me:PotentialPoint	angle="	72	" potential="22.00540771	"/>
+          <me:PotentialPoint	angle="	108	" potential="36.77041105	"/>
+          <me:PotentialPoint	angle="	144	" potential="29.78816686	"/>
+          <me:PotentialPoint	angle="	180	" potential="12.41902195	"/>
+          <me:PotentialPoint	angle="	216	" potential="0.894400205	"/>
+          <me:PotentialPoint	angle="	252	" potential="1.869865347	"/>
+          <me:PotentialPoint	angle="	288	" potential="7.341740786	"/>
+          <me:PotentialPoint	angle="	324	" potential="6.449023527	"/>
         </me:HinderedRotorPotential>
       </me:ExtraDOSCMethod>
     </molecule>
@@ -920,8 +908,6 @@
           <me:PotentialPoint	angle="	252	"	 potential="	2.161697548	"/>
           <me:PotentialPoint	angle="	288	"	 potential="	5.380555297	"/>
           <me:PotentialPoint	angle="	324	"	 potential="	2.629976477	"/>
-          <me:PotentialPoint	angle="	360	"	 potential="	0.000115522	"/>
-
         </me:HinderedRotorPotential>
       </me:ExtraDOSCMethod>
       <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
@@ -937,7 +923,6 @@
           <me:PotentialPoint	angle="	252	"	 potential="	2.95864707	"/>
           <me:PotentialPoint	angle="	288	"	 potential="	6.291454144	"/>
           <me:PotentialPoint	angle="	324	"	 potential="	4.78536495	"/>
-          <me:PotentialPoint	angle="	360	"	 potential="	0	"/>
         </me:HinderedRotorPotential>
       </me:ExtraDOSCMethod>
     </molecule>
