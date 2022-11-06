@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <map>
 #include "Constants.h"
 #include "MesmerConfig.h"
 #include "error.h"

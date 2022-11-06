@@ -18,6 +18,7 @@
 #include "../Molecule.h"
 #include "../gWellProperties.h"
 #include <cmath>
+#include <cassert>
 
 using namespace std;
 

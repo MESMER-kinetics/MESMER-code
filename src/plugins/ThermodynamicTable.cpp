@@ -16,6 +16,7 @@
 #include "../gDensityOfStates.h"
 #include "../gStructure.h"
 #include "ThermodynamicUtils.h"
+#include <cassert>
 
 namespace mesmer
 {

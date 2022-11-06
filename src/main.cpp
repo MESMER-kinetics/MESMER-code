@@ -25,6 +25,7 @@ along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 #include "System.h"
 #include "ParallelManager.h"
 #include "TimeCounter.h"
+#include "XMLPersist.h"
 
 using namespace std;
 using namespace Constants;

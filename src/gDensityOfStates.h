@@ -48,6 +48,9 @@ namespace mesmer
     double cellHeatCapacity;
   };
 
+  // Forward class declarations.
+  class DensityOfStatesCalculator;
+
   class gDensityOfStates : public MolecularComponent
   {
     friend class Molecule;

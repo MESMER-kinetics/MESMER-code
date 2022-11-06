@@ -12,6 +12,7 @@
 //-------------------------------------------------------------------------------------------
 
 #include "../gDensityOfStates.h"
+#include "../DensityOfStates.h"
 
 using namespace std;
 namespace mesmer

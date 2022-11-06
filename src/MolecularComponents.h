@@ -15,7 +15,6 @@
 #define GUARD_MolecularComponents_h
 
 #include <memory>
-#include "DensityOfStates.h"
 #include "MesmerEnv.h"
 #include "MesmerFlags.h"
 #include "Rdouble.h"
@@ -44,6 +43,7 @@ namespace mesmer
 
   // Forward class declarations.
   class Molecule;
+  class gDensityOfStates;
 
   class MolecularComponent{
   public:

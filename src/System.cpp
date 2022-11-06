@@ -14,6 +14,8 @@
 #include "ParseForPlugin.h"
 #include "ConditionsManager.h"
 #include "ParallelManager.h"
+#include "XMLPersist.h"
+#include <cassert>
 
 using namespace std;
 using namespace Constants;

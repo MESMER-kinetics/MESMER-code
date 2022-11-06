@@ -13,6 +13,7 @@
 //-------------------------------------------------------------------------------------------
 
 #include "../MolecularComponents.h"
+#include "../DensityOfStates.h"
 #include <vector>
 
 namespace mesmer

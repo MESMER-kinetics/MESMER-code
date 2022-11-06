@@ -1,3 +1,9 @@
+2022-November-06 Struan Robertson
+
+		* DensityOfStates.h/.cpp, System.cpp, ExponentialDown.cpp, BiExponetialDown.cpp,
+		main.cpp, Rdouble.h, Morse.cpp, UnitTest.cpp, HinderedRotorUtils.cpp
+		ThermodynamicTables.cpp: Include discipline changes.
+
 2022-October-23 Struan Robertson
 
 		* MesmerMaths.h/.cpp: Further fixes for Fourier coefficients with unevenly

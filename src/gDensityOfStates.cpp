@@ -6,6 +6,7 @@
 #include "System.h"
 #include "ParseForPlugin.h"
 #include "gStructure.h"
+#include "DensityOfStates.h"
 #include "gDensityOfStates.h"
 #include "gTransitionState.h"
 #include "gWellRadiationTransition.h"
