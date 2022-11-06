@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v7.0 compiled: -- Oct 23 2022 -- 14:01:55
+     Mesmer v7.0 compiled: -- Nov  1 2022 -- 10:09:41
 
      Copyright (C) 2009-2022 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Sun Oct 23 15:06:52 2022
+                     Execution Date:  Tue Nov  1 11:13:08 2022
                      Number of ranks: 12
 
 defaults.xml, librarymols.xml are in ../..
@@ -71,13 +71,7 @@ In R02: Vibrational frequencies (cm-1) were calculated from Hessian:
   668.07 1241.7 1851.8 2276.52 3246 
 In R02: The default value of me:DOSCMethod was used.
 In R02: Hindered rotor b1
-In R02: WARNING: The Fourier expansion for the internal rotor potential for bond b1 of 
-In R02: species R02, differs at the minimum from the value entered by more than 20 cm-1.
-In R02: More terms in the Fourier expansion may be needed.
 In R02: Hindered rotor b2
-In R02: WARNING: The Fourier expansion for the internal rotor potential for bond b2 of 
-In R02: species R02, differs at the minimum from the value entered by more than 20 cm-1.
-In R02: More terms in the Fourier expansion may be needed.
 In R02: The default value of me:DistributionCalcMethod was used.
 In R02: --Parse data for Boltzmann
 In R02: The default value of me:energyTransferModel was used.
@@ -127,7 +121,7 @@ Excess Reactant Conc. for reaction R2 = 3.68e+16 particles per cc
 Excess Reactant Conc. for reaction R1 = 1e+14 particles per cc
 Excess Reactant Conc. for reaction R2 = 1.01e+17 particles per cc
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20221023_150652
+Write metadata 20221101_111308
 
 File: "Glyoxal_Exchange.xml" successfully parsed.
 Main Calculation begins
@@ -146,50 +140,50 @@ In FastLaplaceConvolution: 100 values in the FFT convolution routine were replac
 In FastLaplaceConvolution: 2740 values in the FFT convolution routine were replaced by standard convolution
 No population was assigned. Initialize the first source term to 1.0.
 
-Chi^2 = 445.434 Lambda = 1
+Chi^2 = 429.89 Lambda = 1
 HC(O)CO:deltaEDown=278.947  R2:activationEnergy=3.0715  R2:preExponential=1.50278e-12  
 
-Chi^2 = 154.562 Lambda = 0.1
-HC(O)CO:deltaEDown=361.737  R2:activationEnergy=3.91681  R2:preExponential=9.57571e-13  
-Iteration: 1 of Marquardt. ChiSquare = 154.562, Lambda = 0.1
+Chi^2 = 153.789 Lambda = 0.1
+HC(O)CO:deltaEDown=359.211  R2:activationEnergy=3.91666  R2:preExponential=9.68396e-13  
+Iteration: 1 of Marquardt. ChiSquare = 153.789, Lambda = 0.1
 
-Chi^2 = 59.231 Lambda = 0.01
-HC(O)CO:deltaEDown=233.465  R2:activationEnergy=5.79246  R2:preExponential=7.56352e-13  
-Iteration: 2 of Marquardt. ChiSquare = 59.231, Lambda = 0.01
+Chi^2 = 60.3514 Lambda = 0.01
+HC(O)CO:deltaEDown=225.833  R2:activationEnergy=5.83534  R2:preExponential=7.71604e-13  
+Iteration: 2 of Marquardt. ChiSquare = 60.3514, Lambda = 0.01
 Number of cells = 50000, Number of grains = 245
- -- Total time elapsed: 434 seconds.
+ -- Total time elapsed: 453 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
-            295    2.61871e+18         0.0508      0.0474178
-            295    2.61871e+18          0.135      0.0941772
-            295    2.61871e+18        0.18893       0.155337
-            295    2.61871e+18        0.21629       0.221175
-            212    2.27747e+17          0.181       0.156275
-            212    2.27747e+17          0.282       0.403171
-            212    2.27747e+17          0.367       0.542911
-            212    2.27747e+17          0.377       0.644224
+            295    2.61871e+18         0.0508      0.0476888
+            295    2.61871e+18          0.135        0.09466
+            295    2.61871e+18        0.18893       0.156014
+            295    2.61871e+18        0.21629       0.221956
+            212    2.27747e+17          0.181       0.158239
+            212    2.27747e+17          0.282        0.40635
+            212    2.27747e+17          0.367       0.545394
+            212    2.27747e+17          0.377       0.645502
 
 
-Chi^2 = 59.231
+Chi^2 = 60.3514
 
 Best fit parameters:
 
-HC(O)CO:deltaEDown = 233.465 +/- 597.358
-R2:activationEnergy = 5.79246 +/- 6.16135
-R2:preExponential = 7.56352e-13 +/- 4.15317e-12
+HC(O)CO:deltaEDown = 225.833 +/- 552.69
+R2:activationEnergy = 5.83534 +/- 6.03531
+R2:preExponential = 7.71604e-13 +/- 4.11947e-12
 
 Correlation coefficients:
 
-R2:activationEnergy , HC(O)CO:deltaEDown = 0.977013
-R2:preExponential , HC(O)CO:deltaEDown = 0.992351
-R2:preExponential , R2:activationEnergy = 0.99551
+R2:activationEnergy , HC(O)CO:deltaEDown = 0.976118
+R2:preExponential , HC(O)CO:deltaEDown = 0.992078
+R2:preExponential , R2:activationEnergy = 0.995309
 
 Goodness of Fit:
 
 Number of degrees of Freedom = 5
-Chi^2 probability = 1.75226e-11
+Chi^2 probability = 1.02829e-11
 
 System saved to mesmer_out.xml
-Total time elapsed: 434 seconds.
+Total time elapsed: 453 seconds.
