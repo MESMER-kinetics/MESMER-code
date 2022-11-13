@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.2 compiled: -- Dec  6 2018 -- 21:24:20
+     Mesmer v7.0 compiled: -- Nov 12 2022 -- 16:24:36
 
-     Copyright (C) 2009-2018 by
+     Copyright (C) 2009-2022 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Thu Dec  6 21:40:26 2018
+                     Execution Date:  Sat Nov 12 16:30:10 2022
                      Number of ranks: 12
 
 defaults.xml, librarymols.xml are in ../..
@@ -55,7 +55,7 @@ In ThermodynamicTable. Own default: Number of cells 100000
 In ThermodynamicTable. Own default: The default value of me:grainSize was used.
 Energy convention "thermodynamic" written to <moleculeList>
 No conditions specified
-Write metadata 20181206_214026
+Write metadata 20221112_163010
 
 File: "ThermodynamicTable.xml" successfully parsed.
 Main Calculation begins
@@ -64,8 +64,14 @@ In HNO2: enthalpy of formation at 298K:energy converted from thermodynamic to th
 Restricted thermo output for He because it has no non-arbitrary energy data.
 In NO: enthalpy of formation at 298K:energy converted from thermodynamic to thermodynamic298K
 Restricted thermo output for O3P because it has no non-arbitrary energy data.
-In OH: enthalpy of formation at 298K:energy converted from thermodynamic to thermodynamic298K
- -- Total time elapsed: 1 seconds.
+In OH: enthalpy of formation at 298K:Number of grains produced is not equal to that requested for: OH
+In OH: Number of grains requested: 1000
+In OH: Number of grains produced : 576
+In OH: energy converted from thermodynamic to thermodynamic298K
+Number of grains produced is not equal to that requested for: OH
+Number of grains requested: 1000
+Number of grains produced : 576
+ -- Total time elapsed: 0 seconds.
 
 System saved to out.xml
-Total time elapsed: 1 seconds.
+Total time elapsed: 0 seconds.
