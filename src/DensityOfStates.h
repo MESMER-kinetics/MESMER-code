@@ -9,7 +9,6 @@
 
 namespace mesmer
 {
-  class Molecule;
   class gDensityOfStates;
   struct MesmerEnv;
 
@@ -22,7 +21,7 @@ namespace mesmer
   class DensityOfStatesCalculator : public TopPlugin
   {
   public:
-    DensityOfStatesCalculator() : m_parent(NULL) {}
+    DensityOfStatesCalculator() : m_thermoDynamicTable() {}
     virtual ~DensityOfStatesCalculator(){}
     static const char* typeID() { return "Cell Density of States Calculators"; }
     virtual const char* getTypeID()  {return typeID();}
@@ -49,7 +48,7 @@ namespace mesmer
     }
 
     // Read any data from XML and store in this instance. Default is do nothing.
-    virtual bool ReadParameters(gDensityOfStates* gdos, PersistPtr ppDOSC=NULL){ return true; };
+    virtual bool ReadParameters(gDensityOfStates* gdos, PersistPtr ppDOSC=NULL)=0;
 
     // Provide a function to define particular counts of the DOS of a molecule
     virtual bool countCellDOS(gDensityOfStates* mol, const MesmerEnv& env)=0;
@@ -63,11 +62,20 @@ namespace mesmer
     // Provide a function to calculate the zero point energy of a molecule.
 	virtual double ZeroPointEnergy(gDensityOfStates* gdos) { return 0.0 ; } ;
 
-    const Molecule* getParent() const {return m_parent;} ;
-    void setParent(const Molecule* parent) { m_parent = parent;} ;
+  protected:
+
+    // Method to create thermodymaic table header.
+    void ThermoDynamicHeader(const std::string& species, const std::string& id) {
+      std::stringstream ss;
+      ss << std::endl;
+      ss << species << " : " << id << std::endl;
+      ss << std::endl;
+      m_thermoDynamicTable = ss.str();
+    }
 
   private:
-    const Molecule* m_parent;
+
+    std::string m_thermoDynamicTable;
 
   };
 

@@ -227,6 +227,13 @@ namespace mesmer
 
   };
 
+  //-------------------------------------------------------------------------------------------------
+  // Other related functions
+  //-------------------------------------------------------------------------------------------------
+
+  // Provide a function to define particular counts of the convolved DOS of two molecules.
+  bool countDimerCellDOS(gDensityOfStates& pDOS1, gDensityOfStates& pDOS2, std::vector<double>& rctsCellDOS);
+
 }//namespace
 
 #endif //GUARD_gDensityOfStates_h

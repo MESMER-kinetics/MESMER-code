@@ -151,7 +151,6 @@ namespace mesmer
       const char* common_reaction_excess = pp->XmlReadValue("refReactionExcess", optional);
       const char* common_group = pp->XmlReadValue("group", optional);
       double common_excessReactantConc = pp->XmlReadDouble("excessReactantConc", optional);
-      bool common_bPercentExcessReactantConc = pp->XmlMoveTo("percentExcessReactantConc");
 
       // Check for individually specified concentration/temperature points.
       PersistPtr ppPTpair = pp->XmlMoveTo("me:PTpair");

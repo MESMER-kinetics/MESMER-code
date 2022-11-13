@@ -13,7 +13,6 @@
 
 #include "../DensityOfStates.h"
 #include "../gDensityOfStates.h"
-//#include "../MolecularComponents.h"
 #include "../Molecule.h"
 #include "../Constants.h"
 

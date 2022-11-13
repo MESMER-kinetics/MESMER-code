@@ -9,7 +9,6 @@
 //-------------------------------------------------------------------------------------------
 
 #include "../DensityOfStates.h"
-#include "../MolecularComponents.h"
 #include "../Molecule.h"
 #include "../Constants.h"
 #include "HinderedRotorUtils.h"

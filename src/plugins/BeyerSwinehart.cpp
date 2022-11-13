@@ -9,6 +9,9 @@ namespace mesmer
   {
   public:
 
+    // Read any data from XML and store in this instance. Default is do nothing.
+    virtual bool ReadParameters(gDensityOfStates* gdos, PersistPtr ppDOSC = NULL) { return true; };
+
     // Function to define particular counts of the DOS of a molecule.
     virtual bool countCellDOS(gDensityOfStates* mol, const MesmerEnv& env);
 

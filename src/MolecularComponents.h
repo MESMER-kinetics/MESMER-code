@@ -18,7 +18,6 @@
 #include "MesmerEnv.h"
 #include "MesmerFlags.h"
 #include "Rdouble.h"
-#include "EnergyTransferModel.h"
 #include "vector3.h"
 #include "dMatrix.h"
 #include "Persistence.h"
@@ -43,7 +42,6 @@ namespace mesmer
 
   // Forward class declarations.
   class Molecule;
-  class gDensityOfStates;
 
   class MolecularComponent{
   public:
@@ -57,13 +55,6 @@ namespace mesmer
     //MolecularComponent():m_host(NULL){}
     static std::string m_energyConvention; //for all molecules
   };
-
-  //-------------------------------------------------------------------------------------------------
-  // Other related functions
-  //-------------------------------------------------------------------------------------------------
-
-  // Provide a function to define particular counts of the convolved DOS of two molecules.
-  bool countDimerCellDOS(gDensityOfStates& pDOS1, gDensityOfStates& pDOS2, std::vector<double>& rctsCellDOS);
 
 }//namespace
 

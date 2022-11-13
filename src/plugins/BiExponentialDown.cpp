@@ -14,7 +14,6 @@
 
 #include "../EnergyTransferModel.h"
 #include "../Rdouble.h"
-#include "../MolecularComponents.h"
 #include "../Molecule.h"
 #include "../gWellProperties.h"
 #include <cmath>
