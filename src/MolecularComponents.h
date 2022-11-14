@@ -3,12 +3,7 @@
 //
 // Author: Chi-Hsiu Liang
 //
-// This file contains property groups of class Molecule. These groups give molecules variables
-// and functions to perform tasks; from the definitions of these groups a molecule can play
-// roles when it is required to do so. Classes in this file do not depend on each other and
-// thus they can be seperated. Any of them can be added into a molecule (with a new() to construct
-// an object and then pass the pointer to the molecule) when the role of the molecule requires
-// the information in that group.
+// This file contains the base class defintion of property groups used in the Molecule class. 
 //-------------------------------------------------------------------------------------------
 
 #ifndef GUARD_MolecularComponents_h
@@ -18,10 +13,7 @@
 #include "MesmerEnv.h"
 #include "MesmerFlags.h"
 #include "Rdouble.h"
-#include "vector3.h"
-#include "dMatrix.h"
 #include "Persistence.h"
-
 
 using namespace std ;
 using namespace Constants ;
@@ -52,8 +44,7 @@ namespace mesmer
 
   protected:
     Molecule* m_host;
-    //MolecularComponent():m_host(NULL){}
-    static std::string m_energyConvention; //for all molecules
+    static std::string m_energyConvention; // For all molecules.
   };
 
 }//namespace

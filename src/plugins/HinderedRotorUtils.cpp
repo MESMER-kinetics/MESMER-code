@@ -11,6 +11,9 @@
 
 #include "HinderedRotorUtils.h"
 #include "../vector3.h"
+#include "../MesmerMath.h"
+#include "../unitsConversion.h"
+#include "../formatfloat.h"
 
 namespace mesmer
 {

@@ -3,6 +3,7 @@
 
 #include "Persistence.h"
 #include "MolecularComponents.h"
+#include "dMatrix.h"
 
 using namespace std;
 using namespace Constants;

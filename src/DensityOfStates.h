@@ -62,15 +62,34 @@ namespace mesmer
     // Provide a function to calculate the zero point energy of a molecule.
 	virtual double ZeroPointEnergy(gDensityOfStates* gdos) { return 0.0 ; } ;
 
+    static bool m_thermoContributionTable;
+
   protected:
 
     // Method to create thermodymaic table header.
     void ThermoDynamicHeader(const std::string& species, const std::string& id) {
-      std::stringstream ss;
-      ss << std::endl;
-      ss << species << " : " << id << std::endl;
-      ss << std::endl;
-      m_thermoDynamicTable = ss.str();
+      if (m_thermoContributionTable) {
+        std::stringstream ss;
+        ss << std::endl;
+        ss << species << " : " << id << std::endl;
+        ss << std::endl;
+        m_thermoDynamicTable = ss.str();
+      }
+    }
+
+    // Method to add an entry to thermodymaic table header.
+    void ThermoDynamicEntry(const double beta, const double CanPrtnFn, const double internalEnergy, const double varEnergy) {
+      if (m_thermoContributionTable) {
+        double unitFctr(1.0);
+        double gibbsFreeEnergy = -unitFctr * log(CanPrtnFn) / beta;
+        double enthalpy        =  unitFctr * internalEnergy;
+        // double entropy         =  (enthalpy - gibbsFreeEnergy) * beta * boltzmann_RCpK;
+        // double heatCapacity    =  unitFctr * boltzmann_RCpK * (beta * beta * varEnergy);
+        std::stringstream ss;
+        // ss << species << " : " << id << std::endl;
+        ss << std::endl;
+        m_thermoDynamicTable += ss.str();
+      }
     }
 
   private:

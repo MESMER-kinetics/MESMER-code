@@ -1,5 +1,6 @@
 #include "../DensityOfStates.h"
 #include "../gDensityOfStates.h"
+#include "../Molecule.h"
 #include <numeric>
 
 using namespace std;
@@ -9,8 +10,8 @@ namespace mesmer
   {
   public:
 
-    // Read any data from XML and store in this instance. Default is do nothing.
-    virtual bool ReadParameters(gDensityOfStates* gdos, PersistPtr ppDOSC = NULL) { return true; };
+    // Read any data from XML and store in this instance.
+    virtual bool ReadParameters(gDensityOfStates* gdos, PersistPtr ppDOSC = NULL) ;
 
     // Function to define particular counts of the DOS of a molecule.
     virtual bool countCellDOS(gDensityOfStates* mol, const MesmerEnv& env);
@@ -41,6 +42,13 @@ namespace mesmer
   BeyerSwinehart theBeyerSwinehart("BeyerSwinehart");
   //************************************************************
 
+  // Read any data from XML and store in this instance.
+  bool BeyerSwinehart::ReadParameters(gDensityOfStates* gdos, PersistPtr ppDOSC) {
+
+    ThermoDynamicHeader(gdos->getHost()->getName(), string(m_id));
+
+    return true; 
+  };
 
   // Provide a function to define particular counts of the DOS of a molecule.
   bool BeyerSwinehart::countCellDOS(gDensityOfStates* pDOS, const MesmerEnv& env)

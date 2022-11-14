@@ -1,3 +1,11 @@
+2022-November-14 Struan Robertson
+
+		* MolecularComponent.h/.cpp and assocated files: More changes to improve
+		"include" discipline.
+
+		* DensityOfStates.h, BeyerSwinhart.cpp: Initial implementation of thermodynamic
+		function components.
+
 2022-November-13 Struan Robertson
 
 		* MolecularComponent.h/.cpp and assocated files: Further changes to improve

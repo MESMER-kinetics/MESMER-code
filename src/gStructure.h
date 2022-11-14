@@ -2,6 +2,7 @@
 #define GUARD_gStructure_h
 
 #include "MolecularComponents.h"
+#include "vector3.h"
 
 namespace mesmer
 {

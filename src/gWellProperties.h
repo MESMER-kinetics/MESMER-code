@@ -19,6 +19,7 @@
 #include "EnergyTransferModel.h"
 #include "Distribution.h"
 #include "gDensityOfStates.h"
+#include "dMatrix.h"
 
 namespace mesmer
 {

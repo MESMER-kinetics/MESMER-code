@@ -12,6 +12,12 @@
 //-------------------------------------------------------------------------------------------
 
 #include "MolecularComponents.h"
+#include "DensityOfStates.h"
 
-using namespace std;
+namespace mesmer
+{
+
+  bool DensityOfStatesCalculator::m_thermoContributionTable = false;
+
+}
 

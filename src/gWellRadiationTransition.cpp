@@ -15,7 +15,6 @@
 
 using namespace std;
 using namespace Constants;
-using namespace OpenBabel;
 
 namespace mesmer
 {
