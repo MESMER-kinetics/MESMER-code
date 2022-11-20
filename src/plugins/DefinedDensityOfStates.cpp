@@ -159,6 +159,9 @@ namespace mesmer
     PrtnFn   *= Qrot ;
     IntrlEne += Erot ;
     varEne   += vErot ;
+
+    ThermoDynamicEntry(beta, Qrot, Erot, vErot);
+
   }
 
   // Function to return the number of degrees of freedom associated with this count.

@@ -268,9 +268,16 @@ namespace mesmer
     Ehdr    /= Qhdr ;
     varEhdr  = varEhdr/Qhdr - Ehdr*Ehdr ;
 
-    PrtnFn   *= Qintrot*Qhdr*intvl;
-    IntrlEne += 1.0/(2.0*beta) + Ehdr ;
-    varEne   += 1.0/ (2.0*beta*beta) + varEhdr ;
+    double qtot = Qintrot*Qhdr*intvl;
+    double ene  = 1.0/(2.0*beta) + Ehdr ;
+    double vEne = 1.0/ (2.0*beta*beta) + varEhdr ;
+
+    PrtnFn *= qtot;
+    IntrlEne += ene;
+    varEne += vEne;
+
+    ThermoDynamicEntry(beta, qtot, ene, vEne);
+
   }
 
 }//namespace

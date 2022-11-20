@@ -143,6 +143,7 @@
     <ClCompile Include="..\..\src\AssociationReaction.cpp" />
     <ClCompile Include="..\..\src\BimolecularSinkReaction.cpp" />
     <ClCompile Include="..\..\src\ConditionsManager.cpp" />
+    <ClCompile Include="..\..\src\DensityOfStates.cpp" />
     <ClCompile Include="..\..\src\error.cpp" />
     <ClCompile Include="..\..\src\ExchangeReaction.cpp" />
     <ClCompile Include="..\..\src\gBathProperties.cpp" />

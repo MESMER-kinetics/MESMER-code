@@ -34,7 +34,8 @@ namespace mesmer
       m_Unit("kJ/mol"),
       m_unitFctr(1.0),
       m_makeNasaPoly(true),
-      m_outputCellVersion(false)
+      m_outputCellVersion(false),
+      m_outputContribution(false)
     {
       Register();
     }
@@ -63,6 +64,7 @@ namespace mesmer
     double m_unitFctr;
     bool m_makeNasaPoly;
     bool m_outputCellVersion;
+    bool m_outputContribution;
   };
 
   ////////////////////////////////////////////////
@@ -85,6 +87,7 @@ namespace mesmer
     if (m_Unit == "kcal/mol")
       m_unitFctr = 1.0 / kCalPerMol_in_RC;
     m_outputCellVersion = pp->XmlReadBoolean("me:withCellDOSCalc");
+    m_outputContribution = pp->XmlReadBoolean("me:ContribToThermo");
 
     System* pSys = getParent();
 
@@ -240,6 +243,7 @@ namespace mesmer
       enthalpy298 = thermos.enthalpy;
       S298 = thermos.entropy;
       tempLessThan298 = true;
+      pmol->getDOS().InitThermoContrib(m_outputContribution, m_unitFctr, m_Unit);
       for (double temp = m_Tmin; temp <= m_Tmax; temp += m_TempInterval)
       {
         double T = temp;
@@ -272,7 +276,9 @@ namespace mesmer
           Hf.push_back((thermos.enthalpy - enthalpy298 + Hf298local) * 1000 / R); //e.g. J/mol
           ppVal->XmlWriteAttribute("Hf", Hf.back() * R / 1000, 4, true); //back to kJ/mol
         }
+
       }
+      pmol->getDOS().WriteContribThermo();
 
       if (m_makeNasaPoly && !IsNan(Hf298local))
       {

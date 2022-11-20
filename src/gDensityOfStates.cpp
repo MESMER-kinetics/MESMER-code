@@ -505,13 +505,13 @@ namespace mesmer
     }
 
     // Not necessary; and better not to have the name of a plugin explicitly in the code.
-// If the density of states are defined outside of MESMER then no additional terms are required.
+    // If the density of states are defined outside of MESMER then no additional terms are required.
     //if (string(name) == "DefinedDensityOfStates")
     //	return true;
 
-// Beyer-Swinehart object added by default at m_DOSCalculators[1].
+    // Beyer-Swinehart object added by default at m_DOSCalculators[1].
     m_DOSCalculators.push_back(DensityOfStatesCalculator::Find("BeyerSwinehart"));
-    if (!m_DOSCalculators[1])
+    if (!m_DOSCalculators[1] || !m_DOSCalculators[1]->ReadParameters(this))
     {
       cerr << "Beyer-Swinehart algorithm failed to initialize correctly" << endl;
       return false;
@@ -1236,4 +1236,22 @@ namespace mesmer
     return true;
   }
 
-} // meser namespace.
+  // Print contributions to thermodynamic functions
+  void gDensityOfStates::InitThermoContrib(bool print, double unitFctr, string units) {
+    if (print) {
+      for (vector<DensityOfStatesCalculator*>::size_type j = 0; j < m_DOSCalculators.size(); ++j) {
+        m_DOSCalculators[j]->InitThermoContrib(print, unitFctr);
+        string id(m_DOSCalculators[j]->getID());
+        m_DOSCalculators[j]->ThermoContribHeader(getHost()->getName(), id, units);
+      }
+    }
+  }
+
+  // Write table of contributions to thermodynamic functions
+  void gDensityOfStates::WriteContribThermo() {
+    for (vector<DensityOfStatesCalculator*>::size_type j = 0; j < m_DOSCalculators.size(); ++j) {
+      ctest << m_DOSCalculators[j]->ThermoDynamicWrite();
+      m_DOSCalculators[j]->FinalThermoContrib();
+    }
+  }
+} // mesmer namespace.

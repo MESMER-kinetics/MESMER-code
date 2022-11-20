@@ -376,6 +376,9 @@ namespace mesmer
     PrtnFn *= qtot*qelec;
     IntrlEne += ene + Eelec;
     varEne += var + varEelec;
+
+    ThermoDynamicEntry(beta, qtot * qelec, ene + Eelec, var + varEelec);
+
   }
 
   // Function to return the number of degrees of freedom associated with this count.

@@ -44,9 +44,6 @@ namespace mesmer
 
   // Read any data from XML and store in this instance.
   bool BeyerSwinehart::ReadParameters(gDensityOfStates* gdos, PersistPtr ppDOSC) {
-
-    ThermoDynamicHeader(gdos->getHost()->getName(), string(m_id));
-
     return true; 
   };
 
@@ -98,6 +95,9 @@ namespace mesmer
     PrtnFn *= qtot;
     IntrlEne += ene;
     varEne += var;
+
+    ThermoDynamicEntry(beta, qtot, ene, var);
+
   }
 
   // Function to return the number of degrees of freedom associated with this count.

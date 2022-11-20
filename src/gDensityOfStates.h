@@ -180,6 +180,12 @@ namespace mesmer
     // Function to calculate the rotational mode vectors.
     static void RotationVector(vector<double>& aa, size_t loca, double sgna, vector<double>& bb, size_t locb, double sgnb, vector<double>& massWeights, vector<double>& mode);
 
+    // Print contributions to thermodynamic functions
+    void InitThermoContrib(bool print, double unitFctr, std::string units);
+
+    // Write table of contributions to thermodynamic functions
+    void WriteContribThermo();
+
   private:
 
     bool initialization();

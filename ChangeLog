@@ -1,5 +1,11 @@
 2022-November-14 Struan Robertson
 
+		* DensityOfStates.h/.cpp, gDensityOfStates.h/.cpp, ThermodynamicTable.cppand
+		classes derived from DensityOfStatesCalculator: Implementation of thermodynamic
+		function components table.
+
+2022-November-14 Struan Robertson
+
 		* MolecularComponent.h/.cpp and assocated files: More changes to improve
 		"include" discipline.
 

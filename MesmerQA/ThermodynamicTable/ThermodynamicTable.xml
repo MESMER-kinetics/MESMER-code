@@ -226,6 +226,7 @@
       <me:Tmax>1050</me:Tmax>
       <me:Tstep>75</me:Tstep>
       <me:withCellDOSCalc/>
+      <me:ContribToThermo/>
     </me:calcMethod>
   </me:control>
 

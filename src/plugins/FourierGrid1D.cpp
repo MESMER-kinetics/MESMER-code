@@ -375,6 +375,9 @@ namespace mesmer
     PrtnFn *= Qinvrn;
     IntrlEne += Einvrn;
     varEne += varEinvrn;
+
+    ThermoDynamicEntry(beta, Qinvrn, Einvrn, varEinvrn);
+
   }
 
   // Provide data for plotting states against potential.
