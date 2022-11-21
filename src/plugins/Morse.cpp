@@ -41,6 +41,7 @@ namespace mesmer
 
     virtual ~Morse() {}
     virtual const char* getID()  { return m_id; }
+    virtual string getName() { return string(m_id); }
 
     virtual Morse* Clone() { return new Morse(*this); }
 

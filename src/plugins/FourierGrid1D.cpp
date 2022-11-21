@@ -83,6 +83,7 @@ namespace mesmer
     }
 
     virtual const char* getID() { return m_id; }
+    virtual string getName() { return string(m_id); }
 
     virtual ~FourierGrid1D() { delete m_ppotential; }
     virtual FourierGrid1D* Clone() { return new FourierGrid1D(*this); }

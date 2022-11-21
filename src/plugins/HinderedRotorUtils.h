@@ -39,6 +39,7 @@ namespace mesmer
 		virtual const char* getID() { return m_id; }
 		void set_BondID(const char *BondID) { m_bondID = string(BondID); };
 		string get_BondID() const { return m_bondID; };
+		virtual string getName() { return string(m_id) + ": Bond " + m_bondID; };
 
 	protected:
 

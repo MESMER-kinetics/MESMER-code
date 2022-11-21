@@ -44,6 +44,7 @@ namespace mesmer
 
     virtual ~DefinedDensityOfStates() {}
     virtual const char* getID()  { return m_id; }
+    virtual string getName() { return string(m_id); }
     virtual bool includesRotations(){return true;}
     virtual DefinedDensityOfStates* Clone() { return new DefinedDensityOfStates(*this); }
 

@@ -31,6 +31,7 @@ namespace mesmer
 
     virtual ~BeyerSwinehart() {}
     virtual const char* getID() { return m_id; }
+    virtual string getName() { return string(m_id); }
     virtual BeyerSwinehart* Clone() { return new BeyerSwinehart(*this); }
 
   private:

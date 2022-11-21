@@ -1241,7 +1241,7 @@ namespace mesmer
     if (print) {
       for (vector<DensityOfStatesCalculator*>::size_type j = 0; j < m_DOSCalculators.size(); ++j) {
         m_DOSCalculators[j]->InitThermoContrib(print, unitFctr);
-        string id(m_DOSCalculators[j]->getID());
+        string id(m_DOSCalculators[j]->getName());
         m_DOSCalculators[j]->ThermoContribHeader(getHost()->getName(), id, units);
       }
     }

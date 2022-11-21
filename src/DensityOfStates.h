@@ -48,6 +48,9 @@ namespace mesmer
       return dynamic_cast<DensityOfStatesCalculator*>(TopFind(id, typeID()));
     }
 
+    // Return name.
+    virtual std::string getName() = 0;
+
     // Read any data from XML and store in this instance. Default is do nothing.
     virtual bool ReadParameters(gDensityOfStates* gdos, PersistPtr ppDOSC = NULL) = 0;
 
