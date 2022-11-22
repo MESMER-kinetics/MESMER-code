@@ -91,8 +91,8 @@ namespace mesmer
 
   private:
 
-    bool m_thermoContribTable;
     std::string m_thermoDynamicTable;
+    bool m_thermoContribTable;
     double m_unitFctr;
 
   };
