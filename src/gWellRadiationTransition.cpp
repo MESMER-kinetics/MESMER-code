@@ -1,11 +1,11 @@
 //-------------------------------------------------------------------------------------------
 //
-// gWellRadiationTransition.h
+// gWellRadiationTransition.cpp
 //
 // Author: Struan Robertson
 // Date:   27/Dec/2021
 //
-// This header file contains the implementation of the gWellRadiationTransition class. This 
+// This file contains the implementation of the gWellRadiationTransition class. This 
 // class governs radition transitions betwen states.
 //
 //-------------------------------------------------------------------------------------------

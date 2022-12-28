@@ -1,3 +1,13 @@
+2022-December-28 Struan Robertson
+
+		* gStructure: Add weighting to vector SRG vector.
+
+		* Baseline udpate to relating the SRG vector change.
+
+		* Update of VC16 project.
+
+		* Update of installer script.
+
 2022-November-21 Struan Robertson
 
 		* DensityOfStates.h/.cpp, gDensityOfStates.h/.cpp and classes derived from 

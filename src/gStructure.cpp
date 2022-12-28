@@ -563,13 +563,11 @@ namespace mesmer
     // to the other fragment. (SHR, 4/Feb/2020: this code should be moved 
     // to a more appropriate place.)
 
-    if (!ApplyMWeight) {
-      double fctr1 = mm2 / (mm1 + mm2);
-      ApplyInertiaWeighting(atomset1, mode, fctr1);
+    double fctr1 = mm2 / (mm1 + mm2);
+    ApplyInertiaWeighting(atomset1, mode, fctr1);
 
-      double fctr2 = mm1 / (mm1 + mm2);
-      ApplyInertiaWeighting(atomset2, mode, fctr2);
-    }
+    double fctr2 = mm1 / (mm1 + mm2);
+    ApplyInertiaWeighting(atomset2, mode, fctr2);
 
   }
 
@@ -1105,7 +1103,7 @@ namespace mesmer
         double sum(0.0);
         for (size_t i(location), j(0); j < 3; i++, j++) {
           mode[i] = massWeight * b[j];
-          sum += mode[i]*mode[i];
+          sum += mode[i] * mode[i];
         }
         moi += sum;
       }
@@ -1227,7 +1225,7 @@ namespace mesmer
 
   bool gStructure::findFunctionalForm(const string functionalForm) {
 
-    bool status(false) ;
+    bool status(false);
 
     // Split functional form string.
     string tmp;
@@ -1248,7 +1246,7 @@ namespace mesmer
     return status;
   }
 
-  bool gStructure::sequenceSearch(const string AtomID, vector<string> &stk, size_t idx) {
+  bool gStructure::sequenceSearch(const string AtomID, vector<string>& stk, size_t idx) {
     if (idx == stk.size() || stk[idx] == ".")
       return true;
 
