@@ -553,15 +553,10 @@ namespace mesmer
     double mm2 = CalcMomentAboutAxis(atomset2, coords1, coords2);
     CalcInternalRotVec(bondID, atomset2, coords2, coords1, mode, ApplyMWeight);
 
-    // The following, slightly confusing code, is placed here for the
-    // benefit of coupled rotors code, and does not apply when a vector 
-    // for use in Hessian analysis is being constructed. The code is 
-    // here at present because the moments of inertia about the rotating 
-    // bond are needed, which are applied as weights for the relative
-    // rotation of each fragment with respect to each other. In the limit
-    // that one fragment is infinitely massive the rotation will be confined
-    // to the other fragment. (SHR, 4/Feb/2020: this code should be moved 
-    // to a more appropriate place.)
+    // In the following, the moments of inertia of each fragment about the rotating 
+    // bond are applied as weights for the relative rotation of each fragment with
+    // respect to each other. In the limit that one fragment is infinitely massive
+    // the rotation will be confined to the other fragment. 
 
     double fctr1 = mm2 / (mm1 + mm2);
     ApplyInertiaWeighting(atomset1, mode, fctr1);

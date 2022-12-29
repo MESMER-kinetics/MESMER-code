@@ -6,7 +6,7 @@
 namespace mesmer
 {
 
-  class gTransitionState:public MolecularComponent
+  class gTransitionState :public MolecularComponent
   {
 
     //-------------------------------------------------------------------------------------------------
@@ -24,11 +24,20 @@ namespace mesmer
     //
     // Constructor, destructor and initialization
     //
-    gTransitionState(Molecule* pMol);
+    gTransitionState(Molecule* pMol) : m_ImFreq(0.0), m_ImFreq_chk(-1) {
+      m_host = pMol;
+    }
     virtual ~gTransitionState();
 
+    bool initialization();
+
     double get_ImFreq();
-    void set_imFreq(const double value){ m_ImFreq = value; m_ImFreq_chk = 0;}
+    void set_imFreq(const double value) {
+      if (m_ImFreq <= 0.0) { // Value set at instantiation takes precedence. 
+        m_ImFreq = value;
+        m_ImFreq_chk = 0;
+      }
+    }
 
   };
 

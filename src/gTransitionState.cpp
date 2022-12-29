@@ -22,12 +22,10 @@ namespace mesmer
     //if (m_ImFreq_chk == 0) cinfo << "m_ImFreq is provided but not used in " << m_host->getName() << "." << endl;
   }
 
-  gTransitionState::gTransitionState(Molecule* pMol) :m_ImFreq(0.0),
-    m_ImFreq_chk(-1)
+  bool gTransitionState::initialization()
   {
-    ErrorContext c(pMol->getName());
-    m_host = pMol;
-    PersistPtr pp = pMol->get_PersistentPointer();
+    ErrorContext c(m_host->getName());
+    PersistPtr pp = m_host->get_PersistentPointer();
     PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
     if (!ppPropList)
       ppPropList = pp; //Be forgiving; we can get by without a propertyList element
@@ -41,23 +39,29 @@ namespace mesmer
     }
     else {
       istringstream idata(txt); double x;
-      // make sure this number is positive
+      // Make sure this number is positive.
       idata >> x;
-      set_imFreq(x);
-      bool rangeSet;
-      PersistPtr ppProp = ppPropList->XmlMoveToProperty("me:imFreqs");
-      ReadRdoubleRange(string(m_host->getName() + ":imFreqs"), ppProp, m_ImFreq, rangeSet);
-      m_ImFreq_chk = 0;
+      if (x > 0.0) {
+        m_ImFreq = x;
+        bool rangeSet;
+        PersistPtr ppProp = ppPropList->XmlMoveToProperty("me:imFreqs");
+        ReadRdoubleRange(string(m_host->getName() + ":imFreqs"), ppProp, m_ImFreq, rangeSet);
+        m_ImFreq_chk = 0;
+      } else {
+        string errorMsg = "Negative immaginary frequency detected for transition state " + m_host->getName() + ".";
+        throw(std::runtime_error(errorMsg));
+      }
     }
+    return true;
   }
 
-  double gTransitionState::get_ImFreq(){
-    if (m_ImFreq_chk == -1){
+  double gTransitionState::get_ImFreq() {
+    if (m_ImFreq_chk == -1) {
       cerr << "m_ImFreq was not defined but requested." << ". Default value " << m_ImFreq << " is given.";
       --m_ImFreq_chk;
       return m_ImFreq;
     }
-    else if (m_ImFreq_chk < -1){
+    else if (m_ImFreq_chk < -1) {
       --m_ImFreq_chk;
       return m_ImFreq;
     }

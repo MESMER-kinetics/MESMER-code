@@ -1,8 +1,13 @@
+2022-December-29 Struan Robertson
+
+		* gTransitionState.h/.cpp, Molecule.cpp: Implementation of transition state class
+		revised so that imaginary frequency set at instantiation is not over written.
+
 2022-December-28 Struan Robertson
 
 		* gStructure: Add weighting to vector SRG vector.
 
-		* Baseline udpate to relating the SRG vector change.
+		* Baseline update to relating the SRG vector change.
 
 		* Update of VC16 project.
 

@@ -13,8 +13,8 @@
 #include "gPopulation.h"
 #include "gTransitionState.h"
 
-using namespace std ;
-using namespace Constants ;
+using namespace std;
+using namespace Constants;
 
 namespace mesmer
 {
@@ -22,7 +22,7 @@ namespace mesmer
   //
   //Constructor
   //
-  Molecule::Molecule(const MesmerEnv& Env, MesmerFlags& Flags, const string& molType, MoleculeManager *pMoleculeManager): m_Env(Env),
+  Molecule::Molecule(const MesmerEnv& Env, MesmerFlags& Flags, const string& molType, MoleculeManager* pMoleculeManager) : m_Env(Env),
     m_Flags(Flags),
     m_atomNumber(0),
     m_ppPersist(NULL),
@@ -41,15 +41,15 @@ namespace mesmer
     m_molTypes[molType] = true;
   }
 
-  Molecule::~Molecule(){
+  Molecule::~Molecule() {
     // delete the pointers in the reverse order.
     if (g_struc != NULL) delete g_struc;
-    if (g_coll  != NULL) delete g_coll;
-    if (g_rad   != NULL) delete g_rad;
-    if (g_pop   != NULL) delete g_pop;
-    if (g_ts    != NULL) delete g_ts;
-    if (g_dos   != NULL) delete g_dos;
-    if (g_bath  != NULL) delete g_bath;
+    if (g_coll != NULL) delete g_coll;
+    if (g_rad != NULL) delete g_rad;
+    if (g_pop != NULL) delete g_pop;
+    if (g_ts != NULL) delete g_ts;
+    if (g_dos != NULL) delete g_dos;
+    if (g_bath != NULL) delete g_bath;
   }
 
   //
@@ -58,7 +58,7 @@ namespace mesmer
   bool Molecule::InitializeMolecule(PersistPtr pp)
   {
     m_ppPersist = pp;
-    const char* id= m_ppPersist->XmlReadValue("id", false);
+    const char* id = m_ppPersist->XmlReadValue("id", false);
     if (id) m_Name = id;
     if (m_Name.empty()) {
       cerr << "Molecular name is absent.";
@@ -70,15 +70,15 @@ namespace mesmer
       m_Description = desc;
     // no check value for description
     else
-      if(!m_ppPersist->XmlReadValue("", false))
+      if (!m_ppPersist->XmlReadValue("", false))
         //Has neither description attribute nor any child elements
         return false;
 
     // check the number of atoms
     PersistPtr ppAtomArray = m_ppPersist->XmlMoveTo("atomArray");
-    if (ppAtomArray){
+    if (ppAtomArray) {
       PersistPtr ppAtom = ppAtomArray->XmlMoveTo("atom");
-      while (ppAtom){
+      while (ppAtom) {
         m_atomNumber++;
         ppAtom = ppAtom->XmlMoveTo("atom");
       }
@@ -88,36 +88,37 @@ namespace mesmer
   }
 
   // Check whether the total degrees of freeedom are consistent with the number of atoms.
-  bool Molecule::checkDegOfFreedom(){
+  bool Molecule::checkDegOfFreedom() {
 
     if (m_atomNumber < 1) // No atoms defined, so no test can be done.
-      return true ;
+      return true;
 
-    unsigned int nDOF(0) ;
-    if (g_dos){
-      nDOF = g_dos->getNoOfDegOfFreeedom() ;
-    } else {
+    unsigned int nDOF(0);
+    if (g_dos) {
+      nDOF = g_dos->getNoOfDegOfFreeedom();
+    }
+    else {
       // Maybe a bath gas molecule.
       return true;
     }
-    if (m_atomNumber > 1 && nDOF == 0){
+    if (m_atomNumber > 1 && nDOF == 0) {
       cinfo << "No molecular data assigned for " << getName() << ", assuming it to be a sink term.\n";
       return true;
     }
 
     // If species is a transition state, assume a imaginary frequency exists regardless if provided.
-    if (g_ts) 
+    if (g_ts)
       nDOF++;
 
     // Add translational degrees of freedom.
 
-    nDOF += 3 ;
+    nDOF += 3;
 
     return (nDOF == (3 * m_atomNumber));
   }
 
   //Make dummy calls to initialize the MolecularComponents now, during parse, before calculation.
-  bool Molecule::activateRole(string molType){
+  bool Molecule::activateRole(string molType) {
     // see if the molType is true in m_molTypes
     if (!m_molTypes[molType])
     {
@@ -132,7 +133,7 @@ namespace mesmer
 
     if (molType == "modelled" || molType == "deficientReactant" //|| molType == "sink"   CM g_dos to be added later if needed for reverse ILT
       || molType == "transitionState" || molType == "excessReactant"
-      || molType == "PriorCoFragment" || molType == "forThermo" )
+      || molType == "PriorCoFragment" || molType == "forThermo")
       getDOS();
 
     if (molType == "modelled" || molType == "deficientReactant" || molType == "sink")
@@ -141,21 +142,21 @@ namespace mesmer
     if (molType == "modelled")
       getColl();
 
-    if(molType == "modelled" || molType == "bathGas")
+    if (molType == "modelled" || molType == "bathGas")
       getStruc();
 
     return true;
   };
 
-  gBathProperties&        Molecule::getBath() {
+  gBathProperties& Molecule::getBath() {
     if (!g_bath)
       g_bath = new gBathProperties(this);
     return *g_bath;
   }
 
-  gDensityOfStates&       Molecule::getDOS()  {
+  gDensityOfStates& Molecule::getDOS() {
     if (!g_dos) {
-       g_dos = new gDensityOfStates(this);
+      g_dos = new gDensityOfStates(this);
       if (!g_dos->initialization()) {
         cinfo << "gDensityOfStates initialization failed." << endl;
       }
@@ -163,23 +164,28 @@ namespace mesmer
     return *g_dos;
   }
 
-  gTransitionState&       Molecule::getTS()   {
-    if (!g_ts)
+  gTransitionState& Molecule::getTS() {
+    if (!g_ts) {
       g_ts = new gTransitionState(this);
-    return *g_ts  ;  }
-
-  gPopulation&            Molecule::getPop()  {
-    if (!g_pop)
-      g_pop = new gPopulation(this);
-    return *g_pop ;
+      if (!g_ts->initialization()) {
+        cinfo << "gTransitionState initialization failed." << endl;
+      }
+    }
+    return *g_ts;
   }
 
-  gWellProperties&        Molecule::getColl() {
+  gPopulation& Molecule::getPop() {
+    if (!g_pop)
+      g_pop = new gPopulation(this);
+    return *g_pop;
+  }
+
+  gWellProperties& Molecule::getColl() {
     if (!g_coll) {
       g_coll = new gWellProperties(this);
 
       if (!g_coll->initialization()) {
-        string err("Collision model parameters not defined for " + m_Name + ".\n") ;
+        string err("Collision model parameters not defined for " + m_Name + ".\n");
         throw std::runtime_error(err);
       }
     }
@@ -200,7 +206,7 @@ namespace mesmer
     return *g_rad;
   }
 
-  gStructure&        Molecule::getStruc() {
+  gStructure& Molecule::getStruc() {
     if (!g_struc)
       g_struc = new gStructure(this);
 
