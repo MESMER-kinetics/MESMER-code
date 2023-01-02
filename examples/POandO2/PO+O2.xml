@@ -117,7 +117,7 @@
           <array units="cm-1"> 194.9466 369.1003  522.7153 1113.5520  1302.3987</array>
         </property>
         <property dictRef="me:imFreqs">
-          <scalar units="cm-1"> -227.3213</scalar>
+          <scalar units="cm-1">227.3213</scalar>
         </property>
         <property dictRef="me:MW">
           <scalar units="amu">79.0</scalar>
@@ -178,7 +178,7 @@
           <array units="cm-1"> 236.4153  354.3550  479.6471  929.9708  1175.5208</array>
         </property>
         <property dictRef="me:imFreqs">
-          <scalar units="cm-1">-1505.5664 </scalar>
+          <scalar units="cm-1">1505.5664 </scalar>
         </property>
         <property dictRef="me:MW">
           <scalar units="amu">79.</scalar>
@@ -239,7 +239,7 @@
             <array units="cm-1">392.4 1102.8</array>
           </property>
           <property dictRef="me:imFreqs">
-            <scalar units="cm-1">-342.0 </scalar>
+            <scalar units="cm-1">342.0 </scalar>
           </property>
           <property dictRef="me:MW">
             <scalar units="amu">79.</scalar>

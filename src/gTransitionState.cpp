@@ -48,7 +48,7 @@ namespace mesmer
         ReadRdoubleRange(string(m_host->getName() + ":imFreqs"), ppProp, m_ImFreq, rangeSet);
         m_ImFreq_chk = 0;
       } else {
-        string errorMsg = "Negative immaginary frequency detected for transition state " + m_host->getName() + ".";
+        string errorMsg = "Negative imaginary frequency detected for transition state " + m_host->getName() + ".";
         throw(std::runtime_error(errorMsg));
       }
     }

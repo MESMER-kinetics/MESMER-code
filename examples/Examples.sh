@@ -344,34 +344,35 @@ cd ..
 
 cd "CoupledRotors"
 testName="ipropyl_UCR"
+extension="_out"
 $cmdline -N $testName.xml
 if [ "$1" == "-o" ] ; then
-  cp ./mesmer_out.xml ./$bline$testName_out.xml
+  cp ./mesmer_out.xml ./$bline$testName$extension.xml
 fi
 testName="ipropyl_UQR"
 $cmdline -N $testName.xml
 if [ "$1" == "-o" ] ; then
-  cp ./mesmer_out.xml ./$bline$testName_out.xml
+  cp ./mesmer_out.xml ./$bline$testName$extension.xml
 fi
 testName="ipropyl_CCR"
 $cmdline -N $testName.xml
 if [ "$1" == "-o" ] ; then
-  cp ./mesmer_out.xml ./$bline$testName_out.xml
+  cp ./mesmer_out.xml ./$bline$testName$extension.xml
 fi
 testName="Octyl_H_to_Octane_UCR"
 $cmdline -N $testName.xml
 if [ "$1" == "-o" ] ; then
-  cp ./mesmer_out.xml ./$bline$testName_out.xml
+  cp ./mesmer_out.xml ./$bline$testName$extension.xml
 fi
 testName="Octyl_H_to_Octane_UQR"
 $cmdline -N $testName.xml
 if [ "$1" == "-o" ] ; then
-  cp ./mesmer_out.xml ./$bline$testName_out.xml
+  cp ./mesmer_out.xml ./$bline$testName$extension.xml
 fi
 testName="Octyl_H_to_Octane_CCR"
 $cmdline -N $testName.xml
 if [ "$1" == "-o" ] ; then
-  cp ./mesmer_out.xml ./$bline$testName_out.xml
+  cp ./mesmer_out.xml ./$bline$testName$extension.xml
 fi
 cd ..
 

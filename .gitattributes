@@ -542,7 +542,7 @@ examples/OH-acetylene/baselines/Linux64/mesmer.test -text
 examples/OH-acetylene/baselines/Win32/mesmer.log -text
 examples/OH-acetylene/baselines/Win32/mesmer.test -text
 examples/OH_Ethene/Ethylene_abstraction.xml -text
-examples/OH_Ethene/baselines/Linux64/Ethylene_abstraction.log -text
+examples/OH_Ethene/baselines/Linux64/Ethylene_abstraction.log -text svneol=unset#unset
 examples/OH_Ethene/baselines/Linux64/Ethylene_abstraction.test -text
 examples/OH_Ethene/baselines/Win32/Ethylene_abstraction.log -text
 examples/OH_Ethene/baselines/Win32/Ethylene_abstraction.test -text
