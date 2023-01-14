@@ -1094,35 +1094,35 @@ namespace mesmer
     const int smsize = int(m_reactionOperator->size());
 
     stringstream ss;
-    string str ;
+    string str;
     switch (mFlags.printReactionOperatorNum)
     {
     case -1:
       ss << "Printing all (" << smsize << ") columns/rows of the Reaction Operator:\n";
-      str = ss.str() ;
+      str = ss.str();
       (*m_reactionOperator).print(str, stest);
       break;
     case -2:
       ss << "Printing final 1/2 (" << smsize / 2 << ") columns/rows of the Reaction Operator:\n";
-      str = ss.str() ;
-      (*m_reactionOperator).print(str, stest, smsize, smsize, smsize/2, smsize/2);
+      str = ss.str();
+      (*m_reactionOperator).print(str, stest, smsize, smsize, smsize / 2, smsize / 2);
       break;
     case -3:
       ss << "Printing final 1/3 (" << smsize / 3 << ") columns/rows of the Reaction Operator:\n";
-      str = ss.str() ;
-      (*m_reactionOperator).print(str, stest, smsize, smsize, 2*smsize/3, 2*smsize/3);
+      str = ss.str();
+      (*m_reactionOperator).print(str, stest, smsize, smsize, 2 * smsize / 3, 2 * smsize / 3);
       break;
     default: // The number is either smaller than -3 or positive.
-      const int ll = abs(mFlags.printReactionOperatorNum) ;
+      const int ll = abs(mFlags.printReactionOperatorNum);
       if (ll > smsize) {
         ss << "Printing all (" << smsize << ") columns/rows of the Reaction Operator:\n";
-        str = ss.str() ;
+        str = ss.str();
         (*m_reactionOperator).print(str, stest);
       }
       else {
         ss << "Printing final " << smsize - ll << " columns/rows of the Reaction Operator:\n";
-        str = ss.str() ;
-        (*m_reactionOperator).print(str, stest, smsize, smsize, smsize - ll, smsize- ll);
+        str = ss.str();
+        (*m_reactionOperator).print(str, stest, smsize, smsize, smsize - ll, smsize - ll);
       }
     }
   }
@@ -1608,7 +1608,7 @@ namespace mesmer
       const double first_IERE = (to_double(m_eigenvalues[nchemIdx - 1]));
       const double CSE_IERE_ratio = last_CSE / first_IERE;
       static bool bCSE_IERE_ratio_WARN = true;
-      if (CSE_IERE_ratio > adsorbedCSETol&& bCSE_IERE_ratio_WARN) {
+      if (CSE_IERE_ratio > adsorbedCSETol && bCSE_IERE_ratio_WARN) {
         bCSE_IERE_ratio_WARN = false; // Only issue this warning once.
         stringstream ss1;
         ss1 << "\nWARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs)." << endl;
@@ -2118,7 +2118,7 @@ namespace mesmer
   {
     sinkMap::const_iterator sinkpos;
     int seqMatrixLoc(0);
-    for (sinkpos = m_sinkRxns.begin(); sinkpos != m_sinkRxns.end() ; ++sinkpos, ++seqMatrixLoc) {
+    for (sinkpos = m_sinkRxns.begin(); sinkpos != m_sinkRxns.end(); ++sinkpos, ++seqMatrixLoc) {
       if (ref == sinkpos->first->getName())
         return seqMatrixLoc;
     }
@@ -2256,7 +2256,7 @@ namespace mesmer
       if (isomer->getName() == ref) {
         speciesFound = true;
         lower = spos->second;
-        upper = lower + isomer->getColl().get_colloptrsize();
+        upper = lower + isomer->getColl().get_colloptrsize() - isomer->getColl().reservoirShift() - 1; // Offset of 1 is b/c grain idx starts at 0.
       }
     }
 
@@ -2274,7 +2274,7 @@ namespace mesmer
 
     // Save projected initial distribution
 
-    vector<qd_real> c_0(smsize, 0.0);
+    vector<qd_real> c_0(smsize, qd_real(0.0));
     for (size_t j(0); j < smsize; ++j) {
       c_0[j] = p_0[j] / m_eqVector[j];
     }
@@ -2285,13 +2285,13 @@ namespace mesmer
 
     // Calculate population at specific times.
 
-    vector<qd_real> wrk(smsize, 0.0);
+    vector<qd_real> wrk(smsize, qd_real(0.0));
     for (size_t i(0); i < times.size(); ++i) {
 
       wrk = c_0;
-      double time(times[i]);
+      qd_real numColl(m_meanOmega * times[i]);
       for (size_t j(0); j < smsize; ++j) {
-        wrk[j] *= (exp(m_meanOmega * m_eigenvalues[j] * time));
+        wrk[j] *= (exp(numColl * m_eigenvalues[j]));
       }
       wrk *= (*m_eigenvectors);
 

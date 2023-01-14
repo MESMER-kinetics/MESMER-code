@@ -506,7 +506,7 @@ namespace mesmer
   // Print the hindered rotor states.
   void HinderedRotorQM1D::outputStateData() const {
 
-    ctest << "\nHindered rotor states (cm-1).\n" << endl;
+    ctest << "\nHindered rotor states (cm-1):" << get_BondID() << endl << endl;
     for (size_t i(0); i < m_energyLevels.size(); i++) {
       ctest << formatFloat(m_energyLevels[i], 6, 15) << endl;
     }

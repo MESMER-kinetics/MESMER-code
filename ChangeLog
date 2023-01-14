@@ -1,3 +1,9 @@
+2023-January-14 Struan Robertson
+
+		* CollisionOperator.cpp: Speculative fix for isomer decay trace analysis issue.
+
+		* Baseline update.
+
 2022-December-29 Struan Robertson
 
 		* gTransitionState.h/.cpp, Molecule.cpp: Implementation of transition state class
