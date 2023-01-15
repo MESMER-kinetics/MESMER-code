@@ -227,19 +227,14 @@ int main(int argc, char **argv)
   //This is where the type of IO is decided.
   //Opens the data file and checks that its root element is me:mesmer.
   PersistPtr ppIOPtr = XMLPersist::XmlLoad(infilename, MesmerDir + "/defaults.xml", "me:mesmer");
-  if (!ppIOPtr) {
-    parallelManager.finalize();
-    return -1;
-  }
+  parallelManager.CheckForError(!bool(ppIOPtr), string("Failed to load input file: ") + infilename);
 
   //Incorporate the additional input files into the main datafile
   vector<string>::reverse_iterator fileitr;
   for (fileitr = extraInfilenames.rbegin(); fileitr != extraInfilenames.rend(); ++fileitr)
   {
-    if (!ppIOPtr->XmlInclude(*fileitr)) {
-      parallelManager.finalize();
-      return -1;
-    }
+    bool bflag = !ppIOPtr->XmlInclude(*fileitr);
+    parallelManager.CheckForError(bflag, string("Failed to load additional input files."));
   }
 
   //------------
@@ -258,17 +253,8 @@ int main(int argc, char **argv)
   }
   int returnCode = 0;
   try {
-    if (!ppIOPtr || !_sys.parse(ppIOPtr))
-    {
-      if (plog)
-        plog->flush();
-      cerr << "\nSystem parse failed." << endl;
-      returnCode = -2;
-      if (!nocalc) {
-        parallelManager.finalize();
-        return returnCode;
-      }
-    }
+    bool status = !_sys.parse(ppIOPtr);
+    parallelManager.CheckForError(status, string("\nSystem parse failed."));
     _sys.WriteMetadata(infilename);
     if (plog)
       plog->flush();

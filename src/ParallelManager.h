@@ -138,6 +138,26 @@ namespace mesmer
       }
     }
 
+    // Broadcast for error across processes from an unknown rank.
+
+    void CheckForError(bool flag, string error_msg) {
+
+      // First find if there is an error.
+      int iflag(flag);
+      int root;
+      MPI_Allreduce(&iflag, &root, 1, MPI_INT, MPI_MAX, MPI_COMM_WORLD);
+
+      // If one or more ranks have thrown, combine all error messages and re-throw.
+      if (root > 0) {
+        cinfo.flush();
+        clog.flush();
+        cerr << error_msg << endl;
+        cerr.flush();
+        MPI_Finalize();
+        exit(-1);
+      }
+    }
+
     // Brings processes to the same point.
 
     void barrier() {
@@ -213,6 +233,19 @@ namespace mesmer
     void CheckForThrow(int rank, string error_msg) {
       if (rank >= 0) {
         throw(runtime_error(error_msg));
+      }
+    }
+
+    // Broadcast for error across processes from an unknown rank.
+
+    void CheckForError(bool flag, string error_msg) {
+      if (flag) {
+        cinfo.flush();
+        clog << error_msg << endl;
+        clog.flush();
+        cerr << error_msg << endl;
+        cerr.flush();
+        exit(-1);
       }
     }
 
