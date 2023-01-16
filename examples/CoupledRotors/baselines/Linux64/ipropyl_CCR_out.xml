@@ -78,96 +78,96 @@
       </me:DOSCMethod>
       <me:DistributionCalcMethod default="true" name="Boltzmann" />
       <me:thermoTable unitsT="K" unitsH="kJ/mol" unitsS="J/mol/K" unitsG="kJ/mol" unitsCp="J/mol/K">
-        <me:thermoValue T="200.00" H="11.1071" S="257.8555" G="-40.4640" Cp="64.6548" cellS="257.8582" cellH="11.0955" cellG="-40.4761" cellCp="64.6570" />
-        <me:thermoValue T="250.00" H="14.4626" S="272.8099" G="-53.7398" Cp="69.7297" cellS="272.8129" cellH="14.4512" cellG="-53.7521" cellCp="69.7305" />
-        <me:thermoValue T="298.15" H="17.9585" S="285.5828" G="-67.1880" Cp="75.6469" cellS="285.5859" cellH="17.9471" cellG="-67.2004" cellCp="75.6468" />
-        <me:thermoValue T="300.00" H="18.0987" S="286.0515" G="-67.7167" Cp="75.8934" cellS="286.0546" cellH="18.0872" cellG="-67.7291" cellCp="75.8932" />
-        <me:thermoValue T="350.00" H="22.0667" S="298.2710" G="-82.3281" Cp="82.9346" cellS="298.2740" cellH="22.0552" cellG="-82.3407" cellCp="82.9338" />
-        <me:thermoValue T="400.00" H="26.3989" S="309.8295" G="-97.5329" Cp="90.3814" cellS="309.8324" cellH="26.3873" cellG="-97.5456" cellCp="90.3803" />
-        <me:thermoValue T="450.00" H="31.1050" S="320.9069" G="-113.3031" Cp="97.8411" cellS="320.9096" cellH="31.0934" cellG="-113.3159" cellCp="97.8397" />
-        <me:thermoValue T="500.00" H="36.1792" S="331.5925" G="-129.6171" Cp="105.0759" cellS="331.5951" cellH="36.1675" cellG="-129.6301" cellCp="105.0745" />
-        <me:thermoValue T="550.00" H="41.6069" S="341.9337" G="-146.4566" Cp="111.9728" cellS="341.9362" cellH="41.5952" cellG="-146.4697" cellCp="111.9714" />
-        <me:thermoValue T="600.00" H="47.3701" S="351.9589" G="-163.8052" Cp="118.4928" cellS="351.9613" cellH="47.3583" cellG="-163.8184" cellCp="118.4915" />
-        <me:thermoValue T="650.00" H="53.4499" S="361.6884" G="-181.6476" Cp="124.6341" cellS="361.6906" cellH="53.4380" cellG="-181.6609" cellCp="124.6329" />
-        <me:thermoValue T="700.00" H="59.8275" S="371.1384" G="-199.9694" Cp="130.4101" cellS="371.1405" cellH="59.8155" cellG="-199.9828" cellCp="130.4090" />
-        <me:thermoValue T="750.00" H="66.4851" S="380.3228" G="-218.7570" Cp="135.8383" cellS="380.3249" cellH="66.4731" cellG="-218.7705" cellCp="135.8373" />
-        <me:thermoValue T="800.00" H="73.4058" S="389.2541" G="-237.9975" Cp="140.9364" cellS="389.2561" cellH="73.3938" cellG="-238.0111" cellCp="140.9355" />
-        <me:thermoValue T="850.00" H="80.5735" S="397.9434" G="-257.6784" Cp="145.7210" cellS="397.9454" cellH="80.5614" cellG="-257.6921" cellCp="145.7202" />
-        <me:thermoValue T="900.00" H="87.9729" S="406.4010" G="-277.7879" Cp="150.2077" cellS="406.4029" cellH="87.9608" cellG="-277.8018" cellCp="150.2069" />
-        <me:thermoValue T="950.00" H="95.5895" S="414.6361" G="-298.3148" Cp="154.4112" cellS="414.6380" cellH="95.5774" cellG="-298.3287" cellCp="154.4105" />
-        <me:thermoValue T="1000.00" H="103.4096" S="422.6576" G="-319.2480" Cp="158.3461" cellS="422.6594" cellH="103.3974" cellG="-319.2620" cellCp="158.3455" />
-        <me:thermoValue T="1050.00" H="111.4199" S="430.4734" G="-340.5771" Cp="162.0268" cellS="430.4752" cellH="111.4077" cellG="-340.5912" cellCp="162.0263" />
-        <me:thermoValue T="1100.00" H="119.6082" S="438.0912" G="-362.2920" Cp="165.4675" cellS="438.0930" cellH="119.5960" cellG="-362.3062" cellCp="165.4670" />
-        <me:thermoValue T="1150.00" H="127.9629" S="445.5182" G="-384.3830" Cp="168.6823" cellS="445.5200" cellH="127.9506" cellG="-384.3973" cellCp="168.6818" />
-        <me:thermoValue T="1200.00" H="136.4729" S="452.7614" G="-406.8408" Cp="171.6850" cellS="452.7632" cellH="136.4607" cellG="-406.8552" cellCp="171.6846" />
-        <me:thermoValue T="1250.00" H="145.1281" S="459.8275" G="-429.6562" Cp="174.4892" cellS="459.8292" cellH="145.1158" cellG="-429.6707" cellCp="174.4888" />
-        <me:thermoValue T="1300.00" H="153.9188" S="466.7227" G="-452.8207" Cp="177.1079" cellS="466.7244" cellH="153.9065" cellG="-452.8352" cellCp="177.1076" />
-        <me:thermoValue T="1350.00" H="162.8360" S="473.4532" G="-476.3258" Cp="179.5538" cellS="473.4549" cellH="162.8237" cellG="-476.3404" cellCp="179.5535" />
-        <me:thermoValue T="1400.00" H="171.8715" S="480.0249" G="-500.1634" Cp="181.8387" cellS="480.0266" cellH="171.8591" cellG="-500.1781" cellCp="181.8385" />
-        <me:thermoValue T="1450.00" H="181.0174" S="486.4435" G="-524.3257" Cp="183.9741" cellS="486.4452" cellH="181.0050" cellG="-524.3405" cellCp="183.9738" />
-        <me:thermoValue T="1500.00" H="190.2666" S="492.7145" G="-548.8052" Cp="185.9706" cellS="492.7162" cellH="190.2542" cellG="-548.8201" cellCp="185.9700" />
+        <me:thermoValue T="200.00" H="11.1051" S="257.8529" G="-40.4655" Cp="64.6556" cellS="257.8556" cellH="11.0935" cellG="-40.4776" cellCp="64.6577" />
+        <me:thermoValue T="250.00" H="14.4607" S="272.8076" G="-53.7412" Cp="69.7315" cellS="272.8107" cellH="14.4492" cellG="-53.7535" cellCp="69.7323" />
+        <me:thermoValue T="298.15" H="17.9567" S="285.5809" G="-67.1893" Cp="75.6491" cellS="285.5840" cellH="17.9452" cellG="-67.2017" cellCp="75.6490" />
+        <me:thermoValue T="300.00" H="18.0968" S="286.0496" G="-67.7180" Cp="75.8956" cellS="286.0527" cellH="18.0854" cellG="-67.7304" cellCp="75.8954" />
+        <me:thermoValue T="350.00" H="22.0650" S="298.2694" G="-82.3293" Cp="82.9368" cellS="298.2725" cellH="22.0535" cellG="-82.3419" cellCp="82.9359" />
+        <me:thermoValue T="400.00" H="26.3972" S="309.8282" G="-97.5341" Cp="90.3835" cellS="309.8311" cellH="26.3857" cellG="-97.5467" cellCp="90.3822" />
+        <me:thermoValue T="450.00" H="31.1034" S="320.9058" G="-113.3042" Cp="97.8428" cellS="320.9085" cellH="31.0918" cellG="-113.3170" cellCp="97.8415" />
+        <me:thermoValue T="500.00" H="36.1777" S="331.5916" G="-129.6181" Cp="105.0775" cellS="331.5942" cellH="36.1660" cellG="-129.6311" cellCp="105.0761" />
+        <me:thermoValue T="550.00" H="41.6055" S="341.9330" G="-146.4576" Cp="111.9741" cellS="341.9354" cellH="41.5938" cellG="-146.4707" cellCp="111.9728" />
+        <me:thermoValue T="600.00" H="47.3688" S="351.9583" G="-163.8062" Cp="118.4940" cellS="351.9606" cellH="47.3570" cellG="-163.8194" cellCp="118.4927" />
+        <me:thermoValue T="650.00" H="53.4486" S="361.6879" G="-181.6485" Cp="124.6352" cellS="361.6901" cellH="53.4367" cellG="-181.6618" cellCp="124.6340" />
+        <me:thermoValue T="700.00" H="59.8262" S="371.1379" G="-199.9703" Cp="130.4111" cellS="371.1400" cellH="59.8143" cellG="-199.9837" cellCp="130.4099" />
+        <me:thermoValue T="750.00" H="66.4839" S="380.3224" G="-218.7579" Cp="135.8392" cellS="380.3244" cellH="66.4719" cellG="-218.7714" cellCp="135.8381" />
+        <me:thermoValue T="800.00" H="73.4046" S="389.2537" G="-237.9983" Cp="140.9372" cellS="389.2557" cellH="73.3926" cellG="-238.0119" cellCp="140.9363" />
+        <me:thermoValue T="850.00" H="80.5724" S="397.9431" G="-257.6792" Cp="145.7217" cellS="397.9450" cellH="80.5603" cellG="-257.6929" cellCp="145.7209" />
+        <me:thermoValue T="900.00" H="87.9719" S="406.4007" G="-277.7888" Cp="150.2082" cellS="406.4026" cellH="87.9597" cellG="-277.8026" cellCp="150.2075" />
+        <me:thermoValue T="950.00" H="95.5885" S="414.6359" G="-298.3156" Cp="154.4117" cellS="414.6377" cellH="95.5763" cellG="-298.3295" cellCp="154.4110" />
+        <me:thermoValue T="1000.00" H="103.4085" S="422.6573" G="-319.2488" Cp="158.3466" cellS="422.6592" cellH="103.3964" cellG="-319.2628" cellCp="158.3460" />
+        <me:thermoValue T="1050.00" H="111.4189" S="430.4731" G="-340.5779" Cp="162.0272" cellS="430.4750" cellH="111.4067" cellG="-340.5920" cellCp="162.0267" />
+        <me:thermoValue T="1100.00" H="119.6073" S="438.0910" G="-362.2928" Cp="165.4679" cellS="438.0928" cellH="119.5950" cellG="-362.3070" cellCp="165.4674" />
+        <me:thermoValue T="1150.00" H="127.9619" S="445.5180" G="-384.3838" Cp="168.6826" cellS="445.5198" cellH="127.9497" cellG="-384.3981" cellCp="168.6822" />
+        <me:thermoValue T="1200.00" H="136.4720" S="452.7613" G="-406.8415" Cp="171.6853" cellS="452.7630" cellH="136.4597" cellG="-406.8559" cellCp="171.6849" />
+        <me:thermoValue T="1250.00" H="145.1272" S="459.8273" G="-429.6570" Cp="174.4895" cellS="459.8290" cellH="145.1149" cellG="-429.6714" cellCp="174.4891" />
+        <me:thermoValue T="1300.00" H="153.9179" S="466.7225" G="-452.8214" Cp="177.1082" cellS="466.7242" cellH="153.9055" cellG="-452.8360" cellCp="177.1079" />
+        <me:thermoValue T="1350.00" H="162.8351" S="473.4530" G="-476.3265" Cp="179.5541" cellS="473.4547" cellH="162.8228" cellG="-476.3411" cellCp="179.5538" />
+        <me:thermoValue T="1400.00" H="171.8706" S="480.0248" G="-500.1641" Cp="181.8390" cellS="480.0265" cellH="171.8582" cellG="-500.1788" cellCp="181.8387" />
+        <me:thermoValue T="1450.00" H="181.0165" S="486.4434" G="-524.3264" Cp="183.9743" cellS="486.4451" cellH="181.0042" cellG="-524.3412" cellCp="183.9740" />
+        <me:thermoValue T="1500.00" H="190.2657" S="492.7144" G="-548.8060" Cp="185.9708" cellS="492.7161" cellH="190.2533" cellG="-548.8208" cellCp="185.9703" />
       </me:thermoTable>
-      <me:densityOfStatesList calculated="20180318_195838">
+      <me:densityOfStatesList calculated="20230115_233821">
         <me:description>Rovibronic partition function calculation at various temperatures. qtot : product of QM partition functions for vibrations (1-D harmonic oscillator) and classical partition functions for rotations.  sumc : cell based partition function. sumg : grain based partition function </me:description>
         <me:densityOfStates>
           <me:T>200</me:T>
-          <me:qtot>8933.93</me:qtot>
-          <me:sumc>8999.13</me:sumc>
-          <me:sumg>0</me:sumg>
+          <me:qtot>8942.06</me:qtot>
+          <me:sumc>9007.3</me:sumc>
+          <me:sumg>8820.58</me:sumg>
         </me:densityOfStates>
         <me:densityOfStates>
           <me:T>300</me:T>
-          <me:qtot>54101.4</me:qtot>
-          <me:sumc>54370.9</me:sumc>
-          <me:sumg>0</me:sumg>
+          <me:qtot>54129.3</me:qtot>
+          <me:sumc>54398.8</me:sumc>
+          <me:sumg>53886.1</me:sumg>
         </me:densityOfStates>
         <me:densityOfStates>
           <me:T>400</me:T>
-          <me:qtot>232704</me:qtot>
-          <me:sumc>233594</me:sumc>
-          <me:sumg>0</me:sumg>
+          <me:qtot>232783</me:qtot>
+          <me:sumc>233673</me:sumc>
+          <me:sumg>232424</me:sumg>
         </me:densityOfStates>
         <me:densityOfStates>
           <me:T>500</me:T>
-          <me:qtot>849230</me:qtot>
-          <me:sumc>851882</me:sumc>
-          <me:sumg>0</me:sumg>
+          <me:qtot>849438</me:qtot>
+          <me:sumc>852091</me:sumc>
+          <me:sumg>849166</me:sumg>
         </me:densityOfStates>
         <me:densityOfStates>
           <me:T>600</me:T>
-          <me:qtot>2.82204e+06</me:qtot>
-          <me:sumc>2.82952e+06</me:sumc>
-          <me:sumg>0</me:sumg>
+          <me:qtot>2.82257e+06</me:qtot>
+          <me:sumc>2.83005e+06</me:sumc>
+          <me:sumg>2.8233e+06</me:sumg>
         </me:densityOfStates>
         <me:densityOfStates>
           <me:T>700</me:T>
-          <me:qtot>8.8018e+06</me:qtot>
-          <me:sumc>8.82213e+06</me:sumc>
-          <me:sumg>0</me:sumg>
+          <me:qtot>8.80314e+06</me:qtot>
+          <me:sumc>8.82347e+06</me:sumc>
+          <me:sumg>8.80798e+06</me:sumg>
         </me:densityOfStates>
         <me:densityOfStates>
           <me:T>800</me:T>
-          <me:qtot>2.61408e+07</me:qtot>
-          <me:sumc>2.61945e+07</me:sumc>
-          <me:sumg>0</me:sumg>
+          <me:qtot>2.61441e+07</me:qtot>
+          <me:sumc>2.61978e+07</me:sumc>
+          <me:sumg>2.61626e+07</me:sumg>
         </me:densityOfStates>
         <me:densityOfStates>
           <me:T>900</me:T>
-          <me:qtot>7.45039e+07</me:qtot>
-          <me:sumc>7.46418e+07</me:sumc>
-          <me:sumg>0</me:sumg>
+          <me:qtot>7.4512e+07</me:qtot>
+          <me:sumc>7.46498e+07</me:sumc>
+          <me:sumg>7.45705e+07</me:sumg>
         </me:densityOfStates>
         <me:densityOfStates>
           <me:T>1000</me:T>
-          <me:qtot>2.04732e+08</me:qtot>
-          <me:sumc>2.05078e+08</me:sumc>
-          <me:sumg>0</me:sumg>
+          <me:qtot>2.04751e+08</me:qtot>
+          <me:sumc>2.05097e+08</me:sumc>
+          <me:sumg>2.0492e+08</me:sumg>
         </me:densityOfStates>
         <me:densityOfStates>
           <me:T>1100</me:T>
-          <me:qtot>5.4413e+08</me:qtot>
-          <me:sumc>5.44975e+08</me:sumc>
-          <me:sumg>0</me:sumg>
+          <me:qtot>5.44175e+08</me:qtot>
+          <me:sumc>5.45021e+08</me:sumc>
+          <me:sumg>5.44632e+08</me:sumg>
         </me:densityOfStates>
       </me:densityOfStatesList>
     </molecule>
@@ -227,34 +227,34 @@
         </me:RotorArray>
       </me:DOSCMethod>
       <me:thermoTable unitsT="K" unitsH="kJ/mol" unitsS="J/mol/K" unitsG="kJ/mol" unitsCp="J/mol/K">
-        <me:thermoValue T="200.00" H="8.7994" S="239.6157" G="-39.1237" Cp="50.9465" cellS="239.6165" cellH="8.7874" cellG="-39.1359" cellCp="50.9452" />
-        <me:thermoValue T="250.00" H="11.5119" S="251.6928" G="-51.4113" Cp="57.8078" cellS="251.6931" cellH="11.4998" cellG="-51.4235" cellCp="57.8046" />
-        <me:thermoValue T="298.15" H="14.4784" S="262.5245" G="-63.7933" Cp="65.5392" cellS="262.5240" cellH="14.4661" cellG="-63.8055" cellCp="65.5337" />
-        <me:thermoValue T="300.00" H="14.6000" S="262.9309" G="-64.2793" Cp="65.8491" cellS="262.9304" cellH="14.5876" cellG="-64.2915" cellCp="65.8435" />
-        <me:thermoValue T="350.00" H="18.1043" S="273.7181" G="-77.6970" Cp="74.3473" cellS="273.7166" cellH="18.0916" cellG="-77.7092" cellCp="74.3397" />
-        <me:thermoValue T="400.00" H="22.0326" S="284.1966" G="-91.6460" Cp="82.7290" cellS="284.1939" cellH="22.0195" cellG="-91.6581" cellCp="82.7201" />
-        <me:thermoValue T="450.00" H="26.3697" S="294.4041" G="-106.1121" Cp="90.6632" cellS="294.4003" cellH="26.3561" cellG="-106.1241" cellCp="90.6535" />
-        <me:thermoValue T="500.00" H="31.0892" S="304.3422" G="-121.0819" Cp="98.0153" cellS="304.3374" cellH="31.0751" cellG="-121.0936" cellCp="98.0053" />
-        <me:thermoValue T="550.00" H="36.1612" S="314.0055" G="-136.5418" Cp="104.7696" cellS="313.9997" cellH="36.1466" cellG="-136.5532" cellCp="104.7596" />
-        <me:thermoValue T="600.00" H="41.5568" S="323.3911" G="-152.4779" Cp="110.9671" cellS="323.3845" cellH="41.5417" cellG="-152.4890" cellCp="110.9573" />
-        <me:thermoValue T="650.00" H="47.2496" S="332.5014" G="-168.8763" Cp="116.6667" cellS="332.4941" cellH="47.2341" cellG="-168.8871" cellCp="116.6572" />
-        <me:thermoValue T="700.00" H="53.2162" S="341.3424" G="-185.7235" Cp="121.9269" cellS="341.3344" cellH="53.2002" cellG="-185.7339" cellCp="121.9179" />
-        <me:thermoValue T="750.00" H="59.4358" S="349.9227" G="-203.0062" Cp="126.7985" cellS="349.9141" cellH="59.4194" cellG="-203.0162" cellCp="126.7899" />
-        <me:thermoValue T="800.00" H="65.8902" S="358.2523" G="-220.7116" Cp="131.3225" cellS="358.2431" cellH="65.8734" cellG="-220.7211" cellCp="131.3144" />
-        <me:thermoValue T="850.00" H="72.5629" S="366.3415" G="-238.8274" Cp="135.5323" cellS="366.3318" cellH="72.5456" cellG="-238.8365" cellCp="135.5247" />
-        <me:thermoValue T="900.00" H="79.4387" S="374.2007" G="-257.3419" Cp="139.4549" cellS="374.1906" cellH="79.4210" cellG="-257.3505" cellCp="139.4478" />
-        <me:thermoValue T="950.00" H="86.5039" S="381.8398" G="-276.2438" Cp="143.1127" cellS="381.8293" cellH="86.4859" cellG="-276.2519" cellCp="143.1060" />
-        <me:thermoValue T="1000.00" H="93.7459" S="389.2683" G="-295.5224" Cp="146.5250" cellS="389.2574" cellH="93.7275" cellG="-295.5299" cellCp="146.5187" />
-        <me:thermoValue T="1050.00" H="101.1526" S="396.4952" G="-315.1673" Cp="149.7089" cellS="396.4841" cellH="101.1340" cellG="-315.1743" cellCp="149.7029" />
-        <me:thermoValue T="1100.00" H="108.7132" S="403.5290" G="-335.1687" Cp="152.6800" cellS="403.5176" cellH="108.6943" cellG="-335.1751" cellCp="152.6744" />
-        <me:thermoValue T="1150.00" H="116.4173" S="410.3778" G="-355.5171" Cp="155.4527" cellS="410.3661" cellH="116.3981" cellG="-355.5229" cellCp="155.4474" />
-        <me:thermoValue T="1200.00" H="124.2554" S="417.0491" G="-376.2035" Cp="158.0405" cellS="417.0372" cellH="124.2360" cellG="-376.2087" cellCp="158.0355" />
-        <me:thermoValue T="1250.00" H="132.2185" S="423.5502" G="-397.2192" Cp="160.4561" cellS="423.5381" cellH="132.1988" cellG="-397.2238" cellCp="160.4514" />
-        <me:thermoValue T="1300.00" H="140.2983" S="429.8878" G="-418.5558" Cp="162.7114" cellS="429.8756" cellH="140.2784" cellG="-418.5598" cellCp="162.7069" />
-        <me:thermoValue T="1350.00" H="148.4872" S="436.0685" G="-440.2053" Cp="164.8176" cellS="436.0561" cellH="148.4670" cellG="-440.2088" cellCp="164.8134" />
-        <me:thermoValue T="1400.00" H="156.7778" S="442.0985" G="-462.1601" Cp="166.7854" cellS="442.0860" cellH="156.7575" cellG="-462.1629" cellCp="166.7814" />
-        <me:thermoValue T="1450.00" H="165.1636" S="447.9837" G="-484.4128" Cp="168.6246" cellS="447.9710" cellH="165.1430" cellG="-484.4149" cellCp="168.6209" />
-        <me:thermoValue T="1500.00" H="173.6383" S="453.7296" G="-506.9562" Cp="170.3446" cellS="453.7168" cellH="173.6176" cellG="-506.9577" cellCp="170.3410" />
+        <me:thermoValue T="200.00" H="8.7945" S="239.6368" G="-39.1328" Cp="50.9321" cellS="239.6377" cellH="8.7825" cellG="-39.1450" cellCp="50.9306" />
+        <me:thermoValue T="250.00" H="11.5063" S="251.7106" G="-51.4214" Cp="57.7925" cellS="251.7109" cellH="11.4942" cellG="-51.4336" cellCp="57.7891" />
+        <me:thermoValue T="298.15" H="14.4720" S="262.5395" G="-63.8041" Cp="65.5228" cellS="262.5390" cellH="14.4597" cellG="-63.8163" cellCp="65.5172" />
+        <me:thermoValue T="300.00" H="14.5935" S="262.9457" G="-64.2902" Cp="65.8327" cellS="262.9453" cellH="14.5812" cellG="-64.3024" cellCp="65.8270" />
+        <me:thermoValue T="350.00" H="18.0971" S="273.7304" G="-77.7086" Cp="74.3303" cellS="273.7289" cellH="18.0844" cellG="-77.7207" cellCp="74.3226" />
+        <me:thermoValue T="400.00" H="22.0245" S="284.2065" G="-91.6581" Cp="82.7122" cellS="284.2039" cellH="22.0114" cellG="-91.6702" cellCp="82.7032" />
+        <me:thermoValue T="450.00" H="26.3607" S="294.4121" G="-106.1247" Cp="90.6472" cellS="294.4084" cellH="26.3472" cellG="-106.1366" cellCp="90.6374" />
+        <me:thermoValue T="500.00" H="31.0794" S="304.3486" G="-121.0949" Cp="98.0006" cellS="304.3439" cellH="31.0654" cellG="-121.1065" cellCp="97.9905" />
+        <me:thermoValue T="550.00" H="36.1508" S="314.0105" G="-136.5550" Cp="104.7564" cellS="314.0048" cellH="36.1362" cellG="-136.5664" cellCp="104.7464" />
+        <me:thermoValue T="600.00" H="41.5458" S="323.3952" G="-152.4913" Cp="110.9554" cellS="323.3886" cellH="41.5307" cellG="-152.5024" cellCp="110.9456" />
+        <me:thermoValue T="650.00" H="47.2380" S="332.5046" G="-168.8899" Cp="116.6565" cellS="332.4972" cellH="47.2225" cellG="-168.9007" cellCp="116.6471" />
+        <me:thermoValue T="700.00" H="53.2041" S="341.3449" G="-185.7373" Cp="121.9182" cellS="341.3368" cellH="53.1881" cellG="-185.7476" cellCp="121.9092" />
+        <me:thermoValue T="750.00" H="59.4234" S="349.9246" G="-203.0201" Cp="126.7910" cellS="349.9159" cellH="59.4069" cellG="-203.0300" cellCp="126.7824" />
+        <me:thermoValue T="800.00" H="65.8774" S="358.2537" G="-220.7256" Cp="131.3161" cellS="358.2445" cellH="65.8606" cellG="-220.7351" cellCp="131.3080" />
+        <me:thermoValue T="850.00" H="72.5498" S="366.3426" G="-238.8414" Cp="135.5269" cellS="366.3329" cellH="72.5325" cellG="-238.8505" cellCp="135.5193" />
+        <me:thermoValue T="900.00" H="79.4253" S="374.2015" G="-257.3560" Cp="139.4503" cellS="374.1914" cellH="79.4077" cellG="-257.3645" cellCp="139.4432" />
+        <me:thermoValue T="950.00" H="86.4904" S="381.8403" G="-276.2579" Cp="143.1088" cellS="381.8298" cellH="86.4724" cellG="-276.2659" cellCp="143.1021" />
+        <me:thermoValue T="1000.00" H="93.7321" S="389.2686" G="-295.5365" Cp="146.5217" cellS="389.2578" cellH="93.7138" cellG="-295.5440" cellCp="146.5154" />
+        <me:thermoValue T="1050.00" H="101.1387" S="396.4954" G="-315.1814" Cp="149.7061" cellS="396.4843" cellH="101.1201" cellG="-315.1884" cellCp="149.7002" />
+        <me:thermoValue T="1100.00" H="108.6992" S="403.5291" G="-335.1828" Cp="152.6777" cellS="403.5177" cellH="108.6803" cellG="-335.1892" cellCp="152.6721" />
+        <me:thermoValue T="1150.00" H="116.4032" S="410.3778" G="-355.5312" Cp="155.4508" cellS="410.3662" cellH="116.3840" cellG="-355.5371" cellCp="155.4455" />
+        <me:thermoValue T="1200.00" H="124.2412" S="417.0490" G="-376.2176" Cp="158.0389" cellS="417.0372" cellH="124.2218" cellG="-376.2229" cellCp="158.0339" />
+        <me:thermoValue T="1250.00" H="132.2042" S="423.5500" G="-397.2333" Cp="160.4547" cellS="423.5380" cellH="132.1846" cellG="-397.2379" cellCp="160.4501" />
+        <me:thermoValue T="1300.00" H="140.2840" S="429.8876" G="-418.5699" Cp="162.7103" cellS="429.8754" cellH="140.2641" cellG="-418.5739" cellCp="162.7058" />
+        <me:thermoValue T="1350.00" H="148.4728" S="436.0683" G="-440.2195" Cp="164.8167" cellS="436.0559" cellH="148.4527" cellG="-440.2229" cellCp="164.8125" />
+        <me:thermoValue T="1400.00" H="156.7634" S="442.0983" G="-462.1742" Cp="166.7847" cellS="442.0858" cellH="156.7430" cellG="-462.1770" cellCp="166.7807" />
+        <me:thermoValue T="1450.00" H="165.1491" S="447.9834" G="-484.4269" Cp="168.6241" cellS="447.9708" cellH="165.1286" cellG="-484.4290" cellCp="168.6203" />
+        <me:thermoValue T="1500.00" H="173.6238" S="453.7294" G="-506.9703" Cp="170.3442" cellS="453.7166" cellH="173.6031" cellG="-506.9718" cellCp="170.3405" />
       </me:thermoTable>
     </molecule>
     <molecule id="H" spinMultiplicity="1" default="true">
@@ -377,224 +377,223 @@
         <me:TInfinity>1.0</me:TInfinity>
         <me:nInfinity>0.0</me:nInfinity>
       </me:MCRCMethod>
-      <me:TInfinity default="true">298</me:TInfinity>
     </reaction>
   </reactionList>
   <!-- Data taken from Seakins et al, J. Phys. Chem. Vol. 97, p. 4450 (1993). -->
   <me:conditions>
     <me:bathGas>He</me:bathGas>
     <me:PTs>
-      <me:PTpair units="PPCC" P="30.0e16" T="720." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="30.0e16" T="720." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0">41.5</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="30.1e16" T="730." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="30.1e16" T="730." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0">51.1</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="18.0e16" T="740." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="18.0e16" T="740." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0">55.5</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="24.0e16" T="740." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="24.0e16" T="740." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0">70.1</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="30.0e16" T="740." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="30.0e16" T="740." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0">71.1</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="12.0e16" T="750." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="12.0e16" T="750." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0">55.3</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="18.0e16" T="750." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="18.0e16" T="750." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0">67.2</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="24.1e16" T="750." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="24.1e16" T="750." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0">86.4</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="30.0e16" T="750." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="30.0e16" T="750." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="10.2">102.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="6.02e16" T="760." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="6.02e16" T="760." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0">51.9</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="9.02e16" T="760." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="9.02e16" T="760." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0">65.7</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="12.0e16" T="760." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="12.0e16" T="760." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0">76.5</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="18.1e16" T="760." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="18.1e16" T="760." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0">95.0</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="24.0e16" T="760." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="24.0e16" T="760." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="12.3">123.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="30.0e16" T="760." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="30.0e16" T="760." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="12.8">128.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="6.01e16" T="770." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="6.01e16" T="770." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0">68.9</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="9.00e16" T="770." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="9.00e16" T="770." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0">89.2</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="12.0e16" T="770." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="12.0e16" T="770." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0">99.0</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="18.0e16" T="770." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="18.0e16" T="770." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="12.1">121.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="24.1e16" T="770." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="24.1e16" T="770." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="15.9">159.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="30.0e16" T="770." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="30.0e16" T="770." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="16.4">164.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="3.00e16" T="780." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="3.00e16" T="780." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0">65.5</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="6.01e16" T="780." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="6.01e16" T="780." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0">89.1</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="9.00e16" T="780." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="9.00e16" T="780." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="11.4">114.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="12.0e16" T="780." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="12.0e16" T="780." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="12.5">125.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="18.0e16" T="780." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="18.0e16" T="780." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="16.5">165.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="24.0e16" T="780." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="24.0e16" T="780." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.3">203.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="30.0e16" T="780." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="30.0e16" T="780." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="21.3">213.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="3.00e16" T="790." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="3.00e16" T="790." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0">77.0</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="6.01e16" T="790." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="6.01e16" T="790." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="11.9">119.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="9.00e16" T="790." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="9.00e16" T="790." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="15.4">154.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="12.0e16" T="790." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="12.0e16" T="790." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="17.0">170.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="18.0e16" T="790." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="18.0e16" T="790." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="21.9">219.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="24.0e16" T="790." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="24.0e16" T="790." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="25.8">258.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="30.0e16" T="790." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="30.0e16" T="790." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="28.8">288.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="3.00e16" T="800." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="3.00e16" T="800." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0">96.1</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="6.01e16" T="800." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="6.01e16" T="800." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="14.7">147.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="9.00e16" T="800." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="9.00e16" T="800." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="19.9">199.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="12.1e16" T="800." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="12.1e16" T="800." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="22.4">223.5</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="18.0e16" T="800." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="18.0e16" T="800." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="30.2">302.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="24.0e16" T="800." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="24.0e16" T="800." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="34.1">341.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="30.0e16" T="800." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="30.0e16" T="800." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="35.0">350.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="3.00e16" T="810." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="3.00e16" T="810." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="12.4">124.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="6.00e16" T="810." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="6.00e16" T="810." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="18.5">185.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="9.00e16" T="810." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="9.00e16" T="810." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="24.8">248.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="12.1e16" T="810." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="12.1e16" T="810." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="27.4">274.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="18.1e16" T="810." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="18.1e16" T="810." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="37.9">379.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="24.0e16" T="810." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="24.0e16" T="810." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="40.2">402.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="30.0e16" T="810." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="30.0e16" T="810." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="49.2">492.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="3.00e16" T="820." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="3.00e16" T="820." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="16.0">160.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="6.01e16" T="820." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="6.01e16" T="820." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="23.9">239.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="9.01e16" T="820." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="9.01e16" T="820." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="32.0">320.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="12.1e16" T="820." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="12.1e16" T="820." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="36.3">363.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="18.0e16" T="820." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="18.0e16" T="820." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="44.7">447.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="24.0e16" T="820." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="24.0e16" T="820." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="55.4">554.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="30.0e16" T="820." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="30.0e16" T="820." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="54.9">549.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="3.00e16" T="830." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="3.00e16" T="830." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="18.9">189.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="6.00e16" T="830." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="6.00e16" T="830." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="28.7">287.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="9.00e16" T="830." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="9.00e16" T="830." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="37.5">375.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="12.0e16" T="830." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="12.0e16" T="830." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="44.7">447.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="18.0e16" T="830." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="18.0e16" T="830." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="57.0">570.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="3.01e16" T="840." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="3.01e16" T="840." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="25.2">252.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="6.00e16" T="840." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="6.00e16" T="840." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="34.9">349.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="9.00e16" T="840." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="9.00e16" T="840." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="47.1">471.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="12.0e16" T="840." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="12.0e16" T="840." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="55.9">559.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="3.00e16" T="850." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="3.00e16" T="850." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="31.4">314.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="6.00e16" T="850." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="6.00e16" T="850." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="44.4">444.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="3.01e16" T="860." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="3.01e16" T="860." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="37.8">378.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="6.03e16" T="860." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="6.03e16" T="860." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="53.5">535.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="3.01e16" T="870." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="3.01e16" T="870." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="43.6">436.</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair units="PPCC" P="3.00e16" T="880." precision="d" default="true" bathGas="He">
+      <me:PTpair units="PPCC" P="3.00e16" T="880." precision="d" default="true" bathGas="He" group="default">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="53.5">535.</me:experimentalRate>
       </me:PTpair>
     </me:PTs>
@@ -618,12 +617,13 @@
     </me:calcMethod>
     <me:testDOS />
     <me:eigenvalues>1</me:eigenvalues>
+    <me:ForceMacroDetailedBalance default="true">true</me:ForceMacroDetailedBalance>
   </me:control>
   <metadataList xmlns:dc="http://purl.org/dc/elements/1.1/">
     <dc:title>isopropyl decomposition</dc:title>
     <dc:source>ipropyl_CCR.xml</dc:source>
-    <dc:creator>Mesmer v5.1</dc:creator>
-    <dc:date>20180318_195837</dc:date>
-    <dc:contributor>strua</dc:contributor>
+    <dc:creator>Mesmer v7.0</dc:creator>
+    <dc:date>20230115_233821</dc:date>
+    <dc:contributor>chmsro</dc:contributor>
   </metadataList>
 </me:mesmer>
