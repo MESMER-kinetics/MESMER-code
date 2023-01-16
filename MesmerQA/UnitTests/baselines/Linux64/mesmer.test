@@ -1005,7 +1005,7 @@ Check: Left * Right = Identity
   MEIC Test: "Ethane" Hindered Rotor only.
   ----------------------------------------
 
-Hindered rotor states (cm-1).
+Hindered rotor states (cm-1):b1
 
         150.754
          150.76
@@ -1291,7 +1291,7 @@ Hindered rotor states (cm-1).
   MEIC Test: "HOOH" Hindered Rotor only.
   --------------------------------------
 
-Hindered rotor states (cm-1).
+Hindered rotor states (cm-1):b1
 
         169.777
         181.225
@@ -1443,7 +1443,7 @@ Hindered rotor states (cm-1).
   MEIC Test: "ClOOCl" Hindered Rotor only.
   ----------------------------------------
 
-Hindered rotor states (cm-1).
+Hindered rotor states (cm-1):b1
 
         71.1845
         71.1845
