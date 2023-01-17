@@ -1,6 +1,10 @@
+2023-January-17 Struan Robertson
+
+		* CollisionOperator.cpp: Fix for isomer decay trace analysis issue.
+
 2023-January-15 Struan Robertson
 
-		* ParallelManager.h, main.cpp: Added error checking method for parallel execution
+		* ParallelManager.h, main.cpp: Added new error checking method for parallel execution
 		and applied to main method.
 
 2023-January-14 Struan Robertson

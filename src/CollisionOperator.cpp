@@ -2255,8 +2255,8 @@ namespace mesmer
       Molecule* isomer = ipos->first;
       if (isomer->getName() == ref) {
         speciesFound = true;
-        lower = spos->second;
-        upper = lower + isomer->getColl().get_colloptrsize() - isomer->getColl().reservoirShift() - 1; // Offset of 1 is b/c grain idx starts at 0.
+        lower = ipos->second;
+        upper = lower + isomer->getColl().get_colloptrsize() - isomer->getColl().reservoirShift() ; 
       }
     }
 
