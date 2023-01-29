@@ -1,3 +1,9 @@
+2023-January-29 Struan Robertson
+
+		* ConditionsManager.cpp: Fix for incorrect updated of trace weights in .xml file.
+
+		* Documentation update.
+
 2023-January-17 Struan Robertson
 
 		* CollisionOperator.cpp: Fix for isomer decay trace analysis issue.

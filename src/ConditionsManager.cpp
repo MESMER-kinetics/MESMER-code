@@ -791,12 +791,16 @@ namespace mesmer
             residuals[calPoint] += sqrt(localChi) * dataSet.m_weight;
             if (bUpdateTraceWeights) {
               dataSet.m_weight = localChi / double(signal.size() - 1);;
+              PersistPtr pp = dataSet.m_pPersistPtr;
+              pp->XmlWriteAttribute("weight", toString(dataSet.m_weight));
             }
           }
           else {
             chiSquared += localChi;
             residuals[calPoint] += sqrt(localChi);
             dataSet.m_weight = localChi / double(signal.size() - 1);
+            PersistPtr pp = dataSet.m_pPersistPtr;
+            pp->XmlWriteAttribute("weight", toString(dataSet.m_weight));
           }
 
         }
