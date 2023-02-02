@@ -51,7 +51,7 @@ namespace mesmer
   private:
 
     // Returns the Planck distribution for a frequency expressed in wavenumbers. Returned units are Js/m3.
-    double planckDistribtuion(double ene, double beta) const {
+    double planckDistribtuion(double ene, double beta) const { // ene in cm-1, beta in 1/cm-1.
       // return 8.0 * M_PI * pow(ene, 3.0) * 1.0e+06 * PlancksConstant_in_JouleSecond / (exp(beta * ene) - 1.0);
       double radiance(0.0);
       const double h = PlancksConstant_in_JouleSecond;
@@ -59,7 +59,7 @@ namespace mesmer
 
       double nu = ene * c;
 
-      radiance = 8.0 * M_PI * h * pow(nu, 3.0) / (c * c) / (exp(beta * ene) - 1.0);
+      radiance = 8.0 * M_PI * h * pow(ene, 3.0) * 1.0e+06 / (exp(beta * ene) - 1.0);
 
       return radiance;
     }

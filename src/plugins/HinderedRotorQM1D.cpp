@@ -188,6 +188,8 @@ namespace mesmer
         set_CalIntrlIrt(true);
         double phase(0.0);
         phase = pp->XmlReadDouble("phaseDifference", optional);
+        if (IsNan(phase))
+          phase = 0.0;
         set_Phase(phase);
       }
       else {

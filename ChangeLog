@@ -1,3 +1,11 @@
+2023-Februrary-02 Struan Robertson
+
+		* HinderedRotorQM1D.cpp: Fix for parsing bug.
+
+		* System.cpp: Minor change to when population is calculated to improve efficiency.
+
+		* gWellRadiationTransition.h: Altered Planck distribution units.
+
 2023-January-29 Struan Robertson
 
 		* ConditionsManager.cpp: Fix for incorrect updated of trace weights in .xml file.

@@ -329,7 +329,7 @@ namespace mesmer
         m_Flags.useDOSweightedDT = ppControl->XmlReadBoolean("me:useDOSweighedDownWardTransition");
         m_Flags.bForceMacroDetailedBalance = ppControl->XmlReadBoolean("me:ForceMacroDetailedBalance");
         m_Flags.useOrigFreqForZPECorrection = ppControl->XmlReadBoolean("me:useOrigFreqForZPECorrection");
-        m_Flags.printZMatrixRatios = ppControl->XmlReadBoolean("me:printZMatrixRatios");   
+        m_Flags.printZMatrixRatios = ppControl->XmlReadBoolean("me:printZMatrixRatios");
 
         m_Flags.useTraceWeighting = ppControl->XmlReadBoolean("me:useTraceWeighting");
         if (m_Flags.useTraceWeighting) {
@@ -550,16 +550,15 @@ namespace mesmer
 
             if (!m_Env.useBasisSetMethod) {
 
-              if (!m_Flags.bIsSystemSecondOrder) {
-
+              if (m_Flags.bIsSystemSecondOrder) {
+                cinfo << "At present it is not possible to print profiles for systems with a second order term." << once << endl;
+              }
+              else if (writeReport) {
                 // Calculate time-dependent properties.
                 m_collisionOperator.timeEvolution(m_Flags, m_pConditionsManager->get_analysisData(calPoint));
                 if (m_collisionOperator.hasGrainProfileData()) {
                   m_collisionOperator.printGrainProfileAtTime(m_pConditionsManager->get_analysisData(calPoint));
                 }
-              }
-              else {
-                cinfo << "At present it is not possible to print profiles for systems with a second order term." << once << endl;
               }
 
               // Calculate rate coefficients. 
@@ -593,10 +592,10 @@ namespace mesmer
         }
 
       }
-      catch (std::runtime_error& e)  {
-        status = rank ;
+      catch (std::runtime_error& e) {
+        status = rank;
         error_msg.str("");
-        error_msg << "Rank " << rank << ": " <<  e.what() << endl;
+        error_msg << "Rank " << rank << ": " << e.what() << endl;
       }
 
       m_pParallelManager->barrier();
@@ -780,7 +779,8 @@ namespace mesmer
 
       if (seqMatrixLoc1 < 0) {
         throw(std::runtime_error("Failed to locate reactant species " + ref1 + " in rate coefficient matrix."));
-      } else if (seqMatrixLoc2 < 0) {
+      }
+      else if (seqMatrixLoc2 < 0) {
         //
         // Search for a dissociation reaction.
         // 
@@ -824,7 +824,7 @@ namespace mesmer
     vector<conditionSet> expYields;
     m_pConditionsManager->get_experimentalYields(calPoint, expYields);
     if (expYields.size() == 0)
-      return ;
+      return;
 
     vector<double> calcYields(expYields.size(), 0.0);
     //
@@ -841,10 +841,10 @@ namespace mesmer
 
       m_collisionOperator.calculateYields(yieldMap, time);
     }
-    catch (std::runtime_error & e) {
+    catch (std::runtime_error& e) {
       cerr << "Error: during calculation of Chi^2 for yields:" << endl;
       cerr << e.what() << endl;
-      return ;
+      return;
     }
 
     for (size_t i(0); i < expYields.size(); ++i) {
@@ -872,7 +872,7 @@ namespace mesmer
 
     m_pConditionsManager->set_calculatedYields(calPoint, calcYields);
 
-    return ;
+    return;
   }
 
   void System::calcEigenvalues(const unsigned calPoint) {
@@ -893,7 +893,7 @@ namespace mesmer
       try {
         eigenvalue = m_collisionOperator.getEigenvalue(idEigenvalue);
       }
-      catch (std::runtime_error & e) {
+      catch (std::runtime_error& e) {
         cerr << e.what() << endl;
         continue;
       }
@@ -903,7 +903,7 @@ namespace mesmer
 
     m_pConditionsManager->set_calculatedEigenvalues(calPoint, calcEigenvalues);
 
-    return ;
+    return;
   }
 
   void System::calcRawData(const unsigned calPoint) {
@@ -918,7 +918,7 @@ namespace mesmer
 
     vector<RawDataSet>& rawDataSets = m_pConditionsManager->get_experimentalrawDataSets(calPoint);
     if (rawDataSets.size() == 0)
-      return ;
+      return;
 
     //
     // Calculate profile for each experimental set.
@@ -956,7 +956,7 @@ namespace mesmer
       dataSet.m_calcTrace = signal;
     }
 
-    return ;
+    return;
   }
 
   void System::WriteMetadata(const string& infilename)
