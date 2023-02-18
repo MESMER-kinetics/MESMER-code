@@ -55,9 +55,6 @@ namespace mesmer
       // return 8.0 * M_PI * pow(ene, 3.0) * 1.0e+06 * PlancksConstant_in_JouleSecond / (exp(beta * ene) - 1.0);
       double radiance(0.0);
       const double h = PlancksConstant_in_JouleSecond;
-      const double c = SpeedOfLight_in_cm;
-
-      double nu = ene * c;
 
       radiance = 8.0 * M_PI * h * pow(ene, 3.0) * 1.0e+06 / (exp(beta * ene) - 1.0);
 
