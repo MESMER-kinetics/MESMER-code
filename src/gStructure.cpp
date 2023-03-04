@@ -239,21 +239,20 @@ namespace mesmer
   }
 
   // Calculates internal rotation eigenvector about an axis define by at1 and at2.
-  bool gStructure::CalcInternalRotVec(string bondID, vector<string> atomset, vector3 at1, vector3 at2, vector<double>& mode, bool ApplyMWeight)
+  bool gStructure::CalcInternalRotVec(string bondID, vector<string> atomset, vector3 at1, vector3 at2, vector<double>& mode)
   {
     vector3 diff = at1 - at2;
     diff.normalize();
     vector<string>::iterator iter;
     for (iter = atomset.begin(); iter != atomset.end(); ++iter)
     {
-      double massWeight = (ApplyMWeight) ? sqrt(atomMass(Atoms[*iter].element)) : 1.0;
       vector3 a = Atoms[*iter].coords - at1;
       vector3 b = cross(a, diff);
       int atomicOrder = getAtomicOrder(*iter);
       if (atomicOrder >= 0) {
         size_t location = 3 * size_t(atomicOrder);
         for (size_t i(location), j(0); j < 3; i++, j++) {
-          mode[i] = massWeight * b[j];
+          mode[i] = b[j];
         }
       }
       else {
@@ -545,24 +544,26 @@ namespace mesmer
     vector<string> atomset1;
     findRotorConnectedAtoms(atomset1, bondats.first, bondats.second);
     double mm1 = CalcMomentAboutAxis(atomset1, coords1, coords2);
-    CalcInternalRotVec(bondID, atomset1, coords1, coords2, mode, ApplyMWeight);
+    CalcInternalRotVec(bondID, atomset1, coords1, coords2, mode);
 
     //...and the other side of the bond
     vector<string> atomset2;
     findRotorConnectedAtoms(atomset2, bondats.second, bondats.first);
     double mm2 = CalcMomentAboutAxis(atomset2, coords1, coords2);
-    CalcInternalRotVec(bondID, atomset2, coords2, coords1, mode, ApplyMWeight);
+    CalcInternalRotVec(bondID, atomset2, coords2, coords1, mode);
 
     // In the following, the moments of inertia of each fragment about the rotating 
     // bond are applied as weights for the relative rotation of each fragment with
     // respect to each other. In the limit that one fragment is infinitely massive
     // the rotation will be confined to the other fragment. 
 
-    double fctr1 = mm2 / (mm1 + mm2);
-    ApplyInertiaWeighting(atomset1, mode, fctr1);
+    if (ApplyMWeight) {
+      double fctr1 = mm2 / (mm1 + mm2);
+      ApplyInertiaWeighting(atomset1, mode, fctr1);
 
-    double fctr2 = mm1 / (mm1 + mm2);
-    ApplyInertiaWeighting(atomset2, mode, fctr2);
+      double fctr2 = mm1 / (mm1 + mm2);
+      ApplyInertiaWeighting(atomset2, mode, fctr2);
+    }
 
   }
 
@@ -617,7 +618,7 @@ namespace mesmer
 
       vector<double> velocity(3 * NumAtoms(), 0.0);
 
-      internalRotationVector(m_RotBondIDs[i], velocity, false);
+      internalRotationVector(m_RotBondIDs[i], velocity, true);
 
       // Remove centre of mass velocity.
       vector3 centreOfMassVelocity;
@@ -1000,12 +1001,7 @@ namespace mesmer
 
     OrthogonalizeMode(mode);
 
-    double reducedMass(0.0);
-    for (size_t i(0); i < mode.size(); i++) {
-      reducedMass += mode[i] * mode[i];
-    }
-
-    return reducedMass;
+    return moi1 * moi2 / (moi1 + moi2);
   }
 
   double gStructure::inversionReducedMass(vector<string>& bondIDs, vector<double>& mode) {
@@ -1065,12 +1061,7 @@ namespace mesmer
 
     OrthogonalizeMode(mode);
 
-    double reducedMass(0.0);
-    for (size_t i(0); i < mode.size(); i++) {
-      reducedMass += mode[i] * mode[i];
-    }
-
-    return reducedMass;
+    return moi1 * moi2 / (moi1 + moi2);
   }
 
   // Calculate vectors relative to the center of motion.
@@ -1089,7 +1080,7 @@ namespace mesmer
     vector<string>::iterator iter;
     for (iter = atomset.begin(); iter != atomset.end(); ++iter)
     {
-      double massWeight = sqrt(atomMass(Atoms[*iter].element));
+      double massWeight = atomMass(Atoms[*iter].element) ;
       vector3 a = Atoms[*iter].coords - centre;
       vector3 b = cross(a, axis);
       int atomicOrder = getAtomicOrder(*iter);
@@ -1097,8 +1088,8 @@ namespace mesmer
         size_t location = 3 * size_t(atomicOrder);
         double sum(0.0);
         for (size_t i(location), j(0); j < 3; i++, j++) {
-          mode[i] = massWeight * b[j];
-          sum += mode[i] * mode[i];
+          mode[i] = b[j];
+          sum += massWeight * mode[i] * mode[i];
         }
         moi += sum;
       }
@@ -1118,14 +1109,12 @@ namespace mesmer
     vector<string>::iterator iter;
     for (iter = atomset.begin(); iter != atomset.end(); ++iter)
     {
-      double mass = atomMass(Atoms[*iter].element);
-      double massWeight = sqrt(mass);
-      totalMass += mass;
+      totalMass += atomMass(Atoms[*iter].element);
       int atomicOrder = getAtomicOrder(*iter);
       if (atomicOrder >= 0) {
         size_t location = 3 * size_t(atomicOrder);
         for (size_t i(location), j(0); j < 3; i++, j++) {
-          mode[i] = massWeight * axis[j];
+          mode[i] = axis[j];
         }
       }
       else {

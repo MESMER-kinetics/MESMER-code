@@ -50,7 +50,7 @@ namespace mesmer
     double CalcMomentAboutAxis(std::vector<std::string> atomset, OpenBabel::vector3 at1, OpenBabel::vector3 at2);
 
     // Calculates internal rotation eigenvector about an axis define by at1 and at2.
-    bool CalcInternalRotVec(std::string bondID, std::vector<string> atomset, OpenBabel::vector3 at1, OpenBabel::vector3 at2, vector<double> &mode, bool ApplyMWeight);
+    bool CalcInternalRotVec(std::string bondID, std::vector<string> atomset, OpenBabel::vector3 at1, OpenBabel::vector3 at2, vector<double> &mode);
 
     // Calculates bend eigenvector about an axis define by at1 and at2.
     double CalcBendVec(std::vector<string> atomset, OpenBabel::vector3 at1, OpenBabel::vector3 at2, vector<double>& mode);
@@ -138,7 +138,7 @@ namespace mesmer
     // governed by the "ApplyWeight" flag. This vector is more recently been used 
     // in the calculation of internal rotation moments of inertia and in this 
     // case "ApplyWeight" should be false.
-    void internalRotationVector(string bondID, vector<double>& mode, bool ApplyMWeight = true);
+    void internalRotationVector(string bondID, vector<double>& mode, bool ApplyMWeight);
 
 		// Calculate the square root of the determinant of the Generalized Rotation Inertia
 		// Tensor. Used in the calculation of coupled rotor density of states and partition

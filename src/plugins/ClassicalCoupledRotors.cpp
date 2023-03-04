@@ -170,7 +170,7 @@ namespace mesmer
         // The following vector, "mode", will be used to hold the internal rotation 
         // mode vector as defined by Sharma, Raman and Green, J. Phys. Chem. (2010). 
         vector<double> mode(3 * gs.NumAtoms(), 0.0);
-        gs.internalRotationVector(string(bondID), mode);
+        gs.internalRotationVector(string(bondID), mode, false);
         if (!gdos->projectMode(mode)) {
           cerr << "Failed to project out internal rotation." << endl;
           return false;

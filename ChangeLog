@@ -1,3 +1,10 @@
+2023-March-04 Struan Robertson
+
+		* gStructure.h/.cpp, HinderedRotorQM1D.cpp, HinderedRotorCM1D.cpp, ClassicalCoupledRotors.cpp: 
+		Fix for the over weighting of the SRG vector.
+
+		* Baseline update.
+
 2023-Februrary-02 Struan Robertson
 
 		* gWellRadiationTransition.h: Tided Planck distribution.

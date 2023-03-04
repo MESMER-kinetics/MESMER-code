@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v7.0 compiled: -- Nov 22 2022 -- 20:23:27
+     Mesmer v7.0 compiled: -- Feb 18 2023 -- 11:55:50
 
      Copyright (C) 2009-2022 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Thu Dec 22 01:17:04 2022
+                     Execution Date:  Fri Mar  3 01:40:27 2023
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -121,7 +121,7 @@ Excess Reactant Conc. for reaction R2 = 3.68e+16 particles per cc
 Excess Reactant Conc. for reaction R1 = 1e+14 particles per cc
 Excess Reactant Conc. for reaction R2 = 1.01e+17 particles per cc
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20221222_011704
+Write metadata 20230303_014027
 
 File: "Glyoxal_Exchange.xml" successfully parsed.
 Main Calculation begins
@@ -140,51 +140,51 @@ In FastLaplaceConvolution: 100 values in the FFT convolution routine were replac
 In FastLaplaceConvolution: 2740 values in the FFT convolution routine were replaced by standard convolution
 No population was assigned. Initialize the first source term to 1.0.
 
-Chi^2 = 429.681 Lambda = 1
+Chi^2 = 431.989 Lambda = 1
 HC(O)CO:deltaEDown=278.947  R2:activationEnergy=3.0715  R2:preExponential=1.50278e-12  
 
-Chi^2 = 153.807 Lambda = 0.1
-HC(O)CO:deltaEDown=359.204  R2:activationEnergy=3.91718  R2:preExponential=9.6861e-13  
-Iteration: 1 of Marquardt. ChiSquare = 153.807, Lambda = 0.1
+Chi^2 = 153.847 Lambda = 0.1
+HC(O)CO:deltaEDown=359.386  R2:activationEnergy=3.91279  R2:preExponential=9.6768e-13  
+Iteration: 1 of Marquardt. ChiSquare = 153.847, Lambda = 0.1
 
-Chi^2 = 60.3946 Lambda = 0.01
-HC(O)CO:deltaEDown=225.789  R2:activationEnergy=5.83735  R2:preExponential=7.72041e-13  
-Iteration: 2 of Marquardt. ChiSquare = 60.3946, Lambda = 0.01
+Chi^2 = 60.4045 Lambda = 0.01
+HC(O)CO:deltaEDown=226.473  R2:activationEnergy=5.8169  R2:preExponential=7.68732e-13  
+Iteration: 2 of Marquardt. ChiSquare = 60.4045, Lambda = 0.01
 Number of cells = 50000, Number of grains = 245
 Number of cells = 50000, Number of grains = 233
- -- Total time elapsed: 912 seconds.
+ -- Total time elapsed: 704 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
-            295    2.61871e+18         0.0508      0.0477147
-            295    2.61871e+18          0.135      0.0947069
-            295    2.61871e+18        0.18893       0.156082
-            295    2.61871e+18        0.21629       0.222036
-            212    2.27747e+17          0.181       0.158332
-            212    2.27747e+17          0.282       0.406487
-            212    2.27747e+17          0.367       0.545496
+            295    2.61871e+18         0.0508      0.0476794
+            295    2.61871e+18          0.135      0.0946534
+            295    2.61871e+18        0.18893       0.156029
+            295    2.61871e+18        0.21629       0.222016
+            212    2.27747e+17          0.181       0.158381
+            212    2.27747e+17          0.282       0.406515
+            212    2.27747e+17          0.367       0.545501
             212    2.27747e+17          0.377       0.645552
 
 
-Chi^2 = 60.3946
+Chi^2 = 60.4045
 
 Best fit parameters:
 
-HC(O)CO:deltaEDown = 225.789 +/- 552.472
-R2:activationEnergy = 5.83735 +/- 6.03244
-R2:preExponential = 7.72041e-13 +/- 4.11922e-12
+HC(O)CO:deltaEDown = 226.473 +/- 555.984
+R2:activationEnergy = 5.8169 +/- 6.0441
+R2:preExponential = 7.68732e-13 +/- 4.12018e-12
 
 Correlation coefficients:
 
-R2:activationEnergy , HC(O)CO:deltaEDown = 0.976112
-R2:preExponential , HC(O)CO:deltaEDown = 0.992082
-R2:preExponential , R2:activationEnergy = 0.995303
+R2:activationEnergy , HC(O)CO:deltaEDown = 0.976166
+R2:preExponential , HC(O)CO:deltaEDown = 0.992076
+R2:preExponential , R2:activationEnergy = 0.995334
 
 Goodness of Fit:
 
 Number of degrees of Freedom = 5
-Chi^2 probability = 1.00735e-11
+Chi^2 probability = 1.00261e-11
 
 System saved to mesmer_out.xml
-Total time elapsed: 912 seconds.
+Total time elapsed: 704 seconds.

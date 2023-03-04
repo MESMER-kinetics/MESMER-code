@@ -7,7 +7,7 @@ SET directive=
 SET otfn=mesmer.test
 
 IF EXIST "../Windows VC16/Mesmer/Mesmer.exe" GOTO VC16
-IF EXIST "../Windows VC15/Mesmer/Mesmer.exe" GOTO VC17
+IF EXIST "../Windows VC17/Mesmer/Mesmer.exe" GOTO VC17
 
 ::For installed version
 SET executable= "..\..\Mesmer.exe"
