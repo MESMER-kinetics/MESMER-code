@@ -1,3 +1,10 @@
+2023-March-05 Struan Robertson
+
+		* BeyerSwinhart.cpp, MesmerFlags.h/.cpp, ThermoDynamicTables.cpp: Optional facility to print
+		vibrational frequencies used in Beyer-Swinehart method.
+
+		* New example added - InternalRotor.
+
 2023-March-04 Struan Robertson
 
 		* gStructure.h/.cpp, HinderedRotorQM1D.cpp, HinderedRotorCM1D.cpp, ClassicalCoupledRotors.cpp: 

@@ -1,6 +1,6 @@
 #include "MesmerFlags.h"
 
-namespace mesmer{
+namespace mesmer {
   MesmerFlags::MesmerFlags() : testDOSEnabled(false),
     testRateConstantEnabled(false),
     microRateEnabled(false),
@@ -21,32 +21,33 @@ namespace mesmer{
     useTheSameCellNumber(true),
     grainedProfileEnabled(false),
     speciesProfileEnabled(false),
-	  printPhenomenologicalEvolution(false),
+    printPhenomenologicalEvolution(false),
     viewEvents(false),
     shortestTimeOfInterest(1.0e-11),
     maxEvolutionTime(1.0e+05),
     printEigenValuesNum(0),
-	  printEigenVectors(false),
+    printEigenVectors(false),
     printReactionOperatorNum(0),
-	  printSinkFluxes(false),
+    printSinkFluxes(false),
     allowSmallerDEDown(false),
     showCollisionOperator(0),
     useDOSweightedDT(false),
     punchSymbols(),
     punchNumbers(),
     punchFileName(),
-	  overwriteXmlAnalysis(false),
-	  autoSetMaxEne(false),
-	  // Default poulation threshold for automatic calculation of energy above the top barrier.
-	  popThreshold(1.0e-5),
+    overwriteXmlAnalysis(false),
+    autoSetMaxEne(false),
+    // Default poulation threshold for automatic calculation of energy above the top barrier.
+    popThreshold(1.0e-5),
     bForceMacroDetailedBalance(false),
-	  bIsSystemSecondOrder(false),
-		bIndependentErrors(true),
-		useOrigFreqForZPECorrection(true),
+    bIsSystemSecondOrder(false),
+    bIndependentErrors(true),
+    useOrigFreqForZPECorrection(true),
     bIncludeDiffusiveLoss(false),
     useTraceWeighting(false),
     updateTraceWeights(false),
-    printZMatrixRatios(false)
+    printZMatrixRatios(false),
+    bThermoTableContribute(false)
   {}
 }//namespace
 

@@ -134,6 +134,7 @@ namespace mesmer
       pSys->m_Flags.testDOSEnabled = ppControl->XmlReadBoolean("me:testDOS");
       if (pSys->m_Flags.testDOSEnabled)
         pSys->getEnv().beta = 1.0 / (boltzmann_RCpK * double(m_nTemp) * m_TempInterval);
+      pSys->m_Flags.bThermoTableContribute = m_outputContribution;
     }
 
     Env.GrainSize = savedGrainSize;

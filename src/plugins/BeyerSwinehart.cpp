@@ -11,13 +11,13 @@ namespace mesmer
   public:
 
     // Read any data from XML and store in this instance.
-    virtual bool ReadParameters(gDensityOfStates* gdos, PersistPtr ppDOSC = NULL) ;
+    virtual bool ReadParameters(gDensityOfStates* gdos, PersistPtr ppDOSC = NULL);
 
     // Function to define particular counts of the DOS of a molecule.
     virtual bool countCellDOS(gDensityOfStates* mol, const MesmerEnv& env);
 
     // Function to calculate contribution to canonical partition function.
-    virtual void canPrtnFnCntrb(gDensityOfStates* gdos, double beta, double &PrtnFn, double &IntrlEne, double &varEne);
+    virtual void canPrtnFnCntrb(gDensityOfStates* gdos, double beta, double& PrtnFn, double& IntrlEne, double& varEne);
 
     // Function to return the number of degrees of freedom associated with this count.
     virtual unsigned int NoDegOfFreedom(gDensityOfStates* gdos);
@@ -45,7 +45,7 @@ namespace mesmer
 
   // Read any data from XML and store in this instance.
   bool BeyerSwinehart::ReadParameters(gDensityOfStates* gdos, PersistPtr ppDOSC) {
-    return true; 
+    return true;
   };
 
   // Provide a function to define particular counts of the DOS of a molecule.
@@ -59,6 +59,18 @@ namespace mesmer
     vector<double> cellDOS;
     if (!pDOS->getCellDensityOfStates(cellDOS, false)) // retrieve the DOS vector without recalculating
       return false;
+
+    if (pDOS->getHost()->getFlags().bThermoTableContribute) {
+      ctest << endl << "Frequencies used in the Beyer-Swinehart algorithm for " << pDOS->getHost()->getName() << ": {" ;
+      for (size_t j(0); j < VibFreq.size(); ++j) {
+        if (!(j % 5))
+          ctest << endl;
+        ctest << setw(10) << std::right << VibFreq[j];
+      }
+      if ((VibFreq.size() % 5))
+        ctest << endl;
+      ctest << "}" << endl;
+    }
 
     // Implementation of the Beyer-Swinehart algorithm.
     for (size_t j(0); j < VibFreq.size(); ++j) {
@@ -79,18 +91,18 @@ namespace mesmer
   }
 
   // Calculate contribution to canonical partition function.
-  void BeyerSwinehart::canPrtnFnCntrb(gDensityOfStates* gdos, double beta, double &PrtnFn, double &IntrlEne, double &varEne) {
+  void BeyerSwinehart::canPrtnFnCntrb(gDensityOfStates* gdos, double beta, double& PrtnFn, double& IntrlEne, double& varEne) {
 
     double qtot(1.0), ene(0.0), var(0.0);
     vector<double> vibFreq;
     gdos->get_VibFreq(vibFreq);
     for (size_t j(0); j < vibFreq.size(); ++j) {
       double etmp = vibFreq[j];
-      double dtmp = (1.0 - exp(-beta*etmp));
-      double mene = etmp*exp(-beta*etmp) / dtmp;
+      double dtmp = (1.0 - exp(-beta * etmp));
+      double mene = etmp * exp(-beta * etmp) / dtmp;
       qtot /= dtmp;
       ene += mene;
-      var += etmp*mene / dtmp;
+      var += etmp * mene / dtmp;
     }
 
     PrtnFn *= qtot;
@@ -117,7 +129,7 @@ namespace mesmer
     gdos->get_VibFreq(vibFreq);
 
     double ZPE = accumulate(vibFreq.begin(), vibFreq.end(), 0.0);
-    return ZPE*0.5;
+    return ZPE * 0.5;
   }
 
 }//namespace

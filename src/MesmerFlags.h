@@ -17,7 +17,7 @@ namespace mesmer
     bool   microRateEnabled;               // Whether to output microcanonical rate coefficients
     bool   grainBoltzmannEnabled;          // Enabled printing grain boltzmann distribution
     bool   grainDOSEnabled;                // Enabled printing grain DOS
-    bool   grainTSsosEnabled;	    	  	   // enables printing of TS sum of states
+    bool   grainTSsosEnabled;	    	   // enables printing of TS sum of states
     bool   cyclePrintGrainDOS;             // Controls the print-out of grain DOS in each cycle (This is only for source term)
     bool   cellDOSEnabled;                 // Enabled printing cell DOS
     bool   cyclePrintCellDOS;              // Controls the print-out of cell DOS in each cycle (This is only for source term)
@@ -57,14 +57,15 @@ namespace mesmer
     bool   bForceMacroDetailedBalance;     // Impose detailed balance at the macroscopic level for non-conservative systems.
     bool   bIsSystemSecondOrder;           // This flag is set if there is a second order reaction in the system and is
                                            // used to suspend an attempt to calculate species concentrations etc.
-		bool   bIndependentErrors;             // Used in data analysis. If true Chi^2 statistic test is valid.
-		bool   useOrigFreqForZPECorrection;    // Used with ab initio potentials, thus flag causes MESMER to use the original
-		                                       // frequencies to calculate the ZPE correction need to addjust the Classical potential.
+	bool   bIndependentErrors;             // Used in data analysis. If true Chi^2 statistic test is valid.
+	bool   useOrigFreqForZPECorrection;    // Used with ab initio potentials, thus flag causes MESMER to use the original
+		                                   // frequencies to calculate the ZPE correction need to addjust the Classical potential.
     bool   bIncludeDiffusiveLoss;          // To be used in conjunction with trace fitting. 
     bool   useTraceWeighting;              // If true weight the traces with the (normalized) values in the input file, otherwise
                                            // calculate weight weights.
     bool   updateTraceWeights;             // If true trace weights are updated at the end of a fitting cycle.
     bool   printZMatrixRatios;             // If true the rations of the Z matrix elements are printed. These can used to identify equlibrating pairs.
+    bool   bThermoTableContribute;         // Write contributions to Thermodynamics tables.
   };
 }//namespace
 
