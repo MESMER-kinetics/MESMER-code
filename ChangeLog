@@ -1,3 +1,7 @@
+2023-March-08 Struan Robertson
+
+		* Documentation update.
+
 2023-March-05 Struan Robertson
 
 		* BeyerSwinhart.cpp, MesmerFlags.h/.cpp, ThermoDynamicTables.cpp: Optional facility to print
@@ -14,7 +18,7 @@
 
 2023-Februrary-02 Struan Robertson
 
-		* gWellRadiationTransition.h: Tided Planck distribution.
+		* gWellRadiationTransition.h: Tidied Planck distribution.
 
 2023-Februrary-02 Struan Robertson
 
