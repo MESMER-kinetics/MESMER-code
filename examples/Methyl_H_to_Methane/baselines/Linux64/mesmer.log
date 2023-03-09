@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.1 compiled: -- May 16 2021 -- 20:39:34
+     Mesmer v7.0 compiled: -- Mar  8 2023 -- 23:38:21
 
-     Copyright (C) 2009-2021 by
+     Copyright (C) 2009-2022 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Sun May 16 20:47:55 2021
+                     Execution Date:  Wed Mar  8 23:48:55 2023
                      Number of ranks: 12
 
 defaults.xml, librarymols.xml are in ../..
@@ -48,47 +48,83 @@ In R1: --Parse data for MesmerILT
 In R1: R1:preExponential was given a range with 41 steps 
 In R1: R1:nInfinity was given a range with 81 steps 
 In R1: No tunneling method used for R1
-In R1: Not a unimolecular reaction: look for excess reactant concentration.
 In R1: No value of me:excessReactantConc was supplied and the default value NEEDS TO BE CHECKED**
 25.1Torr, 301K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 50.8Torr, 301K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 101.3Torr, 301K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 152.4Torr, 301K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 205.5Torr, 301K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 255.8Torr, 301K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 306.5Torr, 301K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 356.5Torr, 301K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 408.3Torr, 301K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 509.5Torr, 301K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 25.2Torr, 401K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 50.2Torr, 401K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 100.2Torr, 401K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 152.9Torr, 401K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 200.2Torr, 401K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 254.2Torr, 401K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 350Torr, 401K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 455.9Torr, 401K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 508.5Torr, 401K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 610.5Torr, 401K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 25.2Torr, 504K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 50.2Torr, 504K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 100.5Torr, 504K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 153.5Torr, 504K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 200.8Torr, 504K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 255.8Torr, 504K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 356.8Torr, 504K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 400.2Torr, 504K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 509Torr, 504K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 611.7Torr, 504K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 105.3Torr, 601K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 208.5Torr, 601K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 304.5Torr, 601K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 411Torr, 601K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 515Torr, 601K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 614.5Torr, 601K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 711Torr, 601K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20210516_204755
+Write metadata 20230308_234855
 
 File: "Methyl_H_to_Methane.xml" successfully parsed.
 Main Calculation begins
@@ -96,7 +132,7 @@ Now calculating...
 
 --Execute calcMethod fitting
 Number of grains produced is not equal to that requested for: H
-Number of grains requested: 204
+Number of grains requested: 250
 Number of grains produced : 1
 In FastLaplaceConvolution: 120 values in the FFT convolution routine were replaced by standard convolution
 
