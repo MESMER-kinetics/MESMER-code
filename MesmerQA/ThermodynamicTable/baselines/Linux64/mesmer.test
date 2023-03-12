@@ -1,4 +1,14 @@
 
+Frequencies used in the Beyer-Swinehart algorithm for HNO2: {
+      3591      1700      1263       790       596
+       543
+}
+
+Frequencies used in the Beyer-Swinehart algorithm for HNO2: {
+      3591      1700      1263       790       596
+       543
+}
+
 HNO2 : ClassicalRotors
 
       T/K   H(T) - H(0)/         S(T)/         G(T)/         C(T)/
@@ -45,6 +55,8 @@ HNO2                    H   1N   1O   2     G    75.000  1050.000  600.000    01
  -1.3761728e-07  9.0270180e-11 -1.0824128e+04  6.7398052e+00 -9.4948113e+00    4
 
 
+Frequencies used in the Beyer-Swinehart algorithm for He: {}
+
 He : ClassicalRotors
 
       T/K   H(T) - H(0)/         S(T)/         G(T)/         C(T)/
@@ -84,6 +96,14 @@ He : BeyerSwinehart
     900.00             0             0            -0             0
     975.00             0             0            -0             0
    1050.00             0             0            -0             0
+
+Frequencies used in the Beyer-Swinehart algorithm for NO: {
+      1904
+}
+
+Frequencies used in the Beyer-Swinehart algorithm for NO: {
+      1904
+}
 
 NO : ClassicalRotors
 
@@ -131,6 +151,8 @@ NO                      N   1O   1          G    75.000  1050.000  600.000    01
  -2.1192860e-08  1.0713279e-11  9.8121321e+03  1.8961209e+00  1.0949592e+01    4
 
 
+Frequencies used in the Beyer-Swinehart algorithm for O3P: {}
+
 O3P : DefinedStatesRotors
 
       T/K   H(T) - H(0)/         S(T)/         G(T)/         C(T)/
@@ -170,6 +192,14 @@ O3P : BeyerSwinehart
     900.00             0             0            -0             0
     975.00             0             0            -0             0
    1050.00             0             0            -0             0
+
+Frequencies used in the Beyer-Swinehart algorithm for OH: {
+      3738
+}
+
+Frequencies used in the Beyer-Swinehart algorithm for OH: {
+      3738
+}
 
 OH : DefinedStatesRotors
 
