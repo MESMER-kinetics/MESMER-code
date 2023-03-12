@@ -134,7 +134,7 @@ namespace mesmer
     {
       //Unrecognized bath gas.
       //If it is not the general bath gas make a new model for it and add it to the map.
-      MesmerFlags flgs = m_host->getFlags();
+      const MesmerFlags& flgs = m_host->getFlags();
       getHost()->getMoleculeManager()->addmol(pbathGasName, "bathGas", m_host->getEnv(), flgs);
       pETModel = isGeneralBG ? pModel : dynamic_cast<EnergyTransferModel*>(pModel->Clone());
       m_EnergyTransferModels[string(pbathGasName)] = pETModel;

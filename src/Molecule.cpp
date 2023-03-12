@@ -22,7 +22,7 @@ namespace mesmer
   //
   //Constructor
   //
-  Molecule::Molecule(const MesmerEnv& Env, MesmerFlags& Flags, const string& molType, MoleculeManager* pMoleculeManager) : m_Env(Env),
+  Molecule::Molecule(const MesmerEnv& Env, const MesmerFlags& Flags, const string& molType, MoleculeManager* pMoleculeManager) : m_Env(Env),
     m_Flags(Flags),
     m_atomNumber(0),
     m_ppPersist(NULL),

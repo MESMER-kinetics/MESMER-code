@@ -32,7 +32,7 @@ namespace mesmer
   //
   // Add a new molecule to the list.
   //
-  Molecule* MoleculeManager::addmol(string molName, string molType, const MesmerEnv& mEnv, MesmerFlags& mFlags) {
+  Molecule* MoleculeManager::addmol(string molName, string molType, const MesmerEnv& mEnv, const MesmerFlags& mFlags) {
 
     ErrorContext c(molName);
 

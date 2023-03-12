@@ -71,4 +71,3 @@ namespace mesmer
 
 
 #endif // GUARD_MesmerFlags_h
-

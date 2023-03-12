@@ -60,8 +60,9 @@ namespace mesmer
     if (!pDOS->getCellDensityOfStates(cellDOS, false)) // retrieve the DOS vector without recalculating
       return false;
 
-    if (pDOS->getHost()->getFlags().bThermoTableContribute) {
-      ctest << endl << "Frequencies used in the Beyer-Swinehart algorithm for " << pDOS->getHost()->getName() << ": {" ;
+    Molecule* pMol = pDOS->getHost();
+    if (pMol->getFlags().bThermoTableContribute) {
+      ctest << endl << "Frequencies used in the Beyer-Swinehart algorithm for " << pMol->getName() << ": {" ;
       for (size_t j(0); j < VibFreq.size(); ++j) {
         if (!(j % 5))
           ctest << endl;

@@ -40,8 +40,8 @@ namespace mesmer
 
   private:
 
-    const MesmerEnv& m_Env;
-    MesmerFlags&     m_Flags;
+    const MesmerEnv&   m_Env;
+    const MesmerFlags& m_Flags;
     unsigned int     m_atomNumber;         // If (m_atomNumber == 0), the atomArray element is missing.
 
     PersistPtr       m_ppPersist;          // Conduit for I/O
@@ -65,7 +65,7 @@ namespace mesmer
     //
     // Constructor
     //
-    Molecule(const MesmerEnv& Env, MesmerFlags& m_Flags, const string& molType, MoleculeManager *pMoleculeManager);
+    Molecule(const MesmerEnv& Env, const MesmerFlags& m_Flags, const string& molType, MoleculeManager *pMoleculeManager);
     virtual ~Molecule();
 
     // Initialize Molecule. Returns false if no id attribute

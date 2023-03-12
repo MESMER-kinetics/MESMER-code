@@ -875,8 +875,8 @@ namespace mesmer
     for (; molItr != molItrEnd; molItr++)
     {
       Molecule *pmol = molItr->second;
-      if (pmol->isMolType("transitionState")) // NASA Polynomials not required for transition states.
-        continue;
+      if (pmol->isMolType("transitionState") || pmol->isMolType("bathGas")) 
+        continue; // NASA Polynomials not required for transition states or bat gases.
 
       // Restrict output for molecules without a specified energy.
       double Hf298local = NaN;
