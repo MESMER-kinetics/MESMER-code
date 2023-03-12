@@ -1,7 +1,7 @@
 2023-March-12 Struan Robertson
 
 		* Molecule.h/.cpp, MolecularManager.h/.cpp, AnalyticalRepresentation.cpp, gWellProperties.cpp:
-		Minor fix to Analytical Representation to stop NASA polynomials to be calculated for bath gases
+		Minor fix to Analytical Representation to stop NASA polynomials being calculated for bath gases
 		as these often have insufficient information.
 
 2023-March-08 Struan Robertson
