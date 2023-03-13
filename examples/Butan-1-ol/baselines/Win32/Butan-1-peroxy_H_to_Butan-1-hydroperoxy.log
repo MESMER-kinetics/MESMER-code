@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.1 compiled: -- May 25 2021 -- 20:47:20
+     Mesmer v7.0 compiled: -- Mar 12 2023 -- 16:49:12
 
-     Copyright (C) 2009-2021 by
+     Copyright (C) 2009-2022 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Thu May 27 11:01:48 2021
+                     Execution Date:  Sun Mar 12 19:52:43 2023
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -95,14 +95,14 @@ In butan-1-hydroperoxy: --Parse data for Boltzmann
 In butan-1-hydroperoxy: --Parse data for BiExponentialDown
 In R1: --Parse data for MesmerILT
 In R1: No tunneling method used for R1
-In R1: Not a unimolecular reaction: look for excess reactant concentration.
 In R1: No value of me:excessReactantConc was supplied and the default value NEEDS TO BE CHECKED**
 25.1Torr, 301K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 The default value of me:ForceMacroDetailedBalance was used.
 The default value of me:calcMethod was used.
 --Parse data for simpleCalc
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20210527_110148
+Write metadata 20230312_195243
 
 File: "Butan-1-peroxy_H_to_Butan-1-hydroperoxy.xml" successfully parsed.
 Main Calculation begins
@@ -2275,14 +2275,14 @@ butan-1-hydroperoxy-orig_coords
 
 --Execute calcMethod simpleCalc
 Number of cells = 50000, Number of grains = 437
-In FastLaplaceConvolution: 18060 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 17940 values in the FFT convolution routine were replaced by standard convolution
 In FastLaplaceConvolution: 20 values in the FFT convolution routine were replaced by standard convolution
-In FastLaplaceConvolution: 15800 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 15660 values in the FFT convolution routine were replaced by standard convolution
 
 WARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs).
 
-The last CSE = -6.77059e+06 and the first IERE = -1.91285e+07
-(last CSE)/(first IERE) ratio = 0.353954, which is less than an order of magnitude
+The last CSE = -6.77081e+06 and the first IERE = -1.9346e+07
+(last CSE)/(first IERE) ratio = 0.349984, which is less than an order of magnitude
 
 Results obtained from Bartis Widom eigenvalue-vector analysis may be unreliable
  -- Total time elapsed: 28 seconds.

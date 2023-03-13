@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v7.0 compiled: -- Dec 21 2022 -- 22:27:46
+     Mesmer v7.0 compiled: -- Mar 12 2023 -- 16:52:21
 
      Copyright (C) 2009-2022 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Sat Mar  4 13:36:55 2023
+                     Execution Date:  Sun Mar 12 17:10:30 2023
                      Number of ranks: 12
 
 defaults.xml, librarymols.xml are in ../..
@@ -105,7 +105,7 @@ In cycCH2OCH2O: Could not find cycCH2OCH2O in ../../librarymols.xml
 In R5: --Parse data for RRKM
 In R5: No tunneling method used for R5
 No pressure and temperature specified.
-Write metadata 20230304_133655
+Write metadata 20230312_171030
 
 File: "Chebyshev.xml" successfully parsed.
 Main Calculation begins
@@ -121,10 +121,6 @@ gDensityOfStates initialization failed.
 Restricted thermo output for CH2O because it has arbitrary energy data.
 In CH3OCH2: energy cannot be converted from arbitrary to thermodynamic298K
 enthalpy of formation at 298K:Restricted thermo output for CH3OCH2 because it has arbitrary energy data.
-In He: The default value of me:DOSCMethod was used.
-In He: The default value of the attribute spinMultiplicity was used.
-gDensityOfStates initialization failed.
-Restricted thermo output for He because it has arbitrary energy data.
 In IM1: energy cannot be converted from arbitrary to thermodynamic298K
 enthalpy of formation at 298K:Restricted thermo output for IM1 because it has arbitrary energy data.
 In IM2: energy cannot be converted from arbitrary to thermodynamic298K
@@ -194,16 +190,6 @@ species(name = "CH3OCH2",
             NASA( [  1000.000, 1000.000], [  5.4806843e+00,  -1.3980872e-03, 
                        4.4122782e-05,  -5.3270147e-08,   2.0248982e-11, 
                       -8.6124064e+01,   2.1024890e+00] ) ) )
-
-species(name = "He",
-        atoms = "He:1  ",
-        thermo = (
-            NASA( [   200.000, 1000.000], [  2.5000000e+00,  -9.7864122e-29, 
-                       2.7100394e-31,  -3.1306308e-34,   1.2858695e-37, 
-                      -1.1322536e-24,   9.2773791e-01] ),
-            NASA( [  1000.000, 1000.000], [  2.5000000e+00,  -9.7864122e-29, 
-                       2.7100394e-31,  -3.1306308e-34,   1.2858695e-37, 
-                      -1.1322536e-24,   9.2773791e-01] ) ) )
 
 species(name = "IM1",
         atoms = " C:2   H:5   O:3  ",
@@ -427,7 +413,7 @@ chebyshev_reaction('IM2 => OH-3 + cycCH2OCH2O',
                            [    0.00462755,    -0.0384038,     0.0825006,    -0.0184656]])
 
 
- -- Total time elapsed: 237 seconds.
+ -- Total time elapsed: 247 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 237 seconds.
+Total time elapsed: 247 seconds.

@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v7.0 compiled: -- Feb 18 2023 -- 11:55:50
+     Mesmer v7.0 compiled: -- Mar 12 2023 -- 16:49:12
 
      Copyright (C) 2009-2022 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows
-                     Execution Date:  Fri Mar  3 00:32:58 2023
+                     Execution Date:  Sun Mar 12 17:58:13 2023
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -86,7 +86,7 @@ Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
 The default value of me:ForceMacroDetailedBalance was used.
 --Parse data for analyticalRepresentation
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20230303_003258
+Write metadata 20230312_175813
 
 File: "C4H9O2_NO2_association.xml" successfully parsed.
 Main Calculation begins
@@ -257,16 +257,6 @@ In C4H9OO: To mix thermodynamic and computational energies the molecule needs ch
 In C4H9OO: Missing thermo data for atoms
 In C4H9OONO2: energy cannot be converted from arbitrary to thermodynamic298K
 enthalpy of formation at 298K:enthalpy of formation at 298K:Restricted thermo output for C4H9OONO2 because it has arbitrary energy data.
-In He: The default value of me:DOSCMethod was used.
-In He: The default value of the attribute spinMultiplicity was used.
-gDensityOfStates initialization failed.
-Restricted thermo output for He because it has arbitrary energy data.
-In N2: Cannot find me:vibFreqs or me:hessian. Assuming an atom or a sink molecule.
-In N2: No rotational constants from <me:rotConsts> or structure. Assuming an atom or a sink molecule.
-In N2: The default value of me:DOSCMethod was used.
-In N2: The default value of the attribute spinMultiplicity was used.
-gDensityOfStates initialization failed.
-Restricted thermo output for N2 because it has arbitrary energy data.
 In NO2: To mix thermodynamic and computational energies the molecule needs chemical structure (an atomList at least)
 In NO2: Missing thermo data for atoms
 enthalpy of formation at 298K:
@@ -299,26 +289,6 @@ species(name = "C4H9OONO2",
             NASA( [   400.000, 400.000], [  9.9411520e+00,   1.0485593e-02, 
                        9.7985589e-05,  -5.9108182e-08,  -7.1676635e-11, 
                       -3.0072840e+02,  -8.8687572e+00] ) ) )
-
-species(name = "He",
-        atoms = "He:1  ",
-        thermo = (
-            NASA( [   175.000, 400.000], [  2.5000000e+00,   6.4423898e-10, 
-                      -3.4860983e-12,   8.2206974e-15,  -7.1358324e-18, 
-                       2.3254235e-06,   9.4266356e-01] ),
-            NASA( [   400.000, 400.000], [  2.5000000e+00,   6.4423898e-10, 
-                      -3.4860983e-12,   8.2206974e-15,  -7.1358324e-18, 
-                       2.3254235e-06,   9.4266356e-01] ) ) )
-
-species(name = "N2",
-        atoms = "",
-        thermo = (
-            NASA( [   175.000, 400.000], [  2.5000000e+00,   6.4423898e-10, 
-                      -3.4860983e-12,   8.2206974e-15,  -7.1358324e-18, 
-                       2.3254235e-06,   3.8466033e+00] ),
-            NASA( [   400.000, 400.000], [  2.5000000e+00,   6.4423898e-10, 
-                      -3.4860983e-12,   8.2206974e-15,  -7.1358324e-18, 
-                       2.3254235e-06,   3.8466033e+00] ) ) )
 
 species(name = "NO2",
         atoms = "",
@@ -360,7 +330,7 @@ chebyshev_reaction(' => C4H9OO + NO2',
                            [   9.77535e-06,  -1.85514e-05,   1.16508e-05,  -1.06936e-06,  -3.80066e-06,   1.13004e-06,   9.80792e-07,   1.59133e-07]])
 
 
- -- Total time elapsed: 1482 seconds.
+ -- Total time elapsed: 1448 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 1482 seconds.
+Total time elapsed: 1448 seconds.
