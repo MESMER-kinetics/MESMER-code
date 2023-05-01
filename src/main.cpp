@@ -436,8 +436,10 @@ string version()
 string platform()
 {
   string OS;
-#ifdef WIN32
-  OS = "Windows";
+#ifdef _WIN64
+  OS = "Windows64";
+#elif WIN32
+  OS = "Windows"; 
 #else
   OS = "Linux";
 #endif

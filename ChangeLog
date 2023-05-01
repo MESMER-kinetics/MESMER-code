@@ -1,3 +1,9 @@
+2023-May-01 Struan Robertson
+
+		* Mesmer.vcproj, TinyXML.vcproj, qd.vcproj: Project changes needed for Win64 build.
+
+		* main.cpp, System.h: Version updated to 7.1.
+
 2023-March-12 Struan Robertson
 
 		* Molecule.h/.cpp, MolecularManager.h/.cpp, AnalyticalRepresentation.cpp, gWellProperties.cpp:
