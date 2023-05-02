@@ -1,0 +1,135 @@
+
+            /|      /|                        \   
+           / |     / | ________________________\  
+          /  |    /  |  _   _             _   _   
+         /   |   /   | / \ / \ |\     /| / \ / \  
+        /    |  /    | \_/ \_  | \   / | \_/ |_/  
+       /     | /     | /     \ |  \ /  | /   | \  
+    \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
+
+     Mesmer: Master Equation Solver for Multi-Energy well Reactions
+     Mesmer v7.1 compiled: -- May  1 2023 -- 14:31:23
+
+     Copyright (C) 2009-2022 by
+     Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
+     David R. Glowacki, Michael J. Pilling and contributors
+
+     Mesmer is free software: you can redistribute it and/or modify
+     it under the terms of the GNU Public License as published by
+     the Free Software Foundation, either version 2 of the License,
+     or (at your option) any later version.
+
+     But WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU Public License for more details.
+
+    You should have received a copy of the GNU Public License
+    along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
+
+                     Platform:        Windows64
+                     Execution Date:  Mon May  1 15:42:06 2023
+                     Number of ranks: 4
+
+defaults.xml, librarymols.xml are in ../..
+
+Parsing input xml file...
+pentyl_isomerization_restrainedTS.xml
+
+--Parse data for ThermodynamicTable
+In ThermodynamicTable: The default value of the attribute units was used.
+In ThermodynamicTable: The default value of me:Tmin was used.
+In ThermodynamicTable: The default value of me:Tmax was used.
+In ThermodynamicTable: The default value of me:Tstep was used.
+In ThermodynamicTable: The default value of me:Tmid was used.
+In 1-pentyl: WARNING: When calculating frequencies from a Hessian it is critical
+     that the Hessian and species coordinates are expressed relative to
+     the same Cartesian coordinate system.
+In 1-pentyl: Vibrational frequencies (cm-1) were calculated from Hessian:
+  109.069 146.096 200.506 300.425 369.303 400.699 410.349 605.734 737.967 747.314 
+  845.577 939 1007.39 1041.34 1098.45 1117.61 1163.12 1205.65 1258.79 1316.4 
+  1334.59 1376.58 1392.24 1427.26 1454.87 1459.44 1483.36 1495.44 1510.89 1521.96 
+  1538.84 2960.26 2964.67 2970.94 2981.07 3027.16 3045.31 3066.32 3069.25 3079.01 
+  3116.69 3205.39 
+In 1-pentyl: Rotational constants were calculated from atom coordinates: 0.0662213 0.0696305 0.591278 cm-1
+In 1-pentyl: Hindered rotor C1-C2
+In 1-pentyl: Hindered rotor C4-C5
+In 1-pentyl=TS=2-pentyl: No imaginary vibrational frequency. Check if there is tunneling.
+WARNING: When calculating frequencies from a Hessian it is critical
+     that the Hessian and species coordinates are expressed relative to
+     the same Cartesian coordinate system.
+In 1-pentyl=TS=2-pentyl: Vibrational frequencies (cm-1) were calculated from Hessian:
+  125.362 210.762 242.105 372.132 495.721 523.754 570.091 778.321 825.527 859.31 
+  906.148 909.911 962.036 989.473 1038.44 1074.45 1155.62 1178.59 1213.11 1234.38 
+  1280.38 1337.28 1377.98 1402.14 1431.46 1450.88 1466.69 1484.81 1499.38 1515.7 
+  1616.69 2949.36 3010.17 3015.16 3035.75 3048.52 3061.19 3081.46 3095.68 3108.86 
+  3149 
+In 1-pentyl=TS=2-pentyl: Rotational constants were calculated from atom coordinates: 0.0895101 0.10577 0.313312 cm-1
+In 1-pentyl=TS=2-pentyl: The default value of me:DOSCMethod was used.
+In 1-pentyl=TS=2-pentyl: Hindered rotor C1-C2
+In 1-pentyl=TS=2-pentyl: Hindered rotor C2-C3
+In 1-pentyl=TS=2-pentyl: Hindered rotor C3-C4
+In 1-pentyl=TS=2-pentyl: Hindered rotor C4-C5
+In 2-pentyl: WARNING: When calculating frequencies from a Hessian it is critical
+     that the Hessian and species coordinates are expressed relative to
+     the same Cartesian coordinate system.
+In 2-pentyl: Vibrational frequencies (cm-1) were calculated from Hessian:
+  121.538 146.148 212.794 272.411 393.319 412.622 420.238 539.839 755.382 871.323 
+  909.14 966.863 1010.75 1082.58 1090.19 1109.6 1165.75 1200.44 1249.63 1306.15 
+  1324.66 1404.11 1435.66 1464.56 1470.6 1475.62 1499.17 1502.71 1512.47 1526.8 
+  1551.04 2859.76 2930.82 2939.85 2962.58 2985.96 3023.53 3024.42 3087.9 3098.08 
+  3119.26 3146.28 
+In 2-pentyl: Rotational constants were calculated from atom coordinates: 0.0641718 0.0673704 0.647442 cm-1
+In 2-pentyl: Hindered rotor C1-C2
+In 2-pentyl: Hindered rotor C4-C5
+In Ar: The default value of me:DOSCMethod was used.
+In Ar: The default value of the attribute spinMultiplicity was used.
+In Ar: gDensityOfStates initialization failed.
+Energy convention "arbitrary" written to <moleculeList>
+In R1: Parsing reaction...Isomerization reaction
+In 1-pentyl: No lennard-Jones parameters found for 1-pentyl.
+In 1-pentyl: An attempt to calculate parameters will be made. If this fails
+In 1-pentyl: default parameters will be used
+In 1-pentyl: The default value of me:DistributionCalcMethod was used.
+In 1-pentyl: --Parse data for Boltzmann
+In 1-pentyl: --Parse data for ExponentialDown
+In 2-pentyl: No lennard-Jones parameters found for 2-pentyl.
+In 2-pentyl: An attempt to calculate parameters will be made. If this fails
+In 2-pentyl: default parameters will be used
+In 2-pentyl: The default value of me:DistributionCalcMethod was used.
+In 2-pentyl: --Parse data for Boltzmann
+In 2-pentyl: --Parse data for ExponentialDown
+In 2-pentyl: 2-pentyl:deltaEDown will be derived from 1-pentyl:deltaEDown. Check below that this has been found.
+In R1: --Parse data for RRKM
+In R1: --Parse data for Eckart
+The default value of the attribute precision was used.
+1e+18PPCC, 500K at d precision with Ar
+The default value of me:ForceMacroDetailedBalance was used.
+The default value of me:calcMethod was used.
+--Parse data for simpleCalc
+The default value of the attribute Tstep was used.
+The default value of the attribute Tmin was used.
+The default value of the attribute Tmax was used.
+The default value of me:ForceMacroDetailedBalance was used.
+2-pentyl:deltaEDown is derived from 1-pentyl:deltaEDown, and has a fixed value = 230 cm-1
+Write metadata 20230501_154206
+
+File: "pentyl_isomerization_restrainedTS.xml" successfully parsed.
+Main Calculation begins
+Now calculating...
+
+--Execute calcMethod ThermodynamicTable
+In FastLaplaceConvolution: 20 values in the FFT convolution routine were replaced by standard convolution
+
+--Execute calcMethod simpleCalc
+Number of cells = 50000, Number of grains = 214
+In FastLaplaceConvolution: 21360 values in the FFT convolution routine were replaced by standard convolution
+In mesmer::CollisionOperator::timeEvolution: No population was assigned, and there is no source term.
+In mesmer::CollisionOperator::timeEvolution: Initial poupulation set to 1.0  in the first isomer.
+ -- Total time elapsed: 10 seconds.
+
+
+    Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
+
+
+System saved to mesmer_out.xml
+Total time elapsed: 10 seconds.

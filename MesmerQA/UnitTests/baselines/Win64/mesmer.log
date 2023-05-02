@@ -1,0 +1,71 @@
+
+            /|      /|                        \   
+           / |     / | ________________________\  
+          /  |    /  |  _   _             _   _   
+         /   |   /   | / \ / \ |\     /| / \ / \  
+        /    |  /    | \_/ \_  | \   / | \_/ |_/  
+       /     | /     | /     \ |  \ /  | /   | \  
+    \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
+
+     Mesmer: Master Equation Solver for Multi-Energy well Reactions
+     Mesmer v7.1 compiled: -- May  1 2023 -- 14:31:23
+
+     Copyright (C) 2009-2022 by
+     Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
+     David R. Glowacki, Michael J. Pilling and contributors
+
+     Mesmer is free software: you can redistribute it and/or modify
+     it under the terms of the GNU Public License as published by
+     the Free Software Foundation, either version 2 of the License,
+     or (at your option) any later version.
+
+     But WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU Public License for more details.
+
+    You should have received a copy of the GNU Public License
+    along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
+
+                     Platform:        Windows64
+                     Execution Date:  Mon May  1 15:44:08 2023
+                     Number of ranks: 4
+
+defaults.xml, librarymols.xml are in ../..
+
+Parsing input xml file...
+UnitTests.xml
+
+--Parse data for UnitTests
+Write metadata 20230501_154408
+
+File: "UnitTests.xml" successfully parsed.
+Main Calculation begins
+Now calculating...
+In Test_Molecule: The default value of me:DOSCMethod was used.
+In Test_Molecule: The default value of the attribute spinMultiplicity was used.
+gDensityOfStates initialization failed.
+Number of grains produced is not equal to that requested for: Unknown
+Number of grains requested: 5000
+Number of grains produced : 4959
+In AcO2_Harmonic: The default value of the attribute spinMultiplicity was used.
+gDensityOfStates initialization failed.
+Number of grains produced : 4945
+In AcO2_Anharmonic: The default value of the attribute spinMultiplicity was used.
+gDensityOfStates initialization failed.
+Number of grains produced : 4939
+In AcO2_Asymmetric_Top: The default value of the attribute spinMultiplicity was used.
+gDensityOfStates initialization failed.
+In AcO2_Asymmetric_Top: Neither chemical structure nor Molecular Weight as an XML property were provided.
+In Ethane: Hindered rotor b1
+gDensityOfStates initialization failed.
+Hindered rotor b1
+In HOOH: Hindered rotor b1
+gDensityOfStates initialization failed.
+Hindered rotor b1
+In ClOOCl: Hindered rotor b1
+gDensityOfStates initialization failed.
+Hindered rotor b1
+ -- Total time elapsed: 5 seconds.
+
+System saved to out.xml
+Total time elapsed: 5 seconds.

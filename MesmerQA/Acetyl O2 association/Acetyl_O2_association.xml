@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl'?>
-<me:mesmer xmlns="http://www.xml-cml.org/schema" 
+<me:mesmer xmlns="http://www.xml-cml.org/schema"
            xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <me:title> Acetyl O2 association</me:title>
@@ -36,9 +36,9 @@
         </property>
         <property dictRef="me:vibFreqs">
           <array units="cm-1">
-             110.8594  469.8360  852.9605  955.5673 
+            110.8594  469.8360  852.9605  955.5673
             1049.6839 1359.1474 1454.3118 1459.6421
-            1930.1084 3014.0596 3104.5876 3110.7727 
+            1930.1084 3014.0596 3104.5876 3110.7727
           </array>
         </property>
         <property dictRef="me:MW">
@@ -614,7 +614,7 @@
         <molecule ref="TS1" role="transitionState" />
       </me:transitionState>
       <me:tunneling name="Eckart"/>
-      <me:MCRCMethod name="RRKM"/>
+      <me:MCRCMethod xsi:type ="RRKM"/>
     </reaction>
     <reaction id="R3">
       <reactant>
@@ -629,7 +629,7 @@
       <me:transitionState>
         <molecule ref="TS3" role="transitionState" />
       </me:transitionState>
-      <me:MCRCMethod name="RRKM"/>
+      <me:MCRCMethod xsi:type ="RRKM"/>
     </reaction>
     <reaction id="R4">
       <reactant>
@@ -644,7 +644,7 @@
       <me:transitionState>
         <molecule ref="TS2" role="transitionState" />
       </me:transitionState>
-      <me:MCRCMethod name="RRKM"/>
+      <me:MCRCMethod xsi:type ="RRKM"/>
     </reaction>
   </reactionList>
   <me:conditions>

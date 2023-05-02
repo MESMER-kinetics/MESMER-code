@@ -33,7 +33,7 @@ GOTO SETTINGS
 :SETTINGS
 SET tfn=mesmer.test
 SET lfn=mesmer.log
-SET bline=baselines/Win32/
+SET bline=baselines/Win64/
 SET outf=out.xml
 SET mpicommand="C:\Program Files\Microsoft MPI\Bin\mpiexec" -n 4 %executable%
 :: SET cmdline=%executable%

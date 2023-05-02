@@ -1,0 +1,82 @@
+
+            /|      /|                        \   
+           / |     / | ________________________\  
+          /  |    /  |  _   _             _   _   
+         /   |   /   | / \ / \ |\     /| / \ / \  
+        /    |  /    | \_/ \_  | \   / | \_/ |_/  
+       /     | /     | /     \ |  \ /  | /   | \  
+    \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
+
+     Mesmer: Master Equation Solver for Multi-Energy well Reactions
+     Mesmer v7.1 compiled: -- May  1 2023 -- 14:31:23
+
+     Copyright (C) 2009-2022 by
+     Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
+     David R. Glowacki, Michael J. Pilling and contributors
+
+     Mesmer is free software: you can redistribute it and/or modify
+     it under the terms of the GNU Public License as published by
+     the Free Software Foundation, either version 2 of the License,
+     or (at your option) any later version.
+
+     But WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU Public License for more details.
+
+    You should have received a copy of the GNU Public License
+    along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
+
+                     Platform:        Windows64
+                     Execution Date:  Mon May  1 15:44:05 2023
+                     Number of ranks: 4
+
+defaults.xml, librarymols.xml are in ../..
+
+Parsing input xml file...
+ipropyl_reservoir.xml
+
+--Parse data for simpleCalc
+Energy convention "" written to <moleculeList>
+In R1: Parsing reaction...Irreversible unimolecular reaction
+In i-propyl: Hindered rotor b1
+In i-propyl: Hindered rotor b2
+In i-propyl: The default value of me:DistributionCalcMethod was used.
+In i-propyl: --Parse data for Boltzmann
+In i-propyl: --Parse data for ExponentialDown
+In i-propyl: i-propyl:deltaEDown was given a range with 15 steps 
+In R1: --Parse data for MesmerILT
+In propene: Hindered rotor b1
+In propene: propene:ZPE was given a range with 401 steps 
+In H: The default value of me:DOSCMethod was used.
+In H: The default value of the attribute spinMultiplicity was used.
+In R1: No tunneling method used for R1
+The default value of the attribute precision was used.
+3e+17PPCC, 720K at d precision with He
+The default value of the attribute precision was used.
+3.01e+17PPCC, 730K at d precision with He
+The default value of the attribute Tstep was used.
+The default value of the attribute Tmin was used.
+The default value of the attribute Tmax was used.
+The default value of me:ForceMacroDetailedBalance was used.
+Write metadata 20230501_154405
+
+File: "ipropyl_reservoir.xml" successfully parsed.
+Main Calculation begins
+Now calculating...
+
+--Execute calcMethod simpleCalc
+Number of cells = 50000, Number of grains = 186
+Number of grains produced is not equal to that requested for: H
+Number of grains requested: 500
+Number of grains produced : 1
+In FastLaplaceConvolution: 5880 values in the FFT convolution routine were replaced by standard convolution
+ -- Total time elapsed: 0 seconds.
+
+
+    Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
+
+            720          3e+17           41.5        18.6645
+            730       3.01e+17           51.1        25.8572
+
+System saved to mesmer_out.xml
+Total time elapsed: 0 seconds.
