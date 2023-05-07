@@ -103,7 +103,7 @@ namespace mesmer
     //Returns true if atoms have coordinates
     bool ReadStructure();
 
-    int NumAtoms() { return Atoms.size(); }
+    size_t NumAtoms() { return Atoms.size(); }
 
     bool IsAtom() {
       if (Atoms.empty())

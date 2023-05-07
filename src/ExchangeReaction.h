@@ -54,9 +54,9 @@ namespace mesmer
     };
 
     // Get unimolecular species information:
-    virtual int get_unimolecularspecies(std::vector<Molecule *> &unimolecularspecies) const { 
+    virtual void get_unimolecularspecies(std::vector<Molecule *> &unimolecularspecies) const {
       unimolecularspecies.push_back(m_pdt1);
-      return unimolecularspecies.size();
+      return ;
     }
 
     // Get the principal source reactant (i.e. reactant not in excess).

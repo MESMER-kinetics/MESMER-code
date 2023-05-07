@@ -33,11 +33,11 @@ namespace mesmer
     virtual ~IsomerizationReaction() {};
 
     // Get unimolecular species information:
-    virtual int get_unimolecularspecies(std::vector<Molecule*>& unimolecularspecies) const
+    virtual void get_unimolecularspecies(std::vector<Molecule*>& unimolecularspecies) const
     {
       unimolecularspecies.push_back(m_rct1);
       unimolecularspecies.push_back(m_pdt1);
-      return unimolecularspecies.size();
+      return;
     };
 
     // Return products

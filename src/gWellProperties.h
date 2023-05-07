@@ -105,7 +105,7 @@ namespace mesmer
 
     double get_collisionFrequency() const {return m_collisionFrequency ; } ;
 
-    void set_colloptrsize(int ncolloptrsize) { m_ncolloptrsize = ncolloptrsize; };
+    void set_colloptrsize(size_t ncolloptrsize) { m_ncolloptrsize = ncolloptrsize; };
 
     size_t get_colloptrsize() const {return m_ncolloptrsize ; } ;
 

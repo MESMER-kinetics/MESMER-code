@@ -104,8 +104,8 @@ namespace mesmer
 
     Molecule* get_TransitionState() const { return m_TransitionState; };
 
-    // Get unimolecualr species information:
-    virtual int get_unimolecularspecies(std::vector<Molecule*>& unimolecularspecies) const = 0;
+    // Get unimolecular species information:
+    virtual void get_unimolecularspecies(std::vector<Molecule*>& unimolecularspecies) const = 0;
 
     enum reactionType { all, rev, reactantsOnly, productsOnly };
     std::string getReactionString(reactionType = all);

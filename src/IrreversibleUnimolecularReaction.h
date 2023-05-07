@@ -35,10 +35,10 @@ namespace mesmer
     virtual ~IrreversibleUnimolecularReaction(){} ;
 
     // Get unimolecular species information:
-    virtual int get_unimolecularspecies(std::vector<Molecule *> &unimolecularspecies) const
+    virtual void get_unimolecularspecies(std::vector<Molecule *> &unimolecularspecies) const
     {
       unimolecularspecies.push_back(m_rct1) ;
-      return unimolecularspecies.size() ;
+      return;
     } ;
 
     // Initialize reaction.

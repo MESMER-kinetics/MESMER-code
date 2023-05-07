@@ -65,7 +65,7 @@ namespace mesmer
     void broadcastString(string& tmp, int root) {
       int strSize(0), intSize(1);
       if (m_rank == root)
-        strSize = tmp.size() + 1;
+        strSize = int(tmp.size()) + 1;
       MPI_Bcast(&strSize, intSize, MPI_INT, root, MPI_COMM_WORLD);
       char* ctmp = new char[strSize];
       if (m_rank == root)
@@ -78,7 +78,7 @@ namespace mesmer
     // Broadcast vector of strings across processes from a given root.
 
     void broadcastVecString(vector<string>& tmp, int root) {
-      int size = tmp.size();
+      int size = int(tmp.size());
       MPI_Bcast(&size, 1, MPI_INT, root, MPI_COMM_WORLD);
       if (size == 0) // Nothing to copy so return;
         return;
@@ -109,7 +109,7 @@ namespace mesmer
     // Broadcast vector of doubles across processes from a given route.
 
     void broadcastVecDouble(vector<double>& tmp, int root) {
-      int size = tmp.size();
+      int size = int(tmp.size());
       MPI_Bcast(&size, 1, MPI_INT, root, MPI_COMM_WORLD);
       vector<double> dtmp(size);
       if (m_rank == root)
