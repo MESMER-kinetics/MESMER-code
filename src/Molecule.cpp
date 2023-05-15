@@ -93,7 +93,7 @@ namespace mesmer
     if (m_atomNumber < 1) // No atoms defined, so no test can be done.
       return true;
 
-    unsigned int nDOF(0);
+    size_t nDOF(0);
     if (g_dos) {
       nDOF = g_dos->getNoOfDegOfFreeedom();
     }

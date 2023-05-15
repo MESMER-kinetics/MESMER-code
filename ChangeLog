@@ -1,3 +1,9 @@
+2023-May-15 Struan Robertson
+
+		* DensityOfStates.cpp/.h and all classes that derive from DensityOfStates, gWellProperties.cpp,
+		Molecule.h, RRKM.cpp, Reaction.cpp, vector3.h, vector3.cpp: Changes needed to fix Win64 build 
+		warnings.
+
 2023-May-07 Struan Robertson
 
 		* Reaction.h and all classes that derive from Reaction, ParallelManager.h, Structure.h,

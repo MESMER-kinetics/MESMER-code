@@ -122,10 +122,10 @@ namespace mesmer
         return false;
 
       // report Transition State Flux in cells to test output
-      const int MaximumCell = getEnv().MaxCell;
+      const size_t MaximumCell = getEnv().MaxCell;
       if (getFlags().cellFluxEnabled) {
         ctest << "\nFlux(e) cells for " << getName() << ":\n{\n";
-        for (int i = 0; i < MaximumCell; ++i) {
+        for (size_t i(0); i < MaximumCell; ++i) {
           ctest << m_CellFlux[i] << endl;
         }
         ctest << "}\n";

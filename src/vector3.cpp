@@ -81,7 +81,7 @@ namespace OpenBabel
     the method is of course very slow and should therefore be
     avoided in production code.
   */
-  double vector3::operator[] ( unsigned int i) const
+  double vector3::operator[] ( size_t i) const
   {
 #ifdef OB_OLD_MATH_CHECKS
     if (i > 2)

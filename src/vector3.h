@@ -109,7 +109,7 @@ namespace OpenBabel
       c[2]=_vz;
     }
     //! Access function to x: [0], y: [1], and z[2]
-    double operator[] ( unsigned int i) const;
+    double operator[] ( size_t i) const;
 
     //! Assignment
     vector3& operator= ( const vector3& v)

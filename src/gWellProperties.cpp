@@ -361,7 +361,7 @@ namespace mesmer
     // by "locate" and multiply by the reduced collision frequencey.
 
     for (size_t i(0); i < nbasis; ++i) {
-      int ii(locate + i);
+      size_t ii(locate + i);
       (*CollOptr)[ii][ii] = Omega * m_egval[m_ncolloptrsize - i - 1];
     }
   }

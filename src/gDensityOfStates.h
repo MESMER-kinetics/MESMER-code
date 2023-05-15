@@ -104,7 +104,7 @@ namespace mesmer
     ~gDensityOfStates();
 
     // Get the number of degrees of freedom for this species.
-    unsigned int getNoOfDegOfFreeedom();
+    size_t getNoOfDegOfFreeedom();
 
     // Get cell density of states. No recalculation if bcalc==false.
     bool getCellDensityOfStates(std::vector<double>& cellDOS, bool bcalc = true);

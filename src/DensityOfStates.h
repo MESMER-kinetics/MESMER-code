@@ -61,7 +61,7 @@ namespace mesmer
     virtual void canPrtnFnCntrb(gDensityOfStates* gdos, double beta, double& PrtnFn, double& IntrlEne, double& varEne) = 0;
 
     // Provide a function to return the number of degrees of freedom associated with this count.
-    virtual unsigned int NoDegOfFreedom(gDensityOfStates* gdos) = 0;
+    virtual size_t NoDegOfFreedom(gDensityOfStates* gdos) = 0;
 
     // Provide a function to calculate the zero point energy of a molecule.
     virtual double ZeroPointEnergy(gDensityOfStates* gdos) { return 0.0; };

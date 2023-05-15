@@ -20,7 +20,7 @@ namespace mesmer
     virtual void canPrtnFnCntrb(gDensityOfStates* gdos, double beta, double& PrtnFn, double& IntrlEne, double& varEne);
 
     // Function to return the number of degrees of freedom associated with this count.
-    virtual unsigned int NoDegOfFreedom(gDensityOfStates* gdos);
+    virtual size_t NoDegOfFreedom(gDensityOfStates* gdos);
 
     // Provide a function to calculate the zero point energy of a molecule.
     virtual double ZeroPointEnergy(gDensityOfStates* gdos);
@@ -115,7 +115,7 @@ namespace mesmer
   }
 
   // Function to return the number of degrees of freedom associated with this count.
-  unsigned int BeyerSwinehart::NoDegOfFreedom(gDensityOfStates* gdos) {
+  size_t BeyerSwinehart::NoDegOfFreedom(gDensityOfStates* gdos) {
 
     vector<double> vibFreq;
     gdos->get_VibFreq(vibFreq);

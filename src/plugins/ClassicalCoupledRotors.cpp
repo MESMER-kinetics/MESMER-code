@@ -39,7 +39,7 @@ namespace mesmer
     virtual void canPrtnFnCntrb(gDensityOfStates* gdos, double beta, double &PrtnFn, double &IntrlEne, double &varEne);
 
     // Function to return the number of degrees of freedom associated with this count.
-    virtual unsigned int NoDegOfFreedom(gDensityOfStates* gdos);
+    virtual size_t NoDegOfFreedom(gDensityOfStates* gdos);
 
     // Constructor which registers with the list of DensityOfStatesCalculators in TopPlugin.
     // This class calculates a complete DOS: it is not an extra class. 
@@ -332,8 +332,8 @@ namespace mesmer
   }
 
   // Function to return the number of degrees of freedom associated with this count.
-  unsigned int ClassicalCoupledRotors::NoDegOfFreedom(gDensityOfStates* gdos) {
-    unsigned int nDOF(m_bondIDs.size() + 3); // The +3 is for the external rotors.
+  size_t ClassicalCoupledRotors::NoDegOfFreedom(gDensityOfStates* gdos) {
+    size_t nDOF(m_bondIDs.size() + 3); // The +3 is for the external rotors.
     return nDOF;
   }
 

@@ -443,8 +443,8 @@ namespace mesmer
   //
   // Get the number of degrees of freedom for this species.
   //
-  unsigned int gDensityOfStates::getNoOfDegOfFreeedom() {
-    unsigned int nDOF(0);
+  size_t gDensityOfStates::getNoOfDegOfFreeedom() {
+    size_t nDOF(0);
     for (vector<DensityOfStatesCalculator*>::size_type j = 0; j < m_DOSCalculators.size(); ++j) {
       nDOF += m_DOSCalculators[j]->NoDegOfFreedom(this);
     }
@@ -677,8 +677,8 @@ namespace mesmer
   //
   void gDensityOfStates::testDensityOfStates()
   {
-    const int MaximumGrain = m_host->getEnv().MaxGrn;
-    const int MaximumCell = m_host->getEnv().MaxCell;
+    const size_t MaximumGrain = m_host->getEnv().MaxGrn;
+    const size_t MaximumCell = m_host->getEnv().MaxCell;
     std::vector<double> cellEne;
     getCellEnergies(MaximumCell, m_host->getEnv().CellSize, cellEne);
 

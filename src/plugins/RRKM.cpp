@@ -59,7 +59,7 @@ namespace mesmer
       return false; // Extract densities of states from molecules.
 
     // get MaxCell from MesmerEnv structure via Reaction class
-    const int MaximumCell = pReact->getEnv().MaxCell;
+    const size_t MaximumCell = pReact->getEnv().MaxCell;
 
     // Allocate space to hold transition state flux and initialize elements to zero.
     vector<double>& rxnFlux = pReact->get_CellFlux();
