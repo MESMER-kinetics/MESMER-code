@@ -403,6 +403,8 @@ examples/AcetylO2/acetyl.log -text
 examples/AcetylO2/acetylO2.ck -text
 examples/AcetylO2/baselines/Linux64/mesmer.test -text
 examples/AcetylO2/baselines/Win32/mesmer.test -text
+examples/AcetylO2/baselines/Win64/mesmer.log -text
+examples/AcetylO2/baselines/Win64/mesmer.test -text
 examples/AcetylO2/lactone.log -text
 examples/AcetylPrior/AcetylPrior.xml -text
 examples/AcetylPrior/baselines/Linux64/mesmer.log -text
