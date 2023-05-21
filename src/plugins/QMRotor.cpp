@@ -102,7 +102,7 @@ namespace mesmer
     //
     vector<double> rotConst;
     RotationalTop rotorType = pDOS->get_rotConsts(rotConst);
-    double qele = m_SpinMultiplicity;
+    double qele = double(m_SpinMultiplicity);
     size_t i_e(0);
 
     // Note: rotConst[0] (A) >= rotConst[1] (B) >= rotConst[2] (C)

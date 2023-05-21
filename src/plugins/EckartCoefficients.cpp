@@ -110,7 +110,7 @@ namespace mesmer
     const double imFreq = pReact->get_TSImFreq();
 
     //get properties of vectors in which to include transmission coefficients
-    const int MaximumCell = pReact->get_reactant()->getEnv().MaxCell;
+    const size_t MaximumCell = pReact->get_reactant()->getEnv().MaxCell;
     TunnelingProbability.clear();
     TunnelingProbability.resize(MaximumCell,0.0);
 

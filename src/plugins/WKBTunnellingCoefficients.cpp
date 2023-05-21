@@ -98,17 +98,10 @@ namespace mesmer
     const int barrier0 = int(TZ) - int(pReact->get_relative_rctZPE());
     const int barrier1 = int(TZ) - int(pReact->get_relative_pdtZPE());
 
-    //Now read in ParseData() 
-    // Read in potential barrier details.
-    //vector<double> potential, distance ;
-    //double mu(0.0) ;
-    //if (!ReadPotential(pReact, potential, distance, mu))
-    //  return false ;
-
     // Set transmission coefficients to 0 where no tunneling is possible;
     // where tunneling may occur, the transmission coefficients are calculated using a wkb formalism
     // as described by  B. C. Garrett and D. G. Truhlar, J. Phys. Chem., 1979, 83, 292
-    const int MaximumCell = pReact->get_reactant()->getEnv().MaxCell;
+    const size_t MaximumCell = pReact->get_reactant()->getEnv().MaxCell;
     TunnelingProbability.clear();
     TunnelingProbability.resize(MaximumCell);
     for(int i = 0; i < MaximumCell; ++i){

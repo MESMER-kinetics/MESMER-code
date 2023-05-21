@@ -215,9 +215,9 @@ namespace mesmer
 			}
 
 			// Calculate mean and variance across ranks.
-			double dCnt(cnt);
+			double dCnt = double(cnt);
 			pSys->getParallelManager()->sumDouble(&dCnt, 1);
-			pSys->getParallelManager()->sumDouble(&varf[0], varf.size());
+			pSys->getParallelManager()->sumDouble(&varf[0], int(varf.size()));
 			// Note: division by cnt, not cnt-1, because we know the mean.
 			for (size_t nOut(0); nOut < varf.size(); nOut++) {
 				varf[nOut] /= dCnt;
