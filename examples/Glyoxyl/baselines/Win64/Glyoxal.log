@@ -1,0 +1,227 @@
+
+            /|      /|                        \   
+           / |     / | ________________________\  
+          /  |    /  |  _   _             _   _   
+         /   |   /   | / \ / \ |\     /| / \ / \  
+        /    |  /    | \_/ \_  | \   / | \_/ |_/  
+       /     | /     | /     \ |  \ /  | /   | \  
+    \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
+
+     Mesmer: Master Equation Solver for Multi-Energy well Reactions
+     Mesmer v7.1 compiled: -- May 21 2023 -- 13:02:07
+
+     Copyright (C) 2009-2022 by
+     Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
+     David R. Glowacki, Michael J. Pilling and contributors
+
+     Mesmer is free software: you can redistribute it and/or modify
+     it under the terms of the GNU Public License as published by
+     the Free Software Foundation, either version 2 of the License,
+     or (at your option) any later version.
+
+     But WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU Public License for more details.
+
+    You should have received a copy of the GNU Public License
+    along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
+
+                     Platform:        Windows64
+                     Execution Date:  Sun May 21 15:28:50 2023
+                     Number of ranks: 4
+
+defaults.xml, librarymols.xml are in ../..
+
+Parsing input xml file...
+Glyoxal.xml
+
+--Parse data for marquardt
+The default value of me:MarquardtLambda was used.
+The default value of me:MarquardtLambdaScale was used.
+Energy convention "" written to <moleculeList>
+In R1: Parsing reaction...Association reaction
+In Glyoxal: The default value of me:DOSCMethod was used.
+In Glyoxal: The default value of the attribute spinMultiplicity was used.
+In C1: No lennard-Jones parameters found for C1.
+In C1: An attempt to calculate parameters will be made. If this fails
+In C1: default parameters will be used
+In C1: The default value of me:DOSCMethod was used.
+In C1: The default value of me:DistributionCalcMethod was used.
+In C1: --Parse data for Boltzmann
+In C1: The default value of me:energyTransferModel was used.
+In C1: --Parse data for ExponentialDown
+In R1: --Parse data for MesmerILT
+In R1: The default value of me:TInfinity was used.
+In R1: No tunneling method used for R1
+In R1: No value of me:excessReactantConc was supplied and the default value NEEDS TO BE CHECKED**
+In R2_2: Parsing reaction...Isomerization reaction
+In C2: No lennard-Jones parameters found for C2.
+In C2: An attempt to calculate parameters will be made. If this fails
+In C2: default parameters will be used
+In C2: The default value of me:DOSCMethod was used.
+In C2: The default value of me:DistributionCalcMethod was used.
+In C2: --Parse data for Boltzmann
+In C2: The default value of me:energyTransferModel was used.
+In C2: --Parse data for ExponentialDown
+In TS1: The default value of me:DOSCMethod was used.
+In R2_2: --Parse data for RRKM
+In R2_2: No tunneling method used for R2_2
+In R3: Parsing reaction...Pseudoisomerization reaction
+In R3: --Parse data for modPrior
+In HC(O)CO: The default value of me:DistributionCalcMethod was used.
+In HC(O)CO: --Parse data for Boltzmann
+In HC(O)CO: The default value of me:energyTransferModel was used.
+In HC(O)CO: --Parse data for ExponentialDown
+In HC(O)CO: HC(O)CO:deltaEDown was given a range with 31 steps 
+In R3: --Parse data for MesmerILT
+In R3: The default value of me:TInfinity was used.
+In R3: No tunneling method used for R3
+In R4: Parsing reaction...Irreversible unimolecular reaction
+In TS2: WARNING: When calculating frequencies from a Hessian it is critical
+     that the Hessian and species coordinates are expressed relative to
+     the same Cartesian coordinate system.
+In TS2: Vibrational frequencies (cm-1) were calculated from Hessian:
+  35.8068 52.934 206.898 542.376 1170.12 1879.19 2030.89 2885.69 
+In TS2: Hindered rotor b1
+In R4: --Parse data for RRKM
+In R4: No tunneling method used for R4
+In R2: Parsing reaction...Pseudoisomerization reaction
+In R2: The default value of me:FragmentDist was used.
+In R2: --Parse data for Prior
+In O2: The default value of me:DOSCMethod was used.
+In R02: WARNING: When calculating frequencies from a Hessian it is critical
+     that the Hessian and species coordinates are expressed relative to
+     the same Cartesian coordinate system.
+In R02: Vibrational frequencies (cm-1) were calculated from Hessian:
+  -1.59361e-13 -7.18078e-14 5.12088e-06 1.52617e-05 2.15748e-05 3.48309e-05 3.81351e-05 139.149 256.541 475.047 
+  668.07 1241.7 1851.8 2276.52 3246 
+In R02: The default value of me:DOSCMethod was used.
+In R02: Hindered rotor b1
+In R02: Hindered rotor b2
+In R02: The default value of me:DistributionCalcMethod was used.
+In R02: --Parse data for Boltzmann
+In R02: The default value of me:energyTransferModel was used.
+In R02: --Parse data for ExponentialDown
+In R2: --Parse data for MesmerILT
+In R2: R2:activationEnergy was given a range with 101 steps 
+In R2: R2:preExponential was given a range with 1000 steps 
+In R2: The default value of me:TInfinity was used.
+In R2: No tunneling method used for R2
+In R2: No value of me:excessReactantConc was supplied and the default value NEEDS TO BE CHECKED**
+In R6: Parsing reaction...Irreversible unimolecular reaction
+In TS4: WARNING: When calculating frequencies from a Hessian it is critical
+     that the Hessian and species coordinates are expressed relative to
+     the same Cartesian coordinate system.
+In TS4: Vibrational frequencies (cm-1) were calculated from Hessian:
+  47.2897 164.506 302.975 492.787 520.938 630.682 655.536 797.905 1018.26 1039.45 
+  1129.77 1911.18 2011.35 2061.7 
+In TS4: The default value of me:DOSCMethod was used.
+In TS4: Hindered rotor b1
+In R6: --Parse data for RRKM
+In R6: No tunneling method used for R6
+80Torr, 295K at dd precision with N2
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R3 = 1e+14 particles per cc
+Excess Reactant Conc. for reaction R2 = 1.547e+17 particles per cc
+80Torr, 295K at dd precision with N2
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R3 = 1e+14 particles per cc
+Excess Reactant Conc. for reaction R2 = 3.265e+17 particles per cc
+80Torr, 295K at dd precision with N2
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R3 = 1e+14 particles per cc
+Excess Reactant Conc. for reaction R2 = 5.866e+17 particles per cc
+80Torr, 295K at dd precision with N2
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R3 = 1e+14 particles per cc
+Excess Reactant Conc. for reaction R2 = 9.24e+17 particles per cc
+5Torr, 212K at qd precision with N2
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R3 = 1e+14 particles per cc
+Excess Reactant Conc. for reaction R2 = 3.56e+15 particles per cc
+5Torr, 212K at qd precision with N2
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R3 = 1e+14 particles per cc
+Excess Reactant Conc. for reaction R2 = 1.56e+16 particles per cc
+5Torr, 212K at qd precision with N2
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R3 = 1e+14 particles per cc
+Excess Reactant Conc. for reaction R2 = 3.68e+16 particles per cc
+5Torr, 212K at qd precision with N2
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R3 = 1e+14 particles per cc
+Excess Reactant Conc. for reaction R2 = 1.01e+17 particles per cc
+The default value of me:ForceMacroDetailedBalance was used.
+Write metadata 20230521_152850
+
+File: "Glyoxal.xml" successfully parsed.
+Main Calculation begins
+Now calculating...
+
+--Execute calcMethod marquardt
+In FastLaplaceConvolution: 1460 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 2900 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 2280 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 2580 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 620 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 1620 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 20 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 100 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 2760 values in the FFT convolution routine were replaced by standard convolution
+
+WARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs).
+
+The last CSE = -3.85748e+07 and the first IERE = -7.64862e+07
+(last CSE)/(first IERE) ratio = 0.504337, which is less than an order of magnitude
+
+Results obtained from Bartis Widom eigenvalue-vector analysis may be unreliable
+No population was assigned. Initialize the first source term to 1.0.
+
+Chi^2 = 7.0913 Lambda = 1
+HC(O)CO:deltaEDown=278.947  R2:activationEnergy=3.0715  R2:preExponential=1.50278e-12  
+
+Chi^2 = 7.00561 Lambda = 0.1
+HC(O)CO:deltaEDown=270.339  R2:activationEnergy=3.12466  R2:preExponential=1.53617e-12  
+Iteration: 1 of Marquardt. ChiSquare = 7.00561, Lambda = 0.1
+
+Chi^2 = 6.49646 Lambda = 0.01
+HC(O)CO:deltaEDown=228.45  R2:activationEnergy=3.95335  R2:preExponential=1.74686e-12  
+Iteration: 2 of Marquardt. ChiSquare = 6.49646, Lambda = 0.01
+Number of cells = 50000, Number of grains = 224
+Number of cells = 50000, Number of grains = 218
+ -- Total time elapsed: 1753 seconds.
+
+
+    Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
+
+            295    2.61871e+18         0.0508      0.0685385
+            295    2.61871e+18          0.135       0.115616
+            295    2.61871e+18        0.18893       0.159313
+            295    2.61871e+18        0.21629       0.192707
+            212    2.27747e+17          0.181        0.22666
+            212    2.27747e+17          0.282       0.294421
+            212    2.27747e+17          0.367       0.310225
+            212    2.27747e+17          0.377        0.31825
+
+
+Chi^2 = 6.49646
+
+Best fit parameters:
+
+HC(O)CO:deltaEDown = 228.45 +/- 962.394
+R2:activationEnergy = 3.95335 +/- 7.27756
+R2:preExponential = 1.74686e-12 +/- 1.22106e-11
+
+Correlation coefficients:
+
+R2:activationEnergy , HC(O)CO:deltaEDown = 0.83775
+R2:preExponential , HC(O)CO:deltaEDown = 0.973162
+R2:preExponential , R2:activationEnergy = 0.939617
+
+Goodness of Fit:
+
+Number of degrees of Freedom = 5
+Chi^2 probability = 0.260861
+
+System saved to mesmer_out.xml
+Total time elapsed: 1753 seconds.

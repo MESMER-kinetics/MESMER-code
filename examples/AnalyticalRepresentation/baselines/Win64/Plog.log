@@ -1,0 +1,148 @@
+
+            /|      /|                        \   
+           / |     / | ________________________\  
+          /  |    /  |  _   _             _   _   
+         /   |   /   | / \ / \ |\     /| / \ / \  
+        /    |  /    | \_/ \_  | \   / | \_/ |_/  
+       /     | /     | /     \ |  \ /  | /   | \  
+    \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
+
+     Mesmer: Master Equation Solver for Multi-Energy well Reactions
+     Mesmer v7.1 compiled: -- May 21 2023 -- 13:02:07
+
+     Copyright (C) 2009-2022 by
+     Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
+     David R. Glowacki, Michael J. Pilling and contributors
+
+     Mesmer is free software: you can redistribute it and/or modify
+     it under the terms of the GNU Public License as published by
+     the Free Software Foundation, either version 2 of the License,
+     or (at your option) any later version.
+
+     But WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU Public License for more details.
+
+    You should have received a copy of the GNU Public License
+    along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
+
+                     Platform:        Windows64
+                     Execution Date:  Sun May 21 14:49:11 2023
+                     Number of ranks: 4
+
+defaults.xml, librarymols.xml are in ../..
+
+Parsing input xml file...
+Plog.xml
+
+--Parse data for analyticalRepresentation
+Energy convention "" written to <moleculeList>
+In R1: Parsing reaction...Isomerization reaction
+In trans-But-2-ene: The default value of me:DistributionCalcMethod was used.
+In trans-But-2-ene: --Parse data for Boltzmann
+In trans-But-2-ene: --Parse data for ExponentialDown
+In cis-But-2-ene: --Parse data for Boltzmann
+In cis-But-2-ene: --Parse data for ExponentialDown
+In R1: No imaginary vibrational frequency. Check if there is tunneling.
+--Parse data for RRKM
+In R1: No tunneling method used for R1
+In R2: Parsing reaction...Irreversible unimolecular reaction
+In R2: No imaginary vibrational frequency. Check if there is tunneling.
+--Parse data for RRKM
+In R2: No tunneling method used for R2
+No pressure and temperature specified.
+The default value of me:ForceMacroDetailedBalance was used.
+Write metadata 20230521_144911
+
+File: "Plog.xml" successfully parsed.
+Main Calculation begins
+Now calculating...
+
+--Execute calcMethod analyticalRepresentation
+In Butadiene: The default value of me:DOSCMethod was used.
+In Butadiene: To mix thermodynamic and computational energies the molecule needs chemical structure (an atomList at least)
+In Butadiene: Missing thermo data for atoms
+In H2: enthalpy of formation at 298K:Cannot find me:vibFreqs or me:hessian. Assuming an atom or a sink molecule.
+In H2: No rotational constants from <me:rotConsts> or structure. Assuming an atom or a sink molecule.
+In H2: The default value of me:DOSCMethod was used.
+In H2: The default value of the attribute spinMultiplicity was used.
+gDensityOfStates initialization failed.
+Restricted thermo output for H2 because it has arbitrary energy data.
+In cis-But-2-ene: To mix thermodynamic and computational energies the molecule needs chemical structure (an atomList at least)
+In cis-But-2-ene: Missing thermo data for atoms
+In trans-But-2-ene: To mix thermodynamic and computational energies the molecule needs chemical structure (an atomList at least)
+In trans-But-2-ene: Missing thermo data for atoms
+enthalpy of formation at 298K:enthalpy of formation at 298K:
+Bath gas is He
+
+species(name = "Butadiene",
+        atoms = "",
+        thermo = (
+            NASA( [   600.000, 1400.000], [  3.5401680e+00,   2.5467565e-02, 
+                      -1.1755207e-05,   2.7706408e-09,  -3.1189116e-13, 
+                      -2.1361169e+03,   7.6433006e+00] ),
+            NASA( [  1400.000, 1400.000], [  3.5401680e+00,   2.5467565e-02, 
+                      -1.1755207e-05,   2.7706408e-09,  -3.1189116e-13, 
+                      -2.1361169e+03,   7.6433006e+00] ) ) )
+
+species(name = "H2",
+        atoms = "",
+        thermo = (
+            NASA( [   600.000, 1400.000], [  2.5000000e+00,  -3.0298364e-26, 
+                       4.7103206e-29,  -3.1885008e-32,   7.9391426e-36, 
+                      -1.3208607e-21,  -1.1198286e-01] ),
+            NASA( [  1400.000, 1400.000], [  2.5000000e+00,  -3.0298364e-26, 
+                       4.7103206e-29,  -3.1885008e-32,   7.9391426e-36, 
+                      -1.3208607e-21,  -1.1198286e-01] ) ) )
+
+species(name = "cis-But-2-ene",
+        atoms = "",
+        thermo = (
+            NASA( [   600.000, 1400.000], [ -1.8806685e+00,   4.8485282e-02, 
+                      -3.2368707e-05,   1.1806521e-08,  -1.8902409e-12, 
+                      -1.3368512e+03,   3.2638826e+01] ),
+            NASA( [  1400.000, 1400.000], [ -1.8806685e+00,   4.8485282e-02, 
+                      -3.2368707e-05,   1.1806521e-08,  -1.8902409e-12, 
+                      -1.3368512e+03,   3.2638826e+01] ) ) )
+
+species(name = "trans-But-2-ene",
+        atoms = "",
+        thermo = (
+            NASA( [   600.000, 1400.000], [ -1.5434630e+00,   4.7617851e-02, 
+                      -3.1316733e-05,   1.1203492e-08,  -1.7585256e-12, 
+                      -1.4000540e+03,   3.1706616e+01] ),
+            NASA( [  1400.000, 1400.000], [ -1.5434630e+00,   4.7617851e-02, 
+                      -3.1316733e-05,   1.1203492e-08,  -1.7585256e-12, 
+                      -1.4000540e+03,   3.1706616e+01] ) ) )
+
+units(length = 'cm', quantity = 'mole')
+
+pdep_arrhenius('cis-But-2-ene => Butadiene + H2',
+               [(          0.01, 'atm'),   1.47829e+51,      -11.2606,       82828.7],
+               [(           0.1, 'atm'),   4.54274e+49,      -10.7911,       82254.6],
+               [(             1, 'atm'),   3.00274e+49,      -10.7354,       82185.2],
+               [(            10, 'atm'),   2.87871e+49,      -10.7298,       82178.1])
+
+pdep_arrhenius('cis-But-2-ene => trans-But-2-ene',
+               [(          0.01, 'atm'),   2.21111e+47,      -10.0419,       78322.1],
+               [(           0.1, 'atm'),   1.58288e+45,      -9.38196,       77463.8],
+               [(             1, 'atm'),   8.97566e+44,      -9.30626,       77364.5],
+               [(            10, 'atm'),    8.4733e+44,      -9.29858,       77354.4])
+
+pdep_arrhenius('trans-But-2-ene => Butadiene + H2',
+               [(          0.01, 'atm'),   3.22845e+64,      -15.1463,       98989.4],
+               [(           0.1, 'atm'),   2.20598e+62,      -14.7671,       98650.1],
+               [(             1, 'atm'),   1.59194e+61,      -14.7214,       98606.3],
+               [(            10, 'atm'),   1.53978e+60,      -14.7168,       98601.8])
+
+pdep_arrhenius('trans-But-2-ene => cis-But-2-ene',
+               [(          0.01, 'atm'),    1.3803e+47,      -10.0968,       79059.6],
+               [(           0.1, 'atm'),   9.88118e+44,      -9.43689,       78201.3],
+               [(             1, 'atm'),    5.6031e+44,       -9.3612,         78102],
+               [(            10, 'atm'),    5.2895e+44,      -9.35352,       78091.9])
+
+
+ -- Total time elapsed: 78 seconds.
+
+System saved to mesmer_out.xml
+Total time elapsed: 78 seconds.

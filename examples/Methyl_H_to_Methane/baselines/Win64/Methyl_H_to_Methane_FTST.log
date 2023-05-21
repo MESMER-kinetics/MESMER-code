@@ -1,0 +1,284 @@
+
+            /|      /|                        \   
+           / |     / | ________________________\  
+          /  |    /  |  _   _             _   _   
+         /   |   /   | / \ / \ |\     /| / \ / \  
+        /    |  /    | \_/ \_  | \   / | \_/ |_/  
+       /     | /     | /     \ |  \ /  | /   | \  
+    \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
+
+     Mesmer: Master Equation Solver for Multi-Energy well Reactions
+     Mesmer v7.1 compiled: -- May 21 2023 -- 13:02:07
+
+     Copyright (C) 2009-2022 by
+     Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
+     David R. Glowacki, Michael J. Pilling and contributors
+
+     Mesmer is free software: you can redistribute it and/or modify
+     it under the terms of the GNU Public License as published by
+     the Free Software Foundation, either version 2 of the License,
+     or (at your option) any later version.
+
+     But WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU Public License for more details.
+
+    You should have received a copy of the GNU Public License
+    along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
+
+                     Platform:        Windows64
+                     Execution Date:  Sun May 21 14:21:58 2023
+                     Number of ranks: 4
+
+defaults.xml, librarymols.xml are in ../..
+
+Parsing input xml file...
+Methyl_H_to_Methane_FTST.xml
+
+--Parse data for marquardt
+The default value of me:MarquardtLambda was used.
+The default value of me:MarquardtLambdaScale was used.
+Energy convention "" written to <moleculeList>
+In R1: Parsing reaction...Association reaction
+In Methyl: Methyl:ZPE was given a range with 3 steps 
+In H: The default value of me:DOSCMethod was used.
+In H: The default value of the attribute spinMultiplicity was used.
+In Methane: The default value of me:DistributionCalcMethod was used.
+In Methane: --Parse data for Boltzmann
+In Methane: --Parse data for ExponentialDown
+In Methane: Methane:deltaEDown was given a range with 15 steps 
+In TS1: No imaginary vibrational frequency. Check if there is tunneling.
+Cannot find me:vibFreqs or me:hessian. Assuming an atom or a sink molecule.
+In TS1: No rotational constants from <me:rotConsts> or structure. Assuming an atom or a sink molecule.
+In TS1: The default value of me:DOSCMethod was used.
+In TS1: TS1:ZPE will be derived from Methyl:ZPE. Check below that this has been found.
+In R1: --Parse data for DefinedSumOfStates
+In R1: No tunneling method used for R1
+In R1: No value of me:excessReactantConc was supplied and the default value NEEDS TO BE CHECKED**
+25.1Torr, 301K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+50.8Torr, 301K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+101.3Torr, 301K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+152.4Torr, 301K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+205.5Torr, 301K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+255.8Torr, 301K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+306.5Torr, 301K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+356.5Torr, 301K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+408.3Torr, 301K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+509.5Torr, 301K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+25.2Torr, 401K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+50.2Torr, 401K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+100.2Torr, 401K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+152.9Torr, 401K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+200.2Torr, 401K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+254.2Torr, 401K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+350Torr, 401K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+455.9Torr, 401K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+508.5Torr, 401K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+610.5Torr, 401K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+25.2Torr, 504K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+50.2Torr, 504K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+100.5Torr, 504K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+153.5Torr, 504K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+200.8Torr, 504K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+255.8Torr, 504K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+356.8Torr, 504K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+400.2Torr, 504K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+509Torr, 504K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+611.7Torr, 504K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+105.3Torr, 601K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+208.5Torr, 601K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+304.5Torr, 601K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+411Torr, 601K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+515Torr, 601K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+614.5Torr, 601K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+711Torr, 601K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+The default value of me:ForceMacroDetailedBalance was used.
+TS1:ZPE is derived from Methyl:ZPE
+Write metadata 20230521_142158
+
+File: "Methyl_H_to_Methane_FTST.xml" successfully parsed.
+Main Calculation begins
+Now calculating...
+
+--Execute calcMethod marquardt
+Number of grains produced is not equal to that requested for: H
+Number of grains requested: 333
+Number of grains produced : 1
+
+Chi^2 = 1.5214e-19 Lambda = 1
+Methyl:ZPE=103.43  Methane:deltaEDown=190  
+Failed bounds check.
+
+Chi^2 = 1.5214e-19 Lambda = 10
+Methyl:ZPE=103.43  Methane:deltaEDown=190  
+Iteration: 1 of Marquardt. ChiSquare = 1.5214e-19, Lambda = 10
+
+Chi^2 = 1.2178e-19 Lambda = 1
+Methyl:ZPE=102.884  Methane:deltaEDown=180.504  
+Iteration: 2 of Marquardt. ChiSquare = 1.2178e-19, Lambda = 1
+Failed bounds check.
+
+Chi^2 = 1.2178e-19 Lambda = 10
+Methyl:ZPE=102.884  Methane:deltaEDown=180.504  
+Iteration: 3 of Marquardt. ChiSquare = 1.2178e-19, Lambda = 10
+
+Chi^2 = 9.20509e-20 Lambda = 1
+Methyl:ZPE=101.918  Methane:deltaEDown=172.449  
+Iteration: 4 of Marquardt. ChiSquare = 9.20509e-20, Lambda = 1
+Failed bounds check.
+
+Chi^2 = 9.20509e-20 Lambda = 10
+Methyl:ZPE=101.918  Methane:deltaEDown=172.449  
+Iteration: 5 of Marquardt. ChiSquare = 9.20509e-20, Lambda = 10
+
+Chi^2 = 7.32175e-20 Lambda = 1
+Methyl:ZPE=101.296  Methane:deltaEDown=165.758  
+Iteration: 6 of Marquardt. ChiSquare = 7.32175e-20, Lambda = 1
+Failed bounds check.
+
+Chi^2 = 7.32175e-20 Lambda = 10
+Methyl:ZPE=101.296  Methane:deltaEDown=165.758  
+Iteration: 7 of Marquardt. ChiSquare = 7.32175e-20, Lambda = 10
+
+Chi^2 = 5.78671e-20 Lambda = 1
+Methyl:ZPE=100.638  Methane:deltaEDown=160.128  
+Iteration: 8 of Marquardt. ChiSquare = 5.78671e-20, Lambda = 1
+Failed bounds check.
+
+Chi^2 = 5.78671e-20 Lambda = 10
+Methyl:ZPE=100.638  Methane:deltaEDown=160.128  
+Iteration: 9 of Marquardt. ChiSquare = 5.78671e-20, Lambda = 10
+Failed bounds check.
+
+Chi^2 = 5.78671e-20 Lambda = 100
+Methyl:ZPE=100.638  Methane:deltaEDown=160.128  
+Iteration: 10 of Marquardt. ChiSquare = 5.78671e-20, Lambda = 100
+Failed bounds check.
+
+Chi^2 = 5.78671e-20 Lambda = 1000
+Methyl:ZPE=100.638  Methane:deltaEDown=160.128  
+Iteration: 11 of Marquardt. ChiSquare = 5.78671e-20, Lambda = 1000
+
+Chi^2 = 5.68514e-20 Lambda = 100
+Methyl:ZPE=100.631  Methane:deltaEDown=160.071  
+Iteration: 12 of Marquardt. ChiSquare = 5.68514e-20, Lambda = 100
+Failed bounds check.
+
+Chi^2 = 5.68514e-20 Lambda = 1000
+Methyl:ZPE=100.631  Methane:deltaEDown=160.071  
+Iteration: 13 of Marquardt. ChiSquare = 5.68514e-20, Lambda = 1000
+
+Chi^2 = 5.68514e-20 Lambda = 10000
+Methyl:ZPE=100.631  Methane:deltaEDown=160.071  
+Iteration: 14 of Marquardt. ChiSquare = 5.68514e-20, Lambda = 10000
+
+Chi^2 = 5.64303e-20 Lambda = 1000
+Methyl:ZPE=100.63  Methane:deltaEDown=160.065  
+Iteration: 15 of Marquardt. ChiSquare = 5.64303e-20, Lambda = 1000
+Number of cells = 50000, Number of grains = 249
+Number of cells = 50000, Number of grains = 254
+Number of cells = 50000, Number of grains = 258
+Number of cells = 50000, Number of grains = 263
+ -- Total time elapsed: 368 seconds.
+
+
+    Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
+
+            301    8.05242e+17       1.26e-11    5.83723e-11
+            301    1.62973e+18       3.52e-11    8.95474e-11
+            301    3.24984e+18       6.36e-11    1.30449e-10
+            301     4.8892e+18       9.37e-11    1.59461e-10
+            301    6.59272e+18       1.05e-10    1.82703e-10
+            301    8.20641e+18       1.34e-10    2.00634e-10
+            301    9.83294e+18        1.4e-10    2.15915e-10
+            301     1.1437e+19        1.4e-10    2.28947e-10
+            301    1.30988e+19       1.61e-10    2.40801e-10
+            301    1.63455e+19       1.82e-10    2.60348e-10
+            401    6.06842e+17       2.35e-11    2.50995e-11
+            401    1.20887e+18       2.52e-11    4.08103e-11
+            401    2.41292e+18       4.44e-11    6.42882e-11
+            401    3.68199e+18       6.06e-11    8.33306e-11
+            401    4.82102e+18       7.56e-11     9.7542e-11
+            401     6.1214e+18          9e-11    1.11531e-10
+            401    8.42836e+18       1.01e-10    1.32335e-10
+            401    1.09785e+19       1.21e-10    1.51281e-10
+            401    1.22452e+19       1.31e-10     1.5955e-10
+            401    1.47015e+19       1.44e-10    1.73943e-10
+            504    4.82825e+17       1.14e-11    1.11848e-11
+            504    9.61817e+17       1.66e-11    1.89982e-11
+            504    1.92555e+18       3.44e-11    3.15461e-11
+            504    2.94101e+18       4.68e-11    4.23474e-11
+            504    3.84727e+18       5.31e-11    5.07106e-11
+            504    4.90105e+18       5.78e-11    5.93789e-11
+            504    6.83618e+18       6.82e-11    7.32067e-11
+            504    7.66771e+18       7.75e-11    7.85221e-11
+            504    9.75229e+18       8.32e-11      9.061e-11
+            504      1.172e+19       9.69e-11    1.00742e-10
+            601    1.69189e+18       2.11e-11    1.71948e-11
+            601    3.35005e+18       3.35e-11    2.84715e-11
+            601    4.89251e+18       3.78e-11    3.71869e-11
+            601    6.60369e+18        4.5e-11    4.56245e-11
+            601     8.2747e+18       4.84e-11    5.29803e-11
+            601     9.8734e+18       5.75e-11    5.93988e-11
+            601    1.14239e+19       6.18e-11     6.5161e-11
+
+
+Chi^2 = 5.64303e-20
+
+Best fit parameters:
+
+Methyl:ZPE = 100.63 +/- 5.30266
+Methane:deltaEDown = 160.065 +/- 32.133
+
+Correlation coefficients:
+
+Methane:deltaEDown , Methyl:ZPE = -0.934231
+
+Derived parameter values:
+
+TS1:ZPE (Methyl:ZPE) = 100.63
+
+No independent experimenal error estimates available, therefore Chi^2 test not applicable.
+
+Number of degrees of Freedom = 35
+Error Factor = 4.01534e-11
+
+System saved to mesmer_out.xml
+Total time elapsed: 368 seconds.

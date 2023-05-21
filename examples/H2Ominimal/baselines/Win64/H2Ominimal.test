@@ -1,0 +1,59 @@
+PT Grid 0 Condition: conc = 1.31052e+20, temp = 560, diagonalization precision: double
+{
+
+Eq fraction matrix:
+{
+  -4.910609e+35,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
+}
+
+Inverse of Eq fraction matrix:
+{
+  -2.036407e-36,   2.036407e-36,
+   2.036407e-36,   1.000000e+00,
+}
+Equilibrium Fraction for H = 2.03641e-36
+Equilibrium Fraction for H2O = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: 
+{
+   1.058332e-19,   1.120067e-38,
+  -1.058332e-19,   1.000000e+00,
+}
+
+Z_matrix^(-1):
+{
+   9.448831e+18,  -1.058332e-19,
+   1.000000e+00,   1.000000e+00,
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+   1.000000e+00,  2.092872e-104,
+   7.670218e-65,   1.000000e+00,
+}
+
+Kr matrix:
+{
+  -7.365396e+02,   8.249734e-36,
+   7.365396e+02,  -8.249734e-36,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+H loss = -7.365396e+02
+H2O loss = -8.249734e-36
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+H -> H2O = 7.365396e+02
+H2O -> H = 8.249734e-36
+}
+}

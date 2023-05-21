@@ -1,0 +1,82 @@
+
+            /|      /|                        \   
+           / |     / | ________________________\  
+          /  |    /  |  _   _             _   _   
+         /   |   /   | / \ / \ |\     /| / \ / \  
+        /    |  /    | \_/ \_  | \   / | \_/ |_/  
+       /     | /     | /     \ |  \ /  | /   | \  
+    \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
+
+     Mesmer: Master Equation Solver for Multi-Energy well Reactions
+     Mesmer v7.1 compiled: -- May 21 2023 -- 13:02:07
+
+     Copyright (C) 2009-2022 by
+     Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
+     David R. Glowacki, Michael J. Pilling and contributors
+
+     Mesmer is free software: you can redistribute it and/or modify
+     it under the terms of the GNU Public License as published by
+     the Free Software Foundation, either version 2 of the License,
+     or (at your option) any later version.
+
+     But WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU Public License for more details.
+
+    You should have received a copy of the GNU Public License
+    along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
+
+                     Platform:        Windows64
+                     Execution Date:  Sun May 21 14:15:29 2023
+                     Number of ranks: 4
+
+defaults.xml, librarymols.xml are in ../..
+
+Parsing input xml file...
+AcetylPrior.xml
+
+--Parse data for simpleCalc
+Energy convention "" written to <moleculeList>
+In He: He copied from ../../librarymols.xml
+In R1: Parsing reaction...Irreversible unimolecular reaction
+In acetyl: --Parse data for Prior
+In acetyl: Prior:ExcessEnergy was given a range with 4 steps 
+In AceticAcid: gDensityOfStates initialization failed.
+In acetyl: The default value of me:energyTransferModel was used.
+In acetyl: --Parse data for ExponentialDown
+In TSdecomp: The default value of the attribute spinMultiplicity was used.
+In R1: --Parse data for RRKM
+In R1: No tunneling method used for R1
+In R2: Parsing reaction...Bimolecular sink reaction
+In R2: --Parse data for SimpleBimolecularSink
+In R2: Reading parameters for Reaction R2 which uses the SimpleBimolecularSink method
+In R2: No tunneling method used for R2
+80Torr, 298K at d precision with He
+Excess Reactant Conc. for reaction R2 = 5.8e+17 particles per cc
+The default value of me:ForceMacroDetailedBalance was used.
+Write metadata 20230521_141529
+
+File: "AcetylPrior.xml" successfully parsed.
+Main Calculation begins
+Now calculating...
+
+--Execute calcMethod simpleCalc
+Number of cells = 50000, Number of grains = 268
+In FastLaplaceConvolution: 40 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 20 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 300 values in the FFT convolution routine were replaced by standard convolution
+
+WARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs).
+
+The last CSE = -3.596e+07 and the first IERE = -9.02304e+07
+(last CSE)/(first IERE) ratio = 0.398535, which is less than an order of magnitude
+
+Results obtained from Bartis Widom eigenvalue-vector analysis may be unreliable
+ -- Total time elapsed: 5 seconds.
+
+
+    Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
+
+
+System saved to out.xml
+Total time elapsed: 5 seconds.

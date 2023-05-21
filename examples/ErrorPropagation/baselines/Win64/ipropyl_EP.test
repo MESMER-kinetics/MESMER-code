@@ -1,0 +1,29 @@
+CTest output disabled
+CTest output disabled
+
+Error Propagation: Temperature =  1000, Concentration = 3e+17
+
+Input variables:
+
+  i-propyl:deltaEDown           : (1)
+  propene:ZPE                   : (2)
+
+
+ Reaction           : i-propyl => propene+H
+ Rate Coeffcient    : 1.179e+04
+ Standard Deviation : 387.4
+
+CTest output disabled
+
+Error Propagation: Temperature =  1000, Concentration = 3e+16
+
+Input variables:
+
+  i-propyl:deltaEDown           : (1)
+  propene:ZPE                   : (2)
+
+
+ Reaction           : i-propyl => propene+H
+ Rate Coeffcient    : 2425
+ Standard Deviation : 122.9
+

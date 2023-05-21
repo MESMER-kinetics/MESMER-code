@@ -1,0 +1,100 @@
+PT Grid 0 Condition: conc = 8.05242e+17, temp = 301, diagonalization precision: double-double
+{
+
+Test rovibronic density of states for: Methoxy
+{
+      T           qtot           sumc           sumg
+    200        900.009        898.791        831.045
+    300        1680.69        1679.15        1620.09
+    400        2733.51        2731.61        2676.11
+}
+
+Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
+{
+    T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
+    150          1.0178e-10        8.09416e-139      1.25745e+128
+    200         1.01112e-10        1.79005e-100       5.64854e+89
+    250         1.02944e-10         2.07445e-77       4.96245e+66
+    300         1.05182e-10         5.34182e-62       1.96903e+51
+    350          1.0734e-10         5.71959e-51        1.8767e+40
+    400         1.09303e-10         1.10577e-42       9.88481e+31
+    450         1.11061e-10         3.14425e-36        3.5322e+25
+    500         1.12632e-10          4.6369e-31       2.42904e+20
+    550          1.1404e-10         7.91772e-27       1.44031e+16
+    600         1.15308e-10         2.67631e-23       4.30847e+12
+    650         1.16456e-10         2.59734e-20       4.48367e+09
+    700         1.17502e-10         9.44311e-18       1.24431e+07
+    750         1.18459e-10         1.56369e-15             75756
+    800         1.19339e-10         1.36575e-13             873.8
+    850         1.20153e-10         7.04023e-12           17.0666
+    900         1.20907e-10          2.3378e-10          0.517183
+    950         1.21608e-10         5.35893e-09         0.0226926
+   1000          1.2226e-10         8.96313e-08        0.00136403
+   1050         1.22865e-10         1.14405e-06       0.000107395
+   1100         1.23425e-10          1.1561e-05       1.06759e-05
+   1150         1.23936e-10         9.53449e-05       1.29987e-06
+   1200         1.24396e-10         0.000658171       1.89002e-07
+   1250         1.24797e-10          0.00388461       3.21261e-08
+   1300         1.25133e-10           0.0199585       6.26968e-09
+   1350         1.25393e-10           0.0906392       1.38343e-09
+   1400         1.25566e-10            0.368638        3.4062e-10
+   1450          1.2564e-10             1.35792       9.25239e-11
+   1500         1.25603e-10             4.57479       2.74555e-11
+}
+
+Eq fraction matrix:
+{
+  -2.456629e+67,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
+}
+
+Inverse of Eq fraction matrix:
+{
+  -4.070618e-68,   4.070618e-68,
+   4.070618e-68,   1.000000e+00,
+}
+Equilibrium Fraction for Methoxy = 1
+Equilibrium Fraction for Methyl = 4.07062e-68
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: 
+{
+  -3.668144e-33,   1.345528e-65,
+   3.668144e-33,   1.000000e+00,
+}
+
+Z_matrix^(-1):
+{
+  -2.726174e+32,   3.668144e-33,
+   1.000000e+00,   1.000000e+00,
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+   1.000000e+00,  1.081990e-129,
+   9.078169e-65,   1.000000e+00,
+}
+
+Kr matrix:
+{
+  -1.039378e+06,   1.398512e-59,
+   1.039378e+06,  -1.398512e-59,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+Methoxy loss = -1.398512e-59
+Methyl loss = -1.039378e+06
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+Methoxy -> Methyl = 1.398512e-59
+Methyl -> Methoxy = 1.039378e+06
+}
+}

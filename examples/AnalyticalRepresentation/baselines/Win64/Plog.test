@@ -1,0 +1,114 @@
+
+Bath gas is He
+
+Pressure:            0.01/atm
+-----------------------------
+
+Comparison of fitted rate coefficients for reaction cis-But-2-ene => Butadiene + H2
+    600    5.20482e-11/5.40926e-11
+    800    7.11142e-05/6.25682e-05
+   1000       0.193265/0.206979
+   1200        25.7929/28.602
+   1400        649.562/598.164
+Comparison of fitted rate coefficients for reaction cis-But-2-ene => trans-But-2-ene
+    600    8.29015e-10/8.60757e-10
+    800     0.00062517/0.000552253
+   1000        1.26495/1.34785
+   1200        144.466/160.481
+   1400         3351.4/3087.03
+Comparison of fitted rate coefficients for reaction trans-But-2-ene => Butadiene + H2
+    600    2.36737e-14/2.42909e-14
+    800    3.13289e-07/2.87363e-07
+   1000     0.00273238/0.00287023
+   1200       0.696392/0.742929
+   1400        25.3687/24.0528
+Comparison of fitted rate coefficients for reaction trans-But-2-ene => cis-But-2-ene
+    600    1.96176e-10/2.03676e-10
+    800    0.000169973/0.000150175
+   1000       0.372759/0.397152
+   1200         44.837/49.8003
+   1400        1077.97/993.051
+
+Pressure:             0.1/atm
+-----------------------------
+
+Comparison of fitted rate coefficients for reaction cis-But-2-ene => Butadiene + H2
+    600    5.21654e-11/5.41993e-11
+    800    7.23283e-05/6.36925e-05
+   1000       0.203064/0.217408
+   1200        28.1346/31.1676
+   1400        735.961/678.202
+Comparison of fitted rate coefficients for reaction cis-But-2-ene => trans-But-2-ene
+    600    8.30541e-10/8.61694e-10
+    800    0.000632542/0.000560167
+   1000        1.33114/1.41644
+   1200        159.554/176.891
+   1400        3892.38/3591.05
+Comparison of fitted rate coefficients for reaction trans-But-2-ene => Butadiene + H2
+    600     2.4307e-15/2.49183e-15
+    800    3.34105e-08/3.07336e-08
+   1000    0.000303868/0.000318836
+   1200      0.0806604/0.0857933
+   1400        3.05253/2.90045
+Comparison of fitted rate coefficients for reaction trans-But-2-ene => cis-But-2-ene
+    600    1.96537e-10/2.03898e-10
+    800    0.000171978/0.000152327
+   1000       0.392264/0.417362
+   1200        49.5197/54.8925
+   1400        1251.98/1155.19
+
+Pressure:               1/atm
+-----------------------------
+
+Comparison of fitted rate coefficients for reaction cis-But-2-ene => Butadiene + H2
+    600    5.21789e-11/5.42103e-11
+    800    7.24529e-05/6.38133e-05
+   1000       0.204166/0.218575
+   1200        28.4101/31.4667
+   1400        746.461/687.972
+Comparison of fitted rate coefficients for reaction cis-But-2-ene => trans-But-2-ene
+    600     8.3072e-10/8.61789e-10
+    800    0.000633279/0.000561013
+   1000        1.33856/1.42409
+   1200        161.323/178.799
+   1400         3958.1/3652.52
+Comparison of fitted rate coefficients for reaction trans-But-2-ene => Butadiene + H2
+    600    2.43746e-16/2.49846e-16
+    800     3.3636e-09/3.09527e-09
+   1000    3.07352e-05/3.22445e-05
+   1200     0.00819657/0.00871469
+   1400       0.311565/0.296128
+Comparison of fitted rate coefficients for reaction trans-But-2-ene => cis-But-2-ene
+    600     1.9658e-10/2.03921e-10
+    800    0.000172178/0.000152557
+   1000        0.39445/0.419614
+   1200        50.0687/55.4847
+   1400        1273.12/1174.96
+
+Pressure:              10/atm
+-----------------------------
+
+Comparison of fitted rate coefficients for reaction cis-But-2-ene => Butadiene + H2
+    600    5.21802e-11/5.42114e-11
+    800    7.24654e-05/6.38255e-05
+   1000       0.204278/0.218693
+   1200        28.4381/31.4971
+   1400        747.534/688.971
+Comparison of fitted rate coefficients for reaction cis-But-2-ene => trans-But-2-ene
+    600    8.30739e-10/8.61799e-10
+    800    0.000633352/0.000561098
+   1000        1.33931/1.42486
+   1200        161.503/178.993
+   1400        3964.82/3658.81
+Comparison of fitted rate coefficients for reaction trans-But-2-ene => Butadiene + H2
+    600    2.43814e-17/2.49913e-17
+    800    3.36587e-10/3.09748e-10
+   1000    3.07705e-06/3.22811e-06
+   1200    0.000820986/0.000872847
+   1400       0.031221/0.029675
+Comparison of fitted rate coefficients for reaction trans-But-2-ene => cis-But-2-ene
+    600    1.96584e-10/2.03923e-10
+    800    0.000172198/0.00015258
+   1000       0.394671/0.419842
+   1200        50.1246/55.5449
+   1400        1275.28/1176.98

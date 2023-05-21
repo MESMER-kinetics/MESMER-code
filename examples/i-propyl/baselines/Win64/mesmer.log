@@ -1,0 +1,324 @@
+
+            /|      /|                        \   
+           / |     / | ________________________\  
+          /  |    /  |  _   _             _   _   
+         /   |   /   | / \ / \ |\     /| / \ / \  
+        /    |  /    | \_/ \_  | \   / | \_/ |_/  
+       /     | /     | /     \ |  \ /  | /   | \  
+    \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
+
+     Mesmer: Master Equation Solver for Multi-Energy well Reactions
+     Mesmer v7.1 compiled: -- May 21 2023 -- 13:02:07
+
+     Copyright (C) 2009-2022 by
+     Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
+     David R. Glowacki, Michael J. Pilling and contributors
+
+     Mesmer is free software: you can redistribute it and/or modify
+     it under the terms of the GNU Public License as published by
+     the Free Software Foundation, either version 2 of the License,
+     or (at your option) any later version.
+
+     But WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU Public License for more details.
+
+    You should have received a copy of the GNU Public License
+    along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
+
+                     Platform:        Windows64
+                     Execution Date:  Sun May 21 14:15:46 2023
+                     Number of ranks: 4
+
+defaults.xml, librarymols.xml are in ../..
+
+Parsing input xml file...
+ipropyl_LM.xml
+
+--Parse data for marquardt
+The default value of me:MarquardtLambda was used.
+The default value of me:MarquardtLambdaScale was used.
+Energy convention "" written to <moleculeList>
+In R1: Parsing reaction...Irreversible unimolecular reaction
+In i-propyl: Hindered rotor b1
+In i-propyl: Hindered rotor b2
+In i-propyl: The default value of me:DistributionCalcMethod was used.
+In i-propyl: --Parse data for Boltzmann
+In i-propyl: --Parse data for ExponentialDown
+In i-propyl: i-propyl:deltaEDown was given a range with 15 steps 
+In R1: --Parse data for MesmerILT
+In propene: Hindered rotor b1
+In propene: propene:ZPE was given a range with 401 steps 
+In H: The default value of me:DOSCMethod was used.
+In H: The default value of the attribute spinMultiplicity was used.
+In R1: No tunneling method used for R1
+The default value of the attribute precision was used.
+3e+17PPCC, 720K at d precision with He
+The default value of the attribute precision was used.
+3.01e+17PPCC, 730K at d precision with He
+The default value of the attribute precision was used.
+1.8e+17PPCC, 740K at d precision with He
+The default value of the attribute precision was used.
+2.4e+17PPCC, 740K at d precision with He
+The default value of the attribute precision was used.
+3e+17PPCC, 740K at d precision with He
+The default value of the attribute precision was used.
+1.2e+17PPCC, 750K at d precision with He
+The default value of the attribute precision was used.
+1.8e+17PPCC, 750K at d precision with He
+The default value of the attribute precision was used.
+2.41e+17PPCC, 750K at d precision with He
+The default value of the attribute precision was used.
+3e+17PPCC, 750K at d precision with He
+The default value of the attribute precision was used.
+6.02e+16PPCC, 760K at d precision with He
+The default value of the attribute precision was used.
+9.02e+16PPCC, 760K at d precision with He
+The default value of the attribute precision was used.
+1.2e+17PPCC, 760K at d precision with He
+The default value of the attribute precision was used.
+1.81e+17PPCC, 760K at d precision with He
+The default value of the attribute precision was used.
+2.4e+17PPCC, 760K at d precision with He
+The default value of the attribute precision was used.
+3e+17PPCC, 760K at d precision with He
+The default value of the attribute precision was used.
+6.01e+16PPCC, 770K at d precision with He
+The default value of the attribute precision was used.
+9e+16PPCC, 770K at d precision with He
+The default value of the attribute precision was used.
+1.2e+17PPCC, 770K at d precision with He
+The default value of the attribute precision was used.
+1.8e+17PPCC, 770K at d precision with He
+The default value of the attribute precision was used.
+2.41e+17PPCC, 770K at d precision with He
+The default value of the attribute precision was used.
+3e+17PPCC, 770K at d precision with He
+The default value of the attribute precision was used.
+3e+16PPCC, 780K at d precision with He
+The default value of the attribute precision was used.
+6.01e+16PPCC, 780K at d precision with He
+The default value of the attribute precision was used.
+9e+16PPCC, 780K at d precision with He
+The default value of the attribute precision was used.
+1.2e+17PPCC, 780K at d precision with He
+The default value of the attribute precision was used.
+1.8e+17PPCC, 780K at d precision with He
+The default value of the attribute precision was used.
+2.4e+17PPCC, 780K at d precision with He
+The default value of the attribute precision was used.
+3e+17PPCC, 780K at d precision with He
+The default value of the attribute precision was used.
+3e+16PPCC, 790K at d precision with He
+The default value of the attribute precision was used.
+6.01e+16PPCC, 790K at d precision with He
+The default value of the attribute precision was used.
+9e+16PPCC, 790K at d precision with He
+The default value of the attribute precision was used.
+1.2e+17PPCC, 790K at d precision with He
+The default value of the attribute precision was used.
+1.8e+17PPCC, 790K at d precision with He
+The default value of the attribute precision was used.
+2.4e+17PPCC, 790K at d precision with He
+The default value of the attribute precision was used.
+3e+17PPCC, 790K at d precision with He
+The default value of the attribute precision was used.
+3e+16PPCC, 800K at d precision with He
+The default value of the attribute precision was used.
+6.01e+16PPCC, 800K at d precision with He
+The default value of the attribute precision was used.
+9e+16PPCC, 800K at d precision with He
+The default value of the attribute precision was used.
+1.21e+17PPCC, 800K at d precision with He
+The default value of the attribute precision was used.
+1.8e+17PPCC, 800K at d precision with He
+The default value of the attribute precision was used.
+2.4e+17PPCC, 800K at d precision with He
+The default value of the attribute precision was used.
+3e+17PPCC, 800K at d precision with He
+The default value of the attribute precision was used.
+3e+16PPCC, 810K at d precision with He
+The default value of the attribute precision was used.
+6e+16PPCC, 810K at d precision with He
+The default value of the attribute precision was used.
+9e+16PPCC, 810K at d precision with He
+The default value of the attribute precision was used.
+1.21e+17PPCC, 810K at d precision with He
+The default value of the attribute precision was used.
+1.81e+17PPCC, 810K at d precision with He
+The default value of the attribute precision was used.
+2.4e+17PPCC, 810K at d precision with He
+The default value of the attribute precision was used.
+3e+17PPCC, 810K at d precision with He
+The default value of the attribute precision was used.
+3e+16PPCC, 820K at d precision with He
+The default value of the attribute precision was used.
+6.01e+16PPCC, 820K at d precision with He
+The default value of the attribute precision was used.
+9.01e+16PPCC, 820K at d precision with He
+The default value of the attribute precision was used.
+1.21e+17PPCC, 820K at d precision with He
+The default value of the attribute precision was used.
+1.8e+17PPCC, 820K at d precision with He
+The default value of the attribute precision was used.
+2.4e+17PPCC, 820K at d precision with He
+The default value of the attribute precision was used.
+3e+17PPCC, 820K at d precision with He
+The default value of the attribute precision was used.
+3e+16PPCC, 830K at d precision with He
+The default value of the attribute precision was used.
+6e+16PPCC, 830K at d precision with He
+The default value of the attribute precision was used.
+9e+16PPCC, 830K at d precision with He
+The default value of the attribute precision was used.
+1.2e+17PPCC, 830K at d precision with He
+The default value of the attribute precision was used.
+1.8e+17PPCC, 830K at d precision with He
+The default value of the attribute precision was used.
+3.01e+16PPCC, 840K at d precision with He
+The default value of the attribute precision was used.
+6e+16PPCC, 840K at d precision with He
+The default value of the attribute precision was used.
+9e+16PPCC, 840K at d precision with He
+The default value of the attribute precision was used.
+1.2e+17PPCC, 840K at d precision with He
+The default value of the attribute precision was used.
+3e+16PPCC, 850K at d precision with He
+The default value of the attribute precision was used.
+6e+16PPCC, 850K at d precision with He
+The default value of the attribute precision was used.
+3.01e+16PPCC, 860K at d precision with He
+The default value of the attribute precision was used.
+6.03e+16PPCC, 860K at d precision with He
+The default value of the attribute precision was used.
+3.01e+16PPCC, 870K at d precision with He
+The default value of the attribute precision was used.
+3e+16PPCC, 880K at d precision with He
+The default value of me:ForceMacroDetailedBalance was used.
+Write metadata 20230521_141546
+
+File: "ipropyl_LM.xml" successfully parsed.
+Main Calculation begins
+Now calculating...
+
+--Execute calcMethod marquardt
+Number of grains produced is not equal to that requested for: H
+Number of grains requested: 500
+Number of grains produced : 1
+In FastLaplaceConvolution: 5880 values in the FFT convolution routine were replaced by standard convolution
+
+Chi^2 = 1205.82 Lambda = 1
+i-propyl:deltaEDown=190  propene:ZPE=13000  
+
+Chi^2 = 37.9144 Lambda = 0.1
+i-propyl:deltaEDown=245.075  propene:ZPE=12757.8  
+Iteration: 1 of Marquardt. ChiSquare = 37.9144, Lambda = 0.1
+
+Chi^2 = 18.0875 Lambda = 0.01
+i-propyl:deltaEDown=246.385  propene:ZPE=12718.2  
+Iteration: 2 of Marquardt. ChiSquare = 18.0875, Lambda = 0.01
+
+Chi^2 = 16.1 Lambda = 0.001
+i-propyl:deltaEDown=230.87  propene:ZPE=12670.1  
+Iteration: 3 of Marquardt. ChiSquare = 16.1, Lambda = 0.001
+
+Chi^2 = 15.9948 Lambda = 0.0001
+i-propyl:deltaEDown=226.235  propene:ZPE=12655.7  
+Iteration: 4 of Marquardt. ChiSquare = 15.9948, Lambda = 0.0001
+Number of cells = 50000, Number of grains = 194
+ -- Total time elapsed: 10 seconds.
+
+
+    Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
+
+            720          3e+17           41.5        37.6777
+            730       3.01e+17           51.1        51.7129
+            740        1.8e+17           55.5        57.1033
+            740        2.4e+17           70.1        64.2174
+            740          3e+17           71.1        70.0319
+            750        1.2e+17           55.3        63.6209
+            750        1.8e+17           67.2        76.1988
+            750       2.41e+17           86.4        86.1009
+            750          3e+17            102        93.9631
+            760       6.02e+16           51.9        59.4797
+            760       9.02e+16           65.7        72.9611
+            760        1.2e+17           76.5        83.6908
+            760       1.81e+17             95        100.906
+            760        2.4e+17            123        113.894
+            760          3e+17            128        124.802
+            770       6.01e+16           68.9        76.8957
+            770          9e+16           89.2        94.6772
+            770        1.2e+17             99        109.034
+            770        1.8e+17            121         131.69
+            770       2.41e+17            159         149.72
+            770          3e+17            164        164.154
+            780          3e+16           65.5        66.7337
+            780       6.01e+16           89.1        98.5856
+            780          9e+16            114        121.858
+            780        1.2e+17            125        140.738
+            780        1.8e+17            165        170.684
+            780        2.4e+17            203        194.286
+            780          3e+17            213        213.896
+            790          3e+16             77        84.2703
+            790       6.01e+16            119        125.279
+            790          9e+16            154         155.45
+            790        1.2e+17            170        180.042
+            790        1.8e+17            219        219.243
+            790        2.4e+17            258        250.297
+            790          3e+17            288        276.201
+            800          3e+16           96.1        105.523
+            800       6.01e+16            147        157.849
+            800          9e+16            199        196.608
+            800       1.21e+17          223.5        229.315
+            800        1.8e+17            302        279.186
+            800        2.4e+17            341        319.664
+            800          3e+17            350        353.558
+            810          3e+16            124        131.068
+            810          6e+16            185        197.075
+            810          9e+16            248        246.618
+            810       1.21e+17            274        288.458
+            810       1.81e+17            379        353.523
+            810        2.4e+17            402        404.847
+            810          3e+17            492        448.792
+            820          3e+16            160        161.533
+            820       6.01e+16            239        244.573
+            820       9.01e+16            320        307.084
+            820       1.21e+17            363        359.965
+            820        1.8e+17            447        441.656
+            820        2.4e+17            554        508.601
+            820          3e+17            549        565.078
+            830          3e+16            189        197.591
+            830          6e+16            287        300.642
+            830          9e+16            375        378.992
+            830        1.2e+17            447        443.762
+            830        1.8e+17            570        548.986
+            840       3.01e+16            252        240.465
+            840          6e+16            349         367.22
+            840          9e+16            471         464.58
+            840        1.2e+17            559        545.407
+            850          3e+16            314        289.393
+            850          6e+16            444        445.387
+            860       3.01e+16            378        347.435
+            860       6.03e+16            535        538.169
+            870       3.01e+16            436         413.56
+            880          3e+16            535        488.151
+
+
+Chi^2 = 15.9948
+
+Best fit parameters:
+
+i-propyl:deltaEDown = 226.235 +/- 13.6943
+propene:ZPE = 12655.7 +/- 42.4299
+
+Correlation coefficients:
+
+propene:ZPE , i-propyl:deltaEDown = 0.972607
+
+Goodness of Fit:
+
+Number of degrees of Freedom = 69
+Chi^2 probability = 1
+
+System saved to out.xml
+Total time elapsed: 10 seconds.
