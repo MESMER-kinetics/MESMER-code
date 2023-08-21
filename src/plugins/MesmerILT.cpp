@@ -281,8 +281,8 @@ namespace mesmer
     {
       PersistPtr ppActEne2 = pp->XmlMoveTo("me:secondaryActivationEnergy");
       double tmpvalue(0.0);
-      stringstream s2(pActEnetxt); s2 >> tmpvalue;
-      const char* unitsTxt = ppActEne->XmlReadValue("units", false);
+      stringstream s2(pActEne2txt); s2 >> tmpvalue;
+      const char* unitsTxt = ppActEne2->XmlReadValue("units", false);
       string unitsInput = (unitsTxt) ? unitsTxt : "kJ/mol";
       double value(getConvertedEnergy(unitsInput, tmpvalue));
       if (value < 0.0) {

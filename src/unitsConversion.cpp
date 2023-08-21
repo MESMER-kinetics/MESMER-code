@@ -96,6 +96,7 @@ namespace mesmer
     energyMap["wavenumber"]   = 1.0; //internal energy units
     energyMap["cm-1"]         = 1.0;
     energyMap["kJ/mol"]       = kJPerMol_in_RC;
+    energyMap["kj/mol"]       = kJPerMol_in_RC;
     energyMap["kJ per mol"]   = kJPerMol_in_RC;
     energyMap["kcal/mol"]     = kCalPerMol_in_RC;
     energyMap["kcal per mol"] = kCalPerMol_in_RC;

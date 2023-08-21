@@ -1,5 +1,11 @@
 2023-May-15 Struan Robertson
 
+		* MesmerILT.cpp: Fix for secondary activation energy parsing issue.
+
+		* UnitsConversion.cpp: Add a conversion for the synonyme "kj/mol".
+
+2023-May-15 Struan Robertson
+
 		* EckartCoefficients.cpp, ErrorPropagation.cpp, QMRotor.cpp, WKBTunnelingCoefficients, 
 		ZhuNakamuraCrossing.cpp: Changes needed to fix Win64 build warnings.
 
