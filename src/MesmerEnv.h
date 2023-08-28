@@ -14,6 +14,8 @@ namespace mesmer
     double beta;
     double conc;
     std::string bathGasName;
+    double collisionTemperature;// The collision temperature in K, as distinguished from radiation temperature below. 
+    double radiationTemperature;// Background radiation temperature in K.
 
     // granularity of the system
     size_t GrainSize;           // Grain size in cm-1
@@ -22,7 +24,6 @@ namespace mesmer
     size_t MaxCell;             // The number of cells
     double MaximumTemperature;  // Maximum temperature for the purposes of setting the energy range
     double EMin, EMax;          // The absolute lowest and highest energies in the system, cm-1
-    double radiationTemperature;// Background radiation temperature in K.
     double EAboveHill;          // Max energy above the highest Hill [in kT]
     bool   useBasisSetMethod;   // Use the contracted basis set method.
     size_t nBasisSet;           // Number of basis set functions to use.
