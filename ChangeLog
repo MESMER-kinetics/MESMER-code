@@ -1,8 +1,12 @@
-2023-May-15 Struan Robertson
+2023-Aug-28 Struan Robertson
+
+		* GaussianDistFragmentation.cpp: Initial revision of the Gaussian fragmentation distribution class.
+
+2023-Aug-21 Struan Robertson
 
 		* MesmerILT.cpp: Fix for secondary activation energy parsing issue.
 
-		* UnitsConversion.cpp: Add a conversion for the synonyme "kj/mol".
+		* UnitsConversion.cpp: Add a unit conversion for the synonym "kj/mol".
 
 2023-May-15 Struan Robertson
 

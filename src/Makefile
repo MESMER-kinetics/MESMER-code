@@ -202,6 +202,7 @@ SRCS := \
 	plugins/fitting.cpp \
 	plugins/FittingUtils.cpp \
 	plugins/FourierGrid1D.cpp \
+	plugins/GaussianDistFragmentation.cpp \
 	plugins/GaussianModel.cpp \
 	plugins/gridsearch.cpp \
 	plugins/HinderedRotorUtils.cpp \

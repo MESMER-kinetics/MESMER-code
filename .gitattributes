@@ -1311,6 +1311,7 @@ src/plugins/ExponentialDown.cpp -text
 src/plugins/FittingUtils.cpp -text
 src/plugins/FittingUtils.h -text
 src/plugins/FourierGrid1D.cpp -text
+src/plugins/GaussianDistFragmentation.cpp -text
 src/plugins/GaussianModel.cpp -text
 src/plugins/HinderedRotorCM1D.cpp -text
 src/plugins/HinderedRotorUtils.cpp -text
