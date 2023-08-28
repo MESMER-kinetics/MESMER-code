@@ -1,5 +1,10 @@
 2023-Aug-28 Struan Robertson
 
+		* GaussianDistFragmentation.cpp: Revision of the Gaussian fragmentation distribution
+		class to include unit parsing and some minor tidying.
+
+2023-Aug-28 Struan Robertson
+
 		* MesmerEnv.h/.cpp, ConditionsManager.cpp: Preparative changes for improved support
 		for radiation transitions.
 

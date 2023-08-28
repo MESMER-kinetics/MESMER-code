@@ -133,8 +133,7 @@ namespace mesmer
 
         // Note excitation rate is scaled by mean collision frequency (this factor is cancelled later).
 
-        const T dexcitationRate = T(m_EinsteinBij[idx] * planckDistribtuion(m_TransitionFrequency[idx], to_double(beta))/meanOmega) 
-          + m_EinsteinAij[idx];
+        const T dexcitationRate = T((m_EinsteinBij[idx] * planckDistribtuion(m_TransitionFrequency[idx], to_double(beta)) + m_EinsteinAij[idx])/meanOmega);
 
         // Search for first transition.  
         size_t ll(0);

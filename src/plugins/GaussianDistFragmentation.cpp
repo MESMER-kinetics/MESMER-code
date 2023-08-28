@@ -54,17 +54,24 @@ namespace mesmer
 
     // Read any data from XML and store in this instance. Default is do nothing.
     virtual bool ReadParameters(PersistPtr ppFragDist, std::string name) {
+      PersistPtr pp = ppFragDist;
       m_muIntercept = ppFragDist->XmlReadDouble("me:muIntercept");
-      // m_muUnits = ppFragDist->XmlReadPropertyAttribute("me:muIntercept", "units", optional);
+      pp = ppFragDist->XmlMoveTo("me:muIntercept");
+      const char* muUnitsTxt = pp->XmlReadValue("units", optional);
+      string m_muUnits = (muUnitsTxt) ? muUnitsTxt : "cm-1";
       m_muGradient = ppFragDist->XmlReadDouble("me:muGradient", optional);
+
       m_sigmaIntercept = ppFragDist->XmlReadDouble("me:sigmaIntercept");
-      // m_sigmaUnits = ppFragDist->XmlReadPropertyAttribute("me:sigmaIntercept", "units", optional);
+      pp = ppFragDist->XmlMoveTo("me:sigmaIntercept");
+      const char* sigmaUnitsTxt = pp->XmlReadValue("units", optional);
+      string m_sigmaUnits = (sigmaUnitsTxt) ? sigmaUnitsTxt : "cm-1";
       m_sigmaGradient = ppFragDist->XmlReadDouble("me:sigmaGradient", optional);
+
       m_sigmaTwoIntercept = ppFragDist->XmlReadDouble("me:sigmaTwoIntercept");
-      // m_sigmaTwoUnits = ppFragDist->XmlReadPropertyAttribute("me:sigmaTwoIntercept", "units", optional);
+      pp = ppFragDist->XmlMoveTo("me:sigmaTwoIntercept");
+      const char* sigmaTwoUnitsTxt = pp->XmlReadValue("units", optional);
+      string m_sigmaTwoUnits = (sigmaTwoUnitsTxt) ? sigmaTwoUnitsTxt : "cm-1";
       m_sigmaTwoGradient = ppFragDist->XmlReadDouble("me:sigmaTwoGradient", optional);
-      string out3 = "Reading dynPriorDist params";
-      std::cout << out3 << std::endl;
       return true;
     };
 
@@ -148,23 +155,16 @@ namespace mesmer
     const double m_mu = getConvertedEnergy(m_muUnits, tempmu);
     const double m_sigma = getConvertedEnergy(m_sigmaUnits, tempsigma);
     const double m_sigmaTwo = getConvertedEnergy(m_sigmaTwoUnits, tempsigmaTwo);
-    std::cout << m_sigmaTwo << std::endl;
 
     if (excessEnergy > 0) {
 
       // Calculate cell distribution vector. The distribution is shifted by the cell-to-grain
       // off set so as to match the shift applied to the reaction flux above.
-      // First determine pre-exponetial factor for an asymetric gaussian curve.
-      double pre = sqrt(2.0 / M_PI) * (1.0 / (m_sigma + m_sigmaTwo));
       vector<double> mDist(m_rctDOS.size(), 0.0);
       for (size_t i(0), j(cellOffSet); i < excessEnergy && j < mDist.size(); i++, j++) {
         double ene = static_cast<double>(i) / excessEnergy;
-        if (ene > m_mu) {
-          mDist[j] = pre * exp((-1.0 * pow((ene - m_mu), 2.0)) / (2.0 * pow(m_sigmaTwo, 2.0)));
-        }
-        else {
-          mDist[j] = pre * exp((-1.0 * pow((ene - m_mu), 2.0)) / (2.0 * pow(m_sigma, 2.0)));
-        }
+        double sigma = (ene > m_mu) ? m_sigmaTwo : m_sigma;
+        mDist[j] = exp(-(ene - m_mu) * (ene - m_mu) / (2.0 * sigma * sigma));
       }
 
       // Average cell distribution over grains.
