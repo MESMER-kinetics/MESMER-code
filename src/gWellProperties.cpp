@@ -294,7 +294,7 @@ namespace mesmer
     const double E = 2.16178;
     const double F = 2.43787;
 
-    double temp = 1.0 / (boltzmann_RCpK * env.beta);
+    double temp = env.collisionTemperature;
 
     double tstr = temp / eam;
 

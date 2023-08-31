@@ -1,3 +1,8 @@
+2023-Aug-31 Struan Robertson
+
+		* System.cpp, gWellProperties.cpp: Modifications to allow collision and radiation
+		temperatures to differ.
+
 2023-Aug-28 Struan Robertson
 
 		* GaussianDistFragmentation.cpp: Revision of the Gaussian fragmentation distribution

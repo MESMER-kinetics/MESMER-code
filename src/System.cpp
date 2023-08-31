@@ -492,9 +492,20 @@ namespace mesmer
           m_pConditionsManager->get_analysisData(calPoint)->clear();
           m_pConditionsManager->set_currentData(int(calPoint));
 
-          m_Env.beta = 1.0 / (boltzmann_RCpK * m_pConditionsManager->PTPointTemp(calPoint));
           m_Env.conc = m_pConditionsManager->PTPointConc(calPoint); // unit of conc: particles per cubic centimeter
           m_Env.bathGasName = m_pConditionsManager->PTPointBathGas(calPoint);
+          m_Env.collisionTemperature = m_pConditionsManager->PTPointTemp(calPoint);
+          // m_Env.radiationTemperature = m_pConditionsManager->PTPointRadT(calPoint);
+
+          //if (m_Env.radiationTemperature > 0.0) {
+          //  double effectiveTemperature(0.0);
+          //  effectiveTemperature = m_Env.radiationTemperature + (m_Env.collisionTemperature - m_Env.radiationTemperature) * m_Env.conc / (1.e09 + m_Env.conc);
+          //  m_Env.beta = 1.0 / (boltzmann_RCpK * effectiveTemperature);
+          //  stest << "Effective Temperature: " << effectiveTemperature << endl;
+          //}
+          //else
+            m_Env.beta = 1.0 / (boltzmann_RCpK * m_Env.collisionTemperature);
+
           map<Reaction*, double> excessConcs = m_pConditionsManager->PTPointExcessConcs(calPoint);
           //Set excess Concentrations for all reactions
           for (map<Reaction*, double>::iterator it = excessConcs.begin(); it != excessConcs.end(); ++it)
@@ -655,8 +666,8 @@ namespace mesmer
 
     m_Flags.printEigenValuesNum = 0;
 
-    double temp = m_pConditionsManager->PTPointTemp(nConds);
-    m_Env.beta = 1.0 / (boltzmann_RCpK * temp);
+    m_Env.collisionTemperature = m_pConditionsManager->PTPointTemp(nConds);
+    m_Env.beta = 1.0 / (boltzmann_RCpK * m_Env.collisionTemperature);
 
     // unit of conc: particles per cubic centimetre
     m_Env.conc = m_pConditionsManager->PTPointConc(nConds);
@@ -714,7 +725,8 @@ namespace mesmer
     m_Env.bathGasName = bathGas;
     m_Flags.printEigenValuesNum = 0;
 
-    m_Env.beta = 1.0 / (boltzmann_RCpK * Temperature);
+    m_Env.collisionTemperature = Temperature;
+    m_Env.beta = 1.0 / (boltzmann_RCpK * m_Env.collisionTemperature);
     m_Env.MaximumTemperature = MaxT;
     m_Env.conc = Concentration; // Unit of conc: particles per cubic centimeter.
 
