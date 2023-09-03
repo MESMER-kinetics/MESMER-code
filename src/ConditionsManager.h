@@ -85,9 +85,9 @@ namespace mesmer
     AnalysisData m_analysisData;
 
     CandTpair(double cp_, double t_, Precision _pre, const char* _bathGas,
-      const map<Reaction*, double>& _excessConcs, const char* _group)
+      const map<Reaction*, double>& _excessConcs, const char* _group, double _radiationTemp)
       : m_concentration(cp_), m_temperature(t_), m_precision(_pre),
-      m_pBathGasName(_bathGas), m_excessConcs(_excessConcs), m_group(_group), m_radiationTemp(-1.0)  {}
+      m_pBathGasName(_bathGas), m_excessConcs(_excessConcs), m_group(_group), m_radiationTemp(_radiationTemp)  {}
 
     void set_experimentalRates(PersistPtr ppData, std::string ref1, std::string ref2, std::string refReaction, double value, double error) {
       if (ref1.size() > 0 && ref2.size() > 0) {
@@ -143,12 +143,25 @@ namespace mesmer
 
     size_t      getNumPTPoints() const { return PandTs.size(); }
     size_t      getTotalNumPoints() const;
-    double      PTPointTemp(int index) { return PandTs[index].m_temperature; }
-    double      PTPointRadT(int index) { return PandTs[index].m_radiationTemp; }
-    double      PTPointConc(int index) { return PandTs[index].m_concentration; }
+    double      PTPointTemp(int index) const { return PandTs[index].m_temperature; }
+    double      PTPointRadT(int index) const { return PandTs[index].m_radiationTemp; }
+    double      PTPointConc(int index) const { return PandTs[index].m_concentration; }
     const char* PTPointBathGas(int index) { return PandTs[index].m_pBathGasName.c_str(); }
     Precision   PTPointPrecision(int index) { return PandTs[index].m_precision; }
     map<Reaction*, double> PTPointExcessConcs(int index) { return PandTs[index].m_excessConcs; }
+
+    // Calculate the effective reciprocal temperature,
+    // taking into account a radiation field if there is one.
+    double getBeta(int index) const {
+      double collTemp = PandTs[index].m_temperature ;
+      double radTemp  = PandTs[index].m_radiationTemp;
+      double conc     = PandTs[index].m_concentration;
+      double effTemp = collTemp;
+      if (radTemp > 0.0) {
+        effTemp = radTemp + (collTemp - radTemp) * conc / (1.e14 + conc);
+      }
+      return 1.0 / (boltzmann_RCpK * effTemp);
+    }
 
     // An accessor method to get conditions and related properties for
     // use with plugins classes etc.

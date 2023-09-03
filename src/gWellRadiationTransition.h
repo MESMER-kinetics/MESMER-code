@@ -94,9 +94,9 @@ namespace mesmer
     // Allocate memory.
     TMatrix<T>* transitionMatrix = new TMatrix<T>(nradoptrsize, T(0.0));
 
-    // const T beta = T(env.beta);
+    const T beta = T(env.beta);
 
-    const T beta = T(1.0) / (boltzmann_RCpK * env.radiationTemperature);
+    // const T beta = T(1.0) / (boltzmann_RCpK * env.radiationTemperature);
 
     if (m_bActivation) {
 
