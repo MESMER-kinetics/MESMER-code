@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v7.1 compiled: -- May 21 2023 -- 13:02:07
+     Mesmer v7.1 compiled: -- Sep  7 2023 -- 19:15:45
 
      Copyright (C) 2009-2022 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows64
-                     Execution Date:  Sun May 21 14:15:46 2023
+                     Execution Date:  Thu Sep  7 19:17:33 2023
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -195,7 +195,7 @@ The default value of the attribute precision was used.
 The default value of the attribute precision was used.
 3e+16PPCC, 880K at d precision with He
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20230521_141546
+Write metadata 20230907_191733
 
 File: "ipropyl_LM.xml" successfully parsed.
 Main Calculation begins
@@ -226,22 +226,22 @@ Chi^2 = 15.9948 Lambda = 0.0001
 i-propyl:deltaEDown=226.235  propene:ZPE=12655.7  
 Iteration: 4 of Marquardt. ChiSquare = 15.9948, Lambda = 0.0001
 Number of cells = 50000, Number of grains = 194
- -- Total time elapsed: 10 seconds.
+ -- Total time elapsed: 15 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
             720          3e+17           41.5        37.6777
-            730       3.01e+17           51.1        51.7129
+            730       3.01e+17           51.1        51.7128
             740        1.8e+17           55.5        57.1033
             740        2.4e+17           70.1        64.2174
             740          3e+17           71.1        70.0319
-            750        1.2e+17           55.3        63.6209
+            750        1.2e+17           55.3        63.6208
             750        1.8e+17           67.2        76.1988
             750       2.41e+17           86.4        86.1009
             750          3e+17            102        93.9631
             760       6.02e+16           51.9        59.4797
-            760       9.02e+16           65.7        72.9611
+            760       9.02e+16           65.7         72.961
             760        1.2e+17           76.5        83.6908
             760       1.81e+17             95        100.906
             760        2.4e+17            123        113.894
@@ -290,16 +290,16 @@ Number of cells = 50000, Number of grains = 194
             830          3e+16            189        197.591
             830          6e+16            287        300.642
             830          9e+16            375        378.992
-            830        1.2e+17            447        443.762
-            830        1.8e+17            570        548.986
+            830        1.2e+17            447        443.761
+            830        1.8e+17            570        548.985
             840       3.01e+16            252        240.465
             840          6e+16            349         367.22
             840          9e+16            471         464.58
-            840        1.2e+17            559        545.407
+            840        1.2e+17            559        545.406
             850          3e+16            314        289.393
             850          6e+16            444        445.387
             860       3.01e+16            378        347.435
-            860       6.03e+16            535        538.169
+            860       6.03e+16            535        538.168
             870       3.01e+16            436         413.56
             880          3e+16            535        488.151
 
@@ -321,4 +321,4 @@ Number of degrees of Freedom = 69
 Chi^2 probability = 1
 
 System saved to out.xml
-Total time elapsed: 10 seconds.
+Total time elapsed: 15 seconds.
