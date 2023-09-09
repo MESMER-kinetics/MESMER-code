@@ -289,7 +289,7 @@ namespace mesmer
         cerr << "Activation energy should not be negative when used with ILT." << endl;
         return false;
       }
-      ReadRdoubleRange(string(pReact->getName() + ":secondaryActivationEnergy"), ppActEne2, m_EInf2, rangeSet);
+      ReadRdoubleRange(string(pReact->getName() + ":secondaryActivationEnergy"), ppActEne2, m_EInf2, rangeSet, getConvertedEnergy(unitsInput, 1.0));
       m_EInf2 = value;
       if (m_EInf2 < 0.0) {
         cerr << "Activation energy should not be negative when used with ILT." << endl;
@@ -297,7 +297,7 @@ namespace mesmer
       }
       if (rangeSet) {
         double valueL, valueU, stepsize;
-        m_PreExp2.get_range(valueL, valueU, stepsize);
+        m_EInf2.get_range(valueL, valueU, stepsize);
         if (valueL < 0.0) {
           cerr << "Lower bound of secondary activation energy should not be negative when used with ILT.";
           return false;
@@ -346,6 +346,28 @@ namespace mesmer
 
     m_TInf2 = m_TInf;
 
+    // If second activation energy is greater than the first then this activation
+    // energy must be the reaction threshold so swap parammeters around.
+    if (m_Secondary && (m_EInf2 < m_EInf)) {
+      Rdouble PreExp1 = m_PreExp;
+      Rdouble NInf1 = m_NInf;
+      Rdouble TInf1 = m_TInf;
+      Rdouble EInf1 = m_EInf;
+
+      m_PreExp = m_PreExp2;
+      m_NInf = m_NInf2 ;
+      m_TInf = m_TInf2 ;
+      m_EInf = m_EInf2 ;
+
+      m_PreExp = PreExp1;
+      m_NInf2 = NInf1;
+      m_TInf2 = TInf1;
+      m_EInf2 = EInf1;
+
+      cinfo << "For reaction " << pReact->getName() << ", the second activation energy is greater than the first, \n" 
+            << "so this is taken as the activation energy. The parameter order has been changed." << endl;
+    }
+
     return ILTCheck(pReact, ppReac);
   }
 
@@ -359,10 +381,10 @@ namespace mesmer
     rxnFlux.clear();
     rxnFlux.resize(MaximumCell, 0.0);
 
-    double PreExp1 = m_PreExp;
-    double NInf1 = m_NInf;
-    double TInf1 = m_TInf;
-    double EInf1 = m_EInf;
+    Rdouble PreExp1 = m_PreExp;
+    Rdouble NInf1 = m_NInf;
+    Rdouble TInf1 = m_TInf;
+    Rdouble EInf1 = m_EInf;
 
     // Check to see what type of reaction we have
     ReactionType reactionType = pReact->getReactionType();
@@ -372,18 +394,18 @@ namespace mesmer
       return false;
     if (m_Secondary) { // If there is a second Arrhenius term add its contribution.
       // Set Secondary parameters.
-      m_PreExp = double(m_PreExp2);
-      m_NInf = double(m_NInf2);
-      m_TInf = double(m_TInf2);
-      m_EInf = double(m_EInf2);
-      m_OffSet = size_t(m_EInf2 - EInf1);
+      m_PreExp = m_PreExp2;
+      m_NInf = m_NInf2;
+      m_TInf = m_TInf2;
+      m_EInf = m_EInf2;
+      m_OffSet = size_t(abs(EInf1 - m_EInf2));
       if (!(this->*m_pfnptr)(pReact))
         return false;
       // Restore primary parameters.
       m_PreExp = PreExp1;
       m_NInf = NInf1;
       m_TInf = TInf1;
-      m_EInf = min(EInf1, double(m_EInf2));
+      m_EInf = EInf1;
       m_OffSet = 0;
     }
 
@@ -509,8 +531,8 @@ namespace mesmer
       throw(std::runtime_error(string("Reaction ") + pReact->getName() + string(": nInfinity for unimolecular ILT must be >= zero.")));
     }
 
-    for (size_t i(0), j(m_OffSet); j < rxnFlux.size(); ++i, ++j)
-      rxnFlux[j] += constant * conv[i];
+    for (size_t i(0), j(m_OffSet); i < rxnFlux.size() && j < conv.size(); ++i, ++j)
+        rxnFlux[i] += constant * conv[j];
 
     return true;
   }
@@ -551,8 +573,8 @@ namespace mesmer
     vector<double> conv;
     FastLaplaceConvolution(work, ConvolvedCellDOS, conv);
 
-    for (size_t i(0), j(m_OffSet); j < rxnFlux.size(); ++i, ++j)
-      rxnFlux[j] += _ant * conv[i];
+    for (size_t i(0), j(m_OffSet); i < rxnFlux.size() && j < conv.size(); ++i, ++j)
+      rxnFlux[i] += _ant * conv[j];
 
     return true;
   }
