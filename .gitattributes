@@ -583,6 +583,13 @@ examples/Glyoxyl/baselines/Win64/Glyoxal.test -text
 examples/Glyoxyl/baselines/Win64/Glyoxal_Exchange.log -text
 examples/Glyoxyl/baselines/Win64/Glyoxal_Exchange.test -text
 examples/Glyoxyl/baselines/Win64/Glyoxal_Full.log -text
+examples/H2O_SiO2_to_H2SiO3/SiO2[!!-~]+[!!-~]H2O[!!-~]-SingleWell_Bij.xml -text
+examples/H2O_SiO2_to_H2SiO3/baselines/Linux64/SiO2[!!-~]+[!!-~]H2O[!!-~]-SingleWell_Bij.log -text
+examples/H2O_SiO2_to_H2SiO3/baselines/Linux64/SiO2[!!-~]+[!!-~]H2O[!!-~]-SingleWell_Bij.test -text
+examples/H2O_SiO2_to_H2SiO3/baselines/Win32/SiO2[!!-~]+[!!-~]H2O[!!-~]-SingleWell_Bij.log -text
+examples/H2O_SiO2_to_H2SiO3/baselines/Win32/SiO2[!!-~]+[!!-~]H2O[!!-~]-SingleWell_Bij.test -text
+examples/H2O_SiO2_to_H2SiO3/baselines/Win64/SiO2[!!-~]+[!!-~]H2O[!!-~]-SingleWell_Bij.log -text
+examples/H2O_SiO2_to_H2SiO3/baselines/Win64/SiO2[!!-~]+[!!-~]H2O[!!-~]-SingleWell_Bij.test -text
 examples/H2Ominimal/H2OBend.xml -text
 examples/H2Ominimal/H2Ominimal.xml -text
 examples/H2Ominimal/baselines/Linux64/H2OBend.log -text

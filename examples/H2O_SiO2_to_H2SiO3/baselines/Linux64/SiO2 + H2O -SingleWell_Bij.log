@@ -1,0 +1,125 @@
+
+            /|      /|                        \   
+           / |     / | ________________________\  
+          /  |    /  |  _   _             _   _   
+         /   |   /   | / \ / \ |\     /| / \ / \  
+        /    |  /    | \_/ \_  | \   / | \_/ |_/  
+       /     | /     | /     \ |  \ /  | /   | \  
+    \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
+
+     Mesmer: Master Equation Solver for Multi-Energy well Reactions
+     Mesmer v7.1 compiled: -- Sep  2 2023 -- 16:27:29
+
+     Copyright (C) 2009-2022 by
+     Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
+     David R. Glowacki, Michael J. Pilling and contributors
+
+     Mesmer is free software: you can redistribute it and/or modify
+     it under the terms of the GNU Public License as published by
+     the Free Software Foundation, either version 2 of the License,
+     or (at your option) any later version.
+
+     But WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU Public License for more details.
+
+    You should have received a copy of the GNU Public License
+    along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
+
+                     Platform:        Windows64
+                     Execution Date:  Sun Sep  3 12:00:58 2023
+                     Number of ranks: 4
+
+defaults.xml, librarymols.xml are in ../..
+
+Parsing input xml file...
+SiO2 + H2O -SingleWell_Bij.xml
+
+The default value of me:calcMethod was used.
+--Parse data for simpleCalc
+Energy convention "" written to <moleculeList>
+In R1: Parsing reaction...Association reaction
+In OSi(OH)2 symm: WARNING: When calculating frequencies from a Hessian it is critical
+     that the Hessian and species coordinates are expressed relative to
+     the same Cartesian coordinate system.
+In OSi(OH)2 symm: Vibrational frequencies (cm-1) were calculated from Hessian:
+  316.933 324.533 356.005 422.361 484.293 813.802 855.893 933.904 1021.49 1296.46 
+  3768.14 3771.82 
+In OSi(OH)2 symm: Hindered rotor b2
+In OSi(OH)2 symm: Hindered rotor b3
+In OSi(OH)2 symm: --Parse data for Boltzmann
+In OSi(OH)2 symm: --Parse data for ExponentialDown
+In R1: --Parse data for MesmerILT
+In R1: No tunneling method used for R1
+0.001PPCC, 1583K at qd precision with H2
+Excess Reactant Conc. for reaction R1 = 0.0001 particles per cc
+0.01PPCC, 1583K at qd precision with H2
+Excess Reactant Conc. for reaction R1 = 0.001 particles per cc
+0.1PPCC, 1583K at qd precision with H2
+Excess Reactant Conc. for reaction R1 = 0.01 particles per cc
+1PPCC, 1583K at qd precision with H2
+Excess Reactant Conc. for reaction R1 = 0.1 particles per cc
+10PPCC, 1583K at qd precision with H2
+Excess Reactant Conc. for reaction R1 = 1 particles per cc
+100PPCC, 1583K at qd precision with H2
+Excess Reactant Conc. for reaction R1 = 10 particles per cc
+1000PPCC, 1583K at qd precision with H2
+Excess Reactant Conc. for reaction R1 = 100 particles per cc
+10000PPCC, 1583K at qd precision with H2
+Excess Reactant Conc. for reaction R1 = 1000 particles per cc
+100000PPCC, 1583K at dd precision with H2
+Excess Reactant Conc. for reaction R1 = 10000 particles per cc
+1e+06PPCC, 1583K at dd precision with H2
+Excess Reactant Conc. for reaction R1 = 100000 particles per cc
+1e+07PPCC, 1583K at dd precision with H2
+Excess Reactant Conc. for reaction R1 = 1e+06 particles per cc
+1e+08PPCC, 1583K at dd precision with H2
+Excess Reactant Conc. for reaction R1 = 1e+07 particles per cc
+1e+09PPCC, 1583K at dd precision with H2
+Excess Reactant Conc. for reaction R1 = 1e+08 particles per cc
+1e+10PPCC, 1583K at dd precision with H2
+Excess Reactant Conc. for reaction R1 = 1e+09 particles per cc
+1e+11PPCC, 1583K at dd precision with H2
+Excess Reactant Conc. for reaction R1 = 1e+10 particles per cc
+1e+12PPCC, 1583K at dd precision with H2
+Excess Reactant Conc. for reaction R1 = 1e+11 particles per cc
+1e+13PPCC, 1583K at dd precision with H2
+Excess Reactant Conc. for reaction R1 = 1e+12 particles per cc
+1e+14PPCC, 1583K at dd precision with H2
+Excess Reactant Conc. for reaction R1 = 1e+13 particles per cc
+1e+15PPCC, 1583K at dd precision with H2
+Excess Reactant Conc. for reaction R1 = 1e+14 particles per cc
+1e+16PPCC, 1583K at dd precision with H2
+Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
+1e+17PPCC, 1583K at dd precision with H2
+Excess Reactant Conc. for reaction R1 = 1e+16 particles per cc
+1e+18PPCC, 1583K at dd precision with H2
+Excess Reactant Conc. for reaction R1 = 1e+17 particles per cc
+The default value of the attribute Tstep was used.
+The default value of the attribute Tmin was used.
+The default value of the attribute Tmax was used.
+The default value of me:ForceMacroDetailedBalance was used.
+Write metadata 20230903_120058
+
+File: "SiO2 + H2O -SingleWell_Bij.xml" successfully parsed.
+Main Calculation begins
+Now calculating...
+
+--Execute calcMethod simpleCalc
+The default value of me:DistributionCalcMethod was used.
+--Parse data for Boltzmann
+--Parse data for ExponentialDown
+Number of cells = 50000, Number of grains = 433
+In FastLaplaceConvolution: 240 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 500 values in the FFT convolution routine were replaced by standard convolution
+Number of cells = 50000, Number of grains = 450
+Number of cells = 62300, Number of grains = 623
+In FastLaplaceConvolution: 760 values in the FFT convolution routine were replaced by standard convolution
+ -- Total time elapsed: 184 seconds.
+
+
+    Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
+
+
+System saved to mesmer_out.xml
+Total time elapsed: 184 seconds.
