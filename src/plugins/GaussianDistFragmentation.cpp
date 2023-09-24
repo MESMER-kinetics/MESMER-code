@@ -149,9 +149,9 @@ namespace mesmer
     // Determine gaussian parameters for the energy distribution at current energy.
     // Currently assumes linear dependence specified by an intercept and gradient. 
 
-    const double tempmu = m_muIntercept + Energy * m_muGradient;
-    const double tempsigma = m_sigmaIntercept + Energy * m_sigmaGradient;
-    const double tempsigmaTwo = m_sigmaTwoIntercept + Energy * m_sigmaTwoGradient;
+    const double tempmu = m_muIntercept + excessEnergy * m_muGradient;
+    const double tempsigma = m_sigmaIntercept + excessEnergy * m_sigmaGradient;
+    const double tempsigmaTwo = m_sigmaTwoIntercept + excessEnergy * m_sigmaTwoGradient;
     const double m_mu = getConvertedEnergy(m_muUnits, tempmu);
     const double m_sigma = getConvertedEnergy(m_sigmaUnits, tempsigma);
     const double m_sigmaTwo = getConvertedEnergy(m_sigmaTwoUnits, tempsigmaTwo);
@@ -162,7 +162,7 @@ namespace mesmer
       // off set so as to match the shift applied to the reaction flux above.
       vector<double> mDist(m_rctDOS.size(), 0.0);
       for (size_t i(0), j(cellOffSet); i < excessEnergy && j < mDist.size(); i++, j++) {
-        double ene = static_cast<double>(i) / excessEnergy;
+        double ene = static_cast<double>(i);
         double sigma = (ene > m_mu) ? m_sigmaTwo : m_sigma;
         mDist[j] = exp(-(ene - m_mu) * (ene - m_mu) / (2.0 * sigma * sigma));
       }

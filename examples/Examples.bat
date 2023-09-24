@@ -6,29 +6,40 @@ set starttime=%time%
 SET directive=
 SET otfn=mesmer.test
 
+IF EXIST "../Windows VC17/x64/MPIRelease x64/Mesmer.exe" GOTO VC17_x64
 IF EXIST "../Windows VC16/Mesmer/Mesmer.exe" GOTO VC16
 IF EXIST "../Windows VC17/Mesmer/Mesmer.exe" GOTO VC17
 
 ::For installed version
-SET executable="../../Mesmer.exe"
+SET executable= "..\..\Mesmer.exe"
+SET version= "..\Mesmer.exe"
 GOTO SETTINGS
 
 :VC16
-SET executable="../../Windows VC16/Mesmer/Mesmer.exe"
+SET executable= "..\..\Windows VC16\Mesmer\Mesmer.exe"
+SET version= "..\Windows VC16"
+SET bline=baselines\Win32\
 GOTO SETTINGS
 
 :VC17
-SET executable="../../Windows VC17/Mesmer/Mesmer.exe"
+SET executable= "..\..\Windows VC17\Mesmer\Mesmer.exe"
+SET version= "..\Windows VC17"
+SET bline=baselines\Win32\
+GOTO SETTINGS
+
+:VC17_x64
+SET executable= "..\..\Windows VC17\x64\MPIRelease x64\Mesmer.exe"
+SET version= "..\Windows VC17_x64"
+SET bline=baselines\Win64\
 GOTO SETTINGS
 
 :SETTINGS
 SET tfn=mesmer.test
 SET lfn=mesmer.log
-SET bline=baselines\Win32\
 SET outf=out.xml
 SET mpicommand="C:\Program Files\Microsoft MPI\Bin\mpiexec" -n 4 %executable%
+:: SET cmdline=%executable%
 SET cmdline=%mpicommand%
-::SET cmdline=%mpicommand%
 
 :: This compares the "double quote" altogether with the content
 IF "%1"=="" (
@@ -342,6 +353,13 @@ cd ..
 
 cd "InternalRotor"
 set testName=InternalRotor
+%cmdline% -N "%testName%.xml"
+copy "%testName%.test" %bline%
+IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
+cd ..
+
+cd "H2O_SiO2_to_H2SiO3"
+set testName="SiO2 + H2O -SingleWell_Bij"
 %cmdline% -N "%testName%.xml"
 copy "%testName%.test" %bline%
 IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"

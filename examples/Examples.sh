@@ -444,5 +444,14 @@ if [ "$1" == "-o" ] ; then
 fi
 cd ..
 
+cd "H2O_SiO2_to_H2SiO3"
+testName="SiO2 + H2O -SingleWell_Bij"
+$cmdline -N $testName.xml
+cp ./$testName.test ./$bline$testName.test
+if [ "$1" == "-o" ] ; then
+  cp ./$testName.log ./$bline$testName.log
+fi
+cd ..
+
 echo Start Time=$starttime - End Time=`date`
 
