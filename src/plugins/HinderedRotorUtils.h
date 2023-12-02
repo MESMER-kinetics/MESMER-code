@@ -64,6 +64,15 @@ namespace mesmer
 		// Calculate gradient.
 		double CalculateGradient(double angle, const vector<double> &ptnlCosCoeff, const vector<double> &ptnlSinCoeff) const;
 
+		// Read a coupled hindering potential.
+		bool ReadMultiHinderedRotorPotential(PersistPtr ppMHRP);
+
+		// Calculate multi-hindered rotor potential.
+		void CalculateMHRCoefficients() const;
+
+		// Calculate multi-hindered rotor potential.
+		double CalculateMHRPotential() const;
+
 	private:
 
 		// Shift potential to origin.
@@ -78,7 +87,7 @@ namespace mesmer
 		bool m_useSinTerms;                      // If true sine terms are used in the representation of the potential.
 
 		bool m_calIntrlIrt;                      // If true the internal rotor moment of inertia will be calculated as
-																						 // function the angle of rotation about the associated bond.
+												 // function the angle of rotation about the associated bond.
 
 		double m_phase;                          // Phase difference, in degrees, between potential and configuration.
 	};

@@ -141,9 +141,10 @@ namespace mesmer
         maxEnergy = max(maxEnergy, sourceTermZPE);
 
         // Calculate the lowest barrier associated with this well(species).
-        // For association reaction, it is assumed that the barrier height is close to the source term energy
-        // and in a sense, it is preferable to set this variable to the source term energy even there is an explicit
-        // transition state.
+        // For association reaction, it is assumed that the barrier height
+        // is close to the source term energy and in a sense, it is preferable
+        // to set this variable to the source term energy even when there
+        // is an explicit transition state.
         double adductZPE = unimolecules[0]->getDOS().get_zpe();
         double barrierHeight = sourceTermZPE - adductZPE;
         if (barrierHeight < unimolecules[0]->getColl().getLowestBarrier()) {
