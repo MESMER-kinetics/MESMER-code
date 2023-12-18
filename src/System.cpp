@@ -492,10 +492,11 @@ namespace mesmer
           m_pConditionsManager->get_analysisData(calPoint)->clear();
           m_pConditionsManager->set_currentData(int(calPoint));
 
-          m_Env.conc = m_pConditionsManager->PTPointConc(calPoint); // unit of conc: particles per cubic centimeter
+          m_Env.conc = m_pConditionsManager->PTPointConc(calPoint); // Unit of conc: particles per cubic centimetre.
           m_Env.bathGasName = m_pConditionsManager->PTPointBathGas(calPoint);
           m_Env.collisionTemperature = m_pConditionsManager->PTPointTemp(calPoint);
-          m_Env.beta = m_pConditionsManager->getBeta(calPoint);
+          m_Env.radiationTemperature = m_pConditionsManager->PTPointRadT(calPoint);
+          m_Env.beta = 1.0 / (boltzmann_RCpK * m_Env.collisionTemperature);
 
           map<Reaction*, double> excessConcs = m_pConditionsManager->PTPointExcessConcs(calPoint);
           //Set excess Concentrations for all reactions

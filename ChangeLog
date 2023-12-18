@@ -1,3 +1,14 @@
+2023-Dec-18 Struan Robertson
+
+		*  CollisionOperator.h/.cpp, System.cpp: Implementation of the effective 
+		collision-radiation temperature method.
+
+2023-Dec-18 Struan Robertson
+
+		*  gWellProperties.h, gWellRadiationTransition.h, MesmerEnv.h/.cpp, TMatrix.h: Mods. 
+		in preparation for the implementation of the effective collision-radiation temperature
+		method.
+
 2023-Dec-01 Struan Robertson
 
 		* HinderedRotorUtils.h/.cpp: Initial outline of N-dimensional angular potential.

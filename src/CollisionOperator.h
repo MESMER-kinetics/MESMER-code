@@ -97,6 +97,15 @@ namespace mesmer
     template<class T>
     void constructGrainMatrix(MesmerEnv &mEnv, MesmerFlags& mFlags);
 
+    // Calculate effective temperature, were necessary accounting for a radiation field.
+    template<class T>
+    void effectiveBeta(MesmerEnv& mEnv);
+
+    // Calculate the square length of the projection of a Boltzmann distribution by an arbitarty matrix. 
+    template<class T>
+    double lenBoltzProjection(Molecule* isomer, TMatrix<T>* egme);
+
+
     // Construct a transition matrix based on collision operator eigenfunctions.
     void constructBasisMatrix(MesmerEnv &mEnv);
 

@@ -419,6 +419,10 @@ namespace mesmer
   template<class T>
   void CollisionOperator::constructGrainMatrix(MesmerEnv& mEnv, MesmerFlags& mFlags) {
 
+    // Calculate the effective reciprocal temperature (needed if there is a radiation field).
+
+    effectiveBeta<T>(mEnv);
+
     // Determine the size and location of various blocks.
 
     // 1. Isomers.
@@ -2257,7 +2261,7 @@ namespace mesmer
       if (isomer->getName() == ref) {
         speciesFound = true;
         lower = ipos->second;
-        upper = lower + isomer->getColl().get_colloptrsize() - isomer->getColl().reservoirShift() ; 
+        upper = lower + isomer->getColl().get_colloptrsize() - isomer->getColl().reservoirShift();
       }
     }
 
@@ -2499,6 +2503,117 @@ namespace mesmer
     stest << "}" << endl;
 
     return true;
+  }
+
+  // Calculate effective temperature, were necessary accounting for a radiation field.
+  template<class T>
+  void CollisionOperator::effectiveBeta(MesmerEnv& mEnv) {
+
+    const double collTemp = mEnv.collisionTemperature;
+    const double radTemp = mEnv.radiationTemperature;
+
+    // If the radiation temperature is not set, it is assumed there is no radiation
+    //  field and so there is nothing to do.
+    if (radTemp <= 0.0)
+      return;
+
+    // The effective temperature will be calcuLated for each isomer in turn and
+    // an average taken. The effective temperature is determined by forming the 
+    // Boltzmann distributions of different temperatures, acting upon these 
+    // distributions with the combined collision/radiation operator, and finding 
+    // the distribution, and therefore temperature, which has the smallest length.
+    double sumEffTemp(0.0);
+    Reaction::molMapType::iterator isomeritr = m_isomers.begin();
+    for (isomeritr = m_isomers.begin(); isomeritr != m_isomers.end(); ++isomeritr) {
+
+      // Construct collision operator.
+
+      mEnv.beta = 1.0 / (boltzmann_RCpK * collTemp);
+
+      Molecule* isomer = isomeritr->first;
+      double omega = isomer->getColl().get_collisionFrequency();
+
+      TMatrix<T>* egme(NULL);
+      if (!isomer->getColl().collisionOperator(mEnv, &egme, false)) {
+        string errorMsg = "Failed building collision operator for " + isomer->getName() + ".";
+        throw(std::runtime_error(errorMsg));
+      }
+
+      // Add contribution from radiation transitions.
+
+      mEnv.beta = 1.0 / (boltzmann_RCpK * radTemp);
+
+      TMatrix<T>* regme = new TMatrix<T>(egme->size(), T(0.0));
+      isomer->getRad().RadiationOperator(mEnv, &regme, omega, false);
+
+      (*egme) += (*regme);
+
+      // Minimize residules.
+
+      double highTemp = max(collTemp, radTemp);
+      double lowTemp = min(collTemp, radTemp);
+
+      mEnv.beta = 1.0 / (boltzmann_RCpK * highTemp);
+      double sm1 = lenBoltzProjection(isomer, egme);
+
+      mEnv.beta = 1.0 / (boltzmann_RCpK * lowTemp);
+      double sm2 = lenBoltzProjection(isomer, egme);
+
+      // Locate the distribution with the samllest length. Do a simple binary chop for now.
+      size_t count(0);
+      double sm3(0.0);
+      double effectiveTemp(-1.0);
+      do {
+        effectiveTemp = (highTemp + lowTemp) * 0.5;
+        mEnv.beta = 1.0 / (boltzmann_RCpK * effectiveTemp);
+
+        sm3 = lenBoltzProjection(isomer, egme);
+
+        if (sm1 > sm2) {
+          highTemp = effectiveTemp;
+          sm1 = sm3;
+        }
+        else {
+          lowTemp = effectiveTemp;
+          sm2 = sm3;
+        }
+        count++;
+      } while (fabs(highTemp - lowTemp) > 0.1 && count < 100);
+
+      if (count == 100)
+        cinfo << "Warning: Maximum iterations exceeded in calculation of effective collision-radiation temperature." << endl;
+
+      sumEffTemp += effectiveTemp;
+
+      clog << " Conc : " << mEnv.conc << " Effective T: " << effectiveTemp << "Length  : " << min(sm1,sm2) << endl;
+
+      delete regme;
+      delete egme;
+    }
+
+    sumEffTemp /= m_isomers.size();
+
+    mEnv.beta = 1.0 / (boltzmann_RCpK * sumEffTemp);
+
+    return;
+  }
+
+  // Calculate the square length of the projection of a Boltzmann distribution by an arbitarty matrix. 
+  template<class T>
+  double CollisionOperator::lenBoltzProjection(Molecule* isomer, TMatrix<T>* egme) {
+    vector<double> boltzDist;
+    isomer->getColl().normalizedGrnBoltzmannDistribution(boltzDist);
+    vector<T> tmp(boltzDist.size(), T(0.0));
+    for (size_t i(0); i < tmp.size(); i++)
+      tmp[i] = T(boltzDist[i]);
+
+    tmp *= (*egme);
+
+    T sm1(T(0.0));
+    for (size_t i(0); i < tmp.size(); i++)
+      sm1 += tmp[i] * tmp[i];
+
+    return to_double(sm1);
   }
 
 
