@@ -39,6 +39,22 @@ namespace mesmer
     // Copy constructor
     TMatrix(const Matrix<T>& rhs) : Matrix<T>(rhs) { };
 
+    // Matrix addition operator.
+    TMatrix<T>& operator+=(const TMatrix<T>& rhs) {
+
+      size_t size = this->size();
+      if (size != rhs.size()) {
+        cerr << "Matricies to add are of differnt sizes: " << size << " and " << rhs.size() << endl;
+        throw std::runtime_error("__FUNCTION__: Matrix addition failed.");
+      }
+
+      for (size_t i = 0; i < size; i++)
+        for (size_t j = 0; j < size; j++)
+          (*this)[i][j] += rhs[i][j];
+
+      return *this;
+    }
+
     //
     // Wrapped calls to EISPACK routines to diagonalise matrix.
     //
@@ -187,7 +203,7 @@ namespace mesmer
 
   };
 
-  // Matrix mutiplication operator.
+  // Matrix multiplication operator.
   template<class T>
   TMatrix<T> operator*(const TMatrix<T>& lhs, const TMatrix<T>& rhs) {
 
@@ -212,7 +228,7 @@ namespace mesmer
 
   }
 
-  // Matrix vector mutiplication operator.
+  // Matrix vector multiplication operator.
   template<class T>
   void operator*=(vector<T>& rhs, const TMatrix<T>& lhs) {
 

@@ -15,6 +15,7 @@ namespace mesmer
     double conc;
     std::string bathGasName;
     double collisionTemperature;// The collision temperature in K, as distinguished from radiation temperature below. 
+    double radiationTemperature;
 
     // granularity of the system
     size_t GrainSize;           // Grain size in cm-1

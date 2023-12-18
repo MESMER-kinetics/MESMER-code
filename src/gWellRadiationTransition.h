@@ -42,7 +42,7 @@ namespace mesmer
 
     // Calculate radiation operator.
     template<class T>
-    bool RadiationOperator(MesmerEnv& env, TMatrix<T>** egme, double meanOmega) const;
+    bool RadiationOperator(MesmerEnv& env, TMatrix<T>** egme, double meanOmega, bool symmetrize = true) const;
 
     // Add radiation operator to overall transtion matrix.
     template<class T>
@@ -78,7 +78,7 @@ namespace mesmer
   // Calculate collision operator
   //
   template<class T>
-  bool gWellRadiationTransition::RadiationOperator(MesmerEnv& env, TMatrix<T>** CollOp, double meanOmega) const {
+  bool gWellRadiationTransition::RadiationOperator(MesmerEnv& env, TMatrix<T>** CollOp, double meanOmega, bool symmetrize) const {
 
     // Are there any Einstein coeffcients?
     if (m_EinsteinBij.size() == 0 && m_EinsteinAij.size() == 0)
@@ -188,10 +188,12 @@ namespace mesmer
     const size_t reducedCollOptrSize = nradoptrsize - ((m_numGroupedGrains==0) ? 0 : m_numGroupedGrains-1);
 
     // Symmetrization of the radiation matrix.
-    for (size_t i(1); i < reducedCollOptrSize; ++i) {
-      for (size_t j(0); j < i; ++j) {
-        (*transitionMatrix)[j][i] *= sqrt(popDist[i] / popDist[j]);
-        (*transitionMatrix)[i][j] = (*transitionMatrix)[j][i];
+    if (symmetrize) {
+      for (size_t i(1); i < reducedCollOptrSize; ++i) {
+        for (size_t j(0); j < i; ++j) {
+          (*transitionMatrix)[j][i] *= sqrt(popDist[i] / popDist[j]);
+          (*transitionMatrix)[i][j] = (*transitionMatrix)[j][i];
+        }
       }
     }
 

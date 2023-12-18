@@ -83,7 +83,7 @@ namespace mesmer
 
     // Calculate collision operator.
     template<class T> 
-    bool collisionOperator (MesmerEnv& env, TMatrix<T> **egme) ;
+    bool collisionOperator (MesmerEnv& env, TMatrix<T> **egme, bool symmetrize = true) ;
 
     // Diagonalize collision operator before adding reaction terms to get eigenvectors and eigenvalues.
     void diagonalizeCollisionOperator(qdMatrix *egme);
@@ -129,7 +129,7 @@ namespace mesmer
   // Calculate collision operator
   //
   template<class T> 
-  bool gWellProperties::collisionOperator(MesmerEnv& env, TMatrix<T> **CollOp)
+  bool gWellProperties::collisionOperator(MesmerEnv& env, TMatrix<T> **CollOp, bool symmetrize)
   {
     //
     //     i) Determine Probabilities of Energy Transfer.
@@ -193,10 +193,12 @@ namespace mesmer
     }
 
     // Symmetrization of the collision matrix.
-    for (size_t i(1); i < reducedCollOptrSize; ++i) {
-      for (size_t j(0); j < i; ++j){
-        (*egme)[j][i] *= sqrt(popDist[i] / popDist[j]) ;
-        (*egme)[i][j] = (*egme)[j][i];
+    if (symmetrize) {
+      for (size_t i(1); i < reducedCollOptrSize; ++i) {
+        for (size_t j(0); j < i; ++j) {
+          (*egme)[j][i] *= sqrt(popDist[i] / popDist[j]);
+          (*egme)[i][j] = (*egme)[j][i];
+        }
       }
     }
 
