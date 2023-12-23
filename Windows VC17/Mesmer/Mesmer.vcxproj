@@ -423,6 +423,7 @@
     <ClCompile Include="..\..\src\plugins\CanonicalRateCoefficient.cpp" />
     <ClCompile Include="..\..\src\plugins\GaussianDistFragmentation.cpp" />
     <ClCompile Include="..\..\src\plugins\HirstWardlawPotential.cpp" />
+    <ClCompile Include="..\..\src\plugins\MultiHinderedRotorPotential.cpp" />
     <ClCompile Include="..\..\src\plugins\PhaseIntegrals.cpp" />
     <ClCompile Include="..\..\src\plugins\PriorDistFragmentation.cpp" />
     <ClCompile Include="..\..\src\plugins\uFTST.cpp" />
@@ -533,6 +534,7 @@
     <ClInclude Include="..\..\src\MoleculeManager.h" />
     <ClInclude Include="..\..\src\Persistence.h" />
     <ClInclude Include="..\..\src\plugins\HinderedRotorUtils.h" />
+    <ClInclude Include="..\..\src\plugins\MultiHinderedRotorPotential.h" />
     <ClInclude Include="..\..\src\plugins\PhaseIntegrals.h" />
     <ClInclude Include="..\..\src\plugins\Potential1D.h" />
     <ClInclude Include="..\..\src\plugins\ThermodynamicUtils.h" />

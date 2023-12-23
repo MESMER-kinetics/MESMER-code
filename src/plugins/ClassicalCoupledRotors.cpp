@@ -21,6 +21,7 @@
 #include "../gStructure.h"
 #include "../Sobol.h"
 #include "HinderedRotorUtils.h"
+#include "MultiHinderedRotorPotential.h"
 
 using namespace std;
 namespace mesmer
@@ -53,11 +54,15 @@ namespace mesmer
       m_knmtcFctr(),
       m_potential(),
       m_potentialCosCoeffs(),
-      m_potentialSinCoeffs() {
+      m_potentialSinCoeffs(),
+      m_pMHRPotential(NULL)
+    {
       Register();
     }
 
-    virtual ~ClassicalCoupledRotors() {}
+    virtual ~ClassicalCoupledRotors() {
+      if (m_pMHRPotential) delete m_pMHRPotential;
+    }
 
     // Included only in a subset of DensityOfStatesCalculators.
     // Otherwise the baseclass function returns false.
@@ -85,6 +90,7 @@ namespace mesmer
     vector<vector<double> > m_potentialCosCoeffs; // Torsion potential cosine Coefficients.
     vector<vector<double> > m_potentialSinCoeffs; // Torsion potential sine Coefficients.
 
+    MultiHinderedRotorPotential* m_pMHRPotential; // n-dimensional hindered rotor potential.
   };
 
   //************************************************************
@@ -144,8 +150,9 @@ namespace mesmer
 
     PersistPtr ppMHRP = ppDOS->XmlMoveTo("me:MultiHinderedRotorPotential");
     if (ppMHRP) {
-      if (ReadMultiHinderedRotorPotential(ppMHRP))
-        return false;
+      m_pMHRPotential = new MultiHinderedRotorPotential();
+      m_pMHRPotential->ReadPotentialPoints(ppMHRP);
+      m_pMHRPotential->initializePotential();
     }
     else {
 

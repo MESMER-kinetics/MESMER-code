@@ -213,6 +213,7 @@ SRCS := \
 	plugins/Marquardt.cpp \
 	plugins/MesmerILT.cpp \
 	plugins/Morse.cpp \
+	plugins/MultiHinderedRotorPotential.cpp \
 	plugins/PhaseIntegrals.cpp \
 	plugins/PriorDistribution.cpp \
 	plugins/PriorDistFragmentation.cpp \

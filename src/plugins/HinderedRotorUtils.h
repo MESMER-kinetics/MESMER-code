@@ -64,15 +64,6 @@ namespace mesmer
 		// Calculate gradient.
 		double CalculateGradient(double angle, const vector<double> &ptnlCosCoeff, const vector<double> &ptnlSinCoeff) const;
 
-		// Read a coupled hindering potential.
-		bool ReadMultiHinderedRotorPotential(PersistPtr ppMHRP);
-
-		// Calculate multi-hindered rotor potential.
-		void CalculateMHRCoefficients() const;
-
-		// Calculate multi-hindered rotor potential.
-		double CalculateMHRPotential() const;
-
 	private:
 
 		// Shift potential to origin.
