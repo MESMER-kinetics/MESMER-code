@@ -68,7 +68,8 @@ namespace mesmer
 
     size_t nbasis(0);
 
-    nbasis = 2 * m_nVar * m_expansion + 1;
+    nbasis = 1 + 2 * m_nVar * m_expansion + 2*(m_nVar * (m_nVar - 1) * m_expansion * m_expansion / 2);
+    // nbasis = 1 + 2 * m_nVar * m_expansion + 4 * (m_nVar * (m_nVar - 1) * m_expansion * m_expansion / 2);
 
     vector<double> wrk(nbasis, 0.0);
     dMatrix design(nbasis, 0.0);
@@ -84,27 +85,52 @@ namespace mesmer
       basis[0] = 1.0;
       wrk[0] += ptnl;
 
-      for (size_t i(0), k(1), l(m_expansion + 1); i < angles.size(); i++, k += m_expansion, l += m_expansion) {
+      for (size_t i(0), k(1); i < angles.size(); i++) {
 
         // alpha coefficients.
 
         double angle_i = degToRad * angles[i];
-        for (size_t j(1); j <= m_expansion; j++, k++, l++) {
-          double nTheta_i = double(j) * angle_i;
-          basis[k] = cos(nTheta_i);
-          basis[l] = sin(nTheta_i);
-          wrk[k] += ptnl * basis[k];
-          wrk[l] += ptnl * basis[l];
+        for (size_t n(1); n <= m_expansion; n++) {
+          double nTheta_i = double(n) * angle_i;
+          double cnT_i = cos(nTheta_i);
+          double snT_i = sin(nTheta_i);
+          basis[k]  = cnT_i;
+          wrk[k++] += ptnl * cnT_i;
+          basis[k]  = snT_i;
+          wrk[k++] += ptnl * snT_i;
         }
+
+        // beta coefficients.
+
+        for (size_t n(1); n <= m_expansion; n++) {
+          double nTheta_i = double(n) * angle_i;
+          double cnT_i = cos(nTheta_i);
+          double snT_i = sin(nTheta_i);
+          for (size_t j(0); j < i; j++) {
+            double angle_j = degToRad * angles[j];
+            for (size_t m(1); m <= m_expansion; m++) {
+              double nTheta_j = double(m) * angle_j;
+              double cnT_j = cos(nTheta_j);
+              double snT_j = sin(nTheta_j);
+              basis[k]  = cnT_i * cnT_j;
+              wrk[k++] += ptnl * cnT_i * cnT_j;
+              basis[k]  = snT_i * snT_j;
+              wrk[k++] += ptnl * snT_i * snT_j;
+              //basis[k] = cnT_i * snT_j;
+              //wrk[k] += ptnl * basis[k];
+            }
+          }
+        }
+
       }
 
       // Update design matrix.
 
-      for (size_t m(0); m < basis.size(); m++) {
-        design[m][m] += basis[m] * basis[m];
-        for (size_t n(0); n < m; n++) {
-          design[m][n] += basis[m] * basis[n];
-          design[n][m]  = design[m][n];
+      for (size_t i(0); i < basis.size(); i++) {
+        design[i][i] += basis[i] * basis[i];
+        for (size_t j(0); j < i; j++) {
+          design[i][j] += basis[i] * basis[j];
+          design[j][i] = design[i][j];
         }
       }
 
@@ -137,12 +163,36 @@ namespace mesmer
 
     double degToRad(M_PI / 180.0);
     double ptnl(m_Calpha[0]);
-    for (size_t i(0), k(1), l(m_expansion + 1); i < angles.size(); i++, k += m_expansion, l += m_expansion) {
+    for (size_t i(0), k(1) ; i < angles.size(); i++) {
+
+      // alpha coefficients.
+
       double angle_i = degToRad * angles[i];
-      for (size_t j(1); j <= m_expansion; j++, k++, l++) {
-        double nTheta_i = double(j) * angle_i;
-        ptnl += m_Calpha[k]*cos(nTheta_i);
-        ptnl += m_Calpha[l]*sin(nTheta_i);
+      for (size_t n(1); n <= m_expansion; n++) {
+        double nTheta_i = double(n) * angle_i;
+        double cnT_i = cos(nTheta_i);
+        double snT_i = sin(nTheta_i);
+        ptnl += m_Calpha[k++] * cnT_i;
+        ptnl += m_Calpha[k++] * snT_i;
+      }
+
+      // beta coefficients.
+
+      for (size_t n(1); n <= m_expansion; n++) {
+        double nTheta_i = double(n) * angle_i;
+        double cnT_i = cos(nTheta_i);
+        double snT_i = sin(nTheta_i);
+        for (size_t j(0); j < i; j++) {
+          double angle_j = degToRad * angles[j];
+          for (size_t m(1); m <= m_expansion; m++) {
+            double nTheta_j = double(m) * angle_j;
+            double cnT_j = cos(nTheta_j);
+            double snT_j = sin(nTheta_j);
+            ptnl += m_Calpha[k++] * cnT_i * cnT_j;
+            ptnl += m_Calpha[k++] * snT_i * snT_j;
+            //basis[k] = cnT_i * snT_j;
+          }
+        }
       }
 
     }

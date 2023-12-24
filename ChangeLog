@@ -1,5 +1,10 @@
 2023-Dec-23 Struan Robertson
 
+		*  MultiHinderedRotorPotential.h/.cpp: Extension of coupled hindered rotor 
+		potential to include basis product terms.
+
+2023-Dec-23 Struan Robertson
+
 		*  MultiHinderedRotorPotential.h/.cpp, ClassicalCoupledRotors.cpp: Initial 
 		implementation of coupled hindered rotor potential.
 
