@@ -153,6 +153,25 @@ namespace mesmer
       m_pMHRPotential = new MultiHinderedRotorPotential();
       m_pMHRPotential->ReadPotentialPoints(ppMHRP);
       m_pMHRPotential->initializePotential();
+
+      // Check if there is a Hessian and knock out the frequency
+      // associated with this internal rotation.
+
+      if (gdos->hasHessian()) {
+        m_pMHRPotential->getBondIDs(m_bondIDs);
+        for (size_t i(0); i < m_bondIDs.size() ; i++) {
+          gs.addRotBondID(string(m_bondIDs[i]));
+          // The following vector, "mode", will be used to hold the internal rotation 
+          // mode vector as defined by Sharma, Raman and Green, J. Phys. Chem. (2010). 
+          vector<double> mode(3 * gs.NumAtoms(), 0.0);
+          gs.internalRotationVector(m_bondIDs[i], mode, false);
+          if (!gdos->projectMode(mode)) {
+            cerr << "Failed to project out internal rotation." << endl;
+            return false;
+          }
+        }
+      }
+
     }
     else {
 
@@ -242,7 +261,7 @@ namespace mesmer
       m_knmtcFctr[i] = gs.getSqrtGRITDeterminant(angles);  // Units a.u.*Angstrom*Angstrom.
 
       // Calculate potential energy.
-      m_potential[i] = TorsionalPotential(angles);
+      m_potential[i] = (m_pMHRPotential) ? m_pMHRPotential->calculatePotential(angles) : TorsionalPotential(angles);
     }
 
     // Restore rotatable bond IDs.

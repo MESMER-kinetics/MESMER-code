@@ -29,10 +29,23 @@ namespace mesmer
     const char* p = pp->XmlReadValue("units", optional);
     m_units = p ? p : "kJ/mol";
 
+    p = pp->XmlReadValue("bondRef");
+    if (!p) {
+      cerr << "There are no bonds defined." << endl;
+      return false;
+    }
+    else {
+      stringstream txt(p);
+      string bondID;
+      while (txt >> bondID) {
+        m_bondIDs.push_back(bondID);
+      }
+    }
+
     m_expansion = pp->XmlReadInteger("expansionSize", optional);
 
     // Check if sine terms are to be used.
-    m_useSinTerms = pp->XmlReadBoolean("useSineTerms") || pp->XmlReadBoolean("UseSineTerms");
+    // m_useSinTerms = pp->XmlReadBoolean("useSineTerms") || pp->XmlReadBoolean("UseSineTerms");
 
     while (pp = pp->XmlMoveTo("me:PotentialPoint"))
     {
@@ -150,12 +163,12 @@ namespace mesmer
       double diff = m_potential[itr] - ptnl;
       residule += diff * diff;
 
-      cout << formatFloat(m_potential[itr], 6, 15) << formatFloat(ptnl, 6, 15) << formatFloat(diff, 6, 15) << endl;
+      std::cout << formatFloat(m_potential[itr], 6, 15) << formatFloat(ptnl, 6, 15) << formatFloat(diff, 6, 15) << endl;
 
     }
 
-    cout << endl;
-    cout << "Residule = " << formatFloat(residule, 6, 15) << endl;
+    std::cout << endl;
+    std::cout << "Residule = " << formatFloat(residule, 6, 15) << endl;
 
   }
 
