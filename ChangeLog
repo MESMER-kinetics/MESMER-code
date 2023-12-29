@@ -1,6 +1,12 @@
+2023-Dec-29 Struan Robertson
+
+		*  MultiHinderedRotorPotential.cpp: Further updates to coupled hindered rotor
+		potential.
+
 2023-Dec-28 Struan Robertson
 
-		*  MultiHinderedRotorPotential.h/.cpp, ClassicalCoupledRotors.cpp: Improved reporting of.
+		*  MultiHinderedRotorPotential.h/.cpp, ClassicalCoupledRotors.cpp: Improved 
+		control and reporting of coupled hindered rotor potential.
 
 2023-Dec-28 Struan Robertson
 

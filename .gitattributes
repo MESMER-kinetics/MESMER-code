@@ -486,6 +486,7 @@ examples/CoupledRotors/Octyl_H_to_Octane_UCR.xml -text
 examples/CoupledRotors/Octyl_H_to_Octane_UQR.xml -text
 examples/CoupledRotors/Pentyl_H_to_Pentane_CCQR.xml -text
 examples/CoupledRotors/Pentyl_H_to_Pentane_CCR.xml -text
+examples/CoupledRotors/Pentyl_H_to_Pentane_CCR_MHRP.xml -text
 examples/CoupledRotors/Pentyl_H_to_Pentane_UCR.xml -text
 examples/CoupledRotors/Pentyl_H_to_Pentane_UQR.xml -text
 examples/CoupledRotors/baselines/Linux64/Butyl_H_to_Butane_CCQR_out.xml -text

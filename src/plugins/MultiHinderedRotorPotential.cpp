@@ -50,6 +50,7 @@ namespace mesmer
     // Check if sine terms are to be used.
     // m_useSinTerms = pp->XmlReadBoolean("useSineTerms") || pp->XmlReadBoolean("UseSineTerms");
 
+    double degToRad(M_PI / 180.0);
     while (pp = pp->XmlMoveTo("me:PotentialPoint"))
     {
       vector<double> tangles;
@@ -57,7 +58,7 @@ namespace mesmer
       istringstream anglesTxt(txt);
       double angle(0.0);
       while (anglesTxt >> angle) {
-        tangles.push_back(angle);
+        tangles.push_back(angle * degToRad);
       }
       m_angles.push_back(tangles);
 
@@ -71,6 +72,7 @@ namespace mesmer
       if (IsNan(potentialPoint))
         potentialPoint = 0.0;
       potentialPoint = getConvertedEnergy(m_units, potentialPoint);
+      potentialPoint = min(potentialPoint, 10000.0);
       m_potential.push_back(potentialPoint);
     }
 
@@ -81,15 +83,25 @@ namespace mesmer
     }
 
     // Shift data to minimum.
+    size_t ii(0);
     double minEnergy(m_potential[0]);
+    vector<double> tangles = m_angles[0];
     for (size_t i(0); i < m_potential.size(); i++) {
-      minEnergy = min(minEnergy, m_potential[i]);
+      if (m_potential[i] < minEnergy) {
+        minEnergy = m_potential[i];
+        tangles = m_angles[i];
+        ii = i;
+      }
     }
 
     for (size_t i(0); i < m_potential.size(); i++) {
       m_potential[i] -= minEnergy;
+      for (size_t j(0); j < m_nVar; j++) {
+        m_angles[i][j] -= tangles[j];
+        if (m_angles[i][j] < 0.0)
+          m_angles[i][j] += 2.0 * M_PI;
+      }
     }
-
 
     pp = pMHRP->XmlMoveTo("me:TestLSqFit");
     if (pp) {
@@ -107,10 +119,14 @@ namespace mesmer
     nbasis = 1 + 2 * m_nVar * m_expansion + 2 * (m_nVar * (m_nVar - 1) * m_expansion * m_expansion / 2);
     // nbasis = 1 + 2 * m_nVar * m_expansion + 4 * (m_nVar * (m_nVar - 1) * m_expansion * m_expansion / 2);
 
+    // Issue a warning if the number of basis functions exceeds the number of potential points.
+    if (nbasis > m_potential.size()) {
+      cwarn << "WARNING: The number of basis functions exceeds the number of potential " << endl
+            << "points in the least square fit the coupled hinder rotor potential." << endl;
+    }
+
     vector<double> wrk(nbasis, 0.0);
     dMatrix design(nbasis, 0.0);
-
-    double degToRad(M_PI / 180.0);
 
     for (size_t itr(0); itr < m_potential.size(); itr++) {
 
@@ -125,7 +141,7 @@ namespace mesmer
 
         // alpha coefficients.
 
-        double angle_i = degToRad * angles[i];
+        double angle_i = angles[i];
         for (size_t n(1); n <= m_expansion; n++) {
           double nTheta_i = double(n) * angle_i;
           double cnT_i = cos(nTheta_i);
@@ -143,7 +159,7 @@ namespace mesmer
           double cnT_i = cos(nTheta_i);
           double snT_i = sin(nTheta_i);
           for (size_t j(0); j < i; j++) {
-            double angle_j = degToRad * angles[j];
+            double angle_j = angles[j];
             for (size_t m(1); m <= m_expansion; m++) {
               double nTheta_j = double(m) * angle_j;
               double cnT_j = cos(nTheta_j);
@@ -203,13 +219,12 @@ namespace mesmer
 
   double MultiHinderedRotorPotential::calculatePotential(std::vector<double>& angles) const {
 
-    double degToRad(M_PI / 180.0);
     double ptnl(m_Calpha[0]);
     for (size_t i(0), k(1); i < angles.size(); i++) {
 
       // alpha coefficients.
 
-      double angle_i = degToRad * angles[i];
+      double angle_i = angles[i];
       for (size_t n(1); n <= m_expansion; n++) {
         double nTheta_i = double(n) * angle_i;
         double cnT_i = cos(nTheta_i);
@@ -225,7 +240,7 @@ namespace mesmer
         double cnT_i = cos(nTheta_i);
         double snT_i = sin(nTheta_i);
         for (size_t j(0); j < i; j++) {
-          double angle_j = degToRad * angles[j];
+          double angle_j = angles[j];
           for (size_t m(1); m <= m_expansion; m++) {
             double nTheta_j = double(m) * angle_j;
             double cnT_j = cos(nTheta_j);
@@ -238,6 +253,8 @@ namespace mesmer
       }
 
     }
+
+    ptnl = max(ptnl, 0.0);
 
     return ptnl;
 
