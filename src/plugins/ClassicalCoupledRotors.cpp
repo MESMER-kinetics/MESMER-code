@@ -154,11 +154,34 @@ namespace mesmer
       m_pMHRPotential->ReadPotentialPoints(ppMHRP);
       m_pMHRPotential->initializePotential();
 
+      m_pMHRPotential->getBondIDs(m_bondIDs);
+
+      // Read Periodicities
+
+      const char* p = ppMHRP->XmlReadValue("periodicities", optional);
+      if (!p) {
+        // Assume all periodicities are unity.
+        m_periodicities.resize(m_bondIDs.size(), 1);
+      }
+      else {
+        stringstream txt(p);
+        size_t periodicity;
+        while (txt >> periodicity) {
+          m_periodicities.push_back(periodicity);
+        }
+        if (m_periodicities.size() > m_bondIDs.size()) {
+          clog << "There are more perodicities defined than there are bond IDs." << endl;
+        }
+        else {
+          for (size_t i(m_periodicities.size()); i < m_bondIDs.size(); i++)
+            m_periodicities.push_back(1);
+        }
+      }
+
       // Check if there is a Hessian and knock out the frequency
       // associated with this internal rotation.
 
       if (gdos->hasHessian()) {
-        m_pMHRPotential->getBondIDs(m_bondIDs);
         for (size_t i(0); i < m_bondIDs.size() ; i++) {
           gs.addRotBondID(string(m_bondIDs[i]));
           // The following vector, "mode", will be used to hold the internal rotation 

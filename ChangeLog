@@ -1,5 +1,9 @@
 2023-Dec-28 Struan Robertson
 
+		*  MultiHinderedRotorPotential.h/.cpp, ClassicalCoupledRotors.cpp: Improved reporting of.
+
+2023-Dec-28 Struan Robertson
+
 		*  MultiHinderedRotorPotential.h/.cpp, ClassicalCoupledRotors.cpp: Update of
 		classical coupled rotors class to invoke coupled hindered rotor potential.
 

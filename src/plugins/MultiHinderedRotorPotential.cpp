@@ -15,6 +15,7 @@
 #include "../MesmerConfig.h"
 #include <algorithm>
 #include <stdexcept>
+#include <cmath>
 #include "../formatfloat.h"
 #include "../dMatrix.h"
 
@@ -25,6 +26,8 @@ namespace mesmer
 {
 
   bool MultiHinderedRotorPotential::ReadPotentialPoints(PersistPtr pp) {
+
+    PersistPtr pMHRP = pp;
 
     const char* p = pp->XmlReadValue("units", optional);
     m_units = p ? p : "kJ/mol";
@@ -60,8 +63,8 @@ namespace mesmer
 
       // Check for a consistent number of angles.
       if (m_angles[0].size() != tangles.size()) {
-        cerr << "The number of angles is not the same for one row of a multi-hindered rotor potential definition." << endl;
-        return false;
+        string errorMsg = "The number of angles is not the same for one row of a multi-hindered rotor potential definition.";
+        throw(std::runtime_error(errorMsg));
       }
 
       double potentialPoint = pp->XmlReadDouble("potential", optional);
@@ -72,6 +75,26 @@ namespace mesmer
     }
 
     m_nVar = m_angles[0].size();
+    if (m_nVar != m_bondIDs.size()) {
+      string errorMsg = "The number of angles is different from the number of bond IDs in the definition of the multi hindered rotor potential.";
+      throw(std::runtime_error(errorMsg));
+    }
+
+    // Shift data to minimum.
+    double minEnergy(m_potential[0]);
+    for (size_t i(0); i < m_potential.size(); i++) {
+      minEnergy = min(minEnergy, m_potential[i]);
+    }
+
+    for (size_t i(0); i < m_potential.size(); i++) {
+      m_potential[i] -= minEnergy;
+    }
+
+
+    pp = pMHRP->XmlMoveTo("me:TestLSqFit");
+    if (pp) {
+      m_testLSqFit = true;
+    }
 
     return true;
 
@@ -81,7 +104,7 @@ namespace mesmer
 
     size_t nbasis(0);
 
-    nbasis = 1 + 2 * m_nVar * m_expansion + 2*(m_nVar * (m_nVar - 1) * m_expansion * m_expansion / 2);
+    nbasis = 1 + 2 * m_nVar * m_expansion + 2 * (m_nVar * (m_nVar - 1) * m_expansion * m_expansion / 2);
     // nbasis = 1 + 2 * m_nVar * m_expansion + 4 * (m_nVar * (m_nVar - 1) * m_expansion * m_expansion / 2);
 
     vector<double> wrk(nbasis, 0.0);
@@ -107,9 +130,9 @@ namespace mesmer
           double nTheta_i = double(n) * angle_i;
           double cnT_i = cos(nTheta_i);
           double snT_i = sin(nTheta_i);
-          basis[k]  = cnT_i;
+          basis[k] = cnT_i;
           wrk[k++] += ptnl * cnT_i;
-          basis[k]  = snT_i;
+          basis[k] = snT_i;
           wrk[k++] += ptnl * snT_i;
         }
 
@@ -125,9 +148,9 @@ namespace mesmer
               double nTheta_j = double(m) * angle_j;
               double cnT_j = cos(nTheta_j);
               double snT_j = sin(nTheta_j);
-              basis[k]  = cnT_i * cnT_j;
+              basis[k] = cnT_i * cnT_j;
               wrk[k++] += ptnl * cnT_i * cnT_j;
-              basis[k]  = snT_i * snT_j;
+              basis[k] = snT_i * snT_j;
               wrk[k++] += ptnl * snT_i * snT_j;
               //basis[k] = cnT_i * snT_j;
               //wrk[k] += ptnl * basis[k];
@@ -153,22 +176,28 @@ namespace mesmer
     m_Calpha = wrk;
 
     // Test the result.
+    if (m_testLSqFit) {
+      double residual(0.0);
+      ctest << "\nCoupled hindered rotor potential (cm-1) for bonds :";
+      for (size_t i(0); i < m_bondIDs.size(); i++)
+        ctest << " " << m_bondIDs[i];
+      ctest << endl << endl;
+      for (size_t itr(0); itr < m_potential.size(); itr++) {
 
-    double residule(0.0);
-    for (size_t itr(0); itr < m_potential.size(); itr++) {
+        vector<double> angles = m_angles[itr];
 
-      vector<double> angles = m_angles[itr];
+        double ptnl = calculatePotential(angles);
+        double diff = m_potential[itr] - ptnl;
+        residual += diff * diff;
 
-      double ptnl = calculatePotential(angles);
-      double diff = m_potential[itr] - ptnl;
-      residule += diff * diff;
+        ctest << formatFloat(m_potential[itr], 6, 15) << formatFloat(ptnl, 6, 15) << formatFloat(diff, 6, 15) << endl;
+      }
 
-      std::cout << formatFloat(m_potential[itr], 6, 15) << formatFloat(ptnl, 6, 15) << formatFloat(diff, 6, 15) << endl;
+      residual = sqrt(residual/double(m_potential.size()));
 
+      ctest << endl;
+      ctest << "RMS Residual = " << formatFloat(residual, 6, 15) << endl << endl;
     }
-
-    std::cout << endl;
-    std::cout << "Residule = " << formatFloat(residule, 6, 15) << endl;
 
   }
 
@@ -176,7 +205,7 @@ namespace mesmer
 
     double degToRad(M_PI / 180.0);
     double ptnl(m_Calpha[0]);
-    for (size_t i(0), k(1) ; i < angles.size(); i++) {
+    for (size_t i(0), k(1); i < angles.size(); i++) {
 
       // alpha coefficients.
 

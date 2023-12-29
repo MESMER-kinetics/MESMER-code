@@ -27,7 +27,8 @@ namespace mesmer
   {
   public:
 
-		MultiHinderedRotorPotential() : m_units("kJ/mol"), m_expansion(1), m_potential(), m_angles(), m_nVar(0), m_Calpha(), m_bondIDs()
+		MultiHinderedRotorPotential() : m_units("kJ/mol"), m_expansion(1), m_potential(), 
+      m_angles(), m_nVar(0), m_Calpha(), m_bondIDs(), m_testLSqFit(false)
     { };
 		virtual ~MultiHinderedRotorPotential() {};
 
@@ -50,8 +51,8 @@ namespace mesmer
     size_t m_nVar;
     std::vector<double> m_Calpha;
     std::vector<std::string> m_bondIDs;
+    bool m_testLSqFit;
   };
-
 
 }  //namespace
 
