@@ -377,6 +377,7 @@ Windows[!!-~]VC16/TinyXML/TinyXML.vcxproj -text
 Windows[!!-~]VC16/distribution/NSISScriptToCreateInstaller.nsi -text
 Windows[!!-~]VC16/distribution/ReadMe.txt -text
 Windows[!!-~]VC16/qd/qd.vcxproj -text
+Windows[!!-~]VC17/Mesmer.sln -text
 Windows[!!-~]VC17/Mesmer/Mesmer.vcxproj -text
 Windows[!!-~]VC17/TinyXML/TinyXML.vcxproj -text
 Windows[!!-~]VC17/distribution/NSISScriptToCreateInstaller.nsi -text

@@ -2610,8 +2610,10 @@ namespace mesmer
     tmp *= (*egme);
 
     T sm1(T(0.0));
-    for (size_t i(0); i < tmp.size(); i++)
+    for (size_t i(0); i < tmp.size(); i++) {
+      // sm1 += fabs(tmp[i]);
       sm1 += tmp[i] * tmp[i];
+    }
 
     return to_double(sm1);
   }

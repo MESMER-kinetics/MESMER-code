@@ -1,3 +1,12 @@
+2024-Mar-08 Struan Robertson
+
+		* CollisionOperator.cpp: Effective radiation temperature, norm update.
+
+		* NSISScriptToCreateInstaller.nsi: Windows installer altered to use 64 bit 
+		MESMER build.
+
+		* Mesmer.sln: Mesmer VS solution file.
+
 2023-Dec-29 Struan Robertson
 
 		*  MultiHinderedRotorPotential.cpp: Further updates to coupled hindered rotor

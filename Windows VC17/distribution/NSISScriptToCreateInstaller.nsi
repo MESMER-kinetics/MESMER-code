@@ -459,7 +459,7 @@ FunctionEnd
 ;General
 
   ;Mesmer version
-  !define MesmerVersion 7.0
+  !define MesmerVersion 7.1
 
   ;Name and file
   Name "Mesmer ${MESMERVERSION}"
@@ -561,8 +561,8 @@ Section "Dummy Section" SecDummy
   
   SetOutPath "$INSTDIR" 
   File ..\..\License.txt
-  File ..\Mesmer\Mesmer.exe
-  File VC_redist.x86.exe
+  File "..\x64\MPIRelease x64\Mesmer.exe"
+  File VC_redist.x64.exe
   File ..\..\mesmer1.xsl
   File ..\..\mesmerDiag.xsl
   File ..\..\popDiag.xsl
