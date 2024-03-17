@@ -399,7 +399,13 @@ namespace mesmer
           tempzpe += ConvertFromWavenumbers(unitsInput, zpCorrection);
           //Write back a corrected value and change attribute to zeroPointVibEnergyAdded="true"
           PersistPtr ppScalar = ppMol->XmlMoveToProperty(elName);
-          ppScalar->XmlWrite(toString(tempzpe)); //in original units
+          // SHR, 17/Mar/2024: Because xslt does not support scientific format, the original output line,
+          // immediately below, has been replace by a wide string format. This should be reviewed once
+          // xslt has been replaced.
+          // ppScalar->XmlWrite(toString(tempzpe)); //in original units
+          stringstream ss;
+          ss << setprecision(10) << tempzpe;
+          ppScalar->XmlWrite(ss.str()); //in original units
           ppScalar->XmlWriteAttribute(zpAttName, "true");
           cinfo << "Zero point correction made by adding " << zpCorrection << " cm-1" << endl;
         }

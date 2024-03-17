@@ -1,3 +1,8 @@
+2024-Mar-17 Struan Robertson
+
+		* gDensityOfStates.cpp: Altered .xml output statement as to limit conversion
+		to scientific format as this cannot be processed by XSLT.
+
 2024-Mar-08 Struan Robertson
 
 		* CollisionOperator.cpp: Effective radiation temperature, norm update.
