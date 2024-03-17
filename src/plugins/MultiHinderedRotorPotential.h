@@ -34,7 +34,7 @@ namespace mesmer
 
     bool ReadPotentialPoints(PersistPtr pp);
 
-    void MultiHinderedRotorPotential::initializePotential();
+    void initializePotential();
 
     double calculatePotential(std::vector<double> &abscissa) const;
 
