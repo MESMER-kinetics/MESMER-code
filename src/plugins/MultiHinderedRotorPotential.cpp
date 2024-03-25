@@ -116,7 +116,7 @@ namespace mesmer
 
     size_t nbasis(0);
 
-    nbasis = 1 + 2 * m_nVar * m_expansion + 2 * (m_nVar * (m_nVar - 1) * m_expansion * m_expansion / 2);
+    nbasis = 1 + 2 * m_nVar * m_expansion + 4 * (m_nVar * (m_nVar - 1) * m_expansion * m_expansion / 2);
     // nbasis = 1 + 2 * m_nVar * m_expansion + 4 * (m_nVar * (m_nVar - 1) * m_expansion * m_expansion / 2);
 
     // Issue a warning if the number of basis functions exceeds the number of potential points.
@@ -168,8 +168,10 @@ namespace mesmer
               wrk[k++] += ptnl * cnT_i * cnT_j;
               basis[k] = snT_i * snT_j;
               wrk[k++] += ptnl * snT_i * snT_j;
-              //basis[k] = cnT_i * snT_j;
-              //wrk[k] += ptnl * basis[k];
+              basis[k] = cnT_i * snT_j;
+              wrk[k++] += ptnl * cnT_i * snT_j;
+              basis[k] = snT_i * cnT_j;
+              wrk[k++] += ptnl * snT_i * cnT_j;
             }
           }
         }
@@ -247,7 +249,8 @@ namespace mesmer
             double snT_j = sin(nTheta_j);
             ptnl += m_Calpha[k++] * cnT_i * cnT_j;
             ptnl += m_Calpha[k++] * snT_i * snT_j;
-            //basis[k] = cnT_i * snT_j;
+            ptnl += m_Calpha[k++] * cnT_i * snT_j;
+            ptnl += m_Calpha[k++] * snT_i * cnT_j;
           }
         }
       }

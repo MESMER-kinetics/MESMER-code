@@ -1,3 +1,7 @@
+2024-Mar-25 Struan Robertson
+
+		* MultiHinderedRotorPotential.cpp: Cross terms added.
+
 2024-Mar-17 Struan Robertson
 
 		* gDensityOfStates.cpp: Altered .xml output statement as to limit conversion
