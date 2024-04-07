@@ -131,7 +131,7 @@ namespace mesmer
         const char* bathGasName = m_pSys->getMoleculeManager()->get_BathGasName().c_str();
         for (size_t j(0); j < Tvals.size(); ++j) {
           for (size_t i(0); i < Pvals.size(); ++i) {
-            CandTpair thisPair(getConvertedP(this_units, Pvals[i], Tvals[j]), Tvals[j], this_precision, bathGasName, baseExcessConcs, group.c_str(), -1.0);
+            CandTpair thisPair(getConvertedP(this_units, Pvals[i], Tvals[j]), Tvals[j], this_precision, bathGasName, baseExcessConcs, group.c_str(), -1.0, 0.0);
             thisPair.set_experimentalRates(ppPTset, ref1, ref2, refReaction, 0.0, 0.0);
             PandTs.push_back(thisPair);
             m_pSys->getEnv().MaximumTemperature = max(m_pSys->getEnv().MaximumTemperature, thisPair.m_temperature);
@@ -152,6 +152,7 @@ namespace mesmer
       const char* common_group = pp->XmlReadValue("group", optional);
       double common_excessReactantConc = pp->XmlReadDouble("excessReactantConc", optional);
       double common_radiationTemperature = pp->XmlReadDouble("radiationTemperature", optional);
+      double common_radiationAttenuation = pp->XmlReadDouble("radiationAttenuation", optional);
 
       // Check for individually specified concentration/temperature points.
       PersistPtr ppPTpair = pp->XmlMoveTo("me:PTpair");
@@ -301,9 +302,10 @@ namespace mesmer
           }
         }
 
-        // Radiation Temperature
+        // Radiation temperature and attenuation.
 
         double thisRadiationTemp = (!IsNan(common_radiationTemperature)) ? common_radiationTemperature : -1.0;
+        double thisRadiationAtten = (!IsNan(common_radiationAttenuation)) ? common_radiationAttenuation : 0.0;
 
         // Group to which this PT belongs.
         const char* group = ppPTpair->XmlReadValue("me:group", optional);
@@ -316,7 +318,7 @@ namespace mesmer
         ppPTpair->XmlWriteAttribute("group", group);
 
         CandTpair thisPair(getConvertedP(this_units, this_P, this_T), this_T,
-          this_precision, bathGasName, thisExcessConcs, group, thisRadiationTemp);
+          this_precision, bathGasName, thisExcessConcs, group, thisRadiationTemp, thisRadiationAtten);
         cinfo << this_P << this_units << ", " << this_T << "K at " << txt
           << " precision" << " with " << bathGasName << endl;
         for (vector<Reaction*>::iterator it = pReacts.begin(); it != pReacts.end(); ++it)

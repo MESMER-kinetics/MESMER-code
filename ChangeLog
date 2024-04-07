@@ -1,3 +1,8 @@
+2024-Apr-07 Struan Robertson
+
+		* gWellRadiationTransition.cpp, MesmerEnv.h/.cpp, ConditionsManager.h/.cpp,
+		System.cpp: Addition of radiation attenuation factor.
+
 2024-Mar-25 Struan Robertson
 
 		* MultiHinderedRotorPotential.cpp: Cross terms added.

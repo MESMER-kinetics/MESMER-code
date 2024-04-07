@@ -95,6 +95,7 @@ namespace mesmer
     TMatrix<T>* transitionMatrix = new TMatrix<T>(nradoptrsize, T(0.0));
 
     const T beta = T(env.beta);
+    const T attenuation = T(env.radiationAttenuation);
 
     // const T beta = T(1.0) / (boltzmann_RCpK * env.radiationTemperature);
 
@@ -105,7 +106,7 @@ namespace mesmer
 
         // Note excitation rate is scaled by mean collision frequency (this factor is cancelled later).
 
-        const T excitationRate = T(m_EinsteinBij[idx] * planckDistribtuion(m_TransitionFrequency[idx], to_double(beta))/meanOmega);
+        const T excitationRate = T(m_EinsteinBij[idx] * planckDistribtuion(m_TransitionFrequency[idx], to_double(beta))/meanOmega) * attenuation;
 
         // Search for first transition.  
         size_t ll(0);
@@ -133,7 +134,7 @@ namespace mesmer
 
         // Note excitation rate is scaled by mean collision frequency (this factor is cancelled later).
 
-        const T dexcitationRate = T((m_EinsteinBij[idx] * planckDistribtuion(m_TransitionFrequency[idx], to_double(beta)) + m_EinsteinAij[idx])/meanOmega);
+        const T dexcitationRate = T((m_EinsteinBij[idx] * planckDistribtuion(m_TransitionFrequency[idx], to_double(beta)) + m_EinsteinAij[idx])/meanOmega) * attenuation;
 
         // Search for first transition.  
         size_t ll(0);

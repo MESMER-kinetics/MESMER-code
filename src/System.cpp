@@ -496,6 +496,7 @@ namespace mesmer
           m_Env.bathGasName = m_pConditionsManager->PTPointBathGas(calPoint);
           m_Env.collisionTemperature = m_pConditionsManager->PTPointTemp(calPoint);
           m_Env.radiationTemperature = m_pConditionsManager->PTPointRadT(calPoint);
+          m_Env.radiationAttenuation = m_pConditionsManager->PTPointRadAttn(calPoint);
           m_Env.beta = 1.0 / (boltzmann_RCpK * m_Env.collisionTemperature);
 
           map<Reaction*, double> excessConcs = m_pConditionsManager->PTPointExcessConcs(calPoint);

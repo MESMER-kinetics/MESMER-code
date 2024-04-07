@@ -16,6 +16,7 @@ namespace mesmer
     std::string bathGasName;
     double collisionTemperature;// The collision temperature in K, as distinguished from radiation temperature below. 
     double radiationTemperature;
+    double radiationAttenuation;// Radiation attenuation - the attenuation of black body radiaton with distance - dimensionaless.
 
     // granularity of the system
     size_t GrainSize;           // Grain size in cm-1

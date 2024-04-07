@@ -69,6 +69,7 @@ namespace mesmer
     double      m_concentration; // particles per cubic centimeter
     double      m_temperature;   // Kelvin
     double      m_radiationTemp; // Radiation temperature in Kelvin.
+    double      m_radiationAttn; // Radiation attenuation.
     Precision   m_precision;
     std::string m_pBathGasName;
     std::map<Reaction*, double> m_excessConcs; // Reaction, excess species conc in ppcc.
@@ -85,9 +86,10 @@ namespace mesmer
     AnalysisData m_analysisData;
 
     CandTpair(double cp_, double t_, Precision _pre, const char* _bathGas,
-      const map<Reaction*, double>& _excessConcs, const char* _group, double _radiationTemp)
+      const map<Reaction*, double>& _excessConcs, const char* _group, double _radiationTemp, double _radiationAttn)
       : m_concentration(cp_), m_temperature(t_), m_precision(_pre),
-      m_pBathGasName(_bathGas), m_excessConcs(_excessConcs), m_group(_group), m_radiationTemp(_radiationTemp)  {}
+      m_pBathGasName(_bathGas), m_excessConcs(_excessConcs), m_group(_group), m_radiationTemp(_radiationTemp),
+      m_radiationAttn(_radiationAttn) {}
 
     void set_experimentalRates(PersistPtr ppData, std::string ref1, std::string ref2, std::string refReaction, double value, double error) {
       if (ref1.size() > 0 && ref2.size() > 0) {
@@ -145,6 +147,7 @@ namespace mesmer
     size_t      getTotalNumPoints() const;
     double      PTPointTemp(int index) const { return PandTs[index].m_temperature; }
     double      PTPointRadT(int index) const { return PandTs[index].m_radiationTemp; }
+    double      PTPointRadAttn(int index) const { return PandTs[index].m_radiationAttn; }
     double      PTPointConc(int index) const { return PandTs[index].m_concentration; }
     const char* PTPointBathGas(int index) { return PandTs[index].m_pBathGasName.c_str(); }
     Precision   PTPointPrecision(int index) { return PandTs[index].m_precision; }
