@@ -1,0 +1,72 @@
+name: build and test project
+
+on:
+  push:
+    branches:
+      - "gh-actions-01"
+      - "fix-gh-build"
+      - "main"
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository to the runner
+        uses: actions/checkout@v4      
+      - name: Build
+        run: ./Build.sh
+      - name: Acetyl O2 association test NEW
+        run: |
+          cd MesmerQA/'Acetyl O2 association'/
+          ./../../bin/mesmer Acetyl_O2_association.xml -o out.xml
+          cp ./mesmer.test ./baselines/Linux64/test.test
+          diff -u ./baselines/Linux64/test.test ./baselines/Linux64/ubuntu-20.04.test
+      - name: Pentyl Isomerization test NEW
+        run: |
+          cd MesmerQA/pentyl/
+          ./../../bin/mesmer pentyl_isomerization_test.xml -o out.xml
+          cp ./mesmer.test ./baselines/Linux64/test.test
+          diff -u ./baselines/Linux64/test.test ./baselines/Linux64/ubuntu-20.04.test
+      - name: Thermodynamic Table test - Fourier NEW
+        run: |
+          cd MesmerQA/ThermodynamicTable/
+          ./../../bin/mesmer ThermodynamicTable_Fourier.xml -o out.xml
+          cp ./mesmer.test ./baselines/Linux64/test.test
+          diff -u ./baselines/Linux64/test.test ./baselines/Linux64/ubuntu-20.04.test
+
+      - name: Thermodynamic Table test
+        run: |
+          cd MesmerQA/ThermodynamicTable/
+          ./../../bin/mesmer ThermodynamicTable.xml -o out.xml
+          cp ./mesmer.test ./baselines/Linux64/test.test
+          diff -u ./baselines/Linux64/test.test ./baselines/Linux64/mesmer.test
+      - name: Unit tests
+        run: |
+          cd MesmerQA/UnitTests/
+          ./../../bin/mesmer UnitTests.xml -o out.xml
+          cp ./mesmer.test ./baselines/Linux64/test.test
+          diff -u ./baselines/Linux64/test.test ./baselines/Linux64/mesmer.test
+  build-parallel:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository to the runner
+        uses: actions/checkout@v4      
+      - name: Install OpenMPI
+        run: sudo apt-get install openmpi-bin libopenmpi-dev
+      - name: Build Parallel
+        run: ./BuildParallel.sh
+      - name: Acetyl O2 test NEW
+        run: |
+          cd MesmerQA/'Acetyl O2 association'/
+          ./../../bin/mesmer Acetyl_O2_association.xml -o out.xml
+          cp ./mesmer.test ./baselines/Linux64/test.test
+          diff -u ./baselines/Linux64/test.test ./baselines/Linux64/ubuntu-20.04.test
+      - name: Unit tests
+        run: |
+          cd MesmerQA/UnitTests/
+          ./../../bin/mesmer UnitTests.xml -o out.xml
+          cp ./mesmer.test ./baselines/Linux64/test.test
+          diff -u ./baselines/Linux64/test.test ./baselines/Linux64/mesmer.test
+
