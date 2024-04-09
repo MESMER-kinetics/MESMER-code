@@ -1,5 +1,5 @@
 #!/bin/sh
-
+set -e
 # Build.sh
 # mesmer
 #
@@ -11,7 +11,7 @@ echo " Building TinyXML."
 echo "----------------------------------------------------------------------"
 
 cd ./tinyxml
-make -f MakeLib DEBUG=NO
+make -j 4 -f MakeLib DEBUG=NO
 cd ../
 
 echo "----------------------------------------------------------------------"
@@ -21,7 +21,7 @@ echo "----------------------------------------------------------------------"
 cd ./qd
 chmod +x configure
 CXX=gcc CXXFLAGS='-O2' ./configure --prefix $PWD/src
-make install
+make -j 4 install
 cd ../
 
 echo "----------------------------------------------------------------------"
@@ -29,6 +29,6 @@ echo " Building Mesmer."
 echo "----------------------------------------------------------------------"
 
 cd ./src
-make -f Makefile install DEBUG=NO PARALLEL=YES
+make CC=mpicc CXX=mpiCC LD=mpiCC -j 4 -f Makefile install DEBUG=NO PARALLEL=YES
 cd ../
 
