@@ -260,10 +260,10 @@ clean:
 	-rm -f core ${OBJS} ${OUTPUT}
 
 install:
-	make
+	$(MAKE)
 	cp ${OUTPUT} ${TARGETPATH}
 	
 remake:
 	-rm -f core ${OBJS} ${OUTPUT}
-	make
+	$(MAKE)
 	cp ${OUTPUT} ${TARGETPATH}
