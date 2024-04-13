@@ -173,7 +173,7 @@ namespace mesmer
 
       Env.MaxCell = 100000;
       cinfo << "Number of cells " << Env.MaxCell << endl;
-      pp = ppParams->XmlWriteValueElement("me:numberOfCells", Env.MaxCell);
+      pp = ppParams->XmlWriteValueElement("me:numberOfCells", double(Env.MaxCell));
       pp->XmlWriteAttribute("default", "true");
 
       //Get the grain parameters from defaults.xml (The reads will always fail.)
