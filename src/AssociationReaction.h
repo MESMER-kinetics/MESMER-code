@@ -70,13 +70,13 @@ namespace mesmer
     };
 
     // Get product information:
-    virtual int get_products(std::vector<Molecule*>& unimolecularspecies) const
+    virtual size_t get_products(std::vector<Molecule*>& unimolecularspecies) const
     {
       unimolecularspecies.push_back(m_pdt1);
       return 1;
     };
 
-    virtual int get_reactants(std::vector<Molecule*>& reactants) const
+    virtual size_t get_reactants(std::vector<Molecule*>& reactants) const
     {
       reactants.push_back(m_rct1);
       reactants.push_back(m_rct2);

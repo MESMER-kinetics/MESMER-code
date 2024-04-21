@@ -96,8 +96,8 @@ namespace mesmer
     ILT can be used in all reaction types if necessary. */
 
     // get products and reactants
-    virtual int get_products(std::vector<Molecule*>& product) const = 0;
-    virtual int get_reactants(std::vector<Molecule*>& reactants) const = 0;
+    virtual size_t get_products(std::vector<Molecule*>& product) const = 0;
+    virtual size_t get_reactants(std::vector<Molecule*>& reactants) const = 0;
 
     // get the reactant, which reacts in a first order or pseudo first order process
     virtual Molecule* get_reactant(void) const = 0;

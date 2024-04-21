@@ -56,7 +56,7 @@ namespace mesmer
     virtual double get_relative_TSZPE()  const { return m_TransitionState->getDOS().get_zpe() - getEnv().EMin; }
 
     // Return products - copied from IrreversibleUnimolecular rxn
-    virtual int get_products(std::vector<Molecule *> &product) const
+    virtual size_t get_products(std::vector<Molecule *> &product) const
     {
       product.push_back(m_pdt1) ;
       if(m_pdt2){
@@ -70,7 +70,7 @@ namespace mesmer
       return 1;
     } ;
 
-    virtual int get_reactants(std::vector<Molecule *> &reactants) const
+    virtual size_t get_reactants(std::vector<Molecule *> &reactants) const
     {
       reactants.push_back(m_rct1);
       reactants.push_back(m_rct2);

@@ -64,14 +64,14 @@ namespace mesmer
     virtual Molecule *get_excessReactant(void) const { return m_rct2; };
 
     // Return products
-    virtual int get_products(std::vector<Molecule *> &products) const
+    virtual size_t get_products(std::vector<Molecule *> &products) const
     {
       products.push_back(m_pdt1);
       products.push_back(m_pdt2);
       return products.size();
     };
 
-    virtual int get_reactants(std::vector<Molecule *> &reactants) const
+    virtual size_t get_reactants(std::vector<Molecule *> &reactants) const
     {
       reactants.push_back(m_rct1);
       reactants.push_back(m_rct2);
