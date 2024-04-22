@@ -65,18 +65,19 @@ namespace mesmer
       return false; // Extract densities of states from molecules.
 
     // get MaxCell from MesmerEnv structure via Reaction class
-    const int MaximumCell = pReact->getEnv().MaxCell;
+    const size_t MaximumCell = pReact->getEnv().MaxCell;
 
     // Allocate space to hold transition state flux and initialize elements to zero.
     vector<double>& rxnFlux = pReact->get_CellFlux();
     rxnFlux.clear();
     rxnFlux.resize(MaximumCell, 0.0);
 
-    // As there's presently no TS for the bimolecular sink reaction, the microcanonical flux is calculated simply as k(E)*p(E)
-    // where k(E) is energy independent bimolecular rate coefficient multiplied by the excess species concentration
-    // and p(E) is the DOS for the modelled molecule
+    // As there's presently no TS for the bimolecular sink reaction, the microcanonical flux
+    // is calculated simply as k(E)*p(E) where k(E) is energy independent bimolecular rate
+    // coefficient multiplied by the excess species concentration and p(E) is the DOS for the
+    // modelled molecule.
     double excessConc = pReact->get_concExcessReactant();
-    for (int i = 0 ; i < MaximumCell ; ++i) {
+    for (size_t i = 0 ; i < MaximumCell ; ++i) {
       rxnFlux[i] = m_AssociationRateCoeff * excessConc * RctCellDOS[i] ;
     }
 
