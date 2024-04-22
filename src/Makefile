@@ -26,8 +26,8 @@ LD     := g++
 AR     := ar rc
 RANLIB := ranlib
 
-DEBUG_CFLAGS     := -Wall -Wno-format -g -DDEBUG -DLINUX
-RELEASE_CFLAGS   := -Wall -Wno-format -O2 -DLINUX
+DEBUG_CFLAGS     := -Wall -Wno-format -g -DDEBUG -DLINUX -fpermissive
+RELEASE_CFLAGS   := -Wall -Wno-format -O2 -DLINUX -fpermissive
 
 #****************************************************************************
 # LIBS paths
@@ -260,10 +260,10 @@ clean:
 	-rm -f core ${OBJS} ${OUTPUT}
 
 install:
-	make
+	$(MAKE)
 	cp ${OUTPUT} ${TARGETPATH}
 	
 remake:
 	-rm -f core ${OBJS} ${OUTPUT}
-	make
+	$(MAKE)
 	cp ${OUTPUT} ${TARGETPATH}
