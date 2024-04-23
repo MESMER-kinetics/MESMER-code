@@ -73,13 +73,13 @@ namespace mesmer
     spline.Initialize(m_Energy, m_PE) ;
 
     // Set transmission coefficients to 0 where no tunneling is possible;
-    // where tunneling may occur, the transmission coefficients are obtained from a spline fit 
-	//to the user defined tunneling coefficients.
-    const int MaximumCell = pReact->get_reactant()->getEnv().MaxCell;
+    // where tunneling may occur, the transmission coefficients are obtained
+	  // from a spline fit to the user defined tunneling coefficients.
+    const size_t MaximumCell = pReact->get_reactant()->getEnv().MaxCell;
     TunnelingProbability.clear();
     TunnelingProbability.resize(MaximumCell,0.0);
     for(size_t i = 0; i < TunnelingProbability.size() ; ++i){
-      int E = i - barrier0;
+      int E = int(i) - barrier0;
 	  if (E <= 0) {
         TunnelingProbability[i] = spline.Calculate(double(i));
       } else if (E > 0 && E <= barrier0 ) { 
