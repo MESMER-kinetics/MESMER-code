@@ -97,10 +97,10 @@ namespace mesmer
     typedef pair<double, double> CTpoint;
 
     // Function to calculation a chebyshev polynomial of a given order i.
-    inline double Cheb_poly(int order, const double arg) const { return cos((double(++order) - 1.0) * acos(arg)); }
+    inline double Cheb_poly(size_t order, const double arg) const { return cos(double(order) * acos(arg)); }
 
     // Function to give constant coefficient of chebyshev expansion.
-    double Coefficient(int i, int j);
+    double Coefficient(size_t i, size_t j);
 
     // Converts the Chebyshev gridpoints to back to Temperature/Concentrations.
     vector<double> Transform(const vector<double> &gridpoints, const double &max, const double &min);
@@ -435,19 +435,16 @@ namespace mesmer
   }
 
   // Function to give constant coefficient of chebyshev expansion.
-  double AnalyticalRepresentation::Coefficient(int i, int j) {
-    double coeff = 0.;
-    if (i != 0 && j != 0) {
-      coeff = 4.0;
-    }
-    else if ((i == 0 && j != 0) || (j == 0 && i != 0)) {
+  double AnalyticalRepresentation::Coefficient(size_t i, size_t j) {
+    double coeff = 4.0;
+    if ((i == 0 && j != 0) || (j == 0 && i != 0)) {
       coeff = 2.0;
     }
     else if (i == 0 && j == 0) {
       coeff = 1.0;
     }
     else {
-      // this branch should never be executed
+      // This branch should never be executed.
     }
 
     return coeff;
