@@ -17,7 +17,8 @@ namespace mesmer
   public:
     enum parseQuery { ALL, NOCONDITIONSOK, MODELPARAMS };
     static const char* typeID(){ return "Calculation methods"; }
-    virtual ~CalcMethod(){}
+    CalcMethod() : m_parent(NULL) {}
+    virtual ~CalcMethod() {}
     virtual const char* getTypeID(){return typeID();}
 
     // A CalcMethod can have its parsing behaviour customized in a number
