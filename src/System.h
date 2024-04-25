@@ -98,10 +98,10 @@ namespace mesmer
 
   private:
 
-    void calcRateCoefficients(const qdMatrix& mesmerRates, const qdMatrix& lossRates, const unsigned calPoint);
-    void calcYields(const unsigned calPoint);
-    void calcEigenvalues(const unsigned calPoint);
-    void calcRawData(const unsigned calPoint);
+    void calcRateCoefficients(const qdMatrix& mesmerRates, const qdMatrix& lossRates, const size_t calPoint);
+    void calcYields(const size_t calPoint);
+    void calcEigenvalues(const size_t calPoint);
+    void calcRawData(const size_t calPoint);
 
     // Location of the molecule manager.
     MoleculeManager* m_pMoleculeManager;

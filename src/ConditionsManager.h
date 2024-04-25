@@ -145,13 +145,13 @@ namespace mesmer
 
     size_t      getNumPTPoints() const { return PandTs.size(); }
     size_t      getTotalNumPoints() const;
-    double      PTPointTemp(int index) const { return PandTs[index].m_temperature; }
-    double      PTPointRadT(int index) const { return PandTs[index].m_radiationTemp; }
-    double      PTPointRadAttn(int index) const { return PandTs[index].m_radiationAttn; }
-    double      PTPointConc(int index) const { return PandTs[index].m_concentration; }
-    const char* PTPointBathGas(int index) { return PandTs[index].m_pBathGasName.c_str(); }
-    Precision   PTPointPrecision(int index) { return PandTs[index].m_precision; }
-    map<Reaction*, double> PTPointExcessConcs(int index) { return PandTs[index].m_excessConcs; }
+    double      PTPointTemp(size_t index) const { return PandTs[index].m_temperature; }
+    double      PTPointRadT(size_t index) const { return PandTs[index].m_radiationTemp; }
+    double      PTPointRadAttn(size_t index) const { return PandTs[index].m_radiationAttn; }
+    double      PTPointConc(size_t index) const { return PandTs[index].m_concentration; }
+    const char* PTPointBathGas(size_t index) { return PandTs[index].m_pBathGasName.c_str(); }
+    Precision   PTPointPrecision(size_t index) { return PandTs[index].m_precision; }
+    map<Reaction*, double> PTPointExcessConcs(size_t index) { return PandTs[index].m_excessConcs; }
 
     // Calculate the effective reciprocal temperature,
     // taking into account a radiation field if there is one.
@@ -172,47 +172,47 @@ namespace mesmer
 
     double getMaxTemperature();
 
-    void get_experimentalRates(unsigned index, std::vector<conditionSet>& rates) const
+    void get_experimentalRates(size_t index, std::vector<conditionSet>& rates) const
     {
       rates = PandTs[index].m_rates;
     }
 
-    void set_calculatedRates(unsigned index, std::vector<double>& calcRates)
+    void set_calculatedRates(size_t index, std::vector<double>& calcRates)
     {
       PandTs[index].set_calcRates(calcRates);
     }
 
-    void get_experimentalYields(unsigned index, std::vector<conditionSet>& yields) const
+    void get_experimentalYields(size_t index, std::vector<conditionSet>& yields) const
     {
       yields = PandTs[index].m_yields;
     }
 
-    void set_calculatedYields(unsigned index, std::vector<double>& calcYields)
+    void set_calculatedYields(size_t index, std::vector<double>& calcYields)
     {
       PandTs[index].set_calcYields(calcYields);
     }
 
-    void get_experimentalEigenvalues(unsigned index, std::vector<conditionSet>& eigenvalues) const
+    void get_experimentalEigenvalues(size_t index, std::vector<conditionSet>& eigenvalues) const
     {
       eigenvalues = PandTs[index].m_eigenvalues;
     }
 
-    void set_calculatedEigenvalues(unsigned index, std::vector<double>& calcEigenvalues)
+    void set_calculatedEigenvalues(size_t index, std::vector<double>& calcEigenvalues)
     {
       PandTs[index].set_calcEigenvalues(calcEigenvalues);
     }
 
-    std::vector<RawDataSet>& get_experimentalrawDataSets(unsigned index)
+    std::vector<RawDataSet>& get_experimentalrawDataSets(size_t index)
     {
       return PandTs[index].m_rawDataSets;
     }
 
-    PersistPtr get_experimentalDataPtr(unsigned index, size_t i) const
+    PersistPtr get_experimentalDataPtr(size_t index, size_t i) const
     {
       return PandTs[index].m_expDataPtrs[i];
     }
 
-    AnalysisData* get_analysisData(unsigned index)
+    AnalysisData* get_analysisData(size_t index)
     {
       return &(PandTs[index].m_analysisData);
     }

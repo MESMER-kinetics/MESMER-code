@@ -409,9 +409,9 @@ namespace mesmer
   {
     if (!m_ConditionsForEachControl.empty())
     {
-      unsigned nConditionBlocks = m_ConditionsForEachControl.size()
+      size_t nConditionBlocks = m_ConditionsForEachControl.size()
         - count(m_ConditionsForEachControl.begin(), m_ConditionsForEachControl.end(), (ConditionsManager*)NULL);
-      for (unsigned i = 0; i < m_CalcMethodsForEachControl.size(); ++i)
+      for (size_t i(0); i < m_CalcMethodsForEachControl.size(); ++i)
       {
         m_CalcMethod = m_CalcMethodsForEachControl[i];
         assert(m_CalcMethod);
@@ -766,7 +766,7 @@ namespace mesmer
     return calculate(temp, conc, precision, phenRates, MaxT, bathGas);
   };
 
-  void System::calcRateCoefficients(const qdMatrix& mesmerRates, const qdMatrix& lossRates, const unsigned calPoint) {
+  void System::calcRateCoefficients(const qdMatrix& mesmerRates, const qdMatrix& lossRates, const size_t calPoint) {
 
     vector<conditionSet> expRates;
     m_pConditionsManager->get_experimentalRates(calPoint, expRates);
@@ -824,7 +824,7 @@ namespace mesmer
     return;
   }
 
-  void System::calcYields(const unsigned calPoint) {
+  void System::calcYields(const size_t calPoint) {
 
     vector<conditionSet> expYields;
     m_pConditionsManager->get_experimentalYields(calPoint, expYields);
@@ -880,7 +880,7 @@ namespace mesmer
     return;
   }
 
-  void System::calcEigenvalues(const unsigned calPoint) {
+  void System::calcEigenvalues(const size_t calPoint) {
 
     vector<conditionSet> expEigenvalues;
     m_pConditionsManager->get_experimentalEigenvalues(calPoint, expEigenvalues);
@@ -911,7 +911,7 @@ namespace mesmer
     return;
   }
 
-  void System::calcRawData(const unsigned calPoint) {
+  void System::calcRawData(const size_t calPoint) {
 
     //
     // With trace data, an indpendent assessment of the precision of the measurements is not possible. 
