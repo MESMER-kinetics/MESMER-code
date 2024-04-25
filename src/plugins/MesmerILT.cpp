@@ -424,7 +424,7 @@ namespace mesmer
     //
     if (m_isRvsILTpara) {
       vector<Molecule*> products;
-      int numberOfProducts = pReact->get_products(products);
+      size_t numberOfProducts = pReact->get_products(products);
 
       if (numberOfProducts != 2)
         return false;

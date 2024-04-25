@@ -789,7 +789,7 @@ namespace mesmer
       }
       b[i] = sum;
     }
-    for (int i(n - 1); i >= 0; --i) {
+    for (int i(int(n) - 1); i >= 0; --i) {
       sum = b[i];
       if (size_t(i) < n - 1) {
         for (size_t j(i + 1); j < n; ++j)
