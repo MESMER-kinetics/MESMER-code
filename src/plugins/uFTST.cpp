@@ -175,7 +175,7 @@ namespace mesmer
     }
 
     vector<Molecule*> molecules;
-    int nRcts = m_parent->get_reactants(molecules);
+    size_t nRcts = m_parent->get_reactants(molecules);
     if (nRcts == 2) {
       m_Frag1 = molecules[0];
       m_Frag2 = molecules[1];
@@ -186,7 +186,7 @@ namespace mesmer
       return false;
     }
     molecules.clear();
-    int nPdts = m_parent->get_products(molecules);
+    size_t nPdts = m_parent->get_products(molecules);
     if (nPdts == 1) {
       m_Adduct = molecules[0];
     }
