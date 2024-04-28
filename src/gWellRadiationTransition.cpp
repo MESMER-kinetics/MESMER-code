@@ -83,9 +83,9 @@ namespace mesmer
       m_EinsteinBij.clear();
       const double h = PlancksConstant_in_JouleSecond;
       const double c = SpeedOfLight_in_cm;
-      const double A2B = c * c / (8.0 * M_PI * h);
+      const double A2B = 1.0e-06 / (8.0 * M_PI * h);
       for (size_t i(0); i < m_EinsteinAij.size(); i++) {
-        const double nu = m_TransitionFrequency[i] * c;
+        const double nu = m_TransitionFrequency[i];
         const double Bij = A2B * m_EinsteinAij[i] / (pow(nu, 3.0));
         m_EinsteinBij.push_back(Bij);
       }
