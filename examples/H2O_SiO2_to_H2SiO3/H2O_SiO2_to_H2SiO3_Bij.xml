@@ -33,10 +33,6 @@
           <scalar>1</scalar>
         </property>
       </propertyList>
-      <me:energyTransferModel xsi:type="me:ExponentialDown">
-        <me:deltaEDown units="cm-1">200.0</me:deltaEDown>
-        <me:deltaEDownTExponent bathGas="H2">0.25</me:deltaEDownTExponent>
-      </me:energyTransferModel>
       <me:DOSCMethod xsi:type="me:QMRotors"/>
     </molecule>
 
@@ -63,10 +59,6 @@
           <scalar>1</scalar>
         </property>
       </propertyList>
-      <me:energyTransferModel xsi:type="me:ExponentialDown">
-        <me:deltaEDown units="cm-1">200.0</me:deltaEDown>
-        <me:deltaEDownTExponent bathGas="H2">0.25</me:deltaEDownTExponent>
-      </me:energyTransferModel>
       <me:DOSCMethod xsi:type="me:QMRotors"/>
     </molecule>
 
@@ -134,10 +126,6 @@
           <scalar>1</scalar>
         </property>
       </propertyList>
-      <me:energyTransferModel xsi:type="me:ExponentialDown">
-        <me:deltaEDown units="cm-1">200.0</me:deltaEDown>
-        <me:deltaEDownTExponent bathGas="H2">0.25</me:deltaEDownTExponent>
-      </me:energyTransferModel>
       <me:DOSCMethod xsi:type="me:ClassicalRotors"/>
     </molecule>
 
@@ -223,8 +211,8 @@
         </property>
       </propertyList>
       <me:energyTransferModel xsi:type="me:ExponentialDown">
-        <me:deltaEDown units="cm-1">200.0</me:deltaEDown>
-        <me:deltaEDownTExponent bathGas="H2">0.25</me:deltaEDownTExponent>
+        <me:deltaEDown units="cm-1">50.0</me:deltaEDown>
+        <!--<me:deltaEDownTExponent bathGas="H2">0.25</me:deltaEDownTExponent>-->
       </me:energyTransferModel>
 
       <me:DOSCMethod xsi:type="me:ClassicalRotors"/>
@@ -266,25 +254,19 @@
         <property dictRef="me:MW">
           <scalar units="amu">28.0</scalar>
         </property>
-        <property dictRef="me:deltaEDown">
-          <scalar units="cm-1">300.0</scalar>
-        </property>
       </propertyList>
     </molecule>
 
     <molecule id="H2">
       <propertyList>
         <property dictRef="me:epsilon">
-          <scalar>200.0</scalar>
+          <scalar>19.71</scalar>
         </property>
         <property dictRef="me:sigma">
-          <scalar>3.0</scalar>
+          <scalar>2.75</scalar>
         </property>
         <property dictRef="me:MW">
           <scalar units="amu">2.0</scalar>
-        </property>
-        <property dictRef="me:deltaEDown">
-          <scalar units="cm-1">200.0</scalar>
         </property>
       </propertyList>
     </molecule>
@@ -363,7 +345,7 @@
 
   <me:conditions>
     <me:bathGas>H2</me:bathGas>
-    <me:PTs radiationTemperature="800.0">
+    <me:PTs radiationTemperature="600.0" radiationAttenuation="1." >
       <!--<me:PTpair units="PPCC" P="1.6e12" T="2500.0" excessReactantConc="1.6e11" precision="dd"/>-->
       <!-- r = 1.5 R*-->
       <!--
@@ -400,20 +382,20 @@
       <me:PTpair units="PPCC" P="1.0e02" T="1583.0" excessReactantConc="1.0e01" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
       <me:PTpair units="PPCC" P="1.0e03" T="1583.0" excessReactantConc="1.0e02" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
       <me:PTpair units="PPCC" P="1.0e04" T="1583.0" excessReactantConc="1.0e03" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
-      <me:PTpair units="PPCC" P="1.0e05" T="1583.0" excessReactantConc="1.0e04" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="dd"/>
-      <me:PTpair units="PPCC" P="1.0e06" T="1583.0" excessReactantConc="1.0e05" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="dd"/>
-      <me:PTpair units="PPCC" P="1.0e07" T="1583.0" excessReactantConc="1.0e06" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="dd"/>
-      <me:PTpair units="PPCC" P="1.0e08" T="1583.0" excessReactantConc="1.0e07" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="dd"/>
-      <me:PTpair units="PPCC" P="1.0e09" T="1583.0" excessReactantConc="1.0e08" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="dd"/>
-      <me:PTpair units="PPCC" P="1.0e10" T="1583.0" excessReactantConc="1.0e09" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="dd"/>
-      <me:PTpair units="PPCC" P="1.0e11" T="1583.0" excessReactantConc="1.0e10" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="dd"/>
-      <me:PTpair units="PPCC" P="1.0e12" T="1583.0" excessReactantConc="1.0e11" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="dd"/>
-      <me:PTpair units="PPCC" P="1.0e13" T="1583.0" excessReactantConc="1.0e12" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="dd"/>
-      <me:PTpair units="PPCC" P="1.0e14" T="1583.0" excessReactantConc="1.0e13" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="dd"/>
-      <me:PTpair units="PPCC" P="1.0e15" T="1583.0" excessReactantConc="1.0e14" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="dd"/>
-      <me:PTpair units="PPCC" P="1.0e16" T="1583.0" excessReactantConc="1.0e15" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="dd"/>
-      <me:PTpair units="PPCC" P="1.0e17" T="1583.0" excessReactantConc="1.0e16" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="dd"/>
-      <me:PTpair units="PPCC" P="1.0e18" T="1583.0" excessReactantConc="1.0e17" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="dd"/>
+      <me:PTpair units="PPCC" P="1.0e05" T="1583.0" excessReactantConc="1.0e04" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
+      <me:PTpair units="PPCC" P="1.0e06" T="1583.0" excessReactantConc="1.0e05" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
+      <me:PTpair units="PPCC" P="1.0e07" T="1583.0" excessReactantConc="1.0e06" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
+      <me:PTpair units="PPCC" P="1.0e08" T="1583.0" excessReactantConc="1.0e07" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
+      <me:PTpair units="PPCC" P="1.0e09" T="1583.0" excessReactantConc="1.0e08" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
+      <me:PTpair units="PPCC" P="1.0e10" T="1583.0" excessReactantConc="1.0e09" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
+      <me:PTpair units="PPCC" P="1.0e11" T="1583.0" excessReactantConc="1.0e10" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
+      <me:PTpair units="PPCC" P="1.0e12" T="1583.0" excessReactantConc="1.0e11" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
+      <me:PTpair units="PPCC" P="1.0e13" T="1583.0" excessReactantConc="1.0e12" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
+      <me:PTpair units="PPCC" P="1.0e14" T="1583.0" excessReactantConc="1.0e13" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
+      <me:PTpair units="PPCC" P="1.0e15" T="1583.0" excessReactantConc="1.0e14" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
+      <me:PTpair units="PPCC" P="1.0e16" T="1583.0" excessReactantConc="1.0e15" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
+      <me:PTpair units="PPCC" P="1.0e17" T="1583.0" excessReactantConc="1.0e16" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
+      <me:PTpair units="PPCC" P="1.0e18" T="1583.0" excessReactantConc="1.0e17" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
       <!--<me:PTpair units="PPCC" P="1.0e18" T="600.0" excessReactantConc="1.0e17" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="dd"/>-->
     </me:PTs>
 
@@ -431,7 +413,7 @@
 
   <me:modelParameters>
     <!--Specify grain size directly...-->
-    <me:grainSize units="cm-1">100</me:grainSize>
+    <me:grainSize units="cm-1">50</me:grainSize>
     <!--...or by the total number of grains
         <me:numberOfGrains> 500 </me:numberOfGrains>-->
     <!--Specify increased energy range 
@@ -451,7 +433,7 @@
     <!--<me:printGrainBoltzmann />-->
     <!--
     <me:printGrainkbE />-->
-    <me:printSpeciesProfile />
+    <!--<me:printSpeciesProfile />-->
     <me:testRateConstants />
     <me:eigenvalues>10</me:eigenvalues>
     <me:MaximumEvolutionTime>10.</me:MaximumEvolutionTime>

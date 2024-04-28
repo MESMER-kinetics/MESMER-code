@@ -7,3 +7,5 @@
 *.iobj
 *.lib
 /.vs
+/Support
+/Research

@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
+<?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
+<me:mesmer xmlns="http://www.xml-cml.org/schema"
+           xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <me:title>SiO2 + H2O kinetics</me:title>
+  <me:description>
+    SiO2 + H2O using cbs-qb3 energies
+  </me:description>
+
+  <moleculeList>
+    <molecule id="H2O">
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kJ/mol">0.0</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <!--data at B3LYP level of theory-->
+          <array units="cm-1">27.53 14.27 9.40</array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>2</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <!--data at B3LYP level-->
+          <array units="cm-1">1618 3813 3917</array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">18.</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>1</scalar>
+        </property>
+      </propertyList>
+      <me:DOSCMethod xsi:type="me:QMRotors"/>
+    </molecule>
+
+    <molecule id="SiO2">
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kJ/mol">284.3</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <!--data at B3LYP level of theory-->
+          <array units="cm-1">0.2304</array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>2</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <!--data at B3LYP level-->
+          <array units="cm-1">297.6 297.6 991.4 1437.8</array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">60.</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>1</scalar>
+        </property>
+      </propertyList>
+      <me:DOSCMethod xsi:type="me:QMRotors"/>
+    </molecule>
+
+    <molecule id="SiO2-H2O">
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kJ/mol">194.87</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">0.263 0.231 0.123</array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">175.8 304.4 328.2 375.6 394.3 441.0 735.9 991.5 1395.0 1569.4 3719.2 3835.</array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">78.0</scalar>
+        </property>
+        <property dictRef="me:epsilon">
+          <scalar>200.0</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>3.0</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>1</scalar>
+        </property>
+      </propertyList>
+      <me:energyTransferModel xsi:type="me:ExponentialDown">
+        <me:deltaEDown units="cm-1">200.0</me:deltaEDown>
+        <me:deltaEDownTExponent bathGas="H2">0.25</me:deltaEDownTExponent>
+      </me:energyTransferModel>
+      <me:DOSCMethod xsi:type="me:ClassicalRotors"/>
+    </molecule>
+
+    <molecule id="TS SiO2-H2O to OSi(OH)2 symm">
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kJ/mol">225.4</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1"> 0.358 0.198 0.128</array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">293.2 314.3 486.1 509.5 748.0 798.0 966.1 1276.8 1360.9 2122.9 3791.4</array>
+        </property>
+        <property dictRef="me:imFreqs">
+          <scalar units="cm-1">-1226.8</scalar>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">78.0</scalar>
+        </property>
+        <property dictRef="me:epsilon">
+          <scalar>200.0</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>3.0</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>1</scalar>
+        </property>
+      </propertyList>
+      <me:DOSCMethod xsi:type="me:ClassicalRotors"/>
+    </molecule>
+
+    <molecule id="OSi(OH)2 symm">
+      <atomArray>
+        <!--S1      O2      O3      O4      H5      H6-->
+        <atom id="S1" elementType="Si" x3="-1.205236" y3="-0.081707" z3="-0.250579" />
+        <atom id="O2" elementType="O"  x3="-2.560754" y3="-2.168023" z3=" 1.166916" />
+        <atom id="O3" elementType="O"  x3="-2.280554" y3=" 1.642134" z3="-2.550587" />
+        <atom id="O4" elementType="O"  x3=" 1.658006" y3=" 0.934940" z3=" 0.181834" />
+        <atom id="H5" elementType="H"  x3="-4.018162" y3=" 1.262000" z3="-3.028888" />
+        <atom id="H6" elementType="H"  x3=" 2.583351" y3=" 0.048037" z3=" 1.514333" />
+      </atomArray>
+      <bondArray>
+        <bond id="b1"  atomRefs2="S1 O2" order="2" />
+        <bond id="b2"  atomRefs2="S1 O3" order="1" />
+        <bond id="b3"  atomRefs2="S1 O4" order="1" />
+        <bond id="b4"  atomRefs2="O3 H5" order="1" />
+        <bond id="b5"  atomRefs2="O4 H6" order="1" />
+      </bondArray>
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kJ/mol">0.0</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">0.2744 0.2435 0.129</array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>2</scalar>
+        </property>
+        <!--<property dictRef="me:vibFreqs">
+          <array units="cm-1">224.7 336.4 337.1 356.1 382.0 746.4 778.1 896.4 956.2 1303.8 3876.9 3888.0 </array>
+        </property>-->
+        <property dictRef="me:EinsteinAij">
+          <array units="m3/J/s2">
+            4.68E-01
+            3.76E-02
+            0.21
+            0
+            3.8
+            3.5
+            7.2
+            8.1
+            5.8
+            18.8
+            243.4
+            1.9
+          </array>
+        </property>
+        <property dictRef="me:hessian">
+          <matrix matrixType="squareSymmetricLT" rows="18"  units="kcal/mol/Ang2" >
+            1.255520199667E+03
+            4.896910383592E+02 1.155156399316E+03
+            4.608456906491E+01 -7.189772144890E+02 9.489717780987E+02
+            -3.748650412297E+02 -4.168652200704E+02 2.680552229279E+02 3.525015650084E+02
+            -4.175788175175E+02 -7.273646454977E+02 4.430898422212E+02 4.449239747710E+02 7.228751102949E+02
+            2.682467032289E+02 4.424456549826E+02 -3.907664214293E+02 -2.839064641955E+02 -4.734561642357E+02 3.670615747201E+02
+            -1.871090824879E+02 1.191909973092E+02 -1.871079060437E+02 2.606098436283E+01 -9.594742877396E+00 9.443989954625E+00 1.202753875640E+03
+            7.780396998832E+01 -2.762122949554E+02 2.584520208564E+02 1.262212598649E+01 -1.200589330329E+00 3.647386015890E+01 1.054851421176E+02 3.377612792263E+02
+            -1.445115500926E+02 2.795540127540E+02 -4.185077042557E+02 -1.324524927151E+01 2.464930732793E+01 -4.295197823045E+00 4.725314790840E+02 -2.516936849774E+02 5.347707560024E+02
+            -6.194987724403E+02 -2.120063394391E+02 -6.867818018284E+01 -1.541422025291E+01 -1.567903224322E+01 -6.397223526587E+00 -3.842698163772E+01 -1.102048122171E+00 -2.235624949260E+01 9.818964181082E+02
+            -1.696672886438E+02 -1.591899325006E+02 1.251064389198E+01 -3.825734958638E+01 9.991204577305E+00 -1.620299808740E+00 3.130109097383E+01 1.467451694846E+01 8.163010269715E+00 -5.402136591874E+01 4.215396810994E+02
+            -1.100035282143E+02 -8.267377677787E+00 -1.059511260684E+02 1.662422113694E+01 9.645778147796E+00 2.738426001827E+01 -5.445810682766E+01 -8.489277464892E+00 -1.081869302853E+01 5.177667114480E+02 -3.949380365887E+02 6.758269773980E+02
+            -2.416125104284E+01 -5.638809157029E+00 -7.378097894779E+00 2.644758633981E-01 -4.431553309491E+00 6.953065406832E+00 -9.982986834369E+02 -1.898542310281E+02 -2.939944173040E+02 4.926892344476E+00 1.180253651784E+00 -9.260296593879E-02 1.016920955017E+03
+            4.335813158983E+01 -6.453636827676E-02 2.304037981325E+01 -4.962913945866E+00 -8.607650161219E-01 -5.252375243511E+00 -2.406403193389E+02 -7.578911319888E+01 -5.965670176428E+01 1.774582064152E+00 -2.817976039112E+00 5.381560022370E+00 1.993265676861E+02 7.683603650648E+01
+            -5.709474239446E+01 -1.237563291321E+00 -2.605835136864E+01 7.362804120005E+00 -5.188511129070E+00 4.541971002089E+00 -2.422027492966E+02 -3.431474890043E+01 -1.040306649218E+02 -9.691659472118E-01 5.357807053490E+00 -2.036480954511E+00 2.953532663916E+02 3.544396728182E+01 1.269692543000E+02
+            -4.988678074139E+01 2.563046180189E+01 -5.097252670804E+01 1.145302054416E+01 2.359666986272E+00 5.659593004799E+00 -4.979104059089E+00 -4.954006582537E+00 1.575594928632E+00 -3.134835602063E+02 2.294639312483E+02 -3.698378150002E+02 3.464908314165E-01 1.142663458109E+00 -2.450869423385E+00 3.565504378216E+02
+            -2.360176778765E+01 7.670248207768E+00 -1.812077021867E+01 2.537590168257E+00 -3.439586753000E+00 1.410948759912E+00 -5.744577093927E+00 7.681060290301E-01 -1.015103292687E+00 2.810334753841E+02 -2.841970459162E+02 3.966692582805E+02 -5.823398856223E-01 2.696802285135E+00 -6.033478180041E-02 -2.536432211024E+02 2.765030447395E+02
+            -2.719210746342E+00 6.481367298420E+00 -7.689295399794E+00 5.109633345621E+00 1.260531964058E+00 -3.925794340044E+00 1.792620875424E+00 -4.281136513637E-01 2.883464766991E+00 -4.193661163834E+02 3.705261469073E+02 -5.844052174706E+02 -8.407654644945E-01 1.043562038420E+00 6.135996890064E-01 4.160243425636E+02 -3.788832704722E+02 5.925234108179E+02
+          </matrix>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">78.0</scalar>
+        </property>
+        <property dictRef="me:epsilon">
+          <scalar>200.0</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>3.0</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>1</scalar>
+        </property>
+      </propertyList>
+      <me:energyTransferModel xsi:type="me:ExponentialDown">
+        <me:deltaEDown units="cm-1">50.0</me:deltaEDown>
+        <!--<me:deltaEDownTExponent bathGas="H2">0.25</me:deltaEDownTExponent>-->
+      </me:energyTransferModel>
+
+      <me:DOSCMethod xsi:type="me:ClassicalRotors"/>
+
+      <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
+        <me:bondRef>b2</me:bondRef>
+        <me:HinderedRotorPotential format="analytical" units="kJ/mol">
+          <me:PotentialPoint index="0"  coefficient="20.0"/>
+          <me:PotentialPoint index="1"  coefficient="-20.0"/>
+        </me:HinderedRotorPotential>
+        <me:periodicity>1</me:periodicity>
+      </me:ExtraDOSCMethod>
+
+      <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
+        <me:bondRef>b3</me:bondRef>
+        <me:HinderedRotorPotential format="analytical" units="kJ/mol">
+          <me:PotentialPoint index="0"  coefficient="20.0"/>
+          <me:PotentialPoint index="1"  coefficient="-20.0"/>
+        </me:HinderedRotorPotential>
+      </me:ExtraDOSCMethod>
+
+      <me:DistributionCalcMethod xsi:type="me:Boltzmann">
+        <me:Temperature>400.0</me:Temperature>
+        <me:Excitation units ="kJ/mol">0.0</me:Excitation>
+        <!--<me:Temperature>1400.0</me:Temperature>
+        <me:Excitation units ="kJ/mol">225.4</me:Excitation>-->
+      </me:DistributionCalcMethod>
+
+    </molecule>
+
+    <molecule id="N2">
+      <propertyList>
+        <property dictRef="me:epsilon">
+          <scalar>200.0</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>3.0</scalar>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">28.0</scalar>
+        </property>
+      </propertyList>
+    </molecule>
+
+    <molecule id="H2">
+      <propertyList>
+        <property dictRef="me:epsilon">
+          <scalar>19.71</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>2.75</scalar>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">2.0</scalar>
+        </property>
+      </propertyList>
+    </molecule>
+
+    <molecule id="He">
+      <atom elementType="He" />
+      <propertyList>
+        <property dictRef="me:epsilon">
+          <scalar>10.2</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>2.55</scalar>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">4.0</scalar>
+        </property>
+      </propertyList>
+    </molecule>
+  </moleculeList>
+
+  <reactionList>
+    <reaction id="R1">
+      <reactant>
+        <molecule ref="SiO2" me:type="deficientReactant" />
+      </reactant>
+      <reactant>
+        <molecule ref="H2O" me:type="excessReactant" />
+      </reactant>
+      <product>
+        <molecule ref="OSi(OH)2 symm" me:type="modelled" />
+      </product>
+      <me:excessReactantConc percent="true">0.1</me:excessReactantConc>
+      <me:MCRCMethod xsi:type="me:MesmerILT">
+        <me:preExponential units="cm3molecule-1s-1">6.87e-10</me:preExponential>
+        <me:activationEnergy units="kJ/mol">.01</me:activationEnergy>
+        <me:TInfinity>298.0</me:TInfinity>
+        <me:nInfinity>0.167</me:nInfinity>
+      </me:MCRCMethod>
+    </reaction>
+
+    <!--<reaction id="R1">
+      <product>
+        <molecule ref="SiO2" me:type="sink" />
+      </product>
+      <product>
+        <molecule ref="H2O" me:type="sink" />
+      </product>
+      <reactant>
+        <molecule ref="OSi(OH)2 symm" me:type="modelled" />
+      </reactant>
+      <me:excessReactantConc percent="true">0.1</me:excessReactantConc>
+      <me:MCRCMethod xsi:type="me:MesmerILT">
+        <me:preExponential units="cm3molecule-1s-1">6.87e-10</me:preExponential>
+        <me:activationEnergy units="kJ/mol" reverse="true">.01</me:activationEnergy>
+        <me:TInfinity>298.0</me:TInfinity>
+        <me:nInfinity>0.167</me:nInfinity>
+      </me:MCRCMethod>
+    </reaction>-->
+
+    <!--<reaction id="R2">
+      <reactant>
+        <molecule ref="SiO2-H2O" me:type="modelled" />
+      </reactant>
+      <product>
+        <molecule ref="OSi(OH)2 symm" me:type="modelled" />
+      </product>
+      <me:transitionState>
+        <molecule ref="TS SiO2-H2O to OSi(OH)2 symm" me:type="transitionState" />
+      </me:transitionState>
+      <me:tunneling xsi:type="Eckart">
+      </me:tunneling>
+      <me:MCRCMethod xsi:type="RRKM"/>
+    </reaction>-->
+
+  </reactionList>
+
+  <me:conditions>
+    <me:bathGas>H2</me:bathGas>
+    <me:PTs radiationTemperature="600.0" radiationAttenuation="1." >
+      <!--<me:PTpair units="PPCC" P="1.6e12" T="2500.0" excessReactantConc="1.6e11" precision="dd"/>-->
+      <!-- r = 1.5 R*-->
+      <!--
+      <me:PTpair units="PPCC" P="1.6e12" T="1882.0" excessReactantConc="1.6e11" precision="dd"/>
+      -->
+      <!-- r = 2.0 R*-->
+      <!--
+      <me:PTpair units="PPCC" P="1.2e11" T="1583.0" excessReactantConc="1.2e10" precision="dd"/>
+      -->
+      <!-- r = 2.5 R*-->
+      <!--
+      <me:PTpair units="PPCC" P="2.1e10" T="1385.0" excessReactantConc="2.1e09" precision="dd"/>
+      -->
+      <!-- r = 3.0 R*-->
+      <!--
+      <me:PTpair units="PPCC" P="5.3e09" T="1241.0" excessReactantConc="5.3e08" precision="dd"/>
+      -->
+      <!-- r = 3.5 R*-->
+      <!--
+      <me:PTpair units="PPCC" P="1.8e09" T="1131.0" excessReactantConc="1.8e08" precision="dd"/>
+      -->
+      <!-- r = 4.0 R*-->
+      <!--
+      <me:PTpair units="PPCC" P="7.7e08" T="1044.0" excessReactantConc="7.7e07" precision="dd"/>-->
+
+      <!--<me:PTpair units="PPCC" P="1.0e-02" T="600.0" excessReactantConc="1.0e-03" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>-->
+
+
+      <me:PTpair units="PPCC" P="1.0e-03" T="1583.0" excessReactantConc="1.0e-04" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
+      <me:PTpair units="PPCC" P="1.0e-02" T="1583.0" excessReactantConc="1.0e-03" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
+      <me:PTpair units="PPCC" P="1.0e-01" T="1583.0" excessReactantConc="1.0e-02" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
+      <me:PTpair units="PPCC" P="1.0e00" T="1583.0" excessReactantConc="1.0e-01" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
+      <me:PTpair units="PPCC" P="1.0e01" T="1583.0" excessReactantConc="1.0e00" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
+      <me:PTpair units="PPCC" P="1.0e02" T="1583.0" excessReactantConc="1.0e01" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
+      <me:PTpair units="PPCC" P="1.0e03" T="1583.0" excessReactantConc="1.0e02" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
+      <me:PTpair units="PPCC" P="1.0e04" T="1583.0" excessReactantConc="1.0e03" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
+      <me:PTpair units="PPCC" P="1.0e05" T="1583.0" excessReactantConc="1.0e04" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
+      <me:PTpair units="PPCC" P="1.0e06" T="1583.0" excessReactantConc="1.0e05" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
+      <me:PTpair units="PPCC" P="1.0e07" T="1583.0" excessReactantConc="1.0e06" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
+      <me:PTpair units="PPCC" P="1.0e08" T="1583.0" excessReactantConc="1.0e07" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
+      <me:PTpair units="PPCC" P="1.0e09" T="1583.0" excessReactantConc="1.0e08" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
+      <me:PTpair units="PPCC" P="1.0e10" T="1583.0" excessReactantConc="1.0e09" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
+      <me:PTpair units="PPCC" P="1.0e11" T="1583.0" excessReactantConc="1.0e10" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
+      <me:PTpair units="PPCC" P="1.0e12" T="1583.0" excessReactantConc="1.0e11" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
+      <me:PTpair units="PPCC" P="1.0e13" T="1583.0" excessReactantConc="1.0e12" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
+      <me:PTpair units="PPCC" P="1.0e14" T="1583.0" excessReactantConc="1.0e13" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
+      <me:PTpair units="PPCC" P="1.0e15" T="1583.0" excessReactantConc="1.0e14" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
+      <me:PTpair units="PPCC" P="1.0e16" T="1583.0" excessReactantConc="1.0e15" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
+      <me:PTpair units="PPCC" P="1.0e17" T="1583.0" excessReactantConc="1.0e16" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
+      <me:PTpair units="PPCC" P="1.0e18" T="1583.0" excessReactantConc="1.0e17" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
+      <!--<me:PTpair units="PPCC" P="1.0e18" T="600.0" excessReactantConc="1.0e17" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="dd"/>-->
+    </me:PTs>
+
+    <!--<me:PTs>
+      <me:PTset units="PPCC" ref1="SiO2" ref2="OSi(OH)2 symm" refReaction="R1" precision="dd">
+        <me:Trange initial="1583.0" final="1583.0" increment="200"/>
+        <me:Prange initial="1.e+9" final="1.e+24" factor="10.0"/>
+      </me:PTset>
+    </me:PTs>-->
+
+    <me:InitialPopulation>
+      <me:molecule ref="OSi(OH)2 symm" population="1.0" />
+    </me:InitialPopulation>
+  </me:conditions>
+
+  <me:modelParameters>
+    <!--Specify grain size directly...-->
+    <me:grainSize units="cm-1">50</me:grainSize>
+    <!--...or by the total number of grains
+        <me:numberOfGrains> 500 </me:numberOfGrains>-->
+    <!--Specify increased energy range 
+        <me:maxTemperature>6000</me:maxTemperature>-->
+    <me:maxTemperature>2000</me:maxTemperature>
+    <me:energyAboveTheTopHill>35.</me:energyAboveTheTopHill>
+    <me:automaticallySetMaxEne>1e-15</me:automaticallySetMaxEne>
+  </me:modelParameters>
+  <me:control>
+    <me:testDOS />
+    <me:testMicroRates />
+    <!--<me:printGrainDOS />-->
+    <!--<me:printCellDOS />-->
+    <!--<me:printReactionOperatorColumnSums />-->
+    <!--<me:printGrainkfE />
+    -->
+    <!--<me:printGrainBoltzmann />-->
+    <!--
+    <me:printGrainkbE />-->
+    <!--<me:printSpeciesProfile />-->
+    <me:testRateConstants />
+    <me:eigenvalues>10</me:eigenvalues>
+    <me:MaximumEvolutionTime>10.</me:MaximumEvolutionTime>
+  </me:control>
+</me:mesmer>
