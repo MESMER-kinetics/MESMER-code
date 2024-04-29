@@ -130,18 +130,18 @@ namespace mesmer
     m_rct1->getDOS().getGrainDensityOfStates(rctDOS) ;
 
     // Locate reactant in system matrix.
-    const int rctLocation = isomermap[m_rct1] ;
-    const int rShiftedGrains(m_rct1->getColl().reservoirShift());
+    const size_t rctLocation = isomermap[m_rct1] ;
+    const size_t rShiftedGrains(m_rct1->getColl().reservoirShift());
 
-    const int colloptrsize   = m_rct1->getColl().get_colloptrsize();
-    const int forwardThreshE = get_EffGrnFwdThreshold();
-    const int fluxStartIdx   = get_fluxFirstNonZeroIdx();
+    const size_t colloptrsize   = m_rct1->getColl().get_colloptrsize();
+    const size_t forwardThreshE = get_EffGrnFwdThreshold();
+    const size_t fluxStartIdx   = get_fluxFirstNonZeroIdx();
 
     m_MtxGrnKf.clear();
     m_MtxGrnKf.resize(colloptrsize , 0.0);
 
-    for ( int i=fluxStartIdx, j = forwardThreshE; j < colloptrsize + rShiftedGrains; ++i, ++j) {
-      int ii(rctLocation + j - rShiftedGrains) ;
+    for (size_t i=fluxStartIdx, j = forwardThreshE; j < colloptrsize + rShiftedGrains; ++i, ++j) {
+      size_t ii(rctLocation + j - rShiftedGrains) ;
       qd_real rtcf = qd_real(m_GrainFlux[i]) / qd_real(rctDOS[j]) ;
       (*CollOptr)[ii][ii] -= qd_real(rMeanOmega) * rtcf ;  // Forward loss reaction.
       m_MtxGrnKf[j - rShiftedGrains] = to_double(rtcf) ;
@@ -157,7 +157,7 @@ namespace mesmer
     vector<double> rctDOS;
     m_rct1->getDOS().getGrainDensityOfStates(rctDOS) ;
 
-    const int rctColloptrsize = m_rct1->getColl().get_colloptrsize();
+    const size_t rctColloptrsize = m_rct1->getColl().get_colloptrsize();
     const int forwardThreshE  = get_EffGrnFwdThreshold();
     const int fluxStartIdx    = get_fluxFirstNonZeroIdx();
 
@@ -172,9 +172,9 @@ namespace mesmer
     // Calculate the elements of the reactant block.
     const int rctBasisSize = static_cast<int>(m_rct1->getColl().get_nbasis()) ;
 
-    for (int i=0, ii(rctLocation), egvI(rctColloptrsize-1) ; i < rctBasisSize ; i++, ii++, --egvI) {
+    for (size_t i=0, ii(rctLocation), egvI(rctColloptrsize-1) ; i < rctBasisSize ; i++, ii++, --egvI) {
       (*CollOptr)[ii][ii] -= m_rct1->getColl().matrixElement(egvI, egvI, fwdMicroRateCoef) ;
-      for (int j=i+1, jj(rctLocation + j), egvJ(rctColloptrsize-j-1) ; j < rctBasisSize ; j++, jj++, --egvJ) {
+      for (size_t j=i+1, jj(rctLocation + j), egvJ(rctColloptrsize-j-1) ; j < rctBasisSize ; j++, jj++, --egvJ) {
         qd_real tmp = m_rct1->getColl().matrixElement(egvI, egvJ, fwdMicroRateCoef) ;
         (*CollOptr)[ii][jj] -= tmp ;
         (*CollOptr)[jj][ii] -= tmp ;
@@ -194,12 +194,12 @@ namespace mesmer
     calcFluxFirstNonZeroIdx();
     const int fluxStartIdx = get_fluxFirstNonZeroIdx();
 
-    const int MaximumGrain = (getEnv().MaxGrn-fluxStartIdx);
+    const size_t MaximumGrain = (getEnv().MaxGrn-fluxStartIdx);
     m_GrainKfmc.clear();
     m_GrainKfmc.resize(MaximumGrain , 0.0);
 
     // calculate forward k(E)s from flux
-    for (int i = forwardTE, j = fluxStartIdx; i < MaximumGrain; ++i, ++j){
+    for (size_t i = forwardTE, j = fluxStartIdx; i < MaximumGrain; ++i, ++j){
       m_GrainKfmc[i] = m_GrainFlux[j] / rctGrainDOS[i];
     }
 

@@ -76,7 +76,7 @@ namespace mesmer
     bool initCollisionOperator(MesmerEnv& env, Molecule *pBathGasMolecule) ;
 
     // Calculate a reaction matrix element.
-    qd_real matrixElement(int eigveci, int eigvecj, std::vector<double> &k) const;
+    qd_real matrixElement(size_t eigveci, size_t eigvecj, std::vector<double> &k) const;
 
     // Accessor a collision operator eigenvector.
     void eigenVector(int eigveci, std::vector<double> &evec) const ;
