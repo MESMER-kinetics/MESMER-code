@@ -312,7 +312,7 @@ namespace mesmer
   //
   // Calculate a reaction matrix element.
   //
-  qd_real gWellProperties::matrixElement(int eigveci, int eigvecj, std::vector<double> &k) const
+  qd_real gWellProperties::matrixElement(size_t eigveci, size_t eigvecj, std::vector<double> &k) const
   {
     // Calculate matrix element starting with the higher energy
     // elements first in order to preserve precision as much as possible.
