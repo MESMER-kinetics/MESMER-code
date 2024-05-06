@@ -78,7 +78,7 @@ namespace mesmer
   void gWellRadiationTransition::setTransitionFrequencies(vector<double>& frequencies) {
     m_TransitionFrequency = frequencies;
 
-    // Derive Bij Coefficients from Aij coefficients if requried.
+    // Derive Bij Coefficients from Aij coefficients if required.
     if (!m_bActivation && m_EinsteinBij.size() != m_EinsteinAij.size()) {
       m_EinsteinBij.clear();
       const double h = PlancksConstant_in_JouleSecond;

@@ -32,7 +32,7 @@ namespace mesmer
     //
     // Constructor, destructor and initialization
     //
-    gWellRadiationTransition(Molecule* pMol) ;
+    gWellRadiationTransition(Molecule* pMol);
 
     virtual ~gWellRadiationTransition();
     bool initialization();
@@ -104,19 +104,18 @@ namespace mesmer
       // Determine the upward radiative transitions first, by filling sub diagonal elements first.
       for (size_t idx(0); idx < m_EinsteinBij.size(); idx++) {
 
-        // Note excitation rate is scaled by mean collision frequency (this factor is cancelled later).
+        // Difference in grains coresponding to this transition.  
+        size_t ll = size_t(m_TransitionFrequency[idx]/env.GrainSize) ;
 
-        const T excitationRate = T(m_EinsteinBij[idx] * planckDistribtuion(m_TransitionFrequency[idx], to_double(beta))/meanOmega) * attenuation;
-
-        // Search for first transition.  
-        size_t ll(0);
-        for (; m_TransitionFrequency[idx] > gEne[ll]; ll++);
-
+        // Add the transition elements.
         for (size_t i = ll, j = 0; i < nradoptrsize; ++i, ++j) {
           T ei = T(gEne[i]);
           T ni = T(gDOS[i]);
           T ej = T(gEne[j]);
           T nj = T(gDOS[j]);
+
+          // Note excitation rate is scaled by mean collision frequency (this factor is cancelled later).
+          const T excitationRate = T(m_EinsteinBij[idx] * planckDistribtuion(to_double(ei - ej), to_double(beta)) / meanOmega) * attenuation;
 
           // Transfer to higher energy (adsorption).
           (*transitionMatrix)[i][j] += excitationRate;
@@ -132,24 +131,23 @@ namespace mesmer
       // Determine the downward radiative transitions first, by filling super  diagonal elements first.
       for (size_t idx(0); idx < m_EinsteinBij.size(); idx++) {
 
-        // Note excitation rate is scaled by mean collision frequency (this factor is cancelled later).
+        // Difference in grains coresponding to this transition.  
+        size_t ll = size_t(m_TransitionFrequency[idx] / env.GrainSize);
 
-        const T dexcitationRate = T((m_EinsteinBij[idx] * planckDistribtuion(m_TransitionFrequency[idx], to_double(beta)) + m_EinsteinAij[idx])/meanOmega) * attenuation;
-
-        // Search for first transition.  
-        size_t ll(0);
-        for (; m_TransitionFrequency[idx] > gEne[ll]; ll++);
-
+        // Add the transition elements.
         for (size_t j = ll, i = 0; j < nradoptrsize; ++i, ++j) {
           T ei = T(gEne[i]);
           T ni = T(gDOS[i]);
           T ej = T(gEne[j]);
           T nj = T(gDOS[j]);
 
-          // Transfer to lower energy (stimulated and spontaneous emission ).
+          // Note excitation rate is scaled by mean collision frequency (this factor is cancelled later).
+          const T dexcitationRate = T((m_EinsteinBij[idx] * planckDistribtuion(to_double(ej - ei), to_double(beta)) * to_double(attenuation) + m_EinsteinAij[idx]) / meanOmega);
+
+          // Transfer to lower energy (stimulated and spontaneous emission).
           (*transitionMatrix)[i][j] += dexcitationRate;
 
-          // Transfer to lower energy (emission via detailed balance).
+          // Transfer to higher energy (emission via detailed balance).
           (*transitionMatrix)[j][i] += dexcitationRate * (nj / ni) * exp(-beta * (ej - ei));
         }
       }
@@ -186,7 +184,7 @@ namespace mesmer
       }
     }
 
-    const size_t reducedCollOptrSize = nradoptrsize - ((m_numGroupedGrains==0) ? 0 : m_numGroupedGrains-1);
+    const size_t reducedCollOptrSize = nradoptrsize - ((m_numGroupedGrains == 0) ? 0 : m_numGroupedGrains - 1);
 
     // Symmetrization of the radiation matrix.
     if (symmetrize) {
