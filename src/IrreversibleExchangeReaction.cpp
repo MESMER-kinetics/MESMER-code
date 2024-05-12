@@ -232,16 +232,11 @@ namespace mesmer
   }
 
   void IrreversibleExchangeReaction::calcEffGrnThresholds(void) {
-    int TS_en = get_fluxGrnZPE();// see the comments in calcEffGrnThresholds under AssociationReaction.cpp  
-    int rct_en = get_rctsGrnZPE();
+    //int TS_en = get_fluxGrnZPE();// see the comments in calcEffGrnThresholds under AssociationReaction.cpp  
+    //int rct_en = get_rctsGrnZPE();
 
-    double thresh = get_ThresholdEnergy();
-    if (thresh < 0.0) {
-      set_EffGrnFwdThreshold(0 / getEnv().GrainSize);
-    }
-    else {
-      set_EffGrnFwdThreshold((TS_en - rct_en) / getEnv().GrainSize);
-    }
+    int thresh = int(max(get_ThresholdEnergy() / getEnv().GrainSize,0.0)) ;
+    set_EffGrnFwdThreshold(thresh);
   }
 
   void IrreversibleExchangeReaction::calcFluxFirstNonZeroIdx(void) {
