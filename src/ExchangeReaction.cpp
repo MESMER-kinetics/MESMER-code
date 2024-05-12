@@ -413,8 +413,8 @@ namespace mesmer
       throw(std::runtime_error(msg));
     }
     else {
-      set_EffGrnFwdThreshold(int(tsEne - rctsEne) / getEnv().GrainSize);
-      set_EffGrnRvsThreshold(int(tsEne - pdtsEne) / getEnv().GrainSize);
+      set_EffGrnFwdThreshold(int((tsEne - rctsEne) / getEnv().GrainSize));
+      set_EffGrnRvsThreshold(int((tsEne - pdtsEne) / getEnv().GrainSize));
     }
   }
 
