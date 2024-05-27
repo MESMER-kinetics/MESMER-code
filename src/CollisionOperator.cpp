@@ -2553,21 +2553,42 @@ namespace mesmer
       double highTemp = max(collTemp, radTemp);
       double lowTemp = min(collTemp, radTemp);
 
+      // Locate the distribution with the smallest length. As there can be more 
+      // than one minimum, do an initial rough search, followed by a binary chop.
+
+      double effectiveTemp = lowTemp;
+      double minTemp = lowTemp;
+
+      mEnv.beta = 1.0 / (boltzmann_RCpK * effectiveTemp);
+      double smm = lenBoltzProjection(isomer, egme);
+      const size_t nIntls(100);
+      double delta = (highTemp - lowTemp) / double(nIntls);
+      for (size_t i(0); i < nIntls; i++) {
+        effectiveTemp += delta;
+        mEnv.beta = 1.0 / (boltzmann_RCpK * effectiveTemp);
+
+        double sm = lenBoltzProjection(isomer, egme);
+        if (sm < smm) {
+          smm = sm;
+          minTemp = effectiveTemp;
+        }
+      }
+
+      highTemp = minTemp + delta;
+      lowTemp  = minTemp - delta;
+
       mEnv.beta = 1.0 / (boltzmann_RCpK * highTemp);
       double sm1 = lenBoltzProjection(isomer, egme);
 
       mEnv.beta = 1.0 / (boltzmann_RCpK * lowTemp);
       double sm2 = lenBoltzProjection(isomer, egme);
 
-      // Locate the distribution with the samllest length. Do a simple binary chop for now.
       size_t count(0);
-      double sm3(0.0);
-      double effectiveTemp(-1.0);
       do {
         effectiveTemp = (highTemp + lowTemp) * 0.5;
         mEnv.beta = 1.0 / (boltzmann_RCpK * effectiveTemp);
 
-        sm3 = lenBoltzProjection(isomer, egme);
+        double sm3 = lenBoltzProjection(isomer, egme);
 
         if (sm1 > sm2) {
           highTemp = effectiveTemp;
