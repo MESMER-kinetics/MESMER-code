@@ -921,7 +921,7 @@ namespace mesmer
 
     size_t size = this->size();
 
-    for (int i(size - 1); i > -1; i--) { // Need to use int here as size_t is unsigned.
+    for (int i(int(size) - 1); i > -1; i--) { // Need to use int here as size_t is unsigned.
 
       size_t j;
       T sum(0.0);
