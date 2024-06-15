@@ -79,7 +79,7 @@ namespace mesmer
     qd_real matrixElement(size_t eigveci, size_t eigvecj, std::vector<double> &k) const;
 
     // Accessor a collision operator eigenvector.
-    void eigenVector(int eigveci, std::vector<double> &evec) const ;
+    void eigenVector(size_t eigveci, std::vector<double> &evec) const ;
 
     // Calculate collision operator.
     template<class T> 

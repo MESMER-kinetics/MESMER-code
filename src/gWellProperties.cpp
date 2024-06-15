@@ -326,7 +326,7 @@ namespace mesmer
   //
   // Accessor a collision operator eigenvector.
   //
-  void gWellProperties::eigenVector(int eigveci, std::vector<double> &evec) const
+  void gWellProperties::eigenVector(size_t eigveci, std::vector<double> &evec) const
   {
     // evec.clear() ;
     for (size_t i(0); i < m_ncolloptrsize; ++i){
