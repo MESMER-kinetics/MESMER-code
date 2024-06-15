@@ -126,18 +126,18 @@ namespace mesmer
     const int pdtLocation = isomermap[m_pdt1] ;
 
     // Need to know the number of grouped grains in both wells.
-    const int rShiftedGrains(m_rct1->getColl().reservoirShift());
-    const int pShiftedGrains(m_pdt1->getColl().reservoirShift());
+    const size_t rShiftedGrains(m_rct1->getColl().reservoirShift());
+    const size_t pShiftedGrains(m_pdt1->getColl().reservoirShift());
 
-    const int colloptrsize = m_pdt1->getColl().get_colloptrsize() + pShiftedGrains ;
+    const size_t colloptrsize = m_pdt1->getColl().get_colloptrsize() + pShiftedGrains ;
 
     const int forwardThreshE = get_EffGrnFwdThreshold();
     const int reverseThreshE = get_EffGrnRvsThreshold();
     const int fluxStartIdx   = get_fluxFirstNonZeroIdx();
 
     for ( int i=fluxStartIdx, j = reverseThreshE, k = forwardThreshE; j < colloptrsize; ++i, ++j, ++k) {
-      int ii(rctLocation + k - rShiftedGrains) ;
-      int jj(pdtLocation + j - pShiftedGrains) ;
+      size_t ii(rctLocation + k - rShiftedGrains) ;
+      size_t jj(pdtLocation + j - pShiftedGrains) ;
       qd_real Flux(m_GrainFlux[i]), qMeanOmega(rMeanOmega), rDos(rctDOS[k]), pDos(pdtDOS[j]) ;
       (*CollOptr)[ii][ii] -= qMeanOmega * Flux / rDos;               // Forward loss reaction.
       (*CollOptr)[jj][jj] -= qMeanOmega * Flux / pDos ;              // Backward loss reaction from detailed balance.
@@ -158,8 +158,8 @@ namespace mesmer
     m_rct1->getDOS().getGrainDensityOfStates(rctDOS) ;
     m_pdt1->getDOS().getGrainDensityOfStates(pdtDOS) ;
 
-    const int rctColloptrsize = m_rct1->getColl().get_colloptrsize();
-    const int pdtColloptrsize = m_pdt1->getColl().get_colloptrsize();
+    const size_t rctColloptrsize = m_rct1->getColl().get_colloptrsize();
+    const size_t pdtColloptrsize = m_pdt1->getColl().get_colloptrsize();
 
     const int forwardThreshE = get_EffGrnFwdThreshold();
     const int reverseThreshE = get_EffGrnRvsThreshold();
@@ -184,9 +184,9 @@ namespace mesmer
 
     const int rctBasisSize = static_cast<int>(m_rct1->getColl().get_nbasis()) ;
 
-    for (int i=0, ii(rctLocation), egvI(rctColloptrsize-1) ; i < rctBasisSize ; i++, ii++, --egvI) {
+    for (size_t i=0, ii(rctLocation), egvI(rctColloptrsize-1) ; i < rctBasisSize ; i++, ii++, --egvI) {
       (*CollOptr)[ii][ii] -= m_rct1->getColl().matrixElement(egvI, egvI, fwdMicroRateCoef) ;
-      for (int j=i+1, jj(rctLocation + j), egvJ(rctColloptrsize-j-1) ; j < rctBasisSize ; j++, jj++, --egvJ) {
+      for (size_t j=i+1, jj(rctLocation + j), egvJ(rctColloptrsize-j-1) ; j < rctBasisSize ; j++, jj++, --egvJ) {
         qd_real tmp = m_rct1->getColl().matrixElement(egvI, egvJ, fwdMicroRateCoef) ;
         (*CollOptr)[ii][jj] -= tmp ;
         (*CollOptr)[jj][ii] -= tmp ;
@@ -197,9 +197,9 @@ namespace mesmer
 
     const int pdtBasisSize = static_cast<int>(m_pdt1->getColl().get_nbasis());
 
-    for (int i=0, ii(pdtLocation), egvI(pdtColloptrsize-1) ; i < pdtBasisSize ; i++, ii++, --egvI) {
+    for (size_t i=0, ii(pdtLocation), egvI(pdtColloptrsize-1) ; i < pdtBasisSize ; i++, ii++, --egvI) {
       (*CollOptr)[ii][ii] -= m_pdt1->getColl().matrixElement(egvI, egvI, RvsMicroRateCoef) ;
-      for (int j=i+1, jj(pdtLocation + j), egvJ(pdtColloptrsize-j-1)  ; j < pdtBasisSize ; j++, jj++, --egvJ) {
+      for (size_t j=i+1, jj(pdtLocation + j), egvJ(pdtColloptrsize-j-1)  ; j < pdtBasisSize ; j++, jj++, --egvJ) {
         qd_real tmp = m_pdt1->getColl().matrixElement(egvI, egvJ, RvsMicroRateCoef) ;
         (*CollOptr)[ii][jj] -= tmp ;
         (*CollOptr)[jj][ii] -= tmp ;
@@ -210,11 +210,11 @@ namespace mesmer
 
     vector<double> rctBasisVector(rctColloptrsize, 0.0) ;
     vector<double> pdtBasisVector(pdtColloptrsize, 0.0) ;
-    for (int i=0, rctEgv(rctColloptrsize-1) ; i < rctBasisSize ; i++, --rctEgv) {
-      int ii(rctLocation + i) ;
+    for (size_t i=0, rctEgv(rctColloptrsize-1) ; i < rctBasisSize ; i++, --rctEgv) {
+      size_t ii(rctLocation + i) ;
       m_rct1->getColl().eigenVector(rctEgv, rctBasisVector) ;
-      for (int j=0, pdtEgv(pdtColloptrsize-1)  ; j < pdtBasisSize ; j++, --pdtEgv) {
-        int jj(pdtLocation + j) ;
+      for (size_t j=0, pdtEgv(pdtColloptrsize-1)  ; j < pdtBasisSize ; j++, --pdtEgv) {
+        size_t jj(pdtLocation + j) ;
         qd_real tmp(0.0) ;
 
         if (i==0 && j==0 ) {
@@ -232,7 +232,7 @@ namespace mesmer
 
           m_pdt1->getColl().eigenVector(pdtEgv, pdtBasisVector) ;
           double sum = 0.0 ;
-          for (int k(rctColloptrsize-reverseThreshE), m(rctColloptrsize-1), n(pdtColloptrsize-1); k >=0 ; --m, --n, --k) {
+          for (size_t k(0), m(rctColloptrsize-1), n(pdtColloptrsize-1); k < (rctColloptrsize - reverseThreshE) ; --m, --n, k++) {
             // tmp += rctBasisVector[m]*rctBasisVector[m]*fwdMicroRateCoef[m];
             // tmp += pdtBasisVector[n]*pdtBasisVector[n]*RvsMicroRateCoef[n];
             // tmp += rctBasisVector[m]*pdtBasisVector[n]*RvsMicroRateCoef[n]*sqrt(pdtDOS[n]/rctDOS[m]);
@@ -267,7 +267,7 @@ namespace mesmer
     calcFluxFirstNonZeroIdx();
     const int fluxStartIdx = get_fluxFirstNonZeroIdx();
 
-    const int MaximumGrain = (getEnv().MaxGrn-fluxStartIdx);
+    const size_t MaximumGrain = (getEnv().MaxGrn-fluxStartIdx);
     m_GrainKfmc.clear();
     m_GrainKfmc.resize(MaximumGrain , 0.0);
     m_GrainKbmc.clear();

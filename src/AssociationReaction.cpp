@@ -114,29 +114,29 @@ namespace mesmer
     m_pdt1->getDOS().getGrainDensityOfStates(pdtDOS);
 
     // Locate isomers in system matrix.
-    const int pdtLoc = isomermap[m_pdt1];
-    const int jj = (*m_sourceMap)[get_pseudoIsomer()];
+    const size_t pdtLoc = isomermap[m_pdt1];
+    const size_t jj = (*m_sourceMap)[get_pseudoIsomer()];
 
     // Get equilibrium constant.
     const qd_real Keq = qd_real(calcEquilibriumConstant());
 
     // Get Boltzmann distribution for detailed balance.
     vector<double> adductPopFrac; // Population fraction of the adduct
-    const int pShiftedGrains(m_pdt1->getColl().reservoirShift());
+    const size_t pShiftedGrains(m_pdt1->getColl().reservoirShift());
     m_pdt1->getColl().normalizedGrnBoltzmannDistribution(adductPopFrac);
 
     qd_real DissRateCoeff(0.0), qdMeanOmega(rMeanOmega);
 
-    const int pdtRxnOptPos(pdtLoc - pShiftedGrains);
-    const int colloptrsize = m_pdt1->getColl().get_colloptrsize() + pShiftedGrains;
+    const size_t pdtRxnOptPos(pdtLoc - pShiftedGrains);
+    const size_t colloptrsize = m_pdt1->getColl().get_colloptrsize() + pShiftedGrains;
     const int reverseThreshE = get_EffGrnRvsThreshold();
     const int fluxStartIdx = get_fluxFirstNonZeroIdx();
 
     // Note: reverseThreshE will always be greater than pShiftedGrains here.
 
     for (int i = reverseThreshE, j = fluxStartIdx; i < colloptrsize; ++i, ++j) {
-      int ii(pdtRxnOptPos + i);
-      int kk(i - pShiftedGrains);
+      size_t ii(pdtRxnOptPos + i);
+      size_t kk(i - pShiftedGrains);
       qd_real Flux(m_GrainFlux[j]), dos(pdtDOS[i]), addPop(adductPopFrac[kk]);
       (*CollOptr)[ii][ii] -= qdMeanOmega * Flux / dos;                      // Loss of the adduct to the source
       (*CollOptr)[jj][ii] += qdMeanOmega * Flux * sqrt(Keq * addPop) / dos; // Reactive gain of the source
@@ -162,7 +162,7 @@ namespace mesmer
     vector<double> adductPopFrac; // Population fraction of the adduct
     m_pdt1->getColl().normalizedGrnBoltzmannDistribution(adductPopFrac);
 
-    const int pdtColloptrsize = m_pdt1->getColl().get_colloptrsize();
+    const size_t pdtColloptrsize = m_pdt1->getColl().get_colloptrsize();
     const int reverseThreshE = get_EffGrnRvsThreshold();
     const int fluxStartIdx = get_fluxFirstNonZeroIdx();
 
@@ -181,9 +181,9 @@ namespace mesmer
 
     const int pdtLocation = isomermap[m_pdt1];
     const int pdtBasisSize = static_cast<int>(m_pdt1->getColl().get_nbasis());
-    for (int i = 0, ii(pdtLocation), egvI(pdtColloptrsize - 1); i < pdtBasisSize; i++, ii++, --egvI) {
+    for (size_t i = 0, ii(pdtLocation), egvI(pdtColloptrsize - 1); i < pdtBasisSize; i++, ii++, --egvI) {
       (*CollOptr)[ii][ii] -= m_pdt1->getColl().matrixElement(egvI, egvI, RvsMicroRateCoef);
-      for (int j = i + 1, jj(pdtLocation + j), egvJ(pdtColloptrsize - j - 1); j < pdtBasisSize; j++, jj++, --egvJ) {
+      for (size_t j = i + 1, jj(pdtLocation + j), egvJ(pdtColloptrsize - j - 1); j < pdtBasisSize; j++, jj++, --egvJ) {
         qd_real tmp = m_pdt1->getColl().matrixElement(egvI, egvJ, RvsMicroRateCoef);
         (*CollOptr)[ii][jj] -= tmp;
         (*CollOptr)[jj][ii] -= tmp;
@@ -198,8 +198,8 @@ namespace mesmer
     // Calculate the elements of the cross blocks.
 
     vector<double> pdtBasisVector(pdtColloptrsize, 0.0);
-    for (int i = 0, pdtEgv(pdtColloptrsize - 1); i < pdtBasisSize; i++, --pdtEgv) {
-      int ii(pdtLocation + i);
+    for (size_t i = 0, pdtEgv(pdtColloptrsize - 1); i < pdtBasisSize; i++, --pdtEgv) {
+      size_t ii(pdtLocation + i);
       qd_real tmp(0.0);
 
       if (i == 0) {
@@ -218,7 +218,7 @@ namespace mesmer
 
         m_pdt1->getColl().eigenVector(pdtEgv, pdtBasisVector);
         double sum = 0.0;
-        for (int k(pdtColloptrsize - reverseThreshE), n(pdtColloptrsize - 1); k >= 0; --n, --k) {
+        for (size_t k(0), n(pdtColloptrsize - 1); k < (pdtColloptrsize - reverseThreshE); --n, k++) {
           sum += pdtBasisVector[n] * CrsMicroRateCoef[n];
         }
 
@@ -308,7 +308,7 @@ namespace mesmer
     calcFluxFirstNonZeroIdx();
     const int fluxFirstNonZeroIdx = get_fluxFirstNonZeroIdx();
 
-    const int MaximumGrain = (getEnv().MaxGrn - fluxFirstNonZeroIdx);
+    const size_t MaximumGrain = (getEnv().MaxGrn - fluxFirstNonZeroIdx);
     m_GrainKfmc.clear();
     m_GrainKfmc.resize(MaximumGrain, 0.0);
     m_GrainKbmc.clear();
@@ -394,7 +394,7 @@ namespace mesmer
     std::vector<double> rctsCellDOS;
     getRctsCellDensityOfStates(rctsCellDOS);
 
-    const int MaximumCell = getEnv().MaxCell;
+    const size_t MaximumCell = getEnv().MaxCell;
 
     // Get the cell offset for the source term.
     const size_t cellOffset = get_cellOffset();
