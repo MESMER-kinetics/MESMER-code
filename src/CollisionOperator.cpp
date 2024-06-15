@@ -237,7 +237,7 @@ namespace mesmer
       for (; isomeritr != m_isomers.end(); ++isomeritr) {
 
         Molecule* isomer = isomeritr->first;
-        int colloptrsize = mEnv.MaxGrn - isomer->getColl().get_grnZPE();
+        size_t colloptrsize = mEnv.MaxGrn - isomer->getColl().get_grnZPE();
         isomer->getColl().set_colloptrsize(colloptrsize);
 
         if (!isomer->getColl().initCollisionOperator(mEnv, pBathGasMolecule)) {
@@ -729,7 +729,7 @@ namespace mesmer
           rloc = rctitr->second;
         }
         else {
-          m_SpeciesSequence[rct] = counter;
+          m_SpeciesSequence[rct] = int(counter);
           rloc = counter;
           counter++;
           bNewRec = true;
@@ -742,7 +742,7 @@ namespace mesmer
           ploc = pdtitr->second;
         }
         else {
-          m_SpeciesSequence[pdt] = counter;
+          m_SpeciesSequence[pdt] = int(counter);
           ploc = counter;
           counter++;
           bNewPdt = true;
@@ -808,11 +808,11 @@ namespace mesmer
       if (counter == 0) {
         if (m_isomers.size()) {
           Molecule* rct = (m_isomers.begin())->first;
-          m_SpeciesSequence[rct] = counter;
+          m_SpeciesSequence[rct] = int(counter);
         }
         else if (m_sources.size()) {
           Molecule* rct = (m_sources.begin())->first;
-          m_SpeciesSequence[rct] = counter;
+          m_SpeciesSequence[rct] = int(counter);
         }
         else {
           return false;
@@ -1078,7 +1078,7 @@ namespace mesmer
       stest << "}\n";
 
       if (analysisData) {
-        analysisData->m_number = smsize;
+        analysisData->m_number = int(smsize);
         analysisData->m_selection = (mFlags.printEigenValuesNum != -1) ? toString(mFlags.printEigenValuesNum) : "all";
         for (size_t i = numberStarted; i < smsize; ++i) {
           qd_real tmp = (mEnv.useBasisSetMethod) ? m_eigenvalues[i] : m_eigenvalues[i] * m_meanOmega;
@@ -1088,7 +1088,7 @@ namespace mesmer
 
       if (mFlags.printEigenVectors) {
         string title("Eigenvectors:");
-        m_eigenvectors->print(title, stest, -1, -1, -1, numberStarted);
+        m_eigenvectors->print(title, stest, -1, -1, -1, int(numberStarted));
       }
     }
 
@@ -1644,7 +1644,7 @@ namespace mesmer
           qd_real sm(0.0);
           Molecule* isomer = ipos->first;
           size_t colloptrsize = isomer->getColl().get_colloptrsize(); // get colloptrsize for isomer
-          int rxnMatrixLoc = ipos->second + colloptrsize - 1;         // get location for isomer in the rxn matrix
+          size_t rxnMatrixLoc = ipos->second + colloptrsize - 1;      // get location for isomer in the rxn matrix
           int seqMatrixLoc = m_SpeciesSequence[isomer];               // get sequence position for isomer
           for (size_t j(0); j < colloptrsize; ++j) {
             sm += assymEigenVec[i][rxnMatrixLoc - j];
@@ -1805,7 +1805,7 @@ namespace mesmer
           }
         }
         string MatrixTitle("Kp matrix:");
-        Kp.print(MatrixTitle, stest, nsinks, m_SpeciesSequence.size());
+        Kp.print(MatrixTitle, stest, int(nsinks), int(m_SpeciesSequence.size()));
       }
 
       // If requested, write out phenomenological evolution.
