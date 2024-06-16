@@ -211,8 +211,8 @@
         </property>
       </propertyList>
       <me:energyTransferModel xsi:type="me:ExponentialDown">
-        <me:deltaEDown units="cm-1">50.0</me:deltaEDown>
-        <!--<me:deltaEDownTExponent bathGas="H2">0.25</me:deltaEDownTExponent>-->
+        <me:deltaEDown units="cm-1">200.0</me:deltaEDown>
+        <me:deltaEDownTExponent bathGas="H2">0.25</me:deltaEDownTExponent>
       </me:energyTransferModel>
 
       <me:DOSCMethod xsi:type="me:ClassicalRotors"/>
@@ -345,7 +345,7 @@
 
   <me:conditions>
     <me:bathGas>H2</me:bathGas>
-    <me:PTs radiationTemperature="600.0" radiationAttenuation="1." >
+    <me:PTs radiationTemperature="600.0" radiationAttenuation="1.0" >
       <!--<me:PTpair units="PPCC" P="1.6e12" T="2500.0" excessReactantConc="1.6e11" precision="dd"/>-->
       <!-- r = 1.5 R*-->
       <!--
@@ -374,7 +374,7 @@
       <!--<me:PTpair units="PPCC" P="1.0e-02" T="600.0" excessReactantConc="1.0e-03" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>-->
 
 
-      <me:PTpair units="PPCC" P="1.0e-03" T="1583.0" excessReactantConc="1.0e-04" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
+      <!--<me:PTpair units="PPCC" P="1.0e-03" T="1583.0" excessReactantConc="1.0e-04" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
       <me:PTpair units="PPCC" P="1.0e-02" T="1583.0" excessReactantConc="1.0e-03" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
       <me:PTpair units="PPCC" P="1.0e-01" T="1583.0" excessReactantConc="1.0e-02" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
       <me:PTpair units="PPCC" P="1.0e00" T="1583.0" excessReactantConc="1.0e-01" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
@@ -389,14 +389,18 @@
       <me:PTpair units="PPCC" P="1.0e09" T="1583.0" excessReactantConc="1.0e08" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
       <me:PTpair units="PPCC" P="1.0e10" T="1583.0" excessReactantConc="1.0e09" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
       <me:PTpair units="PPCC" P="1.0e11" T="1583.0" excessReactantConc="1.0e10" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
-      <me:PTpair units="PPCC" P="1.0e12" T="1583.0" excessReactantConc="1.0e11" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
+      <me:PTpair units="PPCC" P="3.16e11" T="1583.0" excessReactantConc="1.0e10" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
+      <me:PTpair units="PPCC" P="1.0e12" T="1583.0" excessReactantConc="1.0e11" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>-->
+      <me:PTpair units="PPCC" P="3.16e12" T="1583.0" excessReactantConc="1.0e10" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
       <me:PTpair units="PPCC" P="1.0e13" T="1583.0" excessReactantConc="1.0e12" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
+      <me:PTpair units="PPCC" P="3.16e13" T="1583.0" excessReactantConc="1.0e10" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
       <me:PTpair units="PPCC" P="1.0e14" T="1583.0" excessReactantConc="1.0e13" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
+      <!--<me:PTpair units="PPCC" P="3.16e14" T="1583.0" excessReactantConc="1.0e10" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
       <me:PTpair units="PPCC" P="1.0e15" T="1583.0" excessReactantConc="1.0e14" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
       <me:PTpair units="PPCC" P="1.0e16" T="1583.0" excessReactantConc="1.0e15" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
       <me:PTpair units="PPCC" P="1.0e17" T="1583.0" excessReactantConc="1.0e16" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
       <me:PTpair units="PPCC" P="1.0e18" T="1583.0" excessReactantConc="1.0e17" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="qd"/>
-      <!--<me:PTpair units="PPCC" P="1.0e18" T="600.0" excessReactantConc="1.0e17" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="dd"/>-->
+      <me:PTpair units="PPCC" P="1.0e18" T="600.0" excessReactantConc="1.0e17" ref2="SiO2" ref1="OSi(OH)2 symm" refReaction="R1" precision="dd"/>-->
     </me:PTs>
 
     <!--<me:PTs>
