@@ -124,9 +124,9 @@ namespace mesmer
 
     // Locate reactant in system matrix.
     const int rctLocation = isomermap[m_rct1] ;
-    const int rShiftedGrains(m_rct1->getColl().reservoirShift());
+    const size_t rShiftedGrains(m_rct1->getColl().reservoirShift());
 
-    const int colloptrsize   = m_rct1->getColl().get_colloptrsize();
+    const size_t colloptrsize = m_rct1->getColl().get_colloptrsize();
     const int forwardThreshE = get_EffGrnFwdThreshold();
     const int fluxStartIdx   = get_fluxFirstNonZeroIdx();
 
@@ -134,7 +134,7 @@ namespace mesmer
     m_MtxGrnKf.resize(colloptrsize , 0.0);
 
     for ( int i=fluxStartIdx, j = forwardThreshE; j < colloptrsize + rShiftedGrains; ++i, ++j) {
-      int ii(rctLocation + j - rShiftedGrains) ;
+      size_t ii(rctLocation + j - rShiftedGrains) ;
       qd_real rtcf = qd_real(m_GrainFlux[i]) / qd_real(rctDOS[j]) ;
       (*CollOptr)[ii][ii] -= qd_real(rMeanOmega) * rtcf;  // Forward loss reaction.
       m_MtxGrnKf[j - rShiftedGrains] = to_double(rtcf) ;
@@ -156,7 +156,7 @@ namespace mesmer
     calcFluxFirstNonZeroIdx();
     const int fluxStartIdx = get_fluxFirstNonZeroIdx();
 
-    const int MaximumGrain = (getEnv().MaxGrn-fluxStartIdx);
+    const size_t MaximumGrain = (getEnv().MaxGrn-fluxStartIdx);
     m_GrainKfmc.clear();
     m_GrainKfmc.resize(MaximumGrain , 0.0);
 
