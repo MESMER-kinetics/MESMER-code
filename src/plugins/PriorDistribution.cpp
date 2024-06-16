@@ -82,7 +82,7 @@ namespace mesmer
 
   bool PriorDistribution::calculateDistribution(Molecule* m_host, std::vector<double>& dist) {
     
-    int XsEne = static_cast<int>(m_XsEne);
+    size_t XsEne = static_cast<size_t>(m_XsEne);
 
     // Get the rovibrational Density of states for the primary species in the prior distribution
     vector<double> DOS1;
@@ -93,8 +93,8 @@ namespace mesmer
     m_CoFragment->getDOS().getCellDensityOfStates(DOS2);
 
     // Get average cell energies
-    const int MaximumGrain = m_host->getEnv().MaxGrn;
-    const int MaximumCell  = m_host->getEnv().MaxCell;
+    const size_t MaximumGrain = m_host->getEnv().MaxGrn;
+    const size_t MaximumCell  = m_host->getEnv().MaxCell;
 
     // Make sure Excess energy is not larger that the energy of the highest cell.
     if (XsEne > MaximumCell) {
@@ -112,7 +112,7 @@ namespace mesmer
       Trans_DOS[i] = sqrt(Trans_DOS[i]) ;
     }
 
-    // Resize rovibrational DOS vectors so densities so energies greater than the XsEne are not considered.
+    // Resize rovibrational DOS vectors so densities and energies greater than the XsEne are not considered.
 
     DOS1.resize(XsEne);
     DOS2.resize(XsEne);
@@ -169,11 +169,11 @@ namespace mesmer
   }
 
   void PriorDistribution::GetGrainAveragedDistribution(const vector<double>& DOS, vector<double>& dist,  Molecule* m_host) {
-    const int GrainSize = m_host->getEnv().GrainSize;
+    const size_t GrainSize = m_host->getEnv().GrainSize;
     const size_t Size2 = DOS.size();
     size_t index(0) ;
     for (size_t i(0) ; i < dist.size() ; i++) {       
-      for (int j=0; j<(GrainSize) && index < Size2; j++, index++ ) {
+      for (size_t j(0) ; j < GrainSize && index < Size2; j++, index++ ) {
         dist[i] += DOS[index];
       }
     }
