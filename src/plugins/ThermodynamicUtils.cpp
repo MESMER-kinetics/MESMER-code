@@ -36,7 +36,7 @@ namespace mesmer
     ss << '\n';
     ss << left << setw(24) << pmol->getName().substr(0, 24);
     map<string, int> Comp = pmol->getStruc().GetElementalComposition();
-    int npad = 4 - Comp.size();
+    int npad = 4 - int(Comp.size());
     map<string, int>::const_iterator itr = Comp.begin();
     for (; itr != Comp.end(); itr++)
       ss << left << setw(2) << itr->first << right << setw(3) << itr->second;

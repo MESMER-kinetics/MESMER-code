@@ -914,7 +914,7 @@ namespace mesmer
             "must be one of the specified temperatures." << endl;
           return false;
         }
-        int nlowerrange = itermid - temperature.begin();
+        int nlowerrange = int(itermid - temperature.begin());
         fits1 = FitPoly(6, itermid, temperature.end(), Hf.begin() + nlowerrange); //upper range
         fits2 = FitPoly(6, temperature.begin(), itermid + 1, Hf.begin()); //lower range
         fits1[2] *= 2.0; fits1[3] *= 3.0; fits1[4] *= 4.0; fits1[5] *= 5.0;

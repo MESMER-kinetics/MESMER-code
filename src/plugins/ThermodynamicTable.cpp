@@ -301,7 +301,7 @@ namespace mesmer
               "must be one of the specified temperatures." << endl;
             return false;
           }
-          int nlowerrange = itermid - temperature.begin();
+          int nlowerrange = int(itermid - temperature.begin());
           fits1 = FitPoly(6, itermid, temperature.end(), Hf.begin() + nlowerrange); //upper range
           fits2 = FitPoly(6, temperature.begin(), itermid + 1, Hf.begin()); //lower range
           fits1[2] *= 2; fits1[3] *= 3; fits1[4] *= 4; fits1[5] *= 5;
@@ -348,7 +348,8 @@ namespace mesmer
         ppScalar->XmlWriteAttribute("dictRef", "NasaHighT");
 
         ss.str("");
-        ss << m_Tmid ? m_Tmid : temperature.back();
+        double Tend = temperature.back();
+        ss << m_Tmid ? m_Tmid : Tend;
         ppScalar = ppProp->XmlWriteValueElement("scalar", ss.str());
         ppScalar->XmlWriteAttribute("dictRef", "NasaMidT");
 
