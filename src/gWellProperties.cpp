@@ -209,7 +209,7 @@ namespace mesmer
 
       m_numGroupedGrains = grainLoc;
       if (m_numGroupedGrains > 1) {
-        double reservoirEnergy(m_numGroupedGrains * m_host->getEnv().GrainSize) ;
+        double reservoirEnergy = double(m_numGroupedGrains * m_host->getEnv().GrainSize) ;
         stest << "The reservoir for " << m_host->getName() << " is " << m_numGroupedGrains << " grains," ;
         stest << "which is " << reservoirEnergy << " cm-1 (or " << reservoirEnergy / getConvertedEnergy("kJ/mol", 1.0) << " kJ/mol) from the well bottom." << endl;
         stest << "At equilibrium " << 1.0 - fracInRsvr << " of the " << m_host->getName() << " population is in the active states. " << endl ;
@@ -317,7 +317,7 @@ namespace mesmer
     // Calculate matrix element starting with the higher energy
     // elements first in order to preserve precision as much as possible.
     qd_real sum = 0.0;
-    for (int i = m_ncolloptrsize - 1; i >= 0; --i){
+    for (int i = int(m_ncolloptrsize) - 1; i >= 0; --i){
       sum += qd_real(k[i]) * ((*m_egvec)[i][eigveci] * (*m_egvec)[i][eigvecj]);
     }
     return sum;
