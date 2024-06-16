@@ -151,12 +151,13 @@ namespace mesmer
     stest << "\nCanonical (high pressure) rate coefficients for " << getName() << ", calculated from microcanonical rates\n{\n";
     //Number of reactants and products to set kf,kb and Keq units
     vector<Molecule*> vec;
-    int nr = get_reactants(vec);
-    int np = get_products(vec);
+    size_t nr = get_reactants(vec);
+    size_t np = get_products(vec);
+    int idiff = int(np) - int(nr);
     stest << right << setw(7) << "T/K"
       << setw(20) << (nr == 2 ? "kf/cm3molecule-1s-1" : "kf/s-1")
       << setw(20) << (np == 2 ? "kb/cm3molecule-1s-1" : "kb/s-1")
-      << setw(18) << ((np - nr) == 0 ? "Keq   " : ((np - nr) > 0 ? "Keq/moleculecm-3" : "Keq/cm3molecule-1"))
+      << setw(18) << (idiff == 0 ? "Keq   " : (idiff > 0 ? "Keq/moleculecm-3" : "Keq/cm3molecule-1"))
       << endl;
 
     // Save the current value of excess concentration and set it to unity
@@ -195,8 +196,9 @@ namespace mesmer
 
       // Add to XML document.
       vector<Molecule*> vec;
-      int nr = get_reactants(vec);
-      int np = get_products(vec);
+      size_t nr = get_reactants(vec);
+      size_t np = get_products(vec);
+      int idiff = int(np) - int(nr);
       PersistPtr ppItem = ppList->XmlWriteElement("me:kinf");
       PersistPtr pp = ppItem->XmlWriteValueElement("me:T", Temp, 6);
       if (j == 0) pp->XmlWriteAttribute("units", "K");
@@ -207,7 +209,7 @@ namespace mesmer
         pp = ppItem->XmlWriteValueElement("me:rev", Coeffs[1], 6);
         if (j == 0) pp->XmlWriteAttribute("units", np == 2 ? "cm3molecule-1s-1" : "s-1");
         pp = ppItem->XmlWriteValueElement("me:Keq", Coeffs[2], 6);
-        if (j == 0) pp->XmlWriteAttribute("units", ((np - nr) == 0 ? "" : ((np - nr) > 0 ? "moleculecm-3" : "cm3molecule-1")));
+        if (j == 0) pp->XmlWriteAttribute("units", (idiff == 0 ? "" : (idiff > 0 ? "moleculecm-3" : "cm3molecule-1")));
       }
     }
     stest << "}\n";
@@ -277,7 +279,7 @@ namespace mesmer
     if (thresh < 0.0)
       m_GrnFluxFirstNonZeroIdx = int(-thresh / m_Env.GrainSize);
     else if (thresh > 0.0 && thresh < RxnHeat)
-      m_GrnFluxFirstNonZeroIdx = int(RxnHeat - thresh) / m_Env.GrainSize;
+      m_GrnFluxFirstNonZeroIdx = int(RxnHeat - thresh) / int(m_Env.GrainSize);
     else
       m_GrnFluxFirstNonZeroIdx = 0;
   };
@@ -346,12 +348,12 @@ namespace mesmer
   string Reaction::getReactionString(reactionType type)
   {
     string s;
-    int n;
+    size_t n;
     vector<Molecule*> reactants, products;
     if (type != productsOnly)
     {
       n = get_reactants(reactants);
-      for (int i = 0; i < n; ++i)
+      for (size_t i(0) ; i < n; ++i)
       {
         s += reactants[i]->getName();
         if (i < n - 1)
@@ -365,7 +367,7 @@ namespace mesmer
     if (type != reactantsOnly)
     {
       n = get_products(products);
-      for (int i = 0; i < n; ++i)
+      for (size_t i(0) ; i < n; ++i)
       {
         s += products[i]->getName();
         if (i < n - 1)
