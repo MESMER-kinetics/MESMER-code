@@ -442,12 +442,12 @@ namespace mesmer
     m_bGenerateData = pp->XmlReadBoolean("me:sensitivityGenerateData");
     m_bCorrelatedData = pp->XmlReadBoolean("me:sensitivityCorrelatedData");
     size_t order = pp->XmlReadInteger("me:sensitivityAnalysisOrder", optional);
-    if (!IsNan(order))
+    if (order > 0)
       m_order = order;
     size_t nVred = pp->XmlReadInteger("me:sensitivityNumVarRedIters", optional);
-    if (!IsNan(nVred))
+    if (nVred > 0)
       m_nVred = nVred;
-    const char* txt = pp->XmlReadValue("me:sensitivityVarRedMethod", optional); //hard-wired default is RATIOCONTROL
+    const char* txt = pp->XmlReadValue("me:sensitivityVarRedMethod", optional); // Hard-wired default is RATIOCONTROL.
     if (txt) {
       string str(txt);
       ToUpper(str);
@@ -735,10 +735,10 @@ namespace mesmer
       }
 
       // Calculate mean and variance across ranks.
-      double dCnt(cnt);
+      double dCnt = double(cnt);
       m_pParallelManager->sumDouble(&dCnt, 1);
-      m_pParallelManager->sumDouble(&f0[0], f0.size());
-      m_pParallelManager->sumDouble(&varf[0], varf.size());
+      m_pParallelManager->sumDouble(&f0[0], int(f0.size()));
+      m_pParallelManager->sumDouble(&varf[0], int(varf.size()));
       for (size_t nOut(0); nOut < varf.size(); nOut++) {
         f0[nOut] /= dCnt;
         varf[nOut] -= f0[nOut] * f0[nOut];
@@ -1190,11 +1190,11 @@ namespace mesmer
     for (size_t i(0); i < size_t(m_nRanks); i++) {
       vector<double> tmp = table[0];
       int tableSize = int(table.size());
-      m_pParallelManager->broadcastInteger(&tableSize, 1, i);
+      m_pParallelManager->broadcastInteger(&tableSize, 1, int(i));
       for (size_t j(0); j < size_t(tableSize); j++) {
         if (size_t(m_rank) == i)
           tmp = table[j];
-        m_pParallelManager->broadcastDouble(&tmp[0], tmp.size(), i);
+        m_pParallelManager->broadcastDouble(&tmp[0], int(tmp.size()), int(i));
         wrk.push_back(tmp);
       }
     }
