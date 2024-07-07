@@ -1,3 +1,7 @@
+2024-Jul-07 Struan Robertson
+
+		* unitConversion.h/.cpp, MesmerILT.cpp: Fix for pre-exponetial units bug.
+
 2024-Apr-07 Struan Robertson
 
 		* gWellRadiationTransition.cpp, MesmerEnv.h/.cpp, ConditionsManager.h/.cpp,

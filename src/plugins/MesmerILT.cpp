@@ -224,13 +224,18 @@ namespace mesmer
 
     // Pre-exponential factor details.
     if (pPreExptxt) {
-      istringstream s2(pPreExptxt);
-      s2 >> m_PreExp;
+      double tmpvalue = 0.0;
+      stringstream s2(pPreExptxt); s2 >> tmpvalue;
+      const char* unitsTxt = ppActEne->XmlReadValue("units", false);
+      string unitsInput = (unitsTxt) ? unitsTxt : "";
+      double value(getConvertedPreExp(unitsInput, tmpvalue));
+      m_PreExp = value;
       if (m_PreExp < 0.0) {
         cerr << "Pre-exponential factor should not be negative when used with ILT." << endl;
         return false;
       }
-      ReadRdoubleRange(string(pReact->getName() + ":preExponential"), ppPreExponential, m_PreExp, rangeSet);
+      ReadRdoubleRange(string(pReact->getName() + ":preExponential"), ppPreExponential, m_PreExp, 
+        rangeSet, getConvertedPreExp(unitsInput, 1.0));
       if (rangeSet) {
         double valueL, valueU, stepsize;
         m_PreExp.get_range(valueL, valueU, stepsize);
@@ -313,12 +318,18 @@ namespace mesmer
     if (m_Secondary && pPreExp2txt)
     {
       PersistPtr ppPreExp2 = pp->XmlMoveTo("me:secondaryPreExponential");
-      istringstream s2(pPreExp2txt); s2 >> m_PreExp2;
-      ReadRdoubleRange(string(pReact->getName() + ":secondaryPreExponential"), ppPreExp2, m_PreExp2, rangeSet);
-      if (m_PreExp < 0.0) {
+      double tmpvalue = 0.0;
+      stringstream s2(pPreExptxt); s2 >> tmpvalue;
+      const char* unitsTxt = ppPreExp2->XmlReadValue("units", false);
+      string unitsInput = (unitsTxt) ? unitsTxt : "";
+      double value(getConvertedPreExp(unitsInput, tmpvalue));
+      m_PreExp2 = value;
+      if (m_PreExp2 < 0.0) {
         cerr << "Pre-exponential factor should not be negative when used with ILT." << endl;
         return false;
       }
+      ReadRdoubleRange(string(pReact->getName() + ":secondaryPreExponential"), ppPreExp2, m_PreExp2,
+        rangeSet, getConvertedPreExp(unitsInput, 1.0));
       if (rangeSet) {
         double valueL, valueU, stepsize;
         m_PreExp2.get_range(valueL, valueU, stepsize);
