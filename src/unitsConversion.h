@@ -47,6 +47,7 @@ namespace mesmer
   double ConvertFromWavenumbers(const string& unitInput, const double energyInput);
   double ConvertEnergy(const string& unitInput, const string& unitOutput, const double energyInput);
   double getConvertedTime(const string& unitInput, const double timeInput);
+  double getConvertedPreExp(const string& unitInput, const double value);
 }//namespace
 
 #endif // GUARD_unitsConversion_h

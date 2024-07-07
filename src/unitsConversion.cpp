@@ -144,7 +144,7 @@ namespace mesmer
 
   }
 
-  // Returns particles cm-1 no matter what unit the user has provided.
+  // Returns cm-1 no matter what unit the user has provided.
   double getConvertedEnergy(const string& unitInput, const double energyInput)
   {
     if(unitInput.empty())
@@ -173,6 +173,29 @@ namespace mesmer
       return 0.;
     }
     return timeInput * timeMap[unitInput];
+  }
+
+  // Converts pre-exponetial factor into internal unit.
+  double getConvertedPreExp(const string& unitInput, const double value)
+  {
+    if (unitInput.empty())
+    {
+      cinfo << "No units specified for pre-exponetial factor." << endl;
+      return value;
+    }
+    else if (unitInput == "s-1" || unitInput == "cm3molecule-1s-1")
+    {
+      return value;
+    }
+    else if (unitInput == "cm3mole-1s-1") 
+    {
+      return value / AvogadroC ;
+    }
+    else 
+    {
+      cinfo << "Unknown units specified for pre-exponetial factor." << endl;
+      return value;
+    }
   }
 
 /*    // switch
