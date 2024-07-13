@@ -219,7 +219,6 @@
       <product>
         <molecule ref="OH_acetylene_adduct" role="modelled" />
       </product>
-      <me:excessReactantConc>1.00e17</me:excessReactantConc>
       <me:MCRCMethod xsi:type="me:MesmerILT">
         <me:preExponential units="cm3molecule-1s-1">7.00e-12</me:preExponential>
         <me:activationEnergy units="kJ/mol">5.375</me:activationEnergy>
