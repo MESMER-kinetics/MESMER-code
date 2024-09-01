@@ -15,7 +15,7 @@
           <scalar units="amu">15.0</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="ClassicalRotors"/>
     </molecule>
     <molecule id="activeSpaceRadical">
       <propertyList>
@@ -26,7 +26,7 @@
           <scalar units="amu">156.0</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="ClassicalRotors"/>
     </molecule>
     <molecule id="5AtomActiveSpace">
       <propertyList>
@@ -106,7 +106,7 @@
           <scalar>1</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      <me:DOSCMethod xsi:type="ClassicalRotors"/>
       <me:energyTransferModel xsi:type="me:ExponentialDown">
         <me:deltaEDown units="cm-1">600</me:deltaEDown>
       </me:energyTransferModel>
