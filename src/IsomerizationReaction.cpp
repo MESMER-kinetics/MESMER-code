@@ -122,8 +122,8 @@ namespace mesmer
     m_pdt1->getDOS().getGrainDensityOfStates(pdtDOS) ;
 
     // Locate isomers in system matrix.
-    const int rctLocation = isomermap[m_rct1] ;
-    const int pdtLocation = isomermap[m_pdt1] ;
+    const size_t rctLocation = isomermap[m_rct1] ;
+    const size_t pdtLocation = isomermap[m_pdt1] ;
 
     // Need to know the number of grouped grains in both wells.
     const size_t rShiftedGrains(m_rct1->getColl().reservoirShift());
@@ -131,11 +131,11 @@ namespace mesmer
 
     const size_t colloptrsize = m_pdt1->getColl().get_colloptrsize() + pShiftedGrains ;
 
-    const int forwardThreshE = get_EffGrnFwdThreshold();
-    const int reverseThreshE = get_EffGrnRvsThreshold();
-    const int fluxStartIdx   = get_fluxFirstNonZeroIdx();
+    const size_t forwardThreshE = get_EffGrnFwdThreshold();
+    const size_t reverseThreshE = get_EffGrnRvsThreshold();
+    const size_t fluxStartIdx   = get_fluxFirstNonZeroIdx();
 
-    for ( int i=fluxStartIdx, j = reverseThreshE, k = forwardThreshE; j < colloptrsize; ++i, ++j, ++k) {
+    for (size_t i = fluxStartIdx, j = reverseThreshE, k = forwardThreshE; j < colloptrsize; ++i, ++j, ++k) {
       size_t ii(rctLocation + k - rShiftedGrains) ;
       size_t jj(pdtLocation + j - pShiftedGrains) ;
       qd_real Flux(m_GrainFlux[i]), qMeanOmega(rMeanOmega), rDos(rctDOS[k]), pDos(pdtDOS[j]) ;
@@ -161,24 +161,24 @@ namespace mesmer
     const size_t rctColloptrsize = m_rct1->getColl().get_colloptrsize();
     const size_t pdtColloptrsize = m_pdt1->getColl().get_colloptrsize();
 
-    const int forwardThreshE = get_EffGrnFwdThreshold();
-    const int reverseThreshE = get_EffGrnRvsThreshold();
-    const int fluxStartIdx   = get_fluxFirstNonZeroIdx();
+    const size_t forwardThreshE = get_EffGrnFwdThreshold();
+    const size_t reverseThreshE = get_EffGrnRvsThreshold();
+    const size_t fluxStartIdx   = get_fluxFirstNonZeroIdx();
 
     vector<double> fwdMicroRateCoef(rctColloptrsize, 0.0) ;
     vector<double> RvsMicroRateCoef(pdtColloptrsize, 0.0) ;
     vector<double> CrsMicroRateCoef(pdtColloptrsize, 0.0) ;
-    for ( int i=fluxStartIdx, j = reverseThreshE, k=0; j < rctColloptrsize; ++i, ++j, ++k) {
-      int ll = k + forwardThreshE;
-      int mm = k + reverseThreshE;
+    for (size_t i=fluxStartIdx, j = reverseThreshE, k=0; j < rctColloptrsize; ++i, ++j, ++k) {
+      size_t ll = k + forwardThreshE;
+      size_t mm = k + reverseThreshE;
       fwdMicroRateCoef[ll] = m_GrainFlux[i] / rctDOS[ll] ;                    // Forward loss reaction.
       RvsMicroRateCoef[mm] = m_GrainFlux[i] / pdtDOS[mm] ;                    // Backward loss reaction. 
       CrsMicroRateCoef[mm] = m_GrainFlux[i] / sqrt(rctDOS[ll] * pdtDOS[mm]) ; // Reactive gain from detailed balance.
     }
 
     // Locate isomers in system matrix.
-    const int rctLocation = isomermap[m_rct1] ;
-    const int pdtLocation = isomermap[m_pdt1] ;
+    const size_t rctLocation = isomermap[m_rct1] ;
+    const size_t pdtLocation = isomermap[m_pdt1] ;
 
     // Calculate the elements of the reactant block.
 

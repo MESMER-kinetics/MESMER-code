@@ -359,7 +359,7 @@ IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
 cd ..
 
 cd "H2O_SiO2_to_H2SiO3"
-set testName="H2O_SiO2_to_H2SiO3_Bij"
+set testName="H2O_SiO2_to_H2SiO3_Aij"
 %cmdline% -N "%testName%.xml"
 copy "%testName%.test" %bline%
 IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"

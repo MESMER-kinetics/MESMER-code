@@ -738,7 +738,7 @@ namespace mesmer
 
     if (m_host->getFlags().cellDOSEnabled) {
       stest << endl << "Cell rovibronic density of states of " << m_host->getName() << endl << "{" << endl;
-      for (int i(0); i < MaximumCell; ++i) {
+      for (size_t i(0); i < MaximumCell; ++i) {
         formatFloat(stest, cellEne[i], 6, 15);
         formatFloat(stest, m_cellDOS[i], 6, 15);
         stest << endl;
@@ -748,7 +748,7 @@ namespace mesmer
 
     if (m_host->getFlags().grainDOSEnabled && (m_host->isMolType("modelled") || m_host->isMolType("transitionState"))) {
       stest << endl << "Grain rovibronic density of states of " << m_host->getName() << endl << "{" << endl;
-      for (int i(0); i < MaximumGrain; ++i) {
+      for (size_t i(0); i < MaximumGrain; ++i) {
         formatFloat(stest, m_grainEne[i], 6, 15);
         formatFloat(stest, m_grainDOS[i], 6, 15);
         stest << endl;

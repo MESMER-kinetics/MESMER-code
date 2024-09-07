@@ -87,9 +87,8 @@ namespace mesmer
 
     CandTpair(double cp_, double t_, Precision _pre, const char* _bathGas,
       const map<Reaction*, double>& _excessConcs, const char* _group, double _radiationTemp, double _radiationAttn)
-      : m_concentration(cp_), m_temperature(t_), m_precision(_pre),
-      m_pBathGasName(_bathGas), m_excessConcs(_excessConcs), m_group(_group), m_radiationTemp(_radiationTemp),
-      m_radiationAttn(_radiationAttn) {}
+      : m_concentration(cp_), m_temperature(t_), m_radiationTemp(_radiationTemp), m_radiationAttn(_radiationAttn), 
+      m_precision(_pre), m_pBathGasName(_bathGas), m_excessConcs(_excessConcs), m_group(_group) {}
 
     void set_experimentalRates(PersistPtr ppData, std::string ref1, std::string ref2, std::string refReaction, double value, double error) {
       if (ref1.size() > 0 && ref2.size() > 0) {
