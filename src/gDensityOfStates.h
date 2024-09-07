@@ -68,7 +68,7 @@ namespace mesmer
 
     Rdouble m_ZPE;             // Zero Point Energy in wavenumbers.
     double m_scaleFactor;      // scale factor for input real/imaginary vibrational frequencies.
-    double m_DiffQMClassZPE;    // Difference between classical and QM zero point energy.
+    double m_DiffQMClassZPE;   // Difference between classical and QM zero point energy.
 
     //================================================
     // CHECK FOR INPUTFILE PARAMETERS

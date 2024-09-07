@@ -2568,6 +2568,7 @@ namespace mesmer
         mEnv.beta = 1.0 / (boltzmann_RCpK * effectiveTemp);
 
         double sm = lenBoltzProjection(isomer, egme);
+        // cout << effectiveTemp << "  " << sm << endl;
         if (sm < smm) {
           smm = sm;
           minTemp = effectiveTemp;
