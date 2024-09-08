@@ -123,17 +123,17 @@ namespace mesmer
     m_rct1->getDOS().getGrainDensityOfStates(rctDOS) ;
 
     // Locate reactant in system matrix.
-    const int rctLocation = isomermap[m_rct1] ;
+    const size_t rctLocation = isomermap[m_rct1] ;
     const size_t rShiftedGrains(m_rct1->getColl().reservoirShift());
 
     const size_t colloptrsize = m_rct1->getColl().get_colloptrsize();
-    const int forwardThreshE = get_EffGrnFwdThreshold();
-    const int fluxStartIdx   = get_fluxFirstNonZeroIdx();
+    const size_t forwardThreshE = get_EffGrnFwdThreshold();
+    const size_t fluxStartIdx   = get_fluxFirstNonZeroIdx();
 
     m_MtxGrnKf.clear();
     m_MtxGrnKf.resize(colloptrsize , 0.0);
 
-    for ( int i=fluxStartIdx, j = forwardThreshE; j < colloptrsize + rShiftedGrains; ++i, ++j) {
+    for (size_t i = fluxStartIdx, j = forwardThreshE; j < colloptrsize + rShiftedGrains; ++i, ++j) {
       size_t ii(rctLocation + j - rShiftedGrains) ;
       qd_real rtcf = qd_real(m_GrainFlux[i]) / qd_real(rctDOS[j]) ;
       (*CollOptr)[ii][ii] -= qd_real(rMeanOmega) * rtcf;  // Forward loss reaction.
@@ -168,7 +168,7 @@ namespace mesmer
     // the code that follows is for printing the forward k(E)s
     if (getFlags().kfEGrainsEnabled){
       stest << "\nk_f(e) grains for " << getName() << ":\n{\n";
-      for (int i = 0; i < MaximumGrain; ++i){
+      for (size_t i = 0; i < MaximumGrain; ++i){
         stest << m_GrainKfmc[i] << endl;
       }
       stest << "}\n";

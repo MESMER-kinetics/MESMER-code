@@ -178,8 +178,8 @@ namespace mesmer
 
     // Calculate the elements of the product block.
 
-    const int pdtLocation = isomermap[m_pdt1];
-    const int pdtBasisSize = static_cast<int>(m_pdt1->getColl().get_nbasis());
+    const size_t pdtLocation = isomermap[m_pdt1];
+    const size_t pdtBasisSize = m_pdt1->getColl().get_nbasis();
     for (size_t i = 0, ii(pdtLocation), egvI(pdtColloptrsize - 1); i < pdtBasisSize; i++, ii++, --egvI) {
       (*CollOptr)[ii][ii] -= m_pdt1->getColl().matrixElement(egvI, egvI, RvsMicroRateCoef);
       for (size_t j = i + 1, jj(pdtLocation + j), egvJ(pdtColloptrsize - j - 1); j < pdtBasisSize; j++, jj++, --egvJ) {
@@ -313,10 +313,10 @@ namespace mesmer
     m_GrainKbmc.clear();
     m_GrainKbmc.resize(MaximumGrain, 0.0);
 
-    for (int i = rvsThreshold, j = fluxFirstNonZeroIdx; i < MaximumGrain; ++i, ++j) {
+    for (size_t i = rvsThreshold, j = fluxFirstNonZeroIdx; i < MaximumGrain; ++i, ++j) {
       m_GrainKbmc[i] = m_GrainFlux[j] / pdtGrainDOS[i];
     }
-    for (int i = fwdThreshold, j = fluxFirstNonZeroIdx; i < MaximumGrain; ++i, ++j) {
+    for (size_t i = fwdThreshold, j = fluxFirstNonZeroIdx; i < MaximumGrain; ++i, ++j) {
       m_GrainKfmc[i] = m_GrainFlux[j] / rctGrainDOS[i];
     }
 
