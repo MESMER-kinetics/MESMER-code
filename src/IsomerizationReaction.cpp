@@ -182,7 +182,7 @@ namespace mesmer
 
     // Calculate the elements of the reactant block.
 
-    const int rctBasisSize = static_cast<int>(m_rct1->getColl().get_nbasis()) ;
+    const size_t rctBasisSize = m_rct1->getColl().get_nbasis() ;
 
     for (size_t i=0, ii(rctLocation), egvI(rctColloptrsize-1) ; i < rctBasisSize ; i++, ii++, --egvI) {
       (*CollOptr)[ii][ii] -= m_rct1->getColl().matrixElement(egvI, egvI, fwdMicroRateCoef) ;
@@ -195,7 +195,7 @@ namespace mesmer
 
     // Calculate the elements of the product block.
 
-    const int pdtBasisSize = static_cast<int>(m_pdt1->getColl().get_nbasis());
+    const size_t pdtBasisSize = m_pdt1->getColl().get_nbasis();
 
     for (size_t i=0, ii(pdtLocation), egvI(pdtColloptrsize-1) ; i < pdtBasisSize ; i++, ii++, --egvI) {
       (*CollOptr)[ii][ii] -= m_pdt1->getColl().matrixElement(egvI, egvI, RvsMicroRateCoef) ;
@@ -273,31 +273,31 @@ namespace mesmer
     m_GrainKbmc.clear();
     m_GrainKbmc.resize(MaximumGrain , 0.0);
 
-    for (int i = reverseTE, j = fluxStartIdx; i < MaximumGrain; ++i, ++j){
+    for (size_t i = reverseTE, j = fluxStartIdx; i < MaximumGrain; ++i, ++j){
       m_GrainKbmc[i] = m_GrainFlux[j] / pdtGrainDOS[i];
     }
-    for (int i = forwardTE, j = fluxStartIdx; i < MaximumGrain; ++i, ++j){
+    for (size_t i = forwardTE, j = fluxStartIdx; i < MaximumGrain; ++i, ++j){
       m_GrainKfmc[i] = m_GrainFlux[j] / rctGrainDOS[i];
     }
 
     // the code that follows is for printing of the f & r k(E)s
     if (getFlags().kfEGrainsEnabled){
       stest << "\nk_f(e) grains for " << getName() << ":\n{\n";
-      for (int i = 0; i < MaximumGrain; ++i){
+      for (size_t i = 0; i < MaximumGrain; ++i){
         stest << setw(15) << formatFloat(rctGrainEne[i], 6, 15) << " " << formatFloat(m_GrainKfmc[i], 6, 15) << endl;
       }
       stest << "}\n";
     }
     if (getFlags().kbEGrainsEnabled){
       stest << "\nk_b(e) grains for " << getName() << ":\n{\n";
-      for (int i = 0; i < MaximumGrain; ++i){
+      for (size_t i = 0; i < MaximumGrain; ++i){
         stest << setw(15) << formatFloat(pdtGrainEne[i], 6, 15) << " " << formatFloat(m_GrainKbmc[i], 6, 15) << endl;
       }
       stest << "}\n";
     }
     if (getFlags().grainTSsosEnabled){
       stest << "\nN(e) for TS of " << getName() << " (referenced to " << (this->get_reactant())->getName() << " energy):\n{\n";
-      for (int i = 0; i < MaximumGrain; ++i){
+      for (size_t i = 0; i < MaximumGrain; ++i){
         stest << m_GrainKfmc[i]*rctGrainDOS[i]/SpeedOfLight_in_cm << endl;
       }
       stest << "}\n";

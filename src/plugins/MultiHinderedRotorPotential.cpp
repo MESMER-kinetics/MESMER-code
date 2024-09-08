@@ -83,14 +83,12 @@ namespace mesmer
     }
 
     // Shift data to minimum.
-    size_t ii(0);
     double minEnergy(m_potential[0]);
     vector<double> tangles = m_angles[0];
     for (size_t i(0); i < m_potential.size(); i++) {
       if (m_potential[i] < minEnergy) {
         minEnergy = m_potential[i];
         tangles = m_angles[i];
-        ii = i;
       }
     }
 

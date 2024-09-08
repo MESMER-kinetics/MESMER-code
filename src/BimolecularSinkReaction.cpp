@@ -161,7 +161,7 @@ namespace mesmer
     m_GrainKfmc.resize(MaximumGrain , 0.0);
 
     // calculate forward k(E)s from flux
-    for (int i = forwardTE, j = fluxStartIdx; i < MaximumGrain; ++i, ++j){
+    for (size_t i = forwardTE, j = fluxStartIdx; i < MaximumGrain; ++i, ++j){
       m_GrainKfmc[i] = m_GrainFlux[j] / rctGrainDOS[i];
     }
 

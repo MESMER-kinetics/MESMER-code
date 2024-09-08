@@ -337,7 +337,7 @@ namespace mesmer
     }
     if (getFlags().grainTSsosEnabled) {
       stest << "\nN(e) for TS of " << getName() << " (referenced to " << (this->get_pseudoIsomer())->getName() << " energy):\n{\n";
-      for (int i = 0; i < MaximumGrain; ++i) {
+      for (size_t i = 0; i < MaximumGrain; ++i) {
         stest << m_GrainKfmc[i] * rctGrainDOS[i] / SpeedOfLight_in_cm << endl;
       }
       stest << "}\n";
