@@ -4,10 +4,10 @@ namespace mesmer{
   MesmerEnv::MesmerEnv()
     :beta(1.0 / 200.), // Initialized to 300 K expressed in cm-1.
     conc(0.0),
+    bathGasName(),
     collisionTemperature(300.0),
     radiationTemperature(-1.0),
     radiationAttenuation(0.0),
-    bathGasName(),
     GrainSize(0),
     CellSize(1.0),
     MaxGrn(0),

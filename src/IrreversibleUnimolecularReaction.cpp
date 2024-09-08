@@ -158,21 +158,21 @@ namespace mesmer
     m_rct1->getDOS().getGrainDensityOfStates(rctDOS) ;
 
     const size_t rctColloptrsize = m_rct1->getColl().get_colloptrsize();
-    const int forwardThreshE  = get_EffGrnFwdThreshold();
-    const int fluxStartIdx    = get_fluxFirstNonZeroIdx();
+    const size_t forwardThreshE  = get_EffGrnFwdThreshold();
+    const size_t fluxStartIdx    = get_fluxFirstNonZeroIdx();
 
     vector<double> fwdMicroRateCoef(rctColloptrsize, 0.0) ;
-    for ( int i=fluxStartIdx, j = forwardThreshE ; j < rctColloptrsize; ++i, ++j) {
+    for (size_t i=fluxStartIdx, j = forwardThreshE ; j < rctColloptrsize; ++i, ++j) {
       fwdMicroRateCoef[j] = m_GrainFlux[i] / rctDOS[j] ;    // Forward loss reaction.
     }
 
     // Locate isomers in system matrix.
-    const int rctLocation = isomermap[m_rct1] ;
+    const size_t rctLocation = isomermap[m_rct1] ;
 
     // Calculate the elements of the reactant block.
-    const int rctBasisSize = static_cast<int>(m_rct1->getColl().get_nbasis()) ;
+    const size_t rctBasisSize = m_rct1->getColl().get_nbasis() ;
 
-    for (size_t i=0, ii(rctLocation), egvI(rctColloptrsize-1) ; i < rctBasisSize ; i++, ii++, --egvI) {
+    for (size_t i = 0, ii(rctLocation), egvI(rctColloptrsize-1) ; i < rctBasisSize ; i++, ii++, --egvI) {
       (*CollOptr)[ii][ii] -= m_rct1->getColl().matrixElement(egvI, egvI, fwdMicroRateCoef) ;
       for (size_t j=i+1, jj(rctLocation + j), egvJ(rctColloptrsize-j-1) ; j < rctBasisSize ; j++, jj++, --egvJ) {
         qd_real tmp = m_rct1->getColl().matrixElement(egvI, egvJ, fwdMicroRateCoef) ;
@@ -206,14 +206,14 @@ namespace mesmer
     // the code that follows is for printing the forward k(E)s
     if (getFlags().kfEGrainsEnabled){
       stest << "\nk_f(e) grains for " << getName() << ":\n{\n";
-      for (int i = 0; i < MaximumGrain; ++i){
+      for (size_t i = 0; i < MaximumGrain; ++i){
         stest << m_GrainKfmc[i] << endl;
       }
       stest << "}\n";
     }
     if (getFlags().grainTSsosEnabled){
       stest << "\nN(e) for TS of " << getName() << " (referenced to " << (this->get_reactant())->getName() << " energy):\n{\n";
-      for (int i = 0; i < MaximumGrain; ++i){
+      for (size_t i = 0; i < MaximumGrain; ++i){
         stest << m_GrainKfmc[i]*rctGrainDOS[i]/SpeedOfLight_in_cm << endl;
       }
       stest << "}\n";

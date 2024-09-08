@@ -77,7 +77,7 @@ namespace mesmer
       FastLaplaceConvolution(TScellDOS, TunnelingProbability, ConvolvedSumOfStates); // FFT convolution
       //      Convolution(TScellDOS, TunnelingProbability, ConvolvedSumOfStates); // standard convolution
 
-      for (int i = TunnelingStart; i < MaximumCell; ++i) {                       // Calculate flux using RRKM 
+      for (size_t i = TunnelingStart; i < MaximumCell; ++i) {                       // Calculate flux using RRKM 
         rxnFlux[i-TunnelingStart] = ConvolvedSumOfStates[i] * SpeedOfLight_in_cm; // with tunneling correction
       }
 
@@ -91,7 +91,7 @@ namespace mesmer
 
     } else { // If there's no tunneling
       double SumOfStates = 0.0;
-      for (int i = 0 ; i < MaximumCell ; ++i) {
+      for (size_t i = 0 ; i < MaximumCell ; ++i) {
         // Integrate transition state density of states.
         SumOfStates += TScellDOS[i];
 

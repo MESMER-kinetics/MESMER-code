@@ -100,10 +100,9 @@ namespace mesmer
 
     qd_real DissRateCoeff(0.0), qdMeanOmega(rMeanOmega);
 
-    const size_t pdtRxnOptPos(pdtLoc - pShiftedGrains);
     const size_t colloptrsize = m_pdt1->getColl().get_colloptrsize() + pShiftedGrains;
-    const int reverseThreshE = get_EffGrnRvsThreshold();
-    const int fluxStartIdx = get_fluxFirstNonZeroIdx();
+    const size_t reverseThreshE = get_EffGrnRvsThreshold();
+    const size_t fluxStartIdx = get_fluxFirstNonZeroIdx();
 
     // Note: reverseThreshE will always be greater than pShiftedGrains here.
 
@@ -111,8 +110,8 @@ namespace mesmer
   // expansion of the non-linear term about the the equilibrium point. 
 
     for (size_t i = reverseThreshE, j = fluxStartIdx; i < colloptrsize; ++i, ++j) {
-      size_t ii(pdtRxnOptPos + i);
       size_t kk(i - pShiftedGrains);
+      size_t ii(pdtLoc + kk);
       qd_real Flux(m_GrainFlux[j]), dos(pdtDOS[i]), addPop(adductPopFrac[kk]);
       (*CollOptr)[ii][ii] -= qdMeanOmega * Flux / dos;                                     // Loss of the adduct to the source
       (*CollOptr)[jj][ii] += qdMeanOmega * Flux * qd_real(2.0) * sqrt(Keq * addPop) / dos; // Reactive gain of the source
@@ -139,15 +138,15 @@ namespace mesmer
     m_pdt1->getColl().normalizedGrnBoltzmannDistribution(adductPopFrac);
 
     const size_t pdtColloptrsize = m_pdt1->getColl().get_colloptrsize();
-    const int reverseThreshE = get_EffGrnRvsThreshold();
-    const int fluxStartIdx = get_fluxFirstNonZeroIdx();
+    const size_t reverseThreshE = get_EffGrnRvsThreshold();
+    const size_t fluxStartIdx = get_fluxFirstNonZeroIdx();
 
     double DissRateCoeff(0.0);
 
     vector<double> RvsMicroRateCoef(pdtColloptrsize, 0.0);
     vector<double> CrsMicroRateCoef(pdtColloptrsize, 0.0);
-    for (int i = fluxStartIdx, j = reverseThreshE, k = 0; j < pdtColloptrsize; ++i, ++j, ++k) {
-      int mm = k + reverseThreshE;
+    for (size_t i = fluxStartIdx, j = reverseThreshE, k = 0; j < pdtColloptrsize; ++i, ++j, ++k) {
+      size_t mm = k + reverseThreshE;
       RvsMicroRateCoef[mm] = m_GrainFlux[i] / pdtDOS[mm];                          // Backward loss reaction. 
       CrsMicroRateCoef[mm] = RvsMicroRateCoef[mm] * sqrt(adductPopFrac[mm] * Keq); // Reactive gain from detailed balance.
       DissRateCoeff += RvsMicroRateCoef[mm] * adductPopFrac[mm];
@@ -168,7 +167,7 @@ namespace mesmer
 
     // Calculate the elements of the reactant block.
 
-    const int jj = (*m_sourceMap)[get_pseudoIsomer()];
+    const size_t jj = (*m_sourceMap)[get_pseudoIsomer()];
     (*CollOptr)[jj][jj] -= qd_real(DissRateCoeff * Keq);       // Loss of the source from detailed balance.
 
     // Calculate the elements of the cross blocks.
