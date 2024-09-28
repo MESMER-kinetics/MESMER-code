@@ -122,14 +122,14 @@ namespace mesmer
     double tmp = (4.0 * M_PI / imFreq) / (1.0 / sqrt(V0) + 1.0 / sqrt(V1));
     double c = 2.0 * M_PI * sqrt(V0 * V1 / (imFreq*imFreq) - 1.0 / 16.0);
     double csh2c = cosh(c)*cosh(c);
-    for (int i(0); i < MaximumCell; ++i) {
-      int E = i - barrier0;
+    for (size_t i(0); i < MaximumCell; ++i) {
+      int E = int(i) - barrier0;
       if ((E + barrier1) < 0) {
         TunnelingProbability[i] = 0.0;
       }
       else {
-        double a = tmp * sqrt(E + V0);
-        double b = tmp * sqrt(E + V1);
+        double a = tmp * sqrt(double(E) + V0);
+        double b = tmp * sqrt(double(E) + V1);
         TunnelingProbability[i] = (sinh(a) * sinh(b)) / (pow(sinh((a + b) / 2.0), 2.0) + csh2c);
         // following if statement to avoid nan at small values of E
         if (IsNan(TunnelingProbability[i])) 
