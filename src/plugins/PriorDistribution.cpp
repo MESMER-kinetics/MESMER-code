@@ -134,7 +134,7 @@ namespace mesmer
 
       ctest << endl << "Initial distribution vector" << endl ;
       ctest << endl << setw(16) << "Energy/cm-1," << setw(17) << "Reactant," << setw(17) << "CoProduct," << setw(16) << "Translational" << endl ;
-      for (int i=0; i < XsEne; i++){
+      for (size_t i(0); i < XsEne; i++){
         ctest << formatFloat(ene[i],            6, 15) << ", ";
         ctest << formatFloat(ReactCellDist[i],  6, 15) << ", ";
         ctest << formatFloat(CoReactCellDist[i],6, 15) << ", ";
