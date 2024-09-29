@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v7.1 compiled: -- Sep  7 2024 -- 16:19:24
+     Mesmer v7.1 compiled: -- Sep 28 2024 -- 16:47:05
 
      Copyright (C) 2009-2022 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -26,9 +26,9 @@
     You should have received a copy of the GNU Public License
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
-                     Platform:        Windows64
-                     Execution Date:  Sat Sep  7 19:28:22 2024
-                     Number of ranks: 4
+                     Platform:        Linux
+                     Execution Date:  Sat Sep 28 18:14:01 2024
+                     Number of ranks: 12
 
 defaults.xml, librarymols.xml are in ../..
 
@@ -53,19 +53,19 @@ In R1: --Parse data for MesmerILT
 In R1: Unknown units specified for pre-exponetial factor.
 In R1: Unknown units specified for pre-exponetial factor.
 In R1: No tunneling method used for R1
-1e+15PPCC, 1583K at qd precision with H2
-Excess Reactant Conc. for reaction R1 = 1e+14 particles per cc
-1e+16PPCC, 1583K at qd precision with H2
-Excess Reactant Conc. for reaction R1 = 1e+15 particles per cc
-1e+17PPCC, 1583K at qd precision with H2
-Excess Reactant Conc. for reaction R1 = 1e+16 particles per cc
-1e+18PPCC, 1583K at qd precision with H2
-Excess Reactant Conc. for reaction R1 = 1e+17 particles per cc
+3.16e+12PPCC, 1583K at qd precision with H2
+Excess Reactant Conc. for reaction R1 = 1e+10 particles per cc
+1e+13PPCC, 1583K at qd precision with H2
+Excess Reactant Conc. for reaction R1 = 1e+12 particles per cc
+3.16e+13PPCC, 1583K at qd precision with H2
+Excess Reactant Conc. for reaction R1 = 1e+10 particles per cc
+1e+14PPCC, 1583K at qd precision with H2
+Excess Reactant Conc. for reaction R1 = 1e+13 particles per cc
 The default value of the attribute Tstep was used.
 The default value of the attribute Tmin was used.
 The default value of the attribute Tmax was used.
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20240907_192822
+Write metadata 20240928_181401
 
 File: "H2O_SiO2_to_H2SiO3_Aij.xml" successfully parsed.
 Main Calculation begins
@@ -82,12 +82,12 @@ Number of grains produced is not equal to that requested for: H2O
 Number of grains requested: 1246
 Number of grains produced : 1245
 In FastLaplaceConvolution: 240 values in the FFT convolution routine were replaced by standard convolution
-In FastLaplaceConvolution: 760 values in the FFT convolution routine were replaced by standard convolution
- -- Total time elapsed: 904 seconds.
+In FastLaplaceConvolution: 800 values in the FFT convolution routine were replaced by standard convolution
+ -- Total time elapsed: 1104 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
 
 System saved to mesmer_out.xml
-Total time elapsed: 904 seconds.
+Total time elapsed: 1104 seconds.

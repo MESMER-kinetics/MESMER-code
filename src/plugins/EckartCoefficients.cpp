@@ -142,7 +142,7 @@ namespace mesmer
         << "\nV0 = " << V0 << ", V1 = " << V1
         << ", barrier0 = " << barrier0 << ", barrier1 = " << barrier1
         << ", imFreq = " << imFreq * SpeedOfLight_in_cm << " Hz\n{\n";
-      for (int i = 0; i < MaximumCell; ++i) {
+      for (size_t i(0); i < MaximumCell; ++i) {
         ctest << TunnelingProbability[i] << endl;
       }
       ctest << "}\n";

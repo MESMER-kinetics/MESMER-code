@@ -349,7 +349,7 @@ namespace mesmer
 
         ss.str("");
         double Tend = temperature.back();
-        ss << m_Tmid ? m_Tmid : Tend;
+        ss << (IsNan(m_Tmid)) ? Tend : m_Tmid;
         ppScalar = ppProp->XmlWriteValueElement("scalar", ss.str());
         ppScalar->XmlWriteAttribute("dictRef", "NasaMidT");
 
