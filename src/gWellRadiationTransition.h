@@ -48,10 +48,13 @@ namespace mesmer
     template<class T>
     void addRadiationOperator(qdMatrix* CollOptr, TMatrix<T>* egme, const size_t locate) const;
 
+    // Calculate the attenuated temperature.
+    double AttenuatedTemperature(double ratTemp, double attenuation) const;
+
   private:
 
     // Returns the Planck distribution for a frequency expressed in wavenumbers. Returned units are Js/m3.
-    double planckDistribtuion(double ene, double beta) const { // ene in cm-1, beta in 1/cm-1.
+    static double planckDistribtuion(double ene, double beta) { // ene in cm-1, beta in 1/cm-1.
       // return 8.0 * M_PI * pow(ene, 3.0) * 1.0e+06 * PlancksConstant_in_JouleSecond / (exp(beta * ene) - 1.0);
       double radiance(0.0);
       const double h = PlancksConstant_in_JouleSecond;
@@ -61,17 +64,14 @@ namespace mesmer
       return radiance;
     }
 
-    const double getLowestBarrier() { return m_lowestBarrier; }
-
-    void setLowestBarrier(double value) { m_lowestBarrier = value; }
+    // Method to calculate the difference between an Planck distributions.
+    double distributionDiff(vector<double>& attnInten, double beta) const;
 
     std::vector<double> m_TransitionFrequency; // Transition freqeuncies (in most cases these are same as normal mode freqencies).
     std::vector<double> m_EinsteinAij;         // The associated Einstein Aij constant. 
     std::vector<double> m_EinsteinBij;         // The associated Einstein Bij constant. 
 
     bool m_bActivation; // If true the transition matrix will be constructed by considering downward transitions.
-
-    double m_lowestBarrier;       // lowest barrier associatied with this species
   };
 
   //
