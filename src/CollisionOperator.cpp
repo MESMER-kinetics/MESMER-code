@@ -2513,7 +2513,7 @@ namespace mesmer
     const double radTemp = mEnv.radiationTemperature;
 
     // If the radiation temperature is not set, it is assumed there is no radiation
-    //  field and so there is nothing to do.
+    // field and so there is nothing to do.
     if (radTemp <= 0.0)
       return;
 
@@ -2539,9 +2539,15 @@ namespace mesmer
         throw(std::runtime_error(errorMsg));
       }
 
+      // If attenuation is defined then the radiation temperature needs to be adjusted.
+      double radTempIso(0.0);
+      if (mEnv.radiationAttenuation > 1.0) {
+        radTempIso = isomer->getRad().AttenuatedTemperature(radTemp, mEnv.radiationAttenuation);
+      }
+
       // Add contribution from radiation transitions.
 
-      mEnv.beta = 1.0 / (boltzmann_RCpK * radTemp);
+      mEnv.beta = 1.0 / (boltzmann_RCpK * radTempIso);
 
       TMatrix<T>* regme = new TMatrix<T>(egme->size(), T(0.0));
       isomer->getRad().RadiationOperator(mEnv, &regme, omega, false);
@@ -2550,8 +2556,8 @@ namespace mesmer
 
       // Minimize residules.
 
-      double highTemp = max(collTemp, radTemp);
-      double lowTemp = min(collTemp, radTemp);
+      double highTemp = max(collTemp, radTempIso);
+      double lowTemp = min(collTemp, radTempIso);
 
       // Locate the distribution with the smallest length. As there can be more 
       // than one minimum, do an initial rough search, followed by a binary chop.

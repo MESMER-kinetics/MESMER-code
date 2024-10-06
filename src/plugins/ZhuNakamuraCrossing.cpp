@@ -218,7 +218,7 @@ namespace mesmer
     double zeroThreshold = m_harmonicDE * kJPerMol_in_RC;
     double EinAU;
     double Lt1(Rt), Lt2(Rt);  // initialize the turning points for the top of the Lower (L) Barrier
-    int lastZeroIndex, zone1StartIdx, lastIdx, zone1EndIdx, zone2StartIdx, zone2EndIdx, zone3StartIdx, zone3EndIdx;
+    int zone1StartIdx, lastIdx, zone1EndIdx, zone2StartIdx, zone2EndIdx, zone3StartIdx, zone3EndIdx;
     size_t gsize(pReact->getEnv().GrainSize);
     vector <double> grnCrossingProb(MaximumGrn, 0.0), grnEnergies(MaximumGrn, 0.0);
     double dErctpdt = pReact->get_relative_rctZPE() - pReact->get_relative_pdtZPE();
@@ -232,7 +232,6 @@ namespace mesmer
     double Emin = min(zeroThreshold, dErctpdt);
     ii = size_t(Emin / double(gsize));
 
-    lastZeroIndex = int(ii - 1);
     zone1StartIdx = int(ii);
     // Now we run the cell counter up to Et, to determine the range over which we will calculate zone 1 ZN
     // probabilities. This may seem an odd thing to do, but it's computationally much simpler to calculate

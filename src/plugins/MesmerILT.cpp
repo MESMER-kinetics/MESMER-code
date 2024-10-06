@@ -591,7 +591,7 @@ namespace mesmer
   }
 
   //
-  // This function the activation energy as the threshold energy. This is not stricitly correct as 
+  // In this function the activation energy as the threshold energy. This is not stricitly correct as 
   // the activation energy also includes tunnelling effects and temperature dependencies. However,
   // in terms of getting mircocanonical rates it is functionally appropriate.
   //
