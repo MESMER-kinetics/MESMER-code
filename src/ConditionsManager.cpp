@@ -932,6 +932,22 @@ namespace mesmer
       vector<double>& firstOrderRateCoeff = analysisData.m_firstOrderRateCoeff;
       m_pParallelManager->broadcastVecDouble(firstOrderRateCoeff, broadcastRank);
 
+      // Second order rate coefficients.
+
+      vector<string>& secondOrderReactionType = analysisData.m_secondOrderReactionType;
+      m_pParallelManager->broadcastVecString(secondOrderReactionType, broadcastRank);
+
+      vector<string>& secondOrderFromRef = analysisData.m_secondOrderFromRef;
+      m_pParallelManager->broadcastVecString(secondOrderFromRef, broadcastRank);
+
+      vector<string>& secondOrderToRef = analysisData.m_secondOrderToRef;
+      m_pParallelManager->broadcastVecString(secondOrderToRef, broadcastRank);
+
+      vector<double>& secondOrderRateCoeff = analysisData.m_secondOrderRateCoeff;
+      m_pParallelManager->broadcastVecDouble(secondOrderRateCoeff, broadcastRank);
+
+      // Average energies and populations.
+
       vector<double>& timePoints = analysisData.m_timePoints;
       m_pParallelManager->broadcastVecDouble(timePoints, broadcastRank);
 
@@ -1115,11 +1131,20 @@ namespace mesmer
         ppItem->XmlWriteAttribute("ref", analysisData.m_lossRef[j]);
       }
 
+      // Write out first order rate coefficients.
       for (size_t j(0); j < analysisData.m_firstOrderRateCoeff.size(); j++) {
         PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderRate", analysisData.m_firstOrderRateCoeff[j]);
         ppItem->XmlWriteAttribute("fromRef", analysisData.m_firstOrderFromRef[j]);
         ppItem->XmlWriteAttribute("toRef", analysisData.m_firstOrderToRef[j]);
         ppItem->XmlWriteAttribute("reactionType", analysisData.m_firstOrderReactionType[j]);
+      }
+
+      // Write out second order rate coefficients.
+      for (size_t j(0); j < analysisData.m_secondOrderRateCoeff.size(); j++) {
+        PersistPtr ppItem = ppList->XmlWriteValueElement("me:secondOrderRate", analysisData.m_secondOrderRateCoeff[j]);
+        ppItem->XmlWriteAttribute("fromRef", analysisData.m_secondOrderFromRef[j]);
+        ppItem->XmlWriteAttribute("toRef", analysisData.m_secondOrderToRef[j]);
+        ppItem->XmlWriteAttribute("reactionType", analysisData.m_secondOrderReactionType[j]);
       }
 
     }

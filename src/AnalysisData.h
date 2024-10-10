@@ -22,6 +22,10 @@ namespace mesmer
       m_firstOrderFromRef(),
       m_firstOrderToRef(),
       m_firstOrderRateCoeff(),
+      m_secondOrderReactionType(),
+      m_secondOrderFromRef(),
+      m_secondOrderToRef(),
+      m_secondOrderRateCoeff(),
       m_timePoints(),
       m_aveEnergyRef(),
       m_aveEnergy(),
@@ -41,6 +45,10 @@ namespace mesmer
       m_firstOrderFromRef.clear();
       m_firstOrderToRef.clear();
       m_firstOrderRateCoeff.clear();
+      m_secondOrderReactionType.clear();
+      m_secondOrderFromRef.clear();
+      m_secondOrderToRef.clear();
+      m_secondOrderRateCoeff.clear();
       m_timePoints.clear();
       m_aveEnergyRef.clear();
       m_aveEnergy.clear();
@@ -68,6 +76,12 @@ namespace mesmer
     std::vector<std::string> m_firstOrderFromRef;
     std::vector<std::string> m_firstOrderToRef;
     std::vector<double> m_firstOrderRateCoeff;
+
+    // Second order rate coefficients.
+    std::vector<std::string> m_secondOrderReactionType;
+    std::vector<std::string> m_secondOrderFromRef;
+    std::vector<std::string> m_secondOrderToRef;
+    std::vector<double> m_secondOrderRateCoeff;
 
     // Average Energy and population.
     std::vector<double> m_timePoints;
