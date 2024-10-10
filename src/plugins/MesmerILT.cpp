@@ -226,7 +226,7 @@ namespace mesmer
     if (pPreExptxt) {
       double tmpvalue = 0.0;
       stringstream s2(pPreExptxt); s2 >> tmpvalue;
-      const char* unitsTxt = ppActEne->XmlReadValue("units", false);
+      const char* unitsTxt = ppPreExponential->XmlReadValue("units", false);
       string unitsInput = (unitsTxt) ? unitsTxt : "";
       double value(getConvertedPreExp(unitsInput, tmpvalue));
       m_PreExp = value;

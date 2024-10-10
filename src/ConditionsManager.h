@@ -87,7 +87,7 @@ namespace mesmer
 
     CandTpair(double cp_, double t_, Precision _pre, const char* _bathGas,
       const map<Reaction*, double>& _excessConcs, const char* _group, double _radiationTemp, double _radiationAttn)
-      : m_concentration(cp_), m_temperature(t_), m_radiationTemp(_radiationTemp), m_radiationAttn(_radiationAttn), 
+      : m_concentration(cp_), m_temperature(t_), m_radiationTemp(_radiationTemp), m_radiationAttn(_radiationAttn),
       m_precision(_pre), m_pBathGasName(_bathGas), m_excessConcs(_excessConcs), m_group(_group) {}
 
     void set_experimentalRates(PersistPtr ppData, std::string ref1, std::string ref2, std::string refReaction, double value, double error) {
@@ -152,17 +152,25 @@ namespace mesmer
     Precision   PTPointPrecision(size_t index) { return PandTs[index].m_precision; }
     map<Reaction*, double> PTPointExcessConcs(size_t index) { return PandTs[index].m_excessConcs; }
 
-    // Calculate the effective reciprocal temperature,
-    // taking into account a radiation field if there is one.
-    double getBeta(int index) const {
-      double collTemp = PandTs[index].m_temperature ;
-      double radTemp  = PandTs[index].m_radiationTemp;
-      double conc     = PandTs[index].m_concentration;
-      double effTemp = collTemp;
-      if (radTemp > 0.0) {
-        effTemp = radTemp + (collTemp - radTemp) * conc / (1.e14 + conc);
+    // Find the excess species concentration associated with a given reactant.
+    double PTPointExcessConc(Molecule* rct) const{
+
+      double excessConc(-1.0);
+      Molecule* excessRct;
+      std::map<Reaction*, double>::const_iterator itr = PandTs[size_t(currentSet)].m_excessConcs.begin();
+      for (; itr != PandTs[size_t(currentSet)].m_excessConcs.end(); itr++) {
+        if (rct == itr->first->get_reactant()) {
+          excessConc = itr->second;
+          excessRct = itr->first->getExcessReactant();
+        }
       }
-      return 1.0 / (boltzmann_RCpK * effTemp);
+
+      if (excessConc <= 0.0) {
+        string errorMsg = "The concentration of the excess reactant " + excessRct->getName() + " was less than or equal to zero.";
+        throw(std::runtime_error(errorMsg));
+      }
+
+      return excessConc;
     }
 
     // An accessor method to get conditions and related properties for
@@ -274,7 +282,7 @@ namespace mesmer
     // specified in <PTPair>
     std::map<Reaction*, double> baseExcessConcs; // Reaction, conc in ppcc
 
-        // Paired concentration and pressure points.
+    // Paired concentration and pressure points.
     std::vector<CandTpair> PandTs;
 
     // Location of the parallel mananger.

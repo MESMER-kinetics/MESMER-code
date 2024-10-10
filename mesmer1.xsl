@@ -555,7 +555,7 @@
      </tr>
       <xsl:if test="me:firstOrderRate">
        <tr>
-         <td class="tablehead2" colspan="5" align="center">Conversion Rate Coefficients</td>
+         <td class="tablehead2" colspan="5" align="center">First Order Conversion Rate Coefficients</td>
        </tr>
        <xsl:for-each select="me:firstOrderRate">
           <tr>
@@ -564,6 +564,28 @@
             <td><xsl:value-of select="@toRef"/></td>
             <td> <xsl:value-of select="."/></td>
             <td>s<sup>-1</sup></td>
+          </tr>
+        </xsl:for-each>
+      </xsl:if>
+      <xsl:if test="me:secondOrderRate">
+        <tr>
+          <td class="tablehead2" colspan="5" align="center">Second Order Conversion Rate Coefficients</td>
+        </tr>
+        <xsl:for-each select="me:secondOrderRate">
+          <tr>
+            <td>
+              <xsl:value-of select="@fromRef"/>
+            </td>
+            <td>&#8195;&#8594;&#8195;</td>
+            <td>
+              <xsl:value-of select="@toRef"/>
+            </td>
+            <td>
+              <xsl:value-of select="."/>
+            </td>
+            <td>
+              cm<sup>3</sup>molecule<sup>-1</sup>s<sup>-1</sup>
+            </td>
           </tr>
         </xsl:for-each>
       </xsl:if>

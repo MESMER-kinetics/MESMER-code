@@ -1,3 +1,15 @@
+2024-Oct-10 Struan Robertson
+
+		* ConditionsManager.h/.cpp, CollisionOperator.cpp, Analysis.h: Addition of
+		code to write out second order rate coeffcients to XML.
+		
+		* MesmerILT.cpp: Fix for pre-exponetial units bug.
+
+2024-Oct-06 Struan Robertson
+
+		* CollisionOperator.cpp, gWellRadiationTransition.h/.cpp: Addition of 
+		methods to calculate attentuated radiation temperature.
+
 2024-Jul-07 Struan Robertson
 
 		* unitConversion.h/.cpp, MesmerILT.cpp: Fix for pre-exponetial units bug.

@@ -493,11 +493,9 @@ namespace mesmer
 
     // Locate data for diffusion loss coefficient.
 
-    int currentSet = m_pConditionManager->get_currentData();
-    if (currentSet < 0)
-      return;
+    size_t currentSet = m_pConditionManager->get_currentData();
 
-    std::vector<RawDataSet>& exptDataSets = m_pConditionManager->get_experimentalrawDataSets(size_t(currentSet));
+    std::vector<RawDataSet>& exptDataSets = m_pConditionManager->get_experimentalrawDataSets(currentSet);
 
     if (exptDataSets.size() == 0) {
       // Nothing to do so return.
@@ -1920,7 +1918,7 @@ namespace mesmer
     if (m_SpeciesSequence.size() > 1) {
       stest << "\nFirst order & pseudo first order rate coefficients for isomerization rxns:\n{\n";
 
-      // print pseudo first order connecting ks
+      // Print pseudo first order connecting ks
       for (rctitr = m_SpeciesSequence.begin(); rctitr != m_SpeciesSequence.end(); ++rctitr) {
         string rctName = rctitr->first->getName();
         int rctpos = rctitr->second;
@@ -1935,10 +1933,20 @@ namespace mesmer
             m_phenomenlogicalRates[reaction.str()] = to_double(Kr[pdtpos][rctpos]);
 
             if (analysisData) {
-              analysisData->m_firstOrderRateCoeff.push_back(to_double(Kr[pdtpos][rctpos]));
-              analysisData->m_firstOrderFromRef.push_back(rctName);
-              analysisData->m_firstOrderToRef.push_back(pdtName);
-              analysisData->m_firstOrderReactionType.push_back("isomerization");
+              ipos = m_isomers.find(rctitr->first);
+              if (ipos == m_isomers.end()) {
+                double excessConcs = m_pConditionManager->PTPointExcessConc(rctitr->first);
+                analysisData->m_secondOrderRateCoeff.push_back(to_double(Kr[pdtpos][rctpos])/excessConcs);
+                analysisData->m_secondOrderFromRef.push_back(rctName);
+                analysisData->m_secondOrderToRef.push_back(pdtName);
+                analysisData->m_secondOrderReactionType.push_back("association");
+              }
+              else {
+                analysisData->m_firstOrderRateCoeff.push_back(to_double(Kr[pdtpos][rctpos]));
+                analysisData->m_firstOrderFromRef.push_back(rctName);
+                analysisData->m_firstOrderToRef.push_back(pdtName);
+                analysisData->m_firstOrderReactionType.push_back("isomerization");
+              }
             }
           }
 
@@ -1986,10 +1994,21 @@ namespace mesmer
             m_phenomenlogicalRates[reaction.str()] = to_double(Kp[sinkpos][rctpos]);
 
             if (analysisData) {
-              analysisData->m_firstOrderRateCoeff.push_back(to_double(Kp[sinkpos][rctpos]));
-              analysisData->m_firstOrderFromRef.push_back(rctName);
-              analysisData->m_firstOrderToRef.push_back(pdtsName);
-              analysisData->m_firstOrderReactionType.push_back("irreversible");
+              ipos = m_isomers.find(rctitr->first);
+              if (ipos == m_isomers.end()) {
+                double excessConcs = m_pConditionManager->PTPointExcessConc(rctitr->first);
+                analysisData->m_secondOrderRateCoeff.push_back(to_double(Kp[sinkpos][rctpos])/excessConcs);
+                analysisData->m_secondOrderFromRef.push_back(rctName);
+                analysisData->m_secondOrderToRef.push_back(pdtsName);
+                analysisData->m_secondOrderReactionType.push_back("irreversible bimolecular");
+              }
+              else {
+                analysisData->m_firstOrderRateCoeff.push_back(to_double(Kp[sinkpos][rctpos]));
+                analysisData->m_firstOrderFromRef.push_back(rctName);
+                analysisData->m_firstOrderToRef.push_back(pdtsName);
+                analysisData->m_firstOrderReactionType.push_back("irreversible dissociation");
+              }
+
               puNumbers << Kp[sinkpos][rctpos] << "\t";
             }
             if (!m_punchSymbolGathered) {
