@@ -345,7 +345,7 @@
 
   <me:conditions>
     <me:bathGas>H2</me:bathGas>
-    <me:PTs radiationTemperature="600.0" radiationAttenuation="1.0" >
+    <me:PTs radiationTemperature="2500.0" radiationAttenuation="2.5" >
       <!--<me:PTpair units="PPCC" P="1.6e12" T="2500.0" excessReactantConc="1.6e11" precision="dd"/>-->
       <!-- r = 1.5 R*-->
       <!--
