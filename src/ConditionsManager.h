@@ -156,18 +156,18 @@ namespace mesmer
     double PTPointExcessConc(Molecule* rct) const{
 
       double excessConc(-1.0);
-      Molecule* excessRct;
+      if (currentSet < 0) {
+        cinfo << string(__FUNCTION__) << ": Warning: No current condition set specified" << once << endl;
+        return excessConc;
+      }
+
+      Molecule* excessRct(NULL);
       std::map<Reaction*, double>::const_iterator itr = PandTs[size_t(currentSet)].m_excessConcs.begin();
       for (; itr != PandTs[size_t(currentSet)].m_excessConcs.end(); itr++) {
         if (rct == itr->first->get_reactant()) {
           excessConc = itr->second;
           excessRct = itr->first->getExcessReactant();
         }
-      }
-
-      if (excessConc <= 0.0) {
-        string errorMsg = "The concentration of the excess reactant " + excessRct->getName() + " was less than or equal to zero.";
-        throw(std::runtime_error(errorMsg));
       }
 
       return excessConc;

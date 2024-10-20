@@ -1,5 +1,11 @@
 2024-Oct-10 Struan Robertson
 
+		* ConditionsManager.h/.cpp, CollisionOperator.cpp, Analysis.h: Bug fix, 
+		second order rate coeffcients for bimolecular sink and pseudo isomerization
+		reactions now written correctly.
+		
+2024-Oct-10 Struan Robertson
+
 		* ConditionsManager.h/.cpp, CollisionOperator.cpp, Analysis.h: Addition of
 		code to write out second order rate coeffcients to XML.
 		

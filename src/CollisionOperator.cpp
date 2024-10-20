@@ -1933,9 +1933,9 @@ namespace mesmer
             m_phenomenlogicalRates[reaction.str()] = to_double(Kr[pdtpos][rctpos]);
 
             if (analysisData) {
+              double excessConcs = m_pConditionManager->PTPointExcessConc(rctitr->first);
               ipos = m_isomers.find(rctitr->first);
-              if (ipos == m_isomers.end()) {
-                double excessConcs = m_pConditionManager->PTPointExcessConc(rctitr->first);
+              if (ipos == m_isomers.end() || excessConcs > 0.0) {
                 analysisData->m_secondOrderRateCoeff.push_back(to_double(Kr[pdtpos][rctpos])/excessConcs);
                 analysisData->m_secondOrderFromRef.push_back(rctName);
                 analysisData->m_secondOrderToRef.push_back(pdtName);
@@ -1994,9 +1994,9 @@ namespace mesmer
             m_phenomenlogicalRates[reaction.str()] = to_double(Kp[sinkpos][rctpos]);
 
             if (analysisData) {
+              double excessConcs = m_pConditionManager->PTPointExcessConc(rctitr->first);
               ipos = m_isomers.find(rctitr->first);
-              if (ipos == m_isomers.end()) {
-                double excessConcs = m_pConditionManager->PTPointExcessConc(rctitr->first);
+              if (ipos == m_isomers.end() || excessConcs > 0.0) {
                 analysisData->m_secondOrderRateCoeff.push_back(to_double(Kp[sinkpos][rctpos])/excessConcs);
                 analysisData->m_secondOrderFromRef.push_back(rctName);
                 analysisData->m_secondOrderToRef.push_back(pdtsName);
