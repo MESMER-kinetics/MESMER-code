@@ -86,13 +86,14 @@ echo.
 GOTO END
 
 :RUNNING
-@echo --------------------------------------------------------------------
-set printversion= %version%"\Mesmer\Mesmer.exe" -V
-%printversion%
-@echo --------------------------------------------------------------------
 
-@echo on
 @cd pentyl
+
+@echo --------------------------------------------------------------------
+%executable% -V
+@echo --------------------------------------------------------------------
+@echo on
+
 %cmdline% pentyl_isomerization_test.xml -o %outf% %directive%
 @copy "./%tfn%" "./%bline%%otfn%"
 @IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
