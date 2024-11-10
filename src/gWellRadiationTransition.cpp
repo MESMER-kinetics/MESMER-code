@@ -25,6 +25,7 @@ namespace mesmer
     m_TransitionFrequency(),
     m_EinsteinAij(),
     m_EinsteinBij(),
+    m_nEffectiveFreq(1),
     m_bActivation(false)
   {
     ErrorContext c(pMol->getName());
@@ -51,6 +52,13 @@ namespace mesmer
       double x;
       while (idata >> x)
         m_EinsteinAij.push_back(x);
+
+      txt = ppPropList->XmlReadPropertyAttribute("me:EinsteinAij", "units", optional);
+      txt = ppPropList->XmlReadPropertyAttribute("me:EinsteinAij", "numEffectiveFrequencies", optional);
+      if (txt) {
+        idata = istringstream(txt);
+        idata >> m_nEffectiveFreq;
+      }   
     }
 
     if ((txt = ppPropList->XmlReadProperty("me:EinsteinBij", optional))) {
@@ -58,6 +66,13 @@ namespace mesmer
       double x;
       while (idata >> x)
         m_EinsteinBij.push_back(x);
+
+      txt = ppPropList->XmlReadPropertyAttribute("me:EinsteinBij", "units", optional);
+      txt = ppPropList->XmlReadPropertyAttribute("me:EinsteinBij", "numEffectiveFrequencies", optional);
+      if (txt) {
+        idata = istringstream(txt);
+        idata >> m_nEffectiveFreq;
+      }
     }
 
     if (m_EinsteinAij.size() == m_EinsteinBij.size()) {
@@ -149,7 +164,7 @@ namespace mesmer
   double gWellRadiationTransition::distributionDiff(vector<double> &attnInten, double beta) const {
 
     double sum(0.0);
-    for (size_t idx(0); idx < 3; idx++) {
+    for (size_t idx(0); idx < m_nEffectiveFreq; idx++) {
       sum += fabs(attnInten[idx] - planckDistribtuion(m_TransitionFrequency[idx], beta));
     }
 

@@ -70,8 +70,8 @@ namespace mesmer
     std::vector<double> m_TransitionFrequency; // Transition freqeuncies (in most cases these are same as normal mode freqencies).
     std::vector<double> m_EinsteinAij;         // The associated Einstein Aij constant. 
     std::vector<double> m_EinsteinBij;         // The associated Einstein Bij constant. 
-
-    bool m_bActivation; // If true the transition matrix will be constructed by considering downward transitions.
+    size_t m_nEffectiveFreq;                   // Number of frequncies to be used to determine the effective temperature.
+    bool m_bActivation;                        // If true the transition matrix will be constructed by considering downward transitions.
   };
 
   //

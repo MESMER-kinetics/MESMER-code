@@ -160,7 +160,7 @@
           <array units="cm-1">224.7 336.4 337.1 356.1 382.0 746.4 778.1 896.4 956.2 1303.8 3876.9 3888.0 </array>
         </property>-->
         <property dictRef="me:EinsteinAij">
-          <array units="m3/J/s2">
+          <array units="m3/J/s2" numEffectiveFrequencies="2">
             4.68E-01
             3.76E-02
             0.21
@@ -345,7 +345,7 @@
 
   <me:conditions>
     <me:bathGas>H2</me:bathGas>
-    <me:PTs radiationTemperature="2500.0" radiationAttenuation="2.5" >
+    <me:PTs radiationTemperature="2500.0" radiationAttenuation="2.1" >
       <!--<me:PTpair units="PPCC" P="1.6e12" T="2500.0" excessReactantConc="1.6e11" precision="dd"/>-->
       <!-- r = 1.5 R*-->
       <!--
