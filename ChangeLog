@@ -1,3 +1,8 @@
+2024-Nov-10 Struan Robertson
+
+		* gWellRadiationTransition.h/.cpp: Attribute that specifies the number of 
+		frequencies to be used for determining the radiation temperature added.
+		
 2024-Oct-10 Struan Robertson
 
 		* ConditionsManager.h/.cpp, CollisionOperator.cpp, Analysis.h: Bug fix, 
