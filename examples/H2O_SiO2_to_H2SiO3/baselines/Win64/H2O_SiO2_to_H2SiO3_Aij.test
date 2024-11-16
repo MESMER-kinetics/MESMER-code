@@ -73,31 +73,31 @@ Canonical (high pressure) rate coefficients for R1, calculated from microcanonic
 
 Eq fraction matrix:
 {
-  -1.927500e+05,   1.000000e+00,
+  -1.135114e+05,   1.000000e+00,
    1.000000e+00,   1.000000e+00,
 }
 
 Inverse of Eq fraction matrix:
 {
-  -5.188040e-06,   5.188040e-06,
-   5.188040e-06,   9.999948e-01,
+  -8.809607e-06,   8.809607e-06,
+   8.809607e-06,   9.999912e-01,
 }
-Equilibrium Fraction for OSi(OH)2 symm = 0.999995
-Equilibrium Fraction for SiO2 = 5.18804e-06
+Equilibrium Fraction for OSi(OH)2 symm = 0.999991
+Equilibrium Fraction for SiO2 = 8.80961e-06
 
 Total number of eigenvalues = 1247
 Eigenvalues
 {
-  -4.735825e+02
-  -4.411779e+02
-  -4.365306e+02
-  -4.251439e+02
-  -3.937017e+02
-  -3.473970e+02
-  -3.051519e+02
-  -2.639368e+02
-  -8.710515e-04
-  -5.394817e-38
+  -4.816566e+02
+  -4.528288e+02
+  -4.500595e+02
+  -4.381231e+02
+  -3.989664e+02
+  -3.503409e+02
+  -3.060979e+02
+  -2.635528e+02
+  -8.279982e-04
+  -8.143823e-38
 }
 
 Bartis Widom eigenvalue/eigenvector analysis
@@ -108,38 +108,38 @@ There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemic
 
 Z_matrix: 
 {
-   2.277721e-03,   5.188040e-06,
-  -2.277721e-03,   9.999948e-01,
+  -2.968085e-03,   8.809607e-06,
+   2.968085e-03,   9.999912e-01,
 }
 
 Z_matrix^(-1):
 {
-   4.390330e+02,  -2.277733e-03,
+  -3.369146e+02,   2.968111e-03,
    1.000000e+00,   1.000000e+00,
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-   1.000000e+00,   4.890067e-70,
-  -1.483682e-67,   1.000000e+00,
+   1.000000e+00,   7.968998e-70,
+   6.646897e-65,   1.000000e+00,
 }
 
 Kr matrix:
 {
-  -8.710469e-04,   4.519050e-09,
-   8.710469e-04,  -4.519050e-09,
+  -8.279910e-04,   7.294339e-09,
+   8.279910e-04,  -7.294339e-09,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-OSi(OH)2 symm loss = -4.519050e-09
-SiO2 loss = -8.710469e-04
+OSi(OH)2 symm loss = -7.294339e-09
+SiO2 loss = -8.279910e-04
 }
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-OSi(OH)2 symm -> SiO2 = 4.519050e-09
-SiO2 -> OSi(OH)2 symm = 8.710469e-04
+OSi(OH)2 symm -> SiO2 = 7.294339e-09
+SiO2 -> OSi(OH)2 symm = 8.279910e-04
 }
 }
 PT Grid 1 Condition: conc = 1e+13, temp = 1583, diagonalization precision: quad-double
@@ -216,31 +216,31 @@ Canonical (high pressure) rate coefficients for R1, calculated from microcanonic
 
 Eq fraction matrix:
 {
-  -3.815929e+03,   1.000000e+00,
+  -3.249741e+03,   1.000000e+00,
    1.000000e+00,   1.000000e+00,
 }
 
 Inverse of Eq fraction matrix:
 {
-  -2.619907e-04,   2.619907e-04,
-   2.619907e-04,   9.997380e-01,
+  -3.076222e-04,   3.076222e-04,
+   3.076222e-04,   9.996924e-01,
 }
-Equilibrium Fraction for OSi(OH)2 symm = 0.999738
-Equilibrium Fraction for SiO2 = 0.000261991
+Equilibrium Fraction for OSi(OH)2 symm = 0.999692
+Equilibrium Fraction for SiO2 = 0.000307622
 
 Total number of eigenvalues = 1247
 Eigenvalues
 {
-  -1.033954e+03
-  -9.524414e+02
-  -8.557133e+02
-  -7.435047e+02
-  -6.193794e+02
-  -4.930708e+02
-  -3.811437e+02
-  -2.878172e+02
-  -4.432247e-02
-  -1.730126e-34
+  -1.050623e+03
+  -9.665441e+02
+  -8.675191e+02
+  -7.530238e+02
+  -6.265026e+02
+  -4.977866e+02
+  -3.836830e+02
+  -2.888411e+02
+  -4.356620e-02
+  -2.907278e-34
 }
 
 Bartis Widom eigenvalue/eigenvector analysis
@@ -251,38 +251,38 @@ There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemic
 
 Z_matrix: 
 {
-   1.618401e-02,   2.619907e-04,
-  -1.618401e-02,   9.997380e-01,
+  -1.753646e-02,   3.076222e-04,
+   1.753646e-02,   9.996924e-01,
 }
 
 Z_matrix^(-1):
 {
-   6.177321e+01,  -1.618825e-02,
+  -5.700650e+01,   1.754186e-02,
    1.000000e+00,   1.000000e+00,
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-   1.000000e+00,   4.636508e-69,
-   1.329379e-64,   1.000000e+00,
+   1.000000e+00,  -3.709206e-68,
+  -1.068251e-65,   1.000000e+00,
 }
 
 Kr matrix:
 {
-  -4.431086e-02,   1.161208e-05,
-   4.431086e-02,  -1.161208e-05,
+  -4.355280e-02,   1.340193e-05,
+   4.355280e-02,  -1.340193e-05,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-OSi(OH)2 symm loss = -1.161208e-05
-SiO2 loss = -4.431086e-02
+OSi(OH)2 symm loss = -1.340193e-05
+SiO2 loss = -4.355280e-02
 }
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-OSi(OH)2 symm -> SiO2 = 1.161208e-05
-SiO2 -> OSi(OH)2 symm = 4.431086e-02
+OSi(OH)2 symm -> SiO2 = 1.340193e-05
+SiO2 -> OSi(OH)2 symm = 4.355280e-02
 }
 }
 PT Grid 2 Condition: conc = 3.16e+13, temp = 1583, diagonalization precision: quad-double
@@ -359,31 +359,31 @@ Canonical (high pressure) rate coefficients for R1, calculated from microcanonic
 
 Eq fraction matrix:
 {
-  -1.670923e-02,   1.000000e+00,
+  -1.624201e-02,   1.000000e+00,
    1.000000e+00,   1.000000e+00,
 }
 
 Inverse of Eq fraction matrix:
 {
-  -9.835654e-01,   9.835654e-01,
-   9.835654e-01,   1.643462e-02,
+  -9.840176e-01,   9.840176e-01,
+   9.840176e-01,   1.598243e-02,
 }
-Equilibrium Fraction for OSi(OH)2 symm = 0.0164346
-Equilibrium Fraction for SiO2 = 0.983565
+Equilibrium Fraction for OSi(OH)2 symm = 0.0159824
+Equilibrium Fraction for SiO2 = 0.984018
 
 Total number of eigenvalues = 1247
 Eigenvalues
 {
-  -2.936353e+03
-  -2.536188e+03
-  -2.135504e+03
-  -1.730131e+03
-  -1.326718e+03
-  -9.445615e+02
-  -6.147616e+02
-  -3.646207e+02
-  -1.126177e-02
-  -4.498557e-33
+  -2.964251e+03
+  -2.560611e+03
+  -2.156375e+03
+  -1.747257e+03
+  -1.339923e+03
+  -9.538651e+02
+  -6.205464e+02
+  -3.677479e+02
+  -1.159192e-02
+  -5.012796e-33
 }
 
 Bartis Widom eigenvalue/eigenvector analysis
@@ -394,38 +394,38 @@ There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemic
 
 Z_matrix: 
 {
-  -1.271398e-01,   9.835654e-01,
-   1.271398e-01,   1.643462e-02,
+  -1.254073e-01,   9.840176e-01,
+   1.254073e-01,   1.598243e-02,
 }
 
 Z_matrix^(-1):
 {
-  -1.292642e-01,   7.736095e+00,
+  -1.274442e-01,   7.846574e+00,
    1.000000e+00,   1.000000e+00,
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-   1.000000e+00,   3.916922e-65,
-   1.186946e-66,   1.000000e+00,
+   1.000000e+00,  -4.747784e-66,
+  -5.934730e-67,   1.000000e+00,
 }
 
 Kr matrix:
 {
-  -1.850829e-04,   1.107669e-02,
-   1.850829e-04,  -1.107669e-02,
+  -1.852670e-04,   1.140665e-02,
+   1.852670e-04,  -1.140665e-02,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-OSi(OH)2 symm loss = -1.107669e-02
-SiO2 loss = -1.850829e-04
+OSi(OH)2 symm loss = -1.140665e-02
+SiO2 loss = -1.852670e-04
 }
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-OSi(OH)2 symm -> SiO2 = 1.107669e-02
-SiO2 -> OSi(OH)2 symm = 1.850829e-04
+OSi(OH)2 symm -> SiO2 = 1.140665e-02
+SiO2 -> OSi(OH)2 symm = 1.852670e-04
 }
 }
 PT Grid 3 Condition: conc = 1e+14, temp = 1583, diagonalization precision: quad-double
@@ -502,31 +502,31 @@ Canonical (high pressure) rate coefficients for R1, calculated from microcanonic
 
 Eq fraction matrix:
 {
-  -1.044650e-01,   1.000000e+00,
+  -1.051267e-01,   1.000000e+00,
    1.000000e+00,   1.000000e+00,
 }
 
 Inverse of Eq fraction matrix:
 {
-  -9.054157e-01,   9.054157e-01,
-   9.054157e-01,   9.458429e-02,
+  -9.048737e-01,   9.048737e-01,
+   9.048737e-01,   9.512635e-02,
 }
-Equilibrium Fraction for OSi(OH)2 symm = 0.0945843
-Equilibrium Fraction for SiO2 = 0.905416
+Equilibrium Fraction for OSi(OH)2 symm = 0.0951263
+Equilibrium Fraction for SiO2 = 0.904874
 
 Total number of eigenvalues = 1247
 Eigenvalues
 {
-  -9.440669e+03
-  -7.868371e+03
-  -6.361561e+03
-  -4.928063e+03
-  -3.592697e+03
-  -2.397960e+03
-  -1.401046e+03
-  -6.620049e+02
-  -1.030055e+00
-  -3.805583e-30
+  -9.488151e+03
+  -7.912150e+03
+  -6.400761e+03
+  -4.961472e+03
+  -3.619161e+03
+  -2.416859e+03
+  -1.412705e+03
+  -6.679156e+02
+  -1.032924e+00
+  -4.107727e-30
 }
 
 Bartis Widom eigenvalue/eigenvector analysis
@@ -537,37 +537,37 @@ There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemic
 
 Z_matrix: 
 {
-  -2.926399e-01,   9.054157e-01,
-   2.926399e-01,   9.458429e-02,
+   2.933894e-01,   9.048737e-01,
+  -2.933894e-01,   9.512635e-02,
 }
 
 Z_matrix^(-1):
 {
-  -3.232105e-01,   3.093959e+00,
+   3.242324e-01,  -3.084207e+00,
    1.000000e+00,   1.000000e+00,
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-   1.000000e+00,  -2.848670e-65,
-  -2.670628e-66,   1.000000e+00,
+   1.000000e+00,   0.000000e+00,
+  -5.934730e-66,   1.000000e+00,
 }
 
 Kr matrix:
 {
-  -9.742705e-02,   9.326283e-01,
-   9.742705e-02,  -9.326283e-01,
+  -9.825831e-02,   9.346659e-01,
+   9.825831e-02,  -9.346659e-01,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-OSi(OH)2 symm loss = -9.326283e-01
-SiO2 loss = -9.742705e-02
+OSi(OH)2 symm loss = -9.346659e-01
+SiO2 loss = -9.825831e-02
 }
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-OSi(OH)2 symm -> SiO2 = 9.326283e-01
-SiO2 -> OSi(OH)2 symm = 9.742705e-02
+OSi(OH)2 symm -> SiO2 = 9.346659e-01
+SiO2 -> OSi(OH)2 symm = 9.825831e-02
 }
 }

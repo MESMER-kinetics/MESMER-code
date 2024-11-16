@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v7.1 compiled: -- Sep  8 2024 -- 16:22:29
+     Mesmer v7.1 compiled: -- Nov 10 2024 -- 19:08:51
 
      Copyright (C) 2009-2022 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows64
-                     Execution Date:  Sun Sep 29 11:41:37 2024
+                     Execution Date:  Sun Nov 10 21:15:04 2024
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -50,8 +50,6 @@ In OSi(OH)2 symm: Hindered rotor b3
 In OSi(OH)2 symm: --Parse data for Boltzmann
 In OSi(OH)2 symm: --Parse data for ExponentialDown
 In R1: --Parse data for MesmerILT
-In R1: Unknown units specified for pre-exponetial factor.
-In R1: Unknown units specified for pre-exponetial factor.
 In R1: No tunneling method used for R1
 3.16e+12PPCC, 1583K at qd precision with H2
 Excess Reactant Conc. for reaction R1 = 1e+10 particles per cc
@@ -65,7 +63,7 @@ The default value of the attribute Tstep was used.
 The default value of the attribute Tmin was used.
 The default value of the attribute Tmax was used.
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20240929_114138
+Write metadata 20241110_211504
 
 File: "H2O_SiO2_to_H2SiO3_Aij.xml" successfully parsed.
 Main Calculation begins
@@ -83,11 +81,11 @@ Number of grains requested: 1246
 Number of grains produced : 1245
 In FastLaplaceConvolution: 240 values in the FFT convolution routine were replaced by standard convolution
 In FastLaplaceConvolution: 760 values in the FFT convolution routine were replaced by standard convolution
- -- Total time elapsed: 742 seconds.
+ -- Total time elapsed: 1621 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
 
 System saved to mesmer_out.xml
-Total time elapsed: 742 seconds.
+Total time elapsed: 1621 seconds.
