@@ -484,10 +484,13 @@
     <xs:attribute name="timeUnits" type="me:timeUnitsType" />
     <xs:attribute name="startTime" type="xs:float" />
     <xs:attribute name="excessReactantConc" type="xs:float" use="optional"/>
+    <xs:attribute name="percentExcessReactantConc" type="me:ynboolean" use="optional"/>
     <xs:attribute name="refReactionExcess" type="cml:moleculeRefType" use="optional"/>
     <xs:attribute name="ref1" type="cml:moleculeIDType"/>
     <xs:attribute name="ref2" type="cml:moleculeIDType"/>
     <xs:attribute name="refReaction" type="cml:idType"/>
+    <xs:attribute name="radiationTemperature" type="xs:float" use="optional"/>
+    <xs:attribute name="radiationAttenuation" type="xs:float" use="optional"/>
   </xs:attributeGroup>
 
   <xs:attribute name="default" type="xs:string"/>
