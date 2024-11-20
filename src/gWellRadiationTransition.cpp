@@ -52,13 +52,6 @@ namespace mesmer
       double x;
       while (idata >> x)
         m_EinsteinAij.push_back(x);
-
-      txt = ppPropList->XmlReadPropertyAttribute("me:EinsteinAij", "units", optional);
-      txt = ppPropList->XmlReadPropertyAttribute("me:EinsteinAij", "numEffectiveFrequencies", optional);
-      if (txt) {
-        idata = istringstream(txt);
-        idata >> m_nEffectiveFreq;
-      }   
     }
 
     if ((txt = ppPropList->XmlReadProperty("me:EinsteinBij", optional))) {
@@ -66,13 +59,6 @@ namespace mesmer
       double x;
       while (idata >> x)
         m_EinsteinBij.push_back(x);
-
-      txt = ppPropList->XmlReadPropertyAttribute("me:EinsteinBij", "units", optional);
-      txt = ppPropList->XmlReadPropertyAttribute("me:EinsteinBij", "numEffectiveFrequencies", optional);
-      if (txt) {
-        idata = istringstream(txt);
-        idata >> m_nEffectiveFreq;
-      }
     }
 
     if (m_EinsteinAij.size() == m_EinsteinBij.size()) {
@@ -84,6 +70,10 @@ namespace mesmer
     } else {
       throw(runtime_error("Error reading Einstein Coefficients."));
     }
+
+    int itmp = pp->XmlReadInteger("me:numRadTempModes", optional);
+    if (itmp > 0)
+      m_nEffectiveFreq = itmp;
 
     return true;
   }
