@@ -160,7 +160,7 @@
           <array units="cm-1">224.7 336.4 337.1 356.1 382.0 746.4 778.1 896.4 956.2 1303.8 3876.9 3888.0 </array>
         </property>-->
         <property dictRef="me:EinsteinAij">
-          <array units="m3/J/s2" numEffectiveFrequencies="2">
+          <array units="m3/J/s2">
             4.68E-01
             3.76E-02
             0.21
@@ -241,6 +241,8 @@
         <me:Excitation units ="kJ/mol">225.4</me:Excitation>-->
       </me:DistributionCalcMethod>
 
+      <me:numRadTempModes>2</me:numRadTempModes>
+
     </molecule>
 
     <molecule id="N2">
@@ -300,10 +302,10 @@
       </product>
       <me:excessReactantConc percent="true">0.1</me:excessReactantConc>
       <me:MCRCMethod xsi:type="me:MesmerILT">
-        <me:preExponential units="cm3molecule-1s-1">6.87e-10</me:preExponential>
-        <me:activationEnergy units="kJ/mol">.01</me:activationEnergy>
-        <me:TInfinity>298.0</me:TInfinity>
-        <me:nInfinity>0.167</me:nInfinity>
+        <me:preExponential units="cm3molecule-1s-1">8.7e-10</me:preExponential>
+        <me:activationEnergy units="kJ/mol">0.0</me:activationEnergy>
+        <me:TInfinity>1200.0</me:TInfinity>
+        <me:nInfinity>0.1666667</me:nInfinity>
       </me:MCRCMethod>
     </reaction>
 
