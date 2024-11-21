@@ -161,12 +161,12 @@ namespace mesmer
         return excessConc;
       }
 
-      Molecule* excessRct(NULL);
+      // Molecule* excessRct(NULL);
       std::map<Reaction*, double>::const_iterator itr = PandTs[size_t(currentSet)].m_excessConcs.begin();
       for (; itr != PandTs[size_t(currentSet)].m_excessConcs.end(); itr++) {
         if (rct == itr->first->get_reactant()) {
           excessConc = itr->second;
-          excessRct = itr->first->getExcessReactant();
+          // excessRct = itr->first->getExcessReactant();
         }
       }
 
