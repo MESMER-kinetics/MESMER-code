@@ -42,33 +42,33 @@ Test rovibronic density of states for: OSi(OH)2 symm
    1600    2.91043e+10    2.91311e+10    2.91287e+10
 }
 
-Canonical pseudo first order rate constant of association reaction R1 = 9.08202 s-1 (1583 K)
-Canonical bimolecular rate constant of association reaction R1 = 9.08202e-10 cm^3/mol/s (1583 K)
-Canonical first order rate constant for the reverse of reaction R1 = 631008 s-1 (1583 K)
+Canonical pseudo first order rate constant of association reaction R1 = 9.12159 s-1 (1583 K)
+Canonical bimolecular rate constant of association reaction R1 = 9.12159e-10 cm^3/mol/s (1583 K)
+Canonical first order rate constant for the reverse of reaction R1 = 633757 s-1 (1583 K)
 
 Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
 {
     T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
-    100         5.97913e-10         3.2957e-134      1.81422e+124
-    200          6.5051e-10         1.80909e-59       3.59577e+49
-    300         6.91971e-10         1.52762e-34       4.52974e+24
-    400         7.24251e-10         4.13989e-22       1.74945e+12
-    500         7.50782e-10         1.10366e-14           68026.7
-    600         7.73423e-10         9.20692e-10          0.840046
-    700         7.93238e-10         2.85387e-06       0.000277952
-    800         8.10895e-10          0.00113395       7.15104e-07
-    900         8.26846e-10             0.11493       7.19434e-09
-   1000         8.41413e-10             4.48945        1.8742e-10
-   1100         8.54831e-10             87.8735       9.72797e-12
-   1200         8.67281e-10             1026.45       8.44935e-13
-   1300         8.78904e-10             8074.31       1.08852e-13
-   1400         8.89811e-10             46620.5       1.90863e-14
-   1500         9.00091e-10              210440       4.27719e-15
-   1600         9.09819e-10              778462       1.16874e-15
-   1700         9.19056e-10         2.44637e+06       3.75682e-16
-   1800         9.27852e-10         6.71565e+06       1.38163e-16
-   1900          9.3625e-10         1.64612e+07       5.68761e-17
-   2000         9.44283e-10         3.66637e+07       2.57553e-17
+    100         6.09206e-10        3.35794e-134      1.81422e+124
+    200         6.57881e-10         1.82959e-59       3.59577e+49
+    300         6.98074e-10         1.54109e-34       4.52974e+24
+    400          7.2971e-10         4.17109e-22       1.74945e+12
+    500         7.55842e-10          1.1111e-14           68026.7
+    600         7.78212e-10         9.26393e-10          0.840046
+    700         7.97832e-10          2.8704e-06       0.000277952
+    800         8.15343e-10          0.00114018       7.15104e-07
+    900         8.31182e-10            0.115533       7.19434e-09
+   1000         8.45658e-10              4.5121        1.8742e-10
+   1100         8.59003e-10             88.3024       9.72797e-12
+   1200         8.71394e-10             1031.32       8.44935e-13
+   1300         8.82967e-10             8111.63       1.08852e-13
+   1400         8.93831e-10             46831.1       1.90863e-14
+   1500         9.04075e-10              211371       4.27719e-15
+   1600         9.13771e-10              781844       1.16874e-15
+   1700         9.22981e-10         2.45681e+06       3.75682e-16
+   1800         9.31752e-10         6.74388e+06       1.38163e-16
+   1900         9.40129e-10         1.65294e+07       5.68761e-17
+   2000         9.48143e-10         3.68136e+07       2.57553e-17
 }
 
 Eq fraction matrix:
@@ -88,16 +88,16 @@ Equilibrium Fraction for SiO2 = 8.80961e-06
 Total number of eigenvalues = 1247
 Eigenvalues
 {
-  -4.816566e+02
+  -4.816684e+02
   -4.528288e+02
-  -4.500595e+02
-  -4.381231e+02
-  -3.989664e+02
-  -3.503409e+02
-  -3.060979e+02
-  -2.635528e+02
-  -8.279982e-04
-  -8.143823e-38
+  -4.500673e+02
+  -4.381292e+02
+  -3.989779e+02
+  -3.503488e+02
+  -3.061006e+02
+  -2.635529e+02
+  -8.295323e-04
+  -8.158725e-38
 }
 
 Bartis Widom eigenvalue/eigenvector analysis
@@ -120,26 +120,26 @@ Z_matrix^(-1):
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-   1.000000e+00,   7.968998e-70,
-   6.646897e-65,   1.000000e+00,
+   1.000000e+00,   1.702468e-69,
+   1.899114e-64,   1.000000e+00,
 }
 
 Kr matrix:
 {
-  -8.279910e-04,   7.294339e-09,
-   8.279910e-04,  -7.294339e-09,
+  -8.295250e-04,   7.307854e-09,
+   8.295250e-04,  -7.307854e-09,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-OSi(OH)2 symm loss = -7.294339e-09
-SiO2 loss = -8.279910e-04
+OSi(OH)2 symm loss = -7.307854e-09
+SiO2 loss = -8.295250e-04
 }
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-OSi(OH)2 symm -> SiO2 = 7.294339e-09
-SiO2 -> OSi(OH)2 symm = 8.279910e-04
+OSi(OH)2 symm -> SiO2 = 7.307854e-09
+SiO2 -> OSi(OH)2 symm = 8.295250e-04
 }
 }
 PT Grid 1 Condition: conc = 1e+13, temp = 1583, diagonalization precision: quad-double
@@ -185,33 +185,33 @@ Test rovibronic density of states for: OSi(OH)2 symm
    1600    2.91043e+10    2.91311e+10    2.91287e+10
 }
 
-Canonical pseudo first order rate constant of association reaction R1 = 908.202 s-1 (1583 K)
-Canonical bimolecular rate constant of association reaction R1 = 9.08202e-10 cm^3/mol/s (1583 K)
-Canonical first order rate constant for the reverse of reaction R1 = 631008 s-1 (1583 K)
+Canonical pseudo first order rate constant of association reaction R1 = 912.159 s-1 (1583 K)
+Canonical bimolecular rate constant of association reaction R1 = 9.12159e-10 cm^3/mol/s (1583 K)
+Canonical first order rate constant for the reverse of reaction R1 = 633757 s-1 (1583 K)
 
 Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
 {
     T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
-    100         5.97913e-10         3.2957e-134      1.81422e+124
-    200          6.5051e-10         1.80909e-59       3.59577e+49
-    300         6.91971e-10         1.52762e-34       4.52974e+24
-    400         7.24251e-10         4.13989e-22       1.74945e+12
-    500         7.50782e-10         1.10366e-14           68026.7
-    600         7.73423e-10         9.20692e-10          0.840046
-    700         7.93238e-10         2.85387e-06       0.000277952
-    800         8.10895e-10          0.00113395       7.15104e-07
-    900         8.26846e-10             0.11493       7.19434e-09
-   1000         8.41413e-10             4.48945        1.8742e-10
-   1100         8.54831e-10             87.8735       9.72797e-12
-   1200         8.67281e-10             1026.45       8.44935e-13
-   1300         8.78904e-10             8074.31       1.08852e-13
-   1400         8.89811e-10             46620.5       1.90863e-14
-   1500         9.00091e-10              210440       4.27719e-15
-   1600         9.09819e-10              778462       1.16874e-15
-   1700         9.19056e-10         2.44637e+06       3.75682e-16
-   1800         9.27852e-10         6.71565e+06       1.38163e-16
-   1900          9.3625e-10         1.64612e+07       5.68761e-17
-   2000         9.44283e-10         3.66637e+07       2.57553e-17
+    100         6.09206e-10        3.35794e-134      1.81422e+124
+    200         6.57881e-10         1.82959e-59       3.59577e+49
+    300         6.98074e-10         1.54109e-34       4.52974e+24
+    400          7.2971e-10         4.17109e-22       1.74945e+12
+    500         7.55842e-10          1.1111e-14           68026.7
+    600         7.78212e-10         9.26393e-10          0.840046
+    700         7.97832e-10          2.8704e-06       0.000277952
+    800         8.15343e-10          0.00114018       7.15104e-07
+    900         8.31182e-10            0.115533       7.19434e-09
+   1000         8.45658e-10              4.5121        1.8742e-10
+   1100         8.59003e-10             88.3024       9.72797e-12
+   1200         8.71394e-10             1031.32       8.44935e-13
+   1300         8.82967e-10             8111.63       1.08852e-13
+   1400         8.93831e-10             46831.1       1.90863e-14
+   1500         9.04075e-10              211371       4.27719e-15
+   1600         9.13771e-10              781844       1.16874e-15
+   1700         9.22981e-10         2.45681e+06       3.75682e-16
+   1800         9.31752e-10         6.74388e+06       1.38163e-16
+   1900         9.40129e-10         1.65294e+07       5.68761e-17
+   2000         9.48143e-10         3.68136e+07       2.57553e-17
 }
 
 Eq fraction matrix:
@@ -231,16 +231,16 @@ Equilibrium Fraction for SiO2 = 0.000307622
 Total number of eigenvalues = 1247
 Eigenvalues
 {
-  -1.050623e+03
-  -9.665441e+02
-  -8.675191e+02
-  -7.530238e+02
-  -6.265026e+02
-  -4.977866e+02
-  -3.836830e+02
-  -2.888411e+02
-  -4.356620e-02
-  -2.907278e-34
+  -1.050664e+03
+  -9.665871e+02
+  -8.675631e+02
+  -7.530653e+02
+  -6.265373e+02
+  -4.978099e+02
+  -3.836926e+02
+  -2.888418e+02
+  -4.363088e-02
+  -2.910777e-34
 }
 
 Bartis Widom eigenvalue/eigenvector analysis
@@ -263,26 +263,26 @@ Z_matrix^(-1):
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-   1.000000e+00,  -3.709206e-68,
-  -1.068251e-65,   1.000000e+00,
+   1.000000e+00,  -3.941032e-68,
+  -1.341249e-64,   1.000000e+00,
 }
 
 Kr matrix:
 {
-  -4.355280e-02,   1.340193e-05,
-   4.355280e-02,  -1.340193e-05,
+  -4.361746e-02,   1.342183e-05,
+   4.361746e-02,  -1.342183e-05,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-OSi(OH)2 symm loss = -1.340193e-05
-SiO2 loss = -4.355280e-02
+OSi(OH)2 symm loss = -1.342183e-05
+SiO2 loss = -4.361746e-02
 }
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-OSi(OH)2 symm -> SiO2 = 1.340193e-05
-SiO2 -> OSi(OH)2 symm = 4.355280e-02
+OSi(OH)2 symm -> SiO2 = 1.342183e-05
+SiO2 -> OSi(OH)2 symm = 4.361746e-02
 }
 }
 PT Grid 2 Condition: conc = 3.16e+13, temp = 1583, diagonalization precision: quad-double
@@ -328,33 +328,33 @@ Test rovibronic density of states for: OSi(OH)2 symm
    1600    2.91043e+10    2.91311e+10    2.91287e+10
 }
 
-Canonical pseudo first order rate constant of association reaction R1 = 9.08202 s-1 (1583 K)
-Canonical bimolecular rate constant of association reaction R1 = 9.08202e-10 cm^3/mol/s (1583 K)
-Canonical first order rate constant for the reverse of reaction R1 = 631008 s-1 (1583 K)
+Canonical pseudo first order rate constant of association reaction R1 = 9.12159 s-1 (1583 K)
+Canonical bimolecular rate constant of association reaction R1 = 9.12159e-10 cm^3/mol/s (1583 K)
+Canonical first order rate constant for the reverse of reaction R1 = 633757 s-1 (1583 K)
 
 Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
 {
     T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
-    100         5.97913e-10         3.2957e-134      1.81422e+124
-    200          6.5051e-10         1.80909e-59       3.59577e+49
-    300         6.91971e-10         1.52762e-34       4.52974e+24
-    400         7.24251e-10         4.13989e-22       1.74945e+12
-    500         7.50782e-10         1.10366e-14           68026.7
-    600         7.73423e-10         9.20692e-10          0.840046
-    700         7.93238e-10         2.85387e-06       0.000277952
-    800         8.10895e-10          0.00113395       7.15104e-07
-    900         8.26846e-10             0.11493       7.19434e-09
-   1000         8.41413e-10             4.48945        1.8742e-10
-   1100         8.54831e-10             87.8735       9.72797e-12
-   1200         8.67281e-10             1026.45       8.44935e-13
-   1300         8.78904e-10             8074.31       1.08852e-13
-   1400         8.89811e-10             46620.5       1.90863e-14
-   1500         9.00091e-10              210440       4.27719e-15
-   1600         9.09819e-10              778462       1.16874e-15
-   1700         9.19056e-10         2.44637e+06       3.75682e-16
-   1800         9.27852e-10         6.71565e+06       1.38163e-16
-   1900          9.3625e-10         1.64612e+07       5.68761e-17
-   2000         9.44283e-10         3.66637e+07       2.57553e-17
+    100         6.09206e-10        3.35794e-134      1.81422e+124
+    200         6.57881e-10         1.82959e-59       3.59577e+49
+    300         6.98074e-10         1.54109e-34       4.52974e+24
+    400          7.2971e-10         4.17109e-22       1.74945e+12
+    500         7.55842e-10          1.1111e-14           68026.7
+    600         7.78212e-10         9.26393e-10          0.840046
+    700         7.97832e-10          2.8704e-06       0.000277952
+    800         8.15343e-10          0.00114018       7.15104e-07
+    900         8.31182e-10            0.115533       7.19434e-09
+   1000         8.45658e-10              4.5121        1.8742e-10
+   1100         8.59003e-10             88.3024       9.72797e-12
+   1200         8.71394e-10             1031.32       8.44935e-13
+   1300         8.82967e-10             8111.63       1.08852e-13
+   1400         8.93831e-10             46831.1       1.90863e-14
+   1500         9.04075e-10              211371       4.27719e-15
+   1600         9.13771e-10              781844       1.16874e-15
+   1700         9.22981e-10         2.45681e+06       3.75682e-16
+   1800         9.31752e-10         6.74388e+06       1.38163e-16
+   1900         9.40129e-10         1.65294e+07       5.68761e-17
+   2000         9.48143e-10         3.68136e+07       2.57553e-17
 }
 
 Eq fraction matrix:
@@ -374,16 +374,16 @@ Equilibrium Fraction for SiO2 = 0.984018
 Total number of eigenvalues = 1247
 Eigenvalues
 {
-  -2.964251e+03
-  -2.560611e+03
-  -2.156375e+03
-  -1.747257e+03
-  -1.339923e+03
-  -9.538651e+02
-  -6.205464e+02
-  -3.677479e+02
-  -1.159192e-02
-  -5.012796e-33
+  -2.964482e+03
+  -2.560815e+03
+  -2.156554e+03
+  -1.747410e+03
+  -1.340042e+03
+  -9.539453e+02
+  -6.205852e+02
+  -3.677543e+02
+  -1.160476e-02
+  -5.019775e-33
 }
 
 Bartis Widom eigenvalue/eigenvector analysis
@@ -394,38 +394,38 @@ There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemic
 
 Z_matrix: 
 {
-  -1.254073e-01,   9.840176e-01,
-   1.254073e-01,   1.598243e-02,
+   1.254073e-01,   9.840176e-01,
+  -1.254073e-01,   1.598243e-02,
 }
 
 Z_matrix^(-1):
 {
-  -1.274442e-01,   7.846574e+00,
+   1.274442e-01,  -7.846574e+00,
    1.000000e+00,   1.000000e+00,
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-   1.000000e+00,  -4.747784e-66,
-  -5.934730e-67,   1.000000e+00,
+   1.000000e+00,  -4.273005e-65,
+  -2.077155e-66,   1.000000e+00,
 }
 
 Kr matrix:
 {
-  -1.852670e-04,   1.140665e-02,
-   1.852670e-04,  -1.140665e-02,
+  -1.854723e-04,   1.141929e-02,
+   1.854723e-04,  -1.141929e-02,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-OSi(OH)2 symm loss = -1.140665e-02
-SiO2 loss = -1.852670e-04
+OSi(OH)2 symm loss = -1.141929e-02
+SiO2 loss = -1.854723e-04
 }
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-OSi(OH)2 symm -> SiO2 = 1.140665e-02
-SiO2 -> OSi(OH)2 symm = 1.852670e-04
+OSi(OH)2 symm -> SiO2 = 1.141929e-02
+SiO2 -> OSi(OH)2 symm = 1.854723e-04
 }
 }
 PT Grid 3 Condition: conc = 1e+14, temp = 1583, diagonalization precision: quad-double
@@ -471,33 +471,33 @@ Test rovibronic density of states for: OSi(OH)2 symm
    1600    2.91043e+10    2.91311e+10    2.91287e+10
 }
 
-Canonical pseudo first order rate constant of association reaction R1 = 9082.02 s-1 (1583 K)
-Canonical bimolecular rate constant of association reaction R1 = 9.08202e-10 cm^3/mol/s (1583 K)
-Canonical first order rate constant for the reverse of reaction R1 = 631008 s-1 (1583 K)
+Canonical pseudo first order rate constant of association reaction R1 = 9121.59 s-1 (1583 K)
+Canonical bimolecular rate constant of association reaction R1 = 9.12159e-10 cm^3/mol/s (1583 K)
+Canonical first order rate constant for the reverse of reaction R1 = 633757 s-1 (1583 K)
 
 Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
 {
     T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
-    100         5.97913e-10         3.2957e-134      1.81422e+124
-    200          6.5051e-10         1.80909e-59       3.59577e+49
-    300         6.91971e-10         1.52762e-34       4.52974e+24
-    400         7.24251e-10         4.13989e-22       1.74945e+12
-    500         7.50782e-10         1.10366e-14           68026.7
-    600         7.73423e-10         9.20692e-10          0.840046
-    700         7.93238e-10         2.85387e-06       0.000277952
-    800         8.10895e-10          0.00113395       7.15104e-07
-    900         8.26846e-10             0.11493       7.19434e-09
-   1000         8.41413e-10             4.48945        1.8742e-10
-   1100         8.54831e-10             87.8735       9.72797e-12
-   1200         8.67281e-10             1026.45       8.44935e-13
-   1300         8.78904e-10             8074.31       1.08852e-13
-   1400         8.89811e-10             46620.5       1.90863e-14
-   1500         9.00091e-10              210440       4.27719e-15
-   1600         9.09819e-10              778462       1.16874e-15
-   1700         9.19056e-10         2.44637e+06       3.75682e-16
-   1800         9.27852e-10         6.71565e+06       1.38163e-16
-   1900          9.3625e-10         1.64612e+07       5.68761e-17
-   2000         9.44283e-10         3.66637e+07       2.57553e-17
+    100         6.09206e-10        3.35794e-134      1.81422e+124
+    200         6.57881e-10         1.82959e-59       3.59577e+49
+    300         6.98074e-10         1.54109e-34       4.52974e+24
+    400          7.2971e-10         4.17109e-22       1.74945e+12
+    500         7.55842e-10          1.1111e-14           68026.7
+    600         7.78212e-10         9.26393e-10          0.840046
+    700         7.97832e-10          2.8704e-06       0.000277952
+    800         8.15343e-10          0.00114018       7.15104e-07
+    900         8.31182e-10            0.115533       7.19434e-09
+   1000         8.45658e-10              4.5121        1.8742e-10
+   1100         8.59003e-10             88.3024       9.72797e-12
+   1200         8.71394e-10             1031.32       8.44935e-13
+   1300         8.82967e-10             8111.63       1.08852e-13
+   1400         8.93831e-10             46831.1       1.90863e-14
+   1500         9.04075e-10              211371       4.27719e-15
+   1600         9.13771e-10              781844       1.16874e-15
+   1700         9.22981e-10         2.45681e+06       3.75682e-16
+   1800         9.31752e-10         6.74388e+06       1.38163e-16
+   1900         9.40129e-10         1.65294e+07       5.68761e-17
+   2000         9.48143e-10         3.68136e+07       2.57553e-17
 }
 
 Eq fraction matrix:
@@ -517,16 +517,16 @@ Equilibrium Fraction for SiO2 = 0.904874
 Total number of eigenvalues = 1247
 Eigenvalues
 {
-  -9.488151e+03
-  -7.912150e+03
-  -6.400761e+03
-  -4.961472e+03
-  -3.619161e+03
-  -2.416859e+03
-  -1.412705e+03
-  -6.679156e+02
-  -1.032924e+00
-  -4.107727e-30
+  -9.489134e+03
+  -7.912989e+03
+  -6.401461e+03
+  -4.962032e+03
+  -3.619579e+03
+  -2.417135e+03
+  -1.412850e+03
+  -6.679541e+02
+  -1.033790e+00
+  -4.111623e-30
 }
 
 Bartis Widom eigenvalue/eigenvector analysis
@@ -549,25 +549,25 @@ Z_matrix^(-1):
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-   1.000000e+00,   0.000000e+00,
-  -5.934730e-66,   1.000000e+00,
+   1.000000e+00,   3.798227e-65,
+  -4.061581e-66,   1.000000e+00,
 }
 
 Kr matrix:
 {
-  -9.825831e-02,   9.346659e-01,
-   9.825831e-02,  -9.346659e-01,
+  -9.834064e-02,   9.354491e-01,
+   9.834064e-02,  -9.354491e-01,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-OSi(OH)2 symm loss = -9.346659e-01
-SiO2 loss = -9.825831e-02
+OSi(OH)2 symm loss = -9.354491e-01
+SiO2 loss = -9.834064e-02
 }
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-OSi(OH)2 symm -> SiO2 = 9.346659e-01
-SiO2 -> OSi(OH)2 symm = 9.825831e-02
+OSi(OH)2 symm -> SiO2 = 9.354491e-01
+SiO2 -> OSi(OH)2 symm = 9.834064e-02
 }
 }
