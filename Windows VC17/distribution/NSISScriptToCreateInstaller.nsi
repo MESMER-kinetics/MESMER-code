@@ -647,7 +647,7 @@ Section "Uninstall"
   ;ADD YOUR OWN FILES HERE...
   Delete "$INSTDIR\License.txt"
   Delete "$INSTDIR\Mesmer.exe"
-  Delete "$INSTDIR\VC_redist.x86.exe"
+  Delete "$INSTDIR\VC_redist.x64.exe"
   Delete "$INSTDIR\MSMpiSetup.exe"
   Delete $INSTDIR\mesmer1.xsl
   Delete $INSTDIR\mesmerDiag.xsl
