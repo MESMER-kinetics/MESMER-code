@@ -546,7 +546,6 @@ Section "Dummy Section" SecDummy
   File  "..\..\Documentation\Constructing a Datafile from Gaussian output.html"
   File  "..\..\Documentation\Adding a molecule to the library.html"
   File  "..\..\Documentation\MESMER manual.pdf"
-  File  "..\..\Documentation\MESMER GUI tutorial.pdf"
   File  "..\..\Documentation\MESMER examples.pdf"
 
   SetOutPath "$INSTDIR\examples"
