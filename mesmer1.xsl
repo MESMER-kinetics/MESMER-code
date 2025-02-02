@@ -995,6 +995,9 @@
       <xsl:for-each select="me:firstOrderRate">
         <xsl:value-of select="concat(.,',')"/>
       </xsl:for-each>
+      <xsl:for-each select="me:secondOrderRate">
+        <xsl:value-of select="concat(.,',')"/>
+      </xsl:for-each>
       <xsl:for-each select="me:firstOrderLoss">
         <xsl:value-of select="concat(.,',')"/>
       </xsl:for-each>
