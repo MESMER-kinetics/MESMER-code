@@ -220,13 +220,13 @@ namespace mesmer
     if (!SetGrainParams(mEnv, mFlags, minEnergy, maxEnergy, writeReport))
       return false;
 
-    // Calculate flux and k(E)s
-    for (size_t i(0); i < m_pReactionManager->size(); ++i) {
-      if (!(*m_pReactionManager)[i]->calcGrnAvrgMicroRateCoeffs())
-        return false;
-    }
-
-    if (!mFlags.rateCoefficientsOnly) {
+    if (mFlags.rateCoefficientsOnly) {
+      // Calculate flux and k(E)s
+      for (size_t i(0); i < m_pReactionManager->size(); ++i) {
+        if (!(*m_pReactionManager)[i]->calcGrnAvrgMicroRateCoeffs())
+          return false;
+      }
+    } else {
       //
       // Shift all wells to the same origin, calculate the size of the reaction operator,
       // calculate the mean collision frequency and initialize all collision operators.
@@ -248,6 +248,12 @@ namespace mesmer
         m_meanOmega += isomer->getColl().get_collisionFrequency();
       }
       m_meanOmega /= double(m_isomers.size());
+
+      // Calculate flux and k(E)s
+      for (size_t i(0); i < m_pReactionManager->size(); ++i) {
+        if (!(*m_pReactionManager)[i]->calcGrnAvrgMicroRateCoeffs())
+          return false;
+      }
 
       // Build reaction operator.
       //
@@ -479,7 +485,7 @@ namespace mesmer
       (*m_pReactionManager)[i]->AddReactionTerms(m_reactionOperator, m_isomers, 1.0 / m_meanOmega);
     }
 
-    // Add diffusive Loss terms if required.
+    // Add diffusive Loss terms if required. Typically this is done when analysing experimental data.
     if (mFlags.bIncludeDiffusiveLoss) {
       AddDiffusiveLossTerms(1.0 / m_meanOmega);
     }

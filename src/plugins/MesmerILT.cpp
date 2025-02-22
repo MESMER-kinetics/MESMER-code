@@ -319,7 +319,7 @@ namespace mesmer
     {
       PersistPtr ppPreExp2 = pp->XmlMoveTo("me:secondaryPreExponential");
       double tmpvalue = 0.0;
-      stringstream s2(pPreExptxt); s2 >> tmpvalue;
+      stringstream s2(pPreExp2txt); s2 >> tmpvalue;
       const char* unitsTxt = ppPreExp2->XmlReadValue("units", false);
       string unitsInput = (unitsTxt) ? unitsTxt : "";
       double value(getConvertedPreExp(unitsInput, tmpvalue));
