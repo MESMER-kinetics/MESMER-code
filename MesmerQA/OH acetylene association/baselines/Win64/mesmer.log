@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v7.1 compiled: -- May  1 2023 -- 14:31:23
+     Mesmer v7.2 compiled: -- Apr  5 2025 -- 15:26:44
 
-     Copyright (C) 2009-2022 by
+     Copyright (C) 2009-2025 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,10 +27,10 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows64
-                     Execution Date:  Mon May  1 15:43:41 2023
+                     Execution Date:  Sat Apr  5 15:31:27 2025
                      Number of ranks: 4
 
-defaults.xml, librarymols.xml are in ../..
+defaults.xml, librarymols.xml are in C:\Mesmer-7.0
 
 Parsing input xml file...
 OH_acetylene_association_test.xml
@@ -56,7 +56,7 @@ The default value of the attribute Tstep was used.
 The default value of the attribute Tmin was used.
 The default value of the attribute Tmax was used.
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20230501_154342
+Write metadata 20250405_153127
 
 File: "OH_acetylene_association_test.xml" successfully parsed.
 Main Calculation begins
@@ -68,11 +68,11 @@ In FastLaplaceConvolution: 20 values in the FFT convolution routine were replace
 In FastLaplaceConvolution: 220 values in the FFT convolution routine were replaced by standard convolution
 In OCHCH2: The default value of me:DOSCMethod was used.
 In mesmer::CollisionOperator::timeEvolution: No population was assigned. Initialize the first source term to 1.0.
- -- Total time elapsed: 4 seconds.
+ -- Total time elapsed: 2 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
 
 System saved to out.xml
-Total time elapsed: 4 seconds.
+Total time elapsed: 2 seconds.
