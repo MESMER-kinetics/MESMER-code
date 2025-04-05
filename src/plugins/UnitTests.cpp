@@ -574,6 +574,10 @@ namespace mesmer
         Heading = "Symmetrized test matrix 2";
         Mtx5.print(Heading, ctest);
 
+        // Save copy of symmetric matrix for permuation tests later.
+
+        TMatrix<T> Mtx10(Mtx5);
+
         // Diagonalize symmetrize rate coefficient matrix.
 
         for (size_t i(0); i < msize; i++) {
@@ -610,8 +614,38 @@ namespace mesmer
         Heading = "Check: Left * Right = Identity";
         Mtx8.print(Heading, ctest);
 
-        return status;
+        // Permute matrix
 
+        vector<size_t> index = { 2, 1, 0 };
+
+        Heading.clear();
+        Heading = "Matrix before Permutation";
+        Mtx10.print(Heading, ctest);
+
+        Mtx10.permuteMatrix(index);
+        Heading.clear();
+        Heading = "Matrix after Permutation";
+        Mtx10.print(Heading, ctest);
+
+        Mtx10.diagonalize(&rhs[0]);
+
+        Heading.clear();
+        Heading = "Eigenvectors of permuted test matrix 2";
+        Mtx10.print(Heading, ctest);
+
+        ctest << endl;
+        underlineText("Eigenvalues:");
+        for (size_t i(0); i < msize; i++) {
+          ctest << formatFloat(rhs[i], 5, 15) << endl;
+        }
+
+        Mtx10.unPermuteEigenEigenvectors(index);
+
+        Heading.clear();
+        Heading = "Unpermuted eigenvectors of test matrix 2";
+        Mtx10.print(Heading, ctest);
+
+        return status;
     }
 
     bool UnitTests::Test_MEIC_1(Molecule* pMol) const {

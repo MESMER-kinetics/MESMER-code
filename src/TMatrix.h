@@ -182,8 +182,6 @@ namespace mesmer
     static void tqlev(T *d, T *e, size_t n);
     static T    pythag(T a, T b);
 
-  private:
-
     //
     // The following two methods permute a matrix, in order to reduce the effects
     // of numerical rounding in the Househlider method (see numerical recipes) and
@@ -192,8 +190,10 @@ namespace mesmer
     // in diagonalize() have been commented out as the benefits do not appear to out
     // way the cost in CPU time at present.
     //
-    void permuteMatrix(T **a, vector<size_t>& index);
-    void unPermuteEigenEigenvectors(T **a, vector<size_t>& index);
+    void permuteMatrix(const vector<size_t>& index);
+    void unPermuteEigenEigenvectors(const vector<size_t>& index);
+
+  private:
 
     //
     // NR LU methods for linear equation solving.
@@ -605,43 +605,27 @@ namespace mesmer
   // of numerical rounding in the Householder method (see numerical recipes).
   //
   template<class T>
-  void TMatrix<T>::permuteMatrix(T **a, vector<size_t>& index) {
+  void TMatrix<T>::permuteMatrix(const vector<size_t>& index) {
 
     size_t size = this->size();
-    vector<T> diagonalElements(size, 0.0);
+    T** a = this->m_matrix;
 
-    for (size_t i(0); i < size; i++) {
-      diagonalElements[i] = fabs(a[i][i]);
-      index[i] = i;
+    TMatrix<T> tmp(size, T(0.0));
+
+    // Permute columns.
+
+    for (size_t i(0); i < size; ++i) {
+      size_t ii = index[i];
+      for (size_t j(0); j < size; ++j)
+        tmp[j][i] = a[j][ii];
     }
 
-    // Order matrix columns based on the magnitude of the diagonal elements.
+    // Permute rows.
 
-    for (size_t ii(1); ii < size; ++ii) {
-      size_t i = ii - 1;
-      size_t k = i;
-      T p = diagonalElements[i];
-      for (size_t j(ii); j < size; ++j) {
-        if (diagonalElements[j] < p) {
-          k = j;
-          p = diagonalElements[j];
-        }
-      }
-      if (k != i) {
-        diagonalElements[k] = diagonalElements[i];
-        diagonalElements[i] = p;
-        swap(index[i], index[k]);
-
-        // Swap columns.
-        for (size_t j(0); j < size; ++j) {
-          swap(a[j][i], a[j][k]);
-        }
-
-        // Swap rows.
-        for (size_t j(0); j < size; ++j) {
-          swap(a[i][j], a[k][j]);
-        }
-      }
+    for (size_t i(0); i < size; ++i) {
+      size_t ii = index[i];
+      for (size_t j(0); j < size; ++j)
+        a[i][j] = tmp[ii][j];
     }
 
   }
@@ -650,23 +634,27 @@ namespace mesmer
   // This method unpermutes the eignvector matrix rows following diagonalization.
   //
   template<class T>
-  void TMatrix<T>::unPermuteEigenEigenvectors(T **a, vector<size_t>& index) {
+  void TMatrix<T>::unPermuteEigenEigenvectors(const vector<size_t>& index) {
 
     size_t size = this->size();
+    T** a = this->m_matrix;
+
+    TMatrix<T> tmp = *this;
+
+    // Invert permutation index.
 
     vector<size_t> invIndex(size, 0);
     for (size_t i(0); i < size; i++) {
       invIndex[index[i]] = i;
     }
 
+    // Swap rows.
+
     for (size_t i(0); i < size; i++) {
       size_t k = invIndex[i];
       if (k != i) {
-        invIndex[index[i]] = k;
-        invIndex[i] = i;
-        swap(index[i], index[k]);
         for (size_t j(0); j < size; j++) {
-          swap(a[i][j], a[k][j]);
+          a[i][j] = tmp[k][j];
         }
       }
     }
