@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v7.1 compiled: -- May  1 2023 -- 14:31:23
+     Mesmer v7.2 compiled: -- Apr  5 2025 -- 15:26:44
 
-     Copyright (C) 2009-2022 by
+     Copyright (C) 2009-2025 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,10 +27,10 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows64
-                     Execution Date:  Mon May  1 15:44:03 2023
+                     Execution Date:  Sat Apr  5 15:31:45 2025
                      Number of ranks: 4
 
-defaults.xml, librarymols.xml are in ../..
+defaults.xml, librarymols.xml are in C:\Mesmer-7.0
 
 Parsing input xml file...
 ipropyl_test.xml
@@ -64,7 +64,7 @@ In ThermodynamicTable: The default value of me:Tmin was used.
 In ThermodynamicTable: The default value of me:Tmax was used.
 In ThermodynamicTable: The default value of me:Tmid was used.
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20230501_154403
+Write metadata 20250405_153145
 
 File: "ipropyl_test.xml" successfully parsed.
 Main Calculation begins
@@ -75,7 +75,7 @@ Number of cells = 50000, Number of grains = 186
 Number of grains produced is not equal to that requested for: H
 Number of grains requested: 500
 Number of grains produced : 1
-In FastLaplaceConvolution: 5880 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 5900 values in the FFT convolution routine were replaced by standard convolution
 In mesmer::CollisionOperator::timeEvolution: No population was assigned, and there is no source term.
 In mesmer::CollisionOperator::timeEvolution: Initial poupulation set to 1.0  in the first isomer.
 
@@ -90,7 +90,7 @@ Too few data points to fit NASA polynomials.
 In He: The default value of me:DOSCMethod was used.
 In He: The default value of the attribute spinMultiplicity was used.
 Number of grains produced is not equal to that requested for: He
- -- Total time elapsed: 2 seconds.
+ -- Total time elapsed: 1 seconds.
 
 System saved to out.xml
-Total time elapsed: 2 seconds.
+Total time elapsed: 1 seconds.

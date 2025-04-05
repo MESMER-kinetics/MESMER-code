@@ -191,6 +191,7 @@ SRCS := \
 	plugins/BiExponentialDown.cpp \
 	plugins/BoltzmannDistribution.cpp	\
 	plugins/CanonicalRateCoefficient.cpp	\
+	plugins/CIISC.cpp	\
 	plugins/ClassicalRotor.cpp \
 	plugins/ClassicalCoupledRotors.cpp \
 	plugins/DefinedStatesRotor.cpp \

@@ -421,6 +421,7 @@
     <ClCompile Include="..\..\src\plugins\BiExponentialDown.cpp" />
     <ClCompile Include="..\..\src\plugins\BoltzmannDistribution.cpp" />
     <ClCompile Include="..\..\src\plugins\CanonicalRateCoefficient.cpp" />
+    <ClCompile Include="..\..\src\plugins\CIISC.cpp" />
     <ClCompile Include="..\..\src\plugins\GaussianDistFragmentation.cpp" />
     <ClCompile Include="..\..\src\plugins\HirstWardlawPotential.cpp" />
     <ClCompile Include="..\..\src\plugins\MultiHinderedRotorPotential.cpp" />
