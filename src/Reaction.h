@@ -42,14 +42,14 @@ namespace mesmer
     //Orders Molecule pointers using the Molecule name.
     //Using the pointer itself was seen to give unpredictable ordering.
     //See Scott Meyers "Effective STL", Item 20
-    struct MoleculePtrLess : public binary_function<const Molecule*, const Molecule*, bool>
+    struct MoleculePtrLess : public std::function<bool(const Molecule*, const Molecule*)>
     {
       bool operator()(const Molecule* mol1, const Molecule* mol2)const
       {
         return mol1->getName() < mol2->getName();
       }
     };
-    struct ReactionPtrLess : public binary_function<const Reaction*, const Reaction*, bool>
+    struct ReactionPtrLess : public std::function<bool(const Reaction*, const Reaction*)>
     {
       bool operator()(const Reaction* r1, const Reaction* r2)const
       {
