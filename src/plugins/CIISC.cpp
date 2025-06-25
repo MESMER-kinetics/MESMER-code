@@ -34,7 +34,7 @@ namespace mesmer
 
     virtual bool calculateMicroCnlFlux(Reaction* pReact);
 
-    virtual double get_ThresholdEnergy(Reaction* pReac) { return NULL; }; // NUll operation.
+    virtual double get_ThresholdEnergy(Reaction* pReac) { return max(0.0,(pReac->get_relative_pdtZPE() - pReac->get_relative_rctZPE())) ; };
 
   private:
     const char* m_id;
@@ -61,7 +61,7 @@ namespace mesmer
     rxnFlux.resize(MaximumCell, 0.0);
 
     double coll_frq = pReact->get_reactant()->getColl().get_collisionFrequency();
-    for (size_t i = 0; i < MaximumCell; ++i) {
+    for (size_t i(0); i < MaximumCell; ++i) {
       // Calculate microcanonical rate coefficients using CIISC expression.
       rxnFlux[i] = 0.01 * coll_frq;
     }
