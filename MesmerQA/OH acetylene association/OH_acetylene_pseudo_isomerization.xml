@@ -233,7 +233,8 @@
         <me:activationEnergy units="kJ/mol">5.375</me:activationEnergy>
         <me:nInfinity>0.0</me:nInfinity>
       </me:MCRCMethod>
-      <me:excessReactantConc>1.00e17</me:excessReactantConc>
+      <!--<me:excessReactantConc>1.00e17</me:excessReactantConc>-->
+      <me:excessReactantConc percent="true">0.00308601</me:excessReactantConc>
     </reaction>
     <reaction id="R2">
       <reactant>
@@ -246,13 +247,19 @@
         <molecule ref="TS_1a" role="transitionState" />
       </me:transitionState>
       <!--Use zero point energies instead-->
-      <me:MCRCMethod name="RRKM"/>
+      <me:MCRCMethod xsi:type="RRKM"/>
     </reaction>
   </reactionList>
   <me:conditions>
     <me:bathGas>N2</me:bathGas>
     <me:PTs>
-      <me:PTpair units="torr" P="1000" T="298.0" precision ="double" />
+      <me:PTpair units="torr" P="1000" T="298.0" precision="dd">
+        <me:excessReactantConcArray>
+          <me:excessReactantConc reactionRef="R1" concentration="0.00308601" percent="true"/>
+        </me:excessReactantConcArray>
+      </me:PTpair>
+      <!--<me:PTpair me:units="Torr" me:P="1000" me:T="325.0" />
+      <me:PTpair me:units="Torr" me:P="1000" me:T="355.0" />-->
     </me:PTs>
   </me:conditions>
   <me:modelParameters>
