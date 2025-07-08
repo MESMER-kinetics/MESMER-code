@@ -156,7 +156,16 @@
         <property dictRef="me:electronicExcitation">
           <array units="cm-1">139.7</array>
         </property>
+        <property dictRef="me:epsilon">
+          <scalar>48.0</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>3.90</scalar>
+        </property>
       </propertyList>
+      <me:energyTransferModel xsi:type="me:ExponentialDown">
+        <me:deltaEDown units="cm-1">250.0</me:deltaEDown>
+      </me:energyTransferModel>
       <me:DOSCMethod xsi:type="ClassicalRotors"/>
     </molecule>
     <molecule id="acetylene">
@@ -244,7 +253,7 @@
   <me:conditions>
     <me:bathGas>N2</me:bathGas>
     <me:PTs>
-      <me:PTpair units="torr" P="1000" T="298.0">
+      <me:PTpair units="torr" P="1000" T="298.0" precision="dd">
         <me:excessReactantConcArray>
           <me:excessReactantConc reactionRef="R1" concentration="0.00308601" percent="true"/>
         </me:excessReactantConcArray>
@@ -265,11 +274,7 @@
   <me:control>
     <me:testDOS />
     <me:testMicroRates />
-    <!--<me:printGrainDOS />-->
-    <!--<me:printCellDOS />-->
-    <!--<me:printReactionOperatorColumnSums />-->
     <me:printGrainkfE />
-    <!--<me:printGrainBoltzmann />-->
     <me:printGrainkbE />
     <me:printSpeciesProfile />
     <me:testRateConstants />
