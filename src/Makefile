@@ -205,11 +205,13 @@ SRCS := \
 	plugins/FourierGrid1D.cpp \
 	plugins/GaussianDistFragmentation.cpp \
 	plugins/GaussianModel.cpp \
+	plugins/GeneralISC.cpp \
 	plugins/gridsearch.cpp \
 	plugins/HinderedRotorUtils.cpp \
 	plugins/HinderedRotorQM1D.cpp \
 	plugins/HinderedRotorCM1D.cpp \
 	plugins/HirstWardlawPotential.cpp \
+	plugins/InternalConversion.cpp \
 	plugins/LandauZenerCrossing.cpp \
 	plugins/Marquardt.cpp \
 	plugins/MesmerILT.cpp \
