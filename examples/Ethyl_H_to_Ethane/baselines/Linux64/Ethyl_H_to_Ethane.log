@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.1 compiled: -- May 16 2021 -- 20:39:34
+     Mesmer v7.2 compiled: -- Aug  7 2025 -- 21:02:56
 
-     Copyright (C) 2009-2021 by
+     Copyright (C) 2009-2025 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Sun May 16 20:47:42 2021
+                     Execution Date:  Thu Aug  7 22:50:34 2025
                      Number of ranks: 12
 
 defaults.xml, librarymols.xml are in ../..
@@ -48,13 +48,13 @@ In Ethane: --Parse data for Boltzmann
 In Ethane: --Parse data for ExponentialDown
 In R1: --Parse data for MesmerILT
 In R1: No tunneling method used for R1
-In R1: Not a unimolecular reaction: look for excess reactant concentration.
 In R1: No value of me:excessReactantConc was supplied and the default value NEEDS TO BE CHECKED**
 25.1Torr, 301K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 The default value of me:ForceMacroDetailedBalance was used.
 --Parse data for ThermodynamicTable
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20210516_204742
+Write metadata 20250807_225034
 
 File: "Ethyl_H_to_Ethane.xml" successfully parsed.
 Main Calculation begins
@@ -63,7 +63,7 @@ Now calculating...
 --Execute calcMethod simpleCalc
 Number of cells = 50000, Number of grains = 194
 Number of grains produced is not equal to that requested for: H
-Number of grains requested: 194
+Number of grains requested: 250
 Number of grains produced : 1
 In FastLaplaceConvolution: 3720 values in the FFT convolution routine were replaced by standard convolution
 
@@ -82,7 +82,7 @@ Results obtained from Bartis Widom eigenvalue-vector analysis may be unreliable
 In He: The default value of me:DOSCMethod was used.
 In He: The default value of the attribute spinMultiplicity was used.
 gDensityOfStates initialization failed.
- -- Total time elapsed: 1 seconds.
+ -- Total time elapsed: 0 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 1 seconds.
+Total time elapsed: 0 seconds.
