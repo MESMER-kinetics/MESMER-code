@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v7.1 compiled: -- Sep  3 2023 -- 12:44:51
+     Mesmer v7.2 compiled: -- Aug  7 2025 -- 21:02:56
 
-     Copyright (C) 2009-2022 by
+     Copyright (C) 2009-2025 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Sun Sep  3 13:02:00 2023
+                     Execution Date:  Thu Aug  7 22:55:29 2025
                      Number of ranks: 12
 
 defaults.xml, librarymols.xml are in ../..
@@ -94,7 +94,7 @@ Excess Reactant Conc. for reaction R1 = 1e+16 particles per cc
 3.28e+17PPCC, 294K at d precision with He
 Excess Reactant Conc. for reaction R1 = 1e+16 particles per cc
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20230903_130200
+Write metadata 20250807_225529
 
 File: "OH_NO_HONO.xml" successfully parsed.
 Main Calculation begins
@@ -109,81 +109,85 @@ In FastLaplaceConvolution: 20 values in the FFT convolution routine were replace
 Chi^2 = 240.223 Lambda = 1
 HONO:deltaEDown=58  R1:preExponential=6.78e-11  
 
-Chi^2 = 96.8484 Lambda = 0.1
-HONO:deltaEDown=70.0728  R1:preExponential=7.67532e-11  
-Iteration: 1 of Marquardt. ChiSquare = 96.8484, Lambda = 0.1
+Chi^2 = 96.8455 Lambda = 0.1
+HONO:deltaEDown=70.0734  R1:preExponential=7.67485e-11  
+Iteration: 1 of Marquardt. ChiSquare = 96.8455, Lambda = 0.1
 
-Chi^2 = 52.1469 Lambda = 0.01
-HONO:deltaEDown=81.9361  R1:preExponential=6.35078e-11  
-Iteration: 2 of Marquardt. ChiSquare = 52.1469, Lambda = 0.01
-
-Chi^2 = 51.2696 Lambda = 0.001
-HONO:deltaEDown=83.3862  R1:preExponential=6.46621e-11  
-Iteration: 3 of Marquardt. ChiSquare = 51.2696, Lambda = 0.001
-
-Chi^2 = 51.2689 Lambda = 0.0001
-HONO:deltaEDown=83.3974  R1:preExponential=6.46532e-11  
-Iteration: 4 of Marquardt. ChiSquare = 51.2689, Lambda = 0.0001
+Chi^2 = 52.1462 Lambda = 0.01
+HONO:deltaEDown=81.9334  R1:preExponential=6.35195e-11  
+Iteration: 2 of Marquardt. ChiSquare = 52.1462, Lambda = 0.01
 
 Chi^2 = 51.2689 Lambda = 0.001
-HONO:deltaEDown=83.3974  R1:preExponential=6.46532e-11  
-Iteration: 5 of Marquardt. ChiSquare = 51.2689, Lambda = 0.001
+HONO:deltaEDown=83.3868  R1:preExponential=6.46506e-11  
+Iteration: 3 of Marquardt. ChiSquare = 51.2689, Lambda = 0.001
 
 Chi^2 = 51.2689 Lambda = 0.01
-HONO:deltaEDown=83.3974  R1:preExponential=6.46532e-11  
-Iteration: 6 of Marquardt. ChiSquare = 51.2689, Lambda = 0.01
+HONO:deltaEDown=83.3868  R1:preExponential=6.46506e-11  
+Iteration: 4 of Marquardt. ChiSquare = 51.2689, Lambda = 0.01
 
 Chi^2 = 51.2689 Lambda = 0.1
-HONO:deltaEDown=83.3974  R1:preExponential=6.46532e-11  
-Iteration: 7 of Marquardt. ChiSquare = 51.2689, Lambda = 0.1
+HONO:deltaEDown=83.3868  R1:preExponential=6.46506e-11  
+Iteration: 5 of Marquardt. ChiSquare = 51.2689, Lambda = 0.1
 
 Chi^2 = 51.2689 Lambda = 1
-HONO:deltaEDown=83.3974  R1:preExponential=6.46532e-11  
-Iteration: 8 of Marquardt. ChiSquare = 51.2689, Lambda = 1
+HONO:deltaEDown=83.3868  R1:preExponential=6.46506e-11  
+Iteration: 6 of Marquardt. ChiSquare = 51.2689, Lambda = 1
 
-Chi^2 = 51.2689 Lambda = 0.1
-HONO:deltaEDown=83.3969  R1:preExponential=6.46544e-11  
-Iteration: 9 of Marquardt. ChiSquare = 51.2689, Lambda = 0.1
+Chi^2 = 51.2689 Lambda = 10
+HONO:deltaEDown=83.3868  R1:preExponential=6.46506e-11  
+Iteration: 7 of Marquardt. ChiSquare = 51.2689, Lambda = 10
+
+Chi^2 = 51.2689 Lambda = 100
+HONO:deltaEDown=83.3868  R1:preExponential=6.46506e-11  
+Iteration: 8 of Marquardt. ChiSquare = 51.2689, Lambda = 100
+
+Chi^2 = 51.2689 Lambda = 1000
+HONO:deltaEDown=83.3868  R1:preExponential=6.46506e-11  
+Iteration: 9 of Marquardt. ChiSquare = 51.2689, Lambda = 1000
+
+Chi^2 = 51.2689 Lambda = 10000
+HONO:deltaEDown=83.3868  R1:preExponential=6.46506e-11  
+Iteration: 10 of Marquardt. ChiSquare = 51.2689, Lambda = 10000
 Number of cells = 50000, Number of grains = 429
- -- Total time elapsed: 30 seconds.
+ -- Total time elapsed: 18 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
-            295        3.2e+21         310000         398044
-            295        2.3e+21         320000         361272
-            295        1.6e+21         290000         320575
-            295        1.2e+21         290000         288798
-            295        7.6e+20         290000         240500
-            295        3.4e+20         250000         165840
-            295        1.7e+20         200000         114873
-            295        9.6e+19         170000        82398.9
-            294       6.57e+16            217        261.763
-            294       1.64e+17            542        604.383
-            294       2.63e+17            867        920.686
-            294       3.28e+17           1084        1118.08
-            296        8.5e+17           2700        2497.89
-            294       6.57e+16            257        261.763
-            294       1.64e+17            672        604.383
-            294       2.63e+17           1078        920.686
-            294       3.28e+17           1345        1118.08
+            295        3.2e+21         310000         398004
+            295        2.3e+21         320000         361233
+            295        1.6e+21         290000         320540
+            295        1.2e+21         290000         288765
+            295        7.6e+20         290000         240471
+            295        3.4e+20         250000         165818
+            295        1.7e+20         200000         114857
+            295        9.6e+19         170000        82386.7
+            294       6.57e+16            217        261.716
+            294       1.64e+17            542        604.272
+            294       2.63e+17            867        920.522
+            294       3.28e+17           1084        1117.88
+            296        8.5e+17           2700        2497.45
+            294       6.57e+16            257        261.716
+            294       1.64e+17            672        604.272
+            294       2.63e+17           1078        920.522
+            294       3.28e+17           1345        1117.88
 
 
 Chi^2 = 51.2689
 
 Best fit parameters:
 
-HONO:deltaEDown = 83.3969 +/- 2.0633
-R1:preExponential = 6.46544e-11 +/- 6.025e-12
+HONO:deltaEDown = 83.3868 +/- 2.06277
+R1:preExponential = 6.46506e-11 +/- 6.02428e-12
 
 Correlation coefficients:
 
-R1:preExponential , HONO:deltaEDown = -0.484506
+R1:preExponential , HONO:deltaEDown = -0.483994
 
 Goodness of Fit:
 
 Number of degrees of Freedom = 15
-Chi^2 probability = 7.45695e-06
+Chi^2 probability = 7.45685e-06
 
 System saved to out.xml
-Total time elapsed: 30 seconds.
+Total time elapsed: 18 seconds.

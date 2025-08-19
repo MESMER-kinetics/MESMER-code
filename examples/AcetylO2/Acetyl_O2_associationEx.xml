@@ -675,7 +675,7 @@
   <me:conditions>
     <me:bathGas>He</me:bathGas>
     <me:PTs>
-      <me:PTpair units="Torr" P="200.72" T="298." />
+      <me:PTpair units="Torr" P="200.72" T="298." precision="dd"/>
       <!--<me:PTpair units="Torr" P="201.60" T="298." />-->
       <!--<me:PTpair units="Torr" P="10.06" T="298." />-->
       <!--<me:PTpair units="Torr" P="15.01" T="298." />-->

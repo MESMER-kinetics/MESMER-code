@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v7.1 compiled: -- May 21 2023 -- 13:02:07
+     Mesmer v7.2 compiled: -- Aug 18 2025 -- 23:00:04
 
-     Copyright (C) 2009-2022 by
+     Copyright (C) 2009-2025 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows64
-                     Execution Date:  Sun May 21 15:58:03 2023
+                     Execution Date:  Tue Aug 19 01:21:29 2025
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -78,6 +78,8 @@ In R02: The default value of me:energyTransferModel was used.
 In R02: --Parse data for ExponentialDown
 In R2: --Parse data for MesmerILT
 In R2: R2:activationEnergy was given a range with 101 steps 
+In R2: No units specified for pre-exponetial factor.
+In R2: No units specified for pre-exponetial factor.
 In R2: R2:preExponential was given a range with 1000 steps 
 In R2: The default value of me:TInfinity was used.
 In R2: No tunneling method used for R2
@@ -121,7 +123,7 @@ Excess Reactant Conc. for reaction R2 = 3.68e+16 particles per cc
 Excess Reactant Conc. for reaction R1 = 1e+14 particles per cc
 Excess Reactant Conc. for reaction R2 = 1.01e+17 particles per cc
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20230521_155803
+Write metadata 20250819_012129
 
 File: "Glyoxal_Exchange.xml" successfully parsed.
 Main Calculation begins
@@ -129,7 +131,7 @@ Now calculating...
 
 --Execute calcMethod marquardt
 In FastLaplaceConvolution: 620 values in the FFT convolution routine were replaced by standard convolution
-In FastLaplaceConvolution: 1620 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 1660 values in the FFT convolution routine were replaced by standard convolution
 The default value of me:DistributionCalcMethod was used.
 --Parse data for Boltzmann
 The default value of me:energyTransferModel was used.
@@ -140,51 +142,51 @@ In FastLaplaceConvolution: 100 values in the FFT convolution routine were replac
 In FastLaplaceConvolution: 2760 values in the FFT convolution routine were replaced by standard convolution
 No population was assigned. Initialize the first source term to 1.0.
 
-Chi^2 = 431.988 Lambda = 1
+Chi^2 = 431.977 Lambda = 1
 HC(O)CO:deltaEDown=278.947  R2:activationEnergy=3.0715  R2:preExponential=1.50278e-12  
 
-Chi^2 = 153.847 Lambda = 0.1
-HC(O)CO:deltaEDown=359.386  R2:activationEnergy=3.91271  R2:preExponential=9.67676e-13  
-Iteration: 1 of Marquardt. ChiSquare = 153.847, Lambda = 0.1
+Chi^2 = 153.846 Lambda = 0.1
+HC(O)CO:deltaEDown=359.384  R2:activationEnergy=3.91282  R2:preExponential=9.67694e-13  
+Iteration: 1 of Marquardt. ChiSquare = 153.846, Lambda = 0.1
 
-Chi^2 = 60.4033 Lambda = 0.01
-HC(O)CO:deltaEDown=226.469  R2:activationEnergy=5.81663  R2:preExponential=7.68699e-13  
-Iteration: 2 of Marquardt. ChiSquare = 60.4033, Lambda = 0.01
+Chi^2 = 60.4078 Lambda = 0.01
+HC(O)CO:deltaEDown=226.467  R2:activationEnergy=5.81705  R2:preExponential=7.68764e-13  
+Iteration: 2 of Marquardt. ChiSquare = 60.4078, Lambda = 0.01
 Number of cells = 50000, Number of grains = 245
 Number of cells = 50000, Number of grains = 233
- -- Total time elapsed: 672 seconds.
+ -- Total time elapsed: 952 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
-            295    2.61871e+18         0.0508      0.0476791
-            295    2.61871e+18          0.135      0.0946528
-            295    2.61871e+18        0.18893       0.156028
-            295    2.61871e+18        0.21629       0.222015
-            212    2.27747e+17          0.181       0.158378
-            212    2.27747e+17          0.282       0.406511
-            212    2.27747e+17          0.367       0.545498
-            212    2.27747e+17          0.377       0.645551
+            295    2.61871e+18         0.0508      0.0476813
+            295    2.61871e+18          0.135      0.0946568
+            295    2.61871e+18        0.18893       0.156034
+            295    2.61871e+18        0.21629       0.222023
+            212    2.27747e+17          0.181       0.158388
+            212    2.27747e+17          0.282       0.406525
+            212    2.27747e+17          0.367       0.545508
+            212    2.27747e+17          0.377       0.645556
 
 
-Chi^2 = 60.4033
+Chi^2 = 60.4078
 
 Best fit parameters:
 
-HC(O)CO:deltaEDown = 226.469 +/- 555.995
-R2:activationEnergy = 5.81663 +/- 6.04262
-R2:preExponential = 7.68699e-13 +/- 4.11946e-12
+HC(O)CO:deltaEDown = 226.467 +/- 555.956
+R2:activationEnergy = 5.81705 +/- 6.04368
+R2:preExponential = 7.68764e-13 +/- 4.12005e-12
 
 Correlation coefficients:
 
-R2:activationEnergy , HC(O)CO:deltaEDown = 0.976169
-R2:preExponential , HC(O)CO:deltaEDown = 0.992079
-R2:preExponential , R2:activationEnergy = 0.995333
+R2:activationEnergy , HC(O)CO:deltaEDown = 0.976167
+R2:preExponential , HC(O)CO:deltaEDown = 0.992077
+R2:preExponential , R2:activationEnergy = 0.995334
 
 Goodness of Fit:
 
 Number of degrees of Freedom = 5
-Chi^2 probability = 1.00319e-11
+Chi^2 probability = 1.00103e-11
 
 System saved to mesmer_out.xml
-Total time elapsed: 672 seconds.
+Total time elapsed: 952 seconds.

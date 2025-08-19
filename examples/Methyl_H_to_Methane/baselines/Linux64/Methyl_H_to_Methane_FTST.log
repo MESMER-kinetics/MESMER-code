@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v7.0 compiled: -- Mar  8 2023 -- 23:38:21
+     Mesmer v7.2 compiled: -- Aug  7 2025 -- 21:02:56
 
-     Copyright (C) 2009-2022 by
+     Copyright (C) 2009-2025 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Wed Mar  8 23:50:45 2023
+                     Execution Date:  Thu Aug  7 22:51:40 2025
                      Number of ranks: 12
 
 defaults.xml, librarymols.xml are in ../..
@@ -131,7 +131,7 @@ Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 The default value of me:ForceMacroDetailedBalance was used.
 TS1:ZPE is derived from Methyl:ZPE
-Write metadata 20230308_235045
+Write metadata 20250807_225140
 
 File: "Methyl_H_to_Methane_FTST.xml" successfully parsed.
 Main Calculation begins
@@ -216,7 +216,7 @@ Number of cells = 50000, Number of grains = 249
 Number of cells = 50000, Number of grains = 254
 Number of cells = 50000, Number of grains = 258
 Number of cells = 50000, Number of grains = 263
- -- Total time elapsed: 110 seconds.
+ -- Total time elapsed: 51 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
@@ -281,4 +281,4 @@ Number of degrees of Freedom = 35
 Error Factor = 4.01534e-11
 
 System saved to mesmer_out.xml
-Total time elapsed: 110 seconds.
+Total time elapsed: 51 seconds.

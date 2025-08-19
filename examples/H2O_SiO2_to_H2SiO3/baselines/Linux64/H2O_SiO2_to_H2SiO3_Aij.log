@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v7.1 compiled: -- Nov 20 2024 -- 22:27:32
+     Mesmer v7.2 compiled: -- Aug  7 2025 -- 21:02:56
 
-     Copyright (C) 2009-2022 by
+     Copyright (C) 2009-2025 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Thu Nov 21 03:34:26 2024
+                     Execution Date:  Thu Aug  7 23:39:10 2025
                      Number of ranks: 12
 
 defaults.xml, librarymols.xml are in ../..
@@ -63,7 +63,7 @@ The default value of the attribute Tstep was used.
 The default value of the attribute Tmin was used.
 The default value of the attribute Tmax was used.
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20241121_033426
+Write metadata 20250807_233910
 
 File: "H2O_SiO2_to_H2SiO3_Aij.xml" successfully parsed.
 Main Calculation begins
@@ -80,12 +80,12 @@ Number of grains produced is not equal to that requested for: H2O
 Number of grains requested: 1246
 Number of grains produced : 1245
 In FastLaplaceConvolution: 240 values in the FFT convolution routine were replaced by standard convolution
-In FastLaplaceConvolution: 780 values in the FFT convolution routine were replaced by standard convolution
- -- Total time elapsed: 1096 seconds.
+In FastLaplaceConvolution: 760 values in the FFT convolution routine were replaced by standard convolution
+ -- Total time elapsed: 648 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
 
 System saved to mesmer_out.xml
-Total time elapsed: 1096 seconds.
+Total time elapsed: 648 seconds.

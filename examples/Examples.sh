@@ -1,11 +1,16 @@
 #!/bin/sh
+#SBATCH --job-name=MesmerQA-examples
+#SBATCH --time=02:00:00
+#SBATCH --ntasks=12             # Number of MPI processes
+#SBATCH --ntasks-per-node=12    # Number of tasks per node
 
 # qashell.sh
 # mesmer
 #
 # Created by Chi-Hsiu Liang on 13/05/2010.
 
-# module switch intel gnu/7.2.0
+module load gcc/14.2.0
+module load openmpi/5.0.6/gcc-14.2.0
 
 starttime=`date`
 directive=

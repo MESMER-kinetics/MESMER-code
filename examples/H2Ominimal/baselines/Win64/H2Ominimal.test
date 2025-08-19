@@ -23,37 +23,37 @@ There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemic
 
 Z_matrix: 
 {
-   1.058332e-19,   1.120067e-38,
-  -1.058332e-19,   1.000000e+00,
+   1.026347e-20,   1.053388e-40,
+  -1.026347e-20,   1.000000e+00,
 }
 
 Z_matrix^(-1):
 {
-   9.448831e+18,  -1.058332e-19,
+   9.743296e+19,  -1.026347e-20,
    1.000000e+00,   1.000000e+00,
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-   1.000000e+00,  2.092872e-104,
-   7.670218e-65,   1.000000e+00,
+   1.000000e+00, -1.046436e-104,
+   1.056113e-66,   1.000000e+00,
 }
 
 Kr matrix:
 {
-  -7.365396e+02,   8.249734e-36,
-   7.365396e+02,  -8.249734e-36,
+  -7.365515e+02,   7.758742e-38,
+   7.365515e+02,  -7.758742e-38,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-H loss = -7.365396e+02
-H2O loss = -8.249734e-36
+H loss = -7.365515e+02
+H2O loss = -7.758742e-38
 }
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-H -> H2O = 7.365396e+02
-H2O -> H = 8.249734e-36
+H -> H2O = 7.365515e+02
+H2O -> H = 7.758742e-38
 }
 }

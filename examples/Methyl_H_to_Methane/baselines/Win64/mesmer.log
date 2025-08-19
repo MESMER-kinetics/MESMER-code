@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v7.1 compiled: -- May 21 2023 -- 13:02:07
+     Mesmer v7.2 compiled: -- Aug 18 2025 -- 23:00:04
 
-     Copyright (C) 2009-2022 by
+     Copyright (C) 2009-2025 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows64
-                     Execution Date:  Sun May 21 14:15:57 2023
+                     Execution Date:  Mon Aug 18 23:02:37 2025
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -124,7 +124,7 @@ Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 711Torr, 601K at dd precision with He
 Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20230521_141557
+Write metadata 20250818_230237
 
 File: "Methyl_H_to_Methane.xml" successfully parsed.
 Main Calculation begins
@@ -136,47 +136,47 @@ Number of grains requested: 250
 Number of grains produced : 1
 In FastLaplaceConvolution: 120 values in the FFT convolution routine were replaced by standard convolution
 
-Chi^2 = 5.88234e-20
+Chi^2 = 5.88241e-20
 R1:preExponential=3e-10  R1:nInfinity=0.8  
-Iteration: 1 of fitting. chiSquare = 5.88234e-20
-Direction sweep:0 of fitting. chiSquare = 5.88234e-20
+Iteration: 1 of fitting. chiSquare = 5.88241e-20
+Direction sweep:0 of fitting. chiSquare = 5.88241e-20
 
 Begin line search
-    6.56183e-20    5.88234e-20    4.86104e-20
+    6.56191e-20    5.88241e-20     4.8611e-20
 In FastLaplaceConvolution: 100 values in the FFT convolution routine were replaced by standard convolution
-    5.88234e-20    4.86104e-20    3.43278e-20
-    4.86104e-20    3.43278e-20     1.8104e-20
-    3.43278e-20     1.8104e-20    1.60629e-20
+    5.88241e-20     4.8611e-20    3.43292e-20
+     4.8611e-20    3.43292e-20    1.81038e-20
+    3.43292e-20    1.81038e-20    1.60631e-20
 Failed bounds check.
 
 Bound check failed in bracket search.
 
-Chi^2 = 1.8104e-20
+Chi^2 = 1.81038e-20
 R1:preExponential=1.46738e-10  R1:nInfinity=0.8  
-Direction sweep:1 of fitting. chiSquare = 1.8104e-20
+Direction sweep:1 of fitting. chiSquare = 1.81038e-20
 
 Begin line search
-     1.8104e-20    1.61344e-20    1.62522e-20
-     1.8104e-20    1.61344e-20    1.61794e-20    1.62522e-20
-     1.8104e-20    1.61067e-20    1.61344e-20    1.61794e-20
+    1.81038e-20    1.61344e-20    1.62522e-20
+    1.81038e-20    1.61344e-20    1.61789e-20    1.62522e-20
+    1.81038e-20    1.61069e-20    1.61344e-20    1.61789e-20
 
-Chi^2 = 1.61067e-20
+Chi^2 = 1.61069e-20
 R1:preExponential=1.46738e-10  R1:nInfinity=0.80618  
 
 Begin line search
 Failed bounds check.
 
-Chi^2 = 1.61067e-20
+Chi^2 = 1.61069e-20
 R1:preExponential=1.46738e-10  R1:nInfinity=0.80618  
-Iteration: 2 of fitting. chiSquare = 1.61067e-20
-Direction sweep:0 of fitting. chiSquare = 1.61067e-20
+Iteration: 2 of fitting. chiSquare = 1.61069e-20
+Direction sweep:0 of fitting. chiSquare = 1.61069e-20
 
 Begin line search
-    1.61794e-20    1.61067e-20    1.59926e-20
-    1.61067e-20    1.59926e-20    1.58153e-20
-    1.59926e-20    1.58153e-20    1.55452e-20
+    1.61789e-20    1.61069e-20    1.59927e-20
+    1.61069e-20    1.59927e-20    1.58152e-20
+    1.59927e-20    1.58152e-20    1.55452e-20
 In FastLaplaceConvolution: 80 values in the FFT convolution routine were replaced by standard convolution
-    1.58153e-20    1.55452e-20     1.5154e-20
+    1.58152e-20    1.55452e-20     1.5154e-20
 In FastLaplaceConvolution: 60 values in the FFT convolution routine were replaced by standard convolution
     1.55452e-20     1.5154e-20    1.46435e-20
 Failed bounds check.
@@ -257,8 +257,8 @@ Iteration: 5 of fitting. chiSquare = 1.26228e-20
 Direction sweep:0 of fitting. chiSquare = 1.26228e-20
 
 Begin line search
-     1.2851e-20    1.26228e-20    1.41926e-20
-     1.2851e-20    1.26228e-20    1.29277e-20    1.41926e-20
+     1.2851e-20    1.26228e-20    1.41925e-20
+     1.2851e-20    1.26228e-20    1.29277e-20    1.41925e-20
      1.2851e-20    1.26073e-20    1.26228e-20    1.29277e-20
 
 Chi^2 = 1.26073e-20
@@ -282,14 +282,14 @@ Failed bounds check.
 Chi^2 = 1.2565e-20
 R1:preExponential=1.70557e-10  R1:nInfinity=0.689098  
 Number of cells = 50000, Number of grains = 204
- -- Total time elapsed: 361 seconds.
+ -- Total time elapsed: 422 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
             301    8.05242e+17       1.26e-11    5.10984e-11
             301    1.62973e+18       3.52e-11    6.95356e-11
-            301    3.24984e+18       6.36e-11    8.96326e-11
+            301    3.24984e+18       6.36e-11    8.96327e-11
             301     4.8892e+18       9.37e-11    1.01887e-10
             301    6.59272e+18       1.05e-10    1.10771e-10
             301    8.20641e+18       1.34e-10    1.17138e-10
@@ -306,7 +306,7 @@ Number of cells = 50000, Number of grains = 204
             401    8.42836e+18       1.01e-10    1.04554e-10
             401    1.09785e+19       1.21e-10    1.13805e-10
             401    1.22452e+19       1.31e-10    1.17633e-10
-            401    1.47015e+19       1.44e-10    1.24019e-10
+            401    1.47015e+19       1.44e-10     1.2402e-10
             504    4.82825e+17       1.14e-11    1.91007e-11
             504    9.61817e+17       1.66e-11    2.93563e-11
             504    1.92555e+18       3.44e-11    4.35965e-11
@@ -314,7 +314,7 @@ Number of cells = 50000, Number of grains = 204
             504    3.84727e+18       5.31e-11    6.21187e-11
             504    4.90105e+18       5.78e-11    6.96099e-11
             504    6.83618e+18       6.82e-11    8.06971e-11
-            504    7.66771e+18       7.75e-11    8.47163e-11
+            504    7.66771e+18       7.75e-11    8.47164e-11
             504    9.75229e+18       8.32e-11     9.3424e-11
             504      1.172e+19       9.69e-11    1.00309e-10
             601    1.69189e+18       2.11e-11    3.08513e-11
@@ -322,20 +322,20 @@ Number of cells = 50000, Number of grains = 204
             601    4.89251e+18       3.78e-11    5.58469e-11
             601    6.60369e+18        4.5e-11    6.49253e-11
             601     8.2747e+18       4.84e-11    7.23368e-11
-            601     9.8734e+18       5.75e-11    7.84777e-11
-            601    1.14239e+19       6.18e-11    8.37619e-11
+            601     9.8734e+18       5.75e-11    7.84778e-11
+            601    1.14239e+19       6.18e-11     8.3762e-11
 
 
 Chi^2 = 1.2565e-20
 
 Best fit parameters:
 
-R1:preExponential = 1.70557e-10 +/- 1.51318e-11
-R1:nInfinity = 0.689098 +/- 0.406629
+R1:preExponential = 1.70557e-10 +/- 1.52098e-11
+R1:nInfinity = 0.689098 +/- 0.403094
 
 Correlation coefficients:
 
-R1:nInfinity , R1:preExponential = 0.799988
+R1:nInfinity , R1:preExponential = 0.802286
 
 No independent experimenal error estimates available, therefore Chi^2 test not applicable.
 
@@ -343,4 +343,4 @@ Number of degrees of Freedom = 35
 Error Factor = 1.89473e-11
 
 System saved to out.xml
-Total time elapsed: 361 seconds.
+Total time elapsed: 422 seconds.

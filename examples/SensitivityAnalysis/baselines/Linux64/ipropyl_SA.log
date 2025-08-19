@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.0 compiled: -- Mar  5 2020 -- 23:15:47
+     Mesmer v7.2 compiled: -- Aug  7 2025 -- 21:02:56
 
-     Copyright (C) 2009-2020 by
+     Copyright (C) 2009-2025 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Fri Mar  6 00:35:57 2020
+                     Execution Date:  Thu Aug  7 23:01:55 2025
                      Number of ranks: 12
 
 defaults.xml, librarymols.xml are in ../..
@@ -45,13 +45,15 @@ In i-propyl: --Parse data for ExponentialDown
 In i-propyl: i-propyl:deltaEDown was given a range with 3 steps 
 In i-propyl: i-propyl:deltaEDownTExponent was given a range with 401 steps 
 In R1: --Parse data for MesmerILT
+In R1: No units specified for pre-exponetial factor.
+In R1: No units specified for pre-exponetial factor.
 In propene: Hindered rotor b1
 In propene: propene:ZPE was given a range with 401 steps 
 In R1: No tunneling method used for R1
 3e+17PPCC, 720K at d precision with He
 3e+16PPCC, 880K at d precision with He
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20200306_003557
+Write metadata 20250807_230155
 
 File: "ipropyl_SA.xml" successfully parsed.
 Main Calculation begins
@@ -59,20 +61,11 @@ Now calculating...
 
 --Execute calcMethod SensitivityAnalysis
 Number of grains produced is not equal to that requested for: H
-Number of grains requested: 239
+Number of grains requested: 500
 Number of grains produced : 1
 In FastLaplaceConvolution: 5920 values in the FFT convolution routine were replaced by standard convolution
-Number of grains requested: 240
-Number of grains requested: 238
 In i-propyl: Delta E down is smaller than grain size: the solution may not converge.
-Number of grains requested: 237
-Number of grains requested: 241
-Number of grains requested: 261
-Number of grains requested: 260
-Number of grains requested: 263
-Number of grains requested: 259
-Number of grains requested: 262
- -- Total time elapsed: 8 seconds.
+ -- Total time elapsed: 5 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 8 seconds.
+Total time elapsed: 5 seconds.

@@ -36,13 +36,13 @@ Input variable key:
 
  First order indices for i-propyl => propene+H: 
                 (1)            (2)            (3)
-            0.58584      4.255e-05     0.00083197
+            0.58582     4.2598e-05     0.00083159
 
  Second order indices for i-propyl => propene+H: 
                 (1)            (2)            (3)
 (1)              --             --             --
-(2)       0.0031417             --             --
-(3)       0.0024849     0.00049436             --
+(2)       0.0031295             --             --
+(3)       0.0024835     0.00049449             --
 
- R-Squared statistic: 0.8507
+ R-Squared statistic: 0.8508
 

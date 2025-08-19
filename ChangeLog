@@ -1,3 +1,8 @@
+2025-Aug-7 Struan Robertson
+
+		* GeneralISC.cpp, InternalConversion.cpp: Initial implementations of 
+		collisionless internal conversion and inter-system crossing classes.
+		
 2024-Nov-10 Struan Robertson
 
 		* gWellRadiationTransition.h/.cpp: Attribute that specifies the number of 

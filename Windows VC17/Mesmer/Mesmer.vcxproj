@@ -417,6 +417,8 @@
     <ClCompile Include="..\..\src\gWellRadiationTransition.cpp" />
     <ClCompile Include="..\..\src\MolecularComponents.cpp" />
     <ClCompile Include="..\..\src\plugins\AnalyticalRepresentation.cpp" />
+    <ClCompile Include="..\..\src\plugins\GeneralISC.cpp" />
+    <ClCompile Include="..\..\src\plugins\InternalConversion.cpp" />
     <ClCompile Include="..\..\src\plugins\BeyerSwinehart.cpp" />
     <ClCompile Include="..\..\src\plugins\BiExponentialDown.cpp" />
     <ClCompile Include="..\..\src\plugins\BoltzmannDistribution.cpp" />

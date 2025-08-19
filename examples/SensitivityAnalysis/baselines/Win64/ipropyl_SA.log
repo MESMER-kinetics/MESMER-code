@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v7.1 compiled: -- May 21 2023 -- 13:02:07
+     Mesmer v7.2 compiled: -- Aug 18 2025 -- 23:00:04
 
-     Copyright (C) 2009-2022 by
+     Copyright (C) 2009-2025 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows64
-                     Execution Date:  Sun May 21 14:51:47 2023
+                     Execution Date:  Mon Aug 18 23:54:11 2025
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -45,13 +45,15 @@ In i-propyl: --Parse data for ExponentialDown
 In i-propyl: i-propyl:deltaEDown was given a range with 3 steps 
 In i-propyl: i-propyl:deltaEDownTExponent was given a range with 401 steps 
 In R1: --Parse data for MesmerILT
+In R1: No units specified for pre-exponetial factor.
+In R1: No units specified for pre-exponetial factor.
 In propene: Hindered rotor b1
 In propene: propene:ZPE was given a range with 401 steps 
 In R1: No tunneling method used for R1
 3e+17PPCC, 720K at d precision with He
 3e+16PPCC, 880K at d precision with He
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20230521_145147
+Write metadata 20250818_235411
 
 File: "ipropyl_SA.xml" successfully parsed.
 Main Calculation begins
@@ -61,7 +63,7 @@ Now calculating...
 Number of grains produced is not equal to that requested for: H
 Number of grains requested: 500
 Number of grains produced : 1
-In FastLaplaceConvolution: 5880 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 5900 values in the FFT convolution routine were replaced by standard convolution
 In i-propyl: Delta E down is smaller than grain size: the solution may not converge.
 
 WARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs).
@@ -70,7 +72,7 @@ The last CSE = -5.33415e-10 and the first IERE = -1.8015e-09
 (last CSE)/(first IERE) ratio = 0.296094, which is less than an order of magnitude
 
 Results obtained from Bartis Widom eigenvalue-vector analysis may be unreliable
- -- Total time elapsed: 29 seconds.
+ -- Total time elapsed: 31 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 29 seconds.
+Total time elapsed: 31 seconds.

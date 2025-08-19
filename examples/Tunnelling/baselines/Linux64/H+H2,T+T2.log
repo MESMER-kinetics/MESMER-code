@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.0 compiled: -- Apr  7 2020 -- 20:41:26
+     Mesmer v7.2 compiled: -- Aug  7 2025 -- 21:02:56
 
-     Copyright (C) 2009-2020 by
+     Copyright (C) 2009-2025 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Sun Apr 12 00:09:01 2020
+                     Execution Date:  Thu Aug  7 23:30:20 2025
                      Number of ranks: 12
 
 defaults.xml, librarymols.xml are in ../..
@@ -39,6 +39,9 @@ The default value of me:calcMethod was used.
 --Parse data for simpleCalc
 Energy convention "" written to <moleculeList>
 In R2: Parsing reaction...Irreversible unimolecular reaction
+In Cl2-H: No lennard-Jones parameters found for Cl2-H.
+In Cl2-H: An attempt to calculate parameters will be made. If this fails
+In Cl2-H: default parameters will be used
 In Cl2-H: The default value of the attribute spinMultiplicity was used.
 In Cl2-H: The default value of me:DistributionCalcMethod was used.
 In Cl2-H: --Parse data for Boltzmann
@@ -55,7 +58,7 @@ In R2: 194 PotentialPoints read for WKB tunneling
 750Torr, 600K at d precision with N_2
 750Torr, 1000K at d precision with N_2
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20200412_000901
+Write metadata 20250807_233020
 
 File: "H+H2,T+T2.xml" successfully parsed.
 Main Calculation begins
@@ -67,11 +70,11 @@ In ProdCl2-H: The default value of the attribute spinMultiplicity was used.
 In FastLaplaceConvolution: 200 values in the FFT convolution routine were replaced by standard convolution
 In timeEvolution: No population was assigned, and there is no source term.
 In timeEvolution: Initial poupulation set to 1.0  in the first isomer.
- -- Total time elapsed: 5 seconds.
+ -- Total time elapsed: 6 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
 
 System saved to mesmer_out.xml
-Total time elapsed: 5 seconds.
+Total time elapsed: 6 seconds.

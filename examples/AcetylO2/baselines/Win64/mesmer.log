@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v7.1 compiled: -- May 21 2023 -- 13:02:07
+     Mesmer v7.2 compiled: -- Aug 18 2025 -- 23:00:04
 
-     Copyright (C) 2009-2022 by
+     Copyright (C) 2009-2025 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows64
-                     Execution Date:  Sun May 21 14:15:22 2023
+                     Execution Date:  Mon Aug 18 23:02:08 2025
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -56,11 +56,10 @@ In R4: No tunneling method used for R4
 In R3: Parsing reaction...Irreversible unimolecular reaction
 In R3: --Parse data for RRKM
 In R3: No tunneling method used for R3
-The default value of the attribute precision was used.
-200.72Torr, 298K at d precision with He
+200.72Torr, 298K at dd precision with He
 Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20230521_141522
+Write metadata 20250818_230208
 
 File: "Acetyl_O2_associationEx.xml" successfully parsed.
 Main Calculation begins
@@ -72,11 +71,11 @@ In FastLaplaceConvolution: 1220 values in the FFT convolution routine were repla
 In FastLaplaceConvolution: 1660 values in the FFT convolution routine were replaced by standard convolution
 In FastLaplaceConvolution: 13160 values in the FFT convolution routine were replaced by standard convolution
 In mesmer::CollisionOperator::timeEvolution: No population was assigned. Initialize the first source term to 1.0.
- -- Total time elapsed: 6 seconds.
+ -- Total time elapsed: 8 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
 
 System saved to out.xml
-Total time elapsed: 6 seconds.
+Total time elapsed: 8 seconds.
