@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v7.1 compiled: -- May 21 2023 -- 13:02:07
+     Mesmer v7.2 compiled: -- Aug 18 2025 -- 23:00:04
 
-     Copyright (C) 2009-2022 by
+     Copyright (C) 2009-2025 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows64
-                     Execution Date:  Sun May 21 16:32:59 2023
+                     Execution Date:  Tue Aug 19 02:14:06 2025
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -59,6 +59,8 @@ In R3: --Parse data for RRKM
 In R3: No tunneling method used for R3
 In R4: Parsing reaction...Irreversible unimolecular reaction
 In R4: --Parse data for MesmerILT
+In R4: No units specified for pre-exponetial factor.
+In R4: No units specified for pre-exponetial factor.
 In O: Cannot find me:vibFreqs or me:hessian. Assuming an atom or a sink molecule.
 In O: No rotational constants from <me:rotConsts> or structure. Assuming an atom or a sink molecule.
 In R4: No tunneling method used for R4
@@ -81,7 +83,7 @@ The default value of the attribute Tstep was used.
 The default value of the attribute Tmin was used.
 The default value of the attribute Tmax was used.
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20230521_163259
+Write metadata 20250819_021406
 
 File: "PO+O2.xml" successfully parsed.
 Main Calculation begins
@@ -110,11 +112,11 @@ The last CSE = -6583.11 and the first IERE = -8431.45
 (last CSE)/(first IERE) ratio = 0.78078, which is less than an order of magnitude
 
 Results obtained from Bartis Widom eigenvalue-vector analysis may be unreliable
- -- Total time elapsed: 141 seconds.
+ -- Total time elapsed: 239 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
 
 System saved to mesmer_out.xml
-Total time elapsed: 141 seconds.
+Total time elapsed: 239 seconds.

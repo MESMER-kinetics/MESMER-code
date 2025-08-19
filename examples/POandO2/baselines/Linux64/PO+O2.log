@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.1 compiled: -- Jul 13 2020 -- 23:02:00
+     Mesmer v7.2 compiled: -- Aug  7 2025 -- 21:02:56
 
-     Copyright (C) 2009-2021 by
+     Copyright (C) 2009-2025 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Tue Jul 14 00:31:23 2020
+                     Execution Date:  Thu Aug  7 23:36:33 2025
                      Number of ranks: 12
 
 defaults.xml, librarymols.xml are in ../..
@@ -45,7 +45,6 @@ In cis-OPO2: --Parse data for ExponentialDown
 In R1: --Parse data for MesmerILT
 In R1: The default value of me:TInfinity was used.
 In R1: No tunneling method used for R1
-In R1: Not a unimolecular reaction: look for excess reactant concentration.
 In R2: Parsing reaction...Isomerization reaction
 In trans-OPO2: The default value of me:DistributionCalcMethod was used.
 In trans-OPO2: --Parse data for Boltzmann
@@ -60,7 +59,8 @@ In R3: --Parse data for RRKM
 In R3: No tunneling method used for R3
 In R4: Parsing reaction...Irreversible unimolecular reaction
 In R4: --Parse data for MesmerILT
-In R4: The default value of me:TInfinity was used.
+In R4: No units specified for pre-exponetial factor.
+In R4: No units specified for pre-exponetial factor.
 In O: Cannot find me:vibFreqs or me:hessian. Assuming an atom or a sink molecule.
 In O: No rotational constants from <me:rotConsts> or structure. Assuming an atom or a sink molecule.
 In R4: No tunneling method used for R4
@@ -68,16 +68,22 @@ In R5: Parsing reaction...Irreversible unimolecular reaction
 In R5: --Parse data for RRKM
 In R5: No tunneling method used for R5
 0.01Torr, 294K at qd precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+13 particles per cc
 10Torr, 294K at qd precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+13 particles per cc
 20Torr, 294K at qd precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+13 particles per cc
 30Torr, 294K at qd precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+13 particles per cc
 40Torr, 294K at qd precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+13 particles per cc
 50Torr, 294K at qd precision with N2
+Excess Reactant Conc. for reaction R1 = 1e+13 particles per cc
 The default value of the attribute Tstep was used.
 The default value of the attribute Tmin was used.
 The default value of the attribute Tmax was used.
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20200714_003123
+Write metadata 20250807_233633
 
 File: "PO+O2.xml" successfully parsed.
 Main Calculation begins
@@ -93,7 +99,7 @@ Number of cells = 50000, Number of grains = 226
 In FastLaplaceConvolution: 20 values in the FFT convolution routine were replaced by standard convolution
 In FastLaplaceConvolution: 40 values in the FFT convolution routine were replaced by standard convolution
 Number of grains produced is not equal to that requested for: O
-Number of grains requested: 226
+Number of grains requested: 250
 Number of grains produced : 1
 In O_a: Cannot find me:vibFreqs or me:hessian. Assuming an atom or a sink molecule.
 In O_a: No rotational constants from <me:rotConsts> or structure. Assuming an atom or a sink molecule.
@@ -106,11 +112,11 @@ The last CSE = -6583.11 and the first IERE = -8431.45
 (last CSE)/(first IERE) ratio = 0.78078, which is less than an order of magnitude
 
 Results obtained from Bartis Widom eigenvalue-vector analysis may be unreliable
- -- Total time elapsed: 61 seconds.
+ -- Total time elapsed: 39 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
 
 System saved to mesmer_out.xml
-Total time elapsed: 61 seconds.
+Total time elapsed: 39 seconds.

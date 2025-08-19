@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v7.1 compiled: -- May 21 2023 -- 13:02:07
+     Mesmer v7.2 compiled: -- Aug 18 2025 -- 23:00:04
 
-     Copyright (C) 2009-2022 by
+     Copyright (C) 2009-2025 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows64
-                     Execution Date:  Sun May 21 16:09:37 2023
+                     Execution Date:  Tue Aug 19 01:37:36 2025
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -60,7 +60,7 @@ The default value of the attribute precision was used.
 200.72Torr, 298K at d precision with He
 Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20230521_160937
+Write metadata 20250819_013736
 
 File: "Acetyl_O2_associationEx2.xml" successfully parsed.
 Main Calculation begins

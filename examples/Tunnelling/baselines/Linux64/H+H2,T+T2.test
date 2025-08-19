@@ -50676,17 +50676,17 @@ There should be 1 chemically significant eigenvalues (CSEs)
 
 Y_matrix:
 {
-  -8.326412e+07,
+   8.326412e+07,
 }
 
 Z_matrix: 
 {
-  -1.000000e+00,
+   1.000000e+00,
 }
 
 Z_matrix^(-1):
 {
-  -1.000000e+00,
+   1.000000e+00,
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:

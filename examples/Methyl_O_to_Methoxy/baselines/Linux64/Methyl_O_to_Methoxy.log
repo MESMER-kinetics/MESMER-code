@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.1 compiled: -- May 26 2021 -- 23:56:09
+     Mesmer v7.2 compiled: -- Aug  7 2025 -- 21:02:56
 
-     Copyright (C) 2009-2021 by
+     Copyright (C) 2009-2025 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Thu May 27 09:55:28 2021
+                     Execution Date:  Thu Aug  7 23:36:31 2025
                      Number of ranks: 12
 
 defaults.xml, librarymols.xml are in ../..
@@ -44,11 +44,11 @@ In Methoxy: --Parse data for Boltzmann
 In Methoxy: --Parse data for ExponentialDown
 In R1: --Parse data for MesmerILT
 In R1: No tunneling method used for R1
-In R1: Not a unimolecular reaction: look for excess reactant concentration.
 In R1: No value of me:excessReactantConc was supplied and the default value NEEDS TO BE CHECKED**
 25.1Torr, 301K at dd precision with He
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20210527_095528
+Write metadata 20250807_233631
 
 File: "Methyl_O_to_Methoxy.xml" successfully parsed.
 Main Calculation begins
@@ -60,11 +60,11 @@ Number of grains produced is not equal to that requested for: O3P
 Number of grains requested: 250
 Number of grains produced : 2
 In FastLaplaceConvolution: 40 values in the FFT convolution routine were replaced by standard convolution
- -- Total time elapsed: 1 seconds.
+ -- Total time elapsed: 0 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
 
 System saved to mesmer_out.xml
-Total time elapsed: 1 seconds.
+Total time elapsed: 0 seconds.
