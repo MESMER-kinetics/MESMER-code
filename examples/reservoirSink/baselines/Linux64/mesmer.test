@@ -1,5 +1,9 @@
 PT Grid 0 Condition: conc = 1.4477e+18, temp = 250, diagonalization precision: double
 {
+The reservoir for Int1 is 97 grains,which is 9700 cm-1 (or 116.038 kJ/mol) from the well bottom.
+At equilibrium 6.66134e-16 of the Int1 population is in the active states. 
+The reservoir for Int2 is 75 grains,which is 7500 cm-1 (or 89.7198 kJ/mol) from the well bottom.
+At equilibrium 1.947e-12 of the Int2 population is in the active states. 
 
 k_f(e) grains for R1:
 {
@@ -707,10 +711,6 @@ k_f(e) grains for R4:
 }
 
 Canonical pseudo first order forward rate constant of irreversible reaction R4 = 3.10094e-19 s-1 (250 K)
-The reservoir for Int1 is 97 grains,which is 9700 cm-1 (or 116.038 kJ/mol) from the well bottom.
-At equilibrium 6.66134e-16 of the Int1 population is in the active states. 
-The reservoir for Int2 is 75 grains,which is 7500 cm-1 (or 89.7198 kJ/mol) from the well bottom.
-At equilibrium 1.947e-12 of the Int2 population is in the active states. 
 
 Eq fraction matrix:
 {

@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.1 compiled: -- Jul  3 2021 -- 15:48:53
+     Mesmer v7.2 compiled: -- Aug 19 2025 -- 23:04:05
 
-     Copyright (C) 2009-2021 by
+     Copyright (C) 2009-2025 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Sat Jul  3 15:53:16 2021
+                     Execution Date:  Tue Aug 19 23:07:02 2025
                      Number of ranks: 12
 
 defaults.xml, librarymols.xml are in ../..
@@ -49,7 +49,6 @@ In TS1: No imaginary vibrational frequency. Check if there is tunneling.
 The default value of me:DOSCMethod was used.
 In R1: --Parse data for RRKM
 In R1: No tunneling method used for R1
-In R1: Not a unimolecular reaction: look for excess reactant concentration.
 In R2: Parsing reaction...Association reaction
 In HOSO: No lennard-Jones parameters found for HOSO.
 In HOSO: An attempt to calculate parameters will be made. If this fails
@@ -61,7 +60,6 @@ In TS2: No imaginary vibrational frequency. Check if there is tunneling.
 The default value of me:DOSCMethod was used.
 In R2: --Parse data for RRKM
 In R2: No tunneling method used for R2
-In R2: Not a unimolecular reaction: look for excess reactant concentration.
 In R4: Parsing reaction...Isomerization reaction
 In TS4: No imaginary vibrational frequency. Check if there is tunneling.
 The default value of me:DOSCMethod was used.
@@ -73,12 +71,14 @@ In OH: The default value of me:DOSCMethod was used.
 In SO: The default value of me:DOSCMethod was used.
 In R6: No tunneling method used for R6
 3.37e+18PPCC, 295K at qd precision with He
+Excess Reactant Conc. for reaction R1 = 1e+14 particles per cc
+Excess Reactant Conc. for reaction R2 = 1e+14 particles per cc
 The default value of the attribute Tstep was used.
 The default value of the attribute Tmin was used.
 The default value of the attribute Tmax was used.
 --Parse data for ThermodynamicTable
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20210703_155316
+Write metadata 20250819_230702
 
 File: "HSO2.xml" successfully parsed.
 Main Calculation begins
@@ -100,7 +100,7 @@ In FastLaplaceConvolution: 40 values in the FFT convolution routine were replace
 In He: The default value of me:DOSCMethod was used.
 In He: The default value of the attribute spinMultiplicity was used.
 gDensityOfStates initialization failed.
- -- Total time elapsed: 61 seconds.
+ -- Total time elapsed: 30 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 61 seconds.
+Total time elapsed: 30 seconds.

@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v7.0 compiled: -- Nov  1 2022 -- 10:09:41
+     Mesmer v7.2 compiled: -- Aug 19 2025 -- 23:04:05
 
-     Copyright (C) 2009-2022 by
+     Copyright (C) 2009-2025 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Tue Nov  1 11:20:43 2022
+                     Execution Date:  Wed Aug 20 00:02:47 2025
                      Number of ranks: 12
 
 defaults.xml, librarymols.xml are in ../..
@@ -45,6 +45,8 @@ In Im1a: The default value of me:DistributionCalcMethod was used.
 In Im1a: --Parse data for Boltzmann
 In Im1a: --Parse data for ExponentialDown
 In R1: --Parse data for MesmerILT
+In R1: No units specified for pre-exponetial factor.
+In R1: No units specified for pre-exponetial factor.
 In R1: The default value of me:TInfinity was used.
 In R1: No tunneling method used for R1
 In R3: Parsing reaction...Irreversible unimolecular reaction
@@ -56,7 +58,7 @@ In R3: Data for DefinedTunnelingCoefficients found
 6e+16PPCC, 40K at dd precision with N_2
 Excess Reactant Conc. for reaction R1 = 2.25e+14 particles per cc
 The default value of me:ForceMacroDetailedBalance was used.
-Write metadata 20221101_112043
+Write metadata 20250820_000247
 
 File: "OH+methanol.xml" successfully parsed.
 Main Calculation begins
@@ -65,13 +67,13 @@ Now calculating...
 --Execute calcMethod simpleCalc
 Number of cells = 50000, Number of grains = 264
 In FastLaplaceConvolution: 320 values in the FFT convolution routine were replaced by standard convolution
-In FastLaplaceConvolution: 1200 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 1220 values in the FFT convolution routine were replaced by standard convolution
 In FastLaplaceConvolution: 5300 values in the FFT convolution routine were replaced by standard convolution
- -- Total time elapsed: 2 seconds.
+ -- Total time elapsed: 1 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
 
 System saved to mesmer_out.xml
-Total time elapsed: 2 seconds.
+Total time elapsed: 1 seconds.

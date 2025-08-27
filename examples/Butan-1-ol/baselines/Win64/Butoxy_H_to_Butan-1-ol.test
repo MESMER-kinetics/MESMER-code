@@ -6528,37 +6528,37 @@ There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemic
 
 Z_matrix: 
 {
-  -2.319063e-31,   5.378053e-62,
-   2.319063e-31,   1.000000e+00,
+  -2.096550e-31,   4.395520e-62,
+   2.096550e-31,   1.000000e+00,
 }
 
 Z_matrix^(-1):
 {
-  -4.312086e+30,   2.319063e-31,
+  -4.769742e+30,   2.096550e-31,
    1.000000e+00,   1.000000e+00,
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-   1.000000e+00,   0.000000e+00,
-  -3.300626e-65,   1.000000e+00,
+   1.000000e+00, -2.585234e-126,
+   5.354609e-66,   1.000000e+00,
 }
 
 Kr matrix:
 {
-  -6.761982e+06,   3.636630e-55,
-   6.761982e+06,  -3.636630e-55,
+  -6.761982e+06,   2.972243e-55,
+   6.761982e+06,  -2.972243e-55,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-butan-1-ol loss = -3.636630e-55
+butan-1-ol loss = -2.972243e-55
 butoxy loss = -6.761982e+06
 }
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-butan-1-ol -> butoxy = 3.636630e-55
+butan-1-ol -> butoxy = 2.972243e-55
 butoxy -> butan-1-ol = 6.761982e+06
 }
 }
