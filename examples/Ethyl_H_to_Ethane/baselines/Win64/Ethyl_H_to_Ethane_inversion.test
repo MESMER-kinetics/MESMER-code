@@ -1513,7 +1513,7 @@ Eigenvalues
   -2.099527e+07
   -1.792525e+07
   -7.043930e+06
-   1.974849e-22
+   2.258156e-22
 }
 
 Bartis Widom eigenvalue/eigenvector analysis
@@ -1524,37 +1524,37 @@ There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemic
 
 Z_matrix: 
 {
-   1.017626e-33,   1.035563e-66,
-  -1.017626e-33,   1.000000e+00,
+  -4.458397e-34,   1.987731e-67,
+   4.458397e-34,   1.000000e+00,
 }
 
 Z_matrix^(-1):
 {
-   9.826791e+32,  -1.017626e-33,
+  -2.242958e+33,   4.458397e-34,
    1.000000e+00,   1.000000e+00,
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-   1.000000e+00,  8.585123e-131,
-  -1.384799e-65,   1.000000e+00,
+   1.000000e+00, -5.107048e-132,
+   1.613821e-65,   1.000000e+00,
 }
 
 Kr matrix:
 {
-  -7.043930e+06,   7.294434e-60,
-   7.043930e+06,  -7.294434e-60,
+  -7.043930e+06,   1.400144e-60,
+   7.043930e+06,  -1.400144e-60,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-Ethane loss = -7.294434e-60
+Ethane loss = -1.400144e-60
 Ethyl loss = -7.043930e+06
 }
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-Ethane -> Ethyl = 7.294434e-60
+Ethane -> Ethyl = 1.400144e-60
 Ethyl -> Ethane = 7.043930e+06
 }
 }

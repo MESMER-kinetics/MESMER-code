@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v6.1 compiled: -- May 26 2021 -- 23:56:09
+     Mesmer v7.2 compiled: -- Aug 19 2025 -- 23:04:05
 
-     Copyright (C) 2009-2021 by
+     Copyright (C) 2009-2025 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Linux
-                     Execution Date:  Wed May 26 23:59:32 2021
+                     Execution Date:  Tue Aug 19 23:06:39 2025
                      Number of ranks: 12
 
 defaults.xml, librarymols.xml are in ../..
@@ -44,18 +44,15 @@ In I2_c_ax: --Parse data for Boltzmann
 In I2_c_ax: --Parse data for ExponentialDown
 In R_I1_I2c: --Parse data for RRKM
 In R_I1_I2c: No tunneling method used for R_I1_I2c
-In R_I1_I2c: Not a unimolecular reaction: look for excess reactant concentration.
 In R_I1_I2t: Parsing reaction...Association reaction
 In I2_t_eq: The default value of me:DistributionCalcMethod was used.
 In I2_t_eq: --Parse data for Boltzmann
 In I2_t_eq: --Parse data for ExponentialDown
 In R_I1_I2t: --Parse data for RRKM
 In R_I1_I2t: No tunneling method used for R_I1_I2t
-In R_I1_I2t: Not a unimolecular reaction: look for excess reactant concentration.
 In R1_HO2: Parsing reaction...Irreversible exchange reaction
 In R1_HO2: --Parse data for RRKM
 In R1_HO2: No tunneling method used for R1_HO2
-In R1_HO2: Not a unimolecular reaction: look for excess reactant concentration.
 In R3_HO2: Parsing reaction...Irreversible unimolecular reaction
 In R3_HO2: --Parse data for RRKM
 In R3_HO2: No tunneling method used for R3_HO2
@@ -66,10 +63,13 @@ In R_2_6c: Parsing reaction...Irreversible unimolecular reaction
 In R_2_6c: --Parse data for RRKM
 In R_2_6c: No tunneling method used for R_2_6c
 760Torr, 298K at d precision with N2
+Excess Reactant Conc. for reaction R_I1_I2c = 5e+18 particles per cc
+Excess Reactant Conc. for reaction R_I1_I2t = 5e+18 particles per cc
+Excess Reactant Conc. for reaction R1_HO2 = 5e+18 particles per cc
 The default value of the attribute Tstep was used.
 The default value of the attribute Tmin was used.
 The default value of the attribute Tmax was used.
-Write metadata 20210526_235932
+Write metadata 20250819_230639
 
 File: "benzene_oxidation_test.xml" successfully parsed.
 Main Calculation begins
@@ -83,11 +83,11 @@ The default value of me:energyTransferModel was used.
 No value of me:deltaEDown was supplied and the default value NEEDS TO BE CHECKED**
 Number of cells = 50000, Number of grains = 228
 In FastLaplaceConvolution: 16020 values in the FFT convolution routine were replaced by standard convolution
- -- Total time elapsed: 15 seconds.
+ -- Total time elapsed: 18 seconds.
 
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
 
 System saved to out.xml
-Total time elapsed: 15 seconds.
+Total time elapsed: 18 seconds.

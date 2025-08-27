@@ -7662,37 +7662,37 @@ There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemic
 
 Z_matrix: 
 {
-  -2.192634e-31,   4.807646e-62,
-   2.192634e-31,   1.000000e+00,
+  -2.249812e-31,   5.061653e-62,
+   2.249812e-31,   1.000000e+00,
 }
 
 Z_matrix^(-1):
 {
-  -4.560724e+30,   2.192634e-31,
+  -4.444816e+30,   2.249812e-31,
    1.000000e+00,   1.000000e+00,
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-   1.000000e+00,  3.693191e-126,
-   3.801927e-65,   1.000000e+00,
+   1.000000e+00, -2.585234e-126,
+  -2.485059e-66,   1.000000e+00,
 }
 
 Kr matrix:
 {
-  -6.770807e+06,   3.255164e-55,
-   6.770807e+06,  -3.255164e-55,
+  -6.770807e+06,   3.427147e-55,
+   6.770807e+06,  -3.427147e-55,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-butan-1-hydroperoxy loss = -3.255164e-55
+butan-1-hydroperoxy loss = -3.427147e-55
 butan-1-peroxy loss = -6.770807e+06
 }
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-butan-1-hydroperoxy -> butan-1-peroxy = 3.255164e-55
+butan-1-hydroperoxy -> butan-1-peroxy = 3.427147e-55
 butan-1-peroxy -> butan-1-hydroperoxy = 6.770807e+06
 }
 }
