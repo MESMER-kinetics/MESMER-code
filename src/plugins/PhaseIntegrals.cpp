@@ -111,9 +111,6 @@ namespace mesmer
       m_potential[i] = m_pFTSTPotential->HinderingPotential(rxnCrd, angles) ;
     }
 
-    //// Restore rotatable bond IDs.
-    //gs.setRotBondID(SavedRotBondIDs);
-
     // Heavyside function integration.
     for (size_t i(0); i < m_MCPnts; ++i) {
       double kfctr = m_knmtcFctr[i];
@@ -137,50 +134,6 @@ namespace mesmer
     // Convolve with remaining energy contributions.
     convolveExcessEnergy(TDOF, cellSOS);
 
-#ifdef _DEBUG
-
-    // The following is a specific test for the CH3 + H system taken from JPC 101, 9974 (1997).
-
-    const size_t MaximumCell = cellSOS.size();
-    vector<double> ene(cellSOS.size(), 0.0);
-    vector<double> wrk = ene;
-    vector<double> tmpCellSOS = ene;
-    getCellEnergies(MaximumCell, cellSize, ene);
-    size_t jj = size_t(m_V0);
-    for (size_t j(0); j < jj; ++j) {
-      wrk[j] = 1.0 / (2.0*sqrt(m_V0*m_V0 - m_V0 * ene[j]));
-    }
-
-    // Convolve with remaining energy contributions.
-    double pwr = 0.5*double(TDOF);
-    cnt = 4.0*RotCnt / (15.0*m_Sym);
-    for (size_t j(0); j < ene.size(); ++j) {
-      ene[j] += 2.0*cnt * pow(ene[j], pwr);
-    }
-    FastLaplaceConvolution(wrk, ene, tmpCellSOS);
-
-
-    ctest << endl;
-    ctest << "  115 " << formatFloat(wrk[154], 6, 14) << formatFloat(tmpCellSOS[154], 6, 14) << endl;
-    ctest << "  248 " << formatFloat(wrk[247], 6, 14) << formatFloat(tmpCellSOS[247], 6, 14) << endl;
-    ctest << "  413 " << formatFloat(wrk[412], 6, 14) << formatFloat(tmpCellSOS[412], 6, 14) << endl;
-    ctest << "  624 " << formatFloat(wrk[623], 6, 14) << formatFloat(tmpCellSOS[623], 6, 14) << endl;
-    ctest << " 1040 " << formatFloat(wrk[1039], 6, 14) << formatFloat(tmpCellSOS[1039], 6, 14) << endl;
-    ctest << " 1248 " << formatFloat(wrk[1247], 6, 14) << formatFloat(tmpCellSOS[1247], 6, 14) << endl;
-    ctest << " 2007 " << formatFloat(wrk[2006], 6, 14) << formatFloat(tmpCellSOS[2006], 6, 14) << endl;
-    ctest << " 2080 " << formatFloat(wrk[2079], 6, 14) << formatFloat(tmpCellSOS[2079], 6, 14) << endl;
-    ctest << " 2600 " << formatFloat(wrk[2599], 6, 14) << formatFloat(tmpCellSOS[2599], 6, 14) << endl;
-    ctest << " 3120 " << formatFloat(wrk[3119], 6, 14) << formatFloat(tmpCellSOS[3119], 6, 14) << endl;
-    ctest << " 3419 " << formatFloat(wrk[3418], 6, 14) << formatFloat(tmpCellSOS[3418], 6, 14) << endl;
-    ctest << " 4015 " << formatFloat(wrk[4014], 6, 14) << formatFloat(tmpCellSOS[4014], 6, 14) << endl;
-    ctest << " 4445 " << formatFloat(wrk[4444], 6, 14) << formatFloat(tmpCellSOS[4444], 6, 14) << endl;
-    ctest << " 5554 " << formatFloat(wrk[5553], 6, 14) << formatFloat(tmpCellSOS[5553], 6, 14) << endl;
-    ctest << endl;
-
-    // wrk = tmpCellDOS;
-
-#endif
-
   }
 
   void LnrLnrTops::integrate(double rxnCrd, vector<double> &cellSOS) {
@@ -191,10 +144,42 @@ namespace mesmer
     convolveExcessEnergy(TDOF, cellSOS);
   }
 
-
   void LnrAtmTops::integrate(double rxnCrd, vector<double> &cellSOS) {
 
     const size_t TDOF = m_nIDOF + 3;
+
+    // Convolve with remaining energy contributions.
+    convolveExcessEnergy(TDOF, cellSOS);
+  }
+
+  void MethylPlusH_HW::integrate(double rxnCrd, vector<double>& cellSOS) {
+
+    Molecule* top = (m_top1 == NONLINEAR) ? m_Frag1 : m_Frag2;
+
+    const double cellSize = m_cellSize;
+    const size_t TDOF = m_nIDOF + 3;
+
+    // Conversion and symmetry number factor.
+    vector<double> MntsInt;
+    top->getDOS().get_rotConsts(MntsInt);
+    double orbitalInertia = m_mu * rxnCrd * rxnCrd / conMntInt2RotCnt;
+    double RotCnt = orbitalInertia / sqrt(MntsInt[0] * MntsInt[1] * MntsInt[2]);
+    double cnt = 2.0 * RotCnt / (3.0 * m_Sym);
+
+    // The following is a specific test for the CH3 + H system taken from JPC 101, 9974 (1997).
+
+    // Hirst potential
+    const double C = getConvertedEnergy("kcal/mol", 164.0);
+    const double A = 0.43;
+    const double V0 = C * exp(-A * rxnCrd * rxnCrd);
+
+    vector<double> ene(cellSOS.size(), 0.0);
+    getCellEnergies(cellSOS.size(), cellSize, ene);
+
+    cnt *= 2.0;
+    for (size_t j(0); j < cellSOS.size() ; ++j) {
+      cellSOS[j] = (ene[j] < V0) ? cnt * ( 1 - (sqrt(1.0 - ene[j]/V0))) : cnt ;
+    }
 
     // Convolve with remaining energy contributions.
     convolveExcessEnergy(TDOF, cellSOS);

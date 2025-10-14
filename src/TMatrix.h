@@ -160,7 +160,7 @@ namespace mesmer
     // Matrix inversion method by LU decomposition
     int invertLUdecomposition();
 
-    void normalizeProbabilityMatrix();
+    void normalizeProbabilityMatrix(bool writeNormCoeff = false);
 
     // Print out the contents of the matrix.
     void print(std::string& title, std::ostream& output_stream, int nr = -1, int nc = -1, int fr = -1, int fc = -1) const;
@@ -830,7 +830,7 @@ namespace mesmer
   // Normalize collision operator
   //
   template<class T>
-  void TMatrix<T>::normalizeProbabilityMatrix() {
+  void TMatrix<T>::normalizeProbabilityMatrix(bool writeNormCoeff) {
 
     //
     // Normalization of Probability matrix.
@@ -873,6 +873,17 @@ namespace mesmer
         (*this)[j][i] *= work[j];
         (*this)[i][j] *= work[j];
       }
+    }
+
+    //
+    // Write out normalization coefficients for inspection.
+    //
+    if (writeNormCoeff) {
+      ctest << endl << "Normalization Coefficients" << endl << "{" << endl;
+      for (i = 0; i < optrsize; ++i) {
+        ctest << work[i] << endl;
+      }
+      ctest << "}" << endl;
     }
 
   }

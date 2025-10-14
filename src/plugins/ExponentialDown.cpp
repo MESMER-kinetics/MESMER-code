@@ -261,6 +261,9 @@ namespace mesmer
   ******************************************************************************/
   double ExponentialDown::calculateTransitionProbability(double Ei, double Ej) {
     double deltaEDown = m_deltaEDown + Ei * m_EdepParam;
+    double cnt = 500.0;
+    double El  = 1200.0;
+    // deltaEDown *= 1.0 / (1 + exp(-(Ei - El)/cnt));
     const double temperature = 1.0 / (boltzmann_RCpK * getParent()->getEnv().beta);
     if (m_dEdExp != 0.0)
       deltaEDown *= pow((temperature / m_refTemp), m_dEdExp);

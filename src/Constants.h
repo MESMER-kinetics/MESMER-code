@@ -63,7 +63,7 @@ namespace Constants {
   static const double idealGasC = boltzmann_C * AvogadroC;
 
   // Convertion factor needed to obtain rotational constant (cm-1) from moment of Inertia (amu Ang^2).
-  // The definitiion used here is h/(8 pi^2c), but note, authors differ on this definition.
+  // The definition used here is h/(8 pi^2c), but note, authors differ on this definition.
 
   // static const double conMntInt2RotCnt = 16.85917 ;
   static const double conMntInt2RotCnt = PlancksConstant_in_JouleSecond * 1.0e+20 / (8.0 * M_PI * M_PI * SpeedOfLight_in_cm * amu);

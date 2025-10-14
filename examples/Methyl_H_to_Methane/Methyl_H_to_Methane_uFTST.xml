@@ -113,24 +113,6 @@
       </property>
     </molecule>
 
-    <molecule id="TS1" description="TransistionState">
-      <propertyList>
-        <property dictRef="me:ZPE">
-            <scalar me:derivedFrom="Methyl:ZPE" units="kcal/mol">103.43</scalar>
-          <!--<scalar units="kcal/mol" lower="93.0" upper="113.0" stepsize="10">103.43</scalar>-->
-        </property>
-        <property dictRef="me:MW">
-          <scalar units="amu">40</scalar>
-        </property>
-        <property dictRef="me:spinMultiplicity">
-          <scalar>1</scalar>
-        </property>
-        <property dictRef="me:symmetryNumber">
-          <scalar>6</scalar>
-        </property>
-      </propertyList>
-    </molecule>
-
     <molecule id="He">
       <atom elementType="He"/>
       <propertyList>
@@ -164,6 +146,48 @@
       </product>
 
       <me:MCRCMethod xsi:type="uFTST">
+        <me:MCPoints>10000</me:MCPoints>
+        <me:SymmetryNumber>6</me:SymmetryNumber>
+        <me:RxnCoordMin units="Ang">2.5</me:RxnCoordMin>
+        <me:RxnCoordMax units="Ang">4.5</me:RxnCoordMax>
+        <me:RxnCoordSteps>40</me:RxnCoordSteps>
+        <me:FTSTPotential xsi:type="HirstWardlawPotential"/>
+        <me:MorseRxnCoordPotential>
+          <me:Threshold units ="kcal/mol">103.432</me:Threshold>
+          <me:EquilibriumLength units ="Ang">1.0015</me:EquilibriumLength>
+          <me:ReciprocalBeta units="Ang">1.0</me:ReciprocalBeta>
+        </me:MorseRxnCoordPotential>
+        <me:ConservedModeMap alpha ="1.10">
+          <me:FrequencyMapping adduct="3162.0"  Fragments="3162.0"/>
+          <me:FrequencyMapping adduct="3162.0"  Fragments="3162.0"/>
+          <me:FrequencyMapping adduct="3044.0"  Fragments="3044.0"/>
+          <me:FrequencyMapping adduct="1396.0"  Fragments="1396.0"/>
+          <me:FrequencyMapping adduct="1396.0"  Fragments="1396.0"/>
+          <me:FrequencyMapping adduct="1432.0"  Fragments=" 606."/>
+        </me:ConservedModeMap>
+        <me:WriteSumsOfStates units="cm-1">
+           154  247  412  623 1039
+          1247 2006 2079 2599 3119
+          3418 4014 4444 5553
+        </me:WriteSumsOfStates>
+      </me:MCRCMethod>
+
+    </reaction>
+
+    <reaction id="R2" reversible="true">
+      <reactant>
+        <molecule ref="Methyl"  role="deficientReactant" />
+      </reactant>
+
+      <reactant>
+        <molecule ref="H"  role="excessReactant" />
+      </reactant>
+
+      <product>
+        <molecule ref="Methane"  role="modelled" />
+      </product>
+
+      <me:MCRCMethod xsi:type="uFTST">
         <me:MCPoints>4000</me:MCPoints>
         <me:SymmetryNumber>6</me:SymmetryNumber>
         <me:RxnCoordMin units="Ang">2.5</me:RxnCoordMin>
@@ -183,10 +207,15 @@
           <me:FrequencyMapping adduct="1396.0"  Fragments="1396.0"/>
           <me:FrequencyMapping adduct="1432.0"  Fragments=" 606."/>
         </me:ConservedModeMap>
+        <me:NamedPhaseIntegral>MethylPlusH_HW</me:NamedPhaseIntegral>
+        <me:WriteSumsOfStates units="cm-1">
+           154  247  412  623 1039
+          1247 2006 2079 2599 3119
+          3418 4014 4444 5553
+        </me:WriteSumsOfStates>
       </me:MCRCMethod>
 
     </reaction>
-
   </reactionList>
 
   <!-- Data taken from Brouard et al, J. Phys. Chem. Vol. 93, p. 4047 (1989). -->
