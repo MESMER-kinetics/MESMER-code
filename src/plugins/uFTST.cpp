@@ -41,7 +41,10 @@ namespace mesmer
       m_frgFrq(),
       m_alpha(1.0),
       m_pPhaseIntegral(NULL),
-      m_pFTSTPotential(NULL)
+      m_pFTSTPotential(NULL),
+      m_namedPhaseIntegral(),
+      m_writeSOS(false),
+      m_eneForSOS()
     {
       Register();
     }
@@ -87,6 +90,11 @@ namespace mesmer
 
     PhaseIntegral *m_pPhaseIntegral;
     FTSTPotential *m_pFTSTPotential;
+
+    // Testing parameters
+    string m_namedPhaseIntegral;
+    bool m_writeSOS;
+    vector<double> m_eneForSOS;
 
   };
 
@@ -208,6 +216,29 @@ namespace mesmer
 
     m_pFTSTPotential->Initialize();
 
+    // The following items are for test purposes only and should not be exposed in documentation.
+
+    // Check to see if there is an analytic phase intergral requested.
+    const char* ptxt = pp->XmlReadValue("me:NamedPhaseIntegral", optional);
+    if (ptxt)
+      m_namedPhaseIntegral = string(ptxt);
+
+    // Check to see if sum of states are to be printed and for what energies.
+    PersistPtr ppWrtSOS = pp->XmlMoveTo("me:WriteSumsOfStates");
+    if (ppWrtSOS) {
+      m_writeSOS = true;
+      const char* p = ppWrtSOS->XmlReadValue("units", optional);
+      string units = p ? p : "cm-1";
+
+      p = pp->XmlReadValue("me:WriteSumsOfStates");
+      if (p) {
+        istringstream idata(p);
+        double x;
+        while (idata >> x)
+          m_eneForSOS.push_back(getConvertedEnergy(units, x));
+      }
+    }
+
     return true;
   }
 
@@ -269,23 +300,23 @@ namespace mesmer
       rxnCrd += drxnCrd;
     }
 
-    ctest << endl;
-    ctest << "  115 " << formatFloat(rxnFlux[154],  6, 14) << formatFloat(OptRxnCrd[154],  6, 14) << endl;
-    ctest << "  248 " << formatFloat(rxnFlux[247],  6, 14) << formatFloat(OptRxnCrd[247],  6, 14) << endl;
-    ctest << "  413 " << formatFloat(rxnFlux[412],  6, 14) << formatFloat(OptRxnCrd[412],  6, 14) << endl;
-    ctest << "  624 " << formatFloat(rxnFlux[623],  6, 14) << formatFloat(OptRxnCrd[623],  6, 14) << endl;
-    ctest << " 1040 " << formatFloat(rxnFlux[1039], 6, 14) << formatFloat(OptRxnCrd[1039], 6, 14) << endl;
-    ctest << " 1248 " << formatFloat(rxnFlux[1247], 6, 14) << formatFloat(OptRxnCrd[1247], 6, 14) << endl;
-    ctest << " 2007 " << formatFloat(rxnFlux[2006], 6, 14) << formatFloat(OptRxnCrd[2006], 6, 14) << endl;
-    ctest << " 2080 " << formatFloat(rxnFlux[2079], 6, 14) << formatFloat(OptRxnCrd[2079], 6, 14) << endl;
-    ctest << " 2600 " << formatFloat(rxnFlux[2599], 6, 14) << formatFloat(OptRxnCrd[2599], 6, 14) << endl;
-    ctest << " 3120 " << formatFloat(rxnFlux[3119], 6, 14) << formatFloat(OptRxnCrd[3119], 6, 14) << endl;
-    ctest << " 3419 " << formatFloat(rxnFlux[3418], 6, 14) << formatFloat(OptRxnCrd[3418], 6, 14) << endl;
-    ctest << " 4015 " << formatFloat(rxnFlux[4014], 6, 14) << formatFloat(OptRxnCrd[4014], 6, 14) << endl;
-    ctest << " 4445 " << formatFloat(rxnFlux[4444], 6, 14) << formatFloat(OptRxnCrd[4444], 6, 14) << endl;
-    ctest << " 5554 " << formatFloat(rxnFlux[5553], 6, 14) << formatFloat(OptRxnCrd[5553], 6, 14) << endl;
-    ctest << endl;
-
+    if (m_writeSOS) {
+      ctest << endl;
+      if (m_eneForSOS.size() > 0) {
+        for (size_t i = 0; i < m_eneForSOS.size(); i++) {
+          size_t ii = size_t(m_eneForSOS[i]);
+          if (ii < rxnFlux.size()) {
+            ctest << setw(6) << ii << formatFloat(rxnFlux[ii], 6, 14) << formatFloat(OptRxnCrd[ii], 6, 14) << endl;
+          }
+        }
+      }
+      else {
+        for (size_t i = 0; i < rxnFlux.size(); i++) {
+          ctest << setw(6) << i << formatFloat(rxnFlux[i], 6, 14) << formatFloat(OptRxnCrd[i], 6, 14) << endl;
+        }
+      }
+      ctest << endl;
+    }
 
     // Calculate the flux.
     for (size_t i(0); i < MaximumCell; ++i) {
@@ -304,7 +335,7 @@ namespace mesmer
     //First calculate freqencies.
     vector<double> Freq;
     for (size_t j(0); j < m_addFrq.size(); j++) {
-      double frq = m_frgFrq[j] + (m_addFrq[j] - m_frgFrq[j])*exp(-m_alpha * (rxnCrd - 1.09));
+      double frq = m_frgFrq[j] + (m_addFrq[j] - m_frgFrq[j])*exp(-m_alpha * (rxnCrd - m_R0));
       Freq.push_back(frq);
     }
 
@@ -332,7 +363,13 @@ namespace mesmer
     RotationalTop top1 = m_Frag1->getDOS().get_rotType();
     RotationalTop top2 = m_Frag2->getDOS().get_rotType();
 
-    if (top1 == NONLINEAR && top2 == NONLINEAR) {
+    if (m_namedPhaseIntegral.length() > 0) {
+      if (m_namedPhaseIntegral == "MethylPlusH_HW")
+        m_pPhaseIntegral = new MethylPlusH_HW();
+      else
+        throw(std::runtime_error("__FUNCTION__: No named phase integral known"));
+    }
+    else if (top1 == NONLINEAR && top2 == NONLINEAR) {
       m_pPhaseIntegral = new NLnrNLnrTops();
     }
     else if ((top1 == NONLINEAR && top2 == LINEAR) || (top1 == LINEAR && top2 == NONLINEAR)) {

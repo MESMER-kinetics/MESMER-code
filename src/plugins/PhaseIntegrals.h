@@ -100,14 +100,6 @@ namespace mesmer
 
   private:
 
-    // Hirst potential
-    double ptnl(double rxnCrd, double gamma, double phi) {
-      //C and A the potential barrier Parameters;
-      double tmp = sin(gamma);
-      return  m_V0 * tmp * tmp;
-    }
-
-    double m_V0;
     const int m_nIDOF;
   };
 
@@ -145,6 +137,21 @@ namespace mesmer
     virtual ~AtmAtmTops() {}
 
     virtual void integrate(double rxnCrd, vector<double> &wrk) {}
+
+  private:
+
+    const int m_nIDOF;
+  };
+
+  // The following phase integral is taken from Seakins et al JPC 9974, 101 (1997).
+
+  class MethylPlusH_HW : public PhaseIntegral {
+
+  public:
+    MethylPlusH_HW() : PhaseIntegral(), m_nIDOF(2) {}
+    virtual ~MethylPlusH_HW() {}
+
+    virtual void integrate(double rxnCrd, vector<double>& wrk);
 
   private:
 
