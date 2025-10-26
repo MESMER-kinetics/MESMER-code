@@ -266,9 +266,15 @@ namespace mesmer
       // Some work space.
       vector<double> wrk(MaximumCell, 0.0);
 
+      m_pFTSTPotential->RxnCrdInitialize(rxnCrd);
+
       // Phase space integral of transitional modes.
 
       m_pPhaseIntegral->integrate(rxnCrd, wrk);
+
+      // Convolve with remaining energy contributions.
+
+      m_pPhaseIntegral->convolveExcessEnergy(wrk);
 
       // Convolve the conserved modes into the sum of states.
 

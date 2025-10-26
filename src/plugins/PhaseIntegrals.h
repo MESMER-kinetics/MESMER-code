@@ -22,7 +22,9 @@ namespace mesmer
 
   public:
 
-    PhaseIntegral() : m_Frag1(NULL),
+    PhaseIntegral(size_t nIDOF) :
+      m_nIDOF(nIDOF),
+      m_Frag1(NULL),
       m_Frag2(NULL),
       m_MaxCell(50000),
       m_cellSize(1.0),
@@ -33,16 +35,19 @@ namespace mesmer
       m_top1(UNDEFINED_TOP),
       m_top2(UNDEFINED_TOP),
       m_pFTSTPotential(NULL),
-      m_mu(0.0) {}
+      m_mu(0.0) {
+    }
     virtual ~PhaseIntegral() {}
 
-    virtual void initialize(Molecule* Frag1, Molecule* Frag2, FTSTPotential *pFTSTPotential, Reaction* pReact);
+    virtual void initialize(Molecule* Frag1, Molecule* Frag2, FTSTPotential* pFTSTPotential, Reaction* pReact);
 
-    virtual void integrate(double rxnCrd, vector<double> &wrk) = 0;
+    virtual void integrate(double rxnCrd, vector<double>& wrk) = 0;
 
-    void convolveExcessEnergy(size_t TDOF, vector<double> &cellSOS) const;
+    void convolveExcessEnergy(vector<double>& cellSOS) const;
 
   protected:
+
+    const size_t m_nIDOF; // Number of transitional modes (excluding external rotation).
 
     Molecule* m_Frag1;
     Molecule* m_Frag2;
@@ -58,7 +63,7 @@ namespace mesmer
     RotationalTop m_top1;
     RotationalTop m_top2;
 
-    FTSTPotential *m_pFTSTPotential;
+    FTSTPotential* m_pFTSTPotential;
 
     double m_mu;
   };
@@ -67,80 +72,74 @@ namespace mesmer
 
   public:
 
-    NLnrNLnrTops() : PhaseIntegral(), m_nIDOF(5) {}
+    NLnrNLnrTops() : PhaseIntegral(5) {}
     virtual ~NLnrNLnrTops() {}
 
-    virtual void integrate(double rxnCrd, vector<double> &wrk);
+    virtual void integrate(double rxnCrd, vector<double>& wrk);
 
   private:
 
-    const int m_nIDOF;
   };
 
   class NLnrLnrTops : public PhaseIntegral {
 
   public:
-    NLnrLnrTops() : PhaseIntegral(), m_nIDOF(4) {}
+    NLnrLnrTops() : PhaseIntegral(4) {}
     virtual ~NLnrLnrTops() {}
 
-    virtual void integrate(double rxnCrd, vector<double> &wrk);
+    virtual void integrate(double rxnCrd, vector<double>& wrk);
 
   private:
 
-    const int m_nIDOF;
   };
 
   class NLnrAtmTops : public PhaseIntegral {
 
   public:
-    NLnrAtmTops() : PhaseIntegral(), m_nIDOF(2) {}
+    NLnrAtmTops() : PhaseIntegral(2) {}
     virtual ~NLnrAtmTops() {}
 
-    virtual void integrate(double rxnCrd, vector<double> &wrk) ;
+    virtual void integrate(double rxnCrd, vector<double>& wrk);
 
   private:
 
-    const int m_nIDOF;
   };
 
   class LnrLnrTops : public PhaseIntegral {
 
   public:
-    LnrLnrTops() : PhaseIntegral(), m_nIDOF(3) {}
+    LnrLnrTops() : PhaseIntegral(3) {}
     virtual ~LnrLnrTops() {}
 
-    virtual void integrate(double rxnCrd, vector<double> &wrk);
+    virtual void integrate(double rxnCrd, vector<double>& wrk);
 
   private:
 
-    const int m_nIDOF;
   };
 
   class LnrAtmTops : public PhaseIntegral {
 
   public:
-    LnrAtmTops() : PhaseIntegral(), m_nIDOF(1) {}
+    LnrAtmTops() : PhaseIntegral(1) {}
     virtual ~LnrAtmTops() {}
 
-    virtual void integrate(double rxnCrd, vector<double> &wrk);
+    virtual void integrate(double rxnCrd, vector<double>& wrk);
 
   private:
 
-    const int m_nIDOF;
   };
 
   class AtmAtmTops : public PhaseIntegral {
 
   public:
 
-    AtmAtmTops() : PhaseIntegral(), m_nIDOF(0) {}
+    AtmAtmTops() : PhaseIntegral(0) {}
     virtual ~AtmAtmTops() {}
 
-    virtual void integrate(double rxnCrd, vector<double> &wrk) {}
+    virtual void integrate(double rxnCrd, vector<double>& wrk) {}
 
   private:
 
-    const int m_nIDOF;
   };
 
   // The following phase integral is taken from Seakins et al JPC 9974, 101 (1997).
@@ -148,14 +147,13 @@ namespace mesmer
   class MethylPlusH_HW : public PhaseIntegral {
 
   public:
-    MethylPlusH_HW() : PhaseIntegral(), m_nIDOF(2) {}
+    MethylPlusH_HW() : PhaseIntegral(2) {}
     virtual ~MethylPlusH_HW() {}
 
     virtual void integrate(double rxnCrd, vector<double>& wrk);
 
   private:
 
-    const int m_nIDOF;
   };
 
 }//namespace
