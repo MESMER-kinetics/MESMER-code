@@ -51,12 +51,12 @@ namespace mesmer
 
   };
 
-  void PhaseIntegral::convolveExcessEnergy(size_t TDOF, vector<double> &cellSOS) const {
+  void PhaseIntegral::convolveExcessEnergy(vector<double> &cellSOS) const {
 
     vector<double> tmpCellSOS(cellSOS);
     vector<double> ene(cellSOS.size(), 0.0);
     getCellEnergies(cellSOS.size(), m_cellSize, ene);
-    double pwr = 0.5*double(TDOF) - 1.0;
+    double pwr = 0.5*double(m_nIDOF + 3) - 1.0;
     for (size_t j(0); j < ene.size(); ++j) {
       ene[j] = pow(ene[j], pwr);
     }
@@ -66,31 +66,18 @@ namespace mesmer
 
   void NLnrNLnrTops::integrate(double rxnCrd, vector<double> &cellSOS) {
 
-    const size_t TDOF = m_nIDOF + 3;
-  
-    // Convolve with remaining energy contributions.
-    convolveExcessEnergy(TDOF, cellSOS);
   }
 
   void NLnrLnrTops::integrate(double rxnCrd, vector<double> &cellSOS) {
 
-    const size_t TDOF = m_nIDOF + 3;
-
-    // Convolve with remaining energy contributions.
-    convolveExcessEnergy(TDOF, cellSOS);
   }
 
   void NLnrAtmTops::integrate(double rxnCrd, vector<double> &cellSOS) {
 
-    m_pFTSTPotential->RxnCrdInitialize(rxnCrd);
-
-    Molecule *top = (m_top1 == NONLINEAR) ? m_Frag1 : m_Frag2;
-
-    const double cellSize = m_cellSize;
-    const size_t TDOF = m_nIDOF + 3;
-
     // Instantiate a random vector generator.
     Sobol sobol;
+
+    Molecule *top = (m_top1 == NONLINEAR) ? m_Frag1 : m_Frag2;
 
     // Configuration loop.
     long long seed(17);
@@ -115,7 +102,7 @@ namespace mesmer
     for (size_t i(0); i < m_MCPnts; ++i) {
       double kfctr = m_knmtcFctr[i];
       double ptnl = m_potential[i];
-      size_t ll = size_t(ptnl / cellSize);
+      size_t ll = size_t(ptnl / m_cellSize);
       for (size_t j(ll); j < cellSOS.size(); ++j) {
         cellSOS[j] += kfctr;
       }
@@ -131,25 +118,57 @@ namespace mesmer
       cellSOS[j] *= cnt;
     }
 
-    // Convolve with remaining energy contributions.
-    convolveExcessEnergy(TDOF, cellSOS);
-
   }
 
   void LnrLnrTops::integrate(double rxnCrd, vector<double> &cellSOS) {
 
-    const size_t TDOF = m_nIDOF + 3;
-
-    // Convolve with remaining energy contributions.
-    convolveExcessEnergy(TDOF, cellSOS);
   }
 
   void LnrAtmTops::integrate(double rxnCrd, vector<double> &cellSOS) {
 
-    const size_t TDOF = m_nIDOF + 3;
+    // Instantiate a random vector generator.
+    Sobol sobol;
 
-    // Convolve with remaining energy contributions.
-    convolveExcessEnergy(TDOF, cellSOS);
+    Molecule* top = (m_top1 == LINEAR) ? m_Frag1 : m_Frag2;
+
+    // Configuration loop.
+    long long seed(17);
+    m_knmtcFctr.resize(m_MCPnts, 0.0);
+    m_potential.resize(m_MCPnts, 0.0);
+    for (size_t i(0); i < m_MCPnts; ++i) {
+
+      // Select angular coordinates.
+      vector<double> angles(m_nIDOF, 0.0);
+      sobol.sobol(angles.size(), &seed, angles);
+      angles[0] *= M_PI;
+
+      // Calculate the determinant of the Wilson G Matrix.
+      m_knmtcFctr[i] = sin(angles[0]);
+
+      // Calculate potential energy.
+      m_potential[i] = m_pFTSTPotential->HinderingPotential(rxnCrd, angles);
+    }
+
+    // Heavyside function integration.
+    for (size_t i(0); i < m_MCPnts; ++i) {
+      double kfctr = m_knmtcFctr[i];
+      double ptnl = m_potential[i];
+      size_t ll = size_t(ptnl / m_cellSize);
+      for (size_t j(ll); j < cellSOS.size(); ++j) {
+        cellSOS[j] += kfctr;
+      }
+    }
+
+    // Conversion and symmetry number factor.
+    vector<double> MntsInt;
+    top->getDOS().get_rotConsts(MntsInt);
+    double orbitalInertia = m_mu * rxnCrd * rxnCrd / conMntInt2RotCnt;
+    double RotCnt = orbitalInertia / MntsInt[0] ;
+    double cnt = M_PI * RotCnt / double(2.0 * m_MCPnts * m_Sym);
+    for (size_t j(0); j < cellSOS.size(); ++j) {
+      cellSOS[j] *= cnt;
+    }
+
   }
 
   void MethylPlusH_HW::integrate(double rxnCrd, vector<double>& cellSOS) {
@@ -157,7 +176,6 @@ namespace mesmer
     Molecule* top = (m_top1 == NONLINEAR) ? m_Frag1 : m_Frag2;
 
     const double cellSize = m_cellSize;
-    const size_t TDOF = m_nIDOF + 3;
 
     // Conversion and symmetry number factor.
     vector<double> MntsInt;
@@ -181,8 +199,6 @@ namespace mesmer
       cellSOS[j] = (ene[j] < V0) ? cnt * ( 1 - (sqrt(1.0 - ene[j]/V0))) : cnt ;
     }
 
-    // Convolve with remaining energy contributions.
-    convolveExcessEnergy(TDOF, cellSOS);
   }
 
 }
