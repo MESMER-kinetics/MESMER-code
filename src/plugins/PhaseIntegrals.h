@@ -47,6 +47,9 @@ namespace mesmer
 
   protected:
 
+    // Heavyside function integration.
+    void HeavysideIntegration(vector<double>& cellSOS) const;
+
     const size_t m_nIDOF; // Number of transitional modes (excluding external rotation).
 
     Molecule* m_Frag1;
@@ -55,10 +58,10 @@ namespace mesmer
     size_t m_MaxCell;
     double m_cellSize;
 
-    size_t m_MCPnts;
+    size_t m_MCPnts;            // Number of configurations to be used in Monte-Carlo integration.
     vector<double> m_knmtcFctr; // Configuration kinematic factor.
     vector<double> m_potential; // Torsion configuration potential.
-    size_t m_Sym;
+    size_t m_Sym;               // Symmetry number.
 
     RotationalTop m_top1;
     RotationalTop m_top2;
