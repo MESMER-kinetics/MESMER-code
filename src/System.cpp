@@ -858,6 +858,13 @@ namespace mesmer
       double expYield(0.0), expErr(0.0);
       expYields[i].get_conditionSet(ref1, ref2, refReaction, expYield, expErr);
 
+      // Is there a wild card in ref1?
+      size_t found = ref1.find("*");
+      bool wild(found != string::npos);
+      string base;
+      if (wild)
+        base = ref1.substr(0, found - 1);
+
       double yield(0.0);
       YieldMap::const_iterator yielditr = yieldMap.begin();
       for (; yielditr != yieldMap.end(); ++yielditr) {
@@ -866,7 +873,8 @@ namespace mesmer
         vector<Molecule*> pdts;
         sinkReaction->get_products(pdts);
         for (size_t i(0); i < pdts.size(); i++) {
-          if (ref1 == pdts[i]->getName())
+          string pdtname = pdts[i]->getName();
+          if (ref1 == pdtname || (wild && pdtname.find(base) != string::npos))
             yield += yielditr->second;
         }
 
