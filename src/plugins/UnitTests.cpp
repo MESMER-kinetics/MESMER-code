@@ -91,6 +91,8 @@ namespace mesmer
 
     void underlineText(const string& text) const;
 
+    void SandPit() const;
+
   private:
 
     const char* m_id;
@@ -213,6 +215,8 @@ namespace mesmer
       ctest << "  One or more tests failed";
     }
     ctest << endl;
+
+    // SandPit();
 
     return status;
   }
@@ -970,6 +974,24 @@ namespace mesmer
     for (size_t i(0); i < text.size(); i++)
       ctest << "-";
     ctest << endl;
+
+  }
+
+  void UnitTests::SandPit() const {
+
+    ctest << endl;
+
+    string name = "Acetyl*";
+
+    size_t found = name.find("*");
+    bool wild(found != string::npos);
+    string base;
+    if (wild)
+      base = name.substr(0, found - 1);
+
+    string pdtname = "Acetyl-T1";
+    if (name == pdtname || (wild && pdtname.find(base) != string::npos))
+      ctest << "Found " << pdtname << endl;
 
   }
 

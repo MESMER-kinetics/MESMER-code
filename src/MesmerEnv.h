@@ -14,9 +14,10 @@ namespace mesmer
     double beta;
     double conc;
     std::string bathGasName;
-    double collisionTemperature;// The collision temperature in K, as distinguished from radiation temperature below. 
-    double radiationTemperature;
-    double radiationAttenuation;// Radiation attenuation - the attenuation of black body radiaton with distance - dimensionaless.
+    double collisionTemperature; // The collision temperature in K, as distinguished from radiation temperature below. 
+    double radiationTemperature; // Temperature of radiation field K. 
+    double radiationAttenuation; // Radiation attenuation - the attenuation of black body radiaton with distance - dimensionaless.
+    double photolysisFrequency;  // Frequency of photolysis beam in cm-1.
 
     // granularity of the system
     size_t GrainSize;           // Grain size in cm-1

@@ -8,6 +8,7 @@ namespace mesmer{
     collisionTemperature(300.0),
     radiationTemperature(-1.0),
     radiationAttenuation(0.0),
+    photolysisFrequency(-1.0),
     GrainSize(0),
     CellSize(1.0),
     MaxGrn(0),
