@@ -131,7 +131,7 @@ namespace mesmer
         const char* bathGasName = m_pSys->getMoleculeManager()->get_BathGasName().c_str();
         for (size_t j(0); j < Tvals.size(); ++j) {
           for (size_t i(0); i < Pvals.size(); ++i) {
-            CandTpair thisPair(getConvertedP(this_units, Pvals[i], Tvals[j]), Tvals[j], this_precision, bathGasName, baseExcessConcs, group.c_str(), -1.0, 0.0);
+            CandTpair thisPair(getConvertedP(this_units, Pvals[i], Tvals[j]), Tvals[j], this_precision, bathGasName, baseExcessConcs, group.c_str(), -1.0, 0.0, -1.0, "");
             thisPair.set_experimentalRates(ppPTset, ref1, ref2, refReaction, 0.0, 0.0);
             PandTs.push_back(thisPair);
             m_pSys->getEnv().MaximumTemperature = max(m_pSys->getEnv().MaximumTemperature, thisPair.m_temperature);
@@ -153,6 +153,7 @@ namespace mesmer
       double common_excessReactantConc = pp->XmlReadDouble("excessReactantConc", optional);
       double common_radiationTemperature = pp->XmlReadDouble("radiationTemperature", optional);
       double common_radiationAttenuation = pp->XmlReadDouble("radiationAttenuation", optional);
+      double common_photolysisFrequency = pp->XmlReadDouble("photolysisFrequency", optional);
 
       // Check for individually specified concentration/temperature points.
       PersistPtr ppPTpair = pp->XmlMoveTo("me:PTpair");
@@ -304,8 +305,41 @@ namespace mesmer
 
         // Radiation temperature and attenuation.
 
-        double thisRadiationTemp = (!IsNan(common_radiationTemperature)) ? common_radiationTemperature : -1.0;
-        double thisRadiationAtten = (!IsNan(common_radiationAttenuation)) ? common_radiationAttenuation : 0.0;
+        double thisRadiationTemp = ppPTpair->XmlReadDouble("me:radiationTemperature", optional);
+        if (IsNan(thisRadiationTemp))
+          thisRadiationTemp = ppPTpair->XmlReadDouble("radiationTemperature", optional); //attribute
+        if (IsNan(thisRadiationTemp))
+          thisRadiationTemp = (!IsNan(common_radiationTemperature)) ? common_radiationTemperature : -1.0;
+        ppPTpair->XmlWriteAttribute("radiationTemperature", toString(thisRadiationTemp));
+
+        double thisRadiationAtten = ppPTpair->XmlReadDouble("me:radiationAttenuation", optional);
+        if (IsNan(thisRadiationAtten))
+          thisRadiationAtten = ppPTpair->XmlReadDouble("radiationAttenuation", optional); //attribute
+        if (IsNan(thisRadiationAtten))
+          thisRadiationAtten = (!IsNan(common_radiationAttenuation)) ? common_radiationAttenuation : 0.0;
+        ppPTpair->XmlWriteAttribute("radiationAttenuation", toString(thisRadiationAtten));
+
+        // Photolysis Frequency.
+
+        double thisPhotolysisFreq(-1.0);
+        string thisPhotoFreqUnits("cm-1");
+        const char* sPhotolysisFreq = ppPTpair->XmlReadValue("me:photolysisFrequency", optional);
+        if (!sPhotolysisFreq)
+          sPhotolysisFreq = ppPTpair->XmlReadValue("photolysisFrequency", optional); //attribute
+        if (sPhotolysisFreq) {
+          istringstream s(sPhotolysisFreq);
+          s >> thisPhotolysisFreq;
+          if (IsNan(thisPhotolysisFreq))
+            throw(std::runtime_error("Photolysis frequency not properly defined.\n"));
+          string units;
+          s >> units;
+          units.erase(remove_if(units.begin(), units.end(), isspace), units.end());
+          if (units.length() > 0)
+            thisPhotoFreqUnits = units;
+        }
+        else
+          thisPhotolysisFreq = (!IsNan(common_photolysisFrequency)) ? common_photolysisFrequency : -1.0;
+        ppPTpair->XmlWriteAttribute("photolysisFrequency", toString(thisPhotolysisFreq));
 
         // Group to which this PT belongs.
         const char* group = ppPTpair->XmlReadValue("me:group", optional);
@@ -318,7 +352,7 @@ namespace mesmer
         ppPTpair->XmlWriteAttribute("group", group);
 
         CandTpair thisPair(getConvertedP(this_units, this_P, this_T), this_T,
-          this_precision, bathGasName, thisExcessConcs, group, thisRadiationTemp, thisRadiationAtten);
+          this_precision, bathGasName, thisExcessConcs, group, thisRadiationTemp, thisRadiationAtten, thisPhotolysisFreq, thisPhotoFreqUnits);
         cinfo << this_P << this_units << ", " << this_T << "K at " << txt
           << " precision" << " with " << bathGasName << endl;
         for (vector<Reaction*>::iterator it = pReacts.begin(); it != pReacts.end(); ++it)
@@ -616,16 +650,24 @@ namespace mesmer
     if (rank > 0)
       return;
 
+    // Test if photolysis frequency is to be written.
+    bool bPhotolysis = (PandTs[0].m_photolysisFrq > 0);
+
     stringstream rateCoeffTable;
 
     rateCoeffTable << endl;
-    rateCoeffTable << "    Temperature  Concentration    Exp. Coeff.    Cal. Coeff." << endl;
+    rateCoeffTable << "    Temperature  Concentration";
+    if (bPhotolysis)
+      rateCoeffTable << "    Photo. Frq.";
+    rateCoeffTable << "    Exp. Coeff.    Cal. Coeff." << endl;
     rateCoeffTable << endl;
 
     for (size_t calPoint(0); calPoint < PandTs.size(); calPoint++) {
       stringstream conditions;
       conditions << formatFloat(PandTs[calPoint].m_temperature, 6, 15);
       conditions << formatFloat(PandTs[calPoint].m_concentration, 6, 15);
+      if (bPhotolysis)
+        conditions << formatFloat(PandTs[calPoint].m_photolysisFrq, 6, 15);
       const vector<conditionSet>& rates = PandTs[calPoint].m_rates;
       for (size_t i(0); i < rates.size(); ++i) {
         rateCoeffTable << conditions.str() << formatFloat(rates[i].m_value, 6, 15) << formatFloat(rates[i].m_calcValue, 6, 15) << endl;

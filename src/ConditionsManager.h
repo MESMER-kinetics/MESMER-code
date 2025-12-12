@@ -66,14 +66,20 @@ namespace mesmer
   // To make sure if there is a concentration or pressure definition, there is a temperature definition.
   struct CandTpair {
 
+    // Conditions
+
     double      m_concentration; // particles per cubic centimeter
     double      m_temperature;   // Kelvin
     double      m_radiationTemp; // Radiation temperature in Kelvin.
     double      m_radiationAttn; // Radiation attenuation.
+    double      m_photolysisFrq; // Photolysis Frequency
+    std::string m_photoFrqUnits; // Photolysis Frequency units
     Precision   m_precision;
     std::string m_pBathGasName;
     std::map<Reaction*, double> m_excessConcs; // Reaction, excess species conc in ppcc.
     std::map<Reaction*, bool>   m_percentExcessConc; // Reaction, excess species conc is a % of bath gas.
+
+    // Observables
 
     std::vector<conditionSet> m_rates;
     std::vector<conditionSet> m_yields;
@@ -86,9 +92,17 @@ namespace mesmer
     AnalysisData m_analysisData;
 
     CandTpair(double cp_, double t_, Precision _pre, const char* _bathGas,
-      const map<Reaction*, double>& _excessConcs, const char* _group, double _radiationTemp, double _radiationAttn)
-      : m_concentration(cp_), m_temperature(t_), m_radiationTemp(_radiationTemp), m_radiationAttn(_radiationAttn),
-      m_precision(_pre), m_pBathGasName(_bathGas), m_excessConcs(_excessConcs), m_group(_group) {}
+      const map<Reaction*, double>& _excessConcs, const char* _group, double _radiationTemp, double _radiationAttn, double _photolysisFrq, std::string _photoFrqUnits)
+      : m_concentration(cp_),
+      m_temperature(t_),
+      m_radiationTemp(_radiationTemp),
+      m_radiationAttn(_radiationAttn),
+      m_photolysisFrq(_photolysisFrq),
+      m_photoFrqUnits(_photoFrqUnits),
+      m_precision(_pre),
+      m_pBathGasName(_bathGas),
+      m_excessConcs(_excessConcs),
+      m_group(_group) {}
 
     void set_experimentalRates(PersistPtr ppData, std::string ref1, std::string ref2, std::string refReaction, double value, double error) {
       if (ref1.size() > 0 && ref2.size() > 0) {
@@ -148,6 +162,10 @@ namespace mesmer
     double      PTPointRadT(size_t index) const { return PandTs[index].m_radiationTemp; }
     double      PTPointRadAttn(size_t index) const { return PandTs[index].m_radiationAttn; }
     double      PTPointConc(size_t index) const { return PandTs[index].m_concentration; }
+    double      PTPointPhotoFrq(size_t index, bool convert = true) const { // Return photolysis energy in cm-1
+      return (convert) ? getConvertedEnergy(PandTs[index].m_photoFrqUnits, PandTs[index].m_photolysisFrq) 
+        : PandTs[index].m_photolysisFrq;
+    }
     const char* PTPointBathGas(size_t index) { return PandTs[index].m_pBathGasName.c_str(); }
     Precision   PTPointPrecision(size_t index) { return PandTs[index].m_precision; }
     map<Reaction*, double> PTPointExcessConcs(size_t index) { return PandTs[index].m_excessConcs; }

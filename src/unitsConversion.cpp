@@ -103,6 +103,7 @@ namespace mesmer
     energyMap["Hartree"]      = Hartree_In_kJperMol * kJPerMol_in_RC;
     energyMap["au"]           = Hartree_In_kJperMol * kJPerMol_in_RC;
     energyMap["GHz"]          = 1.0e+09/ SpeedOfLight_in_cm ;
+    energyMap["nm"]           = 1.0e+07 ;
 
     timeMap["sec"]      = 1.0; //internal time units
     timeMap["msec"]     = 1.0e-3;
@@ -145,7 +146,7 @@ namespace mesmer
   }
 
   // Returns cm-1 no matter what unit the user has provided.
-  double getConvertedEnergy(const string& unitInput, const double energyInput)
+  double getConvertedEnergy(const string& unitInput, double energyInput)
   {
     if(unitInput.empty())
     {
@@ -156,6 +157,9 @@ namespace mesmer
     {
       cerr << "Unrecognized energy unit: " + unitInput << endl;
       return 0.;
+    }
+    else if (unitInput == "nm") {
+      energyInput = 1.0 / energyInput;
     }
     return energyInput * energyMap[unitInput];
   }

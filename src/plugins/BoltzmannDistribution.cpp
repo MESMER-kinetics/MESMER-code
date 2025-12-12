@@ -97,6 +97,16 @@ namespace mesmer
 
     const double beta = (m_temp > 0.0) ? 1.0 / (boltzmann_RCpK * m_temp) : m_host->getEnv().beta;
 
+    // Get excitation.
+    // SHR, 12/Dec/2025: Note the zero-point energy of the excited state needs
+    // to be subtracted from the excitation frequency. There is an assumption 
+    // here that excitation is from the zero-point of the ground energy state.
+
+    double excite = m_host->getEnv().photolysisFrequency;
+    if (excite > 0.0) {
+      m_excitation = max(excite - m_host->getDOS().get_zpe(), 0.0);
+    }
+
     // Calculate unnormalized Boltzmann dist., accounting for excitation if needed.
     // Note the extra 10.0 is to prevent underflow, it is removed during normalization.
     size_t cellOffSet = m_host->getDOS().get_cellOffset();

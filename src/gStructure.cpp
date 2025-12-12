@@ -163,31 +163,27 @@ namespace mesmer
       syz += m * c.y() * c.z();
     }
 
-    if (NumAtoms() == 2)
-      m_PrincipalMI[0] = szz;
-    else {
-      MI[0][0] = syy + szz;
-      MI[1][1] = sxx + szz;
-      MI[2][2] = sxx + syy;
-      MI[0][1] = MI[1][0] = -sxy;
-      MI[0][2] = MI[2][0] = -sxz;
-      MI[1][2] = MI[2][1] = -syz;
+    MI[0][0] = syy + szz;
+    MI[1][1] = sxx + szz;
+    MI[2][2] = sxx + syy;
+    MI[0][1] = MI[1][0] = -sxy;
+    MI[0][2] = MI[2][0] = -sxz;
+    MI[1][2] = MI[2][1] = -syz;
 
-      MI.diagonalize(&m_PrincipalMI[0]);
+    MI.diagonalize(&m_PrincipalMI[0]);
 
-      // Save the Alignment matrix 
+    // Save the Alignment matrix 
 
-      m_AxisAlignment = new dMatrix(MI);
+    m_AxisAlignment = new dMatrix(MI);
 
-      // Rotate coordinates to principal axis frame.
+    // Rotate coordinates to principal axis frame.
 
-      MI.Transpose();
-      for (iter = Atoms.begin(); iter != Atoms.end(); ++iter) {
-        vector<double> r(3, 0.0);
-        iter->second.coords.Get(&r[0]);
-        r *= MI;
-        iter->second.coords.Set(&r[0]);
-      }
+    MI.Transpose();
+    for (iter = Atoms.begin(); iter != Atoms.end(); ++iter) {
+      vector<double> r(3, 0.0);
+      iter->second.coords.Get(&r[0]);
+      r *= MI;
+      iter->second.coords.Set(&r[0]);
     }
 
     return status;
@@ -1080,7 +1076,7 @@ namespace mesmer
     vector<string>::iterator iter;
     for (iter = atomset.begin(); iter != atomset.end(); ++iter)
     {
-      double massWeight = atomMass(Atoms[*iter].element) ;
+      double massWeight = atomMass(Atoms[*iter].element);
       vector3 a = Atoms[*iter].coords - centre;
       vector3 b = cross(a, axis);
       int atomicOrder = getAtomicOrder(*iter);

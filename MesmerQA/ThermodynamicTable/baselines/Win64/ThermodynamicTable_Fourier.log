@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v7.1 compiled: -- May  1 2023 -- 14:31:23
+     Mesmer v7.2 compiled: -- Dec 10 2025 -- 20:37:29
 
-     Copyright (C) 2009-2022 by
+     Copyright (C) 2009-2025 by
      Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
      David R. Glowacki, Michael J. Pilling and contributors
 
@@ -27,7 +27,7 @@
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
                      Platform:        Windows64
-                     Execution Date:  Mon May  1 15:44:06 2023
+                     Execution Date:  Wed Dec 10 23:36:14 2025
                      Number of ranks: 4
 
 defaults.xml, librarymols.xml are in ../..
@@ -48,6 +48,8 @@ In NO: energy converted from thermodynamic298K to thermodynamic
 In NO: New me:ZPE element written with data from me:Hf298
 In O2:  replacing vib freq 1645.28
 In O2: energy converted from computational to thermodynamic
+In O2 (Alternate Spec.): Rotational constants were calculated from atom coordinates: 1.44567 1.44567 0 cm-1
+In O2 (Alternate Spec.): energy converted from computational to thermodynamic
 In O2_Numerical:  replacing vib freq 1645.28
 In O2_Numerical: energy converted from computational to thermodynamic
 In Ammonia: Rotational constants were calculated from atom coordinates: 6.34338 9.9763 9.97631 cm-1
@@ -61,7 +63,7 @@ In ThermodynamicTable. Own default: Number of cells 100000
 In ThermodynamicTable. Own default: The default value of me:grainSize was used.
 Energy convention "thermodynamic" written to <moleculeList>
 No conditions specified
-Write metadata 20230501_154407
+Write metadata 20251210_233614
 
 File: "ThermodynamicTable_Fourier.xml" successfully parsed.
 Main Calculation begins
@@ -71,6 +73,7 @@ In HNO2: enthalpy of formation at 298K:energy converted from thermodynamic to th
 Restricted thermo output for He because it has no non-arbitrary energy data.
 In NO: enthalpy of formation at 298K:energy converted from thermodynamic to thermodynamic298K
 In O2: enthalpy of formation at 298K:energy converted from thermodynamic to thermodynamic298K
+In O2 (Alternate Spec.): enthalpy of formation at 298K:energy converted from thermodynamic to thermodynamic298K
 In O2_Numerical: enthalpy of formation at 298K:energy converted from thermodynamic to thermodynamic298K
 In OH: enthalpy of formation at 298K:Number of grains produced is not equal to that requested for: OH
 In OH: Number of grains requested: 1000
@@ -79,7 +82,7 @@ In OH: energy converted from thermodynamic to thermodynamic298K
 Number of grains produced is not equal to that requested for: OH
 Number of grains requested: 1000
 Number of grains produced : 576
- -- Total time elapsed: 1 seconds.
+ -- Total time elapsed: 0 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 1 seconds.
+Total time elapsed: 0 seconds.
