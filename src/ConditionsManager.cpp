@@ -333,7 +333,7 @@ namespace mesmer
             throw(std::runtime_error("Photolysis frequency not properly defined.\n"));
           string units;
           s >> units;
-          units.erase(remove_if(units.begin(), units.end(), isspace), units.end());
+          // units.erase(remove_if(units.begin(), units.end(), isspace()), units.end());
           if (units.length() > 0)
             thisPhotoFreqUnits = units;
         }
