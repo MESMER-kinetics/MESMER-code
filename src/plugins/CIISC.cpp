@@ -38,7 +38,7 @@ namespace mesmer
 
   private:
     
-    double m_CIISCProb; // Collisional transition probability.
+    Rdouble m_CIISCProb; // Collisional transition probability.
     
     const char* m_id;
   };
@@ -53,6 +53,11 @@ namespace mesmer
     double CIISCProb = pp->XmlReadDouble("me:CIISCProbability");
 
     m_CIISCProb = (IsNan(CIISCProb)) ? 1.0 : min(max(CIISCProb,0.0),1.0);
+
+    bool rangeSet;
+    PersistPtr ppCIISCProb = pp->XmlMoveTo("me:CIISCProbability");
+    ReadRdoubleRange(string(m_parent->getName() + ":CIISCProbability"), ppCIISCProb, m_CIISCProb,
+      rangeSet);
 
     return true;
   }
