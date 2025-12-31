@@ -284,7 +284,12 @@ namespace mesmer
 
     if (m_Secondary && pActEne2txt)
     {
+
       PersistPtr ppActEne2 = pp->XmlMoveTo("me:secondaryActivationEnergy");
+
+      // Specify the direction of the following ILT parameters.
+      m_isRvsILTpara = m_isRvsILTpara || ppActEne2->XmlReadBoolean("reverse");
+
       double tmpvalue(0.0);
       stringstream s2(pActEne2txt); s2 >> tmpvalue;
       const char* unitsTxt = ppActEne2->XmlReadValue("units", false);
@@ -359,7 +364,7 @@ namespace mesmer
 
     // If second activation energy is greater than the first then this activation
     // energy must be the reaction threshold so swap parammeters around.
-    if (m_Secondary && (m_EInf2 < m_EInf)) {
+    if (m_Secondary && (m_EInf2 > m_EInf)) {
       Rdouble PreExp1 = m_PreExp;
       Rdouble NInf1 = m_NInf;
       Rdouble TInf1 = m_TInf;
