@@ -1,3 +1,69 @@
+2026-Mar-22 Struan Robertson
+
+		* FittingUtils.cpp: Alter fitting print out to show which varaible has exceed 
+		bound.
+
+		* uFTST.cpp: Some initial work to introduce J-dependent FTST.
+
+		* MesmerMath.cpp, UnitTest.cpp: Extend the Chi^2 test to larger numbers of 
+		degrees of freedom.
+
+2025-Dec-31 Struan Robertson
+
+		* MesmerILT.cpp: Fix for ILT Bug when there are multiple Arrhenius expressions.
+
+2025-Dec-27 Struan Robertson
+
+		* CIISC.cpp: CIISC Probability altered to allow for fitting.
+
+2025-Dec-12 Struan Robertson
+
+		* ConditionsManager.h/.cpp, MesmerEnv.h/.cpp, System.cpp, gStructure.cpp,
+		BoltzmannDistribution.cpp: Modifications to allow Photolysis wavelength to be
+		defined as a parameter to a model.
+
+2025-Dec-12 Struan Robertson
+
+		* ConditionsManager.h/.cpp, MesmerEnv.h/.cpp, System.cpp, gStructure.cpp,
+		BoltzmannDistribution.cpp: Modifications to allow Photolysis wavelength to be
+		defined as a parameter to a model.
+
+		* Baseline update.
+
+2025-Nov-20 Struan Robertson
+
+		* System.cpp : A wildcard added fro the parsing of Yield so that all contributions 
+		regardless of channel are counted.
+
+2025-Oct-27 Struan Robertson
+
+		* PhaseIntegrals.h/.cpp, uTest/cpp: All combination of tops implemented.
+
+2025-Oct-26 Struan Robertson
+
+		* PhaseIntegrals.h/.cpp, uTest/cpp: Atom plus linear fragment class implemented.
+
+2025-Oct-16 Struan Robertson
+
+		* Baseline update: Fixed line endings.
+
+2025-Oct-14 Struan Robertson
+
+		* Methyl_H_to_Methane_uFTST.xml, PhaseIntegrals.h/.cpp, uTest/cpp: Work toward 
+		uFTST. Initial non J dependent calsses added and Methyl + H example.
+
+		* TMatrix.h: Changes to allow normalization cosntants to be written out.
+
+		* ExponentialDown.cpp: Added tappered transitions close to the enrgy well bottom.
+		
+2025-Aug-27 Struan Robertson
+
+		* Baseline update.
+		
+2025-Aug-19 Struan Robertson
+
+		* Baseline update.
+		
 2025-Aug-7 Struan Robertson
 
 		* GeneralISC.cpp, InternalConversion.cpp: Initial implementations of 

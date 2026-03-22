@@ -45,6 +45,7 @@ namespace mesmer
   bool FittingUtils::CheckBounds(const vector<double>& A) const {
 
     bool check(true);
+    stringstream msg;
     for (size_t iVar(0); iVar < A.size() && check; iVar++) {
 
       double var = A[iVar];
@@ -52,12 +53,15 @@ namespace mesmer
 
       Rdouble::withRange()[iVar]->get_range(lower, upper, stepsize);
 
-      check = ((var > lower) && (var < upper));
+      if ((var < lower) || (var > upper)) {
+        msg << string(Rdouble::withRange()[iVar]->get_varname()) << ": " << var << endl;
+        check = false;
+      };
 
     }
 
     if (!check)
-      cinfo << "Failed bounds check." << endl;
+      cinfo << "Failed bounds check." << endl << msg.str();
 
     return check;
 
