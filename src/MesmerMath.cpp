@@ -986,7 +986,11 @@ double ChiSquaredPrbFn(double x, double a) {
     }
     if (i >= maxItr)
       cinfo << "Warning: Maximum iterations exceed in calculation of Gamma function." << endl;
-    chiSquaredPrb = h * exp(-x + a * log(x)) / MesmerGamma(a);
+
+    // Because MesmerGamma() returns 1.e308 for every argument greater than 171 
+    // the Stirling approximation is used instead for these larger values of a.
+    double lna = (a > 171) ? (a - 1) * log(a - 1) - a + 1 : log(MesmerGamma(a)) ;
+    chiSquaredPrb = h * exp(-x + a * log(x) - lna);
   }
 
   return chiSquaredPrb;

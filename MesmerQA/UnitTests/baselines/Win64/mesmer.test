@@ -71,6 +71,16 @@
         25        60        0.00011     0.00010455
         30        60        0.00092     0.00092068
 
+  Test: Chi2 for a large number of degrees of freedom.
+  ----------------------------------------------------
+
+Goodness of Fit:
+
+Chi^2 = 757.486
+Number of degrees of Freedom = 388
+Chi^2 probability = 1.40556e-24
+
+
   Test: Gamma Function.
   ---------------------
 

@@ -318,6 +318,21 @@ namespace mesmer
       ctest << endl;
     }
 
+    // The following additional test is for the case where the number
+    // of degrees of freedom exceeds the value that the MesmerGamma()
+    // function can cope with.
+
+    ctest << endl;
+    underlineText("Test: Chi2 for a large number of degrees of freedom.");
+
+    const int NoDegFreedom = 388;
+    const double chiSquare = 757.486;
+
+    ctest << endl << "Goodness of Fit:" << endl << endl;
+    ctest << "Chi^2 = " << chiSquare << endl;
+    ctest << "Number of degrees of Freedom = " << NoDegFreedom << endl;
+    ctest << "Chi^2 probability = " << ChiSquaredPrbFn(chiSquare / 2.0, double(NoDegFreedom) / 2.0) << endl << endl;
+
     return status;
 
   }

@@ -31,6 +31,7 @@ namespace mesmer
       m_Frag1(NULL),
       m_Frag2(NULL),
       m_Adduct(NULL),
+      m_bWithAngMom(false),
       m_nRxnCrdSteps(40),
       m_rxnCrdMin(0.5),
       m_rxnCrdMax(4.5),
@@ -63,6 +64,12 @@ namespace mesmer
 
   private:
 
+    // Microcanonical flux.
+    bool MicroCanonicalFlux(Reaction* pReact);
+
+    // Microcanonical flux with conserved angular momentum.
+    bool MicroCanonicalAngMomFlux(Reaction* pReact) ;
+
     // Convolve the conserved modes into the sum of states.
     bool ConvolveConservedModes(double rxnCrd, vector<double> &wrk) const;
 
@@ -74,6 +81,8 @@ namespace mesmer
     Molecule* m_Frag1;
     Molecule* m_Frag2;
     Molecule* m_Adduct;
+
+    bool m_bWithAngMom;
 
     size_t m_nRxnCrdSteps;
     double m_rxnCrdMin;
@@ -243,6 +252,106 @@ namespace mesmer
   }
 
   bool uFTST::calculateMicroCnlFlux(Reaction* pReact)
+  {
+    return (m_bWithAngMom) ? MicroCanonicalAngMomFlux(pReact) : MicroCanonicalFlux(pReact);
+  }
+
+
+  bool uFTST::MicroCanonicalFlux(Reaction* pReact)
+  {
+    // get MaxCell from MesmerEnv structure via Reaction class
+    const size_t MaximumCell = pReact->getEnv().MaxCell;
+
+    // Allocate space to hold transition state flux and initialize elements to zero.
+    vector<double>& rxnFlux = pReact->get_CellFlux();
+    rxnFlux.clear();
+    rxnFlux.resize(MaximumCell, 0.0);
+    vector<double> OptRxnCrd(MaximumCell, m_rxnCrdMin);
+
+    // Determine the combination tops and therefore the number of transitional modes.
+    TopCombination();
+
+    m_pPhaseIntegral->initialize(m_Frag1, m_Frag2, m_pFTSTPotential, pReact);
+
+    // Main loop over the reaction coordinate in Angrstroms.
+    double rxnCrd(m_rxnCrdMin);
+    double drxnCrd((m_rxnCrdMax - m_rxnCrdMin) / double(m_nRxnCrdSteps));
+    for (size_t i(0); i < m_nRxnCrdSteps; i++) {
+
+      // Some work space.
+      vector<double> wrk(MaximumCell, 0.0);
+
+      m_pFTSTPotential->RxnCrdInitialize(rxnCrd);
+
+      // Phase space integral of transitional modes.
+
+      m_pPhaseIntegral->integrate(rxnCrd, wrk);
+
+      // Convolve with remaining energy contributions.
+
+      m_pPhaseIntegral->convolveExcessEnergy(wrk);
+
+      // Convolve the conserved modes into the sum of states.
+
+      ConvolveConservedModes(rxnCrd, wrk);
+
+      // Adjust the sum of states to account for the reaction coordinate.
+
+      double cellSize = m_parent->getEnv().CellSize;
+      size_t imep = size_t((m_threshold - m_pFTSTPotential->MEPPotential(rxnCrd)) / cellSize);
+
+      if (i == 0) {
+        for (size_t j(0), jj(imep); jj < wrk.size(); j++, jj++) {
+          if (wrk[jj] > 0.0)
+            rxnFlux[j] = wrk[jj];
+          OptRxnCrd[j] = rxnCrd;
+        }
+      }
+      else {
+        for (size_t j(0), jj(imep); jj < wrk.size(); j++, jj++) {
+          if (rxnFlux[j] > wrk[jj] && wrk[jj] > 0.0) {
+            rxnFlux[j] = wrk[jj];
+            OptRxnCrd[j] = rxnCrd;
+          }
+        }
+      }
+
+      // Move on to next reaction coordinate value.
+
+      rxnCrd += drxnCrd;
+    }
+
+    if (m_writeSOS) {
+      ctest << endl;
+      if (m_eneForSOS.size() > 0) {
+        for (size_t i = 0; i < m_eneForSOS.size(); i++) {
+          size_t ii = size_t(m_eneForSOS[i]);
+          if (ii < rxnFlux.size()) {
+            ctest << setw(6) << ii << formatFloat(rxnFlux[ii], 6, 14) << formatFloat(OptRxnCrd[ii], 6, 14) << endl;
+          }
+        }
+      }
+      else {
+        for (size_t i = 0; i < rxnFlux.size(); i++) {
+          ctest << setw(6) << i << formatFloat(rxnFlux[i], 6, 14) << formatFloat(OptRxnCrd[i], 6, 14) << endl;
+        }
+      }
+      ctest << endl;
+    }
+
+    // Calculate the flux.
+    for (size_t i(0); i < MaximumCell; ++i) {
+      rxnFlux[i] *= SpeedOfLight_in_cm;
+    }
+
+    // The flux bottom energy is equal to the ZPE of the transition state
+    pReact->setCellFluxBottom(pReact->get_relative_rctZPE());
+
+    return true;
+  }
+
+  // Calculate flux with angular momentum conserved.
+  bool uFTST::MicroCanonicalAngMomFlux(Reaction* pReact)
   {
     // get MaxCell from MesmerEnv structure via Reaction class
     const size_t MaximumCell = pReact->getEnv().MaxCell;
