@@ -32,6 +32,7 @@ namespace mesmer
       m_Frag2(NULL),
       m_Adduct(NULL),
       m_bWithAngMom(false),
+      m_nMaxJ(0),
       m_nRxnCrdSteps(40),
       m_rxnCrdMin(0.5),
       m_rxnCrdMax(4.5),
@@ -68,10 +69,10 @@ namespace mesmer
     bool MicroCanonicalFlux(Reaction* pReact);
 
     // Microcanonical flux with conserved angular momentum.
-    bool MicroCanonicalAngMomFlux(Reaction* pReact) ;
+    bool MicroCanonicalAngMomFlux(Reaction* pReact);
 
     // Convolve the conserved modes into the sum of states.
-    bool ConvolveConservedModes(double rxnCrd, vector<double> &wrk) const;
+    bool ConvolveConservedModes(double rxnCrd, vector<double>& wrk) const;
 
     // Determine the top combination,
     bool TopCombination();
@@ -83,6 +84,7 @@ namespace mesmer
     Molecule* m_Adduct;
 
     bool m_bWithAngMom;
+    size_t m_nMaxJ;
 
     size_t m_nRxnCrdSteps;
     double m_rxnCrdMin;
@@ -97,8 +99,8 @@ namespace mesmer
     vector<double> m_frgFrq;
     double m_alpha;
 
-    PhaseIntegral *m_pPhaseIntegral;
-    FTSTPotential *m_pFTSTPotential;
+    PhaseIntegral* m_pPhaseIntegral;
+    FTSTPotential* m_pFTSTPotential;
 
     // Testing parameters
     string m_namedPhaseIntegral;
@@ -119,6 +121,13 @@ namespace mesmer
       cerr << "Reaction " << m_parent->getName()
         << " cannot use uFTST method because it is not a barrierless reaction." << endl;
       return false;
+    }
+
+    // Angular momentum resolved?
+    int MaxJ = pp->XmlReadInteger("me:MaxJ", optional);
+    if (MaxJ > 0) {
+      m_nMaxJ = MaxJ;
+      m_bWithAngMom = true;
     }
 
     // Reaction coordinate limits.
@@ -360,59 +369,69 @@ namespace mesmer
     vector<double>& rxnFlux = pReact->get_CellFlux();
     rxnFlux.clear();
     rxnFlux.resize(MaximumCell, 0.0);
-    vector<double> OptRxnCrd(MaximumCell, m_rxnCrdMin);
 
     // Determine the combination tops and therefore the number of transitional modes.
     TopCombination();
 
     m_pPhaseIntegral->initialize(m_Frag1, m_Frag2, m_pFTSTPotential, pReact);
 
-    // Main loop over the reaction coordinate in Angrstroms.
-    double rxnCrd(m_rxnCrdMin);
-    double drxnCrd((m_rxnCrdMax - m_rxnCrdMin) / double(m_nRxnCrdSteps));
-    for (size_t i(0); i < m_nRxnCrdSteps; i++) {
+    // Main loop over the angular momentum.
+    for (size_t j(0); j < m_nMaxJ; j++) {
 
-      // Some work space.
-      vector<double> wrk(MaximumCell, 0.0);
+      // Main loop over the reaction coordinate in Angrstroms.
+      double rxnCrd(m_rxnCrdMin);
+      double drxnCrd((m_rxnCrdMax - m_rxnCrdMin) / double(m_nRxnCrdSteps));
+      vector<double> OptRxnCrd(rxnFlux.size(), m_rxnCrdMin);
+      vector<double> Flux(rxnFlux.size(), 0.0);
+      for (size_t i(0); i < m_nRxnCrdSteps; i++) {
 
-      m_pFTSTPotential->RxnCrdInitialize(rxnCrd);
+        // Some work space.
+        vector<double> wrk(MaximumCell, 0.0);
 
-      // Phase space integral of transitional modes.
+        m_pFTSTPotential->RxnCrdInitialize(rxnCrd);
 
-      m_pPhaseIntegral->integrate(rxnCrd, wrk);
+        // Phase space integral of transitional modes.
 
-      // Convolve with remaining energy contributions.
+        m_pPhaseIntegral->integrate(rxnCrd, wrk, j);
 
-      m_pPhaseIntegral->convolveExcessEnergy(wrk);
+        // Convolve with remaining energy contributions.
 
-      // Convolve the conserved modes into the sum of states.
+        m_pPhaseIntegral->convolveExcessEnergy(wrk, j);
 
-      ConvolveConservedModes(rxnCrd, wrk);
+        // Convolve the conserved modes into the sum of states.
 
-      // Adjust the sum of states to account for the reaction coordinate.
+        ConvolveConservedModes(rxnCrd, wrk);
 
-      double cellSize = m_parent->getEnv().CellSize;
-      size_t imep = size_t((m_threshold - m_pFTSTPotential->MEPPotential(rxnCrd)) / cellSize);
+        // Adjust the sum of states to account for the reaction coordinate.
 
-      if (i == 0) {
-        for (size_t j(0), jj(imep); jj < wrk.size(); j++, jj++) {
-          if (wrk[jj] > 0.0)
-            rxnFlux[j] = wrk[jj];
-          OptRxnCrd[j] = rxnCrd;
-        }
-      }
-      else {
-        for (size_t j(0), jj(imep); jj < wrk.size(); j++, jj++) {
-          if (rxnFlux[j] > wrk[jj] && wrk[jj] > 0.0) {
-            rxnFlux[j] = wrk[jj];
+        double cellSize = m_parent->getEnv().CellSize;
+        size_t imep = size_t((m_threshold - m_pFTSTPotential->MEPPotential(rxnCrd)) / cellSize);
+
+        if (i == 0) {
+          for (size_t j(0), jj(imep); jj < wrk.size(); j++, jj++) {
+            if (wrk[jj] > 0.0)
+              Flux[j] = wrk[jj];
             OptRxnCrd[j] = rxnCrd;
           }
         }
+        else {
+          for (size_t j(0), jj(imep); jj < wrk.size(); j++, jj++) {
+            if (Flux[j] > wrk[jj] && wrk[jj] > 0.0) {
+              Flux[j] = wrk[jj];
+              OptRxnCrd[j] = rxnCrd;
+            }
+          }
+        }
+
+        // Move on to next reaction coordinate value.
+        rxnCrd += drxnCrd;
       }
 
-      // Move on to next reaction coordinate value.
+      // Accumulate flux over J (on the assumption that we only ever do a 1D ME).
+      for (size_t j(0); j < rxnFlux.size(); j++) {
+        rxnFlux[j] += Flux[j];
+      }
 
-      rxnCrd += drxnCrd;
     }
 
     if (m_writeSOS) {
@@ -421,13 +440,13 @@ namespace mesmer
         for (size_t i = 0; i < m_eneForSOS.size(); i++) {
           size_t ii = size_t(m_eneForSOS[i]);
           if (ii < rxnFlux.size()) {
-            ctest << setw(6) << ii << formatFloat(rxnFlux[ii], 6, 14) << formatFloat(OptRxnCrd[ii], 6, 14) << endl;
+            ctest << setw(6) << ii << formatFloat(rxnFlux[ii], 6, 14) << endl;
           }
         }
       }
       else {
         for (size_t i = 0; i < rxnFlux.size(); i++) {
-          ctest << setw(6) << i << formatFloat(rxnFlux[i], 6, 14) << formatFloat(OptRxnCrd[i], 6, 14) << endl;
+          ctest << setw(6) << i << formatFloat(rxnFlux[i], 6, 14) << endl;
         }
       }
       ctest << endl;
@@ -445,12 +464,12 @@ namespace mesmer
   }
 
   // Convolve the conserved modes into the sum of states.
-  bool uFTST::ConvolveConservedModes(double rxnCrd, vector<double> &wrk) const {
+  bool uFTST::ConvolveConservedModes(double rxnCrd, vector<double>& wrk) const {
 
     //First calculate freqencies.
     vector<double> Freq;
     for (size_t j(0); j < m_addFrq.size(); j++) {
-      double frq = m_frgFrq[j] + (m_addFrq[j] - m_frgFrq[j])*exp(-m_alpha * (rxnCrd - m_R0));
+      double frq = m_frgFrq[j] + (m_addFrq[j] - m_frgFrq[j]) * exp(-m_alpha * (rxnCrd - m_R0));
       Freq.push_back(frq);
     }
 

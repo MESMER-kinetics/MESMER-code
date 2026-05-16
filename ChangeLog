@@ -1,3 +1,8 @@
+2026-May-16 Struan Robertson
+
+		* uFTST.cpp, PhaseIntegrals.h/.cpp: J-dependent FTST, J specifc functions
+		introduced.
+
 2026-Mar-22 Struan Robertson
 
 		* FittingUtils.cpp: Alter fitting print out to show which varaible has exceed 
