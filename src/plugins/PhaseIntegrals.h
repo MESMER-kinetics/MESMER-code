@@ -43,12 +43,16 @@ namespace mesmer
 
     virtual void integrate(double rxnCrd, vector<double>& wrk) = 0;
 
+    virtual void integrate(double rxnCrd, vector<double>& wrk, size_t J) = 0;
+
     void convolveExcessEnergy(vector<double>& cellSOS) const;
+
+    void convolveExcessEnergy(vector<double>& cellSOS, size_t J) const;
 
   protected:
 
-    // Heavyside function integration.
-    void HeavysideIntegration(vector<double>& cellSOS) const;
+    // Heaviside function integration.
+    void HeavisideIntegration(vector<double>& cellSOS) const;
 
     const size_t m_nIDOF; // Number of transitional modes (excluding external rotation).
 
@@ -80,6 +84,8 @@ namespace mesmer
 
     virtual void integrate(double rxnCrd, vector<double>& wrk);
 
+    virtual void integrate(double rxnCrd, vector<double>& wrk, size_t j);
+
   private:
 
   };
@@ -91,6 +97,8 @@ namespace mesmer
     virtual ~NLnrLnrTops() {}
 
     virtual void integrate(double rxnCrd, vector<double>& wrk);
+
+    virtual void integrate(double rxnCrd, vector<double>& wrk, size_t j);
 
   private:
 
@@ -104,6 +112,8 @@ namespace mesmer
 
     virtual void integrate(double rxnCrd, vector<double>& wrk);
 
+    virtual void integrate(double rxnCrd, vector<double>& wrk, size_t j);
+
   private:
 
   };
@@ -116,6 +126,8 @@ namespace mesmer
 
     virtual void integrate(double rxnCrd, vector<double>& wrk);
 
+    virtual void integrate(double rxnCrd, vector<double>& wrk, size_t j);
+
   private:
 
   };
@@ -127,6 +139,8 @@ namespace mesmer
     virtual ~LnrAtmTops() {}
 
     virtual void integrate(double rxnCrd, vector<double>& wrk);
+
+    virtual void integrate(double rxnCrd, vector<double>& wrk, size_t j);
 
   private:
 
@@ -141,6 +155,8 @@ namespace mesmer
 
     virtual void integrate(double rxnCrd, vector<double>& wrk) {}
 
+    virtual void integrate(double rxnCrd, vector<double>& wrk, size_t j) {}
+
   private:
 
   };
@@ -154,6 +170,8 @@ namespace mesmer
     virtual ~MethylPlusH_HW() {}
 
     virtual void integrate(double rxnCrd, vector<double>& wrk);
+
+    virtual void integrate(double rxnCrd, vector<double>& wrk, size_t j) {}
 
   private:
 

@@ -64,8 +64,28 @@ namespace mesmer
 
   }
 
-  // Heavyside function integration.
-  void PhaseIntegral::HeavysideIntegration(vector<double>& cellSOS) const {
+  void PhaseIntegral::convolveExcessEnergy(vector<double>& cellSOS, size_t J) const {
+
+    if (J == 0) {
+      for (size_t i(0); i < cellSOS.size(); ++i) {
+        cellSOS[i] = 1.0;
+      }
+    }
+    else {
+      vector<double> tmpCellSOS(cellSOS);
+      vector<double> ene(cellSOS.size(), 0.0);
+      getCellEnergies(cellSOS.size(), m_cellSize, ene);
+      double pwr = 0.5 * double(m_nIDOF) - 1.0;
+      for (size_t j(0); j < ene.size(); ++j) {
+        ene[j] = pow(ene[j], pwr);
+      }
+      FastLaplaceConvolution(tmpCellSOS, ene, cellSOS);
+    }
+
+  }
+
+  // Heaviside function integration.
+  void PhaseIntegral::HeavisideIntegration(vector<double>& cellSOS) const {
     for (size_t i(0); i < m_MCPnts; ++i) {
       double kfctr = m_knmtcFctr[i];
       double ptnl = m_potential[i];
@@ -103,8 +123,8 @@ namespace mesmer
       m_potential[i] = m_pFTSTPotential->HinderingPotential(rxnCrd, angles);
     }
 
-    // Heavyside function integration.
-    HeavysideIntegration(cellSOS);
+    // Heaviside function integration.
+    HeavisideIntegration(cellSOS);
 
     // Conversion and symmetry number factor.
     double RotCnt = m_mu * rxnCrd * rxnCrd / conMntInt2RotCnt;
@@ -113,10 +133,17 @@ namespace mesmer
     RotCnt /= sqrt(MntsInt[0] * MntsInt[1] * MntsInt[2]);
     m_Frag2->getDOS().get_rotConsts(MntsInt);
     RotCnt /= sqrt(MntsInt[0] * MntsInt[1] * MntsInt[2]);
-    double cnt = M_PI * M_PI * M_PI * RotCnt / double(6.0 * m_MCPnts * m_Sym);
+    double cnt = M_PI * M_PI * M_PI * RotCnt / double(24.0 * m_MCPnts * m_Sym);
     for (size_t j(0); j < cellSOS.size(); ++j) {
       cellSOS[j] *= cnt;
     }
+  }
+
+  void NLnrNLnrTops::integrate(double rxnCrd, vector<double>& cellSOS, size_t J) {
+  
+    if (J == 0) 
+      return;
+  
   }
 
   void NLnrLnrTops::integrate(double rxnCrd, vector<double>& cellSOS) {
@@ -145,8 +172,8 @@ namespace mesmer
       m_potential[i] = m_pFTSTPotential->HinderingPotential(rxnCrd, angles);
     }
 
-    // Heavyside function integration.
-    HeavysideIntegration(cellSOS);
+    // Heaviside function integration.
+    HeavisideIntegration(cellSOS);
 
     // Conversion and symmetry number factor.
     double RotCnt = m_mu * rxnCrd * rxnCrd / conMntInt2RotCnt;
@@ -162,6 +189,13 @@ namespace mesmer
       cellSOS[j] *= cnt;
     }
   }
+
+  void NLnrLnrTops::integrate(double rxnCrd, vector<double>& cellSOS, size_t J) {
+
+    if (J == 0)
+      return;
+  }
+
 
   void NLnrAtmTops::integrate(double rxnCrd, vector<double>& cellSOS) {
 
@@ -187,8 +221,8 @@ namespace mesmer
       m_potential[i] = m_pFTSTPotential->HinderingPotential(rxnCrd, angles);
     }
 
-    // Heavyside function integration.
-    HeavysideIntegration(cellSOS);
+    // Heaviside function integration.
+    HeavisideIntegration(cellSOS);
 
     // Conversion and symmetry number factor.
     double RotCnt = m_mu * rxnCrd * rxnCrd / conMntInt2RotCnt;
@@ -202,6 +236,13 @@ namespace mesmer
     }
 
   }
+
+  void NLnrAtmTops::integrate(double rxnCrd, vector<double>& cellSOS, size_t J) {
+
+    if (J == 0)
+      return;
+  }
+
 
   void LnrLnrTops::integrate(double rxnCrd, vector<double>& cellSOS) {
 
@@ -228,8 +269,8 @@ namespace mesmer
       m_potential[i] = m_pFTSTPotential->HinderingPotential(rxnCrd, angles);
     }
 
-    // Heavyside function integration.
-    HeavysideIntegration(cellSOS);
+    // Heaviside function integration.
+    HeavisideIntegration(cellSOS);
 
     // Conversion and symmetry number factor.
     double RotCnt = m_mu * rxnCrd * rxnCrd / conMntInt2RotCnt;
@@ -244,6 +285,13 @@ namespace mesmer
     }
 
   }
+
+  void LnrLnrTops::integrate(double rxnCrd, vector<double>& cellSOS, size_t J) {
+
+    if (J == 0)
+      return;
+  }
+
 
   void LnrAtmTops::integrate(double rxnCrd, vector<double>& cellSOS) {
 
@@ -268,8 +316,47 @@ namespace mesmer
       m_potential[i] = m_pFTSTPotential->HinderingPotential(rxnCrd, angles);
     }
 
-    // Heavyside function integration.
-    HeavysideIntegration(cellSOS);
+    // Heaviside function integration.
+    HeavisideIntegration(cellSOS);
+
+    // Conversion and symmetry number factor.
+    double RotCnt = m_mu * rxnCrd * rxnCrd / conMntInt2RotCnt;
+    vector<double> MntsInt;
+    Molecule* top = (m_top1 == LINEAR) ? m_Frag1 : m_Frag2;
+    top->getDOS().get_rotConsts(MntsInt);
+    RotCnt /= MntsInt[0];
+    double cnt = M_PI * RotCnt / double(2.0 * m_MCPnts * m_Sym);
+    for (size_t j(0); j < cellSOS.size(); ++j) {
+      cellSOS[j] *= cnt;
+    }
+
+  }
+
+  void LnrAtmTops::integrate(double rxnCrd, vector<double>& cellSOS, size_t J) {
+
+    // Instantiate a random vector generator.
+    Sobol sobol;
+
+    // Configuration loop.
+    long long seed(17);
+    m_knmtcFctr.resize(m_MCPnts, 0.0);
+    m_potential.resize(m_MCPnts, 0.0);
+    for (size_t i(0); i < m_MCPnts; ++i) {
+
+      // Select angular coordinates.
+      vector<double> angles(m_nIDOF, 0.0);
+      sobol.sobol(angles.size(), &seed, angles);
+      angles[0] *= M_PI;
+
+      // Calculate the determinant of the Wilson G Matrix.
+      m_knmtcFctr[i] = sin(angles[0]);
+
+      // Calculate potential energy.
+      m_potential[i] = m_pFTSTPotential->HinderingPotential(rxnCrd, angles);
+    }
+
+    // Heaviside function integration.
+    HeavisideIntegration(cellSOS);
 
     // Conversion and symmetry number factor.
     double RotCnt = m_mu * rxnCrd * rxnCrd / conMntInt2RotCnt;
