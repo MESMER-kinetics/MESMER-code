@@ -1,6 +1,13 @@
+2026-May-24 Struan Robertson
+
+		* uFTST.cpp, PhaseIntegrals.h/.cpp: J-dependent FTST: J specifc functions
+		updated.
+
+		* Baseline update.
+
 2026-May-16 Struan Robertson
 
-		* uFTST.cpp, PhaseIntegrals.h/.cpp: J-dependent FTST, J specifc functions
+		* uFTST.cpp, PhaseIntegrals.h/.cpp: J-dependent FTST: J specifc functions
 		introduced.
 
 2026-Mar-22 Struan Robertson
