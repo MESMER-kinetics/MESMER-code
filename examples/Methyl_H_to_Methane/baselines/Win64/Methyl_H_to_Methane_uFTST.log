@@ -1,0 +1,272 @@
+
+            /|      /|                        \   
+           / |     / | ________________________\  
+          /  |    /  |  _   _             _   _   
+         /   |   /   | / \ / \ |\     /| / \ / \  
+        /    |  /    | \_/ \_  | \   / | \_/ |_/  
+       /     | /     | /     \ |  \ /  | /   | \  
+    \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
+
+     Mesmer: Master Equation Solver for Multi-Energy well Reactions
+     Mesmer v7.2 compiled: -- May 11 2026 -- 20:26:21
+
+     Copyright (C) 2009-2025 by
+     Struan H. Robertson, Chris Morley, Chi-Hsiu Liang,
+     David R. Glowacki, Michael J. Pilling and contributors
+
+     Mesmer is free software: you can redistribute it and/or modify
+     it under the terms of the GNU Public License as published by
+     the Free Software Foundation, either version 2 of the License,
+     or (at your option) any later version.
+
+     But WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU Public License for more details.
+
+    You should have received a copy of the GNU Public License
+    along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
+
+                     Platform:        Windows64
+                     Execution Date:  Sun May 24 17:39:51 2026
+                     Number of ranks: 8
+
+defaults.xml, librarymols.xml are in ../..
+
+Parsing input xml file...
+Methyl_H_to_Methane_uFTST.xml
+
+The default value of me:calcMethod was used.
+--Parse data for simpleCalc
+Energy convention "" written to <moleculeList>
+In R1J: Parsing reaction...Association reaction
+In Methyl: Methyl:ZPE was given a range with 3 steps 
+In H: The default value of me:DOSCMethod was used.
+In H: The default value of the attribute spinMultiplicity was used.
+In Methane: The default value of me:DistributionCalcMethod was used.
+In Methane: --Parse data for Boltzmann
+In Methane: --Parse data for ExponentialDown
+In Methane: Methane:deltaEDown was given a range with 15 steps 
+In R1J: --Parse data for uFTST
+In R1J: --Parse data for HirstWardlawPotential
+In R1J: No tunneling method used for R1J
+In R1J: No value of me:excessReactantConc was supplied and the default value NEEDS TO BE CHECKED**
+In R1: Parsing reaction...Association reaction
+In R1: --Parse data for uFTST
+In R1: --Parse data for HirstWardlawPotential
+In R1: No tunneling method used for R1
+In R1: No value of me:excessReactantConc was supplied and the default value NEEDS TO BE CHECKED**
+In R2: Parsing reaction...Association reaction
+In R2: --Parse data for uFTST
+In R2: --Parse data for HirstWardlawPotential
+In R2: No tunneling method used for R2
+In R2: No value of me:excessReactantConc was supplied and the default value NEEDS TO BE CHECKED**
+25.1Torr, 301K at dd precision with He
+Excess Reactant Conc. for reaction R1J = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R2 = 2.25e+16 particles per cc
+50.8Torr, 301K at dd precision with He
+Excess Reactant Conc. for reaction R1J = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R2 = 2.25e+16 particles per cc
+101.3Torr, 301K at dd precision with He
+Excess Reactant Conc. for reaction R1J = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R2 = 2.25e+16 particles per cc
+152.4Torr, 301K at dd precision with He
+Excess Reactant Conc. for reaction R1J = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R2 = 2.25e+16 particles per cc
+205.5Torr, 301K at dd precision with He
+Excess Reactant Conc. for reaction R1J = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R2 = 2.25e+16 particles per cc
+255.8Torr, 301K at dd precision with He
+Excess Reactant Conc. for reaction R1J = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R2 = 2.25e+16 particles per cc
+306.5Torr, 301K at dd precision with He
+Excess Reactant Conc. for reaction R1J = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R2 = 2.25e+16 particles per cc
+356.5Torr, 301K at dd precision with He
+Excess Reactant Conc. for reaction R1J = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R2 = 2.25e+16 particles per cc
+408.3Torr, 301K at dd precision with He
+Excess Reactant Conc. for reaction R1J = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R2 = 2.25e+16 particles per cc
+509.5Torr, 301K at dd precision with He
+Excess Reactant Conc. for reaction R1J = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R2 = 2.25e+16 particles per cc
+25.2Torr, 401K at dd precision with He
+Excess Reactant Conc. for reaction R1J = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R2 = 2.25e+16 particles per cc
+50.2Torr, 401K at dd precision with He
+Excess Reactant Conc. for reaction R1J = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R2 = 2.25e+16 particles per cc
+100.2Torr, 401K at dd precision with He
+Excess Reactant Conc. for reaction R1J = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R2 = 2.25e+16 particles per cc
+152.9Torr, 401K at dd precision with He
+Excess Reactant Conc. for reaction R1J = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R2 = 2.25e+16 particles per cc
+200.2Torr, 401K at dd precision with He
+Excess Reactant Conc. for reaction R1J = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R2 = 2.25e+16 particles per cc
+254.2Torr, 401K at dd precision with He
+Excess Reactant Conc. for reaction R1J = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R2 = 2.25e+16 particles per cc
+350Torr, 401K at dd precision with He
+Excess Reactant Conc. for reaction R1J = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R2 = 2.25e+16 particles per cc
+455.9Torr, 401K at dd precision with He
+Excess Reactant Conc. for reaction R1J = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R2 = 2.25e+16 particles per cc
+508.5Torr, 401K at dd precision with He
+Excess Reactant Conc. for reaction R1J = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R2 = 2.25e+16 particles per cc
+610.5Torr, 401K at dd precision with He
+Excess Reactant Conc. for reaction R1J = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R2 = 2.25e+16 particles per cc
+25.2Torr, 504K at dd precision with He
+Excess Reactant Conc. for reaction R1J = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R2 = 2.25e+16 particles per cc
+50.2Torr, 504K at dd precision with He
+Excess Reactant Conc. for reaction R1J = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R2 = 2.25e+16 particles per cc
+100.5Torr, 504K at dd precision with He
+Excess Reactant Conc. for reaction R1J = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R2 = 2.25e+16 particles per cc
+153.5Torr, 504K at dd precision with He
+Excess Reactant Conc. for reaction R1J = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R2 = 2.25e+16 particles per cc
+200.8Torr, 504K at dd precision with He
+Excess Reactant Conc. for reaction R1J = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R2 = 2.25e+16 particles per cc
+255.8Torr, 504K at dd precision with He
+Excess Reactant Conc. for reaction R1J = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R2 = 2.25e+16 particles per cc
+356.8Torr, 504K at dd precision with He
+Excess Reactant Conc. for reaction R1J = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R2 = 2.25e+16 particles per cc
+400.2Torr, 504K at dd precision with He
+Excess Reactant Conc. for reaction R1J = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R2 = 2.25e+16 particles per cc
+509Torr, 504K at dd precision with He
+Excess Reactant Conc. for reaction R1J = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R2 = 2.25e+16 particles per cc
+611.7Torr, 504K at dd precision with He
+Excess Reactant Conc. for reaction R1J = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R2 = 2.25e+16 particles per cc
+105.3Torr, 601K at dd precision with He
+Excess Reactant Conc. for reaction R1J = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R2 = 2.25e+16 particles per cc
+208.5Torr, 601K at dd precision with He
+Excess Reactant Conc. for reaction R1J = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R2 = 2.25e+16 particles per cc
+304.5Torr, 601K at dd precision with He
+Excess Reactant Conc. for reaction R1J = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R2 = 2.25e+16 particles per cc
+411Torr, 601K at dd precision with He
+Excess Reactant Conc. for reaction R1J = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R2 = 2.25e+16 particles per cc
+515Torr, 601K at dd precision with He
+Excess Reactant Conc. for reaction R1J = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R2 = 2.25e+16 particles per cc
+614.5Torr, 601K at dd precision with He
+Excess Reactant Conc. for reaction R1J = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R2 = 2.25e+16 particles per cc
+711Torr, 601K at dd precision with He
+Excess Reactant Conc. for reaction R1J = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R1 = 2.25e+16 particles per cc
+Excess Reactant Conc. for reaction R2 = 2.25e+16 particles per cc
+The default value of the attribute Tstep was used.
+The default value of the attribute Tmin was used.
+The default value of the attribute Tmax was used.
+The default value of me:ForceMacroDetailedBalance was used.
+Write metadata 20260524_173951
+
+File: "Methyl_H_to_Methane_uFTST.xml" successfully parsed.
+Main Calculation begins
+Now calculating...
+
+--Execute calcMethod simpleCalc
+Number of cells = 50100, Number of grains = 334
+In FastLaplaceConvolution: 20 values in the FFT convolution routine were replaced by standard convolution
+Number of grains produced is not equal to that requested for: H
+Number of grains requested: 334
+Number of grains produced : 1
+In FastLaplaceConvolution: 40 values in the FFT convolution routine were replaced by standard convolution
+ -- Total time elapsed: 399 seconds.
+
+
+    Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
+
+            301    8.05242e+17       1.26e-11              0
+            301    1.62973e+18       3.52e-11              0
+            301    3.24984e+18       6.36e-11              0
+            301     4.8892e+18       9.37e-11              0
+            301    6.59272e+18       1.05e-10              0
+            301    8.20641e+18       1.34e-10              0
+            301    9.83294e+18        1.4e-10              0
+            301     1.1437e+19        1.4e-10              0
+            301    1.30988e+19       1.61e-10              0
+            301    1.63455e+19       1.82e-10              0
+            401    6.06842e+17       2.35e-11              0
+            401    1.20887e+18       2.52e-11              0
+            401    2.41292e+18       4.44e-11              0
+            401    3.68199e+18       6.06e-11              0
+            401    4.82102e+18       7.56e-11              0
+            401     6.1214e+18          9e-11              0
+            401    8.42836e+18       1.01e-10              0
+            401    1.09785e+19       1.21e-10              0
+            401    1.22452e+19       1.31e-10              0
+            401    1.47015e+19       1.44e-10              0
+            504    4.82825e+17       1.14e-11              0
+            504    9.61817e+17       1.66e-11              0
+            504    1.92555e+18       3.44e-11              0
+            504    2.94101e+18       4.68e-11              0
+            504    3.84727e+18       5.31e-11              0
+            504    4.90105e+18       5.78e-11              0
+            504    6.83618e+18       6.82e-11              0
+            504    7.66771e+18       7.75e-11              0
+            504    9.75229e+18       8.32e-11              0
+            504      1.172e+19       9.69e-11              0
+            601    1.69189e+18       2.11e-11              0
+            601    3.35005e+18       3.35e-11              0
+            601    4.89251e+18       3.78e-11              0
+            601    6.60369e+18        4.5e-11              0
+            601     8.2747e+18       4.84e-11              0
+            601     9.8734e+18       5.75e-11              0
+            601    1.14239e+19       6.18e-11              0
+
+System saved to mesmer_out.xml
+Total time elapsed: 399 seconds.

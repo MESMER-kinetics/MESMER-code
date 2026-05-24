@@ -376,7 +376,7 @@ namespace mesmer
     m_pPhaseIntegral->initialize(m_Frag1, m_Frag2, m_pFTSTPotential, pReact);
 
     // Main loop over the angular momentum.
-    for (size_t j(0); j < m_nMaxJ; j++) {
+    for (size_t j(0); j <= m_nMaxJ; j++) {
 
       // Main loop over the reaction coordinate in Angrstroms.
       double rxnCrd(m_rxnCrdMin);
@@ -408,17 +408,17 @@ namespace mesmer
         size_t imep = size_t((m_threshold - m_pFTSTPotential->MEPPotential(rxnCrd)) / cellSize);
 
         if (i == 0) {
-          for (size_t j(0), jj(imep); jj < wrk.size(); j++, jj++) {
+          for (size_t l(0), jj(imep); jj < wrk.size(); l++, jj++) {
             if (wrk[jj] > 0.0)
-              Flux[j] = wrk[jj];
-            OptRxnCrd[j] = rxnCrd;
+              Flux[l] = wrk[jj];
+            OptRxnCrd[l] = rxnCrd;
           }
         }
         else {
-          for (size_t j(0), jj(imep); jj < wrk.size(); j++, jj++) {
-            if (Flux[j] > wrk[jj] && wrk[jj] > 0.0) {
-              Flux[j] = wrk[jj];
-              OptRxnCrd[j] = rxnCrd;
+          for (size_t l(0), jj(imep); jj < wrk.size(); l++, jj++) {
+            if (Flux[l] > wrk[jj] && wrk[jj] > 0.0) {
+              Flux[l] = wrk[jj];
+              OptRxnCrd[l] = rxnCrd;
             }
           }
         }
@@ -428,8 +428,8 @@ namespace mesmer
       }
 
       // Accumulate flux over J (on the assumption that we only ever do a 1D ME).
-      for (size_t j(0); j < rxnFlux.size(); j++) {
-        rxnFlux[j] += Flux[j];
+      for (size_t i(0); i < rxnFlux.size(); i++) {
+        rxnFlux[i] += Flux[i];
       }
 
     }

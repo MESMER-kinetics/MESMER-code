@@ -96,7 +96,93 @@ namespace mesmer
     }
   }
 
-  void NLnrNLnrTops::integrate(double rxnCrd, vector<double>& cellSOS) {
+  void LnrAtmTops::integrate(double rxnCrd, vector<double>& cellSOS) {
+
+    // Instantiate a random vector generator.
+    Sobol sobol;
+
+    // Configuration loop.
+    long long seed(17);
+    m_knmtcFctr.resize(m_MCPnts, 0.0);
+    m_potential.resize(m_MCPnts, 0.0);
+    for (size_t i(0); i < m_MCPnts; ++i) {
+
+      // Select angular coordinates.
+      vector<double> angles(m_nIDOF, 0.0);
+      sobol.sobol(angles.size(), &seed, angles);
+      angles[0] *= M_PI;
+
+      // Calculate the determinant of the Wilson G Matrix.
+      m_knmtcFctr[i] = sin(angles[0]);
+
+      // Calculate potential energy.
+      m_potential[i] = m_pFTSTPotential->HinderingPotential(rxnCrd, angles);
+    }
+
+    // Heaviside function integration.
+    HeavisideIntegration(cellSOS);
+
+    // Conversion and symmetry number factor.
+    double RotCnt = m_mu * rxnCrd * rxnCrd / conMntInt2RotCnt;
+    vector<double> MntsInt;
+    Molecule* top = (m_top1 == LINEAR) ? m_Frag1 : m_Frag2;
+    top->getDOS().get_rotConsts(MntsInt);
+    RotCnt /= MntsInt[0];
+    double cnt = M_PI * RotCnt / double(2.0 * m_MCPnts * m_Sym);
+    for (size_t j(0); j < cellSOS.size(); ++j) {
+      cellSOS[j] *= cnt;
+    }
+
+  }
+
+  void LnrAtmTops::integrate(double rxnCrd, vector<double>& cellSOS, size_t J) {
+
+    // Instantiate a random vector generator.
+    Sobol sobol;
+
+    // Configuration loop.
+    double B0 = conMntInt2RotCnt / (m_mu * rxnCrd * rxnCrd);
+    m_knmtcFctr.resize(m_MCPnts, 0.0);
+    m_potential.resize(m_MCPnts, 0.0);
+    vector<double> angles(m_nIDOF, 0.0);
+    vector<double> tmp(m_nIDOF + 2, 0.0);
+    long long seed(17);
+    for (size_t i(0); i < m_MCPnts; ++i) {
+
+      // Select angular coordinates.
+      vector<double> angles(m_nIDOF, 0.0);
+      sobol.sobol(tmp.size(), &seed, tmp);
+      angles[0] = M_PI * tmp[0];
+      double nu = 2.0 * M_PI * tmp[1];
+      double gamma = 2.0 * tmp[2] - 1.0;
+
+      // Calculate the determinant of the Wilson G Matrix.
+      m_knmtcFctr[i] = sqrt(B0 * B0 * B0) * sin(angles[0]);
+
+      // Calculate potential energy.
+      m_potential[i] = m_pFTSTPotential->HinderingPotential(rxnCrd, angles);
+
+      // Add instantaneous rotational energy.
+      m_potential[i] += B0 * J * J;
+    }
+
+    // Heaviside function integration.
+    HeavisideIntegration(cellSOS);
+
+    // Conversion and symmetry number factor.
+    double RotCnt = 1.0 / B0;
+    vector<double> MntsInt;
+    Molecule* top = (m_top1 == LINEAR) ? m_Frag1 : m_Frag2;
+    top->getDOS().get_rotConsts(MntsInt);
+    RotCnt /= MntsInt[0];
+    double cnt = 2.0 * J * J * RotCnt / double(m_MCPnts * m_Sym);
+    for (size_t j(0); j < cellSOS.size(); ++j) {
+      cellSOS[j] *= cnt;
+    }
+
+  }
+
+  void NLnrAtmTops::integrate(double rxnCrd, vector<double>& cellSOS) {
 
     // Instantiate a random vector generator.
     Sobol sobol;
@@ -112,12 +198,100 @@ namespace mesmer
       sobol.sobol(angles.size(), &seed, angles);
       angles[0] *= M_PI;
       angles[1] *= 2.0 * M_PI;
-      angles[2] *= M_PI;
-      angles[3] *= 2.0 * M_PI;
-      angles[4] *= 2.0 * M_PI;
 
       // Calculate the determinant of the Wilson G Matrix.
-      m_knmtcFctr[i] = sin(angles[0]) * sin(angles[2]);
+      m_knmtcFctr[i] = sin(angles[0]);
+
+      // Calculate potential energy.
+      m_potential[i] = m_pFTSTPotential->HinderingPotential(rxnCrd, angles);
+    }
+
+    // Heaviside function integration.
+    HeavisideIntegration(cellSOS);
+
+    // Conversion and symmetry number factor.
+    double RotCnt = m_mu * rxnCrd * rxnCrd / conMntInt2RotCnt;
+    vector<double> MntsInt;
+    Molecule* top = (m_top1 == NONLINEAR) ? m_Frag1 : m_Frag2;
+    top->getDOS().get_rotConsts(MntsInt);
+    RotCnt /= sqrt(MntsInt[0] * MntsInt[1] * MntsInt[2]);
+    double cnt = 2.0 * M_PI * RotCnt / double(3.0 * m_MCPnts * m_Sym);
+    for (size_t j(0); j < cellSOS.size(); ++j) {
+      cellSOS[j] *= cnt;
+    }
+
+  }
+
+  void NLnrAtmTops::integrate(double rxnCrd, vector<double>& cellSOS, size_t J) {
+
+    if (J == 0)
+      return;
+
+    // Instantiate a random vector generator.
+    Sobol sobol;
+
+    // Configuration loop.
+    double B0 = conMntInt2RotCnt / (m_mu * rxnCrd * rxnCrd);
+    m_knmtcFctr.resize(m_MCPnts, 0.0);
+    m_potential.resize(m_MCPnts, 0.0);
+    vector<double> angles(m_nIDOF, 0.0);
+    vector<double> tmp(m_nIDOF + 2, 0.0);
+    long long seed(17);
+    for (size_t i(0); i < m_MCPnts; ++i) {
+
+      // Select angular coordinates.
+      sobol.sobol(tmp.size(), &seed, tmp);
+      angles[0] = M_PI * tmp[0];
+      angles[1] = 2.0 * M_PI * tmp[1];
+      double nu = 2.0 * M_PI * tmp[2];
+      double gamma = 2.0 * tmp[3] - 1.0;
+
+      // Calculate the determinant of the Wilson G Matrix.
+      m_knmtcFctr[i] = sqrt(B0 * B0 * B0) * sin(angles[0]);
+
+      // Calculate potential energy.
+      m_potential[i] = m_pFTSTPotential->HinderingPotential(rxnCrd, angles);
+
+      // Add instantaneous rotational energy.
+      m_potential[i] += B0 * J * J;
+    }
+
+    // Heaviside function integration.
+    HeavisideIntegration(cellSOS);
+
+    // Conversion and symmetry number factor.
+    double RotCnt = 1.0 / B0;
+    vector<double> MntsInt;
+    Molecule* top = (m_top1 == NONLINEAR) ? m_Frag1 : m_Frag2;
+    top->getDOS().get_rotConsts(MntsInt);
+    RotCnt /= sqrt(MntsInt[0] * MntsInt[1] * MntsInt[2]);
+    double cnt = 2.0 * M_PI * J * J * RotCnt / double(m_MCPnts * m_Sym);
+    for (size_t j(0); j < cellSOS.size(); ++j) {
+      cellSOS[j] *= cnt;
+    }
+
+  }
+
+  void LnrLnrTops::integrate(double rxnCrd, vector<double>& cellSOS) {
+
+    // Instantiate a random vector generator.
+    Sobol sobol;
+
+    // Configuration loop.
+    long long seed(17);
+    m_knmtcFctr.resize(m_MCPnts, 0.0);
+    m_potential.resize(m_MCPnts, 0.0);
+    for (size_t i(0); i < m_MCPnts; ++i) {
+
+      // Select angular coordinates.
+      vector<double> angles(m_nIDOF, 0.0);
+      sobol.sobol(angles.size(), &seed, angles);
+      angles[0] *= M_PI;
+      angles[1] *= M_PI;
+      angles[2] *= 2.0 * M_PI;
+
+      // Calculate the determinant of the Wilson G Matrix.
+      m_knmtcFctr[i] = sin(angles[0]) * sin(angles[1]);
 
       // Calculate potential energy.
       m_potential[i] = m_pFTSTPotential->HinderingPotential(rxnCrd, angles);
@@ -130,20 +304,66 @@ namespace mesmer
     double RotCnt = m_mu * rxnCrd * rxnCrd / conMntInt2RotCnt;
     vector<double> MntsInt;
     m_Frag1->getDOS().get_rotConsts(MntsInt);
-    RotCnt /= sqrt(MntsInt[0] * MntsInt[1] * MntsInt[2]);
+    RotCnt /= MntsInt[0];
     m_Frag2->getDOS().get_rotConsts(MntsInt);
-    RotCnt /= sqrt(MntsInt[0] * MntsInt[1] * MntsInt[2]);
-    double cnt = M_PI * M_PI * M_PI * RotCnt / double(24.0 * m_MCPnts * m_Sym);
+    RotCnt /= MntsInt[0];
+    double cnt = M_PI * M_PI * RotCnt / double(8.0 * m_MCPnts * m_Sym);
     for (size_t j(0); j < cellSOS.size(); ++j) {
       cellSOS[j] *= cnt;
     }
+
   }
 
-  void NLnrNLnrTops::integrate(double rxnCrd, vector<double>& cellSOS, size_t J) {
-  
-    if (J == 0) 
+  void LnrLnrTops::integrate(double rxnCrd, vector<double>& cellSOS, size_t J) {
+
+    if (J == 0)
       return;
-  
+
+    // Instantiate a random vector generator.
+    Sobol sobol;
+
+    // Configuration loop.
+    double B0 = conMntInt2RotCnt / (m_mu * rxnCrd * rxnCrd);
+    m_knmtcFctr.resize(m_MCPnts, 0.0);
+    m_potential.resize(m_MCPnts, 0.0);
+    vector<double> angles(m_nIDOF, 0.0);
+    vector<double> tmp(m_nIDOF + 2, 0.0);
+    long long seed(17);
+    for (size_t i(0); i < m_MCPnts; ++i) {
+
+      // Select angular coordinates.
+      sobol.sobol(tmp.size(), &seed, tmp);
+      angles[0] = M_PI * tmp[0];
+      angles[1] = M_PI * tmp[1];
+      angles[2] = 2.0 * M_PI * tmp[2];
+      double nu = 2.0 * M_PI * tmp[3];
+      double gamma = 2.0 * tmp[4] - 1.0;
+
+      // Calculate the determinant of the Wilson G Matrix.
+      m_knmtcFctr[i] = sqrt(B0 * B0 * B0) * sin(angles[0]) * sin(angles[1]);
+
+      // Calculate potential energy.
+      m_potential[i] = m_pFTSTPotential->HinderingPotential(rxnCrd, angles);
+
+      // Add instantaneous rotational energy.
+      m_potential[i] += B0 * J * J;
+    }
+
+    // Heaviside function integration.
+    HeavisideIntegration(cellSOS);
+
+    // Conversion and symmetry number factor.
+    double RotCnt = 1.0 / B0;
+    vector<double> MntsInt;
+    m_Frag1->getDOS().get_rotConsts(MntsInt);
+    RotCnt /= MntsInt[0];
+    m_Frag2->getDOS().get_rotConsts(MntsInt);
+    RotCnt /= MntsInt[0];
+    double cnt = 2.0 * M_PI * J * J * RotCnt / double(m_MCPnts * m_Sym);
+    for (size_t j(0); j < cellSOS.size(); ++j) {
+      cellSOS[j] *= cnt;
+    }
+
   }
 
   void NLnrLnrTops::integrate(double rxnCrd, vector<double>& cellSOS) {
@@ -194,10 +414,56 @@ namespace mesmer
 
     if (J == 0)
       return;
+    // Instantiate a random vector generator.
+    Sobol sobol;
+
+    // Configuration loop.
+    double B0 = conMntInt2RotCnt / (m_mu * rxnCrd * rxnCrd);
+    m_knmtcFctr.resize(m_MCPnts, 0.0);
+    m_potential.resize(m_MCPnts, 0.0);
+    vector<double> angles(m_nIDOF, 0.0);
+    vector<double> tmp(m_nIDOF + 2, 0.0);
+    long long seed(17);
+    for (size_t i(0); i < m_MCPnts; ++i) {
+
+      // Select angular coordinates.
+      sobol.sobol(tmp.size(), &seed, tmp);
+      angles[0] = M_PI * tmp[0];
+      angles[1] = 2.0 * M_PI * tmp[1];
+      angles[2] = M_PI * tmp[2];
+      angles[3] = 2.0 * M_PI * tmp[3];
+      double nu = 2.0 * M_PI * tmp[4];
+      double gamma = 2.0 * tmp[5] - 1.0;
+
+      // Calculate the determinant of the Wilson G Matrix.
+      m_knmtcFctr[i] = sqrt(B0 * B0 * B0) * sin(angles[0]) * sin(angles[2]);
+
+      // Calculate potential energy.
+      m_potential[i] = m_pFTSTPotential->HinderingPotential(rxnCrd, angles);
+
+      // Add instantaneous rotational energy.
+      m_potential[i] += B0 * J * J;
+    }
+
+    // Heaviside function integration.
+    HeavisideIntegration(cellSOS);
+
+    // Conversion and symmetry number factor.
+    double RotCnt = 1.0 / B0;
+    vector<double> MntsInt;
+    Molecule* top = (m_top1 == NONLINEAR) ? m_Frag1 : m_Frag2;
+    top->getDOS().get_rotConsts(MntsInt);
+    RotCnt /= sqrt(MntsInt[0] * MntsInt[1] * MntsInt[2]);
+    top = (m_top1 == LINEAR) ? m_Frag1 : m_Frag2;
+    top->getDOS().get_rotConsts(MntsInt);
+    RotCnt /= MntsInt[0];
+    double cnt = M_PI * M_PI * J * J * RotCnt / double(m_MCPnts * m_Sym);
+    for (size_t j(0); j < cellSOS.size(); ++j) {
+      cellSOS[j] *= cnt;
+    }
   }
 
-
-  void NLnrAtmTops::integrate(double rxnCrd, vector<double>& cellSOS) {
+  void NLnrNLnrTops::integrate(double rxnCrd, vector<double>& cellSOS) {
 
     // Instantiate a random vector generator.
     Sobol sobol;
@@ -213,57 +479,12 @@ namespace mesmer
       sobol.sobol(angles.size(), &seed, angles);
       angles[0] *= M_PI;
       angles[1] *= 2.0 * M_PI;
+      angles[2] *= M_PI;
+      angles[3] *= 2.0 * M_PI;
+      angles[4] *= 2.0 * M_PI;
 
       // Calculate the determinant of the Wilson G Matrix.
-      m_knmtcFctr[i] = sin(angles[0]);
-
-      // Calculate potential energy.
-      m_potential[i] = m_pFTSTPotential->HinderingPotential(rxnCrd, angles);
-    }
-
-    // Heaviside function integration.
-    HeavisideIntegration(cellSOS);
-
-    // Conversion and symmetry number factor.
-    double RotCnt = m_mu * rxnCrd * rxnCrd / conMntInt2RotCnt;
-    vector<double> MntsInt;
-    Molecule* top = (m_top1 == NONLINEAR) ? m_Frag1 : m_Frag2;
-    top->getDOS().get_rotConsts(MntsInt);
-    RotCnt /= sqrt(MntsInt[0] * MntsInt[1] * MntsInt[2]);
-    double cnt = 2.0 * M_PI * RotCnt / double(3.0 * m_MCPnts * m_Sym);
-    for (size_t j(0); j < cellSOS.size(); ++j) {
-      cellSOS[j] *= cnt;
-    }
-
-  }
-
-  void NLnrAtmTops::integrate(double rxnCrd, vector<double>& cellSOS, size_t J) {
-
-    if (J == 0)
-      return;
-  }
-
-
-  void LnrLnrTops::integrate(double rxnCrd, vector<double>& cellSOS) {
-
-    // Instantiate a random vector generator.
-    Sobol sobol;
-
-    // Configuration loop.
-    long long seed(17);
-    m_knmtcFctr.resize(m_MCPnts, 0.0);
-    m_potential.resize(m_MCPnts, 0.0);
-    for (size_t i(0); i < m_MCPnts; ++i) {
-
-      // Select angular coordinates.
-      vector<double> angles(m_nIDOF, 0.0);
-      sobol.sobol(angles.size(), &seed, angles);
-      angles[0] *= M_PI;
-      angles[1] *= M_PI;
-      angles[2] *= 2.0 * M_PI;
-
-      // Calculate the determinant of the Wilson G Matrix.
-      m_knmtcFctr[i] = sin(angles[0]) * sin(angles[1]);
+      m_knmtcFctr[i] = sin(angles[0]) * sin(angles[2]);
 
       // Calculate potential energy.
       m_potential[i] = m_pFTSTPotential->HinderingPotential(rxnCrd, angles);
@@ -276,95 +497,62 @@ namespace mesmer
     double RotCnt = m_mu * rxnCrd * rxnCrd / conMntInt2RotCnt;
     vector<double> MntsInt;
     m_Frag1->getDOS().get_rotConsts(MntsInt);
-    RotCnt /= MntsInt[0];
+    RotCnt /= sqrt(MntsInt[0] * MntsInt[1] * MntsInt[2]);
     m_Frag2->getDOS().get_rotConsts(MntsInt);
-    RotCnt /= MntsInt[0];
-    double cnt = M_PI * M_PI * RotCnt / double(8.0 * m_MCPnts * m_Sym);
+    RotCnt /= sqrt(MntsInt[0] * MntsInt[1] * MntsInt[2]);
+    double cnt = M_PI * M_PI * M_PI * RotCnt / double(24.0 * m_MCPnts * m_Sym);
     for (size_t j(0); j < cellSOS.size(); ++j) {
       cellSOS[j] *= cnt;
     }
-
   }
 
-  void LnrLnrTops::integrate(double rxnCrd, vector<double>& cellSOS, size_t J) {
+  void NLnrNLnrTops::integrate(double rxnCrd, vector<double>& cellSOS, size_t J) {
 
     if (J == 0)
       return;
-  }
-
-
-  void LnrAtmTops::integrate(double rxnCrd, vector<double>& cellSOS) {
-
     // Instantiate a random vector generator.
     Sobol sobol;
 
     // Configuration loop.
-    long long seed(17);
+    double B0 = conMntInt2RotCnt / (m_mu * rxnCrd * rxnCrd);
     m_knmtcFctr.resize(m_MCPnts, 0.0);
     m_potential.resize(m_MCPnts, 0.0);
+    vector<double> angles(m_nIDOF, 0.0);
+    vector<double> tmp(m_nIDOF + 2, 0.0);
+    long long seed(17);
     for (size_t i(0); i < m_MCPnts; ++i) {
 
       // Select angular coordinates.
-      vector<double> angles(m_nIDOF, 0.0);
-      sobol.sobol(angles.size(), &seed, angles);
-      angles[0] *= M_PI;
+      sobol.sobol(tmp.size(), &seed, tmp);
+      angles[0] = M_PI * tmp[0];
+      angles[1] = 2.0 * M_PI * tmp[1];
+      angles[2] = M_PI * tmp[2];
+      angles[3] = 2.0 * M_PI * tmp[3];
+      angles[4] = 2.0 * M_PI * tmp[4];
+      double nu = 2.0 * M_PI * tmp[5];
+      double gamma = 2.0 * tmp[6] - 1.0;
 
       // Calculate the determinant of the Wilson G Matrix.
-      m_knmtcFctr[i] = sin(angles[0]);
+      m_knmtcFctr[i] = sqrt(B0 * B0 * B0) * sin(angles[0]) * sin(angles[2]);
 
       // Calculate potential energy.
       m_potential[i] = m_pFTSTPotential->HinderingPotential(rxnCrd, angles);
+
+      // Add instantaneous rotational energy.
+      m_potential[i] += B0 * J * J;
     }
 
     // Heaviside function integration.
     HeavisideIntegration(cellSOS);
 
     // Conversion and symmetry number factor.
-    double RotCnt = m_mu * rxnCrd * rxnCrd / conMntInt2RotCnt;
+    double RotCnt = 1.0 / B0;
     vector<double> MntsInt;
-    Molecule* top = (m_top1 == LINEAR) ? m_Frag1 : m_Frag2;
-    top->getDOS().get_rotConsts(MntsInt);
-    RotCnt /= MntsInt[0];
-    double cnt = M_PI * RotCnt / double(2.0 * m_MCPnts * m_Sym);
-    for (size_t j(0); j < cellSOS.size(); ++j) {
-      cellSOS[j] *= cnt;
-    }
-
-  }
-
-  void LnrAtmTops::integrate(double rxnCrd, vector<double>& cellSOS, size_t J) {
-
-    // Instantiate a random vector generator.
-    Sobol sobol;
-
-    // Configuration loop.
-    long long seed(17);
-    m_knmtcFctr.resize(m_MCPnts, 0.0);
-    m_potential.resize(m_MCPnts, 0.0);
-    for (size_t i(0); i < m_MCPnts; ++i) {
-
-      // Select angular coordinates.
-      vector<double> angles(m_nIDOF, 0.0);
-      sobol.sobol(angles.size(), &seed, angles);
-      angles[0] *= M_PI;
-
-      // Calculate the determinant of the Wilson G Matrix.
-      m_knmtcFctr[i] = sin(angles[0]);
-
-      // Calculate potential energy.
-      m_potential[i] = m_pFTSTPotential->HinderingPotential(rxnCrd, angles);
-    }
-
-    // Heaviside function integration.
-    HeavisideIntegration(cellSOS);
-
-    // Conversion and symmetry number factor.
-    double RotCnt = m_mu * rxnCrd * rxnCrd / conMntInt2RotCnt;
-    vector<double> MntsInt;
-    Molecule* top = (m_top1 == LINEAR) ? m_Frag1 : m_Frag2;
-    top->getDOS().get_rotConsts(MntsInt);
-    RotCnt /= MntsInt[0];
-    double cnt = M_PI * RotCnt / double(2.0 * m_MCPnts * m_Sym);
+    m_Frag1->getDOS().get_rotConsts(MntsInt);
+    RotCnt /= sqrt(MntsInt[0] * MntsInt[1] * MntsInt[2]);
+    m_Frag2->getDOS().get_rotConsts(MntsInt);
+    RotCnt /= sqrt(MntsInt[0] * MntsInt[1] * MntsInt[2]);
+    double cnt = 4.0 * M_PI * M_PI * RotCnt / double(3.0 * m_MCPnts * m_Sym);
     for (size_t j(0); j < cellSOS.size(); ++j) {
       cellSOS[j] *= cnt;
     }
