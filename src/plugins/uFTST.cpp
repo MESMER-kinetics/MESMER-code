@@ -432,24 +432,25 @@ namespace mesmer
         rxnFlux[i] += Flux[i];
       }
 
-    }
-
-    if (m_writeSOS) {
-      ctest << endl;
-      if (m_eneForSOS.size() > 0) {
-        for (size_t i = 0; i < m_eneForSOS.size(); i++) {
-          size_t ii = size_t(m_eneForSOS[i]);
-          if (ii < rxnFlux.size()) {
-            ctest << setw(6) << ii << formatFloat(rxnFlux[ii], 6, 14) << endl;
+      if (m_writeSOS) {
+        ctest << endl;
+        ctest << "J = " << j << ":" << endl;
+        if (m_eneForSOS.size() > 0) {
+          for (size_t i = 0; i < m_eneForSOS.size(); i++) {
+            size_t ii = size_t(m_eneForSOS[i]);
+            if (ii < Flux.size()) {
+              ctest << setw(6) << ii << formatFloat(Flux[ii], 6, 14) << endl;
+            }
           }
         }
-      }
-      else {
-        for (size_t i = 0; i < rxnFlux.size(); i++) {
-          ctest << setw(6) << i << formatFloat(rxnFlux[i], 6, 14) << endl;
+        else {
+          for (size_t i = 0; i < Flux.size(); i++) {
+            ctest << setw(6) << i << formatFloat(Flux[i], 6, 14) << endl;
+          }
         }
+        ctest << endl;
       }
-      ctest << endl;
+
     }
 
     // Calculate the flux.

@@ -26,6 +26,14 @@ namespace mesmer
       m_nIDOF(nIDOF),
       m_Frag1(NULL),
       m_Frag2(NULL),
+      m_m1(),
+      m_x1(),
+      m_y1(),
+      m_z1(),
+      m_m2(),
+      m_x2(),
+      m_y2(),
+      m_z2(),
       m_MaxCell(50000),
       m_cellSize(1.0),
       m_MCPnts(10000),
@@ -34,6 +42,8 @@ namespace mesmer
       m_Sym(1),
       m_top1(UNDEFINED_TOP),
       m_top2(UNDEFINED_TOP),
+      m_rot1(3, 0.0),
+      m_rot2(3, 0.0),
       m_pFTSTPotential(NULL),
       m_mu(0.0) {
     }
@@ -54,10 +64,18 @@ namespace mesmer
     // Heaviside function integration.
     void HeavisideIntegration(vector<double>& cellSOS) const;
 
+    void ReadCoordsAndShiftToCoM(Molecule* Frag, vector<double>& m, vector<double>& x, vector<double>& y, vector<double>& z) ;
+
+    // Instantaneous moments of inertia.
+    void InstMoI(double rxnCrd, double& Ba, double& Bb, double& Bc) const;
+
     const size_t m_nIDOF; // Number of transitional modes (excluding external rotation).
 
     Molecule* m_Frag1;
     Molecule* m_Frag2;
+
+    vector<double> m_m1, m_x1, m_y1, m_z1;
+    vector<double> m_m2, m_x2, m_y2, m_z2;
 
     size_t m_MaxCell;
     double m_cellSize;
@@ -69,6 +87,9 @@ namespace mesmer
 
     RotationalTop m_top1;
     RotationalTop m_top2;
+
+    dMatrix m_rot1;
+    dMatrix m_rot2;
 
     FTSTPotential* m_pFTSTPotential;
 
@@ -171,7 +192,7 @@ namespace mesmer
 
     virtual void integrate(double rxnCrd, vector<double>& wrk);
 
-    virtual void integrate(double rxnCrd, vector<double>& wrk, size_t j) {}
+    virtual void integrate(double rxnCrd, vector<double>& wrk, size_t J) {}
 
   private:
 

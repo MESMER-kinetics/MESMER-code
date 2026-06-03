@@ -585,7 +585,7 @@ namespace mesmer
     }
     centreOfMass /= sm;
 
-    // Determine ther inertial tensor for overall rotation.
+    // Determine the inertial tensor for overall rotation.
 
     double sxx = 0.0, syy = 0.0, szz = 0.0, sxy = 0.0, sxz = 0.0, syz = 0.0;
     for (iter = Atoms.begin(); iter != Atoms.end(); ++iter) {
