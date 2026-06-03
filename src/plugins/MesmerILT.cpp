@@ -362,9 +362,9 @@ namespace mesmer
 
     m_TInf2 = m_TInf;
 
-    // If second activation energy is greater than the first then this activation
+    // If second activation energy is lower than the first then this activation
     // energy must be the reaction threshold so swap parammeters around.
-    if (m_Secondary && (m_EInf2 > m_EInf)) {
+    if (m_Secondary && (m_EInf2 < m_EInf)) {
       Rdouble PreExp1 = m_PreExp;
       Rdouble NInf1 = m_NInf;
       Rdouble TInf1 = m_TInf;
@@ -375,7 +375,7 @@ namespace mesmer
       m_TInf = m_TInf2 ;
       m_EInf = m_EInf2 ;
 
-      m_PreExp = PreExp1;
+      m_PreExp2 = PreExp1;
       m_NInf2 = NInf1;
       m_TInf2 = TInf1;
       m_EInf2 = EInf1;
@@ -547,8 +547,8 @@ namespace mesmer
       throw(std::runtime_error(string("Reaction ") + pReact->getName() + string(": nInfinity for unimolecular ILT must be >= zero.")));
     }
 
-    for (size_t i(0), j(m_OffSet); i < rxnFlux.size() && j < conv.size(); ++i, ++j)
-        rxnFlux[i] += constant * conv[j];
+    for (size_t i(0), j(m_OffSet); j < rxnFlux.size() && i < conv.size(); ++i, ++j)
+        rxnFlux[j] += constant * conv[i];
 
     return true;
   }
@@ -589,8 +589,8 @@ namespace mesmer
     vector<double> conv;
     FastLaplaceConvolution(work, ConvolvedCellDOS, conv);
 
-    for (size_t i(0), j(m_OffSet); i < rxnFlux.size() && j < conv.size(); ++i, ++j)
-      rxnFlux[i] += _ant * conv[j];
+    for (size_t i(0), j(m_OffSet); j < rxnFlux.size() && i < conv.size(); ++i, ++j)
+      rxnFlux[j] += _ant * conv[i];
 
     return true;
   }

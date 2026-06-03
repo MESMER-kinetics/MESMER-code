@@ -1,13 +1,18 @@
+2026-Jun-03 Struan Robertson
+
+		* uFTST.cpp, PhaseIntegrals.h/.cpp: J-dependent FTST: initial implemtation
+		of the atom-nonlinear top case.
+
 2026-May-24 Struan Robertson
 
-		* uFTST.cpp, PhaseIntegrals.h/.cpp: J-dependent FTST: J specifc functions
+		* uFTST.cpp, PhaseIntegrals.h/.cpp: J-dependent FTST: J specific functions
 		updated.
 
 		* Baseline update.
 
 2026-May-16 Struan Robertson
 
-		* uFTST.cpp, PhaseIntegrals.h/.cpp: J-dependent FTST: J specifc functions
+		* uFTST.cpp, PhaseIntegrals.h/.cpp: J-dependent FTST: J specific functions
 		introduced.
 
 2026-Mar-22 Struan Robertson
