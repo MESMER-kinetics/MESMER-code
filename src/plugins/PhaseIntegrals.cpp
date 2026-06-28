@@ -56,6 +56,13 @@ namespace mesmer
 
   };
 
+  void PhaseIntegral::RxnCrdInitialize(double rxnCrd) {
+
+    m_rxnCrd = rxnCrd;
+
+    return;
+  }
+
   void PhaseIntegral::ReadCoordsAndShiftToCoM(Molecule* Frag, vector<double>& m, vector<double>& x, vector<double>& y, vector<double>& z) {
 
     // Get fragment coordinates.
@@ -330,12 +337,14 @@ namespace mesmer
     // Instantiate a random vector generator.
     Sobol sobol;
 
-    // Configuration loop.
     double B0 = conMntInt2RotCnt / (m_mu * rxnCrd * rxnCrd);
     double Ba(0.0), Bb(0.0), Bc(0.0);
+    double Jsq = double(J * J);
+    double twoPi = 2.0 * M_PI;
 
     m_rot2[0][0] = m_rot2[1][1] = m_rot2[2][2] = 1.0;
 
+    // Configuration loop.
     m_knmtcFctr.resize(m_MCPnts, 0.0);
     m_potential.resize(m_MCPnts, 0.0);
     vector<double> angles(m_nIDOF, 0.0);
@@ -345,9 +354,9 @@ namespace mesmer
 
       // Select angular coordinates.
       sobol.sobol(tmp.size(), &seed, tmp);
-      angles[0] = 2.0 * M_PI * tmp[0];
+      angles[0] = twoPi * tmp[0];
       angles[1] = M_PI * tmp[1];
-      double nu = 2.0 * M_PI * tmp[2];
+      double nu = twoPi * tmp[2];
       double gamma = 2.0 * tmp[3] - 1.0;
 
       dMatrix rotZ(3, 0.0);
@@ -355,6 +364,8 @@ namespace mesmer
       rotZ[2][2] = 1.0;
       rotZ[0][1] = sin(angles[0]);
       rotZ[1][0] = -rotZ[0][1];
+
+      m_rot1 = rotZ;
 
       dMatrix rotY(3, 0.0);
       rotY[0][0] = rotY[2][2] = cos(angles[1]);
@@ -368,7 +379,7 @@ namespace mesmer
       InstMoI(rxnCrd, Ba, Bb, Bc);
 
       // Calculate the determinant of the Wilson G Matrix.
-      m_knmtcFctr[i] = sqrt(Ba * Bb * Bc) * sin(angles[0]);
+      m_knmtcFctr[i] = sqrt(Ba * Bb * Bc) * sin(angles[1]);
 
       // Calculate potential energy.
       m_potential[i] = m_pFTSTPotential->HinderingPotential(rxnCrd, angles);
@@ -377,7 +388,7 @@ namespace mesmer
       double g2 = gamma * gamma;
       double S1 = sin(nu);
       double S2 = S1 * S1;
-      m_potential[i] += J * J * ((Ba*S2 + Bb*(1-S2)) * (1.0 - g2) + Bc*g2);
+      m_potential[i] += Jsq * ((Ba*S2 + Bb*(1-S2)) * (1.0 - g2) + Bc*g2);
     }
 
     // Heaviside function integration.
@@ -389,7 +400,7 @@ namespace mesmer
     Molecule* top = (m_top1 == NONLINEAR) ? m_Frag1 : m_Frag2;
     top->getDOS().get_rotConsts(MntsInt);
     RotCnt /= sqrt(MntsInt[0] * MntsInt[1] * MntsInt[2]);
-    double cnt = 2.0 * M_PI * J * J * RotCnt / double(m_MCPnts * m_Sym);
+    double cnt = twoPi * Jsq * RotCnt / double(m_MCPnts * m_Sym);
     for (size_t j(0); j < cellSOS.size(); ++j) {
       cellSOS[j] *= cnt;
     }

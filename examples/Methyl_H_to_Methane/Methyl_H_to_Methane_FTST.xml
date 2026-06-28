@@ -170,6 +170,7 @@
       <me:MCRCMethod xsi:type="DefinedSumOfStates">
         <!--<Sum of states for the reaction CH3+H <==> CH4 taken from 
       E.E. Aubanel and D.M. Wardlaw, J. Phys. Chem., p. 3117, Vol. 93 (1989). >-->
+        <me:SymmetryNumber>6</me:SymmetryNumber>
         <me:SumOfStates units="cm-1" angularMomentum="true" noLogSpline="false">
           <me:SumOfStatesPoint energy="  154.87240" angMomMag=" 0"> 0.12620E+02 </me:SumOfStatesPoint>
           <me:SumOfStatesPoint energy="  247.90776" angMomMag=" 0"> 0.24010E+02 </me:SumOfStatesPoint>
@@ -716,6 +717,14 @@
       <me:MarquardtTolerance>0.01</me:MarquardtTolerance>
       <me:MarquardtDerivDelta>1.e-03</me:MarquardtDerivDelta>
     </me:calcMethod>
+    <me:testMicroRates/>
+    <me:testDOS />
+    <me:eigenvalues>5</me:eigenvalues>
+  </me:control>
+
+  <me:control>
+    <me:allowSmallerDeltaEDown/>
+    <me:testMicroRates/>
     <me:testDOS />
     <me:eigenvalues>5</me:eigenvalues>
   </me:control>

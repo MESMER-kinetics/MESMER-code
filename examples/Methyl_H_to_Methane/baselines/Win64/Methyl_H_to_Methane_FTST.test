@@ -1,1 +1,3479 @@
 CTest output disabled
+PT Grid 0 Condition: conc = 8.05242e+17, temp = 301, diagonalization precision: double-double
+{
+
+Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
+{
+    T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
+    100         3.41573e-10        1.70067e-206      2.00846e+196
+    200         4.44556e-10          6.0021e-96       7.40667e+85
+    300         5.14808e-10         6.36912e-59       8.08288e+48
+    400         5.62046e-10         2.51757e-40       2.23249e+30
+    500         5.96466e-10         4.02483e-29       1.48197e+19
+    600         6.22703e-10         1.25671e-21       4.95503e+11
+    700         6.43295e-10         2.92843e-16       2.19672e+06
+    800         6.59786e-10         3.16314e-12           208.586
+    900         6.73148e-10         4.38072e-09          0.153662
+   1000         6.84012e-10         1.43467e-06       0.000476774
+   1100         6.92795e-10         0.000164186       4.21956e-06
+   1200         6.99758e-10          0.00852373       8.20952e-08
+   1300         7.05013e-10            0.240558       2.93074e-09
+   1400         7.08531e-10              4.2004       1.68682e-10
+   1500         7.10146e-10             49.8925       1.42335e-11
+   1600           7.096e-10             432.829       1.63945e-12
+   1700         7.06596e-10             2895.36       2.44045e-13
+   1800         7.00861e-10             15577.8       4.49909e-14
+   1900         6.92195e-10               69693       9.93205e-15
+   2000         6.80512e-10              266280       2.55562e-15
+}
+
+Eq fraction matrix:
+{
+  -1.031738e+65,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
+}
+
+Inverse of Eq fraction matrix:
+{
+  -9.692387e-66,   9.692387e-66,
+   9.692387e-66,   1.000000e+00,
+}
+Equilibrium Fraction for Methane = 1
+Equilibrium Fraction for Methyl = 9.69239e-66
+
+Total number of eigenvalues = 250
+Eigenvalues
+{
+  -1.768593e+07
+  -1.662166e+07
+  -1.442946e+07
+  -1.313377e+06
+   2.739431e-22
+}
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: 
+{
+   3.063797e-33,   9.386852e-66,
+  -3.063797e-33,   1.000000e+00,
+}
+
+Z_matrix^(-1):
+{
+   3.263924e+32,  -3.063797e-33,
+   1.000000e+00,   1.000000e+00,
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+   1.000000e+00,  4.508290e-131,
+   5.690098e-66,   1.000000e+00,
+}
+
+Kr matrix:
+{
+  -1.313377e+06,   1.232847e-59,
+   1.313377e+06,  -1.232847e-59,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+Methane loss = -1.232847e-59
+Methyl loss = -1.313377e+06
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+Methane -> Methyl = 1.232847e-59
+Methyl -> Methane = 1.313377e+06
+}
+}
+PT Grid 1 Condition: conc = 1.62973e+18, temp = 301, diagonalization precision: double-double
+{
+
+Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
+{
+    T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
+    100         3.41573e-10        1.70067e-206      2.00846e+196
+    200         4.44556e-10          6.0021e-96       7.40667e+85
+    300         5.14808e-10         6.36912e-59       8.08288e+48
+    400         5.62046e-10         2.51757e-40       2.23249e+30
+    500         5.96466e-10         4.02483e-29       1.48197e+19
+    600         6.22703e-10         1.25671e-21       4.95503e+11
+    700         6.43295e-10         2.92843e-16       2.19672e+06
+    800         6.59786e-10         3.16314e-12           208.586
+    900         6.73148e-10         4.38072e-09          0.153662
+   1000         6.84012e-10         1.43467e-06       0.000476774
+   1100         6.92795e-10         0.000164186       4.21956e-06
+   1200         6.99758e-10          0.00852373       8.20952e-08
+   1300         7.05013e-10            0.240558       2.93074e-09
+   1400         7.08531e-10              4.2004       1.68682e-10
+   1500         7.10146e-10             49.8925       1.42335e-11
+   1600           7.096e-10             432.829       1.63945e-12
+   1700         7.06596e-10             2895.36       2.44045e-13
+   1800         7.00861e-10             15577.8       4.49909e-14
+   1900         6.92195e-10               69693       9.93205e-15
+   2000         6.80512e-10              266280       2.55562e-15
+}
+
+Eq fraction matrix:
+{
+  -1.031738e+65,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
+}
+
+Inverse of Eq fraction matrix:
+{
+  -9.692387e-66,   9.692387e-66,
+   9.692387e-66,   1.000000e+00,
+}
+Equilibrium Fraction for Methane = 1
+Equilibrium Fraction for Methyl = 9.69239e-66
+
+Total number of eigenvalues = 250
+Eigenvalues
+{
+  -3.579464e+07
+  -3.364065e+07
+  -2.920386e+07
+  -2.014816e+06
+   5.615092e-22
+}
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: 
+{
+  -8.918241e-32,   7.953503e-63,
+   8.918241e-32,   1.000000e+00,
+}
+
+Z_matrix^(-1):
+{
+  -1.121297e+31,   8.918241e-32,
+   1.000000e+00,   1.000000e+00,
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+   1.000000e+00, -2.192832e-127,
+  -5.849266e-65,   1.000000e+00,
+}
+
+Kr matrix:
+{
+  -2.014816e+06,   1.602484e-56,
+   2.014816e+06,  -1.602484e-56,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+Methane loss = -1.602484e-56
+Methyl loss = -2.014816e+06
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+Methane -> Methyl = 1.602484e-56
+Methyl -> Methane = 2.014816e+06
+}
+}
+PT Grid 2 Condition: conc = 3.24984e+18, temp = 301, diagonalization precision: double-double
+{
+
+Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
+{
+    T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
+    100         3.41573e-10        1.70067e-206      2.00846e+196
+    200         4.44556e-10          6.0021e-96       7.40667e+85
+    300         5.14808e-10         6.36912e-59       8.08288e+48
+    400         5.62046e-10         2.51757e-40       2.23249e+30
+    500         5.96466e-10         4.02483e-29       1.48197e+19
+    600         6.22703e-10         1.25671e-21       4.95503e+11
+    700         6.43295e-10         2.92843e-16       2.19672e+06
+    800         6.59786e-10         3.16314e-12           208.586
+    900         6.73148e-10         4.38072e-09          0.153662
+   1000         6.84012e-10         1.43467e-06       0.000476774
+   1100         6.92795e-10         0.000164186       4.21956e-06
+   1200         6.99758e-10          0.00852373       8.20952e-08
+   1300         7.05013e-10            0.240558       2.93074e-09
+   1400         7.08531e-10              4.2004       1.68682e-10
+   1500         7.10146e-10             49.8925       1.42335e-11
+   1600           7.096e-10             432.829       1.63945e-12
+   1700         7.06596e-10             2895.36       2.44045e-13
+   1800         7.00861e-10             15577.8       4.49909e-14
+   1900         6.92195e-10               69693       9.93205e-15
+   2000         6.80512e-10              266280       2.55562e-15
+}
+
+Eq fraction matrix:
+{
+  -1.031738e+65,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
+}
+
+Inverse of Eq fraction matrix:
+{
+  -9.692387e-66,   9.692387e-66,
+   9.692387e-66,   1.000000e+00,
+}
+Equilibrium Fraction for Methane = 1
+Equilibrium Fraction for Methyl = 9.69239e-66
+
+Total number of eigenvalues = 250
+Eigenvalues
+{
+  -7.137789e+07
+  -6.708264e+07
+  -5.823525e+07
+  -2.935113e+06
+   1.084316e-21
+}
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: 
+{
+  -3.358081e-32,   1.127671e-63,
+   3.358081e-32,   1.000000e+00,
+}
+
+Z_matrix^(-1):
+{
+  -2.977891e+31,   3.358081e-32,
+   1.000000e+00,   1.000000e+00,
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+   1.000000e+00,  9.232979e-128,
+   8.401215e-65,   1.000000e+00,
+}
+
+Kr matrix:
+{
+  -2.935113e+06,   3.309843e-57,
+   2.935113e+06,  -3.309843e-57,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+Methane loss = -3.309843e-57
+Methyl loss = -2.935113e+06
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+Methane -> Methyl = 3.309843e-57
+Methyl -> Methane = 2.935113e+06
+}
+}
+PT Grid 3 Condition: conc = 4.8892e+18, temp = 301, diagonalization precision: double-double
+{
+
+Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
+{
+    T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
+    100         3.41573e-10        1.70067e-206      2.00846e+196
+    200         4.44556e-10          6.0021e-96       7.40667e+85
+    300         5.14808e-10         6.36912e-59       8.08288e+48
+    400         5.62046e-10         2.51757e-40       2.23249e+30
+    500         5.96466e-10         4.02483e-29       1.48197e+19
+    600         6.22703e-10         1.25671e-21       4.95503e+11
+    700         6.43295e-10         2.92843e-16       2.19672e+06
+    800         6.59786e-10         3.16314e-12           208.586
+    900         6.73148e-10         4.38072e-09          0.153662
+   1000         6.84012e-10         1.43467e-06       0.000476774
+   1100         6.92795e-10         0.000164186       4.21956e-06
+   1200         6.99758e-10          0.00852373       8.20952e-08
+   1300         7.05013e-10            0.240558       2.93074e-09
+   1400         7.08531e-10              4.2004       1.68682e-10
+   1500         7.10146e-10             49.8925       1.42335e-11
+   1600           7.096e-10             432.829       1.63945e-12
+   1700         7.06596e-10             2895.36       2.44045e-13
+   1800         7.00861e-10             15577.8       4.49909e-14
+   1900         6.92195e-10               69693       9.93205e-15
+   2000         6.80512e-10              266280       2.55562e-15
+}
+
+Eq fraction matrix:
+{
+  -1.031738e+65,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
+}
+
+Inverse of Eq fraction matrix:
+{
+  -9.692387e-66,   9.692387e-66,
+   9.692387e-66,   1.000000e+00,
+}
+Equilibrium Fraction for Methane = 1
+Equilibrium Fraction for Methyl = 9.69239e-66
+
+Total number of eigenvalues = 250
+Eigenvalues
+{
+  -1.073839e+08
+  -1.009220e+08
+  -8.761157e+07
+  -3.587876e+06
+   1.768613e-21
+}
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: 
+{
+   3.555235e-32,   1.263970e-63,
+  -3.555235e-32,   1.000000e+00,
+}
+
+Z_matrix^(-1):
+{
+   2.812753e+31,  -3.555235e-32,
+   1.000000e+00,   1.000000e+00,
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+   1.000000e+00, -4.616489e-128,
+   6.188425e-65,   1.000000e+00,
+}
+
+Kr matrix:
+{
+  -3.587876e+06,   4.534967e-57,
+   3.587876e+06,  -4.534967e-57,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+Methane loss = -4.534967e-57
+Methyl loss = -3.587876e+06
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+Methane -> Methyl = 4.534967e-57
+Methyl -> Methane = 3.587876e+06
+}
+}
+PT Grid 4 Condition: conc = 6.59272e+18, temp = 301, diagonalization precision: double-double
+{
+
+Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
+{
+    T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
+    100         3.41573e-10        1.70067e-206      2.00846e+196
+    200         4.44556e-10          6.0021e-96       7.40667e+85
+    300         5.14808e-10         6.36912e-59       8.08288e+48
+    400         5.62046e-10         2.51757e-40       2.23249e+30
+    500         5.96466e-10         4.02483e-29       1.48197e+19
+    600         6.22703e-10         1.25671e-21       4.95503e+11
+    700         6.43295e-10         2.92843e-16       2.19672e+06
+    800         6.59786e-10         3.16314e-12           208.586
+    900         6.73148e-10         4.38072e-09          0.153662
+   1000         6.84012e-10         1.43467e-06       0.000476774
+   1100         6.92795e-10         0.000164186       4.21956e-06
+   1200         6.99758e-10          0.00852373       8.20952e-08
+   1300         7.05013e-10            0.240558       2.93074e-09
+   1400         7.08531e-10              4.2004       1.68682e-10
+   1500         7.10146e-10             49.8925       1.42335e-11
+   1600           7.096e-10             432.829       1.63945e-12
+   1700         7.06596e-10             2895.36       2.44045e-13
+   1800         7.00861e-10             15577.8       4.49909e-14
+   1900         6.92195e-10               69693       9.93205e-15
+   2000         6.80512e-10              266280       2.55562e-15
+}
+
+Eq fraction matrix:
+{
+  -1.031738e+65,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
+}
+
+Inverse of Eq fraction matrix:
+{
+  -9.692387e-66,   9.692387e-66,
+   9.692387e-66,   1.000000e+00,
+}
+Equilibrium Fraction for Methane = 1
+Equilibrium Fraction for Methyl = 9.69239e-66
+
+Total number of eigenvalues = 250
+Eigenvalues
+{
+  -1.447992e+08
+  -1.360857e+08
+  -1.181376e+08
+  -4.110824e+06
+   2.211814e-21
+}
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: 
+{
+   1.538730e-32,   2.367689e-64,
+  -1.538730e-32,   1.000000e+00,
+}
+
+Z_matrix^(-1):
+{
+   6.498867e+31,  -1.538730e-32,
+   1.000000e+00,   1.000000e+00,
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+   1.000000e+00, -5.770612e-129,
+  -9.658468e-65,   1.000000e+00,
+}
+
+Kr matrix:
+{
+  -4.110824e+06,   9.733155e-58,
+   4.110824e+06,  -9.733155e-58,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+Methane loss = -9.733155e-58
+Methyl loss = -4.110824e+06
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+Methane -> Methyl = 9.733155e-58
+Methyl -> Methane = 4.110824e+06
+}
+}
+PT Grid 5 Condition: conc = 8.20641e+18, temp = 301, diagonalization precision: double-double
+{
+
+Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
+{
+    T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
+    100         3.41573e-10        1.70067e-206      2.00846e+196
+    200         4.44556e-10          6.0021e-96       7.40667e+85
+    300         5.14808e-10         6.36912e-59       8.08288e+48
+    400         5.62046e-10         2.51757e-40       2.23249e+30
+    500         5.96466e-10         4.02483e-29       1.48197e+19
+    600         6.22703e-10         1.25671e-21       4.95503e+11
+    700         6.43295e-10         2.92843e-16       2.19672e+06
+    800         6.59786e-10         3.16314e-12           208.586
+    900         6.73148e-10         4.38072e-09          0.153662
+   1000         6.84012e-10         1.43467e-06       0.000476774
+   1100         6.92795e-10         0.000164186       4.21956e-06
+   1200         6.99758e-10          0.00852373       8.20952e-08
+   1300         7.05013e-10            0.240558       2.93074e-09
+   1400         7.08531e-10              4.2004       1.68682e-10
+   1500         7.10146e-10             49.8925       1.42335e-11
+   1600           7.096e-10             432.829       1.63945e-12
+   1700         7.06596e-10             2895.36       2.44045e-13
+   1800         7.00861e-10             15577.8       4.49909e-14
+   1900         6.92195e-10               69693       9.93205e-15
+   2000         6.80512e-10              266280       2.55562e-15
+}
+
+Eq fraction matrix:
+{
+  -1.031738e+65,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
+}
+
+Inverse of Eq fraction matrix:
+{
+  -9.692387e-66,   9.692387e-66,
+   9.692387e-66,   1.000000e+00,
+}
+Equilibrium Fraction for Methane = 1
+Equilibrium Fraction for Methyl = 9.69239e-66
+
+Total number of eigenvalues = 250
+Eigenvalues
+{
+  -1.802415e+08
+  -1.693952e+08
+  -1.470541e+08
+  -4.514267e+06
+   2.937852e-21
+}
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: 
+{
+   1.091678e-32,   1.191760e-64,
+  -1.091678e-32,   1.000000e+00,
+}
+
+Z_matrix^(-1):
+{
+   9.160214e+31,  -1.091678e-32,
+   1.000000e+00,   1.000000e+00,
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+   1.000000e+00,  3.245969e-129,
+  -3.760923e-65,   1.000000e+00,
+}
+
+Kr matrix:
+{
+  -4.514267e+06,   5.379922e-58,
+   4.514267e+06,  -5.379922e-58,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+Methane loss = -5.379922e-58
+Methyl loss = -4.514267e+06
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+Methane -> Methyl = 5.379922e-58
+Methyl -> Methane = 4.514267e+06
+}
+}
+PT Grid 6 Condition: conc = 9.83294e+18, temp = 301, diagonalization precision: double-double
+{
+
+Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
+{
+    T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
+    100         3.41573e-10        1.70067e-206      2.00846e+196
+    200         4.44556e-10          6.0021e-96       7.40667e+85
+    300         5.14808e-10         6.36912e-59       8.08288e+48
+    400         5.62046e-10         2.51757e-40       2.23249e+30
+    500         5.96466e-10         4.02483e-29       1.48197e+19
+    600         6.22703e-10         1.25671e-21       4.95503e+11
+    700         6.43295e-10         2.92843e-16       2.19672e+06
+    800         6.59786e-10         3.16314e-12           208.586
+    900         6.73148e-10         4.38072e-09          0.153662
+   1000         6.84012e-10         1.43467e-06       0.000476774
+   1100         6.92795e-10         0.000164186       4.21956e-06
+   1200         6.99758e-10          0.00852373       8.20952e-08
+   1300         7.05013e-10            0.240558       2.93074e-09
+   1400         7.08531e-10              4.2004       1.68682e-10
+   1500         7.10146e-10             49.8925       1.42335e-11
+   1600           7.096e-10             432.829       1.63945e-12
+   1700         7.06596e-10             2895.36       2.44045e-13
+   1800         7.00861e-10             15577.8       4.49909e-14
+   1900         6.92195e-10               69693       9.93205e-15
+   2000         6.80512e-10              266280       2.55562e-15
+}
+
+Eq fraction matrix:
+{
+  -1.031738e+65,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
+}
+
+Inverse of Eq fraction matrix:
+{
+  -9.692387e-66,   9.692387e-66,
+   9.692387e-66,   1.000000e+00,
+}
+Equilibrium Fraction for Methane = 1
+Equilibrium Fraction for Methyl = 9.69239e-66
+
+Total number of eigenvalues = 250
+Eigenvalues
+{
+  -2.159657e+08
+  -2.029697e+08
+  -1.762004e+08
+  -4.858093e+06
+   3.298341e-21
+}
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: 
+{
+  -9.602754e-33,   9.221289e-65,
+   9.602754e-33,   1.000000e+00,
+}
+
+Z_matrix^(-1):
+{
+  -1.041368e+32,   9.602754e-33,
+   1.000000e+00,   1.000000e+00,
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+   1.000000e+00,  2.024515e-129,
+  -4.149418e-65,   1.000000e+00,
+}
+
+Kr matrix:
+{
+  -4.858093e+06,   4.479788e-58,
+   4.858093e+06,  -4.479788e-58,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+Methane loss = -4.479788e-58
+Methyl loss = -4.858093e+06
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+Methane -> Methyl = 4.479788e-58
+Methyl -> Methane = 4.858093e+06
+}
+}
+PT Grid 7 Condition: conc = 1.1437e+19, temp = 301, diagonalization precision: double-double
+{
+
+Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
+{
+    T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
+    100         3.41573e-10        1.70067e-206      2.00846e+196
+    200         4.44556e-10          6.0021e-96       7.40667e+85
+    300         5.14808e-10         6.36912e-59       8.08288e+48
+    400         5.62046e-10         2.51757e-40       2.23249e+30
+    500         5.96466e-10         4.02483e-29       1.48197e+19
+    600         6.22703e-10         1.25671e-21       4.95503e+11
+    700         6.43295e-10         2.92843e-16       2.19672e+06
+    800         6.59786e-10         3.16314e-12           208.586
+    900         6.73148e-10         4.38072e-09          0.153662
+   1000         6.84012e-10         1.43467e-06       0.000476774
+   1100         6.92795e-10         0.000164186       4.21956e-06
+   1200         6.99758e-10          0.00852373       8.20952e-08
+   1300         7.05013e-10            0.240558       2.93074e-09
+   1400         7.08531e-10              4.2004       1.68682e-10
+   1500         7.10146e-10             49.8925       1.42335e-11
+   1600           7.096e-10             432.829       1.63945e-12
+   1700         7.06596e-10             2895.36       2.44045e-13
+   1800         7.00861e-10             15577.8       4.49909e-14
+   1900         6.92195e-10               69693       9.93205e-15
+   2000         6.80512e-10              266280       2.55562e-15
+}
+
+Eq fraction matrix:
+{
+  -1.031738e+65,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
+}
+
+Inverse of Eq fraction matrix:
+{
+  -9.692387e-66,   9.692387e-66,
+   9.692387e-66,   1.000000e+00,
+}
+Equilibrium Fraction for Methane = 1
+Equilibrium Fraction for Methyl = 9.69239e-66
+
+Total number of eigenvalues = 250
+Eigenvalues
+{
+  -2.511966e+08
+  -2.360805e+08
+  -2.049444e+08
+  -5.151310e+06
+   3.424619e-21
+}
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: 
+{
+  -5.878641e-33,   3.455842e-65,
+   5.878641e-33,   1.000000e+00,
+}
+
+Z_matrix^(-1):
+{
+  -1.701074e+32,   5.878641e-33,
+   1.000000e+00,   1.000000e+00,
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+   1.000000e+00,  1.758233e-129,
+   6.933407e-65,   1.000000e+00,
+}
+
+Kr matrix:
+{
+  -5.151310e+06,   1.780211e-58,
+   5.151310e+06,  -1.780211e-58,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+Methane loss = -1.780211e-58
+Methyl loss = -5.151310e+06
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+Methane -> Methyl = 1.780211e-58
+Methyl -> Methane = 5.151310e+06
+}
+}
+PT Grid 8 Condition: conc = 1.30988e+19, temp = 301, diagonalization precision: double-double
+{
+
+Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
+{
+    T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
+    100         3.41573e-10        1.70067e-206      2.00846e+196
+    200         4.44556e-10          6.0021e-96       7.40667e+85
+    300         5.14808e-10         6.36912e-59       8.08288e+48
+    400         5.62046e-10         2.51757e-40       2.23249e+30
+    500         5.96466e-10         4.02483e-29       1.48197e+19
+    600         6.22703e-10         1.25671e-21       4.95503e+11
+    700         6.43295e-10         2.92843e-16       2.19672e+06
+    800         6.59786e-10         3.16314e-12           208.586
+    900         6.73148e-10         4.38072e-09          0.153662
+   1000         6.84012e-10         1.43467e-06       0.000476774
+   1100         6.92795e-10         0.000164186       4.21956e-06
+   1200         6.99758e-10          0.00852373       8.20952e-08
+   1300         7.05013e-10            0.240558       2.93074e-09
+   1400         7.08531e-10              4.2004       1.68682e-10
+   1500         7.10146e-10             49.8925       1.42335e-11
+   1600           7.096e-10             432.829       1.63945e-12
+   1700         7.06596e-10             2895.36       2.44045e-13
+   1800         7.00861e-10             15577.8       4.49909e-14
+   1900         6.92195e-10               69693       9.93205e-15
+   2000         6.80512e-10              266280       2.55562e-15
+}
+
+Eq fraction matrix:
+{
+  -1.031738e+65,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
+}
+
+Inverse of Eq fraction matrix:
+{
+  -9.692387e-66,   9.692387e-66,
+   9.692387e-66,   1.000000e+00,
+}
+Equilibrium Fraction for Methane = 1
+Equilibrium Fraction for Methyl = 9.69239e-66
+
+Total number of eigenvalues = 250
+Eigenvalues
+{
+  -2.876959e+08
+  -2.703834e+08
+  -2.347231e+08
+  -5.418024e+06
+   4.225038e-21
+}
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: 
+{
+   7.819049e-33,   6.113752e-65,
+  -7.819049e-33,   1.000000e+00,
+}
+
+Z_matrix^(-1):
+{
+   1.278928e+32,  -7.819049e-33,
+   1.000000e+00,   1.000000e+00,
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+   1.000000e+00,  1.442653e-129,
+  -8.948440e-65,   1.000000e+00,
+}
+
+Kr matrix:
+{
+  -5.418024e+06,   3.312446e-58,
+   5.418024e+06,  -3.312446e-58,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+Methane loss = -3.312446e-58
+Methyl loss = -5.418024e+06
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+Methane -> Methyl = 3.312446e-58
+Methyl -> Methane = 5.418024e+06
+}
+}
+PT Grid 9 Condition: conc = 1.63455e+19, temp = 301, diagonalization precision: double-double
+{
+
+Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
+{
+    T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
+    100         3.41573e-10        1.70067e-206      2.00846e+196
+    200         4.44556e-10          6.0021e-96       7.40667e+85
+    300         5.14808e-10         6.36912e-59       8.08288e+48
+    400         5.62046e-10         2.51757e-40       2.23249e+30
+    500         5.96466e-10         4.02483e-29       1.48197e+19
+    600         6.22703e-10         1.25671e-21       4.95503e+11
+    700         6.43295e-10         2.92843e-16       2.19672e+06
+    800         6.59786e-10         3.16314e-12           208.586
+    900         6.73148e-10         4.38072e-09          0.153662
+   1000         6.84012e-10         1.43467e-06       0.000476774
+   1100         6.92795e-10         0.000164186       4.21956e-06
+   1200         6.99758e-10          0.00852373       8.20952e-08
+   1300         7.05013e-10            0.240558       2.93074e-09
+   1400         7.08531e-10              4.2004       1.68682e-10
+   1500         7.10146e-10             49.8925       1.42335e-11
+   1600           7.096e-10             432.829       1.63945e-12
+   1700         7.06596e-10             2895.36       2.44045e-13
+   1800         7.00861e-10             15577.8       4.49909e-14
+   1900         6.92195e-10               69693       9.93205e-15
+   2000         6.80512e-10              266280       2.55562e-15
+}
+
+Eq fraction matrix:
+{
+  -1.031738e+65,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
+}
+
+Inverse of Eq fraction matrix:
+{
+  -9.692387e-66,   9.692387e-66,
+   9.692387e-66,   1.000000e+00,
+}
+Equilibrium Fraction for Methane = 1
+Equilibrium Fraction for Methyl = 9.69239e-66
+
+Total number of eigenvalues = 250
+Eigenvalues
+{
+  -3.590033e+08
+  -3.373998e+08
+  -2.929009e+08
+  -5.857836e+06
+   5.078841e-21
+}
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: 
+{
+   5.001606e-33,   2.501606e-65,
+  -5.001606e-33,   1.000000e+00,
+}
+
+Z_matrix^(-1):
+{
+   1.999358e+32,  -5.001606e-33,
+   1.000000e+00,   1.000000e+00,
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+   1.000000e+00,  7.213265e-130,
+   8.222111e-65,   1.000000e+00,
+}
+
+Kr matrix:
+{
+  -5.857836e+06,   1.465400e-58,
+   5.857836e+06,  -1.465400e-58,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+Methane loss = -1.465400e-58
+Methyl loss = -5.857836e+06
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+Methane -> Methyl = 1.465400e-58
+Methyl -> Methane = 5.857836e+06
+}
+}
+PT Grid 10 Condition: conc = 6.06842e+17, temp = 401, diagonalization precision: double-double
+{
+
+Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
+{
+    T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
+    100         3.41573e-10        1.70067e-206      2.00846e+196
+    200         4.44556e-10          6.0021e-96       7.40667e+85
+    300         5.14808e-10         6.36912e-59       8.08288e+48
+    400         5.62046e-10         2.51757e-40       2.23249e+30
+    500         5.96466e-10         4.02483e-29       1.48197e+19
+    600         6.22703e-10         1.25671e-21       4.95503e+11
+    700         6.43295e-10         2.92843e-16       2.19672e+06
+    800         6.59786e-10         3.16314e-12           208.586
+    900         6.73148e-10         4.38072e-09          0.153662
+   1000         6.84012e-10         1.43467e-06       0.000476774
+   1100         6.92795e-10         0.000164186       4.21956e-06
+   1200         6.99758e-10          0.00852373       8.20952e-08
+   1300         7.05013e-10            0.240558       2.93074e-09
+   1400         7.08531e-10              4.2004       1.68682e-10
+   1500         7.10146e-10             49.8925       1.42335e-11
+   1600           7.096e-10             432.829       1.63945e-12
+   1700         7.06596e-10             2895.36       2.44045e-13
+   1800         7.00861e-10             15577.8       4.49909e-14
+   1900         6.92195e-10               69693       9.93205e-15
+   2000         6.80512e-10              266280       2.55562e-15
+}
+
+Eq fraction matrix:
+{
+  -3.646076e+46,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
+}
+
+Inverse of Eq fraction matrix:
+{
+  -2.742675e-47,   2.742675e-47,
+   2.742675e-47,   1.000000e+00,
+}
+Equilibrium Fraction for Methane = 1
+Equilibrium Fraction for Methyl = 2.74267e-47
+
+Total number of eigenvalues = 255
+Eigenvalues
+{
+  -9.363984e+06
+  -8.687643e+06
+  -7.167860e+06
+  -5.647379e+05
+   2.092631e-22
+}
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: 
+{
+  -5.237055e-24,   2.742675e-47,
+   5.237055e-24,   1.000000e+00,
+}
+
+Z_matrix^(-1):
+{
+  -1.909470e+23,   5.237055e-24,
+   1.000000e+00,   1.000000e+00,
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+   1.000000e+00, -8.186385e-112,
+  -1.481916e-64,   1.000000e+00,
+}
+
+Kr matrix:
+{
+  -5.647379e+05,   1.548892e-41,
+   5.647379e+05,  -1.548892e-41,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+Methane loss = -1.548892e-41
+Methyl loss = -5.647379e+05
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+Methane -> Methyl = 1.548892e-41
+Methyl -> Methane = 5.647379e+05
+}
+}
+PT Grid 11 Condition: conc = 1.20887e+18, temp = 401, diagonalization precision: double-double
+{
+
+Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
+{
+    T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
+    100         3.41573e-10        1.70067e-206      2.00846e+196
+    200         4.44556e-10          6.0021e-96       7.40667e+85
+    300         5.14808e-10         6.36912e-59       8.08288e+48
+    400         5.62046e-10         2.51757e-40       2.23249e+30
+    500         5.96466e-10         4.02483e-29       1.48197e+19
+    600         6.22703e-10         1.25671e-21       4.95503e+11
+    700         6.43295e-10         2.92843e-16       2.19672e+06
+    800         6.59786e-10         3.16314e-12           208.586
+    900         6.73148e-10         4.38072e-09          0.153662
+   1000         6.84012e-10         1.43467e-06       0.000476774
+   1100         6.92795e-10         0.000164186       4.21956e-06
+   1200         6.99758e-10          0.00852373       8.20952e-08
+   1300         7.05013e-10            0.240558       2.93074e-09
+   1400         7.08531e-10              4.2004       1.68682e-10
+   1500         7.10146e-10             49.8925       1.42335e-11
+   1600           7.096e-10             432.829       1.63945e-12
+   1700         7.06596e-10             2895.36       2.44045e-13
+   1800         7.00861e-10             15577.8       4.49909e-14
+   1900         6.92195e-10               69693       9.93205e-15
+   2000         6.80512e-10              266280       2.55562e-15
+}
+
+Eq fraction matrix:
+{
+  -3.646076e+46,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
+}
+
+Inverse of Eq fraction matrix:
+{
+  -2.742675e-47,   2.742675e-47,
+   2.742675e-47,   1.000000e+00,
+}
+Equilibrium Fraction for Methane = 1
+Equilibrium Fraction for Methyl = 2.74267e-47
+
+Total number of eigenvalues = 255
+Eigenvalues
+{
+  -1.865365e+07
+  -1.730634e+07
+  -1.427883e+07
+  -9.182326e+05
+   3.698633e-22
+}
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: 
+{
+  -5.237055e-24,   2.742675e-47,
+   5.237055e-24,   1.000000e+00,
+}
+
+Z_matrix^(-1):
+{
+  -1.909470e+23,   5.237055e-24,
+   1.000000e+00,   1.000000e+00,
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+   1.000000e+00, -2.910715e-111,
+  -1.114758e-65,   1.000000e+00,
+}
+
+Kr matrix:
+{
+  -9.182326e+05,   2.518413e-41,
+   9.182326e+05,  -2.518413e-41,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+Methane loss = -2.518413e-41
+Methyl loss = -9.182326e+05
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+Methane -> Methyl = 2.518413e-41
+Methyl -> Methane = 9.182326e+05
+}
+}
+PT Grid 12 Condition: conc = 2.41292e+18, temp = 401, diagonalization precision: double-double
+{
+
+Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
+{
+    T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
+    100         3.41573e-10        1.70067e-206      2.00846e+196
+    200         4.44556e-10          6.0021e-96       7.40667e+85
+    300         5.14808e-10         6.36912e-59       8.08288e+48
+    400         5.62046e-10         2.51757e-40       2.23249e+30
+    500         5.96466e-10         4.02483e-29       1.48197e+19
+    600         6.22703e-10         1.25671e-21       4.95503e+11
+    700         6.43295e-10         2.92843e-16       2.19672e+06
+    800         6.59786e-10         3.16314e-12           208.586
+    900         6.73148e-10         4.38072e-09          0.153662
+   1000         6.84012e-10         1.43467e-06       0.000476774
+   1100         6.92795e-10         0.000164186       4.21956e-06
+   1200         6.99758e-10          0.00852373       8.20952e-08
+   1300         7.05013e-10            0.240558       2.93074e-09
+   1400         7.08531e-10              4.2004       1.68682e-10
+   1500         7.10146e-10             49.8925       1.42335e-11
+   1600           7.096e-10             432.829       1.63945e-12
+   1700         7.06596e-10             2895.36       2.44045e-13
+   1800         7.00861e-10             15577.8       4.49909e-14
+   1900         6.92195e-10               69693       9.93205e-15
+   2000         6.80512e-10              266280       2.55562e-15
+}
+
+Eq fraction matrix:
+{
+  -3.646076e+46,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
+}
+
+Inverse of Eq fraction matrix:
+{
+  -2.742675e-47,   2.742675e-47,
+   2.742675e-47,   1.000000e+00,
+}
+Equilibrium Fraction for Methane = 1
+Equilibrium Fraction for Methyl = 2.74267e-47
+
+Total number of eigenvalues = 255
+Eigenvalues
+{
+  -3.723299e+07
+  -3.454372e+07
+  -2.850078e+07
+  -1.446485e+06
+   9.452330e-22
+}
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: 
+{
+   5.237055e-24,   2.742675e-47,
+  -5.237055e-24,   1.000000e+00,
+}
+
+Z_matrix^(-1):
+{
+   1.909470e+23,  -5.237055e-24,
+   1.000000e+00,   1.000000e+00,
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+   1.000000e+00,  2.079082e-112,
+   1.769027e-65,   1.000000e+00,
+}
+
+Kr matrix:
+{
+  -1.446485e+06,   3.967239e-41,
+   1.446485e+06,  -3.967239e-41,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+Methane loss = -3.967239e-41
+Methyl loss = -1.446485e+06
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+Methane -> Methyl = 3.967239e-41
+Methyl -> Methane = 1.446485e+06
+}
+}
+PT Grid 13 Condition: conc = 3.68199e+18, temp = 401, diagonalization precision: double-double
+{
+
+Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
+{
+    T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
+    100         3.41573e-10        1.70067e-206      2.00846e+196
+    200         4.44556e-10          6.0021e-96       7.40667e+85
+    300         5.14808e-10         6.36912e-59       8.08288e+48
+    400         5.62046e-10         2.51757e-40       2.23249e+30
+    500         5.96466e-10         4.02483e-29       1.48197e+19
+    600         6.22703e-10         1.25671e-21       4.95503e+11
+    700         6.43295e-10         2.92843e-16       2.19672e+06
+    800         6.59786e-10         3.16314e-12           208.586
+    900         6.73148e-10         4.38072e-09          0.153662
+   1000         6.84012e-10         1.43467e-06       0.000476774
+   1100         6.92795e-10         0.000164186       4.21956e-06
+   1200         6.99758e-10          0.00852373       8.20952e-08
+   1300         7.05013e-10            0.240558       2.93074e-09
+   1400         7.08531e-10              4.2004       1.68682e-10
+   1500         7.10146e-10             49.8925       1.42335e-11
+   1600           7.096e-10             432.829       1.63945e-12
+   1700         7.06596e-10             2895.36       2.44045e-13
+   1800         7.00861e-10             15577.8       4.49909e-14
+   1900         6.92195e-10               69693       9.93205e-15
+   2000         6.80512e-10              266280       2.55562e-15
+}
+
+Eq fraction matrix:
+{
+  -3.646076e+46,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
+}
+
+Inverse of Eq fraction matrix:
+{
+  -2.742675e-47,   2.742675e-47,
+   2.742675e-47,   1.000000e+00,
+}
+Equilibrium Fraction for Methane = 1
+Equilibrium Fraction for Methyl = 2.74267e-47
+
+Total number of eigenvalues = 255
+Eigenvalues
+{
+  -5.681560e+07
+  -5.271193e+07
+  -4.349071e+07
+  -1.874938e+06
+   1.314279e-21
+}
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: 
+{
+   5.237055e-24,   2.742675e-47,
+  -5.237055e-24,   1.000000e+00,
+}
+
+Z_matrix^(-1):
+{
+   1.909470e+23,  -5.237055e-24,
+   1.000000e+00,   1.000000e+00,
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+   1.000000e+00, -1.663266e-111,
+  -9.159136e-65,   1.000000e+00,
+}
+
+Kr matrix:
+{
+  -1.874938e+06,   5.142346e-41,
+   1.874938e+06,  -5.142346e-41,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+Methane loss = -5.142346e-41
+Methyl loss = -1.874938e+06
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+Methane -> Methyl = 5.142346e-41
+Methyl -> Methane = 1.874938e+06
+}
+}
+PT Grid 14 Condition: conc = 4.82102e+18, temp = 401, diagonalization precision: double-double
+{
+
+Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
+{
+    T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
+    100         3.41573e-10        1.70067e-206      2.00846e+196
+    200         4.44556e-10          6.0021e-96       7.40667e+85
+    300         5.14808e-10         6.36912e-59       8.08288e+48
+    400         5.62046e-10         2.51757e-40       2.23249e+30
+    500         5.96466e-10         4.02483e-29       1.48197e+19
+    600         6.22703e-10         1.25671e-21       4.95503e+11
+    700         6.43295e-10         2.92843e-16       2.19672e+06
+    800         6.59786e-10         3.16314e-12           208.586
+    900         6.73148e-10         4.38072e-09          0.153662
+   1000         6.84012e-10         1.43467e-06       0.000476774
+   1100         6.92795e-10         0.000164186       4.21956e-06
+   1200         6.99758e-10          0.00852373       8.20952e-08
+   1300         7.05013e-10            0.240558       2.93074e-09
+   1400         7.08531e-10              4.2004       1.68682e-10
+   1500         7.10146e-10             49.8925       1.42335e-11
+   1600           7.096e-10             432.829       1.63945e-12
+   1700         7.06596e-10             2895.36       2.44045e-13
+   1800         7.00861e-10             15577.8       4.49909e-14
+   1900         6.92195e-10               69693       9.93205e-15
+   2000         6.80512e-10              266280       2.55562e-15
+}
+
+Eq fraction matrix:
+{
+  -3.646076e+46,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
+}
+
+Inverse of Eq fraction matrix:
+{
+  -2.742675e-47,   2.742675e-47,
+   2.742675e-47,   1.000000e+00,
+}
+Equilibrium Fraction for Methane = 1
+Equilibrium Fraction for Methyl = 2.74267e-47
+
+Total number of eigenvalues = 255
+Eigenvalues
+{
+  -7.439165e+07
+  -6.901849e+07
+  -5.694467e+07
+  -2.194696e+06
+   1.909559e-21
+}
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: 
+{
+   5.237055e-24,   2.742675e-47,
+  -5.237055e-24,   1.000000e+00,
+}
+
+Z_matrix^(-1):
+{
+   1.909470e+23,  -5.237055e-24,
+   1.000000e+00,   1.000000e+00,
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+   1.000000e+00,  4.158164e-112,
+  -7.777844e-65,   1.000000e+00,
+}
+
+Kr matrix:
+{
+  -2.194696e+06,   6.019337e-41,
+   2.194696e+06,  -6.019337e-41,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+Methane loss = -6.019337e-41
+Methyl loss = -2.194696e+06
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+Methane -> Methyl = 6.019337e-41
+Methyl -> Methane = 2.194696e+06
+}
+}
+PT Grid 15 Condition: conc = 6.1214e+18, temp = 401, diagonalization precision: double-double
+{
+
+Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
+{
+    T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
+    100         3.41573e-10        1.70067e-206      2.00846e+196
+    200         4.44556e-10          6.0021e-96       7.40667e+85
+    300         5.14808e-10         6.36912e-59       8.08288e+48
+    400         5.62046e-10         2.51757e-40       2.23249e+30
+    500         5.96466e-10         4.02483e-29       1.48197e+19
+    600         6.22703e-10         1.25671e-21       4.95503e+11
+    700         6.43295e-10         2.92843e-16       2.19672e+06
+    800         6.59786e-10         3.16314e-12           208.586
+    900         6.73148e-10         4.38072e-09          0.153662
+   1000         6.84012e-10         1.43467e-06       0.000476774
+   1100         6.92795e-10         0.000164186       4.21956e-06
+   1200         6.99758e-10          0.00852373       8.20952e-08
+   1300         7.05013e-10            0.240558       2.93074e-09
+   1400         7.08531e-10              4.2004       1.68682e-10
+   1500         7.10146e-10             49.8925       1.42335e-11
+   1600           7.096e-10             432.829       1.63945e-12
+   1700         7.06596e-10             2895.36       2.44045e-13
+   1800         7.00861e-10             15577.8       4.49909e-14
+   1900         6.92195e-10               69693       9.93205e-15
+   2000         6.80512e-10              266280       2.55562e-15
+}
+
+Eq fraction matrix:
+{
+  -3.646076e+46,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
+}
+
+Inverse of Eq fraction matrix:
+{
+  -2.742675e-47,   2.742675e-47,
+   2.742675e-47,   1.000000e+00,
+}
+Equilibrium Fraction for Methane = 1
+Equilibrium Fraction for Methyl = 2.74267e-47
+
+Total number of eigenvalues = 255
+Eigenvalues
+{
+  -9.445734e+07
+  -8.763487e+07
+  -7.230437e+07
+  -2.509447e+06
+   2.477900e-21
+}
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: 
+{
+   5.237055e-24,   2.742675e-47,
+  -5.237055e-24,   1.000000e+00,
+}
+
+Z_matrix^(-1):
+{
+   1.909470e+23,  -5.237055e-24,
+   1.000000e+00,   1.000000e+00,
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+   1.000000e+00, -1.663266e-111,
+  -1.884054e-64,   1.000000e+00,
+}
+
+Kr matrix:
+{
+  -2.509447e+06,   6.882597e-41,
+   2.509447e+06,  -6.882597e-41,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+Methane loss = -6.882597e-41
+Methyl loss = -2.509447e+06
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+Methane -> Methyl = 6.882597e-41
+Methyl -> Methane = 2.509447e+06
+}
+}
+PT Grid 16 Condition: conc = 8.42836e+18, temp = 401, diagonalization precision: double-double
+{
+
+Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
+{
+    T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
+    100         3.41573e-10        1.70067e-206      2.00846e+196
+    200         4.44556e-10          6.0021e-96       7.40667e+85
+    300         5.14808e-10         6.36912e-59       8.08288e+48
+    400         5.62046e-10         2.51757e-40       2.23249e+30
+    500         5.96466e-10         4.02483e-29       1.48197e+19
+    600         6.22703e-10         1.25671e-21       4.95503e+11
+    700         6.43295e-10         2.92843e-16       2.19672e+06
+    800         6.59786e-10         3.16314e-12           208.586
+    900         6.73148e-10         4.38072e-09          0.153662
+   1000         6.84012e-10         1.43467e-06       0.000476774
+   1100         6.92795e-10         0.000164186       4.21956e-06
+   1200         6.99758e-10          0.00852373       8.20952e-08
+   1300         7.05013e-10            0.240558       2.93074e-09
+   1400         7.08531e-10              4.2004       1.68682e-10
+   1500         7.10146e-10             49.8925       1.42335e-11
+   1600           7.096e-10             432.829       1.63945e-12
+   1700         7.06596e-10             2895.36       2.44045e-13
+   1800         7.00861e-10             15577.8       4.49909e-14
+   1900         6.92195e-10               69693       9.93205e-15
+   2000         6.80512e-10              266280       2.55562e-15
+}
+
+Eq fraction matrix:
+{
+  -3.646076e+46,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
+}
+
+Inverse of Eq fraction matrix:
+{
+  -2.742675e-47,   2.742675e-47,
+   2.742675e-47,   1.000000e+00,
+}
+Equilibrium Fraction for Methane = 1
+Equilibrium Fraction for Methyl = 2.74267e-47
+
+Total number of eigenvalues = 255
+Eigenvalues
+{
+  -1.300553e+08
+  -1.206617e+08
+  -9.955361e+07
+  -2.977544e+06
+   3.237051e-21
+}
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: 
+{
+  -5.237055e-24,   2.742675e-47,
+   5.237055e-24,   1.000000e+00,
+}
+
+Z_matrix^(-1):
+{
+  -1.909470e+23,   5.237055e-24,
+   1.000000e+00,   1.000000e+00,
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+   1.000000e+00,  1.247449e-111,
+   9.644062e-65,   1.000000e+00,
+}
+
+Kr matrix:
+{
+  -2.977544e+06,   8.166434e-41,
+   2.977544e+06,  -8.166434e-41,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+Methane loss = -8.166434e-41
+Methyl loss = -2.977544e+06
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+Methane -> Methyl = 8.166434e-41
+Methyl -> Methane = 2.977544e+06
+}
+}
+PT Grid 17 Condition: conc = 1.09785e+19, temp = 401, diagonalization precision: double-double
+{
+
+Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
+{
+    T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
+    100         3.41573e-10        1.70067e-206      2.00846e+196
+    200         4.44556e-10          6.0021e-96       7.40667e+85
+    300         5.14808e-10         6.36912e-59       8.08288e+48
+    400         5.62046e-10         2.51757e-40       2.23249e+30
+    500         5.96466e-10         4.02483e-29       1.48197e+19
+    600         6.22703e-10         1.25671e-21       4.95503e+11
+    700         6.43295e-10         2.92843e-16       2.19672e+06
+    800         6.59786e-10         3.16314e-12           208.586
+    900         6.73148e-10         4.38072e-09          0.153662
+   1000         6.84012e-10         1.43467e-06       0.000476774
+   1100         6.92795e-10         0.000164186       4.21956e-06
+   1200         6.99758e-10          0.00852373       8.20952e-08
+   1300         7.05013e-10            0.240558       2.93074e-09
+   1400         7.08531e-10              4.2004       1.68682e-10
+   1500         7.10146e-10             49.8925       1.42335e-11
+   1600           7.096e-10             432.829       1.63945e-12
+   1700         7.06596e-10             2895.36       2.44045e-13
+   1800         7.00861e-10             15577.8       4.49909e-14
+   1900         6.92195e-10               69693       9.93205e-15
+   2000         6.80512e-10              266280       2.55562e-15
+}
+
+Eq fraction matrix:
+{
+  -3.646076e+46,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
+}
+
+Inverse of Eq fraction matrix:
+{
+  -2.742675e-47,   2.742675e-47,
+   2.742675e-47,   1.000000e+00,
+}
+Equilibrium Fraction for Methane = 1
+Equilibrium Fraction for Methyl = 2.74267e-47
+
+Total number of eigenvalues = 255
+Eigenvalues
+{
+  -1.694064e+08
+  -1.571705e+08
+  -1.296757e+08
+  -3.403823e+06
+   4.436036e-21
+}
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: 
+{
+   5.237055e-24,   2.742675e-47,
+  -5.237055e-24,   1.000000e+00,
+}
+
+Z_matrix^(-1):
+{
+   1.909470e+23,  -5.237055e-24,
+   1.000000e+00,   1.000000e+00,
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+   1.000000e+00,   0.000000e+00,
+   4.103112e-65,   1.000000e+00,
+}
+
+Kr matrix:
+{
+  -3.403823e+06,   9.335578e-41,
+   3.403823e+06,  -9.335578e-41,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+Methane loss = -9.335578e-41
+Methyl loss = -3.403823e+06
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+Methane -> Methyl = 9.335578e-41
+Methyl -> Methane = 3.403823e+06
+}
+}
+PT Grid 18 Condition: conc = 1.22452e+19, temp = 401, diagonalization precision: double-double
+{
+
+Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
+{
+    T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
+    100         3.41573e-10        1.70067e-206      2.00846e+196
+    200         4.44556e-10          6.0021e-96       7.40667e+85
+    300         5.14808e-10         6.36912e-59       8.08288e+48
+    400         5.62046e-10         2.51757e-40       2.23249e+30
+    500         5.96466e-10         4.02483e-29       1.48197e+19
+    600         6.22703e-10         1.25671e-21       4.95503e+11
+    700         6.43295e-10         2.92843e-16       2.19672e+06
+    800         6.59786e-10         3.16314e-12           208.586
+    900         6.73148e-10         4.38072e-09          0.153662
+   1000         6.84012e-10         1.43467e-06       0.000476774
+   1100         6.92795e-10         0.000164186       4.21956e-06
+   1200         6.99758e-10          0.00852373       8.20952e-08
+   1300         7.05013e-10            0.240558       2.93074e-09
+   1400         7.08531e-10              4.2004       1.68682e-10
+   1500         7.10146e-10             49.8925       1.42335e-11
+   1600           7.096e-10             432.829       1.63945e-12
+   1700         7.06596e-10             2895.36       2.44045e-13
+   1800         7.00861e-10             15577.8       4.49909e-14
+   1900         6.92195e-10               69693       9.93205e-15
+   2000         6.80512e-10              266280       2.55562e-15
+}
+
+Eq fraction matrix:
+{
+  -3.646076e+46,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
+}
+
+Inverse of Eq fraction matrix:
+{
+  -2.742675e-47,   2.742675e-47,
+   2.742675e-47,   1.000000e+00,
+}
+Equilibrium Fraction for Methane = 1
+Equilibrium Fraction for Methyl = 2.74267e-47
+
+Total number of eigenvalues = 255
+Eigenvalues
+{
+  -1.889518e+08
+  -1.753042e+08
+  -1.446372e+08
+  -3.589873e+06
+   4.878884e-21
+}
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: 
+{
+  -5.237055e-24,   2.742675e-47,
+   5.237055e-24,   1.000000e+00,
+}
+
+Z_matrix^(-1):
+{
+  -1.909470e+23,   5.237055e-24,
+   1.000000e+00,   1.000000e+00,
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+   1.000000e+00,   0.000000e+00,
+  -5.917009e-65,   1.000000e+00,
+}
+
+Kr matrix:
+{
+  -3.589873e+06,   9.845854e-41,
+   3.589873e+06,  -9.845854e-41,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+Methane loss = -9.845854e-41
+Methyl loss = -3.589873e+06
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+Methane -> Methyl = 9.845854e-41
+Methyl -> Methane = 3.589873e+06
+}
+}
+PT Grid 19 Condition: conc = 1.47015e+19, temp = 401, diagonalization precision: double-double
+{
+
+Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
+{
+    T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
+    100         3.41573e-10        1.70067e-206      2.00846e+196
+    200         4.44556e-10          6.0021e-96       7.40667e+85
+    300         5.14808e-10         6.36912e-59       8.08288e+48
+    400         5.62046e-10         2.51757e-40       2.23249e+30
+    500         5.96466e-10         4.02483e-29       1.48197e+19
+    600         6.22703e-10         1.25671e-21       4.95503e+11
+    700         6.43295e-10         2.92843e-16       2.19672e+06
+    800         6.59786e-10         3.16314e-12           208.586
+    900         6.73148e-10         4.38072e-09          0.153662
+   1000         6.84012e-10         1.43467e-06       0.000476774
+   1100         6.92795e-10         0.000164186       4.21956e-06
+   1200         6.99758e-10          0.00852373       8.20952e-08
+   1300         7.05013e-10            0.240558       2.93074e-09
+   1400         7.08531e-10              4.2004       1.68682e-10
+   1500         7.10146e-10             49.8925       1.42335e-11
+   1600           7.096e-10             432.829       1.63945e-12
+   1700         7.06596e-10             2895.36       2.44045e-13
+   1800         7.00861e-10             15577.8       4.49909e-14
+   1900         6.92195e-10               69693       9.93205e-15
+   2000         6.80512e-10              266280       2.55562e-15
+}
+
+Eq fraction matrix:
+{
+  -3.646076e+46,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
+}
+
+Inverse of Eq fraction matrix:
+{
+  -2.742675e-47,   2.742675e-47,
+   2.742675e-47,   1.000000e+00,
+}
+Equilibrium Fraction for Methane = 1
+Equilibrium Fraction for Methyl = 2.74267e-47
+
+Total number of eigenvalues = 255
+Eigenvalues
+{
+  -2.268537e+08
+  -2.104685e+08
+  -1.736499e+08
+  -3.913709e+06
+   5.595069e-21
+}
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: 
+{
+  -5.237055e-24,   2.742675e-47,
+   5.237055e-24,   1.000000e+00,
+}
+
+Z_matrix^(-1):
+{
+  -1.909470e+23,   5.237055e-24,
+   1.000000e+00,   1.000000e+00,
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+   1.000000e+00,  4.989797e-111,
+   1.353329e-64,   1.000000e+00,
+}
+
+Kr matrix:
+{
+  -3.913709e+06,   1.073403e-40,
+   3.913709e+06,  -1.073403e-40,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+Methane loss = -1.073403e-40
+Methyl loss = -3.913709e+06
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+Methane -> Methyl = 1.073403e-40
+Methyl -> Methane = 3.913709e+06
+}
+}
+PT Grid 20 Condition: conc = 4.82825e+17, temp = 504, diagonalization precision: double-double
+{
+
+Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
+{
+    T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
+    100         3.41573e-10        1.70067e-206      2.00846e+196
+    200         4.44556e-10          6.0021e-96       7.40667e+85
+    300         5.14808e-10         6.36912e-59       8.08288e+48
+    400         5.62046e-10         2.51757e-40       2.23249e+30
+    500         5.96466e-10         4.02483e-29       1.48197e+19
+    600         6.22703e-10         1.25671e-21       4.95503e+11
+    700         6.43295e-10         2.92843e-16       2.19672e+06
+    800         6.59786e-10         3.16314e-12           208.586
+    900         6.73148e-10         4.38072e-09          0.153662
+   1000         6.84012e-10         1.43467e-06       0.000476774
+   1100         6.92795e-10         0.000164186       4.21956e-06
+   1200         6.99758e-10          0.00852373       8.20952e-08
+   1300         7.05013e-10            0.240558       2.93074e-09
+   1400         7.08531e-10              4.2004       1.68682e-10
+   1500         7.10146e-10             49.8925       1.42335e-11
+   1600           7.096e-10             432.829       1.63945e-12
+   1700         7.06596e-10             2895.36       2.44045e-13
+   1800         7.00861e-10             15577.8       4.49909e-14
+   1900         6.92195e-10               69693       9.93205e-15
+   2000         6.80512e-10              266280       2.55562e-15
+}
+
+Eq fraction matrix:
+{
+  -1.470613e+35,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
+}
+
+Inverse of Eq fraction matrix:
+{
+  -6.799885e-36,   6.799885e-36,
+   6.799885e-36,   1.000000e+00,
+}
+Equilibrium Fraction for Methane = 1
+Equilibrium Fraction for Methyl = 6.79989e-36
+
+Total number of eigenvalues = 259
+Eigenvalues
+{
+  -5.483288e+06
+  -5.005375e+06
+  -3.975081e+06
+  -2.516580e+05
+   1.933752e-22
+}
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: 
+{
+   2.607659e-18,   6.799885e-36,
+  -2.607659e-18,   1.000000e+00,
+}
+
+Z_matrix^(-1):
+{
+   3.834857e+17,  -2.607659e-18,
+   1.000000e+00,   1.000000e+00,
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+   1.000000e+00, -7.715165e-100,
+  -6.155836e-65,   1.000000e+00,
+}
+
+Kr matrix:
+{
+  -2.516580e+05,   1.711245e-30,
+   2.516580e+05,  -1.711245e-30,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+Methane loss = -1.711245e-30
+Methyl loss = -2.516580e+05
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+Methane -> Methyl = 1.711245e-30
+Methyl -> Methane = 2.516580e+05
+}
+}
+PT Grid 21 Condition: conc = 9.61817e+17, temp = 504, diagonalization precision: double-double
+{
+
+Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
+{
+    T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
+    100         3.41573e-10        1.70067e-206      2.00846e+196
+    200         4.44556e-10          6.0021e-96       7.40667e+85
+    300         5.14808e-10         6.36912e-59       8.08288e+48
+    400         5.62046e-10         2.51757e-40       2.23249e+30
+    500         5.96466e-10         4.02483e-29       1.48197e+19
+    600         6.22703e-10         1.25671e-21       4.95503e+11
+    700         6.43295e-10         2.92843e-16       2.19672e+06
+    800         6.59786e-10         3.16314e-12           208.586
+    900         6.73148e-10         4.38072e-09          0.153662
+   1000         6.84012e-10         1.43467e-06       0.000476774
+   1100         6.92795e-10         0.000164186       4.21956e-06
+   1200         6.99758e-10          0.00852373       8.20952e-08
+   1300         7.05013e-10            0.240558       2.93074e-09
+   1400         7.08531e-10              4.2004       1.68682e-10
+   1500         7.10146e-10             49.8925       1.42335e-11
+   1600           7.096e-10             432.829       1.63945e-12
+   1700         7.06596e-10             2895.36       2.44045e-13
+   1800         7.00861e-10             15577.8       4.49909e-14
+   1900         6.92195e-10               69693       9.93205e-15
+   2000         6.80512e-10              266280       2.55562e-15
+}
+
+Eq fraction matrix:
+{
+  -1.470613e+35,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
+}
+
+Inverse of Eq fraction matrix:
+{
+  -6.799885e-36,   6.799885e-36,
+   6.799885e-36,   1.000000e+00,
+}
+Equilibrium Fraction for Methane = 1
+Equilibrium Fraction for Methyl = 6.79989e-36
+
+Total number of eigenvalues = 259
+Eigenvalues
+{
+  -1.092306e+07
+  -9.971026e+06
+  -7.918614e+06
+  -4.274589e+05
+   3.511122e-22
+}
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: 
+{
+  -2.607659e-18,   6.799885e-36,
+   2.607659e-18,   1.000000e+00,
+}
+
+Z_matrix^(-1):
+{
+  -3.834857e+17,   2.607659e-18,
+   1.000000e+00,   1.000000e+00,
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+   1.000000e+00,   1.628757e-99,
+   2.412988e-64,   1.000000e+00,
+}
+
+Kr matrix:
+{
+  -4.274589e+05,   2.906672e-30,
+   4.274589e+05,  -2.906672e-30,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+Methane loss = -2.906672e-30
+Methyl loss = -4.274589e+05
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+Methane -> Methyl = 2.906672e-30
+Methyl -> Methane = 4.274589e+05
+}
+}
+PT Grid 22 Condition: conc = 1.92555e+18, temp = 504, diagonalization precision: double-double
+{
+
+Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
+{
+    T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
+    100         3.41573e-10        1.70067e-206      2.00846e+196
+    200         4.44556e-10          6.0021e-96       7.40667e+85
+    300         5.14808e-10         6.36912e-59       8.08288e+48
+    400         5.62046e-10         2.51757e-40       2.23249e+30
+    500         5.96466e-10         4.02483e-29       1.48197e+19
+    600         6.22703e-10         1.25671e-21       4.95503e+11
+    700         6.43295e-10         2.92843e-16       2.19672e+06
+    800         6.59786e-10         3.16314e-12           208.586
+    900         6.73148e-10         4.38072e-09          0.153662
+   1000         6.84012e-10         1.43467e-06       0.000476774
+   1100         6.92795e-10         0.000164186       4.21956e-06
+   1200         6.99758e-10          0.00852373       8.20952e-08
+   1300         7.05013e-10            0.240558       2.93074e-09
+   1400         7.08531e-10              4.2004       1.68682e-10
+   1500         7.10146e-10             49.8925       1.42335e-11
+   1600           7.096e-10             432.829       1.63945e-12
+   1700         7.06596e-10             2895.36       2.44045e-13
+   1800         7.00861e-10             15577.8       4.49909e-14
+   1900         6.92195e-10               69693       9.93205e-15
+   2000         6.80512e-10              266280       2.55562e-15
+}
+
+Eq fraction matrix:
+{
+  -1.470613e+35,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
+}
+
+Inverse of Eq fraction matrix:
+{
+  -6.799885e-36,   6.799885e-36,
+   6.799885e-36,   1.000000e+00,
+}
+Equilibrium Fraction for Methane = 1
+Equilibrium Fraction for Methyl = 6.79989e-36
+
+Total number of eigenvalues = 259
+Eigenvalues
+{
+  -2.186787e+07
+  -1.996191e+07
+  -1.585300e+07
+  -7.097870e+05
+   7.253691e-22
+}
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: 
+{
+  -2.607659e-18,   6.799885e-36,
+   2.607659e-18,   1.000000e+00,
+}
+
+Z_matrix^(-1):
+{
+  -3.834857e+17,   2.607659e-18,
+   1.000000e+00,   1.000000e+00,
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+   1.000000e+00,  3.428962e-100,
+   8.457417e-65,   1.000000e+00,
+}
+
+Kr matrix:
+{
+  -7.097870e+05,   4.826470e-30,
+   7.097870e+05,  -4.826470e-30,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+Methane loss = -4.826470e-30
+Methyl loss = -7.097870e+05
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+Methane -> Methyl = 4.826470e-30
+Methyl -> Methane = 7.097870e+05
+}
+}
+PT Grid 23 Condition: conc = 2.94101e+18, temp = 504, diagonalization precision: double-double
+{
+
+Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
+{
+    T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
+    100         3.41573e-10        1.70067e-206      2.00846e+196
+    200         4.44556e-10          6.0021e-96       7.40667e+85
+    300         5.14808e-10         6.36912e-59       8.08288e+48
+    400         5.62046e-10         2.51757e-40       2.23249e+30
+    500         5.96466e-10         4.02483e-29       1.48197e+19
+    600         6.22703e-10         1.25671e-21       4.95503e+11
+    700         6.43295e-10         2.92843e-16       2.19672e+06
+    800         6.59786e-10         3.16314e-12           208.586
+    900         6.73148e-10         4.38072e-09          0.153662
+   1000         6.84012e-10         1.43467e-06       0.000476774
+   1100         6.92795e-10         0.000164186       4.21956e-06
+   1200         6.99758e-10          0.00852373       8.20952e-08
+   1300         7.05013e-10            0.240558       2.93074e-09
+   1400         7.08531e-10              4.2004       1.68682e-10
+   1500         7.10146e-10             49.8925       1.42335e-11
+   1600           7.096e-10             432.829       1.63945e-12
+   1700         7.06596e-10             2895.36       2.44045e-13
+   1800         7.00861e-10             15577.8       4.49909e-14
+   1900         6.92195e-10               69693       9.93205e-15
+   2000         6.80512e-10              266280       2.55562e-15
+}
+
+Eq fraction matrix:
+{
+  -1.470613e+35,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
+}
+
+Inverse of Eq fraction matrix:
+{
+  -6.799885e-36,   6.799885e-36,
+   6.799885e-36,   1.000000e+00,
+}
+Equilibrium Fraction for Methane = 1
+Equilibrium Fraction for Methyl = 6.79989e-36
+
+Total number of eigenvalues = 259
+Eigenvalues
+{
+  -3.340018e+07
+  -3.048909e+07
+  -2.421329e+07
+  -9.528174e+05
+   1.219361e-21
+}
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: 
+{
+   2.607659e-18,   6.799885e-36,
+  -2.607659e-18,   1.000000e+00,
+}
+
+Z_matrix^(-1):
+{
+   3.834857e+17,  -2.607659e-18,
+   1.000000e+00,   1.000000e+00,
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+   1.000000e+00,  1.142987e-100,
+  -5.830440e-65,   1.000000e+00,
+}
+
+Kr matrix:
+{
+  -9.528174e+05,   6.479049e-30,
+   9.528174e+05,  -6.479049e-30,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+Methane loss = -6.479049e-30
+Methyl loss = -9.528174e+05
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+Methane -> Methyl = 6.479049e-30
+Methyl -> Methane = 9.528174e+05
+}
+}
+PT Grid 24 Condition: conc = 3.84727e+18, temp = 504, diagonalization precision: double-double
+{
+
+Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
+{
+    T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
+    100         3.41573e-10        1.70067e-206      2.00846e+196
+    200         4.44556e-10          6.0021e-96       7.40667e+85
+    300         5.14808e-10         6.36912e-59       8.08288e+48
+    400         5.62046e-10         2.51757e-40       2.23249e+30
+    500         5.96466e-10         4.02483e-29       1.48197e+19
+    600         6.22703e-10         1.25671e-21       4.95503e+11
+    700         6.43295e-10         2.92843e-16       2.19672e+06
+    800         6.59786e-10         3.16314e-12           208.586
+    900         6.73148e-10         4.38072e-09          0.153662
+   1000         6.84012e-10         1.43467e-06       0.000476774
+   1100         6.92795e-10         0.000164186       4.21956e-06
+   1200         6.99758e-10          0.00852373       8.20952e-08
+   1300         7.05013e-10            0.240558       2.93074e-09
+   1400         7.08531e-10              4.2004       1.68682e-10
+   1500         7.10146e-10             49.8925       1.42335e-11
+   1600           7.096e-10             432.829       1.63945e-12
+   1700         7.06596e-10             2895.36       2.44045e-13
+   1800         7.00861e-10             15577.8       4.49909e-14
+   1900         6.92195e-10               69693       9.93205e-15
+   2000         6.80512e-10              266280       2.55562e-15
+}
+
+Eq fraction matrix:
+{
+  -1.470613e+35,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
+}
+
+Inverse of Eq fraction matrix:
+{
+  -6.799885e-36,   6.799885e-36,
+   6.799885e-36,   1.000000e+00,
+}
+Equilibrium Fraction for Methane = 1
+Equilibrium Fraction for Methyl = 6.79989e-36
+
+Total number of eigenvalues = 259
+Eigenvalues
+{
+  -4.369222e+07
+  -3.988410e+07
+  -3.167446e+07
+  -1.140990e+06
+   1.354092e-21
+}
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: 
+{
+  -2.607659e-18,   6.799885e-36,
+   2.607659e-18,   1.000000e+00,
+}
+
+Z_matrix^(-1):
+{
+  -3.834857e+17,   2.607659e-18,
+   1.000000e+00,   1.000000e+00,
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+   1.000000e+00, -4.571950e-100,
+  -5.152407e-65,   1.000000e+00,
+}
+
+Kr matrix:
+{
+  -1.140990e+06,   7.758598e-30,
+   1.140990e+06,  -7.758598e-30,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+Methane loss = -7.758598e-30
+Methyl loss = -1.140990e+06
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+Methane -> Methyl = 7.758598e-30
+Methyl -> Methane = 1.140990e+06
+}
+}
+PT Grid 25 Condition: conc = 4.90105e+18, temp = 504, diagonalization precision: double-double
+{
+
+Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
+{
+    T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
+    100         3.41573e-10        1.70067e-206      2.00846e+196
+    200         4.44556e-10          6.0021e-96       7.40667e+85
+    300         5.14808e-10         6.36912e-59       8.08288e+48
+    400         5.62046e-10         2.51757e-40       2.23249e+30
+    500         5.96466e-10         4.02483e-29       1.48197e+19
+    600         6.22703e-10         1.25671e-21       4.95503e+11
+    700         6.43295e-10         2.92843e-16       2.19672e+06
+    800         6.59786e-10         3.16314e-12           208.586
+    900         6.73148e-10         4.38072e-09          0.153662
+   1000         6.84012e-10         1.43467e-06       0.000476774
+   1100         6.92795e-10         0.000164186       4.21956e-06
+   1200         6.99758e-10          0.00852373       8.20952e-08
+   1300         7.05013e-10            0.240558       2.93074e-09
+   1400         7.08531e-10              4.2004       1.68682e-10
+   1500         7.10146e-10             49.8925       1.42335e-11
+   1600           7.096e-10             432.829       1.63945e-12
+   1700         7.06596e-10             2895.36       2.44045e-13
+   1800         7.00861e-10             15577.8       4.49909e-14
+   1900         6.92195e-10               69693       9.93205e-15
+   2000         6.80512e-10              266280       2.55562e-15
+}
+
+Eq fraction matrix:
+{
+  -1.470613e+35,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
+}
+
+Inverse of Eq fraction matrix:
+{
+  -6.799885e-36,   6.799885e-36,
+   6.799885e-36,   1.000000e+00,
+}
+Equilibrium Fraction for Methane = 1
+Equilibrium Fraction for Methyl = 6.79989e-36
+
+Total number of eigenvalues = 259
+Eigenvalues
+{
+  -5.565971e+07
+  -5.080853e+07
+  -4.035023e+07
+  -1.336024e+06
+   2.178440e-21
+}
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: 
+{
+   2.607659e-18,   6.799885e-36,
+  -2.607659e-18,   1.000000e+00,
+}
+
+Z_matrix^(-1):
+{
+   3.834857e+17,  -2.607659e-18,
+   1.000000e+00,   1.000000e+00,
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+   1.000000e+00,  3.428962e-100,
+   4.218765e-65,   1.000000e+00,
+}
+
+Kr matrix:
+{
+  -1.336024e+06,   9.084813e-30,
+   1.336024e+06,  -9.084813e-30,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+Methane loss = -9.084813e-30
+Methyl loss = -1.336024e+06
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+Methane -> Methyl = 9.084813e-30
+Methyl -> Methane = 1.336024e+06
+}
+}
+PT Grid 26 Condition: conc = 6.83618e+18, temp = 504, diagonalization precision: double-double
+{
+
+Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
+{
+    T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
+    100         3.41573e-10        1.70067e-206      2.00846e+196
+    200         4.44556e-10          6.0021e-96       7.40667e+85
+    300         5.14808e-10         6.36912e-59       8.08288e+48
+    400         5.62046e-10         2.51757e-40       2.23249e+30
+    500         5.96466e-10         4.02483e-29       1.48197e+19
+    600         6.22703e-10         1.25671e-21       4.95503e+11
+    700         6.43295e-10         2.92843e-16       2.19672e+06
+    800         6.59786e-10         3.16314e-12           208.586
+    900         6.73148e-10         4.38072e-09          0.153662
+   1000         6.84012e-10         1.43467e-06       0.000476774
+   1100         6.92795e-10         0.000164186       4.21956e-06
+   1200         6.99758e-10          0.00852373       8.20952e-08
+   1300         7.05013e-10            0.240558       2.93074e-09
+   1400         7.08531e-10              4.2004       1.68682e-10
+   1500         7.10146e-10             49.8925       1.42335e-11
+   1600           7.096e-10             432.829       1.63945e-12
+   1700         7.06596e-10             2895.36       2.44045e-13
+   1800         7.00861e-10             15577.8       4.49909e-14
+   1900         6.92195e-10               69693       9.93205e-15
+   2000         6.80512e-10              266280       2.55562e-15
+}
+
+Eq fraction matrix:
+{
+  -1.470613e+35,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
+}
+
+Inverse of Eq fraction matrix:
+{
+  -6.799885e-36,   6.799885e-36,
+   6.799885e-36,   1.000000e+00,
+}
+Equilibrium Fraction for Methane = 1
+Equilibrium Fraction for Methyl = 6.79989e-36
+
+Total number of eigenvalues = 259
+Eigenvalues
+{
+  -7.763638e+07
+  -7.086976e+07
+  -5.628210e+07
+  -1.647150e+06
+   2.355818e-21
+}
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: 
+{
+   2.607659e-18,   6.799885e-36,
+  -2.607659e-18,   1.000000e+00,
+}
+
+Z_matrix^(-1):
+{
+   3.834857e+17,  -2.607659e-18,
+   1.000000e+00,   1.000000e+00,
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+   1.000000e+00,  3.428962e-100,
+   2.227374e-65,   1.000000e+00,
+}
+
+Kr matrix:
+{
+  -1.647150e+06,   1.120043e-29,
+   1.647150e+06,  -1.120043e-29,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+Methane loss = -1.120043e-29
+Methyl loss = -1.647150e+06
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+Methane -> Methyl = 1.120043e-29
+Methyl -> Methane = 1.647150e+06
+}
+}
+PT Grid 27 Condition: conc = 7.66771e+18, temp = 504, diagonalization precision: double-double
+{
+
+Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
+{
+    T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
+    100         3.41573e-10        1.70067e-206      2.00846e+196
+    200         4.44556e-10          6.0021e-96       7.40667e+85
+    300         5.14808e-10         6.36912e-59       8.08288e+48
+    400         5.62046e-10         2.51757e-40       2.23249e+30
+    500         5.96466e-10         4.02483e-29       1.48197e+19
+    600         6.22703e-10         1.25671e-21       4.95503e+11
+    700         6.43295e-10         2.92843e-16       2.19672e+06
+    800         6.59786e-10         3.16314e-12           208.586
+    900         6.73148e-10         4.38072e-09          0.153662
+   1000         6.84012e-10         1.43467e-06       0.000476774
+   1100         6.92795e-10         0.000164186       4.21956e-06
+   1200         6.99758e-10          0.00852373       8.20952e-08
+   1300         7.05013e-10            0.240558       2.93074e-09
+   1400         7.08531e-10              4.2004       1.68682e-10
+   1500         7.10146e-10             49.8925       1.42335e-11
+   1600           7.096e-10             432.829       1.63945e-12
+   1700         7.06596e-10             2895.36       2.44045e-13
+   1800         7.00861e-10             15577.8       4.49909e-14
+   1900         6.92195e-10               69693       9.93205e-15
+   2000         6.80512e-10              266280       2.55562e-15
+}
+
+Eq fraction matrix:
+{
+  -1.470613e+35,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
+}
+
+Inverse of Eq fraction matrix:
+{
+  -6.799885e-36,   6.799885e-36,
+   6.799885e-36,   1.000000e+00,
+}
+Equilibrium Fraction for Methane = 1
+Equilibrium Fraction for Methyl = 6.79989e-36
+
+Total number of eigenvalues = 259
+Eigenvalues
+{
+  -8.707982e+07
+  -7.949013e+07
+  -6.312808e+07
+  -1.766746e+06
+   3.263051e-21
+}
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: 
+{
+   2.607659e-18,   6.799885e-36,
+  -2.607659e-18,   1.000000e+00,
+}
+
+Z_matrix^(-1):
+{
+   3.834857e+17,  -2.607659e-18,
+   1.000000e+00,   1.000000e+00,
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+   1.000000e+00, -2.285975e-100,
+  -3.044728e-65,   1.000000e+00,
+}
+
+Kr matrix:
+{
+  -1.766746e+06,   1.201367e-29,
+   1.766746e+06,  -1.201367e-29,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+Methane loss = -1.201367e-29
+Methyl loss = -1.766746e+06
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+Methane -> Methyl = 1.201367e-29
+Methyl -> Methane = 1.766746e+06
+}
+}
+PT Grid 28 Condition: conc = 9.75229e+18, temp = 504, diagonalization precision: double-double
+{
+
+Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
+{
+    T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
+    100         3.41573e-10        1.70067e-206      2.00846e+196
+    200         4.44556e-10          6.0021e-96       7.40667e+85
+    300         5.14808e-10         6.36912e-59       8.08288e+48
+    400         5.62046e-10         2.51757e-40       2.23249e+30
+    500         5.96466e-10         4.02483e-29       1.48197e+19
+    600         6.22703e-10         1.25671e-21       4.95503e+11
+    700         6.43295e-10         2.92843e-16       2.19672e+06
+    800         6.59786e-10         3.16314e-12           208.586
+    900         6.73148e-10         4.38072e-09          0.153662
+   1000         6.84012e-10         1.43467e-06       0.000476774
+   1100         6.92795e-10         0.000164186       4.21956e-06
+   1200         6.99758e-10          0.00852373       8.20952e-08
+   1300         7.05013e-10            0.240558       2.93074e-09
+   1400         7.08531e-10              4.2004       1.68682e-10
+   1500         7.10146e-10             49.8925       1.42335e-11
+   1600           7.096e-10             432.829       1.63945e-12
+   1700         7.06596e-10             2895.36       2.44045e-13
+   1800         7.00861e-10             15577.8       4.49909e-14
+   1900         6.92195e-10               69693       9.93205e-15
+   2000         6.80512e-10              266280       2.55562e-15
+}
+
+Eq fraction matrix:
+{
+  -1.470613e+35,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
+}
+
+Inverse of Eq fraction matrix:
+{
+  -6.799885e-36,   6.799885e-36,
+   6.799885e-36,   1.000000e+00,
+}
+Equilibrium Fraction for Methane = 1
+Equilibrium Fraction for Methyl = 6.79989e-36
+
+Total number of eigenvalues = 259
+Eigenvalues
+{
+  -1.107537e+08
+  -1.011006e+08
+  -8.029033e+07
+  -2.038726e+06
+   4.143402e-21
+}
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: 
+{
+  -2.607659e-18,   6.799885e-36,
+   2.607659e-18,   1.000000e+00,
+}
+
+Z_matrix^(-1):
+{
+  -3.834857e+17,   2.607659e-18,
+   1.000000e+00,   1.000000e+00,
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+   1.000000e+00,   0.000000e+00,
+   7.262870e-65,   1.000000e+00,
+}
+
+Kr matrix:
+{
+  -2.038726e+06,   1.386310e-29,
+   2.038726e+06,  -1.386310e-29,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+Methane loss = -1.386310e-29
+Methyl loss = -2.038726e+06
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+Methane -> Methyl = 1.386310e-29
+Methyl -> Methane = 2.038726e+06
+}
+}
+PT Grid 29 Condition: conc = 1.172e+19, temp = 504, diagonalization precision: double-double
+{
+
+Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
+{
+    T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
+    100         3.41573e-10        1.70067e-206      2.00846e+196
+    200         4.44556e-10          6.0021e-96       7.40667e+85
+    300         5.14808e-10         6.36912e-59       8.08288e+48
+    400         5.62046e-10         2.51757e-40       2.23249e+30
+    500         5.96466e-10         4.02483e-29       1.48197e+19
+    600         6.22703e-10         1.25671e-21       4.95503e+11
+    700         6.43295e-10         2.92843e-16       2.19672e+06
+    800         6.59786e-10         3.16314e-12           208.586
+    900         6.73148e-10         4.38072e-09          0.153662
+   1000         6.84012e-10         1.43467e-06       0.000476774
+   1100         6.92795e-10         0.000164186       4.21956e-06
+   1200         6.99758e-10          0.00852373       8.20952e-08
+   1300         7.05013e-10            0.240558       2.93074e-09
+   1400         7.08531e-10              4.2004       1.68682e-10
+   1500         7.10146e-10             49.8925       1.42335e-11
+   1600           7.096e-10             432.829       1.63945e-12
+   1700         7.06596e-10             2895.36       2.44045e-13
+   1800         7.00861e-10             15577.8       4.49909e-14
+   1900         6.92195e-10               69693       9.93205e-15
+   2000         6.80512e-10              266280       2.55562e-15
+}
+
+Eq fraction matrix:
+{
+  -1.470613e+35,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
+}
+
+Inverse of Eq fraction matrix:
+{
+  -6.799885e-36,   6.799885e-36,
+   6.799885e-36,   1.000000e+00,
+}
+Equilibrium Fraction for Methane = 1
+Equilibrium Fraction for Methyl = 6.79989e-36
+
+Total number of eigenvalues = 259
+Eigenvalues
+{
+  -1.331003e+08
+  -1.214995e+08
+  -9.649037e+07
+  -2.266704e+06
+   4.924056e-21
+}
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: 
+{
+  -2.607659e-18,   6.799885e-36,
+   2.607659e-18,   1.000000e+00,
+}
+
+Z_matrix^(-1):
+{
+  -3.834857e+17,   2.607659e-18,
+   1.000000e+00,   1.000000e+00,
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+   1.000000e+00,  2.857468e-100,
+   4.888810e-65,   1.000000e+00,
+}
+
+Kr matrix:
+{
+  -2.266704e+06,   1.541333e-29,
+   2.266704e+06,  -1.541333e-29,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+Methane loss = -1.541333e-29
+Methyl loss = -2.266704e+06
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+Methane -> Methyl = 1.541333e-29
+Methyl -> Methane = 2.266704e+06
+}
+}
+PT Grid 30 Condition: conc = 1.69189e+18, temp = 601, diagonalization precision: double-double
+{
+
+Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
+{
+    T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
+    100         3.41573e-10        1.70067e-206      2.00846e+196
+    200         4.44556e-10          6.0021e-96       7.40667e+85
+    300         5.14808e-10         6.36912e-59       8.08288e+48
+    400         5.62046e-10         2.51757e-40       2.23249e+30
+    500         5.96466e-10         4.02483e-29       1.48197e+19
+    600         6.22703e-10         1.25671e-21       4.95503e+11
+    700         6.43295e-10         2.92843e-16       2.19672e+06
+    800         6.59786e-10         3.16314e-12           208.586
+    900         6.73148e-10         4.38072e-09          0.153662
+   1000         6.84012e-10         1.43467e-06       0.000476774
+   1100         6.92795e-10         0.000164186       4.21956e-06
+   1200         6.99758e-10          0.00852373       8.20952e-08
+   1300         7.05013e-10            0.240558       2.93074e-09
+   1400         7.08531e-10              4.2004       1.68682e-10
+   1500         7.10146e-10             49.8925       1.42335e-11
+   1600           7.096e-10             432.829       1.63945e-12
+   1700         7.06596e-10             2895.36       2.44045e-13
+   1800         7.00861e-10             15577.8       4.49909e-14
+   1900         6.92195e-10               69693       9.93205e-15
+   2000         6.80512e-10              266280       2.55562e-15
+}
+
+Eq fraction matrix:
+{
+  -9.659270e+27,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
+}
+
+Inverse of Eq fraction matrix:
+{
+  -1.035275e-28,   1.035275e-28,
+   1.035275e-28,   1.000000e+00,
+}
+Equilibrium Fraction for Methane = 1
+Equilibrium Fraction for Methyl = 1.03527e-28
+
+Total number of eigenvalues = 264
+Eigenvalues
+{
+  -1.495707e+07
+  -1.346910e+07
+  -1.041050e+07
+  -3.868825e+05
+   6.722080e-22
+}
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: 
+{
+  -1.017485e-14,   1.035275e-28,
+   1.017485e-14,   1.000000e+00,
+}
+
+Z_matrix^(-1):
+{
+  -9.828159e+13,   1.017485e-14,
+   1.000000e+00,   1.000000e+00,
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+   1.000000e+00,   1.534092e-92,
+   1.198883e-64,   1.000000e+00,
+}
+
+Kr matrix:
+{
+  -3.868825e+05,   4.005298e-23,
+   3.868825e+05,  -4.005298e-23,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+Methane loss = -4.005298e-23
+Methyl loss = -3.868825e+05
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+Methane -> Methyl = 4.005298e-23
+Methyl -> Methane = 3.868825e+05
+}
+}
+PT Grid 31 Condition: conc = 3.35005e+18, temp = 601, diagonalization precision: double-double
+{
+
+Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
+{
+    T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
+    100         3.41573e-10        1.70067e-206      2.00846e+196
+    200         4.44556e-10          6.0021e-96       7.40667e+85
+    300         5.14808e-10         6.36912e-59       8.08288e+48
+    400         5.62046e-10         2.51757e-40       2.23249e+30
+    500         5.96466e-10         4.02483e-29       1.48197e+19
+    600         6.22703e-10         1.25671e-21       4.95503e+11
+    700         6.43295e-10         2.92843e-16       2.19672e+06
+    800         6.59786e-10         3.16314e-12           208.586
+    900         6.73148e-10         4.38072e-09          0.153662
+   1000         6.84012e-10         1.43467e-06       0.000476774
+   1100         6.92795e-10         0.000164186       4.21956e-06
+   1200         6.99758e-10          0.00852373       8.20952e-08
+   1300         7.05013e-10            0.240558       2.93074e-09
+   1400         7.08531e-10              4.2004       1.68682e-10
+   1500         7.10146e-10             49.8925       1.42335e-11
+   1600           7.096e-10             432.829       1.63945e-12
+   1700         7.06596e-10             2895.36       2.44045e-13
+   1800         7.00861e-10             15577.8       4.49909e-14
+   1900         6.92195e-10               69693       9.93205e-15
+   2000         6.80512e-10              266280       2.55562e-15
+}
+
+Eq fraction matrix:
+{
+  -9.659270e+27,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
+}
+
+Inverse of Eq fraction matrix:
+{
+  -1.035275e-28,   1.035275e-28,
+   1.035275e-28,   1.000000e+00,
+}
+Equilibrium Fraction for Methane = 1
+Equilibrium Fraction for Methyl = 1.03527e-28
+
+Total number of eigenvalues = 264
+Eigenvalues
+{
+  -2.961583e+07
+  -2.666959e+07
+  -2.061339e+07
+  -6.406091e+05
+   1.538581e-21
+}
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: 
+{
+   1.017485e-14,   1.035275e-28,
+  -1.017485e-14,   1.000000e+00,
+}
+
+Z_matrix^(-1):
+{
+   9.828159e+13,  -1.017485e-14,
+   1.000000e+00,   1.000000e+00,
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+   1.000000e+00,   1.150569e-92,
+   1.972115e-64,   1.000000e+00,
+}
+
+Kr matrix:
+{
+  -6.406091e+05,   6.632065e-23,
+   6.406091e+05,  -6.632065e-23,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+Methane loss = -6.632065e-23
+Methyl loss = -6.406091e+05
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+Methane -> Methyl = 6.632065e-23
+Methyl -> Methane = 6.406091e+05
+}
+}
+PT Grid 32 Condition: conc = 4.89251e+18, temp = 601, diagonalization precision: double-double
+{
+
+Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
+{
+    T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
+    100         3.41573e-10        1.70067e-206      2.00846e+196
+    200         4.44556e-10          6.0021e-96       7.40667e+85
+    300         5.14808e-10         6.36912e-59       8.08288e+48
+    400         5.62046e-10         2.51757e-40       2.23249e+30
+    500         5.96466e-10         4.02483e-29       1.48197e+19
+    600         6.22703e-10         1.25671e-21       4.95503e+11
+    700         6.43295e-10         2.92843e-16       2.19672e+06
+    800         6.59786e-10         3.16314e-12           208.586
+    900         6.73148e-10         4.38072e-09          0.153662
+   1000         6.84012e-10         1.43467e-06       0.000476774
+   1100         6.92795e-10         0.000164186       4.21956e-06
+   1200         6.99758e-10          0.00852373       8.20952e-08
+   1300         7.05013e-10            0.240558       2.93074e-09
+   1400         7.08531e-10              4.2004       1.68682e-10
+   1500         7.10146e-10             49.8925       1.42335e-11
+   1600           7.096e-10             432.829       1.63945e-12
+   1700         7.06596e-10             2895.36       2.44045e-13
+   1800         7.00861e-10             15577.8       4.49909e-14
+   1900         6.92195e-10               69693       9.93205e-15
+   2000         6.80512e-10              266280       2.55562e-15
+}
+
+Eq fraction matrix:
+{
+  -9.659270e+27,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
+}
+
+Inverse of Eq fraction matrix:
+{
+  -1.035275e-28,   1.035275e-28,
+   1.035275e-28,   1.000000e+00,
+}
+Equilibrium Fraction for Methane = 1
+Equilibrium Fraction for Methyl = 1.03527e-28
+
+Total number of eigenvalues = 264
+Eigenvalues
+{
+  -4.325188e+07
+  -3.894912e+07
+  -3.010445e+07
+  -8.367058e+05
+   1.855826e-21
+}
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: 
+{
+  -1.017485e-14,   1.035275e-28,
+   1.017485e-14,   1.000000e+00,
+}
+
+Z_matrix^(-1):
+{
+  -9.828159e+13,   1.017485e-14,
+   1.000000e+00,   1.000000e+00,
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+   1.000000e+00,   0.000000e+00,
+  -3.314795e-65,   1.000000e+00,
+}
+
+Kr matrix:
+{
+  -8.367058e+05,   8.662205e-23,
+   8.367058e+05,  -8.662205e-23,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+Methane loss = -8.662205e-23
+Methyl loss = -8.367058e+05
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+Methane -> Methyl = 8.662205e-23
+Methyl -> Methane = 8.367058e+05
+}
+}
+PT Grid 33 Condition: conc = 6.60369e+18, temp = 601, diagonalization precision: double-double
+{
+
+Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
+{
+    T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
+    100         3.41573e-10        1.70067e-206      2.00846e+196
+    200         4.44556e-10          6.0021e-96       7.40667e+85
+    300         5.14808e-10         6.36912e-59       8.08288e+48
+    400         5.62046e-10         2.51757e-40       2.23249e+30
+    500         5.96466e-10         4.02483e-29       1.48197e+19
+    600         6.22703e-10         1.25671e-21       4.95503e+11
+    700         6.43295e-10         2.92843e-16       2.19672e+06
+    800         6.59786e-10         3.16314e-12           208.586
+    900         6.73148e-10         4.38072e-09          0.153662
+   1000         6.84012e-10         1.43467e-06       0.000476774
+   1100         6.92795e-10         0.000164186       4.21956e-06
+   1200         6.99758e-10          0.00852373       8.20952e-08
+   1300         7.05013e-10            0.240558       2.93074e-09
+   1400         7.08531e-10              4.2004       1.68682e-10
+   1500         7.10146e-10             49.8925       1.42335e-11
+   1600           7.096e-10             432.829       1.63945e-12
+   1700         7.06596e-10             2895.36       2.44045e-13
+   1800         7.00861e-10             15577.8       4.49909e-14
+   1900         6.92195e-10               69693       9.93205e-15
+   2000         6.80512e-10              266280       2.55562e-15
+}
+
+Eq fraction matrix:
+{
+  -9.659270e+27,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
+}
+
+Inverse of Eq fraction matrix:
+{
+  -1.035275e-28,   1.035275e-28,
+   1.035275e-28,   1.000000e+00,
+}
+Equilibrium Fraction for Methane = 1
+Equilibrium Fraction for Methyl = 1.03527e-28
+
+Total number of eigenvalues = 264
+Eigenvalues
+{
+  -5.837935e+07
+  -5.257171e+07
+  -4.063359e+07
+  -1.026550e+06
+   2.678361e-21
+}
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: 
+{
+   1.017485e-14,   1.035275e-28,
+  -1.017485e-14,   1.000000e+00,
+}
+
+Z_matrix^(-1):
+{
+   9.828159e+13,  -1.017485e-14,
+   1.000000e+00,   1.000000e+00,
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+   1.000000e+00,  -1.534092e-92,
+   1.589047e-65,   1.000000e+00,
+}
+
+Kr matrix:
+{
+  -1.026550e+06,   1.062762e-22,
+   1.026550e+06,  -1.062762e-22,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+Methane loss = -1.062762e-22
+Methyl loss = -1.026550e+06
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+Methane -> Methyl = 1.062762e-22
+Methyl -> Methane = 1.026550e+06
+}
+}
+PT Grid 34 Condition: conc = 8.2747e+18, temp = 601, diagonalization precision: double-double
+{
+
+Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
+{
+    T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
+    100         3.41573e-10        1.70067e-206      2.00846e+196
+    200         4.44556e-10          6.0021e-96       7.40667e+85
+    300         5.14808e-10         6.36912e-59       8.08288e+48
+    400         5.62046e-10         2.51757e-40       2.23249e+30
+    500         5.96466e-10         4.02483e-29       1.48197e+19
+    600         6.22703e-10         1.25671e-21       4.95503e+11
+    700         6.43295e-10         2.92843e-16       2.19672e+06
+    800         6.59786e-10         3.16314e-12           208.586
+    900         6.73148e-10         4.38072e-09          0.153662
+   1000         6.84012e-10         1.43467e-06       0.000476774
+   1100         6.92795e-10         0.000164186       4.21956e-06
+   1200         6.99758e-10          0.00852373       8.20952e-08
+   1300         7.05013e-10            0.240558       2.93074e-09
+   1400         7.08531e-10              4.2004       1.68682e-10
+   1500         7.10146e-10             49.8925       1.42335e-11
+   1600           7.096e-10             432.829       1.63945e-12
+   1700         7.06596e-10             2895.36       2.44045e-13
+   1800         7.00861e-10             15577.8       4.49909e-14
+   1900         6.92195e-10               69693       9.93205e-15
+   2000         6.80512e-10              266280       2.55562e-15
+}
+
+Eq fraction matrix:
+{
+  -9.659270e+27,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
+}
+
+Inverse of Eq fraction matrix:
+{
+  -1.035275e-28,   1.035275e-28,
+   1.035275e-28,   1.000000e+00,
+}
+Equilibrium Fraction for Methane = 1
+Equilibrium Fraction for Methyl = 1.03527e-28
+
+Total number of eigenvalues = 264
+Eigenvalues
+{
+  -7.315172e+07
+  -6.587453e+07
+  -5.091557e+07
+  -1.192057e+06
+   3.541207e-21
+}
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: 
+{
+   1.017485e-14,   1.035275e-28,
+  -1.017485e-14,   1.000000e+00,
+}
+
+Z_matrix^(-1):
+{
+   9.828159e+13,  -1.017485e-14,
+   1.000000e+00,   1.000000e+00,
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+   1.000000e+00,   1.534092e-92,
+   1.342801e-64,   1.000000e+00,
+}
+
+Kr matrix:
+{
+  -1.192057e+06,   1.234107e-22,
+   1.192057e+06,  -1.234107e-22,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+Methane loss = -1.234107e-22
+Methyl loss = -1.192057e+06
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+Methane -> Methyl = 1.234107e-22
+Methyl -> Methane = 1.192057e+06
+}
+}
+PT Grid 35 Condition: conc = 9.8734e+18, temp = 601, diagonalization precision: double-double
+{
+
+Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
+{
+    T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
+    100         3.41573e-10        1.70067e-206      2.00846e+196
+    200         4.44556e-10          6.0021e-96       7.40667e+85
+    300         5.14808e-10         6.36912e-59       8.08288e+48
+    400         5.62046e-10         2.51757e-40       2.23249e+30
+    500         5.96466e-10         4.02483e-29       1.48197e+19
+    600         6.22703e-10         1.25671e-21       4.95503e+11
+    700         6.43295e-10         2.92843e-16       2.19672e+06
+    800         6.59786e-10         3.16314e-12           208.586
+    900         6.73148e-10         4.38072e-09          0.153662
+   1000         6.84012e-10         1.43467e-06       0.000476774
+   1100         6.92795e-10         0.000164186       4.21956e-06
+   1200         6.99758e-10          0.00852373       8.20952e-08
+   1300         7.05013e-10            0.240558       2.93074e-09
+   1400         7.08531e-10              4.2004       1.68682e-10
+   1500         7.10146e-10             49.8925       1.42335e-11
+   1600           7.096e-10             432.829       1.63945e-12
+   1700         7.06596e-10             2895.36       2.44045e-13
+   1800         7.00861e-10             15577.8       4.49909e-14
+   1900         6.92195e-10               69693       9.93205e-15
+   2000         6.80512e-10              266280       2.55562e-15
+}
+
+Eq fraction matrix:
+{
+  -9.659270e+27,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
+}
+
+Inverse of Eq fraction matrix:
+{
+  -1.035275e-28,   1.035275e-28,
+   1.035275e-28,   1.000000e+00,
+}
+Equilibrium Fraction for Methane = 1
+Equilibrium Fraction for Methyl = 1.03527e-28
+
+Total number of eigenvalues = 264
+Eigenvalues
+{
+  -8.728489e+07
+  -7.860175e+07
+  -6.075265e+07
+  -1.336473e+06
+   4.300147e-21
+}
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: 
+{
+  -1.017485e-14,   1.035275e-28,
+   1.017485e-14,   1.000000e+00,
+}
+
+Z_matrix^(-1):
+{
+  -9.828159e+13,   1.017485e-14,
+   1.000000e+00,   1.000000e+00,
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+   1.000000e+00,   1.534092e-92,
+  -1.804926e-65,   1.000000e+00,
+}
+
+Kr matrix:
+{
+  -1.336473e+06,   1.383617e-22,
+   1.336473e+06,  -1.383617e-22,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+Methane loss = -1.383617e-22
+Methyl loss = -1.336473e+06
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+Methane -> Methyl = 1.383617e-22
+Methyl -> Methane = 1.336473e+06
+}
+}
+PT Grid 36 Condition: conc = 1.14239e+19, temp = 601, diagonalization precision: double-double
+{
+
+Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
+{
+    T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
+    100         3.41573e-10        1.70067e-206      2.00846e+196
+    200         4.44556e-10          6.0021e-96       7.40667e+85
+    300         5.14808e-10         6.36912e-59       8.08288e+48
+    400         5.62046e-10         2.51757e-40       2.23249e+30
+    500         5.96466e-10         4.02483e-29       1.48197e+19
+    600         6.22703e-10         1.25671e-21       4.95503e+11
+    700         6.43295e-10         2.92843e-16       2.19672e+06
+    800         6.59786e-10         3.16314e-12           208.586
+    900         6.73148e-10         4.38072e-09          0.153662
+   1000         6.84012e-10         1.43467e-06       0.000476774
+   1100         6.92795e-10         0.000164186       4.21956e-06
+   1200         6.99758e-10          0.00852373       8.20952e-08
+   1300         7.05013e-10            0.240558       2.93074e-09
+   1400         7.08531e-10              4.2004       1.68682e-10
+   1500         7.10146e-10             49.8925       1.42335e-11
+   1600           7.096e-10             432.829       1.63945e-12
+   1700         7.06596e-10             2895.36       2.44045e-13
+   1800         7.00861e-10             15577.8       4.49909e-14
+   1900         6.92195e-10               69693       9.93205e-15
+   2000         6.80512e-10              266280       2.55562e-15
+}
+
+Eq fraction matrix:
+{
+  -9.659270e+27,   1.000000e+00,
+   1.000000e+00,   1.000000e+00,
+}
+
+Inverse of Eq fraction matrix:
+{
+  -1.035275e-28,   1.035275e-28,
+   1.035275e-28,   1.000000e+00,
+}
+Equilibrium Fraction for Methane = 1
+Equilibrium Fraction for Methyl = 1.03527e-28
+
+Total number of eigenvalues = 264
+Eigenvalues
+{
+  -1.009919e+08
+  -9.094523e+07
+  -7.029314e+07
+  -1.466124e+06
+   4.530074e-21
+}
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: 
+{
+   1.017485e-14,   1.035275e-28,
+  -1.017485e-14,   1.000000e+00,
+}
+
+Z_matrix^(-1):
+{
+   9.828159e+13,  -1.017485e-14,
+   1.000000e+00,   1.000000e+00,
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+   1.000000e+00,   7.670459e-93,
+  -1.056116e-64,   1.000000e+00,
+}
+
+Kr matrix:
+{
+  -1.466124e+06,   1.517841e-22,
+   1.466124e+06,  -1.517841e-22,
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+Methane loss = -1.517841e-22
+Methyl loss = -1.466124e+06
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+Methane -> Methyl = 1.517841e-22
+Methyl -> Methane = 1.466124e+06
+}
+}

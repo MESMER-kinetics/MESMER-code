@@ -23,7 +23,7 @@ namespace mesmer
   {
   public:
     ///Constructor which registers with the list of MicroRateCalculators in the base class
-    GeneralISC(const char* id) : m_format(), m_threshold(0.0), m_id(id) { Register(); }
+    GeneralISC(const char* id) : m_format(), m_threshold(0.0), m_id(id), m_PreFtr(1.0) { Register(); }
 
     virtual ~GeneralISC() {}
     virtual const char* getID() { return m_id; }
@@ -41,6 +41,8 @@ namespace mesmer
     string m_format;
 
     double m_threshold;
+
+    Rdouble m_PreFtr;       // Pre-factor
         
     const char* m_id;
   };
@@ -52,9 +54,19 @@ namespace mesmer
 
   bool GeneralISC::ParseData(PersistPtr pp)
   {
-    const char* pFormat = pp->XmlReadValue("Format", optional);
+    Reaction* pReact = m_parent; 
+    PersistPtr ppReac = pReact->get_PersistentPointer();
+    bool rangeSet(false);
+
+    const char* pFormat = pp->XmlReadValue("me:Format", optional);
 
     m_format = pFormat;
+
+    PersistPtr ppPreFactor = pp->XmlMoveTo("me:PreFactor");
+
+    if (ppPreFactor) {
+      ReadRdoubleRange(string(pReact->getName() + ":preFactor"), ppPreFactor, m_PreFtr, rangeSet);
+    }
 
     m_threshold = 1700.0;
 
@@ -87,12 +99,12 @@ namespace mesmer
       j = nint(m_threshold / cellSize);
       size_t upl = min(MaximumCell, size_t((2950.0 - m_threshold)/cellSize));
       for (; i < upl; ++i, ++j, ene += cellSize) {
-        rxnFlux[i]  = 2.e03 * exp((ene - m_threshold) / 105.0);
+        rxnFlux[i]  = m_PreFtr * 2.e03 * exp((ene - m_threshold) / 105.0);
         rxnFlux[i] *= rctCellDOS[j];
       }
       upl = min(MaximumCell, size_t((10000.0 - m_threshold)/ cellSize));
       for (; i < upl; ++i, ++j, ene += cellSize) {
-        rxnFlux[i]  = 2.96e08 * exp((ene - 2950.0) / 12300.0);
+        rxnFlux[i]  = m_PreFtr * 2.96e08 * exp((ene - 2950.0) / 12300.0);
         rxnFlux[i] *= rctCellDOS[j];
       }
     }
