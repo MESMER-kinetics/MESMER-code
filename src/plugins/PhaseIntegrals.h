@@ -51,6 +51,8 @@ namespace mesmer
 
     virtual void initialize(Molecule* Frag1, Molecule* Frag2, FTSTPotential* pFTSTPotential, Reaction* pReact);
 
+    void RxnCrdInitialize(double rxnCrd);
+
     virtual void integrate(double rxnCrd, vector<double>& wrk) = 0;
 
     virtual void integrate(double rxnCrd, vector<double>& wrk, size_t J) = 0;
@@ -94,6 +96,7 @@ namespace mesmer
     FTSTPotential* m_pFTSTPotential;
 
     double m_mu;
+    double m_rxnCrd;
   };
 
   class NLnrNLnrTops : public PhaseIntegral {

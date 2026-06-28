@@ -1,3 +1,10 @@
+2026-Jun-28 Struan Robertson
+
+		* uFTST.cpp, PhaseIntegrals.h/.cpp: J-dependent FTST: more updates
+		of the atom-nonlinear top case.
+
+		* GeneralISC.cpp: Altered to allow magnitude to be a floating parameter.
+
 2026-Jun-03 Struan Robertson
 
 		* uFTST.cpp, PhaseIntegrals.h/.cpp: J-dependent FTST: initial implemtation

@@ -381,9 +381,9 @@ namespace mesmer
       // Main loop over the reaction coordinate in Angrstroms.
       double rxnCrd(m_rxnCrdMin);
       double drxnCrd((m_rxnCrdMax - m_rxnCrdMin) / double(m_nRxnCrdSteps));
-      vector<double> OptRxnCrd(rxnFlux.size(), m_rxnCrdMin);
-      vector<double> Flux(rxnFlux.size(), 0.0);
-      for (size_t i(0); i < m_nRxnCrdSteps; i++) {
+      vector<double> OptRxnCrd(MaximumCell, m_rxnCrdMin);
+      vector<double> Flux(MaximumCell, 0.0);
+      for (size_t iRC(0); iRC < m_nRxnCrdSteps; iRC++) {
 
         // Some work space.
         vector<double> wrk(MaximumCell, 0.0);
@@ -407,16 +407,15 @@ namespace mesmer
         double cellSize = m_parent->getEnv().CellSize;
         size_t imep = size_t((m_threshold - m_pFTSTPotential->MEPPotential(rxnCrd)) / cellSize);
 
-        if (i == 0) {
+        if (iRC == 0) {
           for (size_t l(0), jj(imep); jj < wrk.size(); l++, jj++) {
-            if (wrk[jj] > 0.0)
-              Flux[l] = wrk[jj];
+            Flux[l] = wrk[jj];
             OptRxnCrd[l] = rxnCrd;
           }
         }
         else {
           for (size_t l(0), jj(imep); jj < wrk.size(); l++, jj++) {
-            if (Flux[l] > wrk[jj] && wrk[jj] > 0.0) {
+            if (Flux[l] > wrk[jj]) {
               Flux[l] = wrk[jj];
               OptRxnCrd[l] = rxnCrd;
             }
@@ -434,23 +433,42 @@ namespace mesmer
 
       if (m_writeSOS) {
         ctest << endl;
-        ctest << "J = " << j << ":" << endl;
+        ctest << "J = " << j << ":" << endl << endl;
         if (m_eneForSOS.size() > 0) {
           for (size_t i = 0; i < m_eneForSOS.size(); i++) {
             size_t ii = size_t(m_eneForSOS[i]);
             if (ii < Flux.size()) {
-              ctest << setw(6) << ii << formatFloat(Flux[ii], 6, 14) << endl;
+              ctest << setw(6) << ii << formatFloat(Flux[ii], 6, 14) << formatFloat(OptRxnCrd[ii], 6, 14) << endl;
             }
           }
         }
         else {
           for (size_t i = 0; i < Flux.size(); i++) {
-            ctest << setw(6) << i << formatFloat(Flux[i], 6, 14) << endl;
+            ctest << setw(6) << i << formatFloat(Flux[i], 6, 14) << formatFloat(OptRxnCrd[i], 6, 14) << endl;
           }
         }
         ctest << endl;
       }
 
+    }
+
+    if (m_writeSOS) {
+      ctest << endl;
+      ctest << "Total Flux = " << ":" << endl << endl;
+      if (m_eneForSOS.size() > 0) {
+        for (size_t i = 0; i < m_eneForSOS.size(); i++) {
+          size_t ii = size_t(m_eneForSOS[i]);
+          if (ii < rxnFlux.size()) {
+            ctest << setw(6) << ii << formatFloat(rxnFlux[ii], 6, 14) << endl;
+          }
+        }
+      }
+      else {
+        for (size_t i = 0; i < rxnFlux.size(); i++) {
+          ctest << setw(6) << i << formatFloat(rxnFlux[i], 6, 14) << endl;
+        }
+      }
+      ctest << endl;
     }
 
     // Calculate the flux.
