@@ -1,3 +1,13 @@
+2026-Aug-03 Struan Robertson
+
+		* uFTST.cpp, PhaseIntegrals.cpp: J-dependent FTST: small update to allow 
+		comparison with the Wardlaw data.
+
+		* GeneralISC.cpp: Altered to allow magnitude to be a floating parameter.
+
+		* MesmerMath.cpp, UnitTests.cpp: Changes to allow Chi^2 statistic to be 
+		calculate for large degrees of freedom.
+
 2026-Jun-28 Struan Robertson
 
 		* uFTST.cpp, PhaseIntegrals.h/.cpp: J-dependent FTST: more updates
