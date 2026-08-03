@@ -33,6 +33,7 @@ namespace mesmer
       m_Adduct(NULL),
       m_bWithAngMom(false),
       m_nMaxJ(0),
+      m_Sym(1),
       m_nRxnCrdSteps(40),
       m_rxnCrdMin(0.5),
       m_rxnCrdMax(4.5),
@@ -85,6 +86,7 @@ namespace mesmer
 
     bool m_bWithAngMom;
     size_t m_nMaxJ;
+    size_t m_Sym;               // Symmetry number.
 
     size_t m_nRxnCrdSteps;
     double m_rxnCrdMin;
@@ -129,6 +131,9 @@ namespace mesmer
       m_nMaxJ = MaxJ;
       m_bWithAngMom = true;
     }
+
+    // Symmetry number.
+    m_Sym = pp->XmlReadInteger("me:SymmetryNumber", optional);
 
     // Reaction coordinate limits.
     double RxnCoordMin = pp->XmlReadDouble("me:RxnCoordMin", optional);
@@ -349,8 +354,9 @@ namespace mesmer
     }
 
     // Calculate the flux.
+    double cnt = SpeedOfLight_in_cm / double(m_Sym);
     for (size_t i(0); i < MaximumCell; ++i) {
-      rxnFlux[i] *= SpeedOfLight_in_cm;
+      rxnFlux[i] *= cnt;
     }
 
     // The flux bottom energy is equal to the ZPE of the transition state
@@ -472,8 +478,9 @@ namespace mesmer
     }
 
     // Calculate the flux.
+    double cnt = SpeedOfLight_in_cm / double(m_Sym);
     for (size_t i(0); i < MaximumCell; ++i) {
-      rxnFlux[i] *= SpeedOfLight_in_cm;
+      rxnFlux[i] *= cnt;
     }
 
     // The flux bottom energy is equal to the ZPE of the transition state

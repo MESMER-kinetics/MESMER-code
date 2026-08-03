@@ -325,8 +325,16 @@ namespace mesmer
     ctest << endl;
     underlineText("Test: Chi2 for a large number of degrees of freedom.");
 
-    const int NoDegFreedom = 388;
-    const double chiSquare = 757.486;
+    int NoDegFreedom = 388;
+    double chiSquare = 757.486;
+
+    ctest << endl << "Goodness of Fit:" << endl << endl;
+    ctest << "Chi^2 = " << chiSquare << endl;
+    ctest << "Number of degrees of Freedom = " << NoDegFreedom << endl;
+    ctest << "Chi^2 probability = " << ChiSquaredPrbFn(chiSquare / 2.0, double(NoDegFreedom) / 2.0) << endl << endl;
+
+    NoDegFreedom = 744;
+    chiSquare = 686.398;
 
     ctest << endl << "Goodness of Fit:" << endl << endl;
     ctest << "Chi^2 = " << chiSquare << endl;

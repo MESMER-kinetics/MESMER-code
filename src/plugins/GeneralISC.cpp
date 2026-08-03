@@ -65,6 +65,7 @@ namespace mesmer
     PersistPtr ppPreFactor = pp->XmlMoveTo("me:PreFactor");
 
     if (ppPreFactor) {
+      m_PreFtr = pp->XmlReadDouble("me:PreFactor");
       ReadRdoubleRange(string(pReact->getName() + ":preFactor"), ppPreFactor, m_PreFtr, rangeSet);
     }
 

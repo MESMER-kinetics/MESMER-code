@@ -8,9 +8,9 @@ using namespace mesmer;
 using namespace Constants;
 
 // Convolves two functions.
-void Convolution(const std::vector<double> &f1,
-  const std::vector<double> &f2,
-  std::vector<double> &conv,
+void Convolution(const std::vector<double>& f1,
+  const std::vector<double>& f2,
+  std::vector<double>& conv,
   const int n)
 {
   std::vector<double>::size_type vSize = f1.size();
@@ -25,7 +25,7 @@ void Convolution(const std::vector<double> &f1,
 
 #define SWAP(a,b) tempr=(a);(a)=(b);(b)=tempr
 
-void four1(std::vector<double> &data, const int isign)
+void four1(std::vector<double>& data, const int isign)
 {
   int n, mmax, m, j, istep, i;
   double wtemp, wr, wpr, wpi, wi, theta, tempr, tempi;
@@ -49,8 +49,8 @@ void four1(std::vector<double> &data, const int isign)
   while (n > mmax) {
     istep = mmax << 1;
     theta = isign * (2.0 * M_PI / mmax);
-    wtemp = sin(0.5*theta);
-    wpr = -2.0*wtemp*wtemp;
+    wtemp = sin(0.5 * theta);
+    wpr = -2.0 * wtemp * wtemp;
     wpi = sin(theta);
     wr = 1.0;
     wi = 0.0;
@@ -64,7 +64,7 @@ void four1(std::vector<double> &data, const int isign)
         data[i - 1] += tempr;
         data[i] += tempi;
       }
-      wr = (wtemp = wr)*wpr - wi * wpi + wr;
+      wr = (wtemp = wr) * wpr - wi * wpi + wr;
       wi = wi * wpr + wtemp * wpi + wi;
     }
     mmax = istep;
@@ -73,7 +73,7 @@ void four1(std::vector<double> &data, const int isign)
 #undef SWAP
 
 
-void realft(std::vector<double> &data, const int isign)
+void realft(std::vector<double>& data, const int isign)
 {
   int i, i1, i2, i3, i4;
   double c1 = 0.5, c2, h1r, h1i, h2r, h2i, wr, wi, wpr, wpi, wtemp, theta;
@@ -88,8 +88,8 @@ void realft(std::vector<double> &data, const int isign)
     c2 = 0.5;
     theta = -theta;
   }
-  wtemp = sin(0.5*theta);
-  wpr = -2.0*wtemp*wtemp;
+  wtemp = sin(0.5 * theta);
+  wpr = -2.0 * wtemp * wtemp;
   wpi = sin(theta);
   wr = 1.0 + wpr;
   wi = wpi;
@@ -104,7 +104,7 @@ void realft(std::vector<double> &data, const int isign)
     data[i2] = h1i + wr * h2i + wi * h2r;
     data[i3] = h1r - wr * h2r + wi * h2i;
     data[i4] = -h1i + wr * h2i + wi * h2r;
-    wr = (wtemp = wr)*wpr - wi * wpi + wr;
+    wr = (wtemp = wr) * wpr - wi * wpi + wr;
     wi = wi * wpr + wtemp * wpi + wi;
   }
   if (isign == 1) {
@@ -120,9 +120,9 @@ void realft(std::vector<double> &data, const int isign)
 
 
 
-void FastLaplaceConvolution(const vector<double> &data1original,
-  const vector<double> &data2original,
-  vector<double> &convolution)
+void FastLaplaceConvolution(const vector<double>& data1original,
+  const vector<double>& data2original,
+  vector<double>& convolution)
 { /* this routine takes as input three identically sized vectors, data1, data2, and convolution.
   It takes the FFT of data1 & data2, multiplies them in the frequency domain, and performs an inverse
   FFT of their product to the time domain.  the time convolution is returned in the convolution
@@ -226,11 +226,11 @@ void FastLaplaceConvolution(const vector<double> &data1original,
 }
 
 
-void getCellEnergies(const size_t &cellNumber, const double &cellSize, std::vector<double>& cellEne)
+void getCellEnergies(const size_t& cellNumber, const double& cellSize, std::vector<double>& cellEne)
 {
   cellEne.clear();
   for (size_t i(0); i < cellNumber; ++i) {
-    cellEne.push_back(cellSize*(double(i) + 0.5));
+    cellEne.push_back(cellSize * (double(i) + 0.5));
   }
 }
 
@@ -322,7 +322,7 @@ void airy(double x, double& ai, double& aip, double& bi, double& bip)
   {
     domflg = 15;
     t = sqrt(-x);
-    zeta = -2.0*x*t / 3.0;
+    zeta = -2.0 * x * t / 3.0;
     t = sqrt(t);
     k = sqpii / t;
     z = 1.0 / zeta;
@@ -370,11 +370,11 @@ void airy(double x, double& ai, double& aip, double& bi, double& bip)
     agd = agd * zz + 1.17166733214413521882E-6;
     agd = agd * zz + 4.91834570062930015649E-9;
     ug = z * agn / agd;
-    theta = zeta + 0.25*M_PI;
+    theta = zeta + 0.25 * M_PI;
     f = sin(theta);
     g = cos(theta);
-    ai = k * (f*uf - g * ug);
-    bi = k * (g*uf + f * ug);
+    ai = k * (f * uf - g * ug);
+    bi = k * (g * uf + f * ug);
     apfn = 1.85365624022535566142E-1;
     apfn = apfn * zz + 8.86712188052584095637E-1;
     apfn = apfn * zz + 9.87391981747398547272E-1;
@@ -419,18 +419,18 @@ void airy(double x, double& ai, double& aip, double& bi, double& bip)
     apgd = apgd * zz + 5.79912514929147598821E-9;
     ug = z * apgn / apgd;
     k = sqpii * t;
-    aip = -k * (g*uf + f * ug);
-    bip = k * (f*uf - g * ug);
+    aip = -k * (g * uf + f * ug);
+    bip = k * (f * uf - g * ug);
     return;
   }
   if (x >= 2.09)
   {
     domflg = 5;
     t = sqrt(x);
-    zeta = 2.0*x*t / 3.0;
+    zeta = 2.0 * x * t / 3.0;
     g = exp(zeta);
     t = sqrt(t);
-    k = 2.0*t*g;
+    k = 2.0 * t * g;
     z = 1.0 / zeta;
     an = 3.46538101525629032477E-1;
     an = an * z + 1.20075952739645805542E1;
@@ -450,7 +450,7 @@ void airy(double x, double& ai, double& aip, double& bi, double& bip)
     ad = ad * z + 1.00000000000000000470E0;
     f = an / ad;
     ai = sqpii * f / k;
-    k = -0.5*sqpii*t / g;
+    k = -0.5 * sqpii * t / g;
     apn = 6.13759184814035759225E-1;
     apn = apn * z + 1.47454670787755323881E1;
     apn = apn * z + 8.20584123476060982430E1;
@@ -497,7 +497,7 @@ void airy(double x, double& ai, double& aip, double& bi, double& bip)
       bppd = bppd * z + 1.34008595960680518666E0;
       bppd = bppd * z - 7.84273211323341930448E-2;
       f = z * bppn / bppd;
-      bip = k * t*(1.0 + f);
+      bip = k * t * (1.0 + f);
       return;
     }
   }
@@ -507,7 +507,7 @@ void airy(double x, double& ai, double& aip, double& bi, double& bip)
   uf = 1.0;
   ug = x;
   k = 1.0;
-  z = x * x*x;
+  z = x * x * x;
   while (t > 5.0e-16)
   {
     uf = uf * z;
@@ -569,29 +569,29 @@ void airy(double x, double& ai, double& aip, double& bi, double& bip)
 
 #define SIGN(a,b) ((b) >= 0.0 ? fabs(a) : -fabs(a))
 
-void airy2(const double x, double &ai)
+void airy2(const double x, double& ai)
 {
   const double PI = 3.141592653589793238, ONOVRT = 0.577350269189626;
-  const double THIRD = (1.0 / 3.0), TWOTHR = 2.0*THIRD;
+  const double THIRD = (1.0 / 3.0), TWOTHR = 2.0 * THIRD;
   double absx, ri, rip, rj, rjp, rk, rkp, rootx, ry, ryp, z;
 
   absx = fabs(x);
   rootx = sqrt(absx);
-  z = TWOTHR * absx*rootx;
+  z = TWOTHR * absx * rootx;
   if (x > 0.0) {
     bessik(z, THIRD, ri, rk, rip, rkp);
-    ai = rootx * ONOVRT*rk / PI;
+    ai = rootx * ONOVRT * rk / PI;
   }
   else if (x < 0.0) {
     bessjy(z, THIRD, rj, ry, rjp, ryp);
-    ai = 0.5*rootx*(rj - ONOVRT * ry);
+    ai = 0.5 * rootx * (rj - ONOVRT * ry);
   }
   else {
     ai = 0.355028053887817;
   }
 }
 
-void bessik(const double x, const double xnu, double &ri, double &rk, double &rip, double &rkp)
+void bessik(const double x, const double xnu, double& ri, double& rk, double& rip, double& rkp)
 {
   const int MAXIT = 10000;
   const double EPS = numeric_limits<double>::epsilon();
@@ -607,7 +607,7 @@ void bessik(const double x, const double xnu, double &ri, double &rk, double &ri
   xmu = xnu - nl;
   xmu2 = xmu * xmu;
   xi = 1.0 / x;
-  xi2 = 2.0*xi;
+  xi2 = 2.0 * xi;
   h = xnu * xi;
   if (h < FPMIN) h = FPMIN;
   b = xi2 * xnu;
@@ -636,23 +636,23 @@ void bessik(const double x, const double xnu, double &ri, double &rk, double &ri
   }
   f = ripl / ril;
   if (x < XMIN) {
-    x2 = 0.5*x;
+    x2 = 0.5 * x;
     pimu = PI * xmu;
     fact = (fabs(pimu) < EPS ? 1.0 : pimu / sin(pimu));
     d = -log(x2);
     e = xmu * d;
     fact2 = (fabs(e) < EPS ? 1.0 : sinh(e) / e);
     beschb(xmu, gam1, gam2, gampl, gammi);
-    ff = fact * (gam1*cosh(e) + gam2 * fact2*d);
+    ff = fact * (gam1 * cosh(e) + gam2 * fact2 * d);
     sum = ff;
     e = exp(e);
-    p = 0.5*e / gampl;
-    q = 0.5 / (e*gammi);
+    p = 0.5 * e / gampl;
+    q = 0.5 / (e * gammi);
     c = 1.0;
     d = x2 * x2;
     sum1 = p;
     for (i = 1; i <= MAXIT; i++) {
-      ff = (double(i)*ff + p + q) / (double(i) * double(i) - xmu2);
+      ff = (double(i) * ff + p + q) / (double(i) * double(i) - xmu2);
       c *= (d / double(i));
       p /= (double(i) - xmu);
       q /= (double(i) + xmu);
@@ -660,14 +660,14 @@ void bessik(const double x, const double xnu, double &ri, double &rk, double &ri
       sum += del;
       del1 = c * (p - i * ff);
       sum1 += del1;
-      if (fabs(del) < fabs(sum)*EPS) break;
+      if (fabs(del) < fabs(sum) * EPS) break;
     }
     if (i > MAXIT) nrerror("bessk series failed to converge");
     rkmu = sum;
     rk1 = sum1 * xi2;
   }
   else {
-    b = 2.0*(1.0 + x);
+    b = 2.0 * (1.0 + x);
     d = 1.0 / b;
     h = delh = d;
     q1 = 0.0;
@@ -685,7 +685,7 @@ void bessik(const double x, const double xnu, double &ri, double &rk, double &ri
       q += c * qnew;
       b += 2.0;
       d = 1.0 / (b + a * d);
-      delh = (b*d - 1.0)*delh;
+      delh = (b * d - 1.0) * delh;
       h += delh;
       dels = q * delh;
       s += dels;
@@ -693,23 +693,23 @@ void bessik(const double x, const double xnu, double &ri, double &rk, double &ri
     }
     if (i >= MAXIT) nrerror("bessik: failure to converge in cf2");
     h = a1 * h;
-    rkmu = sqrt(PI / (2.0*x))*exp(-x) / s;
-    rk1 = rkmu * (xmu + x + 0.5 - h)*xi;
+    rkmu = sqrt(PI / (2.0 * x)) * exp(-x) / s;
+    rk1 = rkmu * (xmu + x + 0.5 - h) * xi;
   }
-  rkmup = xmu * xi*rkmu - rk1;
-  rimu = xi / (f*rkmu - rkmup);
-  ri = (rimu*ril1) / ril;
-  rip = (rimu*rip1) / ril;
+  rkmup = xmu * xi * rkmu - rk1;
+  rimu = xi / (f * rkmu - rkmup);
+  ri = (rimu * ril1) / ril;
+  rip = (rimu * rip1) / ril;
   for (i = 1; i <= nl; i++) {
-    rktemp = (xmu + i)*xi2*rk1 + rkmu;
+    rktemp = (xmu + i) * xi2 * rk1 + rkmu;
     rkmu = rk1;
     rk1 = rktemp;
   }
   rk = rkmu;
-  rkp = xnu * xi*rkmu - rk1;
+  rkp = xnu * xi * rkmu - rk1;
 }
 
-void bessjy(const double x, const double xnu, double &rj, double &ry, double &rjp, double &ryp)
+void bessjy(const double x, const double xnu, double& rj, double& ry, double& rjp, double& ryp)
 {
   const int MAXIT = 10000;
   const double EPS = numeric_limits<double>::epsilon();
@@ -727,7 +727,7 @@ void bessjy(const double x, const double xnu, double &rj, double &ry, double &rj
   xmu = xnu - nl;
   xmu2 = xmu * xmu;
   xi = 1.0 / x;
-  xi2 = 2.0*xi;
+  xi2 = 2.0 * xi;
   w = xi2 / PI;
   isign = 1;
   h = xnu * xi;
@@ -763,26 +763,26 @@ void bessjy(const double x, const double xnu, double &rj, double &ry, double &rj
   if (rjl == 0.0) rjl = EPS;
   f = rjpl / rjl;
   if (x < XMIN) {
-    x2 = 0.5*x;
+    x2 = 0.5 * x;
     pimu = PI * xmu;
     fact = (fabs(pimu) < EPS ? 1.0 : pimu / sin(pimu));
     d = -log(x2);
     e = xmu * d;
     fact2 = (fabs(e) < EPS ? 1.0 : sinh(e) / e);
     beschb(xmu, gam1, gam2, gampl, gammi);
-    ff = 2.0 / PI * fact*(gam1*cosh(e) + gam2 * fact2*d);
+    ff = 2.0 / PI * fact * (gam1 * cosh(e) + gam2 * fact2 * d);
     e = exp(e);
-    p = e / (gampl*PI);
-    q = 1.0 / (e*PI*gammi);
-    pimu2 = 0.5*pimu;
+    p = e / (gampl * PI);
+    q = 1.0 / (e * PI * gammi);
+    pimu2 = 0.5 * pimu;
     fact3 = (fabs(pimu2) < EPS ? 1.0 : sin(pimu2) / pimu2);
-    r = PI * pimu2*fact3*fact3;
+    r = PI * pimu2 * fact3 * fact3;
     c = 1.0;
     d = -x2 * x2;
     sum = ff + r * q;
     sum1 = p;
     for (i = 1; i <= MAXIT; i++) {
-      ff = (i*ff + p + q) / (i*i - xmu2);
+      ff = (i * ff + p + q) / (i * i - xmu2);
       c *= (d / i);
       p /= (i - xmu);
       q /= (i + xmu);
@@ -790,22 +790,22 @@ void bessjy(const double x, const double xnu, double &rj, double &ry, double &rj
       sum += del;
       del1 = c * p - i * del;
       sum1 += del1;
-      if (fabs(del) < (1.0 + fabs(sum))*EPS) break;
+      if (fabs(del) < (1.0 + fabs(sum)) * EPS) break;
     }
     if (i > MAXIT)
       nrerror("bessy series failed to converge");
     rymu = -sum;
     ry1 = -sum1 * xi2;
-    rymup = xmu * xi*rymu - ry1;
+    rymup = xmu * xi * rymu - ry1;
     rjmu = w / (rymup - f * rymu);
   }
   else {
     a = 0.25 - xmu2;
-    p = -0.5*xi;
+    p = -0.5 * xi;
     q = 1.0;
-    br = 2.0*x;
+    br = 2.0 * x;
     bi = 2.0;
-    fact = a * xi / (p*p + q * q);
+    fact = a * xi / (p * p + q * q);
     cr = br + q * fact;
     ci = bi + p * fact;
     den = br * br + bi * bi;
@@ -822,7 +822,7 @@ void bessjy(const double x, const double xnu, double &rj, double &ry, double &rj
       dr = a * dr + br;
       di = a * di + bi;
       if (fabs(dr) + fabs(di) < FPMIN) dr = FPMIN;
-      fact = a / (cr*cr + ci * ci);
+      fact = a / (cr * cr + ci * ci);
       cr = br + cr * fact;
       ci = bi - ci * fact;
       if (fabs(cr) + fabs(ci) < FPMIN) cr = FPMIN;
@@ -838,25 +838,25 @@ void bessjy(const double x, const double xnu, double &rj, double &ry, double &rj
     }
     if (i >= MAXIT) nrerror("cf2 failed in bessjy");
     gam = (p - f) / q;
-    rjmu = sqrt(w / ((p - f)*gam + q));
+    rjmu = sqrt(w / ((p - f) * gam + q));
     rjmu = SIGN(rjmu, rjl);
     rymu = rjmu * gam;
     rymup = rymu * (p + q / gam);
-    ry1 = xmu * xi*rymu - rymup;
+    ry1 = xmu * xi * rymu - rymup;
   }
   fact = rjmu / rjl;
   rj = rjl1 * fact;
   rjp = rjp1 * fact;
   for (i = 1; i <= nl; i++) {
-    rytemp = (xmu + i)*xi2*ry1 - rymu;
+    rytemp = (xmu + i) * xi2 * ry1 - rymu;
     rymu = ry1;
     ry1 = rytemp;
   }
   ry = rymu;
-  ryp = xnu * xi*rymu - ry1;
+  ryp = xnu * xi * rymu - ry1;
 }
 
-void beschb(const double x, double &gam1, double &gam2, double &gampl, double &gammi)
+void beschb(const double x, double& gam1, double& gam2, double& gampl, double& gammi)
 {
   const int NUSE1 = 7, NUSE2 = 8;
   static const double c1_d[] = {
@@ -873,27 +873,27 @@ void beschb(const double x, double &gam1, double &gam2, double &gampl, double &g
   static std::vector<double> c1(c1_d, c1_d + sizeof(c1_d) / sizeof(c1_d[0]));
   static std::vector<double> c2(c2_d, c2_d + sizeof(c2_d) / sizeof(c2_d[0]));
 
-  xx = 8.0*x*x - 1.0;
+  xx = 8.0 * x * x - 1.0;
   gam1 = chebev(-1.0, 1.0, c1, NUSE1, xx);
   gam2 = chebev(-1.0, 1.0, c2, NUSE2, xx);
   gampl = gam2 - x * gam1;
   gammi = gam2 + x * gam1;
 }
 
-double chebev(const double a, const double b, std::vector<double> &c, const int m, const double x)
+double chebev(const double a, const double b, std::vector<double>& c, const int m, const double x)
 {
   double d = 0.0, dd = 0.0, sv, y, y2;
   int j;
 
-  if ((x - a)*(x - b) > 0.0)
+  if ((x - a) * (x - b) > 0.0)
     nrerror("x not in range in routine chebev");
-  y2 = 2.0*(y = (2.0*x - a - b) / (b - a));
+  y2 = 2.0 * (y = (2.0 * x - a - b) / (b - a));
   for (j = m - 1; j > 0; j--) {
     sv = d;
     d = y2 * d - dd + c[j];
     dd = sv;
   }
-  return y * d - dd + 0.5*c[0];
+  return y * d - dd + 0.5 * c[0];
 }
 
 void nrerror(std::string message)
@@ -951,20 +951,26 @@ double ChiSquaredPrbFn(double x, double a) {
   static const double eps(2.22e-16);
   static const double fpMin(2.23e-308);
 
+  // Because MesmerGamma() returns 1.e308 for every argument greater than 171 
+  // the Stirling approximation is used instead for these larger values of a.
+  double lna = (a > 171) ? (a - 1) * log(a - 1) - a + 1 + 0.5 * log(2.0 * M_PI * (a - 1)) : log(MesmerGamma(a));
+
   double chiSquaredPrb(0.0);
   if (x < (a + 1.0)) {
     double ap(a);
     double sum(1.0 / a);
     double del(sum);
     size_t i(0);
-    for (; i < maxItr && (abs(del) >= abs(sum)*eps); i++) {
+    for (; i < maxItr && (abs(del) >= abs(sum) * eps); i++) {
       ap += 1.0;
       del *= x / ap;
       sum += del;
     }
     if (i >= maxItr)
       cinfo << "Warning: Maximum iterations exceed in calculation of Gamma function." << endl;
-    chiSquaredPrb = 1.0 - sum * exp(-x + a * log(x)) / MesmerGamma(a);
+
+    double tmp = -x + a * log(x) - lna;
+    chiSquaredPrb = 1.0 - sum * exp(tmp);
   }
   else {
     double b(x + 1.0 - a);
@@ -974,7 +980,7 @@ double ChiSquaredPrbFn(double x, double a) {
     double del(0.0);
     size_t i(1);
     for (; i < maxItr && (abs(del - 1.0) >= eps); i++) {
-      double an = -double(i)*(double(i) - a);
+      double an = -double(i) * (double(i) - a);
       b += 2.0;
       d = an * d + b;
       if (abs(d) < fpMin) d = fpMin;
@@ -987,9 +993,6 @@ double ChiSquaredPrbFn(double x, double a) {
     if (i >= maxItr)
       cinfo << "Warning: Maximum iterations exceed in calculation of Gamma function." << endl;
 
-    // Because MesmerGamma() returns 1.e308 for every argument greater than 171 
-    // the Stirling approximation is used instead for these larger values of a.
-    double lna = (a > 171) ? (a - 1) * log(a - 1) - a + 1 : log(MesmerGamma(a)) ;
     chiSquaredPrb = h * exp(-x + a * log(x) - lna);
   }
 
@@ -1010,7 +1013,7 @@ void FourierCosCoeffs(vector<double>& angle, vector<double>& value, vector<doubl
     double sum(0.0);
     for (size_t i(0); i < ndata; ++i) {
       double nTheta = double(k) * angle[i];
-      sum += wght[i]*value[i] * cos(nTheta);
+      sum += wght[i] * value[i] * cos(nTheta);
     }
     cosCoeff.push_back(sum / M_PI);
   }
@@ -1018,7 +1021,7 @@ void FourierCosCoeffs(vector<double>& angle, vector<double>& value, vector<doubl
 }
 
 // Calculate the Sine Fourier coefficients for general data.
-void FourierSinCoeffs(vector<double> &angle, vector<double> &value, vector<double> &sinCoeff, size_t expansion)
+void FourierSinCoeffs(vector<double>& angle, vector<double>& value, vector<double>& sinCoeff, size_t expansion)
 {
   size_t ndata = angle.size();
   sinCoeff.clear();
@@ -1042,11 +1045,11 @@ void FourierSinCoeffs(vector<double> &angle, vector<double> &value, vector<doubl
 // Trapezoidal integration weights need to determine the Fourier coefficients.
 void FourierTrapezoidalWeights(vector<double>& angle, vector<double>& value, vector<double>& wght) {
   size_t ndata = angle.size();
-  wght[0] = M_PI - 0.5*fabs(angle[1] - angle[ndata - 1]) ;
+  wght[0] = M_PI - 0.5 * fabs(angle[1] - angle[ndata - 1]);
   for (size_t i(1); i < ndata - 1; ++i) {
-    wght[i] = 0.5 * fabs(angle[i + 1] - angle[i - 1]) ;
+    wght[i] = 0.5 * fabs(angle[i + 1] - angle[i - 1]);
   }
-  wght[ndata - 1] = M_PI - 0.5 * fabs(angle[0] - angle[ndata - 2]) ;
+  wght[ndata - 1] = M_PI - 0.5 * fabs(angle[0] - angle[ndata - 2]);
 }
 
 double RationalApproximation(double t)
@@ -1056,8 +1059,8 @@ double RationalApproximation(double t)
   double c[] = { 2.515517, 0.802853, 0.010328 };
   double d[] = { 1.432788, 0.189269, 0.001308 };
 
-  return t - ((c[2] * t + c[1])*t + c[0]) /
-    (((d[2] * t + d[1])*t + d[0])*t + 1.0);
+  return t - ((c[2] * t + c[1]) * t + c[0]) /
+    (((d[2] * t + d[1]) * t + d[0]) * t + 1.0);
 }
 
 double NormalCDFInverse(double p)
@@ -1077,12 +1080,12 @@ double NormalCDFInverse(double p)
   if (p < 0.5)
   {
     // F^-1(p) = - G^-1(p)
-    return -RationalApproximation(sqrt(-2.0*log(p)));
+    return -RationalApproximation(sqrt(-2.0 * log(p)));
   }
   else
   {
     // F^-1(p) = G^-1(1-p)
-    return RationalApproximation(sqrt(-2.0*log(1.0 - p)));
+    return RationalApproximation(sqrt(-2.0 * log(1.0 - p)));
   }
 }
 

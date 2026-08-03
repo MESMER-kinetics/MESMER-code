@@ -47,7 +47,7 @@ namespace mesmer
     ReadCoordsAndShiftToCoM(m_Frag2, m_m2, m_x2, m_y2, m_z2);
 
     PersistPtr pp = pReact->get_PersistentPointer()->XmlMoveTo("me:MCRCMethod");
-    m_Sym = pp->XmlReadInteger("me:SymmetryNumber", optional);
+    // m_Sym = pp->XmlReadInteger("me:SymmetryNumber", optional);
     int MCpnts = pp->XmlReadInteger("me:MCPoints", optional);
     if (MCpnts > 0)
       m_MCPnts = size_t(MCpnts);
