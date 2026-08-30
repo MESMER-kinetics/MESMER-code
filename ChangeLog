@@ -1,3 +1,10 @@
+2026-Aug-30 Struan Robertson
+
+		* PhaseIntegrals.h/.cpp: J-dependent FTST: add updates to other top 
+		combinations.
+
+		* GeneralISC.cpp: Added a new "Constant" method.
+
 2026-Aug-03 Struan Robertson
 
 		* uFTST.cpp, PhaseIntegrals.cpp: J-dependent FTST: small update to allow 

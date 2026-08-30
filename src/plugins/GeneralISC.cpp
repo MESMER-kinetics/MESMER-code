@@ -61,15 +61,34 @@ namespace mesmer
     const char* pFormat = pp->XmlReadValue("me:Format", optional);
 
     m_format = pFormat;
+    if (m_format == "Analytic") {
 
-    PersistPtr ppPreFactor = pp->XmlMoveTo("me:PreFactor");
+      PersistPtr ppPreFactor = pp->XmlMoveTo("me:PreFactor");
 
-    if (ppPreFactor) {
-      m_PreFtr = pp->XmlReadDouble("me:PreFactor");
-      ReadRdoubleRange(string(pReact->getName() + ":preFactor"), ppPreFactor, m_PreFtr, rangeSet);
+      if (ppPreFactor) {
+        m_PreFtr = pp->XmlReadDouble("me:PreFactor");
+        ReadRdoubleRange(string(pReact->getName() + ":preFactor"), ppPreFactor, m_PreFtr, rangeSet);
+      }
+
+      m_threshold = 1700.0;
     }
+    else if (m_format == "Constant") {
 
-    m_threshold = 1700.0;
+      PersistPtr ppPreFactor = pp->XmlMoveTo("me:PreFactor");
+
+      if (ppPreFactor) {
+        m_PreFtr = pp->XmlReadDouble("me:PreFactor");
+        ReadRdoubleRange(string(pReact->getName() + ":preFactor"), ppPreFactor, m_PreFtr, rangeSet);
+      }
+
+      m_threshold = 0.0;
+
+    }
+    else {
+      // No or unknown format specifed.
+      cerr << "No or unknown ISC format specified";
+      return false;
+    }
 
     return true;
   }
@@ -107,6 +126,12 @@ namespace mesmer
       for (; i < upl; ++i, ++j, ene += cellSize) {
         rxnFlux[i]  = m_PreFtr * 2.96e08 * exp((ene - 2950.0) / 12300.0);
         rxnFlux[i] *= rctCellDOS[j];
+      }
+    }
+    else if (m_format == "Constant") {
+      for (size_t i(0); i < rxnFlux.size(); ++i) {
+        rxnFlux[i] = m_PreFtr ;
+        rxnFlux[i] *= rctCellDOS[i];
       }
     }
     else {

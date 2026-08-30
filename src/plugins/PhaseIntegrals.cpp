@@ -246,6 +246,9 @@ namespace mesmer
 
     double B0 = conMntInt2RotCnt / (m_mu * rxnCrd * rxnCrd);
     double Ba(0.0), Bb(0.0), Bc(0.0);
+    double Jsq = double(J * J);
+    double twoPi = 2.0 * M_PI;
+
     m_knmtcFctr.resize(m_MCPnts, 0.0);
     m_potential.resize(m_MCPnts, 0.0);
     vector<double> angles(m_nIDOF, 0.0);
@@ -270,7 +273,10 @@ namespace mesmer
       m_potential[i] = m_pFTSTPotential->HinderingPotential(rxnCrd, angles);
 
       // Add instantaneous rotational energy.
-      m_potential[i] += B0 * J * J;
+      double g2 = gamma * gamma;
+      double S1 = sin(nu);
+      double S2 = S1 * S1;
+      m_potential[i] += Jsq * ((Ba * S2 + Bb * (1 - S2)) * (1.0 - g2) + Bc * g2);
     }
 
     // Heaviside function integration.
@@ -459,6 +465,10 @@ namespace mesmer
 
     // Configuration loop.
     double B0 = conMntInt2RotCnt / (m_mu * rxnCrd * rxnCrd);
+    double Ba(0.0), Bb(0.0), Bc(0.0);
+    double Jsq = double(J * J);
+    double twoPi = 2.0 * M_PI;
+
     m_knmtcFctr.resize(m_MCPnts, 0.0);
     m_potential.resize(m_MCPnts, 0.0);
     vector<double> angles(m_nIDOF, 0.0);
@@ -481,7 +491,10 @@ namespace mesmer
       m_potential[i] = m_pFTSTPotential->HinderingPotential(rxnCrd, angles);
 
       // Add instantaneous rotational energy.
-      m_potential[i] += B0 * J * J;
+      double g2 = gamma * gamma;
+      double S1 = sin(nu);
+      double S2 = S1 * S1;
+      m_potential[i] += Jsq * ((Ba * S2 + Bb * (1 - S2)) * (1.0 - g2) + Bc * g2);
     }
 
     // Heaviside function integration.
@@ -554,6 +567,10 @@ namespace mesmer
 
     // Configuration loop.
     double B0 = conMntInt2RotCnt / (m_mu * rxnCrd * rxnCrd);
+    double Ba(0.0), Bb(0.0), Bc(0.0);
+    double Jsq = double(J * J);
+    double twoPi = 2.0 * M_PI;
+
     m_knmtcFctr.resize(m_MCPnts, 0.0);
     m_potential.resize(m_MCPnts, 0.0);
     vector<double> angles(m_nIDOF, 0.0);
@@ -577,7 +594,10 @@ namespace mesmer
       m_potential[i] = m_pFTSTPotential->HinderingPotential(rxnCrd, angles);
 
       // Add instantaneous rotational energy.
-      m_potential[i] += B0 * J * J;
+      double g2 = gamma * gamma;
+      double S1 = sin(nu);
+      double S2 = S1 * S1;
+      m_potential[i] += Jsq * ((Ba * S2 + Bb * (1 - S2)) * (1.0 - g2) + Bc * g2);
     }
 
     // Heaviside function integration.
@@ -650,6 +670,10 @@ namespace mesmer
 
     // Configuration loop.
     double B0 = conMntInt2RotCnt / (m_mu * rxnCrd * rxnCrd);
+    double Ba(0.0), Bb(0.0), Bc(0.0);
+    double Jsq = double(J * J);
+    double twoPi = 2.0 * M_PI;
+
     m_knmtcFctr.resize(m_MCPnts, 0.0);
     m_potential.resize(m_MCPnts, 0.0);
     vector<double> angles(m_nIDOF, 0.0);
@@ -674,7 +698,10 @@ namespace mesmer
       m_potential[i] = m_pFTSTPotential->HinderingPotential(rxnCrd, angles);
 
       // Add instantaneous rotational energy.
-      m_potential[i] += B0 * J * J;
+      double g2 = gamma * gamma;
+      double S1 = sin(nu);
+      double S2 = S1 * S1;
+      m_potential[i] += Jsq * ((Ba * S2 + Bb * (1 - S2)) * (1.0 - g2) + Bc * g2);
     }
 
     // Heaviside function integration.
