@@ -45,7 +45,8 @@ namespace mesmer
       m_rot1(3, 0.0),
       m_rot2(3, 0.0),
       m_pFTSTPotential(NULL),
-      m_mu(0.0) {
+      m_mu(0.0),
+      m_rxnCrd(0.0) {
     }
     virtual ~PhaseIntegral() {}
 

@@ -25,7 +25,7 @@ namespace mesmer
 
   public:
 
-    FTSTPotential() {};
+    FTSTPotential(): m_parent(NULL) {};
 
     virtual ~FTSTPotential() {};
 
