@@ -65,7 +65,7 @@ namespace Constants {
   // Convertion factor needed to obtain rotational constant (cm-1) from moment of Inertia (amu Ang^2).
   // The definition used here is h/(8 pi^2c), but note, authors differ on this definition.
 
-  // static const double conMntInt2RotCnt = 16.85917 ;
+  // static const double conMntInt2RotCnt = 16.85917 cm-1 amu Ang^2 ;
   static const double conMntInt2RotCnt = PlancksConstant_in_JouleSecond * 1.0e+20 / (8.0 * M_PI * M_PI * SpeedOfLight_in_cm * amu);
 
   // Convertion factor needed to obtain frequencies (cm-1) from mass weighted Hessain (kJ/mol/amu/Ang^2).

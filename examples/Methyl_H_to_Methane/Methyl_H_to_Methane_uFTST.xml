@@ -58,11 +58,17 @@
 	</molecule>
 
     <molecule id="Methyl" spinMultiplicity="2">
+      <!--<atomArray>
+        <atom id="a1" elementType="C" spinMultiplicity="2" x3="0.000000" y3="0.000000" z3="0.000000"/>
+        <atom id="a2" elementType="H" x3="0.000000"  y3="1.0788000" z3="0.000000"/>
+        <atom id="a3" elementType="H" x3="0.934300"  y3="-0.539400" z3="0.000000"/>
+        <atom id="a4" elementType="H" x3="-0.934300" y3="-0.539400" z3="0.000000"/>
+      </atomArray>-->
       <atomArray>
-        <atom id="a1" elementType="C" spinMultiplicity="2"/>
-        <atom id="a2" elementType="H"/>
-        <atom id="a3" elementType="H"/>
-        <atom id="a4" elementType="H"/>
+        <atom id="a1" elementType="C" spinMultiplicity="2" x3="0.000000" y3="0.000000" z3="0.000000"/>
+        <atom id="a2" elementType="H" x3="0.000000"  y3="0.9686915" z3="0.47481169"/>
+        <atom id="a3" elementType="H" x3="0.838940"  y3="-0.484346" z3="0.47481169"/>
+        <atom id="a4" elementType="H" x3="-0.838940" y3="-0.484346" z3="0.47481169"/>
       </atomArray>
       <bondArray>
         <bond atomRefs2="a1 a2" order="1"/>
@@ -99,7 +105,7 @@
 	</molecule>
 
     <molecule id="H">
-      <atom elementType="H"/>
+      <atom elementType="H" x3="0.000000" y3="0.000000" z3="0.000000"/>
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="cm-1">0.0</scalar>
@@ -148,23 +154,23 @@
       <me:MCRCMethod xsi:type="uFTST">
         <me:MCPoints>10000</me:MCPoints>
         <me:SymmetryNumber>6</me:SymmetryNumber>
-        <me:RxnCoordMin units="Ang">2.5</me:RxnCoordMin>
-        <me:RxnCoordMax units="Ang">4.5</me:RxnCoordMax>
-        <me:RxnCoordSteps>40</me:RxnCoordSteps>
-        <me:MaxJ>20</me:MaxJ>
+        <me:RxnCoordMin units="Ang">1.5</me:RxnCoordMin>
+        <me:RxnCoordMax units="Ang">5.5</me:RxnCoordMax>
+        <me:RxnCoordSteps>80</me:RxnCoordSteps>
+        <me:MaxJ>80</me:MaxJ>
         <me:FTSTPotential xsi:type="HirstWardlawPotential"/>
         <me:MorseRxnCoordPotential>
           <me:Threshold units ="kcal/mol">103.432</me:Threshold>
-          <me:EquilibriumLength units ="Ang">1.0015</me:EquilibriumLength>
+          <me:EquilibriumLength units ="Ang">1.0788000</me:EquilibriumLength>
           <me:ReciprocalBeta units="Ang">1.0</me:ReciprocalBeta>
         </me:MorseRxnCoordPotential>
         <me:ConservedModeMap alpha ="1.10">
-          <me:FrequencyMapping adduct="3162.0"  Fragments="3162.0"/>
-          <me:FrequencyMapping adduct="3162.0"  Fragments="3162.0"/>
-          <me:FrequencyMapping adduct="3044.0"  Fragments="3044.0"/>
-          <me:FrequencyMapping adduct="1396.0"  Fragments="1396.0"/>
-          <me:FrequencyMapping adduct="1396.0"  Fragments="1396.0"/>
-          <me:FrequencyMapping adduct="1432.0"  Fragments=" 606."/>
+          <me:FrequencyMapping adduct="3293.0"  Fragments="3299.0"/>
+          <me:FrequencyMapping adduct="3293.0"  Fragments="3299.0"/>
+          <me:FrequencyMapping adduct="3108.0"  Fragments="3123.0"/>
+          <me:FrequencyMapping adduct="1595.0"  Fragments="1471.0"/>
+          <me:FrequencyMapping adduct="1595.0"  Fragments="1471.0"/>
+          <me:FrequencyMapping adduct="1420.0"  Fragments=" 392.0"/>
         </me:ConservedModeMap>
         <me:WriteSumsOfStates units="cm-1">
           154  247  412  623 1039
@@ -191,22 +197,22 @@
       <me:MCRCMethod xsi:type="uFTST">
         <me:MCPoints>10000</me:MCPoints>
         <me:SymmetryNumber>6</me:SymmetryNumber>
-        <me:RxnCoordMin units="Ang">2.5</me:RxnCoordMin>
-        <me:RxnCoordMax units="Ang">4.5</me:RxnCoordMax>
+        <me:RxnCoordMin units="Ang">1.5</me:RxnCoordMin>
+        <me:RxnCoordMax units="Ang">5.5</me:RxnCoordMax>
         <me:RxnCoordSteps>40</me:RxnCoordSteps>
         <me:FTSTPotential xsi:type="HirstWardlawPotential"/>
         <me:MorseRxnCoordPotential>
           <me:Threshold units ="kcal/mol">103.432</me:Threshold>
-          <me:EquilibriumLength units ="Ang">1.0015</me:EquilibriumLength>
+          <me:EquilibriumLength units ="Ang">1.0788000</me:EquilibriumLength>
           <me:ReciprocalBeta units="Ang">1.0</me:ReciprocalBeta>
         </me:MorseRxnCoordPotential>
         <me:ConservedModeMap alpha ="1.10">
-          <me:FrequencyMapping adduct="3162.0"  Fragments="3162.0"/>
-          <me:FrequencyMapping adduct="3162.0"  Fragments="3162.0"/>
-          <me:FrequencyMapping adduct="3044.0"  Fragments="3044.0"/>
-          <me:FrequencyMapping adduct="1396.0"  Fragments="1396.0"/>
-          <me:FrequencyMapping adduct="1396.0"  Fragments="1396.0"/>
-          <me:FrequencyMapping adduct="1432.0"  Fragments=" 606."/>
+          <me:FrequencyMapping adduct="3293.0"  Fragments="3299.0"/>
+          <me:FrequencyMapping adduct="3293.0"  Fragments="3299.0"/>
+          <me:FrequencyMapping adduct="3108.0"  Fragments="3123.0"/>
+          <me:FrequencyMapping adduct="1595.0"  Fragments="1471.0"/>
+          <me:FrequencyMapping adduct="1595.0"  Fragments="1471.0"/>
+          <me:FrequencyMapping adduct="1420.0"  Fragments=" 392.0"/>
         </me:ConservedModeMap>
         <me:WriteSumsOfStates units="cm-1">
            154  247  412  623 1039
@@ -233,22 +239,22 @@
       <me:MCRCMethod xsi:type="uFTST">
         <me:MCPoints>4000</me:MCPoints>
         <me:SymmetryNumber>6</me:SymmetryNumber>
-        <me:RxnCoordMin units="Ang">2.5</me:RxnCoordMin>
-        <me:RxnCoordMax units="Ang">4.5</me:RxnCoordMax>
+        <me:RxnCoordMin units="Ang">1.5</me:RxnCoordMin>
+        <me:RxnCoordMax units="Ang">5.5</me:RxnCoordMax>
         <me:RxnCoordSteps>40</me:RxnCoordSteps>
         <me:FTSTPotential xsi:type="HirstWardlawPotential"/>
         <me:MorseRxnCoordPotential>
           <me:Threshold units ="kcal/mol">103.432</me:Threshold>
-          <me:EquilibriumLength units ="Ang">1.0015</me:EquilibriumLength>
+          <me:EquilibriumLength units ="Ang">1.0788000</me:EquilibriumLength>
           <me:ReciprocalBeta units="Ang">1.0</me:ReciprocalBeta>
         </me:MorseRxnCoordPotential>
         <me:ConservedModeMap alpha ="1.10">
-          <me:FrequencyMapping adduct="3162.0"  Fragments="3162.0"/>
-          <me:FrequencyMapping adduct="3162.0"  Fragments="3162.0"/>
-          <me:FrequencyMapping adduct="3044.0"  Fragments="3044.0"/>
-          <me:FrequencyMapping adduct="1396.0"  Fragments="1396.0"/>
-          <me:FrequencyMapping adduct="1396.0"  Fragments="1396.0"/>
-          <me:FrequencyMapping adduct="1432.0"  Fragments=" 606."/>
+          <me:FrequencyMapping adduct="3293.0"  Fragments="3299.0"/>
+          <me:FrequencyMapping adduct="3293.0"  Fragments="3299.0"/>
+          <me:FrequencyMapping adduct="3108.0"  Fragments="3123.0"/>
+          <me:FrequencyMapping adduct="1595.0"  Fragments="1471.0"/>
+          <me:FrequencyMapping adduct="1595.0"  Fragments="1471.0"/>
+          <me:FrequencyMapping adduct="1420.0"  Fragments=" 392.0"/>
         </me:ConservedModeMap>
         <me:NamedPhaseIntegral>MethylPlusH_HW</me:NamedPhaseIntegral>
         <me:WriteSumsOfStates units="cm-1">

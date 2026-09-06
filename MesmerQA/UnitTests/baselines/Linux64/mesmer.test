@@ -78,7 +78,14 @@ Goodness of Fit:
 
 Chi^2 = 757.486
 Number of degrees of Freedom = 388
-Chi^2 probability = 1.40556e-24
+Chi^2 probability = 4.03628e-26
+
+
+Goodness of Fit:
+
+Chi^2 = 686.398
+Number of degrees of Freedom = 744
+Chi^2 probability = 0.935256
 
 
   Test: Gamma Function.
