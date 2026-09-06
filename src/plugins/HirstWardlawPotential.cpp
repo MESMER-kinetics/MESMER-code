@@ -54,7 +54,8 @@ namespace mesmer
       double A1 = 7.703640e-02;  // beta of the Modified Morse function.
       double A0 = 1.686690e0;    // 
 
-      double delR  = rxnCrd - 1.0015;
+      // double delR = rxnCrd - 1.0015;
+      double delR  = rxnCrd - 1.0788;
       double delR2 = delR * delR;
       double delR3 = delR * delR2;
 
@@ -67,7 +68,7 @@ namespace mesmer
     }
 
     virtual double HinderingPotential(double rxnCrd, const vector<double>& angles) {
-      double tmp = sin(angles[0]);
+      double tmp = sin(angles[1]);
       return  m_V0 * tmp * tmp;
     }
 

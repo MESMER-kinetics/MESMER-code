@@ -270,7 +270,6 @@ namespace mesmer
     return (m_bWithAngMom) ? MicroCanonicalAngMomFlux(pReact) : MicroCanonicalFlux(pReact);
   }
 
-
   bool uFTST::MicroCanonicalFlux(Reaction* pReact)
   {
     // get MaxCell from MesmerEnv structure via Reaction class
@@ -288,7 +287,7 @@ namespace mesmer
     m_pPhaseIntegral->initialize(m_Frag1, m_Frag2, m_pFTSTPotential, pReact);
 
     // Main loop over the reaction coordinate in Angrstroms.
-    double rxnCrd(m_rxnCrdMin);
+    double rxnCrd(m_rxnCrdMax);
     double drxnCrd((m_rxnCrdMax - m_rxnCrdMin) / double(m_nRxnCrdSteps));
     for (size_t i(0); i < m_nRxnCrdSteps; i++) {
 
@@ -332,7 +331,7 @@ namespace mesmer
 
       // Move on to next reaction coordinate value.
 
-      rxnCrd += drxnCrd;
+      rxnCrd -= drxnCrd;
     }
 
     if (m_writeSOS) {
@@ -382,10 +381,10 @@ namespace mesmer
     m_pPhaseIntegral->initialize(m_Frag1, m_Frag2, m_pFTSTPotential, pReact);
 
     // Main loop over the angular momentum.
-    for (size_t j(0); j <= m_nMaxJ; j++) {
+    for (size_t j(0); j <= m_nMaxJ; j += 1) {
 
       // Main loop over the reaction coordinate in Angrstroms.
-      double rxnCrd(m_rxnCrdMin);
+      double rxnCrd(m_rxnCrdMax);
       double drxnCrd((m_rxnCrdMax - m_rxnCrdMin) / double(m_nRxnCrdSteps));
       vector<double> OptRxnCrd(MaximumCell, m_rxnCrdMin);
       vector<double> Flux(MaximumCell, 0.0);
@@ -394,7 +393,11 @@ namespace mesmer
         // Some work space.
         vector<double> wrk(MaximumCell, 0.0);
 
+        // Perform reaction coordinate specific initializations.
+
         m_pFTSTPotential->RxnCrdInitialize(rxnCrd);
+
+        m_pPhaseIntegral->RxnCrdInitialize(rxnCrd);
 
         // Phase space integral of transitional modes.
 
@@ -429,7 +432,7 @@ namespace mesmer
         }
 
         // Move on to next reaction coordinate value.
-        rxnCrd += drxnCrd;
+        rxnCrd -= drxnCrd;
       }
 
       // Accumulate flux over J (on the assumption that we only ever do a 1D ME).

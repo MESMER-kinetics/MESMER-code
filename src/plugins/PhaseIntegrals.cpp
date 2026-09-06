@@ -6,7 +6,7 @@
 // Date:   April/2019
 //
 // This file contains the definitions of the various phase integrals needed for
-// microcanonical (NOT J resolved) flexible transition state theory.
+// microcanonical (for both non-J and J resolved) flexible transition state theory.
 //
 //-------------------------------------------------------------------------------------------
 
@@ -42,10 +42,6 @@ namespace mesmer
     m_top1 = m_Frag1->getDOS().get_rotType();
     m_top2 = m_Frag2->getDOS().get_rotType();
 
-    // Get fragment coordinates and shit to cenre of mass.
-    ReadCoordsAndShiftToCoM(m_Frag1, m_m1, m_x1, m_y1, m_z1);
-    ReadCoordsAndShiftToCoM(m_Frag2, m_m2, m_x2, m_y2, m_z2);
-
     PersistPtr pp = pReact->get_PersistentPointer()->XmlMoveTo("me:MCRCMethod");
     // m_Sym = pp->XmlReadInteger("me:SymmetryNumber", optional);
     int MCpnts = pp->XmlReadInteger("me:MCPoints", optional);
@@ -59,6 +55,15 @@ namespace mesmer
   void PhaseIntegral::RxnCrdInitialize(double rxnCrd) {
 
     m_rxnCrd = rxnCrd;
+
+    double m1 = m_Frag1->getStruc().CalcMW();
+    double m2 = m_Frag2->getStruc().CalcMW();
+    m_r1 = m1 * m_rxnCrd / (m1 + m2);
+    m_r2 = m2 * m_rxnCrd / (m1 + m2);
+
+    // Get fragment coordinates and shift to cenre of mass.
+    ReadCoordsAndShiftToCoM(m_Frag1, m_m1, m_x1, m_y1, m_z1);
+    ReadCoordsAndShiftToCoM(m_Frag2, m_m2, m_x2, m_y2, m_z2);
 
     return;
   }
@@ -137,16 +142,11 @@ namespace mesmer
   }
 
   // Instantaneous moments of inertia.
-  void PhaseIntegral::InstMoI(double rxnCrd, double& Ba, double& Bb, double& Bc) const {
+  void PhaseIntegral::InstMoI(double& Ba, double& Bb, double& Bc) const {
 
     // Rotate fragments.
 
     // Shift fragments relative to each other along z-axis.
-    double m1 = m_Frag1->getStruc().CalcMW();
-    double m2 = m_Frag2->getStruc().CalcMW();
-    double r1 = m1 * rxnCrd / (m1 + m2);
-    double r2 = m2 * rxnCrd / (m1 + m2);
-
     size_t natoms = m_m1.size() + m_m2.size();
     vector<double> m(natoms, 0.0), x(natoms, 0.0), y(natoms, 0.0), z(natoms, 0.0);
     vector<double> r(3, 0.0);
@@ -157,7 +157,7 @@ namespace mesmer
       m[ll] = m_m1[i];
       x[ll] = r[0];
       y[ll] = r[1];
-      z[ll] = r[2] - r2;
+      z[ll] = r[2] - m_r2;
     }
     for (size_t i(0); i < m_m2.size(); i++, ll++) {
       r[0] = m_x2[i]; r[1] = m_y2[i]; r[2] = m_z2[i];
@@ -165,7 +165,7 @@ namespace mesmer
       m[ll] = m_m2[i];
       x[ll] = r[0];
       y[ll] = r[1];
-      z[ll] = r[2] + r1;
+      z[ll] = r[2] + m_r1;
     }
 
     // Calculate moments of interia of the ensembly.
@@ -264,7 +264,7 @@ namespace mesmer
       double gamma = 2.0 * tmp[2] - 1.0;
 
       // Calculate the instantaneous moments of inertia.
-      InstMoI(rxnCrd, Ba, Bb, Bc);
+      InstMoI(Ba, Bb, Bc);
 
       // Calculate the determinant of the Wilson G Matrix.
       m_knmtcFctr[i] = sqrt(Ba * Bb * Bc) * sin(angles[0]);
@@ -300,6 +300,8 @@ namespace mesmer
     // Instantiate a random vector generator.
     Sobol sobol;
 
+    double twoPi = 2.0 * M_PI;
+
     // Configuration loop.
     long long seed(17);
     m_knmtcFctr.resize(m_MCPnts, 0.0);
@@ -309,11 +311,11 @@ namespace mesmer
       // Select angular coordinates.
       vector<double> angles(m_nIDOF, 0.0);
       sobol.sobol(angles.size(), &seed, angles);
-      angles[0] *= M_PI;
-      angles[1] *= 2.0 * M_PI;
+      angles[0] *= twoPi; // Azimuthal angle.
+      angles[1] *= M_PI;  // Polar angle.
 
       // Calculate the determinant of the Wilson G Matrix.
-      m_knmtcFctr[i] = sin(angles[0]);
+      m_knmtcFctr[i] = sin(angles[1]);
 
       // Calculate potential energy.
       m_potential[i] = m_pFTSTPotential->HinderingPotential(rxnCrd, angles);
@@ -360,8 +362,8 @@ namespace mesmer
 
       // Select angular coordinates.
       sobol.sobol(tmp.size(), &seed, tmp);
-      angles[0] = twoPi * tmp[0];
-      angles[1] = M_PI * tmp[1];
+      angles[0] = twoPi * tmp[0]; // Azimuthal angle.
+      angles[1] = M_PI * tmp[1];  // Polar angle.
       double nu = twoPi * tmp[2];
       double gamma = 2.0 * tmp[3] - 1.0;
 
@@ -382,7 +384,7 @@ namespace mesmer
       m_rot1 = rotY * rotZ;
 
       // Calculate the instantaneous moments of inertia.
-      InstMoI(rxnCrd, Ba, Bb, Bc);
+      InstMoI(Ba, Bb, Bc);
 
       // Calculate the determinant of the Wilson G Matrix.
       m_knmtcFctr[i] = sqrt(Ba * Bb * Bc) * sin(angles[1]);

@@ -46,8 +46,9 @@ namespace mesmer
       m_rot2(3, 0.0),
       m_pFTSTPotential(NULL),
       m_mu(0.0),
-      m_rxnCrd(0.0) {
-    }
+      m_rxnCrd(0.0),
+      m_r1(0.0),
+      m_r2(0.0) {}
     virtual ~PhaseIntegral() {}
 
     virtual void initialize(Molecule* Frag1, Molecule* Frag2, FTSTPotential* pFTSTPotential, Reaction* pReact);
@@ -70,7 +71,7 @@ namespace mesmer
     void ReadCoordsAndShiftToCoM(Molecule* Frag, vector<double>& m, vector<double>& x, vector<double>& y, vector<double>& z) ;
 
     // Instantaneous moments of inertia.
-    void InstMoI(double rxnCrd, double& Ba, double& Bb, double& Bc) const;
+    void InstMoI(double& Ba, double& Bb, double& Bc) const;
 
     const size_t m_nIDOF; // Number of transitional modes (excluding external rotation).
 
@@ -98,6 +99,9 @@ namespace mesmer
 
     double m_mu;
     double m_rxnCrd;
+    double m_r1;
+    double m_r2;
+
   };
 
   class NLnrNLnrTops : public PhaseIntegral {
