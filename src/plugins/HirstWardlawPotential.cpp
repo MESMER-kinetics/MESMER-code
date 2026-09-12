@@ -54,8 +54,12 @@ namespace mesmer
       double A1 = 7.703640e-02;  // beta of the Modified Morse function.
       double A0 = 1.686690e0;    // 
 
-      // double delR = rxnCrd - 1.0015;
-      double delR  = rxnCrd - 1.0788;
+      // SHR, 06/Sep/2026: I think the value for the equilibrium C-H distance below 
+      // comes from a fit by Hase et al. It appears to be necessary to reproduce 
+      // earlier result but differs from current accepted value. See Leeds program
+      // mthn/sos.f.
+      double delR = rxnCrd - 1.0015; 
+      // double delR  = rxnCrd - 1.0788;
       double delR2 = delR * delR;
       double delR3 = delR * delR2;
 

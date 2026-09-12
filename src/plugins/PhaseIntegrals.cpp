@@ -373,8 +373,6 @@ namespace mesmer
       rotZ[0][1] = sin(angles[0]);
       rotZ[1][0] = -rotZ[0][1];
 
-      m_rot1 = rotZ;
-
       dMatrix rotY(3, 0.0);
       rotY[0][0] = rotY[2][2] = cos(angles[1]);
       rotY[1][1] = 1.0;
