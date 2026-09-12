@@ -23,7 +23,7 @@ namespace mesmer
   {
   public:
     ///Constructor which registers with the list of MicroRateCalculators in the base class
-    InternalConversion(const char* id) : m_format(), m_id(id) { Register(); }
+    InternalConversion(const char* id) : m_format(), m_PreFtr(1.0), m_id(id) { Register(); }
 
     virtual ~InternalConversion() {}
     virtual const char* getID() { return m_id; }
@@ -40,6 +40,8 @@ namespace mesmer
 
     string m_format;
 
+    Rdouble m_PreFtr;       // Pre-factor
+
     const char* m_id;
   };
 
@@ -50,9 +52,20 @@ namespace mesmer
 
   bool InternalConversion::ParseData(PersistPtr pp)
   {
+    Reaction* pReact = m_parent;
+    PersistPtr ppReac = pReact->get_PersistentPointer();
+    bool rangeSet(false);
+
     const char* pFormat = pp->XmlReadValue("Format", optional);
 
     m_format = pFormat;
+
+    PersistPtr ppPreFactor = pp->XmlMoveTo("me:PreFactor");
+
+    if (ppPreFactor) {
+      m_PreFtr = pp->XmlReadDouble("me:PreFactor");
+      ReadRdoubleRange(string(pReact->getName() + ":preFactor"), ppPreFactor, m_PreFtr, rangeSet);
+    }
 
     return true;
   }
@@ -80,7 +93,7 @@ namespace mesmer
     // Calculate microcanonical rate coefficients using InternalConversion expression.
     if (m_format == "Analytic") {
       for (size_t i(0), j(threshold); i < MaximumCell; ++i, ++j) {
-        double tmp = 1.11e06 - 450.0 * double(i) * cellSize;
+        double tmp = m_PreFtr * (1.11e06 - 450.0 * double(i) * cellSize);
         rxnFlux[i] = (tmp > 0.0) ? tmp : 0.0;
         rxnFlux[i] *= rctCellDOS[j];
       }
