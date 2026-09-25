@@ -1,3 +1,7 @@
+2026-Sep-25 Struan Robertson
+
+		* Upgrade to VS 18 (VS 2026).
+
 2026-Sep-12 Struan Robertson
 
 		* PhaseIntegrals.cpp: J-dependent FTST: Minor update.

@@ -7,18 +7,13 @@ SET directive=
 SET otfn=mesmer.test
 
 IF EXIST "../Windows VC17/x64/MPIRelease x64/Mesmer.exe" GOTO VC17_x64
-IF EXIST "../Windows VC16/Mesmer/Mesmer.exe" GOTO VC16
 IF EXIST "../Windows VC17/Mesmer/Mesmer.exe" GOTO VC17
+IF EXIST "../Windows VC18/x64/MPIRelease x64/Mesmer.exe" GOTO VC18_x64
+IF EXIST "../Windows VC18/Mesmer/Mesmer.exe" GOTO VC18
 
 ::For installed version
 SET executable= "..\..\Mesmer.exe"
 SET version= "..\Mesmer.exe"
-GOTO SETTINGS
-
-:VC16
-SET executable= "..\..\Windows VC16\Mesmer\Mesmer.exe"
-SET version= "..\Windows VC16"
-SET bline=baselines\Win32\
 GOTO SETTINGS
 
 :VC17
@@ -30,6 +25,18 @@ GOTO SETTINGS
 :VC17_x64
 SET executable= "..\..\Windows VC17\x64\MPIRelease x64\Mesmer.exe"
 SET version= "..\Windows VC17_x64"
+SET bline=baselines\Win64\
+GOTO SETTINGS
+
+:VC18
+SET executable= "..\..\Windows VC18\Mesmer\Mesmer.exe"
+SET version= "..\Windows VC18"
+SET bline=baselines\Win32\
+GOTO SETTINGS
+
+:VC18_x64
+SET executable= "..\..\Windows VC18\x64\MPIRelease x64\Mesmer.exe"
+SET version= "..\Windows VC18_x64"
 SET bline=baselines\Win64\
 GOTO SETTINGS
 
@@ -136,6 +143,11 @@ IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 %cmdline% -N Methyl_H_to_Methane_FTST.xml %directive%
 copy Methyl_H_to_Methane_FTST.test "./%bline%Methyl_H_to_Methane_FTST.test"
 IF "%1"=="-o" copy Methyl_H_to_Methane_FTST.log "./%bline%Methyl_H_to_Methane_FTST.log"
+
+set testName="Methyl_H_to_Methane_uFTST"
+%cmdline% -N %testName%.xml %directive%
+copy "./%testName%.test" "./%bline%%testName%.test"
+IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
 cd ..
 
 cd reservoirSink
