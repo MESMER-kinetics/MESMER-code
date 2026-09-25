@@ -1,0 +1,17 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="Debug" />
+    <BuildType Name="MPIRelease" />
+    <BuildType Name="MPIRelease x64" />
+    <BuildType Name="Release" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="Mesmer/Mesmer.vcxproj" Id="2bcc6b10-a435-4738-985b-3b3e405d568e" />
+  <Project Path="qd/qd.vcxproj" Id="71a7fd85-66b8-4235-91ac-914ac894d6e1">
+    <BuildType Solution="MPIRelease|*" Project="Release" />
+  </Project>
+  <Project Path="TinyXML/TinyXML.vcxproj" Id="772a61a8-365d-4c72-8b17-33b30767e2f8">
+    <BuildType Solution="MPIRelease|*" Project="Release" />
+  </Project>
+</Solution>

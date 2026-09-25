@@ -7,17 +7,13 @@ SET directive=
 SET otfn=mesmer.test
 
 IF EXIST "../Windows VC17/x64/MPIRelease x64/Mesmer.exe" GOTO VC17_x64
-IF EXIST "../Windows VC16/Mesmer/Mesmer.exe" GOTO VC16
+IF EXIST "../Windows VC18/x64/MPIRelease x64/Mesmer.exe" GOTO VC18_x64
 IF EXIST "../Windows VC17/Mesmer/Mesmer.exe" GOTO VC17
+IF EXIST "../Windows VC18/Mesmer/Mesmer.exe" GOTO VC18
 
 ::For installed version
 SET executable= "..\..\Mesmer.exe"
 SET version= "..\Mesmer.exe"
-GOTO SETTINGS
-
-:VC16
-SET executable= "..\..\Windows VC16\Mesmer\Mesmer.exe"
-SET version= "..\Windows VC16"
 GOTO SETTINGS
 
 :VC17
@@ -28,6 +24,16 @@ GOTO SETTINGS
 :VC17_x64
 SET executable= "..\..\Windows VC17\x64\MPIRelease x64\Mesmer.exe"
 SET version= "..\Windows VC17_x64"
+GOTO SETTINGS
+
+:VC18
+SET executable= "..\..\Windows VC18\Mesmer\Mesmer.exe"
+SET version= "..\Windows VC18"
+GOTO SETTINGS
+
+:VC18_x64
+SET executable= "..\..\Windows VC18\x64\MPIRelease x64\Mesmer.exe"
+SET version= "..\Windows VC18_x64"
 GOTO SETTINGS
 
 :SETTINGS
