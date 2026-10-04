@@ -454,11 +454,12 @@ namespace mesmer
 
     //
     // Reset microcanonical rate re-calculation flag as parameters, such
-    // as reaction threshold may have been altered between invocations of
+    // as reaction threshold, may have been altered between invocations of
     // this method.
     //
     for (size_t i(0); i < m_pReactionManager->size(); ++i) {
       (*m_pReactionManager)[i]->resetCalcFlag();
+      (*m_pReactionManager)[i]->initializeCellFlux();
     }
 
     // Find the highest temperature
