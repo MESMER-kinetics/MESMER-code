@@ -118,6 +118,9 @@ namespace mesmer
     // Get tunnelling probabilities if they are defined.
     void calculateCellTunnelingCoeffs(std::vector<double>& TunnelingProbability);
 
+    // Initialize cell flux.
+    bool initializeCellFlux();
+
     // calculate flux in grains
     void fluxCellToGrain();
 
@@ -298,6 +301,8 @@ namespace mesmer
     std::string m_Name;            // Reaction name.
 
     bool   m_reCalcMicroRateCoeffs; // re-calculation on DOS
+
+    size_t m_MaximumCell;  // Number of cells in k(E) calculation.
 
     double m_ERConc;       // Concentration of the excess reactant (This is a complement to reactions with
                            // excess species. This value is not used in unimolecular reactions.)

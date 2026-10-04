@@ -82,8 +82,14 @@ The m_parent member variable should be Molecule*, Reaction* or System*, as
 appropriate, and the functions getParent and setParent and should be compatible.
 *****************************************************************************/
 
+   // Method to initialize the calculation the microcanoical flux (W(E)/h) at the transition state.
+    virtual bool initializeMicroCnlFlux(Reaction* pReact) { return true; };
+
    // Method to calculate the microcanoical flux (W(E)/h) at the transition state.
-    virtual bool calculateMicroCnlFlux(Reaction* pReact) = 0 ;
+    virtual bool calculateMicroCnlFlux(Reaction* pReact) = 0;
+
+    // Method to locate the microcanoical flux (W(E)/h) with respect to the grain grid.
+    virtual bool locateMicroCnlFlux(Reaction* pReact) { return true; };
 
     virtual double get_ThresholdEnergy(Reaction* pReac) ;
 

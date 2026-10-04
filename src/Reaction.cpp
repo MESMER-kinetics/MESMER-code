@@ -50,6 +50,7 @@ namespace mesmer
     m_Flags(Flags),
     m_Name(id),
     m_reCalcMicroRateCoeffs(true),
+    m_MaximumCell(0),
     m_ERConc(-1.0),
     m_bERConcPercent(false)
   {}
@@ -115,14 +116,18 @@ namespace mesmer
   //
   bool Reaction::calcGrnAvrgMicroRateCoeffs() {
     if (m_reCalcMicroRateCoeffs) {
-      if (m_CellFlux.size()) m_CellFlux.clear();
+      const size_t MaximumCell = getEnv().MaxCell;
+      // if (m_CellFlux.size()) m_CellFlux.clear();
 
       // Calculate microcanonical rate coefficients.
       if (!m_pMicroRateCalculator->calculateMicroCnlFlux(this))
         return false;
 
+      // Locate microcanonical flux relative to grain grid.
+      if (!m_pMicroRateCalculator->locateMicroCnlFlux(this))
+        return false;
+
       // report Transition State Flux in cells to test output
-      const size_t MaximumCell = getEnv().MaxCell;
       if (getFlags().cellFluxEnabled) {
         ctest << "\nFlux(e) cells for " << getName() << ":\n{\n";
         for (size_t i(0); i < MaximumCell; ++i) {
@@ -244,6 +249,9 @@ namespace mesmer
     m_FluxGrainZPE = fluxBottomZPE / getEnv().GrainSize; //convert to grain
     m_FluxCellOffset = size_t(fmod(fluxBottomZPE, double(getEnv().GrainSize)) / getEnv().CellSize);
   }
+
+  // Initialize cell flux.
+  bool Reaction::initializeCellFlux() { return (m_pMicroRateCalculator) ? m_pMicroRateCalculator->initializeMicroCnlFlux(this) : false; };
 
   // Calculate grain flux by summing over cells belong to each grain 
   // taking account of the cell offset against PES grid by altering
