@@ -11,7 +11,6 @@
 #include <vector>
 #include <string>
 #include "../System.h"
-#include "../gWellProperties.h"
 #include "../gDensityOfStates.h"
 #include "../MicroRate.h"
 
@@ -23,7 +22,7 @@ namespace mesmer
   {
   public:
     ///Constructor which registers with the list of MicroRateCalculators in the base class
-    GeneralISC(const char* id) : m_format(), m_threshold(0.0), m_id(id), m_PreFtr(1.0) { Register(); }
+    GeneralISC(const char* id) : m_format(), m_threshold(0.0), m_id(id), m_PreFtr(1.0), m_PreFtr2(-1.0) { Register(); }
 
     virtual ~GeneralISC() {}
     virtual const char* getID() { return m_id; }
@@ -43,7 +42,8 @@ namespace mesmer
     double m_threshold;
 
     Rdouble m_PreFtr;       // Pre-factor
-        
+    Rdouble m_PreFtr2;      // Pre-factor
+
     const char* m_id;
   };
 
@@ -68,6 +68,13 @@ namespace mesmer
       if (ppPreFactor) {
         m_PreFtr = pp->XmlReadDouble("me:PreFactor");
         ReadRdoubleRange(string(pReact->getName() + ":preFactor"), ppPreFactor, m_PreFtr, rangeSet);
+      }
+
+      PersistPtr ppPreFactor2 = pp->XmlMoveTo("me:PreFactor2");
+
+      if (ppPreFactor2) {
+        m_PreFtr2 = pp->XmlReadDouble("me:PreFactor2");
+        ReadRdoubleRange(string(pReact->getName() + ":preFactor2"), ppPreFactor2, m_PreFtr2, rangeSet);
       }
 
       m_threshold = 1700.0;
@@ -123,8 +130,9 @@ namespace mesmer
         rxnFlux[i] *= rctCellDOS[j];
       }
       upl = min(MaximumCell, size_t((10000.0 - m_threshold)/ cellSize));
+      double PreFtr = (m_PreFtr2 > 0.0) ? m_PreFtr2 : m_PreFtr;
       for (; i < upl; ++i, ++j, ene += cellSize) {
-        rxnFlux[i]  = m_PreFtr * 2.96e08 * exp((ene - 2950.0) / 12300.0);
+        rxnFlux[i]  = PreFtr * 2.96e08 * exp((ene - 2950.0) / 12300.0);
         rxnFlux[i] *= rctCellDOS[j];
       }
     }

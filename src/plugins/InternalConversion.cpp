@@ -11,7 +11,6 @@
 #include <vector>
 #include <string>
 #include "../System.h"
-#include "../gWellProperties.h"
 #include "../gDensityOfStates.h"
 #include "../MicroRate.h"
 
