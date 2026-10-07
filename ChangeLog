@@ -1,3 +1,14 @@
+2026-Oct-07 Struan Robertson
+
+		* CIISC.cpp, GeneralISC.h, InternalConversion.cpp: Changes to non-
+		radiative transitions thought to contribute to the acetone photolysis 
+		system.
+
+2026-Oct-04 Struan Robertson
+
+		* Reaction.h/.cpp, MicroRate.h, System.cpp: Changes toward improving the 
+		efficiency of microcanonical rate coefficient calculation.
+
 2026-Sep-25 Struan Robertson
 
 		* Upgrade to VS 18 (VS 2026).

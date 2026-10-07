@@ -147,6 +147,13 @@ cp ./Methyl_H_to_Methane_FTST.test ./$bline/Methyl_H_to_Methane_FTST.test
 if [ "$1" == "-o" ] ; then
   cp ./Methyl_H_to_Methane_FTST.log ./$bline/Methyl_H_to_Methane_FTST.log 
 fi
+
+testName=Methyl_H_to_Methane_uFTST
+$cmdline -N $testName.xml $directive
+cp ./$testName.test ./$bline$testName.test
+if [ "$1" == "-o" ] ; then
+  cp ./$testName.log ./$bline$testName.log
+fi
 cd ..
 
 cd reservoirSink
