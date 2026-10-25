@@ -16,6 +16,11 @@
 #ifdef PARALLEL
 #include "mpi.h"
 #endif
+#include <string>
+#include <cstring>
+#include <sstream>
+#include <stdexcept>
+#include <vector>
 #include "error.h"
 
 namespace mesmer
@@ -25,28 +30,40 @@ namespace mesmer
 
   public:
 
+    // Call once, at the top of main().
+    static ParallelManager& init(int argc, char** argv) {
+      ParallelManager*& p = ptr();
+      if (p) throw std::runtime_error("ParallelManager already initialised.");
+      p = new ParallelManager(argc, argv);
+      return *p;
+    }
+
+    // Use anywhere after init().
+    static ParallelManager& instance() {
+      if (!ptr()) throw std::runtime_error("ParallelManager used before init().");
+      return *ptr();
+    }
+
+    // Call once, at the end of main(), after all MPI objects are gone.
+    static void shutdown() {
+      ParallelManager*& p = ptr();
+      if (p) { p->finalize(); delete p; p = nullptr; }
+    }
+
+    ParallelManager(const ParallelManager&) = delete;
+    ParallelManager& operator=(const ParallelManager&) = delete;
+
 #ifdef PARALLEL
-
-    // Constructor
-
-    ParallelManager(int argc, char** argv) : m_rank(0), m_size(1), m_mutex(false) {
-
-      MPI_Init(&argc, &argv);
-
-      MPI_Comm_rank(MPI_COMM_WORLD, &m_rank);
-      MPI_Comm_size(MPI_COMM_WORLD, &m_size);
-
-    };
-
-    // Destructor
-
-    ~ParallelManager() {};
 
     // Finalize
 
-    void finalize() { MPI_Finalize(); };
+    void finalize() {
+      int done = 0;
+      MPI_Finalized(&done);
+      if (!done) MPI_Finalize();
+    }
 
-    // Sum vectors across all across processes and redistribute.
+    // Sum vectors across all processes and redistribute.
 
     void sumDouble(double* sum, int size) {
 
@@ -106,11 +123,14 @@ namespace mesmer
       MPI_Bcast(tmp, size, MPI_DOUBLE, root, MPI_COMM_WORLD);
     }
 
-    // Broadcast vector of doubles across processes from a given route.
+    // Broadcast vector of doubles across processes from a given root.
 
     void broadcastVecDouble(vector<double>& tmp, int root) {
       int size = int(tmp.size());
       MPI_Bcast(&size, 1, MPI_INT, root, MPI_COMM_WORLD);
+      if (size == 0) // Nothing to copy so return;
+        return;
+
       vector<double> dtmp(size);
       if (m_rank == root)
         dtmp = tmp;
@@ -120,11 +140,11 @@ namespace mesmer
 
     // Broadcast throw across processes from an unknown rank.
 
-    void CheckForThrow(int rank, string error_msg) {
+    void CheckForThrow(int throwingRank, string error_msg) {
 
       // First find if a  rank has thrown.
       int root;
-      MPI_Allreduce(&rank, &root, 1, MPI_INT, MPI_MAX, MPI_COMM_WORLD);
+      MPI_Allreduce(&throwingRank, &root, 1, MPI_INT, MPI_MAX, MPI_COMM_WORLD);
 
       // If one or more ranks have thrown, combine all error messages and re-throw.
       if (root >= 0) {
@@ -177,16 +197,6 @@ namespace mesmer
     }
 
 #else
-
-    // Constructor
-
-    ParallelManager(int argc, char** argv) : m_rank(0), m_size(1), m_mutex(false) {
-      // No Op.
-    };
-
-    // Destructor
-
-    ~ParallelManager() {};
 
     // Finalize
 
@@ -282,8 +292,20 @@ namespace mesmer
 
   private:
 
-    int m_rank;
-    int m_size;
+    ParallelManager(int argc, char** argv) : m_rank(0), m_size(1), m_mutex(false) {
+#ifdef PARALLEL
+      int initialized = 0;
+      MPI_Initialized(&initialized);
+      if (!initialized) MPI_Init(&argc, &argv);
+      MPI_Comm_rank(MPI_COMM_WORLD, &m_rank);
+      MPI_Comm_size(MPI_COMM_WORLD, &m_size);
+#endif
+    }
+    ~ParallelManager() {}
+
+    static ParallelManager*& ptr() { static ParallelManager* p = nullptr; return p; }
+
+    int m_rank, m_size;
     bool m_mutex;
 
   };

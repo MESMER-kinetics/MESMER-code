@@ -105,11 +105,10 @@ namespace mesmer
   }
 
 
-  System::System(const std::string& libraryfilename, ParallelManager* pParallelManager) :
+  System::System(const std::string& libraryfilename) :
     m_pMoleculeManager(0),
     m_pReactionManager(0),
     m_pConditionsManager(0),
-    m_pParallelManager(pParallelManager),
     m_pTitle(NULL),
     m_pDescription(NULL)
   {
@@ -471,9 +470,9 @@ namespace mesmer
 
     // Main loop over temperatures and concentrations.
 
-    int rank = m_pParallelManager->rank();
-    int nRanks = m_pParallelManager->size();
-    m_pParallelManager->setMutex(__FUNCTION__);
+    int rank = ParallelManager::instance().rank();
+    int nRanks = ParallelManager::instance().size();
+    ParallelManager::instance().setMutex(__FUNCTION__);
     size_t nPoint = m_pConditionsManager->getNumPTPoints();
     size_t addand = (nPoint % nRanks > 0) ? 1 : 0;
     size_t nLoop = nRanks * (nPoint / nRanks + addand);
@@ -604,18 +603,18 @@ namespace mesmer
         error_msg << "Rank " << rank << ": " << e.what() << endl;
       }
 
-      m_pParallelManager->barrier();
-      m_pParallelManager->CheckForThrow(status, error_msg.str());
-      m_pParallelManager->writeCtest();
+      ParallelManager::instance().barrier();
+      ParallelManager::instance().CheckForThrow(status, error_msg.str());
+      ParallelManager::instance().writeCtest();
 
     } // End of temperature and concentration loop. 
 
     // Reduce Chi^2 values and redistribute
 
-    m_pParallelManager->barrier();
+    ParallelManager::instance().barrier();
     m_pConditionsManager->reconcileTable();
     m_pConditionsManager->AddCalcValToXml();
-    m_pParallelManager->clearMutex();
+    ParallelManager::instance().clearMutex();
 
 
     double ChiSquaredTest(0.0);

@@ -11,12 +11,13 @@
 #include <vector>
 #include <string>
 #include "../MesmerMath.h"
-#include "../System.h"
+#include "../Reaction.h"
 #include "../gDensityOfStates.h"
 #include "../ParseForPlugin.h"
 #include "PhaseIntegrals.h"
 #include "../FTSTPotential.h"
 #include "../MicroRate.h"
+#include "../ParallelManager.h"
 
 using namespace std;
 using namespace Constants;
@@ -60,7 +61,11 @@ namespace mesmer
 
     virtual bool ParseData(PersistPtr);
 
-    virtual bool calculateMicroCnlFlux(Reaction* pReact);
+    virtual bool initializeMicroCnlFlux(Reaction* pReact) ;
+
+    virtual bool calculateMicroCnlFlux(Reaction* pReact) { return true; } ;
+
+    virtual bool locateMicroCnlFlux(Reaction* pReact) ;
 
     virtual double get_ThresholdEnergy(Reaction* pReact);
 
@@ -108,6 +113,8 @@ namespace mesmer
     string m_namedPhaseIntegral;
     bool m_writeSOS;
     vector<double> m_eneForSOS;
+
+    // ParallelManager* m_pParallelManager;
 
   };
 
@@ -265,7 +272,7 @@ namespace mesmer
     return true;
   }
 
-  bool uFTST::calculateMicroCnlFlux(Reaction* pReact)
+  bool uFTST::initializeMicroCnlFlux(Reaction* pReact)
   {
     return (m_bWithAngMom) ? MicroCanonicalAngMomFlux(pReact) : MicroCanonicalFlux(pReact);
   }
@@ -358,9 +365,6 @@ namespace mesmer
       rxnFlux[i] *= cnt;
     }
 
-    // The flux bottom energy is equal to the ZPE of the transition state
-    pReact->setCellFluxBottom(pReact->get_relative_rctZPE());
-
     return true;
   }
 
@@ -380,8 +384,13 @@ namespace mesmer
 
     m_pPhaseIntegral->initialize(m_Frag1, m_Frag2, m_pFTSTPotential, pReact);
 
+    int rank = ParallelManager::instance().rank();
+    int nRanks = ParallelManager::instance().size();
+    ParallelManager::instance().setMutex(__FUNCTION__);
+    size_t addand = (m_nMaxJ % nRanks > 0) ? 1 : 0;
+    size_t nLoop = nRanks * (m_nMaxJ / nRanks + addand);
     // Main loop over the angular momentum.
-    for (size_t j(0); j <= m_nMaxJ; j += 1) {
+    for (size_t j(rank); j < nLoop; j += nRanks) {
 
       // Main loop over the reaction coordinate in Angrstroms.
       double rxnCrd(m_rxnCrdMax);
@@ -440,26 +449,36 @@ namespace mesmer
         rxnFlux[i] += Flux[i];
       }
 
-      if (m_writeSOS) {
-        ctest << endl;
-        ctest << "J = " << j << ":" << endl << endl;
-        if (m_eneForSOS.size() > 0) {
-          for (size_t i = 0; i < m_eneForSOS.size(); i++) {
-            size_t ii = size_t(m_eneForSOS[i]);
-            if (ii < Flux.size()) {
-              ctest << setw(6) << ii << formatFloat(Flux[ii], 6, 14) << formatFloat(OptRxnCrd[ii], 6, 14) << endl;
-            }
-          }
-        }
-        else {
-          for (size_t i = 0; i < Flux.size(); i++) {
-            ctest << setw(6) << i << formatFloat(Flux[i], 6, 14) << formatFloat(OptRxnCrd[i], 6, 14) << endl;
-          }
-        }
-        ctest << endl;
-      }
+      //if (m_writeSOS) {
+      //  ctest << endl;
+      //  ctest << "J = " << j << ":" << endl << endl;
+      //  if (m_eneForSOS.size() > 0) {
+      //    for (size_t i = 0; i < m_eneForSOS.size(); i++) {
+      //      size_t ii = size_t(m_eneForSOS[i]);
+      //      if (ii < Flux.size()) {
+      //        ctest << setw(6) << ii << formatFloat(Flux[ii], 6, 14) << formatFloat(OptRxnCrd[ii], 6, 14) << endl;
+      //      }
+      //    }
+      //  }
+      //  else {
+      //    for (size_t i = 0; i < Flux.size(); i++) {
+      //      ctest << setw(6) << i << formatFloat(Flux[i], 6, 14) << formatFloat(OptRxnCrd[i], 6, 14) << endl;
+      //    }
+      //  }
+      //  ctest << endl;
+      //}
 
     }
+
+    ParallelManager::instance().barrier();
+
+    // Accumulate Flux across threads
+
+    for (size_t i(0); i < rxnFlux.size(); i++) {
+      ParallelManager::instance().sumDouble(&rxnFlux[i], 1);
+    }
+
+    ParallelManager::instance().clearMutex();
 
     if (m_writeSOS) {
       ctest << endl;
@@ -486,11 +505,16 @@ namespace mesmer
       rxnFlux[i] *= cnt;
     }
 
+    return true;
+  }
+
+  bool uFTST::locateMicroCnlFlux(Reaction* pReact) {
+
     // The flux bottom energy is equal to the ZPE of the transition state
     pReact->setCellFluxBottom(pReact->get_relative_rctZPE());
 
     return true;
-  }
+  };
 
   // Convolve the conserved modes into the sum of states.
   bool uFTST::ConvolveConservedModes(double rxnCrd, vector<double>& wrk) const {

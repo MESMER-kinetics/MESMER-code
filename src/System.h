@@ -31,13 +31,12 @@ namespace mesmer
   extern std::string libfile;
 
   class ConditionsManager;
-  class ParallelManager;
 
   class System
   {
   public:
 
-    System(const std::string& libraryfilename, ParallelManager* pParallelManager);
+    System(const std::string& libraryfilename);
     ~System();
 
     // Initialize the System object.
@@ -81,7 +80,6 @@ namespace mesmer
     MoleculeManager* getMoleculeManager() { return m_pMoleculeManager; };
     ReactionManager* getReactionManager() { return m_pReactionManager; };
     ConditionsManager* getConditionsManager() { return m_pConditionsManager; };
-    ParallelManager* getParallelManager() { return m_pParallelManager; };
 
     // Mesmer control flags.
     MesmerFlags m_Flags;
@@ -111,9 +109,6 @@ namespace mesmer
 
     // Location of the conditions manager.
     ConditionsManager* m_pConditionsManager;
-
-    // Location of the parallel mananger.
-    ParallelManager* m_pParallelManager;
 
     // Physical variables. Reference to this are passed to all Molecule and Reaction constructors.
     MesmerEnv m_Env;

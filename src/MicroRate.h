@@ -12,62 +12,62 @@ namespace mesmer
 
   class Reaction;
 
-/*****************************************************************************
-This header file contains the declaration of the MicroRateCalculator abstract
-class. This class will be inherited by all microcanonical rate models.
-Plugin types like this are usually in .h files because they are mainly interface.
+  /*****************************************************************************
+  This header file contains the declaration of the MicroRateCalculator abstract
+  class. This class will be inherited by all microcanonical rate models.
+  Plugin types like this are usually in .h files because they are mainly interface.
 
-The derived concrete classes are plugin classes - new classes can be added
-without changing any of the existing code. MesmerILT.cpp is a file
-containing a derived class and has lots of comments.
-Plugin classes like MesmerILT.cpp usually do not have a .h file because they
-are called through their parent's interface, and never directly.
+  The derived concrete classes are plugin classes - new classes can be added
+  without changing any of the existing code. MesmerILT.cpp is a file
+  containing a derived class and has lots of comments.
+  Plugin classes like MesmerILT.cpp usually do not have a .h file because they
+  are called through their parent's interface, and never directly.
 
-At startup the constructors of the derived classes register their presence and
-their IDs, and this is passed to their grandparent class TopPlugin which maintains
-a list of all plugins. This list can be displayed from the command line using:
-  mesmer -t   or   mesmer -T
-With the -T option the output includes descriptions of the plugins classes and
-the plugin types, for those classes which have been provided with a Description()
-function.
+  At startup the constructors of the derived classes register their presence and
+  their IDs, and this is passed to their grandparent class TopPlugin which maintains
+  a list of all plugins. This list can be displayed from the command line using:
+    mesmer -t   or   mesmer -T
+  With the -T option the output includes descriptions of the plugins classes and
+  the plugin types, for those classes which have been provided with a Description()
+  function.
 
-The normal way of using a plugin is to call the global function ParseForPlugin,
-as in Reaction.cpp near line 250:
+  The normal way of using a plugin is to call the global function ParseForPlugin,
+  as in Reaction.cpp near line 250:
 
-m_pMicroRateCalculator = ParseForPlugin<MicroRateCalculator>(this, "me:MCRCMethod", ppReac);
+  m_pMicroRateCalculator = ParseForPlugin<MicroRateCalculator>(this, "me:MCRCMethod", ppReac);
 
-The template parameter is the plugin-type class and the other parameters are a
-pointer to the parent, the XML type name and a PersistPtr, which is a position in
-the XML file. ParseForPlugin will parse the XML input file for the specified
-plugin type, making an instance of the requested plugin from its name and parsing
-for its data using the plugin's virtual function. (See MesmerILT.cpp.) It can also
-insert a default plugin name from defaults.xml (if appropriate) and does most of
-the reporting of errors, like missing or unrecognized names, etc.
+  The template parameter is the plugin-type class and the other parameters are a
+  pointer to the parent, the XML type name and a PersistPtr, which is a position in
+  the XML file. ParseForPlugin will parse the XML input file for the specified
+  plugin type, making an instance of the requested plugin from its name and parsing
+  for its data using the plugin's virtual function. (See MesmerILT.cpp.) It can also
+  insert a default plugin name from defaults.xml (if appropriate) and does most of
+  the reporting of errors, like missing or unrecognized names, etc.
 
-Alternatively, supplying an ID (a string like "MesmerILT") to the Find function of
-the plugin type class (MicroRateCalculator here) provides a pointer to a new
-instance of the plugin class.
-*****************************************************************************/
+  Alternatively, supplying an ID (a string like "MesmerILT") to the Find function of
+  the plugin type class (MicroRateCalculator here) provides a pointer to a new
+  instance of the plugin class.
+  *****************************************************************************/
 
   class MicroRateCalculator :public TopPlugin
   {
   public:
 
     virtual ~MicroRateCalculator() {}
-    virtual const char* getTypeID(){return typeID();}
+    virtual const char* getTypeID() { return typeID(); }
 
     /*****************************************************************************
     The name of the plugin type that appears in the list on the command line.
     *****************************************************************************/
-    static const char* typeID(){ return "Microcanonical Rate Calculators"; }
+    static const char* typeID() { return "Microcanonical Rate Calculators"; }
 
     // Get a pointer to a derived class by providing its id.
     static MicroRateCalculator* Find(const std::string& name)
     {
       return dynamic_cast<MicroRateCalculator*>(TopFind(name, typeID()));
     }
-    Reaction* getParent() {return m_parent;} ;
-    void setParent(Reaction* parent) { m_parent = parent;} ;
+    Reaction* getParent() { return m_parent; };
+    void setParent(Reaction* parent) { m_parent = parent; };
 
     // Get a list of the IDs of plugin classes derived from this one.
     static std::string List()
@@ -75,26 +75,33 @@ instance of the plugin class.
       return TopPlugin::List(typeID(), comma);
     }
 
-/*****************************************************************************
-Any new plugin-type class should contain the above functions. It will also need
-at least one virtual function like calculateMicroCnlFlux() which does the main work.
-The m_parent member variable should be Molecule*, Reaction* or System*, as
-appropriate, and the functions getParent and setParent and should be compatible.
-*****************************************************************************/
+    /*****************************************************************************
+    Any new plugin-type class should contain the above functions. It will also need
+    at least one virtual function like calculateMicroCnlFlux() which does the main work.
+    The m_parent member variable should be Molecule*, Reaction* or System*, as
+    appropriate, and the functions getParent and setParent and should be compatible.
+    *****************************************************************************/
 
-   // Method to initialize the calculation the microcanoical flux (W(E)/h) at the transition state.
+    // Method to initialize the calculation the microcanoical flux (W(E)/h) at the
+    // transition state.This method should be called outside of a pressure/temperature
+    // loop when microcanonical parameters have changed.
     virtual bool initializeMicroCnlFlux(Reaction* pReact) { return true; };
 
-   // Method to calculate the microcanoical flux (W(E)/h) at the transition state.
+    // Method to calculate the microcanoical flux (W(E)/h) at the transition state.
+    // The long term intention is to remove this function and replace it with a 
+    // combination of the initializeMicroCnlFlux and locateMicroCnlFlux in order
+    // to improve efficiency.
     virtual bool calculateMicroCnlFlux(Reaction* pReact) = 0;
 
-    // Method to locate the microcanoical flux (W(E)/h) with respect to the grain grid.
+    // Method to locate the microcanoical flux (W(E)/h) with respect to the grain
+    // grid. This method is particularly important when fitting the PES stationary
+    // values as the location of the stationary value within a grain may have varied. 
     virtual bool locateMicroCnlFlux(Reaction* pReact) { return true; };
 
-    virtual double get_ThresholdEnergy(Reaction* pReac) ;
+    virtual double get_ThresholdEnergy(Reaction* pReac);
 
     // Utility function to check for inconsistencies. 
-    static bool ILTCheck(Reaction* pReac, PersistPtr ppReac) ;
+    static bool ILTCheck(Reaction* pReac, PersistPtr ppReac);
 
   protected:
 

@@ -1,3 +1,12 @@
+2026-Oct-24 Struan Robertson
+
+		* ParallelManager.h, System.h/.cpp, ConditionManager.h/.cpp, main.cpp,
+		MicroRate.h, ErrorPropagation.cpp, SensitivityAnalysis.cpp, uTST.cpp: 
+		The main change is the alteration of the ParallelManager Class to be a
+		proper singleton class in order that it can be more widely used within
+		the application. The driver for this is the conserved angular momentum
+		implementation of microcanonical flexible TST.
+
 2026-Oct-07 Struan Robertson
 
 		* CIISC.cpp, GeneralISC.h, InternalConversion.cpp: Changes to non-
