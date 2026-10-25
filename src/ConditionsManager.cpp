@@ -4,6 +4,7 @@
 #include "System.h"
 #include "ConditionsManager.h"
 #include "TimeCounter.h"
+#include "ParallelManager.h"
 
 using namespace std;
 namespace mesmer
@@ -14,10 +15,8 @@ namespace mesmer
     m_ppAnalysis(),
     baseExcessConcs(),
     PandTs(),
-    m_pParallelManager(NULL),
     generalAnalysisData(),
     currentSet(-1) {
-    m_pParallelManager = m_pSys->getParallelManager();
   }
 
   bool ConditionsManager::ParseBathGas(PersistPtr ppConditions)
@@ -646,7 +645,7 @@ namespace mesmer
   // Write data table. Called only when System::calculate called with writeReport=true.
   void ConditionsManager::WriteDataTable() const
   {
-    int rank = m_pParallelManager->rank();
+    int rank = ParallelManager::instance().rank();
     if (rank > 0)
       return;
 
@@ -721,7 +720,7 @@ namespace mesmer
   // Reconcile table across processes.
   void ConditionsManager::reconcileTable()
   {
-    int nRanks = m_pParallelManager->size();
+    int nRanks = ParallelManager::instance().size();
 
     for (size_t calPoint(0); calPoint < PandTs.size(); calPoint++) {
 
@@ -730,28 +729,28 @@ namespace mesmer
       vector<conditionSet>& rates = PandTs[calPoint].m_rates;
       for (size_t i(0); i < rates.size(); ++i) {
         double tmp = rates[i].m_calcValue;
-        m_pParallelManager->broadcastDouble(&tmp, 1, broadcastRank);
+        ParallelManager::instance().broadcastDouble(&tmp, 1, broadcastRank);
         rates[i].m_calcValue = tmp;
       }
       vector<conditionSet>& yields = PandTs[calPoint].m_yields;
       for (size_t i(0); i < yields.size(); ++i) {
         double tmp = yields[i].m_calcValue;
-        m_pParallelManager->broadcastDouble(&tmp, 1, broadcastRank);
+        ParallelManager::instance().broadcastDouble(&tmp, 1, broadcastRank);
         yields[i].m_calcValue = tmp;
       }
       vector<conditionSet>& eigenvalues = PandTs[calPoint].m_eigenvalues;
       for (size_t i(0); i < eigenvalues.size(); ++i) {
         double tmp = eigenvalues[i].m_calcValue;
-        m_pParallelManager->broadcastDouble(&tmp, 1, broadcastRank);
+        ParallelManager::instance().broadcastDouble(&tmp, 1, broadcastRank);
         eigenvalues[i].m_calcValue = tmp;
       }
       vector<RawDataSet>& Trace = PandTs[calPoint].m_rawDataSets;
       for (size_t i(0); i < Trace.size(); ++i) {
         vector<double> tmp = Trace[i].m_calcTrace;
-        m_pParallelManager->broadcastVecDouble(tmp, broadcastRank);
+        ParallelManager::instance().broadcastVecDouble(tmp, broadcastRank);
         Trace[i].m_calcTrace = tmp;
         double tmp2 = Trace[i].m_weight;
-        m_pParallelManager->broadcastDouble(&tmp2, 1, broadcastRank);
+        ParallelManager::instance().broadcastDouble(&tmp2, 1, broadcastRank);
         Trace[i].m_weight = tmp2;
       }
     }
@@ -929,8 +928,8 @@ namespace mesmer
   // Write the Analysis section of the XML output.
   void ConditionsManager::WriteAnalysisXML(PersistPtr m_ppIOPtr)
   {
-    int rank = m_pParallelManager->rank();
-    int nRanks = m_pParallelManager->size();
+    int rank = ParallelManager::instance().rank();
+    int nRanks = ParallelManager::instance().size();
 
     // Reconcile data.
 
@@ -943,70 +942,70 @@ namespace mesmer
       // Eigenvalue data.
 
       int* itmp = &analysisData.m_number;
-      m_pParallelManager->broadcastInteger(itmp, 1, broadcastRank);
+      ParallelManager::instance().broadcastInteger(itmp, 1, broadcastRank);
 
       string stmp = analysisData.m_selection;
-      m_pParallelManager->broadcastString(stmp, broadcastRank);
+      ParallelManager::instance().broadcastString(stmp, broadcastRank);
       analysisData.m_selection = stmp;
 
       vector<double>& eigenvalues = analysisData.m_eigenvalues;
-      m_pParallelManager->broadcastVecDouble(eigenvalues, broadcastRank);
+      ParallelManager::instance().broadcastVecDouble(eigenvalues, broadcastRank);
 
       // Loss rate coefficients.
 
       vector<string>& lossRef = analysisData.m_lossRef;
-      m_pParallelManager->broadcastVecString(lossRef, broadcastRank);
+      ParallelManager::instance().broadcastVecString(lossRef, broadcastRank);
 
       vector<double>& lossRateCoeff = analysisData.m_lossRateCoeff;
-      m_pParallelManager->broadcastVecDouble(lossRateCoeff, broadcastRank);
+      ParallelManager::instance().broadcastVecDouble(lossRateCoeff, broadcastRank);
 
       // First order rate coefficients.
 
       vector<string>& firstOrderReactionType = analysisData.m_firstOrderReactionType;
-      m_pParallelManager->broadcastVecString(firstOrderReactionType, broadcastRank);
+      ParallelManager::instance().broadcastVecString(firstOrderReactionType, broadcastRank);
 
       vector<string>& firstOrderFromRef = analysisData.m_firstOrderFromRef;
-      m_pParallelManager->broadcastVecString(firstOrderFromRef, broadcastRank);
+      ParallelManager::instance().broadcastVecString(firstOrderFromRef, broadcastRank);
 
       vector<string>& firstOrderToRef = analysisData.m_firstOrderToRef;
-      m_pParallelManager->broadcastVecString(firstOrderToRef, broadcastRank);
+      ParallelManager::instance().broadcastVecString(firstOrderToRef, broadcastRank);
 
       vector<double>& firstOrderRateCoeff = analysisData.m_firstOrderRateCoeff;
-      m_pParallelManager->broadcastVecDouble(firstOrderRateCoeff, broadcastRank);
+      ParallelManager::instance().broadcastVecDouble(firstOrderRateCoeff, broadcastRank);
 
       // Second order rate coefficients.
 
       vector<string>& secondOrderReactionType = analysisData.m_secondOrderReactionType;
-      m_pParallelManager->broadcastVecString(secondOrderReactionType, broadcastRank);
+      ParallelManager::instance().broadcastVecString(secondOrderReactionType, broadcastRank);
 
       vector<string>& secondOrderFromRef = analysisData.m_secondOrderFromRef;
-      m_pParallelManager->broadcastVecString(secondOrderFromRef, broadcastRank);
+      ParallelManager::instance().broadcastVecString(secondOrderFromRef, broadcastRank);
 
       vector<string>& secondOrderToRef = analysisData.m_secondOrderToRef;
-      m_pParallelManager->broadcastVecString(secondOrderToRef, broadcastRank);
+      ParallelManager::instance().broadcastVecString(secondOrderToRef, broadcastRank);
 
       vector<double>& secondOrderRateCoeff = analysisData.m_secondOrderRateCoeff;
-      m_pParallelManager->broadcastVecDouble(secondOrderRateCoeff, broadcastRank);
+      ParallelManager::instance().broadcastVecDouble(secondOrderRateCoeff, broadcastRank);
 
       // Average energies and populations.
 
       vector<double>& timePoints = analysisData.m_timePoints;
-      m_pParallelManager->broadcastVecDouble(timePoints, broadcastRank);
+      ParallelManager::instance().broadcastVecDouble(timePoints, broadcastRank);
 
       vector<string>& aveEnergyRef = analysisData.m_aveEnergyRef;
-      m_pParallelManager->broadcastVecString(aveEnergyRef, broadcastRank);
+      ParallelManager::instance().broadcastVecString(aveEnergyRef, broadcastRank);
 
       vector<double>& aveEnergy = analysisData.m_aveEnergy;
-      m_pParallelManager->broadcastVecDouble(aveEnergy, broadcastRank);
+      ParallelManager::instance().broadcastVecDouble(aveEnergy, broadcastRank);
 
       vector<string>& PopRef = analysisData.m_PopRef;
-      m_pParallelManager->broadcastVecString(PopRef, broadcastRank);
+      ParallelManager::instance().broadcastVecString(PopRef, broadcastRank);
 
       vector<double>& Pop = analysisData.m_Pop;
-      m_pParallelManager->broadcastVecDouble(Pop, broadcastRank);
+      ParallelManager::instance().broadcastVecDouble(Pop, broadcastRank);
 
       vector<double>& grnTimes = analysisData.m_grnTimes;
-      m_pParallelManager->broadcastVecDouble(grnTimes, broadcastRank);
+      ParallelManager::instance().broadcastVecDouble(grnTimes, broadcastRank);
 
       // The following piece of code deals with the transfer of the STL map that holds the energy distributions.
 
@@ -1016,7 +1015,7 @@ namespace mesmer
         for (; itr != analysisData.m_grnDists.end(); itr++) {
           molID.push_back(itr->first);
         }
-        m_pParallelManager->broadcastVecString(molID, broadcastRank);
+        ParallelManager::instance().broadcastVecString(molID, broadcastRank);
         vector<vector<double> > grnDists;
         for (size_t i(0); i < molID.size(); i++) {
           grnDists = analysisData.m_grnDists[molID[i]];
@@ -1024,7 +1023,7 @@ namespace mesmer
             grnDists.resize(analysisData.m_grnTimes.size());
           for (size_t j(0); j < grnDists.size(); j++) {
             vector<double>& dtmp = grnDists[j];
-            m_pParallelManager->broadcastVecDouble(dtmp, broadcastRank);
+            ParallelManager::instance().broadcastVecDouble(dtmp, broadcastRank);
           }
           if (rank != broadcastRank)
             analysisData.m_grnDists[molID[i]] = grnDists;
@@ -1032,7 +1031,7 @@ namespace mesmer
       }
 
       stmp = analysisData.m_warning;
-      m_pParallelManager->broadcastString(stmp, broadcastRank);
+      ParallelManager::instance().broadcastString(stmp, broadcastRank);
       analysisData.m_warning = stmp;
 
     }

@@ -21,6 +21,8 @@
 #include "../Sobol.h"
 #include <string>
 #include <cctype>
+#include "../ParallelManager.h"
+
 
 using namespace mesmer;
 
@@ -337,7 +339,6 @@ namespace mesmer
       m_Di(),
       m_Dij(),
       m_RSquared(),
-      m_pParallelManager(NULL),
       m_rank(0),
       m_nRanks(1) {
       Register();
@@ -424,9 +425,8 @@ namespace mesmer
 
     vector<double> m_RSquared; // R^2 statistic.
 
-    ParallelManager *m_pParallelManager; // Location of parallel manager.
-    int m_rank;                          // MPI rank
-    int m_nRanks;                        // MPI number of ranks
+    int m_rank;                // MPI rank
+    int m_nRanks;              // MPI number of ranks
 
   };
 
@@ -469,9 +469,8 @@ namespace mesmer
   }
 
   bool SensitivityAnalysis::DoCalculation(System* pSys) {
-    m_pParallelManager = pSys->getParallelManager();
-    m_rank = m_pParallelManager->rank();
-    m_nRanks = m_pParallelManager->size();
+    m_rank = ParallelManager::instance().rank();
+    m_nRanks = ParallelManager::instance().size();
     return (m_bGenerateData) ? DoCalculationOld(pSys) : DoCalculationNew(pSys);
   }
 
@@ -622,7 +621,7 @@ namespace mesmer
         }
         ctest << endl;
       }
-      pSys->getParallelManager()->barrier();
+      ParallelManager::instance().barrier();
 
     }
 
@@ -736,9 +735,9 @@ namespace mesmer
 
       // Calculate mean and variance across ranks.
       double dCnt = double(cnt);
-      m_pParallelManager->sumDouble(&dCnt, 1);
-      m_pParallelManager->sumDouble(&f0[0], int(f0.size()));
-      m_pParallelManager->sumDouble(&varf[0], int(varf.size()));
+      ParallelManager::instance().sumDouble(&dCnt, 1);
+      ParallelManager::instance().sumDouble(&f0[0], int(f0.size()));
+      ParallelManager::instance().sumDouble(&varf[0], int(varf.size()));
       for (size_t nOut(0); nOut < varf.size(); nOut++) {
         f0[nOut] /= dCnt;
         varf[nOut] -= f0[nOut] * f0[nOut];
@@ -1184,17 +1183,17 @@ namespace mesmer
     if (m_nRanks == 1)
       return;
 
-    m_pParallelManager->barrier();
+    ParallelManager::instance().barrier();
 
     Table wrk; // Workspace for the accumulated table.
     for (size_t i(0); i < size_t(m_nRanks); i++) {
       vector<double> tmp = table[0];
       int tableSize = int(table.size());
-      m_pParallelManager->broadcastInteger(&tableSize, 1, int(i));
+      ParallelManager::instance().broadcastInteger(&tableSize, 1, int(i));
       for (size_t j(0); j < size_t(tableSize); j++) {
         if (size_t(m_rank) == i)
           tmp = table[j];
-        m_pParallelManager->broadcastDouble(&tmp[0], int(tmp.size()), int(i));
+        ParallelManager::instance().broadcastDouble(&tmp[0], int(tmp.size()), int(i));
         wrk.push_back(tmp);
       }
     }

@@ -25,6 +25,7 @@
 #include "../Sobol.h"
 #include <string>
 #include <cctype>
+#include "../ParallelManager.h"
 
 namespace mesmer
 {
@@ -150,8 +151,8 @@ namespace mesmer
 		pSys->getConditionsManager()->getConditions(Temperature, Concentration);
 
 		// Parallel execution details.
-		int rank   = pSys->getParallelManager()->rank();
-		int nRanks = pSys->getParallelManager()->size();
+		int rank   = ParallelManager::instance().rank();
+		int nRanks = ParallelManager::instance().size();
 
 		// Instantiate a random vector generator.
 		Sobol sobol;
@@ -216,8 +217,8 @@ namespace mesmer
 
 			// Calculate mean and variance across ranks.
 			double dCnt = double(cnt);
-			pSys->getParallelManager()->sumDouble(&dCnt, 1);
-			pSys->getParallelManager()->sumDouble(&varf[0], int(varf.size()));
+			ParallelManager::instance().sumDouble(&dCnt, 1);
+			ParallelManager::instance().sumDouble(&varf[0], int(varf.size()));
 			// Note: division by cnt, not cnt-1, because we know the mean.
 			for (size_t nOut(0); nOut < varf.size(); nOut++) {
 				varf[nOut] /= dCnt;

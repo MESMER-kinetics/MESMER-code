@@ -38,313 +38,321 @@ bool QACompare(string infilename, bool NOptionUsed);
 string duplicateFileName(const string& inName, const string& suffix, const string& newTimeStamp = "");
 string replaceFilename(const string& inName, const string& newFilename);
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
   //
   // MPI initiation.
   //
 
-  ParallelManager parallelManager(argc, argv);
+  ParallelManager::init(argc, argv);
 
-  //
-  // The following invocation is required by the QD  library to fix a problem 
-  // with the extended precision methods on x86 platforms.
-  //
-  unsigned int old_cw;
-  fpu_fix_start(&old_cw);
+  int returnCode(0);
 
-  // Visual C++ for Windows has used 3 digit exponent when outputting
-  // scientific format numbers even when it was not necessary. From
-  // Visual Studio 2015 it uses the more standard 2-digit exponent
-  // and the following code sets this for earlier Visual C++ compilers.
-  // The QA baselines for Windows in Mesmer 4 and earlier are
-  // consequently different from those for Mesmer 5 after Aug 2015.
-  // To get original behaviour with older compilers define
-  // USE_OLD_EXPONENT before compiling. 
+  try {
+
+    //
+    // The following invocation is required by the QD  library to fix a problem 
+    // with the extended precision methods on x86 platforms.
+    //
+    unsigned int old_cw;
+    fpu_fix_start(&old_cw);
+
+    // Visual C++ for Windows has used 3 digit exponent when outputting
+    // scientific format numbers even when it was not necessary. From
+    // Visual Studio 2015 it uses the more standard 2-digit exponent
+    // and the following code sets this for earlier Visual C++ compilers.
+    // The QA baselines for Windows in Mesmer 4 and earlier are
+    // consequently different from those for Mesmer 5 after Aug 2015.
+    // To get original behaviour with older compilers define
+    // USE_OLD_EXPONENT before compiling. 
 #if !USE_OLD_EXPONENT && __MSC_VER && _MSC_VER<1900
-  _set_output_format(_TWO_DIGIT_EXPONENT);
+    _set_output_format(_TWO_DIGIT_EXPONENT);
 #endif
 
-  if (argc < 2)
-  {
-    usage();
-    parallelManager.finalize();
-    return 0;
-  }
-
-  // process command line arguments
-  string infilename, outfilename, testfilename, logfilename, punchfilename;
-  vector<string> extraInfilenames;
-  bool nocalc = false, usecout = false, overwriteinput = false,
-    qatest = false, nologging = false, changetestname = false;
-
-  for (int iarg = 1; iarg < argc; ++iarg)
-  {
-    const char* p = argv[iarg];
-    if (*p == '-')
+    if (argc < 2)
     {
-      switch (*++p)
+      usage();
+      ParallelManager::instance().finalize();
+      return 0;
+    }
+
+    // process command line arguments
+    string infilename, outfilename, testfilename, logfilename, punchfilename;
+    vector<string> extraInfilenames;
+    bool nocalc = false, usecout = false, overwriteinput = false,
+      qatest = false, nologging = false, changetestname = false;
+
+    for (int iarg = 1; iarg < argc; ++iarg)
+    {
+      const char* p = argv[iarg];
+      if (*p == '-')
       {
-      case '?':
-        usage();
-        parallelManager.finalize();
-        return 0;
-      case 'g':
-        nologging = true;
-        cerr << "Logging is turned off: no info or test output" << endl;
-        break;
-      case 'n':
-        overwriteinput = true;
-        break;
-      case 'N':
-        changetestname = true;
-        break;
-      case 'o': //output filename
-        if (!*++p) //if no digit after -o use next arg if its not an option
+        switch (*++p)
         {
-          if (++iarg < argc && *argv[iarg] != '-')
-            p = argv[iarg];
-          else //-o option has no filename
+        case '?':
+          usage();
+          ParallelManager::instance().finalize();
+          return 0;
+        case 'g':
+          nologging = true;
+          cerr << "Logging is turned off: no info or test output" << endl;
+          break;
+        case 'n':
+          overwriteinput = true;
+          break;
+        case 'N':
+          changetestname = true;
+          break;
+        case 'o': //output filename
+          if (!*++p) //if no digit after -o use next arg if its not an option
           {
-            --iarg;
-            usecout = true;
-            break;
+            if (++iarg < argc && *argv[iarg] != '-')
+              p = argv[iarg];
+            else //-o option has no filename
+            {
+              --iarg;
+              usecout = true;
+              break;
+            }
+          }
+          outfilename = p;
+          break;
+        case 'p': //just parse the input file - no calculation
+          nocalc = true;
+          break;
+        case 'q':
+          qatest = true;
+          break;
+        case 'T': //Table of plugins with descriptions
+          cout << TopPlugin::List(TopPlugin::verbose) << endl;
+          ParallelManager::instance().finalize();
+          return 0;
+        case 't': //Table of plugins
+          cout << TopPlugin::List() << endl;
+          ParallelManager::instance().finalize();
+          return 0;
+        case 'V':
+          cout << version();
+          ParallelManager::instance().finalize();
+          return 0;
+        case 'w': //error level for reporting
+          if (!*++p) //if no digit after -w use next arg
+            p = argv[++iarg];
+          meErrorLog.SetOutputLevel((obMessageLevel)(*p - '0'));
+          break;
+        default:
+          cerr << "The option -" << *p << " was not recognized" << endl;
+          if (--argc < 2)
+          {
+            usage();
+            ParallelManager::instance().finalize();
+            return 0;
           }
         }
-        outfilename = p;
-        break;
-      case 'p': //just parse the input file - no calculation
-        nocalc = true;
-        break;
-      case 'q':
-        qatest = true;
-        break;
-      case 'T': //Table of plugins with descriptions
-        cout << TopPlugin::List(TopPlugin::verbose) << endl;
-        parallelManager.finalize();
-        return 0;
-      case 't': //Table of plugins
-        cout << TopPlugin::List() << endl;
-        parallelManager.finalize();
-        return 0;
-      case 'V':
-        cout << version();
-        parallelManager.finalize();
-        return 0;
-      case 'w': //error level for reporting
-        if (!*++p) //if no digit after -w use next arg
-          p = argv[++iarg];
-        meErrorLog.SetOutputLevel((obMessageLevel)(*p - '0'));
-        break;
-      default:
-        cerr << "The option -" << *p << " was not recognized" << endl;
-        if (--argc < 2)
-        {
-          usage();
-          parallelManager.finalize();
-          return 0;
-        }
+      }
+      else {
+        if (infilename.empty())
+          infilename = p;
+        else
+          extraInfilenames.push_back(p);
       }
     }
-    else {
+
+    if (changetestname) {
+      string testSuffix(".test");
+      string logSuffix(".log");
+      string punchSuffix(".punch");
+      testfilename = duplicateFileName(infilename, testSuffix);
+      logfilename = duplicateFileName(infilename, logSuffix);
+      punchfilename = duplicateFileName(infilename, punchSuffix);
+    }
+    else { // default test and log names
+      testfilename = "mesmer.test";
+      logfilename = "mesmer.log";
+      punchfilename = "mesmer.punch";
+    }
+
+    if (!usecout && outfilename.empty()) {
+      string repname = "mesmer_out.xml";
+      outfilename = overwriteinput ? infilename : replaceFilename(infilename, repname);
+    }
+
+    //-----------------------------------
+    //Start the error handling system
+    //
+    ostream* plog = NULL;
+    ofstream logstream(logfilename.c_str());
+    if (!logstream)
+      cerr << "Could not open " << logfilename << " for writing. Continuing without it." << endl;
+    else
+      plog = &logstream;
+
+    //Write all messages to mesmer.log, if it was opened.
+    meErrorLog.SetLogStream(plog);
+
+    ofstream osout(testfilename.c_str());
+    if (!osout)
+      cerr << "Could not open " << testfilename << " for writing. Continuing without it." << endl;
+
+    // Allow writing of messages to cerr, cwarn and cinfo. Send ctest to file mesmer.test
+    // Original streams restored when this goes out of context.
+    // SHR, 17/Jan/2017: The nologging feature is used here to stop slaves from writing
+    // to output during parallel execution.
+    OStreamRedirector osr(&meErrorLog, &osout, (nologging || ParallelManager::instance().rank()));
+
+    banner(ParallelManager::instance().size());
+
+    //-----------------------------------------------
+    //Get the top level directory from an environment variable,
+    //or if that fails, from two levels above the current directory
+    //This contains librarymols.xml, defaults.xml.
+    const char* pdir = getenv("MESMER_DIR");
+    if (!pdir || *pdir == '\0') //env var absent or empty
+      pdir = "../..";
+    string MesmerDir(pdir);
+    string::size_type pos = MesmerDir.find(';');
+    if (pos != string::npos)
+      MesmerDir.erase(pos); //Use the first directory in the env var
+
+    cinfo << "defaults.xml, librarymols.xml are in " << MesmerDir << endl;
+    //-------------------------------
+    //
+    // Instantiate the System collection. This holds all information
+    // about reaction systems and all molecular data.
+    //
+    System _sys(MesmerDir + "/librarymols.xml");
+    if (!_sys.initialize())
+      cerr << "Failed to create System object" << endl;
+
+    _sys.m_Flags.punchFileName = punchfilename;
+
+    TimeCount events; unsigned int timeElapsed;
+
+    //This is where the type of IO is decided.
+    //Opens the data file and checks that its root element is me:mesmer.
+    PersistPtr ppIOPtr = XMLPersist::XmlLoad(infilename, MesmerDir + "/defaults.xml", "me:mesmer");
+    ParallelManager::instance().CheckForError(!bool(ppIOPtr), string("Failed to load input file: ") + infilename);
+
+    //Incorporate the additional input files into the main datafile
+    vector<string>::reverse_iterator fileitr;
+    for (fileitr = extraInfilenames.rbegin(); fileitr != extraInfilenames.rend(); ++fileitr)
+    {
+      bool bflag = !ppIOPtr->XmlInclude(*fileitr);
+      ParallelManager::instance().CheckForError(bflag, string("Failed to load additional input files."));
+    }
+
+    //------------
+    if (nocalc)
+      _sys.assignMolTypes(ppIOPtr);
+
+    // Parse input file
+    {
+      string thisEvent;
       if (infilename.empty())
-        infilename = p;
+        thisEvent = "\nParsing xml from stdin...";
       else
-        extraInfilenames.push_back(p);
+        thisEvent = "\nParsing input xml file...\n" + infilename + '\n';
+      cinfo << thisEvent << endl; //usually output
+      events.setTimeStamp(thisEvent);
     }
-  }
+    try {
+      bool status = !_sys.parse(ppIOPtr);
+      ParallelManager::instance().CheckForError(status, string("\nSystem parse failed."));
+      _sys.WriteMetadata(infilename);
+      if (plog)
+        plog->flush();
 
-  if (changetestname) {
-    string testSuffix(".test");
-    string logSuffix(".log");
-    string punchSuffix(".punch");
-    testfilename = duplicateFileName(infilename, testSuffix);
-    logfilename = duplicateFileName(infilename, logSuffix);
-    punchfilename = duplicateFileName(infilename, punchSuffix);
-  }
-  else { // default test and log names
-    testfilename = "mesmer.test";
-    logfilename = "mesmer.log";
-    punchfilename = "mesmer.punch";
-  }
-
-  if (!usecout && outfilename.empty()) {
-    string repname = "mesmer_out.xml";
-    outfilename = overwriteinput ? infilename : replaceFilename(infilename, repname);
-  }
-
-  //-----------------------------------
-  //Start the error handling system
-  //
-  ostream* plog = NULL;
-  ofstream logstream(logfilename.c_str());
-  if (!logstream)
-    cerr << "Could not open " << logfilename << " for writing. Continuing without it." << endl;
-  else
-    plog = &logstream;
-
-  //Write all messages to mesmer.log, if it was opened.
-  meErrorLog.SetLogStream(plog);
-
-  ofstream osout(testfilename.c_str());
-  if (!osout)
-    cerr << "Could not open " << testfilename << " for writing. Continuing without it." << endl;
-
-  // Allow writing of messages to cerr, cwarn and cinfo. Send ctest to file mesmer.test
-  // Original streams restored when this goes out of context.
-  // SHR, 17/Jan/2017: The nologging feature is used here to stop slaves from writing
-  // to output during parallel execution.
-  OStreamRedirector osr(&meErrorLog, &osout, (nologging || parallelManager.rank()));
-
-  banner(parallelManager.size());
-
-  //-----------------------------------------------
-  //Get the top level directory from an environment variable,
-  //or if that fails, from two levels above the current directory
-  //This contains librarymols.xml, defaults.xml.
-  const char* pdir = getenv("MESMER_DIR");
-  if (!pdir || *pdir == '\0') //env var absent or empty
-    pdir = "../..";
-  string MesmerDir(pdir);
-  string::size_type pos = MesmerDir.find(';');
-  if (pos != string::npos)
-    MesmerDir.erase(pos); //Use the first directory in the env var
-
-  cinfo << "defaults.xml, librarymols.xml are in " << MesmerDir << endl;
-  //-------------------------------
-  //
-  // Instantiate the System collection. This holds all information
-  // about reaction systems and all molecular data.
-  //
-  System _sys(MesmerDir + "/librarymols.xml", &parallelManager);
-  if (!_sys.initialize())
-    cerr << "Failed to create System object" << endl;
-
-  _sys.m_Flags.punchFileName = punchfilename;
-
-  TimeCount events; unsigned int timeElapsed;
-
-  //This is where the type of IO is decided.
-  //Opens the data file and checks that its root element is me:mesmer.
-  PersistPtr ppIOPtr = XMLPersist::XmlLoad(infilename, MesmerDir + "/defaults.xml", "me:mesmer");
-  parallelManager.CheckForError(!bool(ppIOPtr), string("Failed to load input file: ") + infilename);
-
-  //Incorporate the additional input files into the main datafile
-  vector<string>::reverse_iterator fileitr;
-  for (fileitr = extraInfilenames.rbegin(); fileitr != extraInfilenames.rend(); ++fileitr)
-  {
-    bool bflag = !ppIOPtr->XmlInclude(*fileitr);
-    parallelManager.CheckForError(bflag, string("Failed to load additional input files."));
-  }
-
-  //------------
-  if (nocalc)
-    _sys.assignMolTypes(ppIOPtr);
-
-  // Parse input file
-  {
-    string thisEvent;
-    if (infilename.empty())
-      thisEvent = "\nParsing xml from stdin...";
-    else
-      thisEvent = "\nParsing input xml file...\n" + infilename + '\n';
-    cinfo << thisEvent << endl; //usually output
-    events.setTimeStamp(thisEvent);
-  }
-  int returnCode = 0;
-  try {
-    bool status = !_sys.parse(ppIOPtr);
-    parallelManager.CheckForError(status, string("\nSystem parse failed."));
-    _sys.WriteMetadata(infilename);
-    if (plog)
-      plog->flush();
-
-    if (!nocalc)
-    {
-      //------------------
-      // Begin calculation
+      if (!nocalc)
       {
-        string thisEvent = "Main Calculation begins\n";
-        cinfo << "\nFile: \"" << infilename << "\" successfully parsed.\n" << thisEvent;
-        events.setTimeStamp(thisEvent);
-      }
-
-      cinfo << "Now calculating..." << endl;
-
-      _sys.executeCalculation();
-    }
-  }
-  catch (std::runtime_error& e)
-  {
-    cinfo.flush();
-    clog.flush();
-    cerr << e.what() << endl;
-    cerr.flush();
-    parallelManager.finalize();
-    exit(-1);
-  }
-  catch (std::logic_error&) {} // Outputs XML before terminating (for debugging)
-
-  //--------------------------------
-  // Save XML document
-  string thisEvent = "Save XML document";
-  string currentTimeStamp = events.setTimeStamp(thisEvent, timeElapsed);
-  string saveTimeStamp = '.' + currentTimeStamp;
-  cerr << " -- Total time elapsed: " << timeElapsed << " seconds.\n" << endl;
-
-  if (parallelManager.Master()) {
-		//Any existing file with the same name as the one being written is renamed with a _prev suffix
-		//Any old _prev file is not deleted unless the write of the new file is successful
-		if (!usecout)
-			rename(outfilename.c_str(), "temp");
-
-		if (!ppIOPtr->XmlSaveFile(outfilename))
-    {
-      cerr << "There was an error when writing " << outfilename;
-      rename("temp", outfilename.c_str());
-    }
-    else
-    {
-      if (!outfilename.empty())
-      {
-        stringstream line;
-        line << "System saved to " << outfilename << endl;
-        line << "Total time elapsed: " << timeElapsed << " seconds." << endl;
-        cinfo << line.str();
-
-        if (!usecout)
+        //------------------
+        // Begin calculation
         {
-          string::size_type pos = outfilename.rfind('.');
-          string prevname(outfilename);
-          prevname = pos == string::npos ?
-            prevname + "_prev" :
-            prevname.replace(pos, 1, "_prev.");
-          remove(prevname.c_str());
-          rename("temp", prevname.c_str());
+          string thisEvent = "Main Calculation begins\n";
+          cinfo << "\nFile: \"" << infilename << "\" successfully parsed.\n" << thisEvent;
+          events.setTimeStamp(thisEvent);
+        }
+
+        cinfo << "Now calculating..." << endl;
+
+        _sys.executeCalculation();
+      }
+    }
+    catch (std::runtime_error& e)
+    {
+      cinfo.flush();
+      clog.flush();
+      cerr << e.what() << endl;
+      cerr.flush();
+      ParallelManager::instance().finalize();
+      exit(-1);
+    }
+    catch (std::logic_error&) {} // Outputs XML before terminating (for debugging)
+
+    //--------------------------------
+    // Save XML document
+    string thisEvent = "Save XML document";
+    string currentTimeStamp = events.setTimeStamp(thisEvent, timeElapsed);
+    string saveTimeStamp = '.' + currentTimeStamp;
+    cerr << " -- Total time elapsed: " << timeElapsed << " seconds.\n" << endl;
+
+    if (ParallelManager::instance().Master()) {
+      //Any existing file with the same name as the one being written is renamed with a _prev suffix
+      //Any old _prev file is not deleted unless the write of the new file is successful
+      if (!usecout)
+        rename(outfilename.c_str(), "temp");
+
+      if (!ppIOPtr->XmlSaveFile(outfilename))
+      {
+        cerr << "There was an error when writing " << outfilename;
+        rename("temp", outfilename.c_str());
+      }
+      else
+      {
+        if (!outfilename.empty())
+        {
+          stringstream line;
+          line << "System saved to " << outfilename << endl;
+          line << "Total time elapsed: " << timeElapsed << " seconds." << endl;
+          cinfo << line.str();
+
+          if (!usecout)
+          {
+            string::size_type pos = outfilename.rfind('.');
+            string prevname(outfilename);
+            prevname = pos == string::npos ?
+              prevname + "_prev" :
+              prevname.replace(pos, 1, "_prev.");
+            remove(prevname.c_str());
+            rename("temp", prevname.c_str());
+          }
         }
       }
     }
-  }
 
-  if (qatest)
-  {
-    osout.close();
-    if (!QACompare(infilename, changetestname))
+    if (qatest)
     {
-      cerr << "QA test *** FAILED ***" << endl;
-      returnCode = -5;
+      osout.close();
+      if (!QACompare(infilename, changetestname))
+      {
+        cerr << "QA test *** FAILED ***" << endl;
+        returnCode = -5;
+      }
+      else
+        cerr << "QA test successful" << endl;
     }
-    else
-      cerr << "QA test successful" << endl;
+
+    //
+    // The following invocation is required by the QD  library to restore 
+    // default floating point behaviour on x86 platforms.
+    //
+    fpu_fix_end(&old_cw);
+
   }
-
-  //
-  // The following invocation is required by the QD  library to restore 
-  // default floating point behaviour on x86 platforms.
-  //
-  fpu_fix_end(&old_cw);
-
-  parallelManager.finalize();
+  catch (...) {
+    ParallelManager::shutdown();
+    throw;
+  }
+  ParallelManager::shutdown();
 
   return returnCode;
 }
@@ -439,7 +447,7 @@ string platform()
 #ifdef _WIN64
   OS = "Windows64";
 #elif WIN32
-  OS = "Windows"; 
+  OS = "Windows";
 #else
   OS = "Linux";
 #endif
@@ -528,7 +536,7 @@ QA test output    ctest <<...                          mesmer.test
 
 Temporary debug   cout <<...                           File when redirected from
 Use for bulky debug output                             commandline with >
-																											 (Otherwise console)
+                                                       (Otherwise console)
 
 Temporary debug   clog <<...                           Console
 Use for short debug output

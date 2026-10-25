@@ -3,7 +3,6 @@
 
 #include <vector>
 #include "System.h"
-#include "ParallelManager.h"
 #include "AnalysisData.h"
 
 namespace mesmer
@@ -302,9 +301,6 @@ namespace mesmer
 
     // Paired concentration and pressure points.
     std::vector<CandTpair> PandTs;
-
-    // Location of the parallel mananger.
-    ParallelManager* m_pParallelManager;
 
     // General analysis data.
     GeneralAnalysisData generalAnalysisData;
