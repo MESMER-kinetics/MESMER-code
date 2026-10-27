@@ -22,7 +22,7 @@ namespace mesmer
   {
   public:
     ///Constructor which registers with the list of MicroRateCalculators in the base class
-    CIISC(const char* id) : m_CIISCProb(1.0), m_TransDecay(0.0), m_id(id) { Register(); }
+    CIISC(const char* id) : m_CIISCProb(1.0), m_ExpTransDecay(0.0), m_BaseTransDecay(0.0), m_id(id) { Register(); }
 
     virtual ~CIISC() {}
     virtual const char* getID() { return m_id; }
@@ -39,7 +39,8 @@ namespace mesmer
     
     Rdouble m_CIISCProb; // Collisional transition probability.
 
-    double m_TransDecay;
+    Rdouble m_ExpTransDecay;
+    Rdouble m_BaseTransDecay;
     
     const char* m_id;
   };
@@ -54,8 +55,11 @@ namespace mesmer
     double CIISCProb = pp->XmlReadDouble("me:CIISCProbability");
     m_CIISCProb = (IsNan(CIISCProb)) ? 1.0 : min(max(CIISCProb,0.0),1.0);
 
-    double TransDecay = pp->XmlReadDouble("me:ExpTransDecay");
-    m_TransDecay = (IsNan(TransDecay)) ? 0.0 : max(TransDecay, 0.0);
+    double ExpTransDecay = pp->XmlReadDouble("me:ExpTransDecay");
+    m_ExpTransDecay = (IsNan(ExpTransDecay)) ? 0.0 : max(ExpTransDecay, 0.0);
+
+    double BaseTransDecay = pp->XmlReadDouble("me:BaseTransDecay");
+    m_BaseTransDecay = (IsNan(BaseTransDecay)) ? 0.0 : max(BaseTransDecay, 0.0);
 
     bool rangeSet;
     PersistPtr ppCIISCProb = pp->XmlMoveTo("me:CIISCProbability");
@@ -69,7 +73,7 @@ namespace mesmer
     // get MaxCell from MesmerEnv structure via Reaction class
     const size_t MaximumCell = pReact->getEnv().MaxCell;
     const double cellsize = pReact->getEnv().CellSize;
-    const double coeff = (m_TransDecay > 0.0) ? cellsize / m_TransDecay : 0.0 ;
+    const double coeff = (m_ExpTransDecay > 0.0) ? cellsize / m_ExpTransDecay : 0.0 ;
 
     // Allocate space to hold transition state flux and initialize elements to zero.
     vector<double>& rxnFlux = pReact->get_CellFlux();
@@ -79,7 +83,7 @@ namespace mesmer
     double coll_frq = pReact->get_reactant()->getColl().get_collisionFrequency();
     for (size_t i(0); i < MaximumCell; ++i) {
       // Calculate microcanonical rate coefficients using CIISC expression.
-      rxnFlux[i] = m_CIISCProb * coll_frq * exp(-double(i)*coeff);
+      rxnFlux[i] = coll_frq * (m_CIISCProb * exp(-double(i)*coeff) + m_BaseTransDecay);
     }
 
     // The flux bottom energy is equal to the ZPE of the transition state.
