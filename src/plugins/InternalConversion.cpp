@@ -55,7 +55,7 @@ namespace mesmer
     PersistPtr ppReac = pReact->get_PersistentPointer();
     bool rangeSet(false);
 
-    const char* pFormat = pp->XmlReadValue("Format", optional);
+    const char* pFormat = pp->XmlReadValue("me:Format", optional);
 
     m_format = pFormat;
 

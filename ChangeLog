@@ -1,3 +1,8 @@
+2026-Oct-29 Struan Robertson
+
+		* CIISC.cpp, InternalConversion.cpp: Changes to allow fitting of CIISC 
+		model parameters.
+
 2026-Oct-24 Struan Robertson
 
 		* ParallelManager.h, System.h/.cpp, ConditionManager.h/.cpp, main.cpp,
