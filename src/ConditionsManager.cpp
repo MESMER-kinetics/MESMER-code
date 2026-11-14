@@ -652,15 +652,18 @@ namespace mesmer
     // Test if photolysis frequency is to be written.
     bool bPhotolysis = (PandTs[0].m_photolysisFrq > 0);
 
-    stringstream rateCoeffTable;
+    // Write out point data results.
 
-    rateCoeffTable << endl;
-    rateCoeffTable << "    Temperature  Concentration";
+    stringstream rateCoeffTableTitle;
+    rateCoeffTableTitle << endl;
+    rateCoeffTableTitle << "    Temperature  Concentration";
     if (bPhotolysis)
-      rateCoeffTable << "    Photo. Frq.";
-    rateCoeffTable << "    Exp. Coeff.    Cal. Coeff." << endl;
-    rateCoeffTable << endl;
+      rateCoeffTableTitle << "    Photo. Frq.";
+    rateCoeffTableTitle << "    Exp. Coeff.    Cal. Coeff." << endl;
+    rateCoeffTableTitle << endl;
 
+    bool bDataWritten(false);
+    stringstream rateCoeffTable;
     for (size_t calPoint(0); calPoint < PandTs.size(); calPoint++) {
       stringstream conditions;
       conditions << formatFloat(PandTs[calPoint].m_temperature, 6, 15);
@@ -669,35 +672,67 @@ namespace mesmer
         conditions << formatFloat(PandTs[calPoint].m_photolysisFrq, 6, 15);
       const vector<conditionSet>& rates = PandTs[calPoint].m_rates;
       for (size_t i(0); i < rates.size(); ++i) {
+        bDataWritten = true;
         rateCoeffTable << conditions.str() << formatFloat(rates[i].m_value, 6, 15) << formatFloat(rates[i].m_calcValue, 6, 15) << endl;
       }
       const vector<conditionSet>& yields = PandTs[calPoint].m_yields;
       for (size_t i(0); i < yields.size(); ++i) {
+        bDataWritten = true;
         rateCoeffTable << conditions.str() << formatFloat(yields[i].m_value, 6, 15) << formatFloat(yields[i].m_calcValue, 6, 15) << endl;
       }
       const vector<conditionSet>& eigenvalues = PandTs[calPoint].m_eigenvalues;
       for (size_t i(0); i < eigenvalues.size(); ++i) {
+        bDataWritten = true;
         rateCoeffTable << conditions.str() << formatFloat(eigenvalues[i].m_value, 6, 15) << formatFloat(eigenvalues[i].m_calcValue, 6, 15) << endl;
       }
+    }
+    rateCoeffTable << endl;
+
+    if (bDataWritten) {
+      cinfo << rateCoeffTableTitle.str();
+      cinfo << rateCoeffTable.str();
+    }
+
+    // Write out trace data results.
+
+    bDataWritten = false;
+    rateCoeffTableTitle.str("");
+    rateCoeffTableTitle << endl;
+    rateCoeffTableTitle << "    Temperature  Concentration";
+    if (bPhotolysis)
+      rateCoeffTableTitle << "    Photo. Frq.";
+    rateCoeffTableTitle << endl;
+
+    rateCoeffTable.str("");
+    size_t indent = (bPhotolysis) ? 45 : 30;
+    for (size_t calPoint(0); calPoint < PandTs.size(); calPoint++) {
+      stringstream conditions;
+      conditions << formatFloat(PandTs[calPoint].m_temperature, 6, 15);
+      conditions << formatFloat(PandTs[calPoint].m_concentration, 6, 15);
+      if (bPhotolysis)
+        conditions << formatFloat(PandTs[calPoint].m_photolysisFrq, 6, 15);
       const vector<RawDataSet>& Traces = PandTs[calPoint].m_rawDataSets;
       for (size_t i(0); i < Traces.size(); ++i) {
         rateCoeffTable << conditions.str() << setw(15) << "Time" << setw(16) << "Expt." << setw(16) << "Calc." << endl;
         const RawDataSet& Trace = Traces[i];
+        bDataWritten = true;
         for (size_t j(0); j < Trace.data.size(); ++j) {
           double time = Trace.data[j].first;
           double expt = Trace.data[j].second;
           double calc = Trace.m_calcTrace[j];
-          rateCoeffTable << setw(30) << " " << formatFloat(time, 6, 15) << "," << formatFloat(expt, 6, 15) << "," << formatFloat(calc, 6, 15) << endl;
+          rateCoeffTable << setw(indent) << " " << formatFloat(time, 6, 15) << "," << formatFloat(expt, 6, 15) << "," << formatFloat(calc, 6, 15) << endl;
         }
         rateCoeffTable << endl;
-        rateCoeffTable << setw(30) << "Weight: " << Trace.m_weight << endl;
+        rateCoeffTable << setw(indent) << "Weight: " << Trace.m_weight << endl;
         rateCoeffTable << endl;
       }
     }
-
     rateCoeffTable << endl;
 
-    cinfo << rateCoeffTable.str();
+    if (bDataWritten) {
+      cinfo << rateCoeffTableTitle.str();
+      cinfo << rateCoeffTable.str();
+    }
 
     stringstream calcsignals;
     for (size_t calPoint(0); calPoint < PandTs.size(); calPoint++) //every P,T point

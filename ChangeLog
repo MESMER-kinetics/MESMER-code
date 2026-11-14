@@ -1,3 +1,7 @@
+2026-Nov-14 Struan Robertson
+
+		* ConditionsManager.cpp, uFTST.cpp: Fixes for some output issues.
+
 2026-Oct-29 Struan Robertson
 
 		* CIISC.cpp, InternalConversion.cpp: Changes to allow fitting of CIISC 
