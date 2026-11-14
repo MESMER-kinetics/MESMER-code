@@ -61,11 +61,11 @@ namespace mesmer
 
     virtual bool ParseData(PersistPtr);
 
-    virtual bool initializeMicroCnlFlux(Reaction* pReact) ;
+    virtual bool initializeMicroCnlFlux(Reaction* pReact);
 
-    virtual bool calculateMicroCnlFlux(Reaction* pReact) { return true; } ;
+    virtual bool calculateMicroCnlFlux(Reaction* pReact) { return true; };
 
-    virtual bool locateMicroCnlFlux(Reaction* pReact) ;
+    virtual bool locateMicroCnlFlux(Reaction* pReact);
 
     virtual double get_ThresholdEnergy(Reaction* pReact);
 
@@ -449,24 +449,27 @@ namespace mesmer
         rxnFlux[i] += Flux[i];
       }
 
-      //if (m_writeSOS) {
-      //  ctest << endl;
-      //  ctest << "J = " << j << ":" << endl << endl;
-      //  if (m_eneForSOS.size() > 0) {
-      //    for (size_t i = 0; i < m_eneForSOS.size(); i++) {
-      //      size_t ii = size_t(m_eneForSOS[i]);
-      //      if (ii < Flux.size()) {
-      //        ctest << setw(6) << ii << formatFloat(Flux[ii], 6, 14) << formatFloat(OptRxnCrd[ii], 6, 14) << endl;
-      //      }
-      //    }
-      //  }
-      //  else {
-      //    for (size_t i = 0; i < Flux.size(); i++) {
-      //      ctest << setw(6) << i << formatFloat(Flux[i], 6, 14) << formatFloat(OptRxnCrd[i], 6, 14) << endl;
-      //    }
-      //  }
-      //  ctest << endl;
-      //}
+      if (m_writeSOS) {
+        stest << endl;
+        stest << "J = " << j << ":" << endl << endl;
+        if (m_eneForSOS.size() > 0) {
+          for (size_t i = 0; i < m_eneForSOS.size(); i++) {
+            size_t ii = size_t(m_eneForSOS[i]);
+            if (ii < Flux.size()) {
+              stest << setw(6) << ii << formatFloat(Flux[ii], 6, 14) << formatFloat(OptRxnCrd[ii], 6, 14) << endl;
+            }
+          }
+        }
+        else {
+          for (size_t i = 0; i < Flux.size(); i++) {
+            stest << setw(6) << i << formatFloat(Flux[i], 6, 14) << formatFloat(OptRxnCrd[i], 6, 14) << endl;
+          }
+        }
+        stest << endl;
+
+        ParallelManager::instance().writeCtest();
+
+      }
 
     }
 
