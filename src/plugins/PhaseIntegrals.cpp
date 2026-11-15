@@ -239,6 +239,9 @@ namespace mesmer
 
   void LnrAtmTops::integrate(double rxnCrd, vector<double>& cellSOS, size_t J) {
 
+    if (J == 0)
+      return;
+
     // Instantiate a random vector generator.
     Sobol sobol;
 
@@ -249,10 +252,14 @@ namespace mesmer
     double Jsq = double(J * J);
     double twoPi = 2.0 * M_PI;
 
+    m_rot2[0][0] = m_rot2[1][1] = m_rot2[2][2] = 1.0;
+
     m_knmtcFctr.resize(m_MCPnts, 0.0);
     m_potential.resize(m_MCPnts, 0.0);
     vector<double> angles(m_nIDOF, 0.0);
     vector<double> tmp(m_nIDOF + 2, 0.0);
+    dMatrix rotY(3, 0.0);
+    rotY[1][1] = 1.0;
     long long seed(17);
     for (size_t i(0); i < m_MCPnts; ++i) {
 
@@ -262,6 +269,12 @@ namespace mesmer
       angles[0] = M_PI * tmp[0];
       double nu = 2.0 * M_PI * tmp[1];
       double gamma = 2.0 * tmp[2] - 1.0;
+
+      rotY[0][0] = rotY[2][2] = cos(angles[0]);
+      rotY[0][2] = -sin(angles[0]);
+      rotY[2][0] = -rotY[0][2];
+
+      m_rot1 = rotY ;
 
       // Calculate the instantaneous moments of inertia.
       InstMoI(Ba, Bb, Bc);
@@ -357,6 +370,10 @@ namespace mesmer
     m_potential.resize(m_MCPnts, 0.0);
     vector<double> angles(m_nIDOF, 0.0);
     vector<double> tmp(m_nIDOF + 2, 0.0);
+    dMatrix rotY(3, 0.0);
+    rotY[1][1] = 1.0;
+    dMatrix rotZ(3, 0.0);
+    rotZ[2][2] = 1.0;
     long long seed(17);
     for (size_t i(0); i < m_MCPnts; ++i) {
 
@@ -367,15 +384,11 @@ namespace mesmer
       double nu = twoPi * tmp[2];
       double gamma = 2.0 * tmp[3] - 1.0;
 
-      dMatrix rotZ(3, 0.0);
       rotZ[0][0] = rotZ[1][1] = cos(angles[0]);
-      rotZ[2][2] = 1.0;
       rotZ[0][1] = sin(angles[0]);
       rotZ[1][0] = -rotZ[0][1];
 
-      dMatrix rotY(3, 0.0);
       rotY[0][0] = rotY[2][2] = cos(angles[1]);
-      rotY[1][1] = 1.0;
       rotY[0][2] = -sin(angles[1]);
       rotY[2][0] = -rotY[0][2];
 
@@ -473,16 +486,39 @@ namespace mesmer
     m_potential.resize(m_MCPnts, 0.0);
     vector<double> angles(m_nIDOF, 0.0);
     vector<double> tmp(m_nIDOF + 2, 0.0);
+    dMatrix rotY(3, 0.0);
+    rotY[1][1] = 1.0;
+    dMatrix rotZ(3, 0.0);
+    rotZ[2][2] = 1.0;
     long long seed(17);
     for (size_t i(0); i < m_MCPnts; ++i) {
 
       // Select angular coordinates.
       sobol.sobol(tmp.size(), &seed, tmp);
-      angles[0] = M_PI * tmp[0];
-      angles[1] = M_PI * tmp[1];
-      angles[2] = 2.0 * M_PI * tmp[2];
-      double nu = 2.0 * M_PI * tmp[3];
+      angles[0] = M_PI  * tmp[0];
+      angles[1] = M_PI  * tmp[1];
+      angles[2] = twoPi * tmp[2];
+      double nu = twoPi * tmp[3];
       double gamma = 2.0 * tmp[4] - 1.0;
+
+      rotY[0][0] = rotY[2][2] = cos(angles[0]);
+      rotY[0][2] = -sin(angles[0]);
+      rotY[2][0] = -rotY[0][2];
+
+      m_rot1 = rotY;
+
+      rotY[0][0] = rotY[2][2] = cos(angles[1]);
+      rotY[0][2] = -sin(angles[1]);
+      rotY[2][0] = -rotY[0][2];
+
+      rotZ[0][0] = rotZ[1][1] = cos(angles[2]);
+      rotZ[0][1] = sin(angles[2]);
+      rotZ[1][0] = -rotZ[0][1];
+
+      m_rot2 = rotZ * rotY ;
+
+      // Calculate the instantaneous moments of inertia.
+      InstMoI(Ba, Bb, Bc);
 
       // Calculate the determinant of the Wilson G Matrix.
       m_knmtcFctr[i] = sqrt(B0 * B0 * B0) * sin(angles[0]) * sin(angles[1]);
@@ -562,6 +598,7 @@ namespace mesmer
 
     if (J == 0)
       return;
+
     // Instantiate a random vector generator.
     Sobol sobol;
 
@@ -575,17 +612,41 @@ namespace mesmer
     m_potential.resize(m_MCPnts, 0.0);
     vector<double> angles(m_nIDOF, 0.0);
     vector<double> tmp(m_nIDOF + 2, 0.0);
+    dMatrix rotY(3, 0.0);
+    rotY[1][1] = 1.0;
+    dMatrix rotZ(3, 0.0);
+    rotZ[2][2] = 1.0;
     long long seed(17);
     for (size_t i(0); i < m_MCPnts; ++i) {
 
       // Select angular coordinates.
       sobol.sobol(tmp.size(), &seed, tmp);
-      angles[0] = M_PI * tmp[0];
-      angles[1] = 2.0 * M_PI * tmp[1];
-      angles[2] = M_PI * tmp[2];
-      angles[3] = 2.0 * M_PI * tmp[3];
+      angles[0] = M_PI  * tmp[0];
+      angles[1] = twoPi * tmp[1];
+      angles[2] = M_PI  * tmp[2];
+      angles[3] = twoPi * tmp[3];
       double nu = 2.0 * M_PI * tmp[4];
       double gamma = 2.0 * tmp[5] - 1.0;
+
+      rotY[0][0] = rotY[2][2] = cos(angles[0]);
+      rotY[0][2] = -sin(angles[0]);
+      rotY[2][0] = -rotY[0][2];
+
+      rotZ[0][0] = rotZ[1][1] = cos(angles[1]);
+      rotZ[0][1] = sin(angles[1]);
+      rotZ[1][0] = -rotZ[0][1];
+
+      m_rot1 = rotY * rotZ ;
+
+      rotY[0][0] = rotY[2][2] = cos(angles[2]);
+      rotY[0][2] = -sin(angles[2]);
+      rotY[2][0] = -rotY[0][2];
+
+      rotZ[0][0] = rotZ[1][1] = cos(angles[3]);
+      rotZ[0][1] = sin(angles[3]);
+      rotZ[1][0] = -rotZ[0][1];
+
+      m_rot2 = rotZ * rotY;
 
       // Calculate the determinant of the Wilson G Matrix.
       m_knmtcFctr[i] = sqrt(B0 * B0 * B0) * sin(angles[0]) * sin(angles[2]);
@@ -665,6 +726,7 @@ namespace mesmer
 
     if (J == 0)
       return;
+
     // Instantiate a random vector generator.
     Sobol sobol;
 
@@ -678,18 +740,52 @@ namespace mesmer
     m_potential.resize(m_MCPnts, 0.0);
     vector<double> angles(m_nIDOF, 0.0);
     vector<double> tmp(m_nIDOF + 2, 0.0);
+    dMatrix rotY(3, 0.0);
+    rotY[1][1] = 1.0;
+    dMatrix rotZ(3, 0.0);
+    rotZ[2][2] = 1.0;
+    dMatrix dmtmp(3, 0.0);
     long long seed(17);
     for (size_t i(0); i < m_MCPnts; ++i) {
 
       // Select angular coordinates.
       sobol.sobol(tmp.size(), &seed, tmp);
-      angles[0] = M_PI * tmp[0];
-      angles[1] = 2.0 * M_PI * tmp[1];
-      angles[2] = M_PI * tmp[2];
-      angles[3] = 2.0 * M_PI * tmp[3];
-      angles[4] = 2.0 * M_PI * tmp[4];
+      angles[0] = M_PI  * tmp[0];
+      angles[1] = twoPi * tmp[1];
+      angles[2] = M_PI  * tmp[2];
+      angles[3] = twoPi * tmp[3];
+      angles[4] = twoPi * tmp[4];
       double nu = 2.0 * M_PI * tmp[5];
       double gamma = 2.0 * tmp[6] - 1.0;
+
+      rotY[0][0] = rotY[2][2] = cos(angles[0]);
+      rotY[0][2] = -sin(angles[0]);
+      rotY[2][0] = -rotY[0][2];
+
+      rotZ[0][0] = rotZ[1][1] = cos(angles[1]);
+      rotZ[0][1] = sin(angles[1]);
+      rotZ[1][0] = -rotZ[0][1];
+
+      m_rot1 = rotY * rotZ;
+
+      rotY[0][0] = rotY[2][2] = cos(angles[2]);
+      rotY[1][1] = 1.0;
+      rotY[0][2] = -sin(angles[2]);
+      rotY[2][0] = -rotY[0][2];
+
+      rotZ[0][0] = rotZ[1][1] = cos(angles[3]);
+      rotZ[2][2] = 1.0;
+      rotZ[0][1] = sin(angles[3]);
+      rotZ[1][0] = -rotZ[0][1];
+
+      dmtmp = rotY * rotZ;
+
+      rotZ[0][0] = rotZ[1][1] = cos(angles[4]);
+      rotZ[2][2] = 1.0;
+      rotZ[0][1] = sin(angles[4]);
+      rotZ[1][0] = -rotZ[0][1];
+
+      m_rot2 = rotZ * dmtmp;
 
       // Calculate the determinant of the Wilson G Matrix.
       m_knmtcFctr[i] = sqrt(B0 * B0 * B0) * sin(angles[0]) * sin(angles[2]);
